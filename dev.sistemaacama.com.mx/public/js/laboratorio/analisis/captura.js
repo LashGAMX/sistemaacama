@@ -539,7 +539,326 @@ function setBitacora()
                     break;
             }
         break;
+        case 14:// Volumetria
+            switch (parseInt($('#parametro').val())) { 
+                case 218: // Cloro
+                case 33:
+                case 64:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                        data: {
+                            idLote:idLote,
+                            idMuestra: idMuestra,
+                            A: $("#cloroA1CloroVol").val(),
+                            E: $("#cloroE1CloroVol").val(),
+                            H: $("#cloroH1CloroVol").val(),
+                            G: $("#cloroG1CloroVol").val(),
+                            B: $("#cloroB1CloroVol").val(),
+                            C: $("#cloroC1CloroVol").val(),
+                            D: $("#cloroD1CloroVol").val(),
+                            Resultado: $("#resultadoCloro").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                        }
+                    });
+                
+                    break;
+                case 6: // Dqo
+                    if (sw == 1) {
+                        $.ajax({
+                            type: "POST",
+                            url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                            data: {
+                                idLote:idLote,
+                                idMuestra: idMuestra,
+                                B: $("#tituladoDqo1DqoVol").val(),
+                                C: $("#MolaridadDqo1DqoVol").val(),
+                                CA: $("#blancoDqo1DqoVol").val(),
+                                D: $("#factorDqo1DqoVol").val(),
+                                E: $("#volDqo1DqoVol").val(),
+                                radio: $("#estadoRadioDqoVol").val(),
+                                resultado: $("#resultadoDqoVol").val(),
+                                _token: $('input[name="_token"]').val()
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response);
+                                alert("Datos guardados")
+                                $("#resultadoDqoVol").val(response.model.Resultado.toFixed(2));
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            type: "POST",
+                            url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                            data: {
+                                idLote:idLote,
+                                idMuestra: idMuestra,
+                                fechaAnalisis: $("#fechaAnalisis").val(),
+                                parametro: $('#formulaTipo').val(),
+                                resultado: $('#resultado').val(),
+                                observacion: $('#obs').val(),
+                                ABS:$('#abs1').val(),
+                                CA:$('#blanco1').val(),
+                                CB:$('#b1').val(),
+                                CM:$('#m1').val(),
+                                CR:$('#r1').val(),
+                                D:$('#fDilucion1').val(),
+                                E:$('#volMuestra1').val(),
+                                X:$('#abs11').val(),
+                                Y:$('#abs21').val(), 
+                                Z:$('#abs31').val(),
+                                radio: $("#estadoRadio").val(),
+                                _token: $('input[name="_token"]').val() 
+                            },
+                            dataType: "json",
+                            success: function (response) { 
+                                console.log(response);
+                                alert("¡GUARDADO!");
+                                $("#resultadoNitrogenoVol").val(response.model.Resultado.toFixed(2));
+                            }
+                        });
+                    }
+                    break;
+                case 9: // Nitrogeno
+                case 287:
+                case 10:
+                case 11:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                        data: {
+                            idLote:idLote,
+                            idMuestra: idMuestra,
+                            A: $("#tituladosNitro1Vol").val(),
+                            B: $("#blancoNitro1Vol").val(),
+                            C: $("#molaridadNitro1Vol").val(),
+                            D: $("#factorNitro1Vol").val(),  
+                            E: $("#conversion1Vol").val(),
+                            G: $("#volNitro1Vol").val(),
+                            resultado: $("#resultadoNitrogenoVol").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoNitrogenoVol").val(response.model.Resultado.toFixed(2));
+                        }
+                    });
+                    break;
+                case 108:// Nitrogeno Amon
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        A: $("#factor1ENitrogenoEVol").val(),
+                        B: $("#concentracion1ENitrogenoEVol").val(),
+                        C: $("#volAñadidoStd1ENitrogenoEVol").val(),
+                        D: $("#VolAñadidoMuestra1ENitrogenoEVol").val(),
+                        V: $("#volumenMuestraE1NitrogenoEVol").val(),
+                        O: $("#observacionNitroENitrogenoEVol").val(),
+                        resultado: $("#resultadoNitrogenoEVol").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoNitrogenoEVol").val(response.model.Resultado.toFixed(2));
+                    }
+                });
+                    break;
+                default: // Default Directos
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        aparente: $("#resDirectoDef").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoDirectoDef").val(response.model.Resultado)
+                    }
+            
+                    });
+                    break;
+            }
+        break;
+        case 7://Campo
+        case 19://directo
+        switch (parseInt($('#parametro').val())) { 
+            case 14: // Ph
+            case 67:
+            case 110:
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        l1: $("#lecturaUno1Directo").val(),
+                        l2: $("#lecturaDos1Directo").val(),
+                        l3: $("#lecturaTres1Directo").val(),
+                        temp: $("#temperatura1Directo").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoDirecto").val(response.model.resultado)
+                        
+                    }
+            
+                    });
+                break;
+            case 218: // Cloruros
+            case 119:
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        dilucion: $("#dilucionCloro1DirectoClo").val(),
+                        volumen: $("#volumenCloro1DirectoClo").val(),
+                        l1: $("#lecturaUnoCloro1DirectoClo").val(),
+                        l2: $("#lecturaDosCloro1DirectoClo").val(),
+                        l3: $("#lecturaTresCloro1DirectoClo").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#promedioCloro1DirectoClo").val(response.model.Resultado)
+                        $("#resultadoDirectoClo").val(response.model.Resultado)
+                        
+                    }
+            
+                    });
+                break;
+            case 97: // temperatura
+            case 33:
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        l1: $("#lecturaUno1TDirectoTemp").val(),
+                        l2: $("#lecturaDos1TDirectoTemp").val(),
+                        l3: $("#lecturaTres1TDirectoTemp").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoDirectoTemp").val(response.res)
+                        
+                    }
+            
+                    });
+                break;
+            case 102:// Color
+            case 66:
+            case 65:
+            case 120:
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        aparente: $("#aparente1DirectoColor").val(),
+                        verdadero: $("#verdadero1DirectoColor").val(),
+                        dilusion: $("#dilusion1DirectoColor").val(),
+                        volumen: $("#volumen1DirectoColor").val(),
+                        factor: $("#factor1DirectoColor").val(),
+                        ph: $("#ph1DirectoColor").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoDirectoColor").val(response.Resultado)
+                        // $("#dilusion1DirectoColor").val(response.mode)
+                        $("#factor1DirectoColor").val(response.Factor_dilucion)
+                        
+                    }
+            
+                    });
+                break;
+            case 58://turbiedad
+            case 89:
+            case 98:
+            case 115:
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        factor: $("#dilusionTurb1DirectoTur").val(),
+                        volumen: $("#valumenTurb1DirectoTur").val(),
+                        l1: $("#lecturaUnoTurb1DirectoTur").val(),
+                        l2: $("#lecturaDosTurb1DirectoTur").val(),
+                        l3: $("#lecturaTresTurb1DirectoTur").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#promedioTurb1DirectoTur").val(response.model.Promedio)
+                        $("#resultadoDirectoTur").val(response.model.Resultado)
+                    }
+            
+                    });
+                break;
+            default: // Default Directos
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        aparente: $("#resDirectoDef").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoDirectoDef").val(response.model.Resultado)
+                    }
+            
+                    });
+                break;
+        }
+        break;
         default:
+            $.ajax({
+                type: "POST",
+                url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                data: {
+                    idLote:idLote,
+                    idMuestra: idMuestra,
+                    aparente: $("#resDirectoDef").val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    $("#resultadoDirectoDef").val(response.model.Resultado)
+                }
+        
+                });
             break;
     }
     
@@ -769,8 +1088,185 @@ function setBitacora()
                                 $("#observacionSolidos").val(response.model.Observacion);
                             break;
                     }
+                case 14: // Volumetria
+                    switch (parseInt(response.model.Id_parametro)) { 
+                        case 218: // Cloro
+                        case 33:
+                        case 64:
+                            if(response.model.Resultado != null)
+                            {
+                                $("#cloroA1Vol").val(response.model.Vol_muestra);
+                                $("#cloroE1Vol").val(response.model.Ml_muestra);
+                                $("#cloroH1Vol").val(response.model.Ph_final);
+                                $("#cloroG1Vol").val(response.model.Ph_inicial);
+                                $("#cloroB1Vol").val(response.valoracion.Blanco);
+                                $("#cloroC1Vol").val(response.valoracion.Resultado);
+                                $("#cloroD1Vol").val(response.model.Factor_conversion);
+                                $("#resultadoCloroVol").val(response.model.Resultado);
+                                $("#observacionCloroVol").val(response.model.Observacion);
+                            }else{
+                                $("#cloroB1Vol").val(response.valoracion.Blanco);
+                                $("#cloroC1Vol").val(response.valoracion.Resultado);
+                            }
+                            break;
+                        case 6: // Dqo
+                        if(response.valoracion == ""){ // Tubo sellado
+                            $("#b1").val(response.curva.B);
+                            $("#m1").val(response.curva.M);
+                            $("#r1").val(response.curva.R);
+                            $("#b2").val(response.curva.B);
+                            $("#m2").val(response.curva.M);
+                            $("#r2").val(response.curva.R);
+                            $("#observacion").val(response.model.Observacion);
+                            $("#abs1").val(response.model.Promedio);
+                            $("#abs2").val(response.model.Promedio);
+                            $("#idMuestra").val(idDetalle);
+                            $("#blanco1").val(response.model.Blanco);
+                            $("#blanco2").val(response.model.Blanco);
+                            $("#fDilucion1").val(response.model.Vol_dilucion);
+                            $("#fDilucion2").val(response.model.Vol_dilucion);
+                            $("#volMuestra1").val(response.model.Vol_muestra);
+                            $("#volMuestra2").val(response.model.Vol_muestra);
+                            $("#abs11").val(response.model.Abs1);
+                            $("#abs21").val(response.model.Abs2);
+                            $("#abs31").val(response.model.Abs3);
+                            $("#abs12").val(response.model.Abs1);
+                            $("#abs22").val(response.model.Abs2);
+                            $("#abs32").val(response.model.Abs3);
+                            $("#resultado").val(response.model.Resultado);
+                           
+                            console.log("Tubo sellado");
+                        }else{
+                            if(response.model.Resultado != null)
+                            {
+                                $("#tituladoDqo1DqoVol").val(response.model.Titulo_muestra);
+                                $("#MolaridadDqo1DqoVol").val(response.valoracion.Resultado);
+                                $("#blancoDqo1DqoVol").val(response.valoracion.Blanco);
+                                $("#factorDqo1DqoVol").val(response.model.Equivalencia);
+                                $("#volDqo1DqoVol").val(response.model.Vol_muestra);
+                                $("#resultadoDqoVol").val(response.model.Resultado);
+                                $("#observacionDqoVol").val(response.model.Observacion);
+                               
+                                
+                            }else{
+                                $("#MolaridadDqo1DqoVol").val(response.valoracion.Resultado);
+                                $("#blancoDqo1DqoVol").val(response.valoracion.Blanco); 
+                            }
+                            console.log("Tubo Reflujo");
+                        } 
+                            break; 
+                        case 9: // Nitrogeno
+                        case 287:
+                        case 10:
+                        case 11:
+                            if(response.model.Resultado != null)
+                            {
+                                $("#tituladosNitro1Vol").val(response.model.Titulado_muestra);
+                                $("#blancoNitro1Vol").val(response.model.Titulado_blanco);
+                                $("#molaridadNitro1Vol").val(response.model.Molaridad);
+                               // $("#factorNitro1Vol").val(response.model.Factor_equivalencia);
+                                //$("#conversion1Vol").val(response.model.Factor_conversion);
+                                $("#volNitro1Vol").val(response.model.Vol_muestra);
+                                $("#observacionNitrogenoVol").val(response.model.Observacion);
+                                $("#resultadoNitrogenoVol").val(response.model.Resultado);
+                            }else{ 
+                                $("#blancoNitro1Vol").val(response.valoracion.Blanco);
+                                $("#molaridadNitro1Vol").val(response.valoracion.Resultado);
+                            }
+        
+                            break;
+                        case 108:// Nitrogeno Amon
+                        if(response.model.Resultado != null)
+                        {
+                            $("#factor1ENitrogenoEVol").val(response.model.Titulado_muestra);
+                            $("#concentracion1ENitrogenoEVol").val(response.valoracion.Blanco);
+                            $("#volAñadidoStd1ENitrogenoEVol").val(response.valoracion.Resultado);
+                           // $("#factor1ENitrogenoEVol").val(response.model.Factor_equivalencia);
+                            //$("#concentracion1ENitrogenoEVol").val(response.model.Factor_conversion);
+                            $("#VolAñadidoMuestra1ENitrogenoEVol").val(response.model.Vol_muestra);
+                            $("#volumenMuestraE1NitrogenoEVol").val(response.model.Vol_muestra);
+                            $("#observacionNitrogenoEVol").val(response.model.Observacion);
+                            $("#resultadoNitrogenoEVol").val(response.model.Resultado);
+                        }else{
+                            // $("#blancoNitro1Vol").val(response.valoracion.Blanco);
+                            $("#molaridadNitro1Vol").val(response.valoracion.Resultado);
+                        }
+                            break;
+                        default: // Default Directos
+                            // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                            break;
+                    }
+                    break;
+                case 7:// Campo
+                case 19: //Directos
+                    switch (parseInt(response.model.Id_parametro)) { 
+                        case 14: // Ph
+                        case 67:
+                        case 110:
+                            $("#observacionDirecto").val(response.model.Observacion)
+            
+                            $("#lecturaUno1Directo").val(response.model.Lectura1)
+                            $("#lecturaDos1Directo").val(response.model.Lectura2)
+                            $("#lecturaTres1Directo").val(response.model.Lectura3)
+                            $("#temperatura1Directo").val(response.model.Temperatura)
+                            $("#resultadoDirecto").val(response.model.Resultado)
+                            break;
+                        case 218: // Cloruros
+                        case 119:
+                            $("#dilucionCloro1DirectoClo").val(response.model.Factor_dilucion)
+                            $("#observacionDirectoClo").val(response.model.Observacion)
+                            $("#volumenCloro1DirectoClo").val(response.model.Vol_muestra);
+                            $("#lecturaUnoCloro1DirectoClo").val(response.model.Lectura1);
+                            $("#lecturaDosCloro1DirectoClo").val(response.model.Lectura2);
+                            $("#lecturaTresCloro1DirectoClo").val(response.model.Lectura3);
+                            $("#promedioCloro1DirectoClo").val(response.model.Promedio);
+                            $("#resultadoDirectoClo").val(response.model.Resultado);
+                            break;
+                        case 97: // temperatura
+                        case 33:
+                            $("#observacionDirectoTemp").val(response.model.Observacion)
+                            $("#lecturaUno1TDirectoTemp").val(response.model.Lectura1)
+                            $("#lecturaDos1TDirectoTemp").val(response.model.Lectura2)
+                            $("#lecturaTres1TDirectoTemp").val(response.model.Lectura3)
+                            $("#resultadoDirectoTemp").val(response.model.Resultado)
+                            break;
+                        case 102:// Color
+                        case 66:
+                        case 65:
+                        case 120:
+                            $("#observacionDirectoColor").val(response.model.Observacion)
+                            $("#aparente1DirectoColor").val(response.model.Color_a)
+                            $("#verdadero1DirectoColor").val(response.model.Color_v)
+                            $("#dilusion1DirectoColor").val(response.model.Factor_dilucion)
+                            $("#volumen1DirectoColor").val(response.model.Vol_muestra)
+                            $("#ph1DirectoColor").val(response.model.Ph)
+                            $("#factor1DirectoColor").val(response.model.Factor_correcion)
+                            $("#resultadoDirectoColor").val(response.model.Resultado)
+                            break;
+                        case 58://turbiedad
+                        case 89:
+                        case 98:
+                        case 115:
+                            $("#observacionDirectoTur").val(response.model.Observacion)
+                            $("#dilusionTurb1DirectoTur").val(response.model.Factor_dilucion);
+                            $("#valumenTurb1DirectoTur").val(response.model.Vol_muestra);
+                            $("#lecturaUnoTurb1DirectoTur").val(response.model.Lectura1);
+                            $("#lecturaDosTurb1DirectoTur").val(response.model.Lectura2);
+                            $("#lecturaTresTurb1DirectoTur").val(response.model.Lectura3);
+                            $("#promedioTurb1DirectoTur").val(response.model.Promedio);
+                            $("#resultadoDirectoTur").val(response.model.Resultado);
+                            break;
+                        default: // Default Directos
+                            $("#observacionDirectoDef").val(response.model.Observacion);
+                            $("#resultadoDirectoDef").val(response.model.Resultado);
+                            $("#resDirectoDef").val(response.model.Resultado);
+                            break;
+                    }
+                break;
                 default:
- 
+                    $("#observacionDirectoDef").val(response.model.Observacion);
+                    $("#resultadoDirectoDef").val(response.model.Resultado);
+                    $("#resDirectoDef").val(response.model.Resultado);
                 break;
             }
         }
@@ -837,36 +1333,78 @@ function setBitacora()
                     case 15: // Solidos
                         switch (parseInt(item.Id_parametro)) { 
                             case 3: // Directos
-                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDir">Capturar</button>';
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaSolidosDir">Capturar</button>';
                                 break;
                             case 47: // Por diferencia
                             case 88:
                             case 44:
                             case 45:
-                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDif">Capturar</button>';
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaSolidosDif">Capturar</button>';
                                 break;
                             default: // Default
-                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
                                 break;
                         }
                         break;
                     case 14: // Volumetria
                             switch (parseInt(item.Id_parametro)) { 
-                                case 3: // Cloro
-                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDir">Capturar</button>';
+                                case 218: // Cloro
+                                case 33:
+                                case 64:
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';
                                     break;
-                                case 47: // Por diferencia
-                                case 88:
-                                case 44:
-                                case 45:
-                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDif">Capturar</button>';
+                                case 6: // Dqo
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDqoVol">Capturar</button>';
                                     break;
-                                default: // Default
-                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                                case 9: // Nitrogeno
+                                case 287:
+                                case 10:
+                                case 11:
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaNitrogenoVol">Capturar</button>';
+                                    break;
+                                case 108:// Nitrogeno Amon
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaNitrogenoEVol">Capturar</button>';
+                                    break;
+                                default: // Default Directos
+                                    // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
                                     break;
                             }
                         break;
+                    case 7: // Campo
+                    case 19: // Directos
+                        switch (parseInt(item.Id_parametro)) { 
+                            case 14: // Ph
+                            case 67:
+                            case 110:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirecto">Capturar</button>';
+                                break;
+                            case 218: // Cloruros
+                            case 119:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoClo">Capturar</button>';
+                                break;
+                            case 97: // temperatura
+                            case 33:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoTemp">Capturar</button>';
+                                break;
+                            case 102:// Color
+                            case 66:
+                            case 65:
+                            case 120:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColor">Capturar</button>';
+                                break;
+                            case 58://turbiedad
+                            case 89:
+                            case 98:
+                            case 115:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoTur">Capturar</button>';
+                                break;
+                            default: // Default Directos
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
+                                break;
+                        }
+                    break;
                     default:
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
                         break;
                 }
                 if (item.Id_control != 1) 
