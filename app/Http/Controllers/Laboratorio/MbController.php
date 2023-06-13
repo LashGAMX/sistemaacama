@@ -615,7 +615,11 @@ class MbController extends Controller
         $model->Confirmativa1 = $request->confirmativa1;
         $model->Confirmativa2 = $request->confirmativa2;
         $model->Resultado = $resultado;
-        $model->Indice = $request->confirmativa2;
+        if($request->confirmativa2 == "" || $request->confirmativa2 == "null"){
+            $model->Indice = 1;
+        } else{
+            $model->Indice = $request->confirmativa2;
+        }
         $model->save();
 
         $data = array(

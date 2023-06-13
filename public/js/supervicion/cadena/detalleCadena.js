@@ -169,6 +169,7 @@ function getDetalleAnalisis(idCodigo) {
             switch (response.paraModel.Id_parametro) {
                 case "17": // Arsenico
                 case "208":
+                case "207": //Aluminio 
                 case "231":
                 case "20": // Cobre
                 case "22": //Mercurio
@@ -183,6 +184,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "210":
                 case "300": //Niquel
                 case "233": // Seleneio
+                case "213": //Fierro 
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -204,6 +206,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
+                   
                 case "15": // fosforo
                 case "19": // Cianuros
                 case "7": //Nitrats

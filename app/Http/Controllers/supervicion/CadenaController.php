@@ -71,21 +71,23 @@ class CadenaController extends Controller
         switch ($paraModel->Id_parametro) {
                 // Metales
             case 17: // Arsenico
-                case 231:
-                case 208:
+            case 231:
+            case 208:
+            case 207:
             case 20: // Cobre
             case 22: //Mercurio
-                case 215:
+            case 215:
             case 25: //Zinc
-                case 227: 
+            case 227: 
             case 24: //Plomo
             case 216:
             case 21: //Cromoa
-                case 264: 
+            case 264: 
             case 18: //Cadmio
             case 210:
             case 300: //Niquel
             case 233: // Seleneio
+            case 213: //Fierro 
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;

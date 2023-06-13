@@ -180,6 +180,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "264":
                 case "18": //Cadmio
                 case "210":
+                case "749": //Fierro 
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
