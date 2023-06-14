@@ -903,7 +903,7 @@ function getMatriz() {
     
     if ($("#parametro").val() == 113){
        
-        for (let i = 0; i < B; i++) {
+        for (let i = 0; i < 9; i++) {
             conArrCon.push($("#curCon" + i).val());
             conArrStd1.push($("#curStd1" + i).val());
             conArrStd2.push($("#curStd2" + i).val());
