@@ -373,7 +373,7 @@ class CurvaController extends Controller
             $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
         }
 
-        if ($request->area != 16 || $request->parametro == 96 || $request->parametro == 113) {
+        if ($request->area != 16 || $request->parametro == 96 ) {
             $a = $a; //si contempla el blanco como número de estandares
         } else {
             $a = $a - 1; //No contempla el blanco como número de estandares
