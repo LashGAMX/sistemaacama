@@ -450,6 +450,111 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break; 
+                case 7://Campo
+                case 19://Directo
+                    switch ($lote[0]->Id_tecnica) {
+                            case 14:
+                            case 110:
+                                $resultado = "";
+                                $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
+                                $resultado = round($promedio, 1);
+                                $model = LoteDetalleDirectos::find($res->id);
+                                $model->Resultado = $resultado;
+                                $model->Lectura1 = $res->l1;
+                                $model->Lectura2 = $res->l2;
+                                $model->Lectura3 = $res->l3;
+                                $model->Temperatura = $res->temp;
+                                $model->Promedio = $res->promedio;
+                                $model->save();
+                        
+                                break;
+                            case 67:
+                            case 68:
+                                $resultado = "";
+                                $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
+                                $resultado = round($promedio, 0);
+                                $model = LoteDetalleDirectos::find($res->id);
+                                $model->Resultado = $resultado;
+                                $model->Lectura1 = $res->l1;
+                                $model->Lectura2 = $res->l2;
+                                $model->Lectura3 = $res->l3;
+                                $model->Temperatura = $res->temp;
+                                $model->Promedio = $res->promedio;
+                                $model->save();
+                        
+                                break;
+                            case 218:
+                            case 119:
+                                $resultado = 0;
+                                $dilusion = $res->dilucion;
+                                $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
+                                $resultado = round($promedio * $dilusion, 2);
+                                $model = LoteDetalleDirectos::find($res->id);
+                                $model->Factor_dilucion = $res->dilucion;
+                                $model->Resultado = $resultado;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Lectura1 = $res->l1;
+                                $model->Lectura2 = $res->l2;
+                                $model->Lectura3 = $res->l3;
+                                $model->Promedio = $promedio;
+                                $model->save();
+                                break;
+                            case 98:
+                                $resultado = 0;
+                                $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
+                                $resultado = round($promedio, 2);
+                                $model = LoteDetalleDirectos::find($res->id);
+                                $model->Resultado = $resultado;
+                                $model->Factor_dilucion = $res->factor;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Lectura1 = $res->l1;
+                                $model->Lectura2 = $res->l2;
+                                $model->Lectura3 = $res->l3;
+                                $model->Promedio = $promedio;
+                                $model->save();
+                        
+                                break;
+                            case 97:
+                            case 33:
+                                $resultado = "";
+
+                                $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
+                                $resultado = round($promedio, 3);
+                        
+                                $model = LoteDetalleDirectos::find($res->id);
+                                $model->Resultado = $resultado;
+                                $model->Lectura1 = $res->l1;
+                                $model->Lectura2 = $res->l2;
+                                $model->Lectura3 = $res->l3;
+                                $model->Promedio = $res->promedio;
+                                $model->save();
+                                break;
+                            case 102:
+                            case 66:
+                            case 65:
+                            case 120:
+                                $resultado = 0;
+                                //$factor = 0;
+                                $dilusion = 50 / $res->volumen;
+                                $promedio = ($res->aparente + $res->verdadero) * $res->dilusion;
+
+                                $resultado = $promedio + $res->factor;
+                        
+                                $model = LoteDetalleDirectos::find($res->id);
+                                $model->Resultado = $resultado;
+                                $model->Color_a = $res->aparente;
+                                $model->Color_v = $res->verdadero;
+                                $model->Factor_dilucion = $dilusion;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Ph = $res->ph;
+                                $model->Factor_correcion = $res->factor;
+                                $model->save();
+                                break;
+                        default: // Default Directos
+                            // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                            break;
+                    }
+                    break;
                 default:
                     $model = array();
                     break;

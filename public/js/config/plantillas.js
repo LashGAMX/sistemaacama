@@ -20,7 +20,6 @@ function setNewPlantilla()
         type: 'POST',
         url: base_url + "/admin/config/plantillas/setNewPlantilla",
         data: {
-            tipo: $("#tipo").val(),
             id: $("#parametros").val(),
             _token: $('input[name="_token"]').val(),
         },
@@ -41,7 +40,6 @@ function getBitacoras()
         type: 'POST',
         url: base_url + "/admin/config/plantillas/getPlantillas",
         data: {
-            tipo: $("#tipo").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -85,7 +83,6 @@ function getDetalleBitacora(id,parametro){
         url: base_url + "/admin/config/plantillas/getDetalleBitacora",
         data: {
             id: id,
-            tipo: $("#tipo").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -124,7 +121,6 @@ function setPlantilla()
         type: "POST",
         url: base_url + "/admin/config/plantillas/setPlantilla",
         data: {
-            tipo:$("#tipo").val(),
             id: idPlantilla,
             texto: $("#summernote").summernote('code'),
             rev: $("#summernote2").summernote('code'),

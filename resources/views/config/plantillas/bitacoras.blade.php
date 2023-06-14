@@ -6,30 +6,7 @@
   <link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
   <h6 class="page-title">
         <i class="fas fa-cogs"></i>
-        Configuraciones Plantillas 
-        @switch($tipo)
-            @case(1)
-                Fq
-                @break
-            @case(2)
-                Directos
-                @break
-            @case(3)
-                Mb
-                @break
-            @case(4)
-                Potable
-                @break
-            @case(5)
-                Volumetria
-                @break
-            @case(6)
-                Metales
-                @break
-            @default
-                
-        @endswitch
-        <input type="text" id="tipo" value="{{$tipo}}" style="border: none;" disabled hidden>
+        Configuraciones Plantillas (Bitacoras)
     </h6> 
   @stop
 
@@ -56,7 +33,7 @@
          {{-- Inicio de Body  --}}
             <div class="row">
                 <div class="col-md-12">
-                  <div class="form-group">
+                  <div class="form-group">  
                     <label for="parametros">Parametro</label>
                     @php
                         $temp = "";
@@ -88,7 +65,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
     
  
     <!-- Modal -->

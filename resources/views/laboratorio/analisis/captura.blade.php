@@ -2,7 +2,7 @@
 @section('content')
 <link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
 <div class="container-fluid">
-  <div class="row">
+  <div class="row"> 
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-6">
@@ -214,7 +214,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="modalDetalleLoteLabel">Detalle lote: <input type="" id="tituloLote"
             style="border:none;width: 80%;"></h5>
-      </div> 
+      </div>
       <div class="modal-body">
         {{-- Inicio de Body --}}
         <ul class="nav nav-tabs" id="myTab" role="tablist">
