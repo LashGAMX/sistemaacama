@@ -1450,7 +1450,6 @@ function setBitacora()
                     }
                 case 14: // Volumetria
                     switch (parseInt(response.model.Id_parametro)) { 
-                        case 218: // Cloro
                         case 33:
                         case 64:
                             if(response.model.Resultado != null)
@@ -1708,7 +1707,6 @@ function setBitacora()
                         break;
                     case 14: // Volumetria
                             switch (parseInt(item.Id_parametro)) { 
-                                case 218: // Cloro
                                 case 33:
                                 case 64:
                                     tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';

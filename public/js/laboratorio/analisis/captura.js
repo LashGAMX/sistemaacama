@@ -1074,7 +1074,7 @@ function setBitacora()
                     dataType: "json",
                     success: function (response) {
                         console.log(response);
-                        $("#resultadoDirecto").val(response.model.resultado)
+                        $("#resultadoDirecto").val(response.model.Resultado)
                         
                     }
             
@@ -1121,7 +1121,7 @@ function setBitacora()
                     dataType: "json",
                     success: function (response) {
                         console.log(response);
-                        $("#resultadoDirectoTemp").val(response.res)
+                        $("#resultadoDirectoTemp").val(response.model.Resultado)
                         
                     }
             
@@ -1148,7 +1148,7 @@ function setBitacora()
                     dataType: "json",
                     success: function (response) {
                         console.log(response);
-                        $("#resultadoDirectoColor").val(response.Resultado)
+                        $("#resultadoDirectoColor").val(response.model.Resultado)
                         // $("#dilusion1DirectoColor").val(response.mode)
                         $("#factor1DirectoColor").val(response.Factor_dilucion)
                         
