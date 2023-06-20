@@ -848,7 +848,6 @@ function setDetalleMuestra() {
                         }
                     });
                     break;
-                case 8:// Potable
                 default: // Default
                     $.ajax({
                         type: "POST",
@@ -1190,6 +1189,154 @@ function setDetalleMuestra() {
                     break;
             }
             break;
+            
+            case 8: //Potable
+            switch (parseInt(response.model.Id_parametro)) {
+                case 77: //Dureza
+                case 103:
+                case 251:
+                    $("#edta1Dureza").val(response.model.Edta);
+                    $("#ph1Dureza").val(response.model.Ph_muestra);
+                    $("#vol1Dureza").val(response.model.Vol_muestra);
+                    $("#real1Dureza").val(response.valoracion.Resultado);
+                    $("#conversion1Dureza").val(response.model.Factor_conversion);
+                    $("#resultadoDureza").val(response.model.Resultado);
+                    break;
+                case 252:
+                    $("#resultadoDurezaDif").val(response.model.Resultado);
+                    $("#durezaTDurezaDif").val(response.d1.Resultado);
+                    $("#durezaCDurezaDif").val(response.d2.Resultado);
+                    break;
+                default:
+
+                    break;
+            }
+            break;
+        case 6: // Mb
+        case 12:
+            switch (parseInt(response.model.Id_parametro)) {
+                case 135: // Coliformes fecales
+                case 132:
+                case 133:
+                case 12:
+                case 134: // E COLI
+                case 35:
+                case 51: // Coliformes totales
+                    $("#dil1Col").val(response.model.Dilucion1);
+                    $("#dil2Col").val(response.model.Dilucion2);
+                    $("#dil3Col").val(response.model.Dilucion3);
+                    $("#nmp1Col").val(response.model.Indice);
+                    $("#todos1Col").val(response.model.Muestra_tubos);
+                    $("#negativos1Col").val(response.model.Tubos_negativos);
+                    $("#positivo1Col").val(response.model.Tubos_positivos);
+                    $("#con1Col").val(response.model.Confirmativa1);
+                    $("#con2Col").val(response.model.Confirmativa2);
+                    $("#con3Col").val(response.model.Confirmativa3);
+                    $("#con4Col").val(response.model.Confirmativa4);
+                    $("#con5Col").val(response.model.Confirmativa5);
+                    $("#con6Col").val(response.model.Confirmativa6);
+                    $("#con7Col").val(response.model.Confirmativa7);
+                    $("#con8Col").val(response.model.Confirmativa8);
+                    $("#con9Col").val(response.model.Confirmativa9);
+                    $("#pre1Col").val(response.model.Presuntiva1);
+                    $("#pre2Col").val(response.model.Presuntiva2);
+                    $("#pre3Col").val(response.model.Presuntiva3);
+                    $("#pre4Col").val(response.model.Presuntiva4);
+                    $("#pre5Col").val(response.model.Presuntiva5);
+                    $("#pre6Col").val(response.model.Presuntiva6);
+                    $("#pre7Col").val(response.model.Presuntiva7);
+                    $("#pre8Col").val(response.model.Presuntiva8);
+                    $("#pre9Col").val(response.model.Presuntiva9);
+        
+                    $("#resultadoCol").val(response.model.Resultado);
+                    $("#observacionCol").val(response.model.Observacion);
+                    break;
+                case 253: //todo  ENTEROCOCO FECAL
+                    $("#endil1Ent").val(response.model.Dilucion1);
+                    $("#endil2Ent").val(response.model.Dilucion2);
+                    $("#endil3Ent").val(response.model.Dilucion3);
+                    $("#ennmp1Ent").val(response.model.Indice);
+                    $("#entodos1Ent").val(response.model.Muestra_tubos);
+                    $("#ennegativos1Ent").val(response.model.Tubos_negativos);
+                    $("#enpositivo1Ent").val(response.model.Tubos_positivos);
+                    $("#enCon1Ent").val(response.model.Confirmativa1);
+                    $("#enCon2Ent").val(response.model.Confirmativa2);
+                    $("#enCon3Ent").val(response.model.Confirmativa3);
+                    $("#enCon4Ent").val(response.model.Confirmativa4);
+                    $("#enCon5Ent").val(response.model.Confirmativa5);
+                    $("#enCon6Ent").val(response.model.Confirmativa6);
+                    $("#enCon7Ent").val(response.model.Confirmativa7);
+                    $("#enCon8Ent").val(response.model.Confirmativa8);
+                    $("#enCon9Ent").val(response.model.Confirmativa9);
+                    $("#enPre1Ent").val(response.model.Presuntiva1);
+                    $("#enPre2Ent").val(response.model.Presuntiva2);
+                    $("#enPre3Ent").val(response.model.Presuntiva3);
+                    $("#enPre4Ent").val(response.model.Presuntiva4);
+                    $("#enPre5Ent").val(response.model.Presuntiva5);
+                    $("#enPre6Ent").val(response.model.Presuntiva6);
+                    $("#enPre7Ent").val(response.model.Presuntiva7);
+                    $("#enPre8Ent").val(response.model.Presuntiva8);
+                    $("#enPre9Ent").val(response.model.Presuntiva9);
+        
+                    $("#resultadoEnt").val(response.model.Resultado);
+                    $("#observacionEnt").val(response.model.Observacion);
+                    break;
+                case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                    $('#botellaF1Dbo').val(response.model.Botella_final);
+                    $('#od1Dbo').val(response.model.Botella_od);
+                    $('#oxiFinal1Dbo').val(response.model.Odf);
+                    $('#oxiInicial1Dbo').val(response.model.Odi);
+                    $('#phF1Dbo').val(response.model.Ph_final);
+                    $('#phIni1Dbo').val(response.model.Ph_inicial);
+                    $('#volDbo1Dbo').val(response.model.Vol_muestra);
+                    $('#dil1Dbo').val(response.model.Dilucion);
+                    $('#win1Dbo').val(response.model.Vol_botella);
+        
+                    $("#observacionDbo").val(response.model.Observacion);
+                    $("#resultadoDbo").val(response.model.Resultado);
+                    if(response.model.Sugerido == 1)
+                    {
+                        document.getElementById("sugeridoDbo").checked = true;
+                    }else{
+                        document.getElementById("sugeridoDbo").checked = false;
+                    }
+                    if (response.model2 == "NULL") {
+                        $('#resultadoDbo').val("N/A");
+                    } else {
+                        $('#resultadoDbo').val(response.model2.Resultado);
+                    }
+                    break;
+                case 16: //todo Huevos de Helminto 
+                    $("#lum1HH").val(response.model.A_alumbricoides);
+                    $("#na1HH").val(response.model.H_nana);
+                    $("#sp1HH").val(response.model.Taenia_sp);
+                    $("#tri1HH").val(response.model.T_trichiura);
+                    $("#uni1HH").val(response.model.Uncinarias);
+                    $("#volH1HH").val(response.model.Vol_muestra);
+                    $("#resultadoHH").val(response.model.Resultado);
+                    break;
+                case 78:
+                    $("#indol1Ecoli").val(response.convinaciones.Indol)
+                    $("#rm1Ecoli").val(response.convinaciones.Rm)
+                    $("#vp1Ecoli").val(response.convinaciones.Vp)
+                    $("#citrato1Ecoli").val(response.convinaciones.Citrato)
+                    $("#bgn1Ecoli").val(response.convinaciones.BGN)
+                    $("#indol2Ecoli").val(response.convinaciones.Indol2)
+                    $("#rm2Ecoli").val(response.convinaciones.Rm2)
+                    $("#vp2Ecoli").val(response.convinaciones.Vp2)
+                    $("#citrato2Ecoli").val(response.convinaciones.Citrato2)
+                    $("#bgn2Ecoli").val(response.convinaciones.BGN2)
+                    $("#observacionEcoli").val(response.model.observacion)
+                    $("#indiceEcoli").val(indice)
+                    break;
+                default:
+                    $("#observacionDirectoDef").val(response.model.Observacion);
+                    $("#resultadoDirectoDef").val(response.model.Resultado);
+                    $("#resDirectoDef").val(response.model.Resultado);
+                    break;
+            }
+            break;
+
         default:
             $.ajax({
                 type: "POST",
