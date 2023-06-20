@@ -185,7 +185,7 @@ function getLoteCapturaMicro() {
                             tab +='</label>';
                             tab += '</div>';
                             tab += '</div">'; 
-                            if(response.indice[0] == null){
+                            if(response.indice == null){
                                 indice.push(1)
                             }else{
                                 indice = response.indice; 

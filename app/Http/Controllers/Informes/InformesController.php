@@ -320,11 +320,11 @@ class InformesController extends Controller
                 // $firma1 = User::find(14);
                 // $firma2 = User::find(12); 
                 $firma1 = User::find(14);
-                $firma2 = User::find(12);
+                $firma2 = User::find(4);
                 break;
             
             default:
-                $firma1 = User::find(12);
+                $firma1 = User::find(4);
                 $firma2 = User::find(17);
                 break;
         }
