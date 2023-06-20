@@ -97,18 +97,23 @@
                                       --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
-                                            @switch($model->Id_norma)
-                                            @case(1)
-                                            @case(27)  
-                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
-                                                @break
-                                            @case(5)
-                                            @case(30)   
-                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(21)->format('d/m/Y')}}  
-                                                @break
-                                                @default
-                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
-                                            @endswitch
+                                            @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 ) 
+                                                {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+                                            @else
+                                                @switch($model->Id_norma)
+                                                @case(1)
+                                                @case(27)  
+                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
+                                                    @break
+                                                @case(5)
+                                                @case(30)   
+                                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(21)->format('d/m/Y')}}  
+                                                    @break
+                                                    @default
+                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                                @endswitch
+                                            @endif
+
                                         
                                         @else
                                             <p style="color: red">Sin captura</p> 

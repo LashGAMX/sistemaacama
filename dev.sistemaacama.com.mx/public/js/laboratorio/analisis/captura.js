@@ -1191,30 +1191,83 @@ function setDetalleMuestra() {
             break;
             
             case 8: //Potable
-            switch (parseInt(response.model.Id_parametro)) {
+            sw = 1
+            switch (parseInt($('#parametro').val())) {
                 case 77: //Dureza
                 case 103:
                 case 251:
-                    $("#edta1Dureza").val(response.model.Edta);
-                    $("#ph1Dureza").val(response.model.Ph_muestra);
-                    $("#vol1Dureza").val(response.model.Vol_muestra);
-                    $("#real1Dureza").val(response.valoracion.Resultado);
-                    $("#conversion1Dureza").val(response.model.Factor_conversion);
-                    $("#resultadoDureza").val(response.model.Resultado);
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/potable/operacion",
+                        data: {
+                            sw: sw,
+                            idDetalle: idMuestra,
+                            id: $("#parametro").val(),
+                            fecha: $("#fechaLote").val(),
+                            edta: $("#edta1Dureza").val(),
+                            ph: $("#ph1Dureza").val(),
+                            vol: $("#vol1Dureza").val(),
+                            real: $("#real1Dureza").val(),
+                            conversion: $("#conversion1Dureza").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoDureza").val(response.resultado)
+                        }
+                    });
                     break;
                 case 252:
-                    $("#resultadoDurezaDif").val(response.model.Resultado);
-                    $("#durezaTDurezaDif").val(response.d1.Resultado);
-                    $("#durezaCDurezaDif").val(response.d2.Resultado);
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/potable/operacion",
+                        data: {
+                            sw: sw,
+                            idDetalle: idMuestra,
+                            id: $("#parametro").val(),
+                            fecha: $("#fechaLote").val(),
+                            durezaT: $("#durezaTDurezaDif").val(),
+                            durezaC: $("#durezaCDurezaDif").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoDurezaDif").val(response.resultado)
+                        }
+                    });
+
                     break;
                 default:
-
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/potable/operacion",
+                        data: {
+                            sw: sw,
+                            idDetalle: idMuestra,
+                            id: $("#parametro").val(),
+                            fecha: $("#fechaLote").val(),
+                            dilucion: $("#dilucion1Potable").val(),
+                            lectura1: $("#lectura11Potable").val(),
+                            lectura2: $("#lectura21Potable").val(),
+                            lectura3: $("#lectura31Potable").val(),
+                            vol: $("#volM1Potable").val(),
+                            promedio: $("#prom1Potable").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoPotable").val(response.resultado.toFixed(2))
+                        }
+                    });
                     break;
             }
             break;
         case 6: // Mb
         case 12:
-            switch (parseInt(response.model.Id_parametro)) {
+            switch (parseInt($('#parametro').val())) {
                 case 135: // Coliformes fecales
                 case 132:
                 case 133:
@@ -1222,117 +1275,255 @@ function setDetalleMuestra() {
                 case 134: // E COLI
                 case 35:
                 case 51: // Coliformes totales
-                    $("#dil1Col").val(response.model.Dilucion1);
-                    $("#dil2Col").val(response.model.Dilucion2);
-                    $("#dil3Col").val(response.model.Dilucion3);
-                    $("#nmp1Col").val(response.model.Indice);
-                    $("#todos1Col").val(response.model.Muestra_tubos);
-                    $("#negativos1Col").val(response.model.Tubos_negativos);
-                    $("#positivo1Col").val(response.model.Tubos_positivos);
-                    $("#con1Col").val(response.model.Confirmativa1);
-                    $("#con2Col").val(response.model.Confirmativa2);
-                    $("#con3Col").val(response.model.Confirmativa3);
-                    $("#con4Col").val(response.model.Confirmativa4);
-                    $("#con5Col").val(response.model.Confirmativa5);
-                    $("#con6Col").val(response.model.Confirmativa6);
-                    $("#con7Col").val(response.model.Confirmativa7);
-                    $("#con8Col").val(response.model.Confirmativa8);
-                    $("#con9Col").val(response.model.Confirmativa9);
-                    $("#pre1Col").val(response.model.Presuntiva1);
-                    $("#pre2Col").val(response.model.Presuntiva2);
-                    $("#pre3Col").val(response.model.Presuntiva3);
-                    $("#pre4Col").val(response.model.Presuntiva4);
-                    $("#pre5Col").val(response.model.Presuntiva5);
-                    $("#pre6Col").val(response.model.Presuntiva6);
-                    $("#pre7Col").val(response.model.Presuntiva7);
-                    $("#pre8Col").val(response.model.Presuntiva8);
-                    $("#pre9Col").val(response.model.Presuntiva9);
-        
-                    $("#resultadoCol").val(response.model.Resultado);
-                    $("#observacionCol").val(response.model.Observacion);
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/mb/operacion",
+                    data: {
+                        tecnica: tecnica,
+                        idDetalle: idMuestra,
+                        resultadoCol: $("#resultadoCol").val(),
+                        idParametro: $('#parametro').val(),
+                        D1: $('#dil1Col').val(),
+                        D2: $('#dil2Col').val(),
+                        D3: $('#dil3Col').val(),
+                        NMP: $('#nmp1Col').val(),
+                        G3: $('#todos1Col').val(),
+                        G2: $('#negativos1Col').val(),
+                        G1: $('#positivos1Col').val(),
+                        con3: $("#con3Col").val(),
+                        con2: $("#con2Col").val(),
+                        con1: $("#con1Col").val(),
+                        con4: $("#con4Col").val(),
+                        con5: $("#con5Col").val(),
+                        con6: $("#con6Col").val(),
+                        con7: $("#con7Col").val(),
+                        con8: $("#con8Col").val(),
+                        con9: $("#con9Col").val(),
+                        pre1: $("#pre1Col").val(),
+                        pre2: $("#pre2Col").val(),
+                        pre3: $("#pre3Col").val(),
+                        pre4: $("#pre4Col").val(),
+                        pre5: $("#pre5Col").val(),
+                        pre6: $("#pre6Col").val(),
+                        pre7: $("#pre7Col").val(),
+                        pre8: $("#pre8Col").val(),
+                        pre9: $("#pre9Col").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        // inicio metodo corto
+                        if (response.metodoCorto == 1) {
+                            console.log("metodo corto hecho!");
+                        } else {
+            
+                        if (response.res == 0) {
+                            $('#resultadoCol').val("< 3");
+                        } else {
+                            $('#resultadoCol').val(response.res);
+                        }
+                        $('#nmp1Col').val(response.res)
+                        $('#indicadorCol').val("");
+                    }
+                }
+                });
                     break;
                 case 253: //todo  ENTEROCOCO FECAL
-                    $("#endil1Ent").val(response.model.Dilucion1);
-                    $("#endil2Ent").val(response.model.Dilucion2);
-                    $("#endil3Ent").val(response.model.Dilucion3);
-                    $("#ennmp1Ent").val(response.model.Indice);
-                    $("#entodos1Ent").val(response.model.Muestra_tubos);
-                    $("#ennegativos1Ent").val(response.model.Tubos_negativos);
-                    $("#enpositivo1Ent").val(response.model.Tubos_positivos);
-                    $("#enCon1Ent").val(response.model.Confirmativa1);
-                    $("#enCon2Ent").val(response.model.Confirmativa2);
-                    $("#enCon3Ent").val(response.model.Confirmativa3);
-                    $("#enCon4Ent").val(response.model.Confirmativa4);
-                    $("#enCon5Ent").val(response.model.Confirmativa5);
-                    $("#enCon6Ent").val(response.model.Confirmativa6);
-                    $("#enCon7Ent").val(response.model.Confirmativa7);
-                    $("#enCon8Ent").val(response.model.Confirmativa8);
-                    $("#enCon9Ent").val(response.model.Confirmativa9);
-                    $("#enPre1Ent").val(response.model.Presuntiva1);
-                    $("#enPre2Ent").val(response.model.Presuntiva2);
-                    $("#enPre3Ent").val(response.model.Presuntiva3);
-                    $("#enPre4Ent").val(response.model.Presuntiva4);
-                    $("#enPre5Ent").val(response.model.Presuntiva5);
-                    $("#enPre6Ent").val(response.model.Presuntiva6);
-                    $("#enPre7Ent").val(response.model.Presuntiva7);
-                    $("#enPre8Ent").val(response.model.Presuntiva8);
-                    $("#enPre9Ent").val(response.model.Presuntiva9);
-        
-                    $("#resultadoEnt").val(response.model.Resultado);
-                    $("#observacionEnt").val(response.model.Observacion);
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/mb/operacion",
+                    data: {
+                        tecnica: tecnica,
+                        idDetalle: idMuestra,
+                        resultadoCol: $("#resultadoEnt").val(),
+                        idParametro: $('#parametro').val(),
+                        D1: $('#endil1Ent').val(),
+                        D2: $('#endil2Ent').val(),
+                        D3: $('#endil3Ent').val(),
+                        NMP: $('#ennmp1Ent').val(),
+                        G3: $('#entodos1Ent').val(),
+                        G2: $('#ennegativos1Ent').val(),
+                        G1: $('#enpositivos1Ent').val(),
+                        
+                        Presuntiva11: $("#enPre1Ent").val(),
+                        Presuntiva12: $("#enPre2Ent").val(),
+                        Presuntiva13: $("#enPre3Ent").val(),
+                        Presuntiva14: $("#enPre4Ent").val(),
+                        Presuntiva15: $("#enPre5Ent").val(),
+                        Presuntiva16: $("#enPre6Ent").val(),
+                        Presuntiva17: $("#enPre7Ent").val(),
+                        Presuntiva18: $("#enPre8Ent").val(),
+                        Presuntiva19: $("#enPre9Ent").val(),
+                        
+                        Presuntiva21: $("#enPre12Ent").val(),
+                        Presuntiva22: $("#enPre22Ent").val(),
+                        Presuntiva23: $("#enPre32Ent").val(),
+                        Presuntiva24: $("#enPre42Ent").val(),
+                        Presuntiva25: $("#enPre52Ent").val(),
+                        Presuntiva26: $("#enPre62Ent").val(),
+                        Presuntiva27: $("#enPre72Ent").val(),
+                        Presuntiva28: $("#enPre82Ent").val(),
+                        Presuntiva29: $("#enPre92Ent").val(),
+            
+                        Confirmativa11: $("#enCon1Ent").val(),
+                        Confirmativa12: $("#enCon2Ent").val(),
+                        Confirmativa13: $("#enCon3Ent").val(),
+                        Confirmativa14: $("#enCon4Ent").val(),
+                        Confirmativa15: $("#enCon5Ent").val(),
+                        Confirmativa16: $("#enCon6Ent").val(),
+                        Confirmativa17: $("#enCon7Ent").val(),
+                        Confirmativa18: $("#enCon8Ent").val(),
+                        Confirmativa19: $("#enCon9Ent").val(),
+                        
+                        Confirmativa21: $("#enCon12Ent").val(),
+                        Confirmativa22: $("#enCon22Ent").val(),
+                        Confirmativa23: $("#enCon32Ent").val(),
+                        Confirmativa24: $("#enCon42Ent").val(),
+                        Confirmativa25: $("#enCon52Ent").val(),
+                        Confirmativa26: $("#enCon62Ent").val(),
+                        Confirmativa27: $("#enCon72Ent").val(),
+                        Confirmativa28: $("#enCon82Ent").val(),
+                        Confirmativa29: $("#enCon92Ent").val(),
+            
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        getLoteCapturaMicro();
+                        // inicio metodo corto
+                        if (response.metodoCorto == 1) {
+                            console.log("metodo corto hecho!");
+                        } else {
+            
+                        if (response.res == 0) {
+                            $('#resultadoEnt').val("< 3");
+                        } else {
+                            $('#resultadoEnt').val(response.res);
+                        }
+                        $('#ennmp1Ent').val(response.res)
+                        $('#indicadorEnt').val("");
+                    }
+                }
+                });
                     break;
                 case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
-                    $('#botellaF1Dbo').val(response.model.Botella_final);
-                    $('#od1Dbo').val(response.model.Botella_od);
-                    $('#oxiFinal1Dbo').val(response.model.Odf);
-                    $('#oxiInicial1Dbo').val(response.model.Odi);
-                    $('#phF1Dbo').val(response.model.Ph_final);
-                    $('#phIni1Dbo').val(response.model.Ph_inicial);
-                    $('#volDbo1Dbo').val(response.model.Vol_muestra);
-                    $('#dil1Dbo').val(response.model.Dilucion);
-                    $('#win1Dbo').val(response.model.Vol_botella);
-        
-                    $("#observacionDbo").val(response.model.Observacion);
-                    $("#resultadoDbo").val(response.model.Resultado);
-                    if(response.model.Sugerido == 1)
-                    {
-                        document.getElementById("sugeridoDbo").checked = true;
-                    }else{
-                        document.getElementById("sugeridoDbo").checked = false;
+                let sug = 0;
+                if (document.getElementById("sugeridoDbo").checked == true) {
+                    sug = 1;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/mb/operacion",
+                    data: {
+                        tipo:tipo,
+                        tecnica: tecnica,
+                        idParametro: $("#formulaTipo").val(),
+                        idDetalle: idMuestra,
+                        Observacion: $('#observacion').val(),
+                        H: $('#botellaF1').val(),
+                        G: $('#od1').val(),
+                        B: $('#oxiFinal1').val(),
+                        A: $('#oxiInicial1').val(),
+                        J: $('#phF1').val(),
+                        I: $('#phIni1').val(),
+                        D: $('#volDbo1').val(),
+                        E: $('#dil1').val(),
+                        C: $('#win1').val(),
+                        OI: $('#oxigenoIncialB1').val(),
+                        OF: $('#oxigenofinalB1').val(),
+                        V: $('#volMuestraB1').val(),
+                        S: sug,
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (tipo == 1) {
+                            $('#resDbo').val(response.res);   
+                        } else {
+                            $('#resDboB').val(response.res);
+                        }
                     }
-                    if (response.model2 == "NULL") {
-                        $('#resultadoDbo').val("N/A");
-                    } else {
-                        $('#resultadoDbo').val(response.model2.Resultado);
-                    }
+                });
                     break;
                 case 16: //todo Huevos de Helminto 
-                    $("#lum1HH").val(response.model.A_alumbricoides);
-                    $("#na1HH").val(response.model.H_nana);
-                    $("#sp1HH").val(response.model.Taenia_sp);
-                    $("#tri1HH").val(response.model.T_trichiura);
-                    $("#uni1HH").val(response.model.Uncinarias);
-                    $("#volH1HH").val(response.model.Vol_muestra);
-                    $("#resultadoHH").val(response.model.Resultado);
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/mb/operacion",
+                    data: {
+                        idParametro: $("#formulaTipo").val(),
+                        idDetalle: idMuestra,
+                        tecnica: tecnica,
+                        lum1: $("#lum1").val(),
+                        na1: $("#na1").val(),
+                        sp1: $("#sp1").val(),
+                        tri1: $("#tri1").val(),
+                        uni1: $("#uni1").val(),
+                        volH1: $("#volH1").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoHH").val(response.res);
+                    }
+                });
                     break;
                 case 78:
-                    $("#indol1Ecoli").val(response.convinaciones.Indol)
-                    $("#rm1Ecoli").val(response.convinaciones.Rm)
-                    $("#vp1Ecoli").val(response.convinaciones.Vp)
-                    $("#citrato1Ecoli").val(response.convinaciones.Citrato)
-                    $("#bgn1Ecoli").val(response.convinaciones.BGN)
-                    $("#indol2Ecoli").val(response.convinaciones.Indol2)
-                    $("#rm2Ecoli").val(response.convinaciones.Rm2)
-                    $("#vp2Ecoli").val(response.convinaciones.Vp2)
-                    $("#citrato2Ecoli").val(response.convinaciones.Citrato2)
-                    $("#bgn2Ecoli").val(response.convinaciones.BGN2)
-                    $("#observacionEcoli").val(response.model.observacion)
-                    $("#indiceEcoli").val(indice)
+                    var obs = $("#observacionEcoli option:selected").text();
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/mb/operacion",
+                        data: {
+                            idLote: idLote,
+                            colonia: numColonia,
+                            idDetalle: idMuestra,
+                            indol1:$("#indol1Ecoli").val(),
+                            rm1:$("#rm1Ecoli").val(),
+                            vp1:$("#vp1Ecoli").val(),
+                            citrato1:$("#citrato1Ecoli").val(),
+                            bgn1:$("#bgn1Ecoli").val(),
+                            observacion: obs,
+                
+                            indice: $("#indiceEcoli").val(),
+                
+                            indol2:$("#indol2Ecoli").val(),
+                            rm2:$("#rm2Ecoli").val(),
+                            vp2:$("#vp2Ecoli").val(),
+                            citrato2:$("#citrato2Ecoli").val(),
+                            bgn2:$("#bgn2Ecoli").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            if (response.Resultado == 1){
+                                $("#resultadoEcoli").val("Positivo para E. coli")
+                            } else {
+                                $("#resultadoEcoli").val("Negativo para E. coli")
+                            }
+                        }
+                    });
                     break;
                 default:
-                    $("#observacionDirectoDef").val(response.model.Observacion);
-                    $("#resultadoDirectoDef").val(response.model.Resultado);
-                    $("#resDirectoDef").val(response.model.Resultado);
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                        data: {
+                            idLote: idLote,
+                            idMuestra: idMuestra,
+                            aparente: $("#resDirectoDef").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoDirectoDef").val(response.model.Resultado)
+                        }
+        
+                    });
                     break;
             }
             break;
