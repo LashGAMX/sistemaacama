@@ -2228,6 +2228,79 @@ class LabAnalisisController extends Controller
                         break;
                 }
                 break;
+            case 13: // G&A
+                break;
+            case 15: // Solidos
+                break;
+            case 14: // Volu,etroa
+                break;
+            case 7://Campo
+            case 19: // Diretos
+                break;
+            case 8: //Potable
+                $mpdf = new \Mpdf\Mpdf([
+                    'orientation' => 'P',
+                    'format' => 'letter',
+                    'margin_left' => 10,
+                    'margin_right' => 10,
+                    'margin_top' => 31,
+                    'margin_bottom' => 45,
+                    'defaultheaderfontstyle' => ['normal'],
+                    'defaultheaderline' => '0'
+                ]);
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/MembreteVertical.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+                $mpdf->showWatermarkImage = true;
+                $mpdf->CSSselectMedia = 'mpdf';
+                switch ($lote->Id_tecnica) {
+                    case 77: //Dureza
+                        case 103:
+                        case 251:
+                        case 252:
+                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
+                            $textoProcedimiento = PlantillaPotable::where('Id_parametro', 77)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'textoProcedimiento' => $textoProcedimiento,
+                                'plantilla' => $plantilla
+                            );
+                            
+            
+                            $htmlHeader = view('exports.laboratorio.potable.durezaTotal.bitacoraHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.bitacoraBody', $data);
+                            $htmlFooter = view('exports.laboratorio.potable.durezaTotal.bitacoraFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                            break;
+                        case 98:
+                            $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $idLote)->get();
+                            // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla
+                            );
+            
+                            $htmlHeader = view('exports.laboratorio.potable.turbiedad.bitacoraHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.potable.turbiedad.bitacoraBody', $data);
+                            $htmlFooter = view('exports.laboratorio.potable.turbiedad.bitacoraFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                            break;
+                }
+                break;
+            case 6://Mb
+            case 12:
+                break;
             default:
                 break;
         }
