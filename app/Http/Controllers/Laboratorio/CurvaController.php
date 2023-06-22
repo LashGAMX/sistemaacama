@@ -71,13 +71,10 @@ class CurvaController extends Controller
         $hijos = Parametro::where('Padre', $request->parametro)->get();
 
         $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $request->area) 
             ->where('Id_parametro', $request->parametro)->get();
 
         $concent = ConcentracionParametro::where('Id_parametro', $request->parametro)->get();
-        $bmr = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)
-            ->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $request->area)
+        $bmr = CurvaConstantes::where('Fecha_inicio', '<=', $today)->where('Fecha_fin', '>=', $today)
             ->where('Id_parametro', $request->parametro)->first();
 
         if ($model->count()) {
