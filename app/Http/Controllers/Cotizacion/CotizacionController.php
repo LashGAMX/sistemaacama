@@ -429,18 +429,18 @@ class CotizacionController extends Controller
     {
         $cotTemp = Cotizacion::where('Id_cotizacion',$res->id)->get();
         $msg = "No se puede generar folio";
+        $aux = 100;
         if ($cotTemp->count()) {     
             if ($cotTemp[0]->Folio == NULL) { 
                 $temp = strtotime($res->fecha);
                 $year = date("y", $temp); 
                 $dayYear = date("z", $temp) + 1;
                 $cotizacionDay = Cotizacion::where('Fecha_cotizacion',$res->fecha)->where('Folio','!=','')->count();
-        
-                $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+                $folio = $dayYear . "-" . ($aux + $cotizacionDay + 1) . "/" . $year;
                 
                 $model = Cotizacion::find($res->id);
                 $model->Folio = $folio;
-                $model->Fecha_cotizacion = $res->fecha;
+                $model->Fecha_cotizacion = $res->fecha; 
                 $model->save();
                 $msg = "Folio creado correctamente";
             }else{

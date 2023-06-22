@@ -22,14 +22,12 @@
         COMPUESTA 
         @endif
     </p>
-    
-    <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0"
-            border-color="#000000" width="100%">
+    <div style="width: 100%">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 10px">
+                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 8px">
                         {{@$cliente->Nombres}}</td>
                     <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">
                         @if (@$solModel->Siralab == 1)
@@ -39,15 +37,13 @@
                             @endif
                     </td>
                 </tr>
-    
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup paddingTopBot">Dirección:</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqSinSup" colspan="2">{{@$direccion->Direccion}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqSinSup" colspan="2" style="font-size: 8px;">{{@$direccion->Direccion}}</td>
                 </tr>
-    
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6" style="font-size: 9px">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">{{$puntoMuestreo->Punto}}</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 8px;">{{$puntoMuestreo->Punto}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de
                         Muestreo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -55,7 +51,6 @@
                             \Carbon\Carbon::parse(@$solModel->Fecha_muestreo)->format('d/m/Y')}}</span>
                     </td>
                 </tr>
-    
                 <tr>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Hora de muestreo:
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -78,7 +73,7 @@
                             class="fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}</span>
                     </td>
                 </tr>
-    
+                
                 <tr>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de Emisión:
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -117,10 +112,9 @@
                         <span class="fontBold">{{@$numOrden->Folio_servicio}}</span>
                     </td>
                 </tr>
-    
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
-                    <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3">DE
+                    <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="2">DE
                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}
                         A 
                         @switch($solModel->Id_norma)
@@ -150,7 +144,8 @@
             </tbody>
         </table>
     </div>
-    
+    <br>
+
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"
             border-color="#000000" width="100%">

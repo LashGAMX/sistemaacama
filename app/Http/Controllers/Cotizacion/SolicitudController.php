@@ -288,7 +288,7 @@ class SolicitudController extends Controller
         $numCot = DB::table('solicitudes')->whereDate('created_at', $today)->where('Id_cliente', $res->clientes)->get();
         $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $res->clientes)->first();
         $cantCot = $numCot->count();
-
+        
         //var_dump($numCot);
         if ($cantCot > 0) {
             echo "Entro a if <br>";
@@ -1270,6 +1270,7 @@ class SolicitudController extends Controller
     {
         $cotTemp = Solicitud::where('Id_cotizacion',$res->id)->where('Padre',1)->get();
         $msg = "No se puede generar folio";
+        $aux = 100;
         if ($cotTemp->count()) {     
             if ($cotTemp[0]->Folio_servicio == NULL) { 
                 $temp = strtotime($res->fecha);
@@ -1277,7 +1278,7 @@ class SolicitudController extends Controller
                 $dayYear = date("z", $temp) + 1;
                 $solDay = Solicitud::where('Fecha_muestreo',$res->fecha)->where('Padre',1)->where('Folio_servicio','!=','')->count();
         
-                $folio = $dayYear . "-" . ($solDay + 1) . "/" . $year;
+                $folio = $dayYear . "-" . ($aux + $solDay + 1) . "/" . $year;
                 
                 $model = Cotizacion::find($res->id);
                 $model->Folio_servicio = $folio;
