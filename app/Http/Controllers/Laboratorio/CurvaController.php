@@ -120,22 +120,33 @@ class CurvaController extends Controller
        
         $hijos = Parametro::where('Padre', $request->parametro)->get();
         $curva = CurvaConstantes::where('Id_curvaConst', $request->idBMR)->first();
-       
+    
         for($i=0; $i < sizeof($hijos); $i++){
                     //BMR
-                    $exist = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->get();
+                    $exist = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->where('Id_curvaPadre', $curva->Id_curvaConst)->get();ñ
                     if ($exist->count()){
-                        $update = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->first();
+                        $update = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->where('Id_curvaPadre',$curva->Id_curvaConst)->first();
                         $update->B = $curva->B;
                         $update->M = $curva->M;
                         $update->R = $curva->R;
                         $update->save();
                     } else {
+                        CurvaConstantes::create([
+                            'Id_curvaPadre' => $curva->Id_curvaConst,
+                            'B' => $curva->B,
+                            'M' => $curva->M,
+                            'R' => $curva->R,
+                            'Fecha_inicio' => $curva->Fecha_inicio,
+                            'Fecha_fin' => $curva->Fecha_fin,
+                            'Id_area' => $curva->Id_area,
+                            'Id_parametro' => $hijos[$i]->Id_parametro,
+                            'Id_parametroPadre' => $curva->Id_parametro,
+                        ]);
                              
-                        $model = $curva->replicate(); 
-                        $model->Id_parametro = $hijos[$i]->Id_parametro;
-                        $model->Id_parametroPadre = $request->parametro;
-                        $model->save();
+                        // $update = $curva->replicate(); 
+                        // $update->Id_parametro = $hijos[$i]->Id_parametro;
+                        // $update->Id_parametroPadre = $request->parametro;
+                        // $update->save();
                     }
                    
         }
@@ -184,7 +195,8 @@ class CurvaController extends Controller
         $data = array(
             'curva' => $curva,
             'estandares' => $estandares,
-            'hijo' => $hijo,
+            'hijos' => $hijos,
+            
           
         );
         return response()->json($data);
