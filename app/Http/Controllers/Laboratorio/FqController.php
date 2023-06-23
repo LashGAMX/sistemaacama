@@ -227,20 +227,20 @@ class FqController extends Controller
     }
     public function guardarCOT(Request $request)
     {
-            $model = LoteDetalleEspectro::find($request->idMuestra);
-            $model->Resultado = $request->resultado;
-            $model->Abs1 = $request->X;
-            $model->Abs2 = $request->Y;
-            $model->Abs3 = $request->Z;
-            $model->B = $request->CB;
-            $model->M = $request->CM;
-            $model->R = $request->CR;
-            $model->Promedio = $request->ABS;
-            $model->Vol_dilucion = $request->D;
-            $model->Vol_muestra = $request->E;
-            $model->Blanco = $request->CA;
-            $model->Analizo = Auth::user()->id;
-            $model->save();
+        $model = LoteDetalleEspectro::find($request->idMuestra);
+        $model->Resultado = $request->resultado;
+        $model->Abs1 = $request->X;
+        $model->Abs2 = $request->Y;
+        $model->Abs3 = $request->Z;
+        $model->B = $request->CB;
+        $model->M = $request->CM;
+        $model->R = $request->CR;
+        $model->Promedio = $request->ABS;
+        $model->Vol_dilucion = $request->D;
+        $model->Vol_muestra = $request->E;
+        $model->Blanco = $request->CA;
+        $model->Analizo = Auth::user()->id;
+        $model->save();
 
         $data = array(
             'model' => $model,
@@ -375,7 +375,7 @@ class FqController extends Controller
             case 105: //Fluoruros (potable)
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $d =  50 / $request->E;
-                $xround = round($x,3);
+                $xround = round($x, 3);
                 $resultado = (($xround - $request->CB) / $request->CM) * $d;
                 break;
 
@@ -422,7 +422,7 @@ class FqController extends Controller
     }
     public function liberarMuestraEspectro(Request $request)
     {
-        if ($request->parametro == 103){
+        if ($request->parametro == 103) {
             $sw = false;
             $model = LoteDetalleDureza::find($request->idMuestra);
             $model->Liberado = 1;
@@ -458,7 +458,6 @@ class FqController extends Controller
             $loteModel = LoteAnalisis::find($request->idLote);
             $loteModel->Liberado = Auth::user()->id;
             $loteModel->save();
-
         }
 
         $data = array(
@@ -496,7 +495,7 @@ class FqController extends Controller
 
 
         $data = array(
-            'model' => $model, 
+            'model' => $model,
             'sw' => $sw,
         );
         return response()->json($data);
@@ -514,14 +513,14 @@ class FqController extends Controller
     }
     public function getLoteCapturaEspectro(Request $request)
     {
-        if($request->formulaTipo == 103){
+        if ($request->formulaTipo == 103) {
             $detalle = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $request->idLote)->get();
-        }else {
-        $detalle = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        } else {
+            $detalle = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
         }
         $data = array(
             'detalle' => $detalle,
-        ); 
+        );
         return response()->json($data);
     }
     public function getDetalleEspectro(Request $request) //obtener cuerva
@@ -529,9 +528,8 @@ class FqController extends Controller
         $fecha = new Carbon($request->fechaAnalisis);
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
-        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            //->where('Id_area', 16)
+        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();            
+        $curva = CurvaConstantes::where('Fecha_inicio', '<=', $today)->where('Fecha_fin', '>', $today)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $data = array(
@@ -561,9 +559,8 @@ class FqController extends Controller
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_codigo', $model->Id_codigo)->where('Id_control', 5)->first();
-        
-        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', 16)
+
+        $curva = CurvaConstantes::where('Fecha_inicio', '<=', $today)->where('Fecha_fin', '>', $today)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
@@ -583,7 +580,7 @@ class FqController extends Controller
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $curva = CurvaConstantes::whereDate('Fecha_inicio', "<=", $today)->whereDate('Fecha_fin', ">=", $today)
+        $curva = CurvaConstantes::where('Fecha_inicio', '<=', $today)->where('Fecha_fin', '>', $today)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
         $data = array(
             'model' => $model,
@@ -617,7 +614,7 @@ class FqController extends Controller
     }
     public function updateObsMuestraEspectroDureza(Request $request)
     {
-        $model = LoteDetalleDureza::find( $request->idMuestra);
+        $model = LoteDetalleDureza::find($request->idMuestra);
         $model->Observacion = $request->observacion;
         $model->save();
 
@@ -629,16 +626,16 @@ class FqController extends Controller
     }
     public function createControlCalidadEspectro(Request $request)
     {
-        if ($request->parametro == 103){
+        if ($request->parametro == 103) {
             $muestra = LoteDetalleDureza::where('Id_detalle', $request->idMuestra)->first();
             $model = $muestra->replicate();
             $model->Id_control = $request->idControl;
             $model->save();
         } else {
-        $muestra = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
-        $model = $muestra->replicate();
-        $model->Id_control = $request->idControl;
-        $model->save();
+            $muestra = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
+            $model = $muestra->replicate();
+            $model->Id_control = $request->idControl;
+            $model->save();
         }
         $data = array(
             'parametro' => $request->parametro,
@@ -2479,7 +2476,7 @@ class FqController extends Controller
                 } else {
                     $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2532,7 +2529,7 @@ class FqController extends Controller
                 } else {
                     $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2559,7 +2556,7 @@ class FqController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 107: // Nitritos Potable
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get(); 
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                     $plantilla = $plantilla;
@@ -2568,12 +2565,12 @@ class FqController extends Controller
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
-                    $analizo = ""; 
+                    $analizo = "";
                 } else {
                     $analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'reviso' => $reviso,
                     'analizo' => $analizo,
@@ -2591,41 +2588,8 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-                case 106: // Nitritos Potable
-                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get(); 
-                    $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
-                    if ($plantilla->count()) {
-                        $plantilla = $plantilla;
-                    } else {
-                        $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
-                    }
-                    $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
-                    if ($comprobacion->count()) {
-                        $analizo = ""; 
-                    } else {
-                        $analizo = User::where('id', $model[0]->Analizo)->first();
-                    }
-                    $reviso = User::where('id', 17)->first();
-                    $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
-                    $data = array(
-                        'reviso' => $reviso,
-                        'analizo' => $analizo,
-                        'comprobacion' => $comprobacion,
-                        'lote' => $lote,
-                        'model' => $model,
-                        'curva' => $curva,
-                        'plantilla' => $plantilla,
-                    );
-                    $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.127.capturaFooter', $data);
-                    $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                    $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.127.capturaHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.127.capturaBody', $data);
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura);
-                    break;
-            case 99: //cianuros
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get(); 
+            case 106: // Nitritos Potable
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                     $plantilla = $plantilla;
@@ -2634,12 +2598,45 @@ class FqController extends Controller
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
-                    $analizo = ""; 
+                    $analizo = "";
                 } else {
                     $analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
+                $data = array(
+                    'reviso' => $reviso,
+                    'analizo' => $analizo,
+                    'comprobacion' => $comprobacion,
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+                $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.127.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.127.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 99: //cianuros
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                if ($plantilla->count()) {
+                    $plantilla = $plantilla;
+                } else {
+                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                if ($comprobacion->count()) {
+                    $analizo = "";
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 17)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'reviso' => $reviso,
                     'analizo' => $analizo,
@@ -2660,7 +2657,7 @@ class FqController extends Controller
             case 95: // Sulfatos
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro', 95)->first();
-                $curva = CurvaConstantes::where('Id_parametro', 95)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', 95)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -2678,7 +2675,7 @@ class FqController extends Controller
             case 105: // Fluoruros
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro', 105)->first();
-                $curva = CurvaConstantes::where('Id_parametro', 105)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', 105)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -2695,7 +2692,7 @@ class FqController extends Controller
                 break;
             case 96: // SAAM 
             case 114:
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get(); 
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
@@ -2703,12 +2700,12 @@ class FqController extends Controller
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
-                    $analizo = ""; 
+                    $analizo = "";
                 } else {
                     $analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'reviso' => $reviso,
                     'analizo' => $analizo,
@@ -2755,7 +2752,7 @@ class FqController extends Controller
                     $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2788,7 +2785,7 @@ class FqController extends Controller
 
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro', 116)->first();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -2806,7 +2803,7 @@ class FqController extends Controller
                 break;
             case 69: //Cromo Hexa
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
@@ -2846,7 +2843,7 @@ class FqController extends Controller
                     $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2881,7 +2878,7 @@ class FqController extends Controller
                     $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2916,7 +2913,7 @@ class FqController extends Controller
                     $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2995,7 +2992,7 @@ class FqController extends Controller
                     'model' => $model,
                     'plantilla' => $plantilla,
                     'procedimiento' => $procedimiento,
-                    'analizo' => $analizo, 
+                    'analizo' => $analizo,
                     'reviso' => $reviso,
                     'comprobacion' => $comprobacion,
                 );
@@ -3085,7 +3082,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3121,7 +3118,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3158,7 +3155,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 if ($textBitacora->count()) {
@@ -3176,12 +3173,12 @@ class FqController extends Controller
             } else {
                 $sw = false;
             }
-        } else if ( $parametro->Id_parametro == 69) { //Cromo Hex
+        } else if ($parametro->Id_parametro == 69) { //Cromo Hex
             $horizontal = 'P';
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
             $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3206,10 +3203,10 @@ class FqController extends Controller
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
-                               } else {
-                                   $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
-                               }
-                               $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                } else {
+                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
 
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
@@ -3225,8 +3222,8 @@ class FqController extends Controller
                 $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                 $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.espectro.cromoHex.capturaFooter', compact('usuario', 'firma', 'analizo', 'reviso'));
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('plantilla','procedimiento','textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limC', 'limites', 'observaciones'));
-               // $htmlCaptura1 = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limC', 'limites', 'observaciones'));
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('plantilla', 'procedimiento', 'textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limC', 'limites', 'observaciones'));
+                // $htmlCaptura1 = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limC', 'limites', 'observaciones'));
             } else {
                 $sw = false;
             }
@@ -3235,7 +3232,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
                 $limites = array();
                 foreach ($data as $item) {
@@ -3270,7 +3267,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3305,7 +3302,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3342,7 +3339,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3368,23 +3365,23 @@ class FqController extends Controller
 
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
-                               if ($plantilla->count()) {
-                               } else {
-                                   $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
-                               }
-               $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
-                               if ($comprobacion->count()) {
-                                   $analizo = "";
-                               } else {
-                                   $analizo = User::where('id', $model[0]->Analizo)->first();
-                               }
-                               $reviso = User::where('id', 17)->first();
+                if ($plantilla->count()) {
+                } else {
+                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                if ($comprobacion->count()) {
+                    $analizo = "";
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 17)->first();
 
 
 
                 $htmlHeader = view('exports.laboratorio.fq.espectro.fenoles.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma','analizo','reviso'));
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('model','plantilla','comprobacion','textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma', 'analizo', 'reviso'));
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('model', 'plantilla', 'comprobacion', 'textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
             } else {
                 $sw = false;
             }
@@ -3393,7 +3390,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3428,7 +3425,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3463,7 +3460,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
@@ -3498,7 +3495,7 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
             if (!is_null($data)) {
-                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>=', $dataLote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio', '<=', $dataLote->Fecha)->where('Fecha_fin', '>', $dataLote->Fecha)->first();
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();
