@@ -123,8 +123,8 @@ class CurvaController extends Controller
     
         for($i=0; $i < sizeof($hijos); $i++){
                     //BMR
-                    $exist = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->where('Id_curvaPadre', $curva->Id_curvaConst)->get();ñ
-                    if ($exist->count()){
+                    $exist = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->where('Id_curvaPadre', $curva->Id_curvaConst)->get();
+                    if ($exist->count()){ 
                         $update = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->where('Id_curvaPadre',$curva->Id_curvaConst)->first();
                         $update->B = $curva->B;
                         $update->M = $curva->M;
