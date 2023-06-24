@@ -2570,10 +2570,11 @@ class FqController extends Controller
                     $analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
                     'reviso' => $reviso,
                     'analizo' => $analizo,
+                    
                     'comprobacion' => $comprobacion,
                     'lote' => $lote,
                     'model' => $model,
