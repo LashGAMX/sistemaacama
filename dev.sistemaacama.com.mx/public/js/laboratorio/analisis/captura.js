@@ -86,6 +86,7 @@ function getStdMenu() {
             $("#tabGa-tab").show()
             break;
         case 14://Vol
+        case 8://potable
             $("#tabVol-tab").show()
             switch (parseInt($("#parametro").val())) {
                 case 33: // CLORO RESIDUAL LIBRE
@@ -105,7 +106,7 @@ function getStdMenu() {
                 case 10: //Nitrogeno Organico
                     $("#secctionNitrogeno").show();
                     break;
-                case 103: //Nitrogeno Organico
+                case 103: //Dureza 
                     $("#secctionDureza").show();
                 default:
                     break;
@@ -231,7 +232,7 @@ function setValoracion() {
         case '64':
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 1,
                     idParametro: $("#tipoFormula").val(),
@@ -255,7 +256,7 @@ function setValoracion() {
         case '6': // DQO
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 2,
                     idParametro: $("#tipoFormula").val(),
@@ -280,7 +281,7 @@ function setValoracion() {
         case '11': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
@@ -305,7 +306,7 @@ function setValoracion() {
         case '10': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
@@ -330,7 +331,7 @@ function setValoracion() {
         case '9': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
@@ -355,7 +356,7 @@ function setValoracion() {
         case '108': // NITROGENO amoniacal
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
@@ -380,7 +381,7 @@ function setValoracion() {
         case '103': // Dureza total
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 4,
                     idParametro: $("#tipoFormula").val(),
@@ -404,7 +405,7 @@ function setValoracion() {
         case '29':
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 5,
                     idParametro: $("#tipoFormula").val(),
@@ -2176,7 +2177,7 @@ function getCapturaLote() {
                         break;
                     case 14: // Volumetria
                         switch (parseInt(item.Id_parametro)) {
-                            case 33:
+                            case 33://Cloro
                             case 64:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';
                                 break;

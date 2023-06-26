@@ -247,6 +247,7 @@ class MetalesController extends Controller
 
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
+        $model->Liberado = 0;
         $model->save();
 
         $data = array(
@@ -471,7 +472,7 @@ class MetalesController extends Controller
         $detalle->Abs3 = $request->z;
         $detalle->Abs_promedio = $promedio;
         $detalle->Factor_dilucion = $request->FD;
-        $detalle->Factor_conversion = 0;
+        $detalle->Factor_conversion = $request->FC;
         $detalle->Vol_disolucion = $resultadoRound;
         $detalle->Analizo = Auth::user()->id;
         $detalle->save();
@@ -714,12 +715,13 @@ class MetalesController extends Controller
     {
         $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
         $model = MetalesDetalle::where('Id_lote',$res->id)->get();
-        $plantilla = BitacoraMetales::where('Id_lote', $res->id)->get();
+        $plantilla = BitacoraMetales::where('Id_lote', $res->id)->get(); 
         if ($plantilla->count()) {
         } else {
             $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
         }
-        $data = array(
+
+        $data = array( 
             'plantilla' => $plantilla,
             'model' => $model,
         );
@@ -1150,7 +1152,7 @@ class MetalesController extends Controller
                         'Id_parametro' => $parametro->Id_parametro,
                         'Id_control' => 1,
                         'Factor_dilucion' => 1,
-                        'Factor_conversion' => 0,
+                        'Factor_conversion' => 1000,
                         'Liberado' => 0,
                         'Analisis' => 1,
                         
@@ -1396,6 +1398,35 @@ class MetalesController extends Controller
             compact('tecLoteMet', 'blancoCurvaMet', 'verMet', 'stdVerMet', 'curValMet', 'genHidMet')
         );
     }
+    public function setPlantillaDetalleMetales(Request $res)
+    {
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $temp = BitacoraMetales::where('Id_lote', $res->id)->get();
+        if ($temp->count()) {
+            $model = BitacoraMetales::where('Id_lote', $res->id)->first();
+            $model->Titulo = $res->titulo;
+            $model->Texto = $res->texto;
+            $model->Rev = $res->rev;
+            $model->save();
+            $aux = "Mod";
+        } else {
+            $model = BitacoraMetales::create([
+                'Id_lote' => $res->id,
+                'Id_parametro' => $lote->Id_tecnica,
+                'Titulo' => $res->titulo,
+                'Texto' => $res->texto,
+                'Rev' => $res->rev,
+            ]);
+            $aux = "Cre";
+        }
+        $data = array(
+            'aux' => $aux,
+            'temp' => $temp,
+            'lote' => $lote,
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function exportPdfCaptura($id)
     {
@@ -1529,7 +1560,7 @@ class MetalesController extends Controller
                 case 214://Mn
                 case 233://Se
                 case 217://Ag
-                    if ($item->Resultado >= 0.030 && $item->Resultado <= 0.390) {
+                    if ($item->Dilucio < 30) {
                         $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
                         $temp->Resultado = $item->Resultado;
                         $temp->Resultado2 = $item->Resultado;
@@ -1539,13 +1570,24 @@ class MetalesController extends Controller
                         $temp2->Liberado = 1;
                         $temp2->save();
                     }else{
-                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
-                        $temp2->Liberado = 1;
-                        $temp2->save();
+                        if ($item->Dilucion >= 30 && $item->Dilucion <= 390) {
+                            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                            $temp->Resultado = $item->Resultado;
+                            $temp->Resultado2 = $item->Resultado;
+                            $temp->Analizo = Auth::user()->id;
+                            $temp->save();
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }else{
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }
                     }
                     break;
                 case 213:// Fe
-                    if ($item->Resultado >= 0.090 && $item->Resultado <= 1.170) {
+                    if ($item->Dilucio < 30) {
                         $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
                         $temp->Resultado = $item->Resultado;
                         $temp->Resultado2 = $item->Resultado;
@@ -1555,10 +1597,22 @@ class MetalesController extends Controller
                         $temp2->Liberado = 1;
                         $temp2->save();
                     }else{
-                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
-                        $temp2->Liberado = 1;
-                        $temp2->save();
+                        if ($item->Resultado >= 90 && $item->Resultado <= 1170) {
+                            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                            $temp->Resultado = $item->Resultado;
+                            $temp->Resultado2 = $item->Resultado;
+                            $temp->Analizo = Auth::user()->id;
+                            $temp->save();
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }else{
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }
                     }
+
                     break;
                 default:
                     break;

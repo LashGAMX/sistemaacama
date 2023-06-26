@@ -900,9 +900,9 @@ class SolicitudController extends Controller
         $modTemp = Solicitud::where('Id_cotizacion', $idOrden)->first();
         $cliente = SucursalCliente::where('Id_sucursal', $modTemp->Id_sucursal)->first();
         if ($model->Siralab == 1) {
-            $direccion = DB::table('ViewDireccionSir')->where('Id_sucursal', $modTemp->Id_sucursal)->first();
+            $direccion = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $modTemp->Id_direccion)->first();
         } else {
-            $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
+            $direccion = DireccionReporte::where('Id_direccion', $modTemp->Id_direccion)->first();
         }
         $puntos = SolicitudPuntos::where('Id_solicitud',$model->Id_solicitud)->get();
 

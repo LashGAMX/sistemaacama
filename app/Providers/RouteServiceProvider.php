@@ -42,21 +42,17 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
-
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/encuesta.php'));
-
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/campoApp.php'));
-
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
-
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')
@@ -73,7 +69,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/cotizacion.php'));
-
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')
@@ -82,7 +77,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/usuarios.php'));
-
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')

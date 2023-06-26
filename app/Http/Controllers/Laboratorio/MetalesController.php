@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\AreaAnalisis;
 use App\Models\BitacoraMetales;
+use App\Models\Bitacoras;
 use App\Models\Constante;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -31,6 +32,7 @@ use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
 use App\Models\LoteDetalleIcp;
 use App\Models\MetalesDetalle;
+use App\Models\PlantillaBitacora;
 use App\Models\PlantillaMetales;
 use App\Models\Tecnica;
 use App\Models\TempIcp;
@@ -715,10 +717,10 @@ class MetalesController extends Controller
     {
         $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
         $model = MetalesDetalle::where('Id_lote',$res->id)->get();
-        $plantilla = BitacoraMetales::where('Id_lote', $res->id)->get(); 
+        $plantilla = Bitacoras::where('Id_lote', $res->id)->get(); 
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
 
         $data = array( 
