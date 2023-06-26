@@ -665,7 +665,7 @@ class LabAnalisisController extends Controller
                                 break;
                             case 78:
                                 $model = DB::table('ViewLoteDetalleEcoli')->where('Id_detalle', $res->idDetalle)->first(); // Asi se hara con las otras
-                                $convinaciones = ConvinacionesEcoli::where('Id_detalle', $res->idDetalle)->where('Colonia', $request->colonia)->first();
+                                $convinaciones = ConvinacionesEcoli::where('Id_detalle', $res->idDetalle)->where('Colonia', $res->colonia)->first();
                                 break;
                             default:
                             $model = array();
@@ -1397,6 +1397,40 @@ class LabAnalisisController extends Controller
                     break;
                 case 13: //G&A
                     $model = GrasasDetalle::where('Id_lote', $res->id)->first();
+                    break;
+                case 15: //Solidos
+                    break;
+                case 14://volumetria
+                case 8://potable
+                    switch ($lote[0]->Id_tecnica) {
+                        case 33: // CLORO RESIDUAL LIBRE
+                        case 64:
+                            
+                            break;
+                        case 28: //Alcalinidad
+                        case 29:
+                            
+                            break;
+                        case 6: // DQO
+                            
+                            break;
+                        case 11: //Nitrogeno Total
+                        case 9: //Nitrogeno Amoniacal
+                        case 108:
+                        case 10: //Nitrogeno Organico
+                            
+                            break;
+                        case 103: //Dureza
+                            
+                        default:
+                            break;
+                    }
+                    break;
+                case 7://campo
+                case 19://directo
+                    break;
+                case 6: // MB
+                case 12:// Mb Alimentos
                     break;
                 default:
                     $model = array();
