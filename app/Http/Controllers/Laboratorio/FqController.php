@@ -301,7 +301,8 @@ class FqController extends Controller
                 $d =   100  / $request->E;
                 $res1 = round($x, 3) - ($request->CB);
                 $res2 = $res1 / $request->CM;
-                $resultado = $res2 * round($d, 3);
+                $res3 = $res2 * round($d, 3);
+                $resultado = round($res3, 3);
                 break;
             case 69:
                 # Cromo Hexavalente
@@ -376,9 +377,14 @@ class FqController extends Controller
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $d =  50 / $request->E;
                 $xround = round($x, 3);
-                $resultado = (($xround - $request->CB) / $request->CM) * $d;
+                $res1 = (($xround - $request->CB) / $request->CM) * $d;
+                $resultado = round($res1, 3);
                 break;
-
+            case 87: //Silice
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                $d =  50 / $request->E;
+                $resultado = (($x - $request->CB) / $request->CM) * $d;
+                break;
             default:
                 # code...
                 $x = ($request->X + $request->Y + $request->Z) / 3;
