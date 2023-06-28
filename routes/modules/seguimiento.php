@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\seguimiento\SeguimientoController;
-use App\Http\Controllers\seguimiento\IncidenciasController;
+use App\Http\Controllers\seguimiento\IncidenciasController; 
+use App\Http\Controllers\seguimiento\IndicadoresController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '/seguimiento'], function () {
@@ -18,5 +19,6 @@ Route::group(['prefix' => '/seguimiento'], function () {
     
 });    
 Route::group(['prefix' => '/indicadores'], function () {
-    
+    Route::get('/',[IndicadoresController::class,'index']);
+    Route::get('/graficos',[IndicadoresController::class,'graficos']);
 });    
