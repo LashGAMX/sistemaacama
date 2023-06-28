@@ -274,7 +274,12 @@ class MbController extends Controller
                 foreach ($detalle as $item) {
                     $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
                     if ($values != null) {
-                        array_push($indice, $values->Indice);
+                        if ($values->Indice == 0) {
+                            array_push($indice, 1);
+                        }else {
+                            array_push($indice, $values->Indice);
+                        }
+                       
                     } else {
                         $indice = null;
                         break;
