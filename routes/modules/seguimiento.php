@@ -17,3 +17,6 @@ Route::group(['prefix' => '/seguimiento'], function () {
     Route::post('/incidencias/index',[IncidenciasController::class,'index']);
     
 });    
+Route::group(['prefix' => '/indicadores'], function () {
+    
+});    

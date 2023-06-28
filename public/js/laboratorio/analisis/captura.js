@@ -1514,7 +1514,7 @@ function setDetalleMuestra() {
                         data: {
                             idLote: idLote,
                             idMuestra: idMuestra,
-                            aparente: $("#resDirectoDef").val(),
+                            resultado: $("#resDirectoDef").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",

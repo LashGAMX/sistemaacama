@@ -1269,6 +1269,16 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
+                case 6://Mb
+                case 12:
+                    switch ($lote[0]->Id_tecnica) {
+                        default:
+                            $model = LoteDetalleDirectos::find($res->idMuestra);
+                            $model->Resultado = $res->resDirectoDef;
+                            $model->save();
+                        break;
+                    }
+                    break;
                 case 7: //Muestreo
                 case 19: //Directos
                     switch ($lote[0]->Id_tecnica) {
@@ -1369,7 +1379,9 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         default: // Default Directos
-                            // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                            $model = LoteDetalleDirectos::find($res->idMuestra);
+                            $model->Resultado = $res->resDirectoDef;
+                            $model->save();
                             break;
                     }
                     break;

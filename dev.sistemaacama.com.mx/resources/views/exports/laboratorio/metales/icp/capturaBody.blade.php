@@ -39,7 +39,7 @@
                         @if ($item->Resultado == NULL)
                         <td class="tableContent">-----</td>
                         @else
-                            <td class="tableContent">{{$item->Resultado}}</td>
+                            <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ",")}}</td>
                         @endif
                         <td class="tableContent">{{$item->Fecha}}</td> 
                         <td class="tableContent">Control</td> 
@@ -57,7 +57,7 @@
                             @if ($item->Resultado == NULL)
                             <td class="tableContent">-----</td>
                             @else
-                                <td class="tableContent">{{$item->Resultado}}</td>
+                                <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ",")}}</td>
                             @endif
                             <td class="tableContent">{{$item->Fecha}}</td>
                             <td class="tableContent">Resultado</td>

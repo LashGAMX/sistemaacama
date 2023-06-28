@@ -243,7 +243,24 @@ class CadenaController extends Controller
                 break;
             case "67": //Conductividad
             case "68":
-                $model = SolicitudPuntos::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                if ($solModel->Id_norma == 27) {
+                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    $sumGasto = 0;
+                    $aux = array();
+                    foreach($gasto as $item)
+                    {
+                        $sumGasto = $sumGasto + $item->Promedio;
+                    }
+                    foreach($gasto as $item)
+                    {
+                        array_push($aux,($item->Promedio/$sumGasto));
+                    }
+                }
+                if ($solModel->Id_servicio != 3) {
+                    $model = ConductividadMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
             break;
             case "2": //Materia flotante
                 $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
@@ -271,21 +288,25 @@ class CadenaController extends Controller
                 }
                 break;
             case "97": //Temperatura
-                if ($solModel->Id_norma == 27) {
-                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
-                    $sumGasto = 0;
-                    $aux = array();
-                    foreach($gasto as $item)
-                    {
-                        $sumGasto = $sumGasto + $item->Promedio;
+                if ($solModel->Id_servicio != 3) {
+                    if ($solModel->Id_norma == 27) {
+                        $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                        $sumGasto = 0;
+                        $aux = array();
+                        foreach($gasto as $item)
+                        {
+                            $sumGasto = $sumGasto + $item->Promedio;
+                        }
+                        foreach($gasto as $item)
+                        {
+                            array_push($aux,($item->Promedio/$sumGasto));
+                        }
                     }
-                    foreach($gasto as $item)
-                    {
-                        array_push($aux,($item->Promedio/$sumGasto));
-                    }
+                    $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();   
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
                 }
-                $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
                 break;
 
                 //Potable

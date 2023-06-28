@@ -12,8 +12,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="foliosol">Folio</label>
-                        <input type="text" style="width: 100%" onkeyup="buscarFolio();" placeholder="Ingresa un folio" id="folioSol" autofocus> 
+                        <label for="foliosol">Folio</label><br>
+                        <input type="text" style="width: 70%" placeholder="Ingresa un folio" id="folioSol" autofocus> 
+                        <button onclick="buscarFolio()" class="btn-success"><i class="fas fa-search"></i> Buscar</button>
                         <div id="stdMuestra"></div>
                     </div>
                     <input type="text" id="idSol" hidden>
@@ -96,5 +97,5 @@
 
 
 @section('javascript')
-<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.2"></script>
+<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.3"></script>
 @stop

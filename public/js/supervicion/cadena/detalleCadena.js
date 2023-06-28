@@ -625,15 +625,40 @@ function getDetalleAnalisis(idCodigo) {
                     } else if (response.codigoModel.Id_parametro == 67 || response.codigoModel.Id_parametro == 68) { // Gasto
                         aux = 0;
                         cont = 0;
-                        $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            tab += '<td>Conductividad Campo - ' + (cont + 1) + '</td>';
-                            tab += '<td>' + item.Conductividad + '</td>';
-                            tab += '</tr>';
-                            aux = aux + parseFloat(item.Conductividad);
-                            cont++
-                        });
-                        resLiberado = (aux /cont);
+                        if ($("#idNorma").val() == "27") {
+                            $.each(response.model, function (key, item) {
+                                tab += '<tr>';
+                                tab += '<td>Conductividad Campo - ' + (cont + 1) + '</td>';
+                                tab += '<td>' + item.Promedio + '</td>';
+                                tab += '<td>' + (response.aux[cont] * item.Promedio) + '</td>';
+                                tab += '</tr>';
+                                if (item.Promedio != null) {
+                                    aux = aux + (response.aux[cont] * item.Promedio);
+                                    cont++;
+                                }
+                            });
+                            resLiberado = (aux).toFixed(2);
+                        } else {
+                            $.each(response.model, function (key, item) {
+                                tab += '<tr>';
+                                tab += '<td> Conductividad Campo - ' + (cont + 1) + '</td>';
+                                if (parseInt(response.solModel.Id_servicio) != 3) {
+                                    tab += '<td>' + item.Promedio + '</td>';   
+                                } else { 
+                                    tab += '<td>' + item.Resultado + '</td>';
+                                }
+                                tab += '</tr>';
+                                if (item.Promedio != null || item.Resultado != null) {
+                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                        aux = aux + parseFloat(item.Promedio);
+                                    } else { 
+                                        aux = aux + parseFloat(item.Resultado);
+                                    }
+                                    cont++; 
+                                }
+                            });
+                            resLiberado = (aux /cont);
+                        }
                     } else if (response.codigoModel.Id_parametro == 2) { // Materia flotante
                         aux = 0;
                         cont = 0;
@@ -705,11 +730,19 @@ function getDetalleAnalisis(idCodigo) {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
                                 tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
-                                tab += '<td>' + item.Promedio + '</td>';
+                                if (parseInt(response.solModel.Id_servicio) != 3) {
+                                    tab += '<td>' + item.Promedio + '</td>';   
+                                } else { 
+                                    tab += '<td>' + item.Resultado + '</td>';
+                                }
                                 tab += '</tr>';
-                                if (item.Promedio != null) {
-                                    aux = aux + parseFloat(item.Promedio);
-                                    cont++;
+                                if (item.Promedio != null || item.Resultado != null) {
+                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                        aux = aux + parseFloat(item.Promedio);
+                                    } else { 
+                                        aux = aux + parseFloat(item.Resultado);
+                                    }
+                                    cont++; 
                                 }
                             });
                             resLiberado = (aux / cont).toFixed(2);

@@ -97,8 +97,8 @@
                                       --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
-                                            @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 ) 
-                                                {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+                                            @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 || @$idArea[$i] == 3 ) 
+                                                --------------- 
                                             @else
                                                 @switch($model->Id_norma)
                                                 @case(1)

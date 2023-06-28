@@ -224,7 +224,13 @@ class InformesController extends Controller
                         break;
                     case 14:
                     case 110:
+                    case 67:
+                    case 68:
+                    case 125:
                         $limC = round($item->Resultado2, 1);
+                        break;
+                    case 34:
+                        $limC = $item->Resultado2;
                         break;
                     case 135:
                     case 78:
@@ -307,8 +313,6 @@ class InformesController extends Controller
                 $aux = "------";
                 $limC = "------";
             }
-
-
             array_push($limitesN, $aux);
             array_push($limitesC, $limC);
         }
@@ -317,8 +321,6 @@ class InformesController extends Controller
         switch ($solModel->Id_norma) {
             case 5:
             case 30:
-                // $firma1 = User::find(14);
-                // $firma2 = User::find(12); 
                 $firma1 = User::find(14);
                 $firma2 = User::find(4);
                 break;
@@ -4125,6 +4127,7 @@ class InformesController extends Controller
         $fechasSalidas = array();
         $stdArea = array();
         $firmas = array();
+        $idParametro = array();
         foreach ($areaParam as $item) {
             $sw = false;
             for ($i = 0; $i < sizeof($tempArea); $i++) {
@@ -4151,8 +4154,8 @@ class InformesController extends Controller
                 $paramTemp = Parametro::find($item->Id_parametro);
                 // var_dump($temp->Id_area);
                 $fechaTemp = '';
-                echo "<br>";
-                echo "Parametro: ".$paramTemp->Parametro."Area ".$paramTemp->Id_area . "Otra area: ".$item->Area;
+                // echo "<br>";
+                // echo "Parametro: ".$paramTemp->Parametro."Area ".$paramTemp->Id_area . "Otra area: ".$item->Area;
                 switch ($paramTemp->Id_area) {
                     case 2: // Metales
                         $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
@@ -4168,7 +4171,7 @@ class InformesController extends Controller
                         $modelDet = DB::table('lote_detalle_icp')->where('Id_control', 1)->where('Id_codigo', $model->Folio_servicio)->where('Id_parametro', $item->Id_parametro)->get();
                         if ($modelDet->count()) {
                             // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = date("d-m-Y", strtotime($modelDet[0]->Fecha));
+                            $fechaTemp = date("d/m/Y", strtotime($modelDet[0]->Fecha));
                         } else {
                             $fechaTemp = "";
                         }
@@ -4317,6 +4320,7 @@ class InformesController extends Controller
                 array_push($tempArea, $item->Id_area);
                 array_push($area, $item->Area);
                 array_push($idArea, $paramTemp->Id_area);
+                array_push($idParametro,$item->Id_parametro);
                 array_push($responsable, $user->name);
                 array_push($firmas, $user->firma);
             }
@@ -4416,6 +4420,7 @@ class InformesController extends Controller
 
         $mpdf->showWatermarkImage = true;
         $data = array(
+            'idParametro' => $idParametro,
             'idArea' => $idArea,
             'promGra' => $promGra,
             'promGas' => $promGas,

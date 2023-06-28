@@ -2636,9 +2636,8 @@
                   <thead>
                       <tr>
                           <th>Parametro</th>
-                         
+                          <th>Descripcion</th>
                           <th>Valor</th>
-                          <th>Valor2</th>
                           
                       </tr>
                   </thead>
@@ -2648,7 +2647,6 @@
                           <td>R</td>
                           <td>Resultado Directo</td>
                           <td><input type="text" id="resDirectoDef" ></td>
-                          <td><input type="text" id="" ></td>
                           
                       </tr>
 
