@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bitacoras;
 use App\Models\BitacoraVolumetria;
 use App\Models\VolumenParametros;
 use App\Models\LoteAnalisis;
@@ -39,6 +40,7 @@ use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
+use App\Models\PlantillaBitacora;
 use App\Models\PlantillaVolumetria;
 use App\Models\Reportes;
 use App\Models\SecadoCartucho;
@@ -1440,18 +1442,18 @@ class VolController extends Controller
                     case 1: // Dqo Alta
                         $loteDetalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $idLote)->get();
                         $valDqo = ValoracionDqo::where('Id_lote', $idLote)->first();
-                        $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                         if ($plantilla->count()) {
                             if ($detalle->Soluble == 1) {
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 159)->get(); 
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get(); 
                             }else{
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 72)->get();
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 72)->get();
                             }
                         } else {
                             if ($detalle->Soluble == 1) {
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 159)->get(); 
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get(); 
                             }else{
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 72)->get();
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 72)->get();
                             }
                         }
                         $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
@@ -1485,18 +1487,18 @@ class VolController extends Controller
                     case 2:
                         $loteDetalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $idLote)->get();
                         $valDqo = ValoracionDqo::where('Id_lote', $idLote)->first();
-                        $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                         if ($plantilla->count()) {
                             if ($detalle->Soluble == 1) {
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 160)->get(); 
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get(); 
                             }else{
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 73)->get();
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 73)->get();
                             }
                         } else {
                             if ($detalle->Soluble == 1) {
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 160)->get(); 
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get(); 
                             }else{
-                                $plantilla = PlantillaVolumetria::where('Id_parametro', 73)->get();
+                                $plantilla = PlantillaBitacora::where('Id_parametro', 73)->get();
                             }
                         }
                         $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
@@ -1531,10 +1533,10 @@ class VolController extends Controller
             break;
             case 64: //Cloruros Totales
                 $loteDetalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $valoracion = ValoracionCloro::where('Id_lote', $idLote)->first();
@@ -1584,10 +1586,10 @@ class VolController extends Controller
             case 9:// Nitrogeno amoniacal
                 $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                 $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $idLote)->first();
-                $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $valoracion = ValoracionCloro::where('Id_lote', $idLote)->first();
@@ -1642,10 +1644,10 @@ class VolController extends Controller
 
                 $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                 $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $idLote)->first();
-                $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
@@ -1678,10 +1680,10 @@ class VolController extends Controller
             case 10:
                 $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                 $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $idLote)->first();
-                $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $valoracion = ValoracionCloro::where('Id_lote', $idLote)->first();

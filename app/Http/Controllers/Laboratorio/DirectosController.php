@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\BitacoraDirectos;
+use App\Models\Bitacoras;
 use App\Models\CodigoParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDirectos;
 use App\Models\Parametro;
 use App\Models\PlantillaDirectos;
 use App\Models\ControlCalidad;
+use App\Models\PlantillaBitacora;
 use App\Models\Promedio;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -77,10 +79,10 @@ class DirectosController extends Controller
     public function getDetalleLote(Request $res)
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->idLote)->first();
-        $plantilla = BitacoraDirectos::where('Id_lote', $res->idLote)->get();
+        $plantilla = Bitacoras::where('Id_lote', $res->idLote)->get();
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
         $data = array(
             'plantilla' => $plantilla,
@@ -90,15 +92,15 @@ class DirectosController extends Controller
     public function setPlantilla(Request $res)
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
-        $temp = BitacoraDirectos::where('Id_lote', $res->id)->get();
+        $temp = Bitacoras::where('Id_lote', $res->id)->get();
         if ($temp->count()) {
-            $model = BitacoraDirectos::where('Id_lote', $res->id)->first();
+            $model = Bitacoras::where('Id_lote', $res->id)->first();
             $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraDirectos::create([
+            $model = Bitacoras::create([
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,
@@ -493,14 +495,14 @@ class DirectosController extends Controller
         $mpdf->showWatermarkImage = true;
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->first();
+        $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->first();
         switch ($lote->Id_tecnica) {
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraDirectos::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = Bitacoras::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
                 //Comprobación de bitacora analizada
@@ -532,7 +534,7 @@ class DirectosController extends Controller
                 break;
             case 218: // Cloro
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillaDirectos::where('Id_parametro', 218)->first();
+                $plantilla = Bitacoras::where('Id_parametro', 218)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -549,7 +551,7 @@ class DirectosController extends Controller
                 break;
             case 110:
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillaDirectos::where('Id_parametro', 110)->first();
+                $plantilla = Bitacoras::where('Id_parametro', 110)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -567,10 +569,10 @@ class DirectosController extends Controller
             case 67: // Conductividad
 
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraDirectos::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = Bitacoras::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
                 //Comprobación de bitacora analizada
@@ -603,10 +605,10 @@ class DirectosController extends Controller
 
             case 97: // Temperatura
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraDirectos::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = Bitacoras::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
                 //Comprobación de bitacora analizada

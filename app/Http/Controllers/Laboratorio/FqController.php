@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\BitacoraFq;
+use App\Models\Bitacoras;
 use App\Models\Capsulas;
 use App\Models\VolumenParametros;
 use App\Models\LoteAnalisis;
@@ -39,6 +40,7 @@ use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
+use App\Models\PlantillaBitacora;
 use App\Models\PlantillasFq;
 use App\Models\Reportes;
 use App\Models\ReportesMb;
@@ -885,10 +887,10 @@ class FqController extends Controller
     {
         $grasasDetalle = GrasasDetalle::where('Id_lote', $res->id)->first();
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
-        $plantilla = BitacoraFq::where('Id_lote', $res->id)->get();
+        $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
         $data = array(
             'plantilla' => $plantilla,
@@ -936,15 +938,15 @@ class FqController extends Controller
     public function setPlantillaDetalleFq(Request $res)
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
-        $temp = BitacoraFq::where('Id_lote', $res->id)->get();
+        $temp = Bitacoras::where('Id_lote', $res->id)->get();
         if ($temp->count()) {
-            $model = BitacoraFq::where('Id_lote', $res->id)->first();
+            $model = Bitacoras::where('Id_lote', $res->id)->first();
             $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraFq::create([
+            $model = Bitacoras::create([
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,
@@ -2441,7 +2443,7 @@ class FqController extends Controller
         switch ($lote->Id_tecnica) {
             case 103:
                 $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro', 103)->first();
+                $plantilla = PlantillaBitacora::where('Id_parametro', 103)->first();
                 // $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2460,7 +2462,7 @@ class FqController extends Controller
                 break;
             case 112:
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro', 112)->first();
+                $plantilla = PlantillaBitacora::where('Id_parametro', 112)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -2477,10 +2479,10 @@ class FqController extends Controller
                 break;
             case 7: //Nitratos residual
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
@@ -2530,10 +2532,10 @@ class FqController extends Controller
                 $mpdf->showWatermarkImage = true;
                 $mpdf->CSSselectMedia = 'mpdf';
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 //Comprobación de bitacora analizada
@@ -2563,11 +2565,11 @@ class FqController extends Controller
                 break;
             case 107: // Nitritos Potable
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                     $plantilla = $plantilla;
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2597,11 +2599,11 @@ class FqController extends Controller
                 break;
             case 106: // Nitritos Potable
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                     $plantilla = $plantilla;
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2630,11 +2632,11 @@ class FqController extends Controller
                 break;
             case 99: //cianuros
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                     $plantilla = $plantilla;
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2663,7 +2665,7 @@ class FqController extends Controller
                 break;
             case 95: // Sulfatos
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro', 95)->first();
+                $plantilla = PlantillaBitacora::where('Id_parametro', 95)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 95)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2681,7 +2683,7 @@ class FqController extends Controller
                 break;
             case 105: // Fluoruros
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro', 105)->first();
+                $plantilla = PlantillaBitacora::where('Id_parametro', 105)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 105)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2700,10 +2702,10 @@ class FqController extends Controller
             case 96: // SAAM 
             case 114:
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2753,10 +2755,10 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
 
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
@@ -2791,7 +2793,7 @@ class FqController extends Controller
             case 116: // Yodo
 
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro', 116)->first();
+                $plantilla = PlantillaBitacora::where('Id_parametro', 116)->first();
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2811,10 +2813,10 @@ class FqController extends Controller
             case 69: //Cromo Hexa
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
@@ -2844,10 +2846,10 @@ class FqController extends Controller
                 break;
             case 19: // Cianuros
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
@@ -2879,10 +2881,10 @@ class FqController extends Controller
                 break;
             case 15: // Fosforo
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
@@ -2914,10 +2916,10 @@ class FqController extends Controller
                 break;
             case 13: // Grasas Y Aceites
                 $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>', $lote->Fecha)->first();
@@ -2980,10 +2982,10 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
 
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 //Comprobación de bitacora analizada
