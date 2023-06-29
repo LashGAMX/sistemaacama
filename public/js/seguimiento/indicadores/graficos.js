@@ -1,30 +1,37 @@
 var idSol;
 $(document).ready(function () {
-    $('#grafica1').click(function () {
-        grafica1()
-    });
-    $('#grafica2').click(function () {
-        grafica2()
-    });
-    $('#grafica3').click(function () {
-        grafica3()
-    });
-    $('#grafica4').click(function () {
-        grafica4()
+    $('#btnBuscar').click(function () {
+        switch (parseInt($("#grafica").val())) {
+            case 1:
+                grafica1()
+                break;
+            case 2:
+                grafica2()
+                break;
+            case 3:
+                grafica3()
+                break;
+            case 4:
+                grafica4()
+                break;
+            default:
+                alert("No hay una grafica seleccionada")
+                break;
+        }
     });
  
 });
-
-const ctx = document.getElementById('myChart');
+var canva = document.getElementById("newCanva")
 function grafica1() {
+    canva.innerHTML = '<canvas id="myChart"></canvas>'
     const ctx = document.getElementById('myChart');
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['123-1/23', '121-1/23', '122-1/23', '124-1/23', '125-1/23', '126-1/23'],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: 'Muestras ingresadas',
+                data: [12, 20, 3, 5, 2, 3],
                 borderWidth: 1
             }]
         },
@@ -38,11 +45,56 @@ function grafica1() {
     });
 }
 function grafica2() {
+    canva.innerHTML = '<canvas id="myChart"></canvas>'
     const ctx = document.getElementById('myChart');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['123-1/23', '121-1/23', '122-1/23', '124-1/23', '125-1/23', '126-1/23'],
+            datasets: [{
+                label: 'Muestras ingresadas',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+function grafica3() {
+    canva.innerHTML = '<canvas id="myChart"></canvas>'
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['123-1/23', '121-1/23', '122-1/23', '124-1/23', '125-1/23', '126-1/23'],
+            datasets: [{
+                label: '',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+function grafica4() {
+    canva.innerHTML = '<canvas id="myChart"></canvas>'
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['123-1/23', '121-1/23', '122-1/23', '124-1/23', '125-1/23', '126-1/23'],
             datasets: [{
                 label: '# of Votes',
                 data: [12, 19, 3, 5, 2, 3],
@@ -58,45 +110,3 @@ function grafica2() {
         }
     });
 }
-// function grafica3() {
-
-//     new Chart(ctx, {
-//         type: 'pie',
-//         data: {
-//             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-//             datasets: [{
-//                 label: '# of Votes',
-//                 data: [12, 19, 3, 5, 2, 3],
-//                 borderWidth: 1
-//             }]
-//         },
-//         options: {
-//             scales: {
-//                 y: {
-//                     beginAtZero: true
-//                 }
-//             }
-//         }
-//     });
-// }
-// function grafica4() {
-  
-//     new Chart(ctx, {
-//         type: 'doughnut',
-//         data: {
-//             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-//             datasets: [{
-//                 label: '# of Votes',
-//                 data: [12, 19, 3, 5, 2, 3],
-//                 borderWidth: 1
-//             }]
-//         },
-//         options: {
-//             scales: {
-//                 y: {
-//                     beginAtZero: true
-//                 }
-//             }
-//         }
-//     });
-// }

@@ -25,6 +25,7 @@
         <table class="table" id="tableIndicadores">
            <thead>
               <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Folio</th>
                 <th>Cliente</th>
@@ -38,6 +39,7 @@
            </thead>
            <tbody>
               <tr>
+                <td><button class="btn-primary" data-toggle="modal" data-target="#modalEditarSeguimiento"><i class="fas fa-edit"></i></button></td>
                 <td>1</td>
                 <td>150-1/23</td>
                 <td>MAGALUF  S.A. DE C.V </td>
@@ -49,6 +51,7 @@
                 <td>MUESTRA SIN HDC</td>
               </tr>
               <tr style="background: #DC3545;color:aliceblue">
+                <td><button class="btn-primary" data-toggle="modal" data-target="#modalEditarSeguimiento"><i class="fas fa-edit"></i></button></td>
                 <td>2</td>
                 <td>152-1/23</td>
                 <td>MAGALUF  S.A. DE C.V </td>
@@ -93,6 +96,35 @@
           </div>
           <div class="col-md-12">
             <button class="btn-success"><i class="fas fa-save"></i> Crear seguimiento</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditarSeguimiento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Seguimiento IMPRESION DE RESULTADO</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="fecha">Fecha salida sección</label>
+              <input type="date" class="form-control" id="fecha">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="observacion">Observación</label>
+              <input type="text" class="form-control" id="observacion">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button class="btn-success"><i class="fas fa-paper-plane"></i> Mover de sección</button>
           </div>
         </div>
       </div>

@@ -13,13 +13,38 @@
 <div class = "container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <button id="grafica1"> Grafica 1</button>
-            <button id="grafica2"> Grafica 2</button>
-            <button id="grafica3"> Grafica 3</button>
-            <button id="grafica4"> Grafica 4</button>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="grafica">Indicadores</label>
+                <select class="form-control" id="grafica">
+                  <option value="0">Sin seleccionar</option>
+                  <option value="1">Grafica 1</option>
+                  <option value="2">Grafica 2</option>
+                  <option value="3">Grafica 3</option>
+                  <option value="4">Grafica 4</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="fechaIni">Fecha Inicio</label>
+                <input type="date" class="form-control" id="fechaIni">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="fechaFin">Fecha Fin</label>
+                <input type="date" class="form-control" id="fechaFin">
+              </div>
+            </div>
+            <div class="col-md-2"><br>
+              <button class="btn btn-success" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+          </div>
         </div>
-        <div class="col-md-12">
-            <canvas id="myChart"></canvas>
+        <div class="col-md-12" id="newCanva">
+            
         </div>
     </div>
 </div>
