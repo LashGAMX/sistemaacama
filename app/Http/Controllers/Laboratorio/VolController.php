@@ -324,10 +324,10 @@ class VolController extends Controller
                 $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
         }
-        $plantilla = BitacoraVolumetria::where('Id_lote', $request->idLote)->get();
+        $plantilla = Bitacoras::where('Id_lote', $request->idLote)->get();
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillaVolumetria::where('Id_parametro', $paraModel->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $paraModel->Id_tecnica)->get();
         }
 
 
@@ -636,13 +636,13 @@ class VolController extends Controller
         $lote = DB::table('reportes_fq')->where('Id_lote', $idLote)->where('Id_area', $request->idArea)->get();
 
         if ($lote->count()) {
-            $texto = ReportesFq::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
+            $texto = Bitacoras::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
             $texto->Texto = $textoPeticion;
             $texto->Id_user_m = Auth::user()->id;
 
             $texto->save();
         } else {
-            $texto = ReportesFq::create([
+            $texto = Bitacoras::create([
                 'Id_lote' => $idLote,
                 'Texto' => $textoPeticion,
                 'Id_area' => $request->idArea,
@@ -1204,15 +1204,15 @@ class VolController extends Controller
     public function setPlantillaDetalleVol(Request $res)
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
-        $temp = BitacoraVolumetria::where('Id_lote', $res->id)->get();
+        $temp = Bitacoras::where('Id_lote', $res->id)->get();
         if ($temp->count()) {
-            $model = BitacoraVolumetria::where('Id_lote', $res->id)->first();
+            $model = Bitacoras::where('Id_lote', $res->id)->first();
             $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraVolumetria::create([
+            $model = Bitacoras::create([
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,

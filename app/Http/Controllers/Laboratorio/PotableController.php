@@ -9,6 +9,7 @@ use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetallePotable;
 use App\Models\Parametro;
+use App\Models\PlantillaBitacora;
 use App\Models\PlantillaPotable;
 use App\Models\ValoracionDureza;
 use Illuminate\Http\Request;
@@ -577,14 +578,14 @@ class PotableController extends Controller
         );
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $plantilla = PlantillaPotable::where('Id_parametro', $lote->Id_tecnica)->first();
+        $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->first();
         switch ($lote->Id_tecnica) {
             case 77: //Dureza
             case 103:
             case 251:
             case 252:
                 $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
-                $textoProcedimiento = PlantillaPotable::where('Id_parametro', 77)->first();
+                $textoProcedimiento = i::where('Id_parametro', 77)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,

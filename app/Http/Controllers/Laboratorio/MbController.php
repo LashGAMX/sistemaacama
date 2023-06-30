@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\BitacoraColiformes;
 use App\Models\BitacoraMb;
+use App\Models\Bitacoras;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleCloro;
@@ -44,6 +45,7 @@ use App\Models\LoteTecnica;
 use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
 use App\Models\Nmp1Micro;
+use App\Models\PlantillaBitacora;
 use App\Models\PlantillaMb;
 use App\Models\TiempoReflujo;
 use App\Models\User;
@@ -1176,10 +1178,10 @@ class MbController extends Controller
         } else {
             $dqo = "";
         }
-        $plantilla = BitacoraMb::where('Id_lote', $request->idLote)->get();
+        $plantilla = Bitacoras::where('Id_lote', $request->idLote)->get();
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
 
 
@@ -1221,26 +1223,26 @@ class MbController extends Controller
 
         if ($bandera == 'coli') {
             if ($parametro->Id_parametro == 13 || $parametro->Id_parametro == 51 || $parametro->Id_parametro == 141 || $parametro->Id_parametro == 143 || $parametro->Id_parametro == 145 || $parametro->Id_parametro == 164 || $parametro->Id_parametro == 279 || $parametro->Id_parametro == 280 || $parametro->Id_parametro == 281) { //COLIFORMES FECALES
-                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 1)->first();
+                $plantillaPredeterminada = Bitacoras::where('Id_reporte', 1)->first();
             } else if ($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147) { // COLIFORMES TOTALES
-                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 5)->first();
+                $plantillaPredeterminada = Bitacoras::where('Id_reporte', 5)->first();
             }
         } else if ($bandera == 'hh') {
             if ($parametro->Id_parametro == 17 || $parametro->Id_parametro == 82 || $parametro->Id_parametro == 173 || $parametro->Id_parametro == 282 || $parametro->Id_parametro == 283) { // HH
-                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
+                $plantillaPredeterminada = Bitacoras::where('Id_reporte', 0)->first();
             }
         } else if ($bandera == 'dbo') {
             if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 72) { // DBO5    
-                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 3)->first();
+                $plantillaPredeterminada = Bitacoras::where('Id_reporte', 3)->first();
             } else if ($parametro->Id_parametro == 71) { //DBO5 CON INOCULO
-                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 2)->first();
+                $plantillaPredeterminada = Bitacoras::where('Id_reporte', 2)->first();
             }
         } else if ($bandera == 'oxigeno') {
             if ($parametro->Id_parametro == 40 || $parametro->Id_parametro == 41) { // OXIGENO DISUELTO
-                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 4)->first();
+                $plantillaPredeterminada = Bitacoras::where('Id_reporte', 4)->first();
             }
         } else {
-            $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
+            $plantillaPredeterminada = Bitacoras::where('Id_reporte', 0)->first();
         }
 
         return response()->json($plantillaPredeterminada);
@@ -1640,15 +1642,15 @@ class MbController extends Controller
     public function setPlantillaDetalleMb(Request $res)
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
-        $temp = BitacoraMb::where('Id_lote', $res->id)->get();
+        $temp = Bitacoras::where('Id_lote', $res->id)->get();
         if ($temp->count()) {
-            $model = BitacoraMb::where('Id_lote', $res->id)->first();
+            $model = Bitacoras::where('Id_lote', $res->id)->first();
             $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraMb::create([
+            $model = BitacoraBitacorasMb::create([
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,
@@ -1960,10 +1962,10 @@ class MbController extends Controller
                 $mpdf->showWatermarkImage = true;
                 $loteDetalleControles = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->where('Id_control', '!=', 1 )->get();
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleColiformes::where('Liberado', 0)->where('Id_lote', $idLote)->get();
@@ -2013,11 +2015,11 @@ class MbController extends Controller
                 $mpdf->showWatermarkImage = true;
                
                 $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
-                } 
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
                 //Comprobación de bitacora analizada
                 $comprobacion = LoteDetalleEnterococos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
@@ -2068,7 +2070,7 @@ class MbController extends Controller
 
 
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
-                $bitacora = PlantillaMb::where('Id_parametro', 134)->first();
+                $bitacora = PlantillaBitacora::where('Id_parametro', 134)->first();
 
                 $data = array(
                     'lote' => $lote,
@@ -2109,7 +2111,7 @@ class MbController extends Controller
                 $mpdf->showWatermarkImage = true;
 
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
-                $bitacora = PlantillaMb::where('Id_parametro', 135)->first();
+                $bitacora = PlantillaBitacora::where('Id_parametro', 135)->first();
 
                 $data = array(
                     'lote' => $lote,
@@ -2143,7 +2145,7 @@ class MbController extends Controller
                 $mpdf->showWatermarkImage = true;
 
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
-                $bitacora = PlantillaMb::where('Id_parametro', 134)->first();
+                $bitacora = PlantillaBitacora::where('Id_parametro', 134)->first();
 
                 $data = array(
                     'lote' => $lote,
@@ -2178,7 +2180,7 @@ class MbController extends Controller
 
                 $loteDetalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $idLote)->get();
                 $convinaciones = ConvinacionesEcoli::where('Id_lote', $idLote)->get();
-                $bitacora = PlantillaMb::where('Id_parametro', 78)->first();            
+                $bitacora = PlantillaBitacora::where('Id_parametro', 78)->first();            
 
                 $data = array(
                     'lote' => $lote,
@@ -2213,10 +2215,10 @@ class MbController extends Controller
                 $mpdf->showWatermarkImage = true;
 
                 $loteDetalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $idLote)->get();
-                $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
-                    $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 //Comprobación de bitacora analizada
@@ -2267,10 +2269,10 @@ class MbController extends Controller
                 );
                 $mpdf->showWatermarkImage = true;
                     $loteDetalle = DB::table('ViewLoteDetalleHH')->where('Id_lote', $idLote)->get();
-                    $plantilla= BitacoraMb::where('Id_lote',$idLote)->get();  
+                    $plantilla= Bitacoras::where('Id_lote',$idLote)->get();  
                     if ($plantilla->count()) {
                     }else{
-                        $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get(); 
+                        $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get(); 
                     }
                     $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
                     $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get(); 
@@ -2366,7 +2368,7 @@ class MbController extends Controller
 
 
         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
-        $textProcedimiento = ReportesMb::where('Id_lote', $id_lote)->first();
+        $textProcedimiento = Bitacoras::where('Id_lote', $id_lote)->first();
         $proced = false;
         if (!is_null($textProcedimiento)) {
             $proced = true;

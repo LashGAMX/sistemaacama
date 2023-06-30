@@ -1403,16 +1403,16 @@ class MetalesController extends Controller
     public function setPlantillaDetalleMetales(Request $res)
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
-        $temp = BitacoraMetales::where('Id_lote', $res->id)->get();
+        $temp = Bitacoras::where('Id_lote', $res->id)->get();
         if ($temp->count()) {
-            $model = BitacoraMetales::where('Id_lote', $res->id)->first();
+            $model = Bitacoras::where('Id_lote', $res->id)->first();
             $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
             $model->Rev = $res->rev;
             $model->save();
             $aux = "Mod";
         } else {
-            $model = BitacoraMetales::create([
+            $model = Bitacoras::create([
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,
@@ -1453,10 +1453,10 @@ class MetalesController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
         $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->get();
-        $plantilla = BitacoraMetales::where('Id_lote', $id)->get();
+        $plantilla = Bitacoras::where('Id_lote', $id)->get();
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
         $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
         $estandares = estandares::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$lote->Fecha)->whereDate('Fecha_fin','>=',$lote->Fecha)->get();
