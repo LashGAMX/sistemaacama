@@ -1267,6 +1267,7 @@ function setDetalleMuestra() {
             break;
         case 6: // Mb
         case 12:
+        case 3:
             switch (parseInt($('#parametro').val())) {
                 case 135: // Coliformes fecales
                 case 132:

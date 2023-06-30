@@ -35,7 +35,7 @@
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">NITRITOS (N-NO2 ̄)</th>                    
+                    <th class="tableCabecera anchoColumna">NITRATOS (N-NO3¯) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -84,7 +84,7 @@
         <span>RESULTADO BLANCO: 0</span>
     </div>
 
-    <br>
+    <br> 
 
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">

@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
 </head> 
-<body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
+<body> 
     <div id="contenidoCurva">
         @php
             echo $plantilla[0]->Texto; 
@@ -24,7 +22,7 @@
 
                 <tr>
                     <th class="nombreHeader" colspan="13">
-                        Resultado de las muestras
+                        Resultado de las muestras 
                     </th>                    
                 </tr>                
 
@@ -115,9 +113,9 @@
     </div>
 
     <div id="contenidoCurva">
-        <span id='curvaProcedimiento'>Valoración</span> 
+        {{-- <span id='curvaProcedimiento'>Valoración</span>  --}}
        @php
-           echo $plantilla[1]->Texto; 
+           echo @$plantilla[1]->Texto; 
        @endphp
     </div>
 

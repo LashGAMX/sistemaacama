@@ -1271,6 +1271,7 @@ class LabAnalisisController extends Controller
                     break;
                 case 6: //Mb
                 case 12:
+                case 3:
                     switch ($lote[0]->Id_tecnica) {
                         default:
                             $model = LoteDetalleDirectos::find($res->idMuestra);
@@ -2178,7 +2179,7 @@ class LabAnalisisController extends Controller
                 if ($comprobacion->count()) {
                     $analizo = "";
                 } else {
-                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                    @$analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
                 $data = array(
@@ -2785,7 +2786,7 @@ class LabAnalisisController extends Controller
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
-                        break;
+                        break; 
                     case 218: // Cloro
                         $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
@@ -2793,11 +2794,23 @@ class LabAnalisisController extends Controller
                         } else {
                             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                         }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
-                            'plantilla' => $plantilla
-                        );
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
+                        ); 
 
                         $htmlHeader = view('exports.laboratorio.directos.cloro.bitacoraHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
@@ -2908,11 +2921,23 @@ class LabAnalisisController extends Controller
                         } else {
                             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                         }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
-                            'plantilla' => $plantilla
-                        );
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
+                        ); 
                         $htmlFooter = view('exports.laboratorio.directos.color.bitacoraFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.directos.color.bitacoraHeader', $data);
@@ -2929,11 +2954,23 @@ class LabAnalisisController extends Controller
                         } else {
                             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                         }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
-                            'plantilla' => $plantilla
-                        );
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
+                        ); 
                         $htmlHeader = view('exports.laboratorio.directos.turbiedad.bitacoraHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $htmlCaptura = view('exports.laboratorio.directos.turbiedad.bitacoraBody', $data);
@@ -2968,16 +3005,40 @@ class LabAnalisisController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 switch ($lote->Id_tecnica) {
                     case 77: //Dureza
-                    case 103:
                     case 251:
                     case 252:
                         $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $id)->get();
-                        $textoProcedimiento = Bitacoras::where('Id_parametro', 77)->first();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
-                            'textoProcedimiento' => $textoProcedimiento,
-                            'plantilla' => $plantilla
+                            'plantilla' => $textoProcedimiento
+                        );
+
+
+                        $htmlHeader = view('exports.laboratorio.potable.durezaTotal.bitacoraHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.bitacoraBody', $data);
+                        $htmlFooter = view('exports.laboratorio.potable.durezaTotal.bitacoraFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                    case 103:
+                        $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $id)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        $data = array(
+                            'lote' => $lote,
+                            'model' => $model,
+                            'plantilla' => $textoProcedimiento
                         );
 
 
