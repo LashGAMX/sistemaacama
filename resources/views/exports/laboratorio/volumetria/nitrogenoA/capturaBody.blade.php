@@ -11,7 +11,7 @@
     <br>
     <div id="contenidoCurva">
         @php
-        echo @$procedimiento[0];
+        echo @$procedimiento[0]; 
         @endphp
     </div>
     <br>
@@ -60,14 +60,14 @@
                         <td class="tableContent"> 
                             @if (@$loteDetalle[$i]->Resultado != NULL)
                                 @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
-                                    {{@$loteDetalle[$i]->Resultado}}
-                                @else
-                                    <{{@$loteDetalle[$i]->Limite}}
+                                    {{number_format(@$loteDetalle[$i]->Resultado, 2, ".", ".")}}
+                                @else 
+                                    <{{@$loteDetalle[$i]->Limite}} 
                                 @endif
                             @else
-                                ------
+                                ------ 
                             @endif
-                        </td>
+                        </td> 
 
                         <td class="tableContent">{{@$loteDetalle[$i]->Observacion}}</td>
                         <td class="tableContent">
@@ -128,7 +128,7 @@
                     <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valNitrogenoA->Resultado}}</td>
+                    <td class="tableContent2">{{number_format(@$valNitrogenoA->Resultado, 3, ".", ".")}}</td>
                 </tr>
             </tbody>    
         </table>  

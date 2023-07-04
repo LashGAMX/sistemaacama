@@ -34,10 +34,20 @@
                 <tbody>
                     @foreach ($loteDetalle as $item)
                     <tr>
-                        <td class="tableContent">{{$item->Codigo}}</td>
+                        <td class="tableContent">
+                            @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                               {{@$item->Folio_servicio}}
+                            @else
+                                {{@$item->Control}}
+                            @endif 
+                        </td>
                         <td class="tableContent">{{$item->Vol_muestra}}</td>
                         <td class="tableContent">{{$item->Titulo_muestra}}</td>
-                        <td class="tableContent">{{$item->Resultado}}</td>
+                        @if ($item->Resultado <= $item->Limite)
+                          <td class="tableContent">< {{@$item->Limite}}</td>
+                        @else
+                            <td class="tableContent">{{@$item->Resultado}}</td>
+                        @endif
                         <td class="tableContent">{{$item->Observacion}}</td>
                         <td class="tableContent">@if ($item->Liberado == 1)
                             Liberado
@@ -58,45 +68,45 @@
         <table autosize="1" class="table table-borderless" id="">
             <tbody>                              
                 <tr>
-                    <td class="tableContent2">MILILITROS TITULADOS DEL BLANCO</td>
+                    <td class="tableContent">MILILITROS TITULADOS DEL BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valDqo->Vol_k2}}</td>
+                    <td class="tableContent">{{@$valDqo->Vol_k2}}</td>
                 </tr>
 
                 <tr>
-                    <td class="tableContent2">RESULTADO BLANCO</td>
+                    <td class="tableContent">RESULTADO BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valDqo->Blanco}}</td>
+                    <td class="tableContent">{{@$valDqo->Blanco}}</td>
                 </tr>
 
                 <tr>
-                    <td class="tableContent2">MILILITROS TITULADOS DE FAS 1</td>
+                    <td class="tableContent">MILILITROS TITULADOS DE FAS 1</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valDqo->Vol_titulado1}}</td>
+                    <td class="tableContent">{{@$valDqo->Vol_titulado1}}</td>
                 </tr>
 
                 <tr>
-                    <td class="tableContent2">MILILITROS TITULADOS DE FAS 2</td>
+                    <td class="tableContent">MILILITROS TITULADOS DE FAS 2</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valDqo->Vol_titulado2}}</td>
+                    <td class="tableContent">{{@$valDqo->Vol_titulado2}}</td>
                 </tr>                
 
                 <tr>
-                    <td class="tableContent2">MILILITROS TITULADOS DE FAS 3</td>
+                    <td class="tableContent">MILILITROS TITULADOS DE FAS 3</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valDqo->Vol_titulado3}}</td>
+                    <td class="tableContent">{{@$valDqo->Vol_titulado3}}</td>
                 </tr>
 
                 <tr>
-                    <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
+                    <td class="tableContent">RESULTADO MOLARIDAD REAL</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">{{@$valDqo->Resultado}}</td>
+                    <td class="tableContent">{{@$valDqo->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  

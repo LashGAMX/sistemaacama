@@ -17,7 +17,7 @@
             <span class="bodyStdMuestra"> {{@$reviso->name}} </span>
         </div>        
     </div> 
-
+ 
     <div style="font-size: 8px;">
         @php
             echo $plantilla[0]->Rev;

@@ -198,7 +198,7 @@ class IngresarController extends Controller
                         case 35: //E.Coli
                         case 78:
                             if ($model[0]->Id_norma == "27") {
-                                if ($res->Conductividad[$contP] < 3500) {
+                                if ($res->conductividad[$contP] < 3500) {
                                     for ($i = 0; $i < $item->Num_tomas; $i++) {
                                         CodigoParametros::create([
                                             'Id_solicitud' => $item->Id_solicitud,
@@ -231,7 +231,7 @@ class IngresarController extends Controller
                             break;
                         case 253: //Enterococos
                             if ($model[0]->Id_norma == "27") {
-                                if ($res->Conductividad[$contP] >= 3500) {
+                                if ($res->conductividad[$contP] >= 3500) {
                                     for ($i = 0; $i < $item->Num_tomas; $i++) {
                                         CodigoParametros::create([
                                             'Id_solicitud' => $item->Id_solicitud,

@@ -267,7 +267,7 @@ class VolController extends Controller
             $model[0]->Soluble = $res->soluble;
             $model[0]->save();
         } else {
-            DqoDetalle::create([
+            DqoDetalle::create([ 
                 'Id_lote' => $res->idLote,
                 'Tecnica' => $res->tecnica,
                 'Soluble' => $res->soluble,
