@@ -60,7 +60,7 @@ $(document).ready(function () {
     $('#btnGuardarVal').click(function () {
         setValoracion();
     });
-    
+
     $('#btnGuardarTipoDqo').click(function () {
         $.ajax({
             type: 'POST',
@@ -82,6 +82,62 @@ $(document).ready(function () {
             }
         });
     });
+    $('#btnColiformes').click(function () {
+
+        //Guardado de datos
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/micro/lote/setDetalleLote",
+            data: {
+                idLote: idLote,
+                idParametro: $("#parametro").val(),
+                sembrado: $("#sembrado_sembrado").val(),
+                fechaResiembra: $("#sembrado_fechaResiembra").val(),
+                numTubo: $("#sembrado_tuboN").val(),
+                bitacora: $("#sembrado_bitacora").val(),
+                preparacion: $("#pruebaPresuntiva_preparacion").val(),
+                lectura: $("#pruebaPresuntiva_lectura").val(),
+                medio: $("pruebaConfirmativa_medio").val(),
+                preparacionCon: $("#pruebaConfirmativa_preparacion").val(),
+                lecturaCon: $("#pruebaConfirmativa_lectura").val(),
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                //swal("Registro!", "Datos guardados correctamente!", "success");            
+            }
+        });
+    });
+    $('#btnGuardarDqo').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/micro/lote/guardarDqo",
+            data: {
+                idLote: idLote,
+                cantDilucion: $("#cantDilucion").val(),
+                de: $("#de").val(),
+                a: $("#a").val(),
+                pag: $("#pag").val(),
+                n: $("#n").val(),
+                dilucion: $("#dilucion").val(),
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                // swal("Registro!", "Datos guardados correctamente!", "success");            
+            }
+        });
+    });
+    $('#metodoCortoCol').click(function () {
+        metodoCortoCol();
+        $('#indicador').val(1);
+        console.log("metodo corto");
+    });
 });
 
 //todo Variables globales
@@ -100,6 +156,8 @@ function getStdMenu() {
     $("#secctionDureza").hide()
     $("#secctionCloro").hide()
     $("#secctionNitrogeno").hide()
+    $("#coliformes-tab").hide()
+    $("#dbo-tab").hide()
 
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
@@ -115,6 +173,8 @@ function getStdMenu() {
             switch (parseInt($("#parametro").val())) {
                 case 33: // CLORO RESIDUAL LIBRE
                 case 64:
+                case 119:
+                case 218:  
                     $("#secctionCloro").show();
                     break;
                 case 28: //Alcalinidad
@@ -136,9 +196,129 @@ function getStdMenu() {
                     break;
             }
             break;
+        case 6:
+        case 12:
+        case 3:
+            switch (parseInt($("#parametro").val())) {
+                case 12:
+                case 35:
+                    $("#coliformes-tab").show()
+                    break;
+                case 253:
+                    $("#coliformes-tab").show()
+                    break;
+                case 5:
+                    $("#dbo-tab").show()
+                    break;
+                default:
+                    break;
+            }
+            break;
         default:
             break;
     }
+}
+function metodoCortoCol() {
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/micro/metodoCortoCol",
+        data: {
+            idDetalle: idMuestra,
+            indicador: $('#indicadorCol').val(),
+            resultadoCol: $("#resultadoColCol").val(),
+            idParametro: $('#formulaTipoCol').val(),
+            D1: $("#dil1Col").val(),
+            D2: $('#dil2Col').val(),
+            D3: $('#dil3Col').val(),
+            NMP: $('#nmp1Col').val(),
+            G3: $('#todos1Col').val(),
+            G2: $('#negativos1Col').val(),
+            G1: $('#positivos1Col').val(),
+            con3: $("#con3Col").val(),
+            con2: $("#con2Col").val(),
+            con1: $("#con1Col").val(),
+            con4: $("#con4Col").val(),
+            con5: $("#con5Col").val(),
+            con6: $("#con6Col").val(),
+            con7: $("#con7Col").val(),
+            con8: $("#con8Col").val(),
+            con9: $("#con9Col").val(),
+            pre1: $("#pre1Col").val(),
+            pre2: $("#pre2Col").val(),
+            pre3: $("#pre3Col").val(),
+            pre4: $("#pre4Col").val(),
+            pre5: $("#pre5Col").val(),
+            pre6: $("#pre6Col").val(),
+            pre7: $("#pre7Col").val(),
+            pre8: $("#pre8Col").val(),
+            pre9: $("#pre9Col").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            // inicio metodo corto
+
+
+            let positivos = response.positivos;
+
+            $('#nmp1Col').val(response.convinacion.Nmp);
+            $('#positivos1Col').val(positivos);
+            $('#negativos1Col').val(9 - positivos);
+            let cont1 = 1;
+            let cont2 = 4;
+            let cont3 = 7;
+            // Confirmativas
+            for (var i = 0; i < response.convinacion.Col1; i++) {
+                $('#conCol' + cont1).val(1);
+                console.log(cont1);
+                cont1++;
+            }
+            for (var j = 0; j < response.convinacion.Col2; j++) {
+
+                $('#conCol' + cont2).val(1);
+                console.log(cont2);
+                cont2++;
+
+            }
+            for (var k = 0; k < response.convinacion.Col3; k++) {
+                $('#conCol' + cont3).val(1);
+                console.log(cont3);
+                cont3++;
+            }
+            // presuntivas 
+            let c1 = 1;
+            let c2 = 4;
+            let c3 = 7;
+            let ran1 = Math.random() * response.convinacion.Col1;
+            let ran2 = Math.random() * response.convinacion.Col2;
+            let ran3 = Math.random() * response.convinacion.Col3;
+            for (var i = 0; i < 3; i++) {
+                $('#preCol' + c1).val(1);
+                console.log(ran1);
+                c1++;
+            }
+            for (var i = 0; i < ran2; i++) {
+                $('#preCol' + c2).val(1);
+                console.log(ran2);
+                c2++;
+            }
+            for (var i = 0; i < ran3; i++) {
+                $('#preCol' + c3).val(1);
+                console.log(ran3);
+                c3++;
+            }
+
+
+            if (response.convinacion.Nmp == 0) {
+                $('#resultadoCol').val("< 3");
+            } else {
+                $('#resultadoCol').val(response.resultado);
+            }
+            $('#nmp1Col').val(response.convinacion.Nmp)
+            getCapturaLote()
+        }
+    });
 }
 function setFormulaValoracion() {
     let prom = 0;
@@ -152,6 +332,8 @@ function setFormulaValoracion() {
     switch ($("#parametro").val()) {
         case '33': // CLORO RESIDUAL LIBRE
         case '64':
+        case '218':
+        case '119':
             $("#blancoResClo").val($("#blancoCloro").val())
             titulado1 = $("#tituladoClo1").val();
             titulado2 = $("#tituladoClo2").val();
@@ -254,6 +436,8 @@ function setValoracion() {
     switch ($("#parametro").val()) {
         case '295': // CLORO RESIDUAL LIBRE
         case '64':
+        case '218':
+        case '119':
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -261,7 +445,7 @@ function setValoracion() {
                     caso: 1,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResClo").val(),
-                    idLote:idLote,
+                    idLote: idLote,
                     titulado1: $("#tituladoClo1").val(),
                     titulado2: $("#tituladoClo2").val(),
                     titulado3: $("#tituladoClo3").val(),
@@ -283,7 +467,7 @@ function setValoracion() {
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 2,
-                    idLote:idLote,
+                    idLote: idLote,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResD").val(),
                     volk2D: $("#volk2D").val(),
@@ -308,7 +492,7 @@ function setValoracion() {
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
-                    idLote:idLote,
+                    idLote: idLote,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
                     gramos: $("#gramosN").val(),
@@ -333,7 +517,7 @@ function setValoracion() {
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
-                    idLote:idLote,
+                    idLote: idLote,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
                     gramos: $("#gramosN").val(),
@@ -360,7 +544,7 @@ function setValoracion() {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
-                    idLote:idLote,
+                    idLote: idLote,
                     gramos: $("#gramosN").val(),
                     factor: $("#factorN").val(),
                     titulado1: $("#titulado1N").val(),
@@ -385,7 +569,7 @@ function setValoracion() {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
-                    idLote:idLote,
+                    idLote: idLote,
                     gramos: $("#gramosN").val(),
                     factor: $("#factorN").val(),
                     titulado1: $("#titulado1N").val(),
@@ -410,7 +594,7 @@ function setValoracion() {
                     caso: 4,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResDur").val(),
-                    idLote:idLote,
+                    idLote: idLote,
                     solucion: $("#tituladoDur").val(),
                     titulado1: $("#edtaDur1").val(),
                     titulado2: $("#edtaDur1").val(),
@@ -432,7 +616,7 @@ function setValoracion() {
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 5,
-                    idLote:idLote,
+                    idLote: idLote,
                     idParametro: $("#tipoFormula").val(),
                     titulado1: $("#gmCarbonato1Alc").val(),
                     titulado2: $("#gmCarbonato2Alc").val(),
@@ -677,7 +861,7 @@ function getDetalleLote(id, parametro) {
 function setDetalleMuestra() {
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
-        case 5: 
+        case 5:
             switch (parseInt($('#parametro').val())) {
                 case 152: // COT
                     $.ajax({
@@ -730,7 +914,7 @@ function setDetalleMuestra() {
                             D: $('#fDilucion1SulfatosF').val(),
                             E: $('#volMuestra1SulfatosF').val(),
                             X: $('#abs11SulfatosF').val(),
-                            Y: $('#abs21SulfatosF').val(), 
+                            Y: $('#abs21SulfatosF').val(),
                             Z: $('#abs31SulfatosF').val(),
                             ABS4: $('#abs41SulfatosF').val(),
                             ABS5: $('#abs51SulfatosF').val(),
@@ -918,25 +1102,27 @@ function setDetalleMuestra() {
                 case 218: // Cloro
                 case 33:
                 case 64:
+                case 119:
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
                             idLote: idLote,
                             idMuestra: idMuestra,
-                            A: $("#cloroA1CloroVol").val(),
-                            E: $("#cloroE1CloroVol").val(),
-                            H: $("#cloroH1CloroVol").val(),
-                            G: $("#cloroG1CloroVol").val(),
-                            B: $("#cloroB1CloroVol").val(),
-                            C: $("#cloroC1CloroVol").val(),
-                            D: $("#cloroD1CloroVol").val(),
-                            Resultado: $("#resultadoCloro").val(),
+                            A: $("#cloroA1Vol").val(),
+                            E: $("#cloroE1Vol").val(),
+                            H: $("#cloroH1Vol").val(),
+                            G: $("#cloroG1Vol").val(),
+                            B: $("#cloroB1Vol").val(),
+                            C: $("#cloroC1Vol").val(),
+                            D: $("#cloroD1Vol").val(),
+                            Resultado: $("#resultadoCloroVol").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
+                            $("#resultadoCloroVol").val(response.model.Resultado)
                         }
                     });
 
@@ -1217,8 +1403,8 @@ function setDetalleMuestra() {
                     break;
             }
             break;
-            
-            case 8: //Potable
+
+        case 8: //Potable
             sw = 1
             switch (parseInt($('#parametro').val())) {
                 case 77: //Dureza
@@ -1304,231 +1490,229 @@ function setDetalleMuestra() {
                 case 134: // E COLI
                 case 35:
                 case 51: // Coliformes totales
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "/admin/laboratorio/mb/operacion",
-                    data: {
-                        tecnica: tecnica,
-                        idDetalle: idMuestra,
-                        resultadoCol: $("#resultadoCol").val(),
-                        idParametro: $('#parametro').val(),
-                        D1: $('#dil1Col').val(),
-                        D2: $('#dil2Col').val(),
-                        D3: $('#dil3Col').val(),
-                        NMP: $('#nmp1Col').val(),
-                        G3: $('#todos1Col').val(),
-                        G2: $('#negativos1Col').val(),
-                        G1: $('#positivos1Col').val(),
-                        con3: $("#con3Col").val(),
-                        con2: $("#con2Col").val(),
-                        con1: $("#con1Col").val(),
-                        con4: $("#con4Col").val(),
-                        con5: $("#con5Col").val(),
-                        con6: $("#con6Col").val(),
-                        con7: $("#con7Col").val(),
-                        con8: $("#con8Col").val(),
-                        con9: $("#con9Col").val(),
-                        pre1: $("#pre1Col").val(),
-                        pre2: $("#pre2Col").val(),
-                        pre3: $("#pre3Col").val(),
-                        pre4: $("#pre4Col").val(),
-                        pre5: $("#pre5Col").val(),
-                        pre6: $("#pre6Col").val(),
-                        pre7: $("#pre7Col").val(),
-                        pre8: $("#pre8Col").val(),
-                        pre9: $("#pre9Col").val(),
-                        _token: $('input[name="_token"]').val()
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                        // inicio metodo corto
-                        if (response.metodoCorto == 1) {
-                            console.log("metodo corto hecho!");
-                        } else {
-            
-                        if (response.res == 0) {
-                            $('#resultadoCol').val("< 3");
-                        } else {
-                            $('#resultadoCol').val(response.res);
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        data: {
+                            idDetalle: idMuestra,
+                            resultadoCol: $("#resultadoCol").val(),
+                            idParametro: $('#parametro').val(),
+                            D1: $('#dil1Col').val(),
+                            D2: $('#dil2Col').val(),
+                            D3: $('#dil3Col').val(),
+                            NMP: $('#nmp1Col').val(),
+                            G3: $('#todos1Col').val(),
+                            G2: $('#negativos1Col').val(),
+                            G1: $('#positivos1Col').val(),
+                            con3: $("#con3Col").val(),
+                            con2: $("#con2Col").val(),
+                            con1: $("#con1Col").val(),
+                            con4: $("#con4Col").val(),
+                            con5: $("#con5Col").val(),
+                            con6: $("#con6Col").val(),
+                            con7: $("#con7Col").val(),
+                            con8: $("#con8Col").val(),
+                            con9: $("#con9Col").val(),
+                            pre1: $("#pre1Col").val(),
+                            pre2: $("#pre2Col").val(),
+                            pre3: $("#pre3Col").val(),
+                            pre4: $("#pre4Col").val(),
+                            pre5: $("#pre5Col").val(),
+                            pre6: $("#pre6Col").val(),
+                            pre7: $("#pre7Col").val(),
+                            pre8: $("#pre8Col").val(),
+                            pre9: $("#pre9Col").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            // inicio metodo corto
+                            if (response.metodoCorto == 1) {
+                                console.log("metodo corto hecho!");
+                            } else {
+
+                                if (response.res == 0) {
+                                    $('#resultadoCol').val("< 3");
+                                } else {
+                                    $('#resultadoCol').val(response.res);
+                                }
+                                $('#nmp1Col').val(response.res)
+                                $('#indicadorCol').val("");
+                            }
                         }
-                        $('#nmp1Col').val(response.res)
-                        $('#indicadorCol').val("");
-                    }
-                }
-                });
+                    });
                     break;
                 case 253: //todo  ENTEROCOCO FECAL
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "/admin/laboratorio/mb/operacion",
-                    data: {
-                        tecnica: tecnica,
-                        idDetalle: idMuestra,
-                        resultadoCol: $("#resultadoEnt").val(),
-                        idParametro: $('#parametro').val(),
-                        D1: $('#endil1Ent').val(),
-                        D2: $('#endil2Ent').val(),
-                        D3: $('#endil3Ent').val(),
-                        NMP: $('#ennmp1Ent').val(),
-                        G3: $('#entodos1Ent').val(),
-                        G2: $('#ennegativos1Ent').val(),
-                        G1: $('#enpositivos1Ent').val(),
-                        
-                        Presuntiva11: $("#enPre1Ent").val(),
-                        Presuntiva12: $("#enPre2Ent").val(),
-                        Presuntiva13: $("#enPre3Ent").val(),
-                        Presuntiva14: $("#enPre4Ent").val(),
-                        Presuntiva15: $("#enPre5Ent").val(),
-                        Presuntiva16: $("#enPre6Ent").val(),
-                        Presuntiva17: $("#enPre7Ent").val(),
-                        Presuntiva18: $("#enPre8Ent").val(),
-                        Presuntiva19: $("#enPre9Ent").val(),
-                        
-                        Presuntiva21: $("#enPre12Ent").val(),
-                        Presuntiva22: $("#enPre22Ent").val(),
-                        Presuntiva23: $("#enPre32Ent").val(),
-                        Presuntiva24: $("#enPre42Ent").val(),
-                        Presuntiva25: $("#enPre52Ent").val(),
-                        Presuntiva26: $("#enPre62Ent").val(),
-                        Presuntiva27: $("#enPre72Ent").val(),
-                        Presuntiva28: $("#enPre82Ent").val(),
-                        Presuntiva29: $("#enPre92Ent").val(),
-            
-                        Confirmativa11: $("#enCon1Ent").val(),
-                        Confirmativa12: $("#enCon2Ent").val(),
-                        Confirmativa13: $("#enCon3Ent").val(),
-                        Confirmativa14: $("#enCon4Ent").val(),
-                        Confirmativa15: $("#enCon5Ent").val(),
-                        Confirmativa16: $("#enCon6Ent").val(),
-                        Confirmativa17: $("#enCon7Ent").val(),
-                        Confirmativa18: $("#enCon8Ent").val(),
-                        Confirmativa19: $("#enCon9Ent").val(),
-                        
-                        Confirmativa21: $("#enCon12Ent").val(),
-                        Confirmativa22: $("#enCon22Ent").val(),
-                        Confirmativa23: $("#enCon32Ent").val(),
-                        Confirmativa24: $("#enCon42Ent").val(),
-                        Confirmativa25: $("#enCon52Ent").val(),
-                        Confirmativa26: $("#enCon62Ent").val(),
-                        Confirmativa27: $("#enCon72Ent").val(),
-                        Confirmativa28: $("#enCon82Ent").val(),
-                        Confirmativa29: $("#enCon92Ent").val(),
-            
-                        _token: $('input[name="_token"]').val()
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                        getLoteCapturaMicro();
-                        // inicio metodo corto
-                        if (response.metodoCorto == 1) {
-                            console.log("metodo corto hecho!");
-                        } else {
-            
-                        if (response.res == 0) {
-                            $('#resultadoEnt').val("< 3");
-                        } else {
-                            $('#resultadoEnt').val(response.res);
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        data: {
+                            tecnica: tecnica,
+                            idDetalle: idMuestra,
+                            resultadoCol: $("#resultadoEnt").val(),
+                            idParametro: $('#parametro').val(),
+                            D1: $('#endil1Ent').val(),
+                            D2: $('#endil2Ent').val(),
+                            D3: $('#endil3Ent').val(),
+                            NMP: $('#ennmp1Ent').val(),
+                            G3: $('#entodos1Ent').val(),
+                            G2: $('#ennegativos1Ent').val(),
+                            G1: $('#enpositivos1Ent').val(),
+
+                            Presuntiva11: $("#enPre1Ent").val(),
+                            Presuntiva12: $("#enPre2Ent").val(),
+                            Presuntiva13: $("#enPre3Ent").val(),
+                            Presuntiva14: $("#enPre4Ent").val(),
+                            Presuntiva15: $("#enPre5Ent").val(),
+                            Presuntiva16: $("#enPre6Ent").val(),
+                            Presuntiva17: $("#enPre7Ent").val(),
+                            Presuntiva18: $("#enPre8Ent").val(),
+                            Presuntiva19: $("#enPre9Ent").val(),
+
+                            Presuntiva21: $("#enPre12Ent").val(),
+                            Presuntiva22: $("#enPre22Ent").val(),
+                            Presuntiva23: $("#enPre32Ent").val(),
+                            Presuntiva24: $("#enPre42Ent").val(),
+                            Presuntiva25: $("#enPre52Ent").val(),
+                            Presuntiva26: $("#enPre62Ent").val(),
+                            Presuntiva27: $("#enPre72Ent").val(),
+                            Presuntiva28: $("#enPre82Ent").val(),
+                            Presuntiva29: $("#enPre92Ent").val(),
+
+                            Confirmativa11: $("#enCon1Ent").val(),
+                            Confirmativa12: $("#enCon2Ent").val(),
+                            Confirmativa13: $("#enCon3Ent").val(),
+                            Confirmativa14: $("#enCon4Ent").val(),
+                            Confirmativa15: $("#enCon5Ent").val(),
+                            Confirmativa16: $("#enCon6Ent").val(),
+                            Confirmativa17: $("#enCon7Ent").val(),
+                            Confirmativa18: $("#enCon8Ent").val(),
+                            Confirmativa19: $("#enCon9Ent").val(),
+
+                            Confirmativa21: $("#enCon12Ent").val(),
+                            Confirmativa22: $("#enCon22Ent").val(),
+                            Confirmativa23: $("#enCon32Ent").val(),
+                            Confirmativa24: $("#enCon42Ent").val(),
+                            Confirmativa25: $("#enCon52Ent").val(),
+                            Confirmativa26: $("#enCon62Ent").val(),
+                            Confirmativa27: $("#enCon72Ent").val(),
+                            Confirmativa28: $("#enCon82Ent").val(),
+                            Confirmativa29: $("#enCon92Ent").val(),
+
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            getLoteCapturaMicro();
+                            // inicio metodo corto
+                            if (response.metodoCorto == 1) {
+                                console.log("metodo corto hecho!");
+                            } else {
+
+                                if (response.res == 0) {
+                                    $('#resultadoEnt').val("< 3");
+                                } else {
+                                    $('#resultadoEnt').val(response.res);
+                                }
+                                $('#ennmp1Ent').val(response.res)
+                                $('#indicadorEnt').val("");
+                            }
                         }
-                        $('#ennmp1Ent').val(response.res)
-                        $('#indicadorEnt').val("");
-                    }
-                }
-                });
+                    });
                     break;
                 case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
-                let sug = 0;
-                if (document.getElementById("sugeridoDbo").checked == true) {
-                    sug = 1;
-                }
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "/admin/laboratorio/mb/operacion",
-                    data: {
-                        tipo:tipo,
-                        tecnica: tecnica,
-                        idParametro: $("#formulaTipo").val(),
-                        idDetalle: idMuestra,
-                        Observacion: $('#observacion').val(),
-                        H: $('#botellaF1').val(),
-                        G: $('#od1').val(),
-                        B: $('#oxiFinal1').val(),
-                        A: $('#oxiInicial1').val(),
-                        J: $('#phF1').val(),
-                        I: $('#phIni1').val(),
-                        D: $('#volDbo1').val(),
-                        E: $('#dil1').val(),
-                        C: $('#win1').val(),
-                        OI: $('#oxigenoIncialB1').val(),
-                        OF: $('#oxigenofinalB1').val(),
-                        V: $('#volMuestraB1').val(),
-                        S: sug,
-                        _token: $('input[name="_token"]').val()
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                        if (tipo == 1) {
-                            $('#resDbo').val(response.res);   
-                        } else {
-                            $('#resDboB').val(response.res);
-                        }
+                    let sug = 0;
+                    if (document.getElementById("sugeridoDbo").checked == true) {
+                        sug = 1;
                     }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        data: {
+                            tipo: 1,
+                            idParametro: $("#parametro").val(),
+                            idDetalle: idMuestra,
+                            Observacion: $('#observacion').val(),
+                            H: $('#botellaF1Dbo').val(),
+                            G: $('#od1Dbo').val(),
+                            B: $('#oxiFinal1Dbo').val(),
+                            A: $('#oxiInicial1Dbo').val(),
+                            J: $('#phF1Dbo').val(),
+                            I: $('#phIni1Dbo').val(),
+                            D: $('#volDbo1Dbo').val(),
+                            E: $('#dil1Dbo').val(),
+                            C: $('#win1Dbo').val(),
+                            OI: $('#oxigenoIncialB1Dbo').val(),
+                            OF: $('#oxigenofinalB1Dbo').val(),
+                            V: $('#volMuestraB1Dbo').val(),
+                            S: sug,
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.tipo == 1) {
+                                $('#resultadoDbo').val(response.res);
+                            } else {
+                                $('#resDboB').val(response.res);
+                            }
+                        }
+                    });
                     break;
                 case 16: //todo Huevos de Helminto 
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "/admin/laboratorio/mb/operacion",
-                    data: {
-                        idParametro: $("#formulaTipo").val(),
-                        idDetalle: idMuestra,
-                        tecnica: tecnica,
-                        lum1: $("#lum1").val(),
-                        na1: $("#na1").val(),
-                        sp1: $("#sp1").val(),
-                        tri1: $("#tri1").val(),
-                        uni1: $("#uni1").val(),
-                        volH1: $("#volH1").val(),
-                        _token: $('input[name="_token"]').val()
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                        $("#resultadoHH").val(response.res);
-                    }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        data: {
+                            idParametro: $("#formulaTipo").val(),
+                            idDetalle: idMuestra,
+                            tecnica: tecnica,
+                            lum1: $("#lum1").val(),
+                            na1: $("#na1").val(),
+                            sp1: $("#sp1").val(),
+                            tri1: $("#tri1").val(),
+                            uni1: $("#uni1").val(),
+                            volH1: $("#volH1").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoHH").val(response.res);
+                        }
+                    });
                     break;
                 case 78:
                     var obs = $("#observacionEcoli option:selected").text();
                     $.ajax({
                         type: "POST",
-                        url: base_url + "/admin/laboratorio/mb/operacion",
+                        url: base_url + "/admin/laboratorio/micro/operacion",
                         data: {
                             idLote: idLote,
                             colonia: numColonia,
                             idDetalle: idMuestra,
-                            indol1:$("#indol1Ecoli").val(),
-                            rm1:$("#rm1Ecoli").val(),
-                            vp1:$("#vp1Ecoli").val(),
-                            citrato1:$("#citrato1Ecoli").val(),
-                            bgn1:$("#bgn1Ecoli").val(),
+                            indol1: $("#indol1Ecoli").val(),
+                            rm1: $("#rm1Ecoli").val(),
+                            vp1: $("#vp1Ecoli").val(),
+                            citrato1: $("#citrato1Ecoli").val(),
+                            bgn1: $("#bgn1Ecoli").val(),
                             observacion: obs,
-                
+
                             indice: $("#indiceEcoli").val(),
-                
-                            indol2:$("#indol2Ecoli").val(),
-                            rm2:$("#rm2Ecoli").val(),
-                            vp2:$("#vp2Ecoli").val(),
-                            citrato2:$("#citrato2Ecoli").val(),
-                            bgn2:$("#bgn2Ecoli").val(),
+
+                            indol2: $("#indol2Ecoli").val(),
+                            rm2: $("#rm2Ecoli").val(),
+                            vp2: $("#vp2Ecoli").val(),
+                            citrato2: $("#citrato2Ecoli").val(),
+                            bgn2: $("#bgn2Ecoli").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
                         success: function (response) {
                             console.log(response)
-                            if (response.Resultado == 1){
+                            if (response.Resultado == 1) {
                                 $("#resultadoEcoli").val("Positivo para E. coli")
                             } else {
                                 $("#resultadoEcoli").val("Negativo para E. coli")
@@ -1551,7 +1735,7 @@ function setDetalleMuestra() {
                             console.log(response);
                             $("#resultadoDirectoDef").val(response.model.Resultado)
                         }
-        
+
                     });
                     break;
             }
@@ -1577,7 +1761,7 @@ function setDetalleMuestra() {
             break;
     }
 
-    getCapturaLote() 
+    getCapturaLote()
 
 }
 function getDetalleMuestra(id) {
@@ -1707,19 +1891,19 @@ function getDetalleMuestra(id) {
                             $("#rEspectro2").val(response.curva.R);
                             $("#phIniEspectro1").val(response.model.Ph_ini);
                             $("#phFinEspectro1").val(response.model.Ph_fin);
-                            if(response.model.Nitratos != null){
+                            if (response.model.Nitratos != null) {
                                 $("#nitratosEspectro1").val(response.model.Nitratos);
-                            }else{
+                            } else {
                                 $("#nitratosEspectro1").val(0);
                             }
-                            if(response.model.Nitritos != null){
+                            if (response.model.Nitritos != null) {
                                 $("#nitritosEspectro1").val(response.model.Nitritos);
-                            }else{
+                            } else {
                                 $("#nitritosEspectro1").val(0);
                             }
-                            if(response.model.Sulfuros != null){
+                            if (response.model.Sulfuros != null) {
                                 $("#sulfurosEspectro1").val(response.model.Sulfuros);
-                            }else{
+                            } else {
                                 $("#sulfurosEspectro1").val(0);
                             }
                             $("#fDilucion1").val(response.model.Vol_dilucion);
@@ -1774,11 +1958,11 @@ function getDetalleMuestra(id) {
                     }
                     switch (parseInt(response.model.Id_parametro)) {
                         case 3: // Directos
-                                $("#resultadoModalSolidosDir").val(response.model.Resultado)
-                                $("#inmhoffSolidosDir").val(response.model.Inmhoff)
-                                $("#temperaturaLlegadaSolidosDir").val(response.model.Temp_muestraLlegada)
-                                $("#temperaturaAnalizadaSolidosDir").val(response.model.Temp_muestraAnalizada)
-                                $("#resultadoSolidosDir").val(response.model.Resultado)
+                            $("#resultadoModalSolidosDir").val(response.model.Resultado)
+                            $("#inmhoffSolidosDir").val(response.model.Inmhoff)
+                            $("#temperaturaLlegadaSolidosDir").val(response.model.Temp_muestraLlegada)
+                            $("#temperaturaAnalizadaSolidosDir").val(response.model.Temp_muestraAnalizada)
+                            $("#resultadoSolidosDir").val(response.model.Resultado)
                             break;
                         case 47: // Por diferencia
                         case 88:
@@ -1821,6 +2005,8 @@ function getDetalleMuestra(id) {
                     switch (parseInt(response.model.Id_parametro)) {
                         case 33:
                         case 64:
+                        case 119:
+                        case 218:
                             if (response.model.Resultado != null) {
                                 $("#cloroA1Vol").val(response.model.Vol_muestra);
                                 $("#cloroE1Vol").val(response.model.Ml_muestra);
@@ -2044,7 +2230,7 @@ function getDetalleMuestra(id) {
                             $("#pre7Col").val(response.model.Presuntiva7);
                             $("#pre8Col").val(response.model.Presuntiva8);
                             $("#pre9Col").val(response.model.Presuntiva9);
-                
+
                             $("#resultadoCol").val(response.model.Resultado);
                             $("#observacionCol").val(response.model.Observacion);
                             break;
@@ -2074,7 +2260,7 @@ function getDetalleMuestra(id) {
                             $("#enPre7Ent").val(response.model.Presuntiva7);
                             $("#enPre8Ent").val(response.model.Presuntiva8);
                             $("#enPre9Ent").val(response.model.Presuntiva9);
-                
+
                             $("#resultadoEnt").val(response.model.Resultado);
                             $("#observacionEnt").val(response.model.Observacion);
                             break;
@@ -2088,13 +2274,12 @@ function getDetalleMuestra(id) {
                             $('#volDbo1Dbo').val(response.model.Vol_muestra);
                             $('#dil1Dbo').val(response.model.Dilucion);
                             $('#win1Dbo').val(response.model.Vol_botella);
-                
+
                             $("#observacionDbo").val(response.model.Observacion);
                             $("#resultadoDbo").val(response.model.Resultado);
-                            if(response.model.Sugerido == 1)
-                            {
+                            if (response.model.Sugerido == 1) {
                                 document.getElementById("sugeridoDbo").checked = true;
-                            }else{
+                            } else {
                                 document.getElementById("sugeridoDbo").checked = false;
                             }
                             if (response.model2 == "NULL") {
@@ -2223,6 +2408,8 @@ function getCapturaLote() {
                         switch (parseInt(item.Id_parametro)) {
                             case 33:
                             case 64:
+                            case 119:
+                            case 218:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';
                                 break;
                             case 6: // Dqo

@@ -51,7 +51,11 @@
                         @endif                            
                     </td>
                     <td class="tableContent">{{@$item->Inmhoff}}</td>
-                    <td class="tableContent">{{@$item->Resultado}}</td>
+                    @if ($item->Resultado <= $item->Limite)
+                        <td class="tableContent">< {{$item->Limite}}</td>
+                    @else
+                        <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>
+                    @endif
                     <td class="tableContent">{{@$item->Temp_muestraLlegada}}</td>
                     <td class="tableContent">{{@$item->Temp_muestraAnalizada}}</td>
                     <td class="tableContent">{{@$item->Observacion}}</td>

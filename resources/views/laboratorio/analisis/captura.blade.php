@@ -235,9 +235,21 @@
               aria-controls="tabDqo" aria-selected="false">Datos DQO</button>
           </li>
           <li class="nav-item" role="presentation">
+            <a class="nav-link" id="coliformes-tab" data-toggle="tab" href="#coliformes" role="tab"
+              aria-controls="coliformes" aria-selected="false">Coliformes</a>
+          </li>
+
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="dbo-tab" data-toggle="tab" href="#dbo" role="tab" aria-controls="dbo"
+              aria-selected="false">DBO</a>
+          </li>
+
+
+          <li class="nav-item" role="presentation">
             <button class="nav-link" id="tabPlantillas-tab" data-toggle="tab" data-target="#tabPlantillas" type="button"
               role="tab" aria-controls="tabPlantillas" aria-selected="false">Plantilla</button>
           </li>
+
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade active" id="general" role="tabpanel" aria-labelledby="general-tab">
@@ -809,6 +821,66 @@
             <p>Bureta utilizada para titulación</p>
             <label>INVLAB: <input type="text" id="ebullicion_invlab"></label> <br>
           </div>
+
+          {{-- COLIFORMES --}}
+          <div class="tab-pane fade" id="coliformes" role="tabpanel" aria-labelledby="coliformes-tab">
+            <button id="btnColiformes" class="btn btn-succcess">Guardar</button>
+            <h4>Sembrado</h4>
+            <hr>
+
+            {{-- <label>Lote ID: <input type="text" id="sembrado_loteId"></label> <br> --}}
+            <label>Sembrado: <input type="datetime-local" id="sembrado_sembrado"></label><br>
+            <label>Fecha de resiembra de la cepa utilizada: <input type="date" id="sembrado_fechaResiembra"></label><br>
+            <label>Tubo N°: <input type="text" id="sembrado_tuboN"></label> <br>
+            <label>Bitácora: <input type="text" id="sembrado_bitacora"></label>
+
+            <br><br>
+
+            <h4>Prueba Presuntiva</h4>
+            <hr>
+
+            <label>Preparación: <input type="datetime-local" id="pruebaPresuntiva_preparacion"></label><br>
+            <label>Lectura: <input type="datetime-local" id="pruebaPresuntiva_lectura"></label><br>
+
+            <br>
+
+            <h4>Prueba confirmativa</h4>
+            <hr>
+
+            <label>Medio: <input type="text" id="pruebaConfirmativa_medio"></label> <br>
+            <label>Preparación: <input type="datetime-local" id="pruebaConfirmativa_preparacion"></label><br>
+            <label>Lectura: <input type="datetime-local" id="pruebaConfirmativa_lectura"></label><br>
+          </div>
+          {{-- COLIFORMES FIN --}}
+
+          {{-- DBO --}}
+          <div class="tab-pane fade" id="dbo" role="tabpanel" aria-labelledby="dbo-tab">
+            <div class="row">
+              <div class="col-md-4">
+                <label>Cantidad de dilucion: <input class="form-control" type="text" id="cantDilucion"></label>
+              </div>
+              <div class="col-md-4">
+                <label>De: <input class="form-control" type="time" id="de"></label>
+              </div>
+              <div class="col-md-4">
+                <label>A: <input class="form-control" type="time" id="a"></label>
+              </div>
+              <div class="col-md-4">
+                <label>Pag: <input class="form-control" type="text" id="pag"></label>
+              </div>
+              <div class="col-md-4">
+                <label>N: <input class="form-control" type="text" id="n"></label>
+              </div>
+              <div class="col-md-4">
+                <label>Dilución: <input class="form-control" type="text" id="dilucion"></label>
+              </div>
+              <div class="col-md-12">
+                <button class="btn btn-successs" id="btnGuardarDqo">Guardar</button>
+              </div>
+            </div>
+          </div>
+          {{-- DBO FIN --}}
+
 
           <div class="tab-pane fade" id="tabPlantillas" role="tabpanel" aria-labelledby="tabPlantillas-tab">
             <div class="row">
@@ -1728,7 +1800,7 @@
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
               Ejecutar</button>
           </div>
-          <div class="col-md-8"> 
+          <div class="col-md-8">
             <div class="form-group">
               <input type="text" id="resultadoNitrogenoVol" style="font-size: 20px;color:red;" placeholder="Resultado">
             </div>
@@ -3177,10 +3249,13 @@
           <div class="col-md-2">
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-6">
             <div class="form-group">
               <input type="text" id="resultadoCol" style="font-size: 20px;color:red;" placeholder="Resultado">
             </div>
+          </div>
+          <div class="col-md-2">
+            <button type="button" id="metodoCortoCol"> <i class="voyager-window-list"></i></button>
           </div>
 
           <div class="col-md-12">
@@ -3780,7 +3855,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.1"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.2"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

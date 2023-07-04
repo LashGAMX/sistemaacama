@@ -903,7 +903,7 @@ class MbController extends Controller
                 # DBO
                 if ($request->tipo == 1) {
                     $E = $request->D / $request->C;
-                    $res = ($request->A - $request->B) / round($E, 3);
+                    $res = ($request->A - $request->B) / round($E, 2);
 
                     $model = LoteDetalleDbo::find($request->idDetalle);
                     $model->Botella_final = $request->H;
@@ -919,6 +919,7 @@ class MbController extends Controller
                     $model->Analizo = Auth::user()->id;
                     $model->Sugerido = $request->S;
                     $model->save();
+                    $tipo = 1;
                 } else {
                     $res = ($request->OI - $request->OF);
                     $model = LoteDetalleDbo::find($request->idDetalle);
@@ -930,6 +931,7 @@ class MbController extends Controller
                     $model->Analizo = Auth::user()->id;
                     $model->Sugerido = $request->S;
                     $model->save();
+                    $tipo = 2;
                 }
 
                 break;

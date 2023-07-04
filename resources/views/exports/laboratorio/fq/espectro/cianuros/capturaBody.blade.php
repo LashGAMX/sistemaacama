@@ -8,13 +8,11 @@
     <title>Captura PDF</title>
 </head>
 <body>
-
     <div id="contenidoCurva">
         @php
              echo $procedimiento[0];
         @endphp
     </div>
-
     <br>
 
     <div class="contenedorTabla">
@@ -61,7 +59,7 @@
                     </td>
                     <td class="tableContent">{{@$item->Vol_muestra}}</td>
                     <td class="tableContent">{{@$item->Abs1}}</td>
-                    <td class="tableContent">{{@$item->Abs2}}</td>
+                    <td class="tableContent">{{@$item->Abs2}}</td> 
                     <td class="tableContent">{{@$item->Abs3}}</td>
                     <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
                     <td class="tableContent">

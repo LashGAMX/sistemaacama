@@ -670,10 +670,11 @@ class MetalesController extends Controller
     {
        $parametros = DB::table('ViewParametros')
         ->where('Id_tipo_formula',$res->tipo)
-        ->where('Id_tecnica',20)
-        ->orWhere('Id_tecnica',21)
-        ->orWhere('Id_tecnica',22)
-        ->orWhere('Id_tecnica',23)
+        ->where('Id_tipo_formula',20)
+        ->orWhere('Id_tipo_formula',21)
+        ->orWhere('Id_tipo_formula',22)
+        ->orWhere('Id_tipo_formula',23)
+        ->orWhere('Id_tipo_formula',24)
         ->get();
 
         $model = array();
