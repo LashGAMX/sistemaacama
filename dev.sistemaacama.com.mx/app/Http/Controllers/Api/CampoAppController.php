@@ -59,12 +59,12 @@ class CampoAppController extends Controller
 
         $data = array(
             'datos' => $request->solicitudesModel,
+            'modelSolGen' => $modelSolGen, 
             'termometro' => $termometro,
             'phCalidad' => $phCalidad,
             'phTrazable' => $phTrazable,
             'conTrazable' => $conTrazable,  
-            'conCalidad' => $conCalidad,
-            'modelSolGen' => $modelSolGen, 
+            'conCalidad' => $conCalidad, 
             'response' => true,
         );
         return response()->json($data);
