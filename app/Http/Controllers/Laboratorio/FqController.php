@@ -989,8 +989,9 @@ class FqController extends Controller
 
     public function createLote(Request $request)
     {
+        $temp = Parametro::find($request->tipo);
         $model = LoteAnalisis::create([
-            'Id_area' => 5,
+            'Id_area' => $temp->Id_area,
             'Id_tecnica' => $request->tipo,
             'Asignado' => 0,
             'Liberado' => 0,

@@ -377,7 +377,7 @@ ON det.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleSolidos */ 
 
-CREATE VIEW ViewLoteDetalleSolidos as SELECT det.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_solidos as det
+CREATE VIEW ViewLoteDetalleSolidos as SELECT det.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_solidos as det
 INNER JOIN ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -455,7 +455,7 @@ ON en.Id_unidad = uni.Id_unidad
 /* Lista ViewLoteDetalleDqo */  
 
 CREATE VIEW ViewLoteDetalleDqo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dqo as col
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro

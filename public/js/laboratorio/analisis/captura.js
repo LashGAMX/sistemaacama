@@ -60,6 +60,28 @@ $(document).ready(function () {
     $('#btnGuardarVal').click(function () {
         setValoracion();
     });
+    
+    $('#btnGuardarTipoDqo').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: base_url + "/admin/laboratorio/fq/setTipoDqo",
+            data: {
+                idLote: idLote,
+                tipo: $("#tipoDqo").val(),
+                tecnica: $('#tecnicaDqo').val(),
+                soluble: $('#solubleDqo').val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                // swal("Registro!", "Lote creado correctamente!", "success");
+                alert("Dato modificado")
+                // $('#modalCrearLote').modal('hide')
+            }
+        });
+    });
 });
 
 //todo Variables globales
@@ -69,10 +91,12 @@ var idMuestra
 var idMuestra = 0
 var idArea = 0
 var blanco = 0
+var idTecnica = 0
 //todo funciones
 function getStdMenu() {
     $("#tabGa-tab").hide()
     $("#tabVol-tab").hide()
+    $("#dqo-tab").hide()
     $("#secctionDureza").hide()
     $("#secctionCloro").hide()
     $("#secctionNitrogeno").hide()
@@ -87,6 +111,7 @@ function getStdMenu() {
             break;
         case 14://Vol
             $("#tabVol-tab").show()
+            $("#dqo-tab").show()
             switch (parseInt($("#parametro").val())) {
                 case 33: // CLORO RESIDUAL LIBRE
                 case 64:
@@ -231,12 +256,12 @@ function setValoracion() {
         case '64':
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 1,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResClo").val(),
-                    idLote: $("#idLoteHeader").val(),
+                    idLote:idLote,
                     titulado1: $("#tituladoClo1").val(),
                     titulado2: $("#tituladoClo2").val(),
                     titulado3: $("#tituladoClo3").val(),
@@ -255,12 +280,12 @@ function setValoracion() {
         case '6': // DQO
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 2,
+                    idLote:idLote,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResD").val(),
-                    idLote: $("#idLoteHeader").val(),
                     volk2D: $("#volk2D").val(),
                     concentracion: $("#concentracionD").val(),
                     factor: $("#factorD").val(),
@@ -280,12 +305,12 @@ function setValoracion() {
         case '11': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
+                    idLote:idLote,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
-                    idLote: $("#idLoteHeader").val(),
                     gramos: $("#gramosN").val(),
                     factor: $("#factorN").val(),
                     titulado1: $("#titulado1N").val(),
@@ -305,12 +330,12 @@ function setValoracion() {
         case '10': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
+                    idLote:idLote,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
-                    idLote: $("#idLoteHeader").val(),
                     gramos: $("#gramosN").val(),
                     factor: $("#factorN").val(),
                     titulado1: $("#titulado1N").val(),
@@ -330,12 +355,12 @@ function setValoracion() {
         case '9': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
-                    idLote: $("#idLoteHeader").val(),
+                    idLote:idLote,
                     gramos: $("#gramosN").val(),
                     factor: $("#factorN").val(),
                     titulado1: $("#titulado1N").val(),
@@ -355,12 +380,12 @@ function setValoracion() {
         case '108': // NITROGENO amoniacal
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 3,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResN").val(),
-                    idLote: $("#idLoteHeader").val(),
+                    idLote:idLote,
                     gramos: $("#gramosN").val(),
                     factor: $("#factorN").val(),
                     titulado1: $("#titulado1N").val(),
@@ -380,12 +405,12 @@ function setValoracion() {
         case '103': // Dureza total
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 4,
                     idParametro: $("#tipoFormula").val(),
                     blanco: $("#blancoResDur").val(),
-                    idLote: $("#idLoteHeader").val(),
+                    idLote:idLote,
                     solucion: $("#tituladoDur").val(),
                     titulado1: $("#edtaDur1").val(),
                     titulado2: $("#edtaDur1").val(),
@@ -404,9 +429,10 @@ function setValoracion() {
         case '29':
             $.ajax({
                 type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 5,
+                    idLote:idLote,
                     idParametro: $("#tipoFormula").val(),
                     titulado1: $("#gmCarbonato1Alc").val(),
                     titulado2: $("#gmCarbonato2Alc").val(),
@@ -478,6 +504,7 @@ function setDetalleGrasas() {
         }
     });
 }
+
 function setBitacora() {
     $.ajax({
         type: "POST",
@@ -650,7 +677,7 @@ function getDetalleLote(id, parametro) {
 function setDetalleMuestra() {
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
-        case 5:
+        case 5: 
             switch (parseInt($('#parametro').val())) {
                 case 152: // COT
                     $.ajax({
@@ -703,7 +730,7 @@ function setDetalleMuestra() {
                             D: $('#fDilucion1SulfatosF').val(),
                             E: $('#volMuestra1SulfatosF').val(),
                             X: $('#abs11SulfatosF').val(),
-                            Y: $('#abs21SulfatosF').val(),
+                            Y: $('#abs21SulfatosF').val(), 
                             Z: $('#abs31SulfatosF').val(),
                             ABS4: $('#abs41SulfatosF').val(),
                             ABS5: $('#abs51SulfatosF').val(),
@@ -915,13 +942,14 @@ function setDetalleMuestra() {
 
                     break;
                 case 6: // Dqo
-                    if (sw == 1) {
+                    if (idTecnica == 2) {
                         $.ajax({
                             type: "POST",
                             url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                             data: {
                                 idLote: idLote,
                                 idMuestra: idMuestra,
+                                sw: idTecnica,
                                 B: $("#tituladoDqo1DqoVol").val(),
                                 C: $("#MolaridadDqo1DqoVol").val(),
                                 CA: $("#blancoDqo1DqoVol").val(),
@@ -945,7 +973,7 @@ function setDetalleMuestra() {
                             data: {
                                 idLote: idLote,
                                 idMuestra: idMuestra,
-                                fechaAnalisis: $("#fechaAnalisis").val(),
+                                sw: idTecnica,
                                 parametro: $('#formulaTipo').val(),
                                 resultado: $('#resultado').val(),
                                 observacion: $('#obs').val(),
@@ -1549,7 +1577,7 @@ function setDetalleMuestra() {
             break;
     }
 
-    getCapturaLote()
+    getCapturaLote() 
 
 }
 function getDetalleMuestra(id) {
@@ -1667,8 +1695,8 @@ function getDetalleMuestra(id) {
                             break;
                         default:
                             $("#observacion").val(response.model.Observacion);
-                            $("#absPromEspectro1").val(response.model.Promedio);
-                            $("#absPromEspectro2").val(response.model.Promedio);
+                            $("#absPromEspectro1").val(parseFloat(response.model.Promedio).toFixed(3));
+                            $("#absPromEspectro2").val(parseFloat(response.model.Promedio).toFixed(3));
                             $("#blancoEspectro1").val(response.model.Blanco);
                             $("#blancoEspectro2").val(response.model.Blanco);
                             $("#bEspectro1").val(response.curva.B);
@@ -1679,9 +1707,21 @@ function getDetalleMuestra(id) {
                             $("#rEspectro2").val(response.curva.R);
                             $("#phIniEspectro1").val(response.model.Ph_ini);
                             $("#phFinEspectro1").val(response.model.Ph_fin);
-                            $("#nitratosEspectro1").val(response.model.Nitratos);
-                            $("#nitritosEspectro1").val(response.model.Nitritos);
-                            $("#sulfurosEspectro1").val(response.model.Sulfuros);
+                            if(response.model.Nitratos != null){
+                                $("#nitratosEspectro1").val(response.model.Nitratos);
+                            }else{
+                                $("#nitratosEspectro1").val(0);
+                            }
+                            if(response.model.Nitritos != null){
+                                $("#nitritosEspectro1").val(response.model.Nitritos);
+                            }else{
+                                $("#nitritosEspectro1").val(0);
+                            }
+                            if(response.model.Sulfuros != null){
+                                $("#sulfurosEspectro1").val(response.model.Sulfuros);
+                            }else{
+                                $("#sulfurosEspectro1").val(0);
+                            }
                             $("#fDilucion1").val(response.model.Vol_dilucion);
                             $("#fDilucion2").val(response.model.Vol_dilucion);
                             $("#volMuestraEspectro1").val(response.model.Vol_muestra);
@@ -1692,7 +1732,7 @@ function getDetalleMuestra(id) {
                             $("#abs1Espectro2").val(response.model.Abs1);
                             $("#abs2Espectro2").val(response.model.Abs2);
                             $("#abs3Espectro2").val(response.model.Abs3);
-                            $("#resultadoEspectro").val(response.model.Resultado);
+                            $("#resultadoEspectro").val(parseFloat(response.model.Resultado).toFixed(3));
                             break;
                     }
                     break;
@@ -1734,7 +1774,11 @@ function getDetalleMuestra(id) {
                     }
                     switch (parseInt(response.model.Id_parametro)) {
                         case 3: // Directos
-
+                                $("#resultadoModalSolidosDir").val(response.model.Resultado)
+                                $("#inmhoffSolidosDir").val(response.model.Inmhoff)
+                                $("#temperaturaLlegadaSolidosDir").val(response.model.Temp_muestraLlegada)
+                                $("#temperaturaAnalizadaSolidosDir").val(response.model.Temp_muestraAnalizada)
+                                $("#resultadoSolidosDir").val(response.model.Resultado)
                             break;
                         case 47: // Por diferencia
                         case 88:
@@ -2182,7 +2226,12 @@ function getCapturaLote() {
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';
                                 break;
                             case 6: // Dqo
-                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDqoVol">Capturar</button>';
+                                idTecnica = response.aux.Tecnica
+                                if (response.aux.Tecnica == 2) {
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDqoVol">Capturar</button>';
+                                } else {
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaEspectro">Capturar</button>';
+                                }
                                 break;
                             case 9: // Nitrogeno
                             case 287:
@@ -2316,7 +2365,7 @@ function getCapturaLote() {
                 } else {
                     tab += '<br> <small class="text-info">' + item.Control + '</small></td>';
                 }
-                tab += '<td><input disabled style="width: 100px" value="' + item.Folio_servicio + '"></td>';
+                tab += '<td><input disabled style="width: 150px" value="' + item.Codigo + '"></td>';
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
                 if (item.Resultado != null) {
                     tab += '<td><input disabled style="width: 100px" value="' + item.Resultado + '"></td>';
