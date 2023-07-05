@@ -250,6 +250,7 @@ class MetalesController extends Controller
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
         $model->Liberado = 0;
+        $model->Vol_disolucion = 0; 
         $model->save();
 
         $data = array(

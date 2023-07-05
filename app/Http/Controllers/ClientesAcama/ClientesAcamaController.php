@@ -7,6 +7,7 @@ use App\Models\CampoCompuesto;
 use App\Models\CampoGenerales;
 use App\Models\Clientes;
 use App\Models\DireccionReporte;
+use App\Models\InformesRelacion;
 use App\Models\LoteAnalisis;
 use App\Models\Norma;
 use App\Models\Parametro;
@@ -16,6 +17,7 @@ use App\Models\RfcSucursal;
 use App\Models\Solicitud;
 use App\Models\SolicitudPuntos;
 use App\Models\TemperaturaAmbiente;
+use App\Models\TipoCuerpo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -322,14 +324,16 @@ class ClientesAcamaController extends Controller
             array(0, 0),
         );
         
-
+        $tipo = 2;
 
         $model = DB::table('ViewSolicitud2')->where('Folio_servicio', $folioEncript)->get();
         $idPunto = $model[0]->Id_solicitud;
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        // $relacion = InformesRelacion::where('Id_solicitud', $idPunto)->get();
+        $tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
 
+        $relacion = InformesRelacion::where('Id_solicitud', $idPunto)->get();
+ 
 
         $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
         $aux = true;
@@ -339,10 +343,9 @@ class ClientesAcamaController extends Controller
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
         //Recupera los datos de la temperatura de la muestra compuesta
-        @$tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
+        $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
 
-        //$fechaEmision = \Carbon\Carbon::now();
-        $solicitud = Solicitud::where('Id_solicitud', $idSol)->first(); 
+        $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
 
         $cliente = Clientes::where('Id_cliente', $solModel->Id_cliente)->first();
@@ -368,12 +371,12 @@ class ClientesAcamaController extends Controller
         $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
         $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();
         $numOrden =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel->Hijo)->first();
-        if ($solModel->Id_muestra == 1) {
+        if ($solModel->Id_servicio != 3) {
             $horaMuestreo = \Carbon\Carbon::parse($phCampo[0]->Fecha)->format('H:i');
         } else {
             $horaMuestreo = 'COMPUESTA';
         }
-
+       
         $temp = DB::table('ph_muestra')
             ->where('Id_solicitud', $idSol)
             ->selectRaw('count(Color) as numColor,Color')
@@ -395,7 +398,7 @@ class ClientesAcamaController extends Controller
             }
         }
         $limitesN = array();
-        $limitesC = array(); 
+        $limitesC = array();
         $aux = 0;
         $limC = 0;
         foreach ($model as $item) {
@@ -413,7 +416,13 @@ class ClientesAcamaController extends Controller
                         break;
                     case 14:
                     case 110:
-                        $limC = round($item->Resultado2, 2);
+                    case 67:
+                    case 68:
+                    case 125:
+                        $limC = round($item->Resultado2, 1);
+                        break;
+                    case 34:
+                        $limC = $item->Resultado2;
                         break;
                     case 135:
                     case 78:
@@ -496,8 +505,6 @@ class ClientesAcamaController extends Controller
                 $aux = "------";
                 $limC = "------";
             }
-
-
             array_push($limitesN, $aux);
             array_push($limitesC, $limC);
         }
@@ -507,11 +514,11 @@ class ClientesAcamaController extends Controller
             case 5:
             case 30:
                 $firma1 = User::find(14);
-                $firma2 = User::find(12); 
+                $firma2 = User::find(4);
                 break;
             
             default:
-                $firma1 = User::find(12);
+                $firma1 = User::find(4);
                 $firma2 = User::find(17);
                 break;
         }
@@ -531,10 +538,10 @@ class ClientesAcamaController extends Controller
         $folioSer = $solicitud->Folio_servicio;
         $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
 
-        $tipo = 2;
 
-        $mpdf->showWatermarkImage = true;
+
         $data = array(
+            'tipoReporte2' => $tipoReporte2,
             'folioEncript' => $folioEncript,
             'campoCompuesto' => $campoCompuesto,
             'swOlor' => $swOlor,

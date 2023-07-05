@@ -169,7 +169,7 @@
 
                         <td id="tableContent">                            
                             @php
-                                echo number_format(@$estandares[0]->Concentracion, 3, ".", ",");
+                                echo number_format(@$estandares[0]->Concentracion, 4, ".", ",");
                             @endphp                            
                         </td>
                         
@@ -178,7 +178,7 @@
                             @if(@$estandares[$i]->Concentracion != null)
                                 <td id="tableContent">
                                     @php
-                                        echo number_format(@$estandares[$i]->Concentracion, 3, ".", ",");
+                                        echo number_format(@$estandares[$i]->Concentracion, 4, ".", ","); 
                                     @endphp                                      
                                 </td>
                             @endif                            
@@ -198,7 +198,7 @@
                         
                         <td id="tableContent">                            
                             @php
-                                echo number_format(@$estandares[0]->ABS1, 3, ".", ",");
+                                echo number_format(@$estandares[0]->ABS1, 4, ".", ",");
                             @endphp
                         </td>
 
@@ -206,7 +206,7 @@
                             @if(@$estandares[$i]->ABS1 != null)                           
                                 <td id="tableContent">
                                     @php
-                                        echo number_format(@$estandares[$i]->ABS1, 3, ".", ".");
+                                        echo number_format(@$estandares[$i]->ABS1, 4, ".", ".");
                                     @endphp                                    
                                 </td>
                             @endif
@@ -226,7 +226,7 @@
 
                         <td id="tableContent">                            
                             @php
-                                echo number_format(@$estandares[0]->ABS2, 3, ".", ",");
+                                echo number_format(@$estandares[0]->ABS2, 4, ".", ",");
                             @endphp
                         </td>
                         
@@ -234,7 +234,7 @@
                             @if(@$estandares[$i]->ABS2 != null)
                                 <td id="tableContent">
                                     @php
-                                        echo number_format(@$estandares[$i]->ABS2, 3, ".", ".");
+                                        echo number_format(@$estandares[$i]->ABS2, 4, ".", ".");
                                     @endphp                                      
                                 </td>
                             @endif
@@ -253,7 +253,7 @@
 
                         <td id="tableContent">                            
                             @php
-                                echo number_format(@$estandares[0]->ABS3, 3, ".", ",");
+                                echo number_format(@$estandares[0]->ABS3, 4, ".", ",");
                             @endphp
                         </td>
                         
@@ -261,7 +261,7 @@
                             @if(@$estandares[$i]->ABS3 != null)
                                 <td id="tableContent">
                                     @php
-                                        echo number_format(@$estandares[$i]->ABS3, 3, ".", ".");
+                                        echo number_format(@$estandares[$i]->ABS3, 4, ".", ".");
                                     @endphp  
                                 </td>
                             @endif
@@ -275,7 +275,7 @@
 
                         <td id="tableContent">                            
                             @php
-                                echo number_format(@$estandares[0]->Promedio, 3, ".", ",");
+                                echo number_format(@$estandares[0]->Promedio, 4, ".", ",");
                             @endphp
                         </td>
                         
@@ -283,7 +283,7 @@
                             @if(@$estandares[$i]->Promedio != null)
                                 <td id="tableContent">
                                     @php
-                                        echo number_format(@$estandares[$i]->Promedio, 3, ".", ".");
+                                        echo number_format(@$estandares[$i]->Promedio, 4, ".", ".");
                                     @endphp
                                 </td>
                             @endif

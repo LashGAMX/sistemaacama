@@ -269,20 +269,24 @@ function metodoCortoCol() {
             let cont2 = 4;
             let cont3 = 7;
             // Confirmativas
-            for (var i = 0; i < response.convinacion.Col1; i++) {
-                $('#conCol' + cont1).val(1);
+            for (var i = 0; i < 3; i++) {
+                if ((i+1) < response.convinacion.Col1) {
+                    $('#con' + cont1 + 'Col').val(1);   
+                } else {
+                    $('#con' + cont1 + 'Col').val(0);
+                }
                 console.log(cont1);
                 cont1++;
             }
             for (var j = 0; j < response.convinacion.Col2; j++) {
 
-                $('#conCol' + cont2).val(1);
+                $('#con' + cont2 + 'Col').val(1);
                 console.log(cont2);
                 cont2++;
 
             }
             for (var k = 0; k < response.convinacion.Col3; k++) {
-                $('#conCol' + cont3).val(1);
+                $('#con' + cont3 + 'Col').val(1);
                 console.log(cont3);
                 cont3++;
             }
@@ -294,17 +298,17 @@ function metodoCortoCol() {
             let ran2 = Math.random() * response.convinacion.Col2;
             let ran3 = Math.random() * response.convinacion.Col3;
             for (var i = 0; i < 3; i++) {
-                $('#preCol' + c1).val(1);
+                $('#pre' + c1 + 'Col').val(1);
                 console.log(ran1);
                 c1++;
             }
             for (var i = 0; i < ran2; i++) {
-                $('#preCol' + c2).val(1);
+                $('#pre' + c2 + 'Col').val(1);
                 console.log(ran2);
                 c2++;
             }
             for (var i = 0; i < ran3; i++) {
-                $('#preCol' + c3).val(1);
+                $('#pre' + c3 + 'Col').val(1);
                 console.log(ran3);
                 c3++;
             }
