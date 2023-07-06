@@ -5,57 +5,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/coliformes/coliformesPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 
 <body>
 
-    <div class="procedimiento">
+    <div id="contenidoCurva" >
         @php
-        echo @$bitacora->Texto;
+            echo $plantilla[0]->Texto; 
         @endphp
     </div>
+
     <br>
     <div id="contenedorTabla">
-
-
-        <br>
-
-        <table autosize="1" class="tabla" border="1">
-            <thead>
+        <table cellpadding="0" cellspacing="0" border-color="#000000" autosize="1" class="table table-borderless" id="tablaDatos">
+            <thead> 
                 <tr>
-                    <th colspan="9">BACTERIAS COLIFORMES FECALES</th>
-                </tr>
+                    <th class="contenidoBody nombreHeader" colspan="4">PRESUNTIVO</th>
+                    <th class="contenidoBody nombreHeader" colspan="5">CONFIRMATIVO</th>
+                </tr> 
                 <tr>
-                    <th colspan="4">PRESUNTIVO</th>
-                    <th colspan="5">CONFIRMATIVO</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">No. De muestra</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">Total de tubos</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">Positivos 24 hrs</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">Positivos 48 hrs</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">Positivos 24 hrs</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">Positivos 48 hrs</th>
+                    <th class="contenidoBody nombreHeader bordesTabla">Resultado NMP / 100 mL</th>
+                    <th class="contenidoBody nombreHeader"></th>
+                    <th class="contenidoBody nombreHeader"></th>
                 </tr>
-                <tr>
-                    <th style="font-size: 10px">No. De muestra</th>
-                    <th style="font-size: 10px">Total de tubos</th>
-                    <th style="font-size: 10px">Positivos 24 hrs</th>
-                    <th style="font-size: 10px">Positivos 48 hrs</th>
-                    {{-- <th style="font-size: 10px">Resultado NMP / 100 mL</th> --}}
-                    <th style="font-size: 10px">Positivos 24 hrs</th>
-                    <th style="font-size: 10px">Positivos 48 hrs</th>
-                    <th style="font-size: 10px">Resultado NMP / 100 mL</th>
-                    <th style="font-size: 10px"></th>
-                    <th style="font-size: 10px"></th>
-                </tr>
-            </thead>
+            </thead> 
             <tbody>
-                @foreach ($loteDetalle as $item)
+                @foreach ($model as $item)
                     <tr>
-                        <td>{{ $item->Codigo }}</td>
-                        <td>{{ $item->Confirmativa2 }}</td>
-                        <td>{{ $item->Presuntiva1 }}</td>
-                        <td>{{ $item->Presuntiva2 }}</td>
-                        <td>{{ $item->Confirmativa1 }}</td>
-                        <td>{{ $item->Confirmativa2 }}</td>
-                        <td>{{ $item->Resultado }}</td>
-                        <td>{{ $item->Observacion }}</td>
-                        <td>{{ $item->Control }}</td>
+                        <td class="contenidoBody bordesTabla">{{ $item->Codigo }}</td>
+                        <td class="contenidoBody bordesTabla">{{ $item->Confirmativa2}}</td>
+                        <td class="contenidoBody bordesTabla">{{ $item->Presuntiva1 }}</td>
+                        <td class="contenidoBody bordesTabla">{{ $item->Presuntiva2 }}</td>
+                        <td class="contenidoBody bordesTabla">{{ $item->Confirmativa1}}</td>
+                        <td class="contenidoBody bordesTabla">{{ $item->Confirmativa2}}</td>
+                        <td class="contenidoBody bordesTabla">
+                            @if ($item->Resultado == 0)
+                                NO DETECTABLE
+                            @else
+                                @if ($item->Resultado <= $item->Limite)
+                                    < {{@$item->Limite}}
+                                @else
+                                    {{@$item->Resultado}}
+                                @endif
+                            @endif
+                        </td>
+                        <td class="contenidoBody">{{ $item->Observacion }}</td>
+                        <td class="contenidoBody">{{ $item->Control }}</td>
                     </tr>
                 @endforeach
             </tbody>

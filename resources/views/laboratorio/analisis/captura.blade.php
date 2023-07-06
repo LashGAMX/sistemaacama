@@ -3635,13 +3635,13 @@
 
 {{-- Fin Modal HH --}}
 
-{{-- Inicio Modal Blanco DBO --}}
+{{-- Inicio Modal Coliformes Alimentos --}}
 
-<div class="modal fade" id="modalCapturaDboBlanco" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalCapturaColAli" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="">Captura de resultados C</h5>
+        <h5 class="modal-title" id="">Captura de resultados Coliformes Alimentos</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -3651,10 +3651,10 @@
           <div class="col-md-12">
             <div class="form-group">
               <label for="">Observación</label>
-              <input type="text" class="form-control" id="observacionDboB" placeholder="Observacion de la muestra">
+              <input type="text" class="form-control" id="observacionColAli" placeholder="Observacion de la muestra">
             </div>
             <div class="form-group">
-              <button class="btn btn-success" type="button" onclick="setObservacion('observacionDboB')"><i
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionColAli')"><i
                   class="voyager-check"></i> Aplicar</button>
             </div>
           </div>
@@ -3664,7 +3664,7 @@
           </div>
           <div class="col-md-8">
             <div class="form-group">
-              <input type="text" id="resultadoDboB" style="font-size: 20px;color:red;" placeholder="Resultado">
+              <input type="text" id="resultadoColAli" style="font-size: 20px;color:red;" placeholder="Resultado">
             </div>
           </div>
 
@@ -3684,29 +3684,29 @@
                 <tr>
                   <td>Pres.</td>
                   <td>24hrs</td>
-                  <td><input type="text" id="pres124ColAliDboB" value="0"></td>
-                  <td><input type="text" id="pres224ColAliDboB" value="0"></td>
+                  <td><input type="text" id="pres124ColAli" value="0"></td>
+                  <td><input type="text" id="pres224ColAli" value="0"></td>
 
                 </tr>
                 <tr>
                   <td>Pres.</td>
                   <td>48hrs</td>
-                  <td><input type="text" id="pres148ColAliDboB" value="0"></td>
-                  <td><input type="text" id="pres248ColAliDboB" value="0"></td>
+                  <td><input type="text" id="pres148ColAli" value="0"></td>
+                  <td><input type="text" id="pres248ColAli" value="0"></td>
 
                 </tr>
                 <tr>
                   <td>Confir.</td>
                   <td>24hrs</td>
-                  <td><input type="text" id="confir124ColAliDboB" value="0"></td>
-                  <td><input type="text" id="confir224ColAliDboB" value="0"></td>
+                  <td><input type="text" id="confir124ColAli" value="0"></td>
+                  <td><input type="text" id="confir224ColAli" value="0"></td>
 
                 </tr>
                 <tr>
                   <td>Confir.</td>
                   <td>48hrs</td>
-                  <td><input type="text" id="confir148ColAliDboB" value="0"></td>
-                  <td><input type="text" id="confir248ColAliDboB" value="0"></td>
+                  <td><input type="text" id="confir148ColAli" value="0"></td>
+                  <td><input type="text" id="confir248ColAli" value="0"></td>
 
                 </tr>
               </tbody>
@@ -3719,7 +3719,7 @@
   </div>
 </div>
 
-{{-- Fin Modal Blanco DBO --}}
+{{-- Fin Modal Coliforme Alimentos --}}
 
 {{-- Incio Moda DBo --}}
 

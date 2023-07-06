@@ -26,6 +26,7 @@
             <thead> 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
+                    <th class="tableCabecera anchoColumna">Temperatura muestra (C°)</th>
                     <th class="tableCabecera anchoColumna">Lectura de pH1</th>
                     <th class="tableCabecera anchoColumna">Lectura de pH2</th>
                     <th class="tableCabecera anchoColumna">Lectura de pH3</th>
@@ -39,6 +40,7 @@
                 @foreach ($model as $item)
                     <tr>
                         <td class="tableContent">{{ $item->Codigo }}</td>
+                        <td class="tableContent">{{ $item->Temperatura }}</td>
                         <td class="tableContent">{{ $item->Lectura1 }}</td>
                         <td class="tableContent">{{ $item->Lectura2 }}</td>
                         <td class="tableContent">{{ $item->Lectura3 }}</td>

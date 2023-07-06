@@ -64,7 +64,7 @@ $(document).ready(function () {
     $('#btnGuardarTipoDqo').click(function () {
         $.ajax({
             type: 'POST',
-            url: base_url + "/admin/laboratorio/fq/setTipoDqo",
+            url: base_url + "/admin/laboratorio/analisis/setTipoDqo",
             data: {
                 idLote: idLote,
                 tipo: $("#tipoDqo").val(),
@@ -259,6 +259,25 @@ function metodoCortoCol() {
             console.log(response);
             // inicio metodo corto
 
+            $("#con3Col").val(0)
+            $("#con2Col").val(0)
+            $("#con1Col").val(0)
+            $("#con4Col").val(0)
+            $("#con5Col").val(0)
+            $("#con6Col").val(0)
+            $("#con7Col").val(0)
+            $("#con8Col").val(0)
+            $("#con9Col").val(0)
+            $("#pre1Col").val(0)
+            $("#pre2Col").val(0)
+            $("#pre3Col").val(0)
+            $("#pre4Col").val(0)
+            $("#pre5Col").val(0)
+            $("#pre6Col").val(0)
+            $("#pre7Col").val(0)
+            $("#pre8Col").val(0)
+            $("#pre9Col").val(0)
+
 
             let positivos = response.positivos;
 
@@ -270,23 +289,31 @@ function metodoCortoCol() {
             let cont3 = 7;
             // Confirmativas
             for (var i = 0; i < 3; i++) {
-                if ((i+1) < response.convinacion.Col1) {
+                if ((i+1) <= parseInt(response.convinacion.Col1)) {
                     $('#con' + cont1 + 'Col').val(1);   
                 } else {
                     $('#con' + cont1 + 'Col').val(0);
                 }
-                console.log(cont1);
+                console.log("# c1: "+cont1);
                 cont1++;
             }
-            for (var j = 0; j < response.convinacion.Col2; j++) {
+            for (var j = 0; j < 3; j++) {
+                if ((j+1) <= parseInt(response.convinacion.Col2)) {
+                    $('#con' + cont2 + 'Col').val(1);    
+                } else {
+                    $('#con' + cont2 + 'Col').val(0);
+                }
 
-                $('#con' + cont2 + 'Col').val(1);
                 console.log(cont2);
                 cont2++;
 
             }
-            for (var k = 0; k < response.convinacion.Col3; k++) {
-                $('#con' + cont3 + 'Col').val(1);
+            for (var k = 0; k < 3; k++) {
+                if ((k+1) <= parseInt(response.convinacion.Col3)) {
+                    $('#con' + cont3 + 'Col').val(1);   
+                } else {
+                    $('#con' + cont3 + 'Col').val(0);
+                }
                 console.log(cont3);
                 cont3++;
             }
@@ -1487,11 +1514,7 @@ function setDetalleMuestra() {
         case 12:
         case 3:
             switch (parseInt($('#parametro').val())) {
-                case 135: // Coliformes fecales
-                case 132:
-                case 133:
                 case 12:
-                case 134: // E COLI
                 case 35:
                 case 51: // Coliformes totales
                     $.ajax({
@@ -1546,6 +1569,52 @@ function setDetalleMuestra() {
                             }
                         }
                     });
+                    break;
+                case 135: //Coliformes alimentos
+                case 133:
+                case 132:
+                case 134:
+                    let presuntiva1 = $("#pres124ColAli").val();
+                    let presuntiva2 = $("#pres148ColAli").val();
+                    let confir1 = $("#confir124ColAli").val();
+                    let confir2 = $("#confir148ColAli").val();
+                    if (presuntiva2 < presuntiva1)
+                    {
+                        alert("La presuntiva de 24hrs no puede ser mayor a la Presuntiva de 48hrs")
+                    }else if (confir2 < confir1)
+                    {
+                        alert("La confirmativas de 24hrs no puede ser mayor a la Confirmativa de 48hrs")
+                    }
+                    else{
+                
+                        $.ajax({
+                            type: "POST",
+                            url: base_url + "/admin/laboratorio/micro/operacionColAlimentos",
+                            data: {
+                                idDetalle: idMuestra,
+                                presuntiva1:$("#pres124ColAli").val(),
+                                presuntiva2:$("#pres148ColAli").val(),
+                                confirmativa1:$("#confir124ColAli").val(),
+                                confirmativa2:$("#confir148ColAli").val(),
+                                _token: $('input[name="_token"]').val()
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response)
+                                if (response.resultado == 8.0){
+                                    $("#resultadoColAli").val(">"+response.resultado)
+                                } else {
+                                    $("#resultadoColAli").val(response.resultado)
+                                }
+                                if(response.resultado == 0){
+                                    $("#resultadoColAli").val("No Detectable")
+                                } else {
+                                    $("#resultadoColAli").val(response.model.Resultado)  
+                                }
+                            }
+                        });
+                    
+                    }
                     break;
                 case 253: //todo  ENTEROCOCO FECAL
                     $.ajax({
@@ -1854,11 +1923,7 @@ function getDetalleMuestra(id) {
                             $("#b2SulfatosF").val(response.curva.B);
                             $("#m2SulfatosF").val(response.curva.M);
                             $("#r2SulfatosF").val(response.curva.R);
-                            // $("#phIni1F").val(response.model.Ph_ini);
-                            // $("#phFin1F").val(response.model.Ph_fin);
-                            // $("#nitratos1F").val(response.model.Nitratos);
-                            // $("#nitritos1F").val(response.model.Nitritos);
-                            // $("#sulfuros1F").val(response.model.Sulfuros);
+
                             $("#fDilucion1SulfatosF").val(response.model.Vol_dilucion);
                             $("#fDilucion2SulfatosF").val(response.model.Vol_dilucion);
                             $("#volMuestra1SulfatosF").val(response.model.Vol_muestra);
@@ -2202,11 +2267,7 @@ function getDetalleMuestra(id) {
                 case 6: // Mb
                 case 12:
                     switch (parseInt(response.model.Id_parametro)) {
-                        case 135: // Coliformes fecales
-                        case 132:
-                        case 133:
                         case 12:
-                        case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
                             $("#dil1Col").val(response.model.Dilucion1);
@@ -2237,6 +2298,16 @@ function getDetalleMuestra(id) {
 
                             $("#resultadoCol").val(response.model.Resultado);
                             $("#observacionCol").val(response.model.Observacion);
+                            break;
+                        case 135: //Coliformes alimentos
+                        case 133:
+                        case 132:
+                        case 134:
+                                $("#pres124ColAli").val(response.model.Presuntiva1)
+                                $("#pres148ColAli").val(response.model.Presuntiva2)
+                                $("#confir124ColAli").val(response.model.Confirmativa1)
+                                $("#confir148ColAli").val(response.model.Confirmativa2)
+                                 $("#resultadoColAli").val(response.model.Resultado)
                             break;
                         case 253: //todo  ENTEROCOCO FECAL
                             $("#endil1Ent").val(response.model.Dilucion1);
