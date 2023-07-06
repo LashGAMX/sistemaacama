@@ -476,6 +476,7 @@ class MetalesController extends Controller
         $detalle->Factor_dilucion = $request->FD;
         $detalle->Factor_conversion = $request->FC;
         $detalle->Vol_disolucion = $resultadoRound;
+        $detalle->observacion = $request->obs;
         $detalle->Analizo = Auth::user()->id;
         $detalle->save();
 
