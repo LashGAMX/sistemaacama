@@ -171,7 +171,7 @@
                             @else
                              COMPUESTA
                             @endif
-                                TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}} QUE ESTABLECE
+                                TIPO  QUE ESTABLECE
                                 LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
                             <br> BIENES NACIONALES.
                         @break

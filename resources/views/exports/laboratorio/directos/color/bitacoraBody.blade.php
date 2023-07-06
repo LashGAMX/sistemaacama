@@ -37,9 +37,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($model as $item)
+                @foreach ($model as $item) 
                     <tr>
-                        <td class="tableContent">{{ $item->Codigo }}</td>
+                        <td class="tableContent">
+                            @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                                {{@$item->Folio_servicio}}
+                            @else
+                                {{@$item->Control}}
+                            @endif                                
+                        </td>
                         <td class="tableContent">{{ $item->Vol_muestra }}</td>
                         <td class="tableContent">{{ $item->Ph }}</td>
                         <td class="tableContent">{{ $item->Color_a }}</td>

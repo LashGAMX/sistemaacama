@@ -8,10 +8,10 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+        @php
+             echo $procedimiento[0];
+        @endphp
     </div>
 
     <br>
@@ -22,7 +22,7 @@
 
                 <tr>
                     <th class="nombreHeader" colspan="10">
-                        Resultado de las muestras
+                        Resultado de las muestras 
                     </th>                    
                 </tr>                
 
@@ -41,50 +41,51 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < @$dataLength ; $i++)
+                @foreach ($model as $item)
                     <tr>
                         <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
-                                {{@$data[$i]->Folio_servicio}}
+                            @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                                {{@$item->Folio_servicio}}
                             @else
-                                {{@$data[$i]->Control}}
+                                {{@$item->Control}}
                             @endif 
                         </td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs3}}</td>
-                        <td class="tableContent">{{@$data[$i]->Promedio}}</td>
-                        <td class="tableContent">{{@$limites[$i]}}</td>
-                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Liberado == 1)
+                        <td class="tableContent">{{@$item->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$item->Abs1}}</td>
+                        <td class="tableContent">{{@$item->Abs2}}</td>
+                        <td class="tableContent">{{@$item->Abs3}}</td>
+                        <td class="tableContent">{{@$item->Promedio}}</td>
+                        @if ($item->Resultado <= $item->Limite)
+                            <td class="tableContent">< {{$item->Limite}}</td>
+                        @else
+                            <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
+                        @endif
+                        <td class="tableContent">{{@$item->Observacion}}</td>
+                        <td class="tableContent"> 
+                            @if (@$item->Liberado == 1)
                                 Liberado
-                            @elseif(@$data[$i]->Liberado == 0)
+                            @elseif(@$item->Liberado == 0)
                                 No liberado
-                            @endif 
+                            @endif     
                         </td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>
+                        <td class="tableContent">{{@$item->Control}}</td>
                     </tr>
-                @endfor
+                @endforeach
             </tbody>        
         </table>  
     </div>    
 
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br>
-        <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
-        <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
-        <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
+        <span><br> Absorbancia B1: 0</span> <br><br>
+        <span>Absorbancia B2: 0</span> <br><br>
+        <span>Absorbancia B3: 0</span> <br><br>
+        <span>RESULTADO BLANCO: 0</span>
     </div>
-
     <br>
 
     <div id="contenidoCurva">
-        <span id='curvaProcedimiento'>Valoración / Observación</span>
-        <?php echo html_entity_decode($textoProcedimiento[1]);?>
+     
     </div>
-
     <br>
 
     <div class="contenedorTabla">
@@ -96,7 +97,7 @@
                         Datos de la curva de calibración
                     </th>                    
                 </tr>                
-                
+                 
             </thead>
     
             <tbody>
@@ -105,14 +106,14 @@
                         <td class="tableCabecera">b = </td>
                         <td class="tableContent">{{@$curva->B}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>
+                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>                                                
                     </tr>
 
                     <tr>
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"><{{@$limiteC->Limite}}</td>
+                        <td class="tableContent"> < {{number_format(@$model[0]->Limite, 4, ".", ".")}}</td>
                     </tr>
 
                     <tr>
@@ -122,6 +123,6 @@
                 {{-- @endfor --}}
             </tbody>        
         </table>  
-    </div>
+    </div>       
 </body>
 </html>

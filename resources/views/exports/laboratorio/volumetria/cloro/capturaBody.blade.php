@@ -12,7 +12,7 @@
 
     <div id="contenidoCurva">
         @php
-        echo @$textProcedimiento->Texto;
+             echo $procedimiento[0];
         @endphp
     </div>
 

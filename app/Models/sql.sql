@@ -353,7 +353,7 @@ ON det.Id_codigo = cod.Id_codigo
 CREATE VIEW ViewLoteDetalleGA as SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_ga as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
-INNER JOIN  ViewSolicitud as sol
+INNER JOIN  ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
@@ -412,19 +412,19 @@ INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleEnterococos */
-CREATE VIEW ViewLoteDetalleEnterococos as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_enterococos as col
-INNER JOIN ViewSolicitud as sol
+CREATE VIEW ViewLoteDetalleEnterococos as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_enterococos as col
+INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
-ON col.Id_codigo = cod.Id_codigo
+ON col.Id_codigo = cod.Id_codigo;
 /* Lista ViewLoteDetalleDbo */ 
 
 CREATE VIEW ViewLoteDetalleDbo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dbo as col
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro

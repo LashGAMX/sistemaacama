@@ -35,6 +35,7 @@ use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\TemperaturaAmbiente;
+use App\Models\TipoCuerpo;
 use App\Models\TipoReporte;
 use App\Models\TituloConsecionSir;
 use App\Models\User;
@@ -140,6 +141,8 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
+        $tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
+
         $relacion = InformesRelacion::where('Id_solicitud', $idPunto)->get();
 
 
@@ -349,6 +352,7 @@ class InformesController extends Controller
 
 
         $data = array(
+            'tipoReporte2' => $tipoReporte2,
             'folioEncript' => $folioEncript,
             'campoCompuesto' => $campoCompuesto,
             'swOlor' => $swOlor,
@@ -4292,7 +4296,7 @@ class InformesController extends Controller
                                 $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                 break;
                         }
-                        var_dump($modelDet[0]->Id_lote);
+                        // var_dump($modelDet[0]->Id_lote);
                         if ($modelDet->count()) {
                             $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
                             $fechaTemp = $loteTemp->Fecha;
