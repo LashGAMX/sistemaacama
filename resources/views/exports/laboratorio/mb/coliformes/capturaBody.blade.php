@@ -337,9 +337,9 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva6}}
                     </td>
-                    <td class="contenidoBody bordesTabla">0</td>
-                    <td class="contenidoBody bordesTabla">0</td>
-                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva13}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva14}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva15}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva4 + @$data[$i]->Presuntiva5 + @$data[$i]->Presuntiva6}}                        
@@ -378,9 +378,9 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva9}}
                     </td>
-                    <td class="contenidoBody bordesTabla">0</td>
-                    <td class="contenidoBody bordesTabla">0</td>
-                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva16}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva17}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva18}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva7 + @$data[$i]->Presuntiva8 + @$data[$i]->Presuntiva9}}                    

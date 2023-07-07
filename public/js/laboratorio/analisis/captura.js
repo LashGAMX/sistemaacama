@@ -138,6 +138,37 @@ $(document).ready(function () {
         $('#indicador').val(1);
         console.log("metodo corto");
     });
+    $('#btnCleanColiforme').click(function () {
+        $("#dil1Col").val("");
+        $("#dil2Col").val("");
+        $("#dil3Col").val("");
+        $("#nmp1Col").val("");
+        $("#todos1Col").val("");
+        $("#negativos1Col").val("");
+        $("#positivos1Col").val("");
+        $("#con1Col").val(0);
+        $("#con2Col").val(0);
+        $("#con3Col").val(0);
+        $("#con4Col").val(0);
+        $("#con5Col").val(0);
+        $("#con6Col").val(0);
+        $("#con7Col").val(0);
+        $("#con8Col").val(0);
+        $("#con9Col").val(0);
+        $("#pre1Col").val(0);
+        $("#pre2Col").val(0);
+        $("#pre3Col").val(0);
+        $("#pre4Col").val(0);
+        $("#pre5Col").val(0);
+        $("#pre6Col").val(0);
+        $("#pre7Col").val(0);
+        $("#pre8Col").val(0);
+        $("#pre9Col").val(0);
+    
+        $("#resultadoCol").val("");
+    });
+
+
 });
 
 //todo Variables globales
@@ -177,13 +208,14 @@ function getStdMenu() {
                 case 218:  
                     $("#secctionCloro").show();
                     break;
-                case 28: //Alcalinidad
-                case 29:
-                    $("#secctionAlcalinidad").show();
-                    break;
+                // case 28: //Alcalinidad
+                // case 29:
+                //     $("#secctionAlcalinidad").show();
+                //     break;
                 case 6: // DQO
                     $("#secctionDqo").show();
                     break;
+                case 28:
                 case 11: //Nitrogeno Total
                 case 9: //Nitrogeno Amoniacal
                 case 108:
@@ -593,6 +625,7 @@ function setValoracion() {
             });
             break;
         case '108': // NITROGENO amoniacal
+        case '28':
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -1540,6 +1573,7 @@ function setDetalleMuestra() {
                             con7: $("#con7Col").val(),
                             con8: $("#con8Col").val(),
                             con9: $("#con9Col").val(),
+                             
                             pre1: $("#pre1Col").val(),
                             pre2: $("#pre2Col").val(),
                             pre3: $("#pre3Col").val(),
@@ -1549,6 +1583,16 @@ function setDetalleMuestra() {
                             pre7: $("#pre7Col").val(),
                             pre8: $("#pre8Col").val(),
                             pre9: $("#pre9Col").val(),
+ 
+                            pre11: $("#pre10Col").val(),
+                            pre22: $("#pre11Col").val(),
+                            pre33: $("#pre12Col").val(),
+                            pre44: $("#pre13Col").val(),
+                            pre55: $("#pre14Col").val(),
+                            pre66: $("#pre15Col").val(),
+                            pre77: $("#pre16Col").val(),
+                            pre88: $("#pre17Col").val(),
+                            pre99: $("#pre18Col").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
@@ -2499,6 +2543,7 @@ function getCapturaLote() {
                             case 287:
                             case 10:
                             case 11:
+                            case 28: // Alcalinidad
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaNitrogenoVol">Capturar</button>';
                                 break;
                             case 108:// Nitrogeno Amon

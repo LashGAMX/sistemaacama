@@ -3074,10 +3074,13 @@
           <div class="col-md-2">
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-6">
             <div class="form-group">
               <input type="text" id="resultadoColAli" style="font-size: 20px;color:red;" placeholder="Resultado">
             </div>
+          </div>
+          <div class="col-md-2">
+
           </div>
 
           <div class="col-md-12">
@@ -3256,6 +3259,7 @@
           </div>
           <div class="col-md-2">
             <button type="button" id="metodoCortoCol"> <i class="voyager-window-list"></i></button>
+            <button type="button" id="btnCleanColiforme"> <i class="fas fa-eraser"></i></button>
           </div>
 
           <div class="col-md-12">
@@ -3855,7 +3859,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.2"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.3"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

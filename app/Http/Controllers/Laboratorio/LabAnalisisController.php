@@ -81,12 +81,12 @@ class LabAnalisisController extends Controller
     }
     public function setTipoDqo(Request $res)
     {
-        $model = DqoDetalle::where('Id_lote', $res->idLote)->first();
+        $model = DqoDetalle::where('Id_lote', $res->idLote)->get();
         if ($model->count()) {
-            $model->Tipo = $res->tipo;
-            $model->Tecnica = $res->tecnica;
-            $model->Soluble = $res->soluble;
-            $model->save();
+            $model[0]->Tipo = $res->tipo;
+            $model[0]->Tecnica = $res->tecnica;
+            $model[0]->Soluble = $res->soluble;
+            $model[0]->save();
         } else {
             DqoDetalle::create([
                 'Id_lote' => $res->idLote,
@@ -128,10 +128,22 @@ class LabAnalisisController extends Controller
             'Id_user_c' => Auth::user()->id,
             'Id_user_m' => Auth::user()->id,
         ]);
-        if ($parametro->Id_parametro == 13) {
-            GrasasDetalle::create([
-                'Id_lote' => $model->Id_lote,
-            ]);
+        switch ($parametro->Id_parametro) {
+            case 13:
+                GrasasDetalle::create([
+                    'Id_lote' => $model->Id_lote,
+                ]);     
+                break;
+            case 6:
+                DqoDetalle::create([
+                    'Id_lote' => $model->Id_lote,
+                    'Tecnica' => 2,
+                    'Soluble' => 2,
+                ]);
+                break;
+            default:
+                # code...
+                break;
         }
         $data = array(
             'model' => $model
@@ -272,6 +284,7 @@ class LabAnalisisController extends Controller
                         case 287:
                         case 83:
                         case 108:
+                        case 28: // Alcalinidadd
                             $temp = LoteDetalleNitrogeno::create([
                                 'Id_lote' => $res->idLote,
                                 'Id_analisis' => $model->Id_solicitud,
@@ -470,6 +483,7 @@ class LabAnalisisController extends Controller
                         case 287:
                         case 83:
                         case 108:
+                        case 28://Alcalinidad
                             $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->get();
                             break;
                         default:
@@ -1819,7 +1833,7 @@ class LabAnalisisController extends Controller
                         case 287:
                         case 83:
                         case 108:
-
+                        case 28://Alcalinidad
                             $muestras = LoteDetalleNitrogeno::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleNitrogeno::find($item->Id_detalle);
@@ -1883,11 +1897,117 @@ class LabAnalisisController extends Controller
 
                     $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                     break;
-                
+
                 case 6: //Mb
                 case 12:
                 case 3:
                     switch ($lote[0]->Id_tecnica) {
+                        case 135: // Coliformes fecales
+                        case 132:
+                        case 133:
+                        case 12:
+                        case 134: // E COLI
+                        case 35:
+                        case 51: // Coliformes totales
+                            $muestras = LoteDetalleColiformes::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleColiformes::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetalleColiformes::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                        case 253: //todo  ENTEROCOCO FECAL
+                            $muestras = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleEnterococos::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                        case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                            $muestras = LoteDetalleDbo::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleDbo::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetalleDbo::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                        case 16: //todo Huevos de Helminto 
+                            $muestras = LoteDetalleHH::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleHH::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetalleHH::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                        case 78:
+                            $muestras = LoteDetalleEcoli::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleEcoli::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetalleEcoli::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
                         default:
                             $muestras = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                             foreach ($muestras as $item) {
@@ -2046,6 +2166,7 @@ class LabAnalisisController extends Controller
                     case 287:
                     case 83:
                     case 108:
+                    case 28://Alcalinidad
                         $model = LoteDetalleNitrogeno::find($res->idMuestra);
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
@@ -2083,6 +2204,92 @@ class LabAnalisisController extends Controller
             case 12:
             case 3:
                 switch ($lote[0]->Id_tecnica) {
+                    case 135: // Coliformes fecales
+                    case 132:
+                    case 133:
+                    case 12:
+                    case 134: // E COLI
+                    case 35:
+                    case 51: // Coliformes totales
+                        $model = LoteDetalleColiformes::find($res->idMuestra);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+
+                        $modelCod = CodigoParametros::find($model->Id_codigo);
+                        $modelCod->Resultado = $model->Resultado;
+                        $modelCod->Resultado2 = $model->Resultado;
+                        $modelCod->Analizo = Auth::user()->id;
+                        $modelCod->save();
+
+                        $model = LoteDetalleColiformes::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
+                    case 253: //todo  ENTEROCOCO FECAL
+                        $model = LoteDetalleEnterococos::find($res->idMuestra);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+
+                        $modelCod = CodigoParametros::find($model->Id_codigo);
+                        $modelCod->Resultado = $model->Resultado;
+                        $modelCod->Resultado2 = $model->Resultado;
+                        $modelCod->Analizo = Auth::user()->id;
+                        $modelCod->save();
+
+                        $model = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
+                    case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        $model = LoteDetalleDbo::find($res->idMuestra);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+
+                        $modelCod = CodigoParametros::find($model->Id_codigo);
+                        $modelCod->Resultado = $model->Resultado;
+                        $modelCod->Resultado2 = $model->Resultado;
+                        $modelCod->Analizo = Auth::user()->id;
+                        $modelCod->save();
+
+                        $model = LoteDetalleDbo::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
+                    case 16: //todo Huevos de Helminto 
+                        $model = LoteDetalleHH::find($res->idMuestra);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+
+                        $modelCod = CodigoParametros::find($model->Id_codigo);
+                        $modelCod->Resultado = $model->Resultado;
+                        $modelCod->Resultado2 = $model->Resultado;
+                        $modelCod->Analizo = Auth::user()->id;
+                        $modelCod->save();
+
+                        $model = LoteDetalleHH::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
+                    case 78:
+                        $model = LoteDetalleEcoli::find($res->idMuestra);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+
+                        $modelCod = CodigoParametros::find($model->Id_codigo);
+                        $modelCod->Resultado = $model->Resultado;
+                        $modelCod->Resultado2 = $model->Resultado;
+                        $modelCod->Analizo = Auth::user()->id;
+                        $modelCod->save();
+
+                        $model = LoteDetalleEcoli::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
                     default:
                         $model = LoteDetalleDirectos::find($res->idMuestra);
                         $model->Liberado = 1;
@@ -2191,6 +2398,7 @@ class LabAnalisisController extends Controller
                     case 10:
                     case 11:
                     case 108: // Nitrogeno Amon
+                    case 28://Alcalinidad
                         $model = LoteDetalleNitrogeno::where('Id_detalle', $res->idMuestra)->first();
                         $model->Observacion = $res->observacion;
                         $model->save();
@@ -2207,6 +2415,47 @@ class LabAnalisisController extends Controller
                 $model = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
                 $model->Observacion = $res->observacion;
                 $model->save();
+                break;
+            case 6: //Mb
+            case 12:
+                switch ($lote[0]->Id_tecnica) {
+                    case 135: // Coliformes fecales
+                    case 132:
+                    case 133:
+                    case 12:
+                    case 134: // E COLI
+                    case 35:
+                    case 51: // Coliformes totales
+                        $model = LoteDetalleColiformes::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                    case 253: //todo  ENTEROCOCO FECAL
+                        $model = LoteDetalleEnterococos::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                    case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        $model = LoteDetalleDbo::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                    case 16: //todo Huevos de Helminto 
+                        $model = LoteDetalleHH::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                    case 78:
+                        $model = LoteDetalleEcoli::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                    default:
+                        $model = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                }
                 break;
             default:
                 $model = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
@@ -2728,7 +2977,7 @@ class LabAnalisisController extends Controller
                 );
                 $mpdf->showWatermarkImage = true;
                 switch ($lote->Id_tecnica) {
-                    //bitacora dqo
+                        //bitacora dqo
                     case 6:
                         $dqoDetalle = DB::table('dqo_detalle')->where('Id_lote', $id)->get();
                         $loteDetalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id)->get();
@@ -3455,7 +3704,7 @@ class LabAnalisisController extends Controller
                         break;
                 }
                 break;
-           case 6: //Mb
+            case 6: //Mb
             case 12:
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => 'P',
@@ -3463,7 +3712,7 @@ class LabAnalisisController extends Controller
                     'margin_left' => 10,
                     'margin_right' => 10,
                     'margin_top' => 31,
-                    'margin_bottom' => 45, 
+                    'margin_bottom' => 45,
                     'defaultheaderfontstyle' => ['normal'],
                     'defaultheaderline' => '0'
                 ]);
@@ -3616,7 +3865,7 @@ class LabAnalisisController extends Controller
                     case 12:
                         return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $id);
                         break;
-                    // case 135:
+                        // case 135:
                     case 133: //Coliformes totales
                         $mpdf = new \Mpdf\Mpdf([
                             'orientation' => "L",
@@ -3631,7 +3880,7 @@ class LabAnalisisController extends Controller
                         $mpdf->SetWatermarkImage(
                             asset('/public/storage/HojaMembretadaHorizontal.png'),
                             1,
-                            array(215, 280), 
+                            array(215, 280),
                             array(0, 0),
                         );
                         $mpdf->showWatermarkImage = true;

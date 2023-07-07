@@ -190,7 +190,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}"></script>
+  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.0.3"></script>
   @stop
 
 @endsection    

@@ -139,8 +139,25 @@ function getLoteCaptura() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-            if(response.detalle[0].Id_parametro == 215){
-                hg = ""
+            
+            switch (parseInt(response.detalle[0].Id_parametro)) {
+                case 215:
+                case 195:
+                case 230:
+                case 188:
+                case 189:
+                case 196:
+                case 190:
+                case 194:
+                case 192:
+                case 191:
+                case 204:
+                case 219:
+                    hg = ""    
+                    break;
+            
+                default:
+                    break;
             }
             tab += '<table id="tablaControles" class="table table-sm">';
             tab += '    <thead>';
@@ -178,11 +195,28 @@ function getLoteCaptura() {
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
                 tab += '<td>'+item.Empresa_suc+'</td>';
-                if(response.detalle[0].Id_parametro == 215){
+                            
+            switch (parseInt(response.detalle[0].Id_parametro)) {             
+                case 189:
+                case 196:
+                case 190:
+                case 194:
+                case 192:
+                case 191:
+                case 204:
+                case 230:
+                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="100"></td>';
+                    break;
+                case 188:
+                case 219:
+                case 215:  
+                case 195: 
                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="80"></td>';
-                }else{
+                break;
+                default:
                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="50"></td>';
-                }
+                    break;
+            }
                 tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';

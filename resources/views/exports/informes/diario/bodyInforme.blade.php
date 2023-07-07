@@ -10,7 +10,7 @@
     @else
         Sin
     @endif Comparación</title>
-</head>
+</head> 
 <body>
     <p id='header1'>
         {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
@@ -28,7 +28,7 @@
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
                     <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 8px">
-                        {{@$cliente->Nombres}}</td>
+                        {{@$cliente->Empresa}}</td>
                     <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">
                         @if (@$solModel->Siralab == 1)
                             RFC: {{@$rfc->RFC}}

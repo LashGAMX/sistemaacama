@@ -19,8 +19,9 @@
                     </td>
                     @break
                     @case(30)
+                    
                     @break
-                    @default
+                    @case(27)
                         @if (@$promGra->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
                         <td class="fontCalibri anchoColumna111 fontSize8">
@@ -31,25 +32,36 @@
                             @endif
                         </td>
                         @endif
-                     
+                    
                         @if (@$promCol->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                             <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promCol[0]->Resultado2,2)}}</td>
                         @endif
-
+                        @if (@$promEco->count())
+                            <td class="fontCalibri anchoColumna111 fontSize8">Escherichia coli NMP/100mL</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promEco[0]->Resultado2,2)}}</td>
+                        @endif
+                        @if (@$promEnt->count())
+                            <td class="fontCalibri anchoColumna111 fontSize8">	Enterococos Fecales NMP/100mL</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promEnt[0]->Resultado2,2)}}</td>
+                        @endif
                         @if (@$promGas->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
                         <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
                         @endif
 
-                        @endswitch
+            
+                    @break
+                    
+                        @default
+                            
+                    @endswitch
                         <td class="fontCalibri anchoColumna111 justifyCenter"><span
-                                class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span
-                                class="fontSize8">{{$reportesCadena->Titulo_responsable}} {{$reportesCadena->Nombre_responsable}}</span> &nbsp;&nbsp; </td>
-                        <td class="justifyCenter anchoColumna111"><img
-                                style="width: auto; height: auto; max-width: 60px; max-height: 40px;"
-                                src="{{url('public/storage/'.@$firmaRes->firma)}}"></td>
-
+                            class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span
+                            class="fontSize8">{{$reportesCadena->Titulo_responsable}} {{$reportesCadena->Nombre_responsable}}</span> &nbsp;&nbsp; </td>
+                    <td class="justifyCenter anchoColumna111"><img
+                            style="width: auto; height: auto; max-width: 60px; max-height: 40px;"
+                            src="{{url('public/storage/'.@$firmaRes->firma)}}"></td>
                     @php
                     /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
                     "C39");*/
