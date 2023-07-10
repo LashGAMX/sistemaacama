@@ -60,7 +60,7 @@
                     @if ($item->Resultado <= $item->Limite)
                       <td class="tableContent">< {{@$item->Limite}}</td>
                     @else
-                        <td class="tableContent">{{@$item->Resultado}}</td>
+                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
                     @endif
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">

@@ -34,6 +34,7 @@ use App\Models\SimbologiaParametros;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
+use App\Models\SucursalCliente;
 use App\Models\TemperaturaAmbiente;
 use App\Models\TipoCuerpo;
 use App\Models\TipoReporte;
@@ -159,7 +160,7 @@ class InformesController extends Controller
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
 
-        $cliente = Clientes::where('Id_cliente', $solModel->Id_cliente)->first();
+        $cliente = SucursalCliente::where('Id_sucursal', $solModel->Id_sucursal)->first();
         $rfc = RfcSucursal::where('Id_sucursal', $solModel->Id_sucursal)->first();
 
         $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
@@ -4365,6 +4366,37 @@ class InformesController extends Controller
                         }
                     }
                     break;
+                    case 3:
+                    case 4:
+                    case 13: // g y a
+                    case 6: //DQO
+                    case 5: //DBO
+                    case 9: //nitrogeno amoniacal
+                    case 83: //kejendal
+                    case 10: //organico
+                    case 11: //nitrogeno total
+                    case 15: //Fosforo
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+
+                            // $resTemp = round($item->Resultado2, 2);
+                            $resTemp = number_format(@$item->Resultado2, 2, ".", ".");
+                        }
+                        break;
+                case 22:
+                case 7:
+                case 8:
+                case 23: //niquel
+                case 24: //plomo total
+                    if ($item->Resultado2 <= $item->Limite) {
+                        $resTemp = "< " . $item->Limite;
+                    } else {
+
+                        $resTemp = round($item->Resultado2, 3);
+                    }
+                
+                    break;
                 case 2:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
@@ -4376,8 +4408,14 @@ class InformesController extends Controller
                         }
                     }
                     break;
+                    case 14: // ph
+                            if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                                $resTemp = "----";
+                            } else {
+                                $resTemp = round($item->Resultado2, 1);
+                            }
+                            break;
                 case 67:
-                case 14:
                 case 110:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
@@ -4403,6 +4441,8 @@ class InformesController extends Controller
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->get();
         $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->get();
         $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->get();
+        $promEco = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 35)->where('Num_muestra', 1)->get();
+        $promEnt = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 253)->where('Num_muestra', 1)->get();
 
         $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
@@ -4429,6 +4469,8 @@ class InformesController extends Controller
             'promGra' => $promGra,
             'promGas' => $promGas,
             'promCol' => $promCol,
+            'promEco' => $promEco,
+            'promEnt' => $promEnt,
             'folioEncript' => $folioEncript,
             'firmaRes' => $firmaRes,
             'resInfo' => $resInfo,

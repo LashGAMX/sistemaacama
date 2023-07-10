@@ -71,7 +71,7 @@
                     <tbody>
                         @for ($i = 0; $i < sizeof($area); $i++)    
                             <tr>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} </td>
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} {{$idParametro[$i]}}</td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8"> {{$responsable[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$numRecipientes[$i]}}</td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 

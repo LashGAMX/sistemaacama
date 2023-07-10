@@ -130,19 +130,21 @@
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
-                    @if (@$lote->Id_tecnica == 215)
-                    <tr>
-                        <th id="tableCabecera">&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
-                        <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD6&nbsp;&nbsp;</th>                                     
-                        <th></span>&nbsp;&nbsp;</th>
-                    </tr>        
-                    @else
+                @switch(@$lote->Id_tecnica)
+                    @case(215)
+                        <tr>
+                            <th id="tableCabecera">&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
+                            <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD6&nbsp;&nbsp;</th>                                     
+                            <th></span>&nbsp;&nbsp;</th>
+                        </tr>       
+                        @break
+                    @default
                     <tr>
                         <th id="tableCabecera">&nbsp;</th>
                         <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
@@ -152,8 +154,9 @@
                         <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
                         <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>                            
                         <th></span>&nbsp;&nbsp;</th>
-                    </tr>        
-                    @endif
+                    </tr>      
+                @endswitch
+            
                                        
                 </thead>
         

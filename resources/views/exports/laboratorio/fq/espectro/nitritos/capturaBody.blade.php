@@ -64,11 +64,11 @@
                             {{@$item->Resultado}}
                         @endif
                     </td>
-                    <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">
                         @if (@$item->Liberado == 1)
                             Liberado
-                        @elseif(@$item->Liberado == 0)
+                        @elseif(@$item->Liberado == 0) 
                             No liberado
                         @endif     
                     </td>

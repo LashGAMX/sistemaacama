@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/coliformes/coliformesPDF.css')}}">
     <title>Captura PDF</title>
 </head> 
 <body> 
@@ -129,7 +129,7 @@
                     <th class="nombreHeader" colspan="4">
                         Datos de la curva de calibración
                     </th>                    
-                </tr>                
+                </tr>                 
                 
             </thead>
     
@@ -146,7 +146,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <{{@$limiteC->Limite}}</td>
+                        <td class="tableContent"> < {{@$model[0]->Limite}}</td>
                     </tr>
 
                     <tr>

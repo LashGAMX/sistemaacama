@@ -48,7 +48,7 @@ class ConcentracionController extends Controller
                 ]);
 
                 $nota = 'Creación de registro';
-                $this->historial($nota, $model->Id_concentracion);
+                // $this->historial($nota, $model->Id_concentracion);
             }
             $model = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
         }

@@ -723,6 +723,17 @@ class MbController extends Controller
                     $model->Presuntiva7 = $request->pre7;
                     $model->Presuntiva8 = $request->pre8;
                     $model->Presuntiva9 = $request->pre9;
+
+                    $model->Presuntiva10 = $request->pre11;
+                    $model->Presuntiva11 = $request->pre22;
+                    $model->Presuntiva12 = $request->pre33;
+                    $model->Presuntiva13 = $request->pre44;
+                    $model->Presuntiva14 = $request->pre55;
+                    $model->Presuntiva15 = $request->pre66;
+                    $model->Presuntiva16 = $request->pre77;
+                    $model->Presuntiva17 = $request->pre88;
+                    $model->Presuntiva18 = $request->pre99;
+
                     $model->Resultado = $request->resultadoCol;
                     $model->Analizo = Auth::user()->id;
                     $model->save();
@@ -740,7 +751,7 @@ class MbController extends Controller
                         if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
                             //Formula escrita 1
                             $op1 = 10 / $request->D1;
-                            $res = $op1 * $request->NMP;
+                            $res = $op1 * $numModel->Nmp;
                             $tipo = 2; // Formula 1
                         } else {
                             //Formula comparación por tabla  
@@ -791,6 +802,15 @@ class MbController extends Controller
                     $model->Presuntiva7 = $request->pre7;
                     $model->Presuntiva8 = $request->pre8;
                     $model->Presuntiva9 = $request->pre9;
+                    $model->Presuntiva10 = $request->pre11;
+                    $model->Presuntiva11 = $request->pre22;
+                    $model->Presuntiva12 = $request->pre33;
+                    $model->Presuntiva13 = $request->pre44;
+                    $model->Presuntiva14 = $request->pre55;
+                    $model->Presuntiva15 = $request->pre66;
+                    $model->Presuntiva16 = $request->pre77;
+                    $model->Presuntiva17 = $request->pre88;
+                    $model->Presuntiva18 = $request->pre99;
                     $model->Resultado = $res;
                     $model->Analizo = Auth::user()->id;
                     $model->save();
@@ -964,8 +984,6 @@ class MbController extends Controller
             'tipo' => $tipo,
             'model' => $numModel3,
             'metodoCorto' => $metodoCorto,
-
-
         );
 
         return response()->json($data);

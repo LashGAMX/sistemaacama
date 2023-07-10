@@ -442,30 +442,47 @@ class MetalesController extends Controller
         $FD = $request->FD;
         $FC = $request->FC;
         $suma = ($x + $y + $z);
-        $promedio = round(($suma / 3),3);
+        $promedio = round(($suma / 3),4);
         
         $resultado = "";
 
-        if ($parametroPurificada->count()) {    //todo:: Verificar filtro con la norma!!!
-            $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-            $resultado = ($paso1 * 1) / $FC;
-        } else {
+        switch ($parametro->Id_matriz) {
+            case 14:
 
-            if ($parametroModel->count()) {
-                if ($detalleModel->Descripcion != "Resultado") {
-                    $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                } else {
-                    $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) / $FC;
+                switch ($parametro->Id_parametro) {
+                    case  215:
+                    $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD * $request->volDirigido;   
+                    $resultado = ($temp ) / ($request->volMuestra * $FC);
+                        break;
+                    
+                    default:
+                    $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                    $resultado = ($paso1 * 1) / $FC;   
+                        break;
                 }
-            } else {
-                    $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;   
-                
-            }
+                break;
+            case 13:
+                $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD * $request->volDirigido;   
+                $resultado = ($temp ) / ($request->volMuestra * $FC);
+                break;
+            default:            
+                if ($parametroModel->count()) {
+                    if ($detalleModel->Descripcion != "Resultado") {
+                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                    } else {
+                        $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) / $FC;
+                    }
+                } else {
+                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
+                }
+            break;
         }
-        if ($detalleModel->Id_parametro == 215) {
-            $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;   
-            $resultado = ($temp * $request->volDirigido) / ($request->volMuestra * $FC);
-        }
+
+        
+        // if ($detalleModel->Id_parametro == 215) {
+        //     $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;   
+        //     $resultado = ($temp * $request->volDirigido) / ($request->volMuestra * $FC);
+        // }
         $resultadoRound = round($resultado, 3);
 
         $detalle = LoteDetalle::find($request->idDetalle);
@@ -482,6 +499,7 @@ class MetalesController extends Controller
         $detalle->save();
 
         $data = array(
+            'temp' => $temp,
             'idDeta' => $request->idDetalle,
             'curva' => $curvaConstantes,
             'promedio' => $promedio,
@@ -561,7 +579,7 @@ class MetalesController extends Controller
             if($item->Id_control == 1)
             {
                 $modelCod = CodigoParametros::find($model->Id_codigo);
-                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Resultado = $model->Vol_disolucion;
                 $modelCod->Analizo = Auth::user()->id;
                 $modelCod->save();
             }
@@ -677,6 +695,7 @@ class MetalesController extends Controller
         ->orWhere('Id_tipo_formula',22)
         ->orWhere('Id_tipo_formula',23)
         ->orWhere('Id_tipo_formula',24)
+        ->orWhere('Id_tipo_formula',58)
         ->get();
 
         $model = array();

@@ -85,7 +85,7 @@ function getParametros() {
             tab += '          <th>Id</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Tipo formula</th>';
-            tab += '          <th>Res. Sin. Sup</th> ';
+            // tab += '          <th>Res. Sin. Sup</th> ';
             tab += '          <th>Resultado</th> ';
             // tab += '          <th>Liberado</th> '; 
             // tab += '          <th>Nombre</th> '; 
@@ -102,7 +102,7 @@ function getParametros() {
                 tab += '<td>' + item.Id_codigo + '</td>';
                 tab += '<td class="bg-' + color + '">' + item.Parametro + '</td>';
                 tab += '<td>' + item.Tipo_formula + '</td>';
-                tab += '<td>' + item.Resultado + '</td>';
+                // tab += '<td>' + item.Resultado + '</td>';
                 tab += '<td>' + item.Resultado2 + '</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
@@ -214,8 +214,8 @@ function getDetalleAnalisis(idCodigo) {
                 case "152": //COT
                 case "99": //Cianuros 127
                 case "105": //Floururos 127
-                case 106:
-                case 107:
+                case "106":
+                case "107":
                 case "96":
                 case "95": // Sulfatos
                 case "87": // silice 
@@ -258,7 +258,7 @@ function getDetalleAnalisis(idCodigo) {
                     aux = aux + parseFloat(response.model.Resultado2);
                     tab += '</tr>';
                     $.each(response.aux, function (key, item) {
-                        if (item.Id_parametro == 7 || item.Id_parametro == 8) {
+                        if (item.Id_parametro == "7" || item.Id_parametro == "8") {
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
                             if (item.Resultado < item.Limite) {
@@ -276,9 +276,9 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 9:
-                case 10:
-                case 108: 
+                case "9":
+                case "10":
+                case "108": 
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -440,8 +440,9 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 12:
-                case 134:
+                case "12":
+                
+                case "134":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -462,12 +463,12 @@ function getDetalleAnalisis(idCodigo) {
                     });
                     // resLiberado = (aux / cont);
                     resLiberado = (Math.pow(aux, 1 / cont));
-                    console.log(resLiberado);
+                    console.log("Res: "+resLiberado);
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 253:
+                case "253":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -495,7 +496,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 35:
+                case "35":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -522,7 +523,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 16:
+                case "16":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -543,7 +544,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 78:
+                case "78":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -710,7 +711,7 @@ function getDetalleAnalisis(idCodigo) {
                             });
                             resLiberado = (aux / cont).toFixed(2);
                         }
-                    } else if (response.codigoModel.Id_parametro == 97 || response.codigoModel.Id_parametro == 100) { // Temperatura
+                    } else if (response.codigoModel.Id_parametro == "97" || response.codigoModel.Id_parametro == "100") { // Temperatura
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
