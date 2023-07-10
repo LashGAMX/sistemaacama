@@ -193,6 +193,7 @@ class CadenaController extends Controller
                 break;
             case 12:
             case 134:
+            case 133:
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
