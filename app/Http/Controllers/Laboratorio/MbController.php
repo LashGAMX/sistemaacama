@@ -1597,6 +1597,7 @@ class MbController extends Controller
         $data = array(
             'sw' => $sw,
             'mensaje' => $mensaje,
+            'codigo_parametro' => $modelCod
         );
         return response()->json($data);
     }
