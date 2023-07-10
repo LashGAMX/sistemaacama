@@ -250,8 +250,13 @@ class MetalesController extends Controller
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
         $model->Liberado = 0;
-        $model->Vol_disolucion = 0; 
+        $model->Vol_disolucion = 0;  
         $model->save();
+
+        $detalleModel = LoteDetalle::where('Id_lote', $request->Id_lote)->get();
+        $lote = LoteAnalisis::find($request->Id_lote);
+        $lote->Asignado = $detalleModel->count();
+        $lote->save();
 
         $data = array(
             'model' => $model,
@@ -499,7 +504,7 @@ class MetalesController extends Controller
         $detalle->save();
 
         $data = array(
-            'temp' => $temp,
+            // 'temp' => $temp,
             'idDeta' => $request->idDetalle,
             'curva' => $curvaConstantes,
             'promedio' => $promedio,
@@ -545,11 +550,13 @@ class MetalesController extends Controller
             $sw = true;
             $model->save();
         }
-        // $modelCod = CodigoParametros::find($model->Id_codigo);
-        // $modelCod->Resultado = $model->Vol_disolucion;
-        // $modelCod->save();
-
-        $modelCod = DB::table('codigo_parametro')->where('Id_solicitud', $model->Id_analisis)->where('Id_parametro', $model->Id_parametro)->update(['Resultado' => $model->Vol_disolucion, 'Analizo' => Auth::user()->id]);
+        if ($model->Id_control == 1) {
+            $modelCod = CodigoParametros::find($model->Id_codigo);
+            $modelCod->Resultado = $model->Vol_disolucion;
+            $modelCod->Resultado2 = $model->Vol_disolucion;
+            $modelCod->Analizo = Auth::user()->id;
+            $modelCod->save();
+        } 
 
         $model = LoteDetalle::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
@@ -574,11 +581,12 @@ class MetalesController extends Controller
             $model->Analizo = Auth::user()->id;
             if ($model->Vol_disolucion != NULL) {
                 $sw = true;
-                $model->save();
+                $model->save(); 
             }   
             if($item->Id_control == 1)
             {
                 $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado2 = $model->Vol_disolucion;
                 $modelCod->Resultado = $model->Vol_disolucion;
                 $modelCod->Analizo = Auth::user()->id;
                 $modelCod->save();

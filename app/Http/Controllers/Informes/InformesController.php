@@ -231,7 +231,7 @@ class InformesController extends Controller
                     case 67:
                     case 68:
                     case 125:
-                        $limC = round($item->Resultado2, 1);
+                        $limC = number_format(@$item->Resultado2, 1, ".", ".");
                         break;
                     case 34:
                         $limC = $item->Resultado2;
@@ -249,15 +249,23 @@ class InformesController extends Controller
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
-
-                            $limC = round($item->Resultado2, 2);
+                            $limC = number_format(@$item->Resultado2, 2, ".", ".");
                         }
                         break;
                     case 11:
+                    case 6:
+                    case 12:
+                    case 35:
+                    case 13:
+                    case 15: 
+                    case 9:
+                    case 10:
+                    case 83:
+                    case 4:
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
-                            $limC = round($item->Resultado2, 2);
+                            $limC = number_format(@$item->Resultado2, 2, ".", ".");
                         }
                         break;
                     case 227:
@@ -272,7 +280,7 @@ class InformesController extends Controller
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
-                            $limC = $item->Resultado2;
+                            $limC = number_format(@$item->Resultado2, 3, ".", ".");
                         }
                         break;
                 }
@@ -324,13 +332,14 @@ class InformesController extends Controller
 
         switch ($solModel->Id_norma) {
             case 5:
+            case 7:
             case 30:
                 $firma1 = User::find(14);
                 $firma2 = User::find(4);
                 break;
             
             default:
-                $firma1 = User::find(4);
+                $firma1 = User::find(14);
                 $firma2 = User::find(17);
                 break;
         }
@@ -4135,199 +4144,208 @@ class InformesController extends Controller
         $idParametro = array();
         foreach ($areaParam as $item) {
             $sw = false;
-            for ($i = 0; $i < sizeof($tempArea); $i++) {
-                if ($item->Id_area == $tempArea[$i]) {
-                    $sw = true;
-                }
-            }
-            if ($sw != true) {
-                $auxArea = DB::table('areas_lab')->where('Id_area', $item->Id_area)->first();
-                $user = DB::table('users')->where('id', $auxArea->Id_responsable)->first();
-                if (@$item->Id_area == 2 || @$item->Id_area == 7 || @$item->Id_area == 16 || @$item->Id_area == 17 || @$item->Id_area == 45 || @$item->Id_area == 34 || @$item->Id_area == 33) {
-                    if($model->Id_servicio != 3){
-                        array_push($numRecipientes, $phMuestra->count());
-                    } else {
-                        array_push($numRecipientes, $model->Num_tomas);
+            $valParametro = CodigoParametros::where('Id_solicitud',$idSol)->where('Id_parametro',$item->Id_parametro)->get();
+            if ($valParametro->count()) {
+                for ($i = 0; $i < sizeof($tempArea); $i++) {
+                    if ($item->Id_area == $tempArea[$i]) {
+                        $sw = true;
                     }
-
-                    array_push($stdArea, 1);
-                } else {
-                    array_push($numRecipientes, 1);
-                    array_push($stdArea, 0);
                 }
-
-                $paramTemp = Parametro::find($item->Id_parametro);
-                // var_dump($temp->Id_area);
-                $fechaTemp = '';
-                // echo "<br>";
-                // echo "Parametro: ".$paramTemp->Parametro."Area ".$paramTemp->Id_area . "Otra area: ".$item->Area;
-                switch ($paramTemp->Id_area) {
-                    case 2: // Metales
-                        $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = date("d-m-Y", strtotime($loteTemp->Fecha));
+                if ($sw != true) {
+                    $auxArea = DB::table('areas_lab')->where('Id_area', $item->Id_area)->first();
+                    $user = DB::table('users')->where('id', $auxArea->Id_responsable)->first();
+                    if (@$item->Id_areaAnalisis == 12 || @$item->Id_areaAnalisis == 6 || @$item->Id_areaAnalisis == 13 || @$item->Id_areaAnalisis == 3) {
+                        if($model->Id_servicio != 3){
+                            array_push($numRecipientes, $phMuestra->count());
                         } else {
+                            array_push($numRecipientes, $model->Num_tomas);
+                        }
+    
+                        array_push($stdArea, 1);
+                    } else {
+                        array_push($numRecipientes, 1);
+                        array_push($stdArea, 0);
+                    }
+    
+                    $paramTemp = Parametro::find($item->Id_parametro);
+                    // var_dump($temp->Id_area);
+                    $fechaTemp = '';
+                    // echo "<br>";
+                    // echo "Parametro: ".$paramTemp->Parametro."Area ".$paramTemp->Id_area . "Otra area: ".$item->Area. " Id area: ".$item->Id_area;
+                    switch ($paramTemp->Id_area) {
+                        case 2: // Metales
+                            $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            } 
+                            break;
+                        case 17: // Metales ICP
+                            // $modelDet = DB::table('lote_detalle_icp')->where('Id_codigo', $model->Folio_servicio)->where('Id_control', 1)->where('Id_parametro', $item->Parametro)->get();
+                            $modelDet = DB::table('lote_detalle_icp')->where('Id_control', 1)->where('Id_codigo', $model->Folio_servicio)->where('Id_parametro', $item->Id_parametro)->get();
+                            if ($modelDet->count()) {
+                                // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = date("d/m/Y", strtotime($modelDet[0]->Fecha));
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            break;
+                        case 6: // MB Residual
+                        case 12: // MB Alimentos
+                        case 3:
+                            switch ($item->Id_parametro) {
+                                case 5: // DBO
+                                    $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 12: // Coliformes  
+                                case 134:
+                                case 135:
+                                case 133:
+                                case 35:
+                                    $modelDet = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 16: // H.H
+                                    $modelDet = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 78: // E.Coli
+                                    $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                default:
+                                    $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                            }
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+    
+                            break;
+    
+                        case 14: // volumetria 
+                            switch ($item->Id_parametro) {
+                                case 6: // DQO
+                                    $modelDet = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case "218":
+                                    $modelDet = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 9:
+                                case 10:
+                                case 11:
+                                    $modelDet = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                default:
+                                    $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                            }
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            break;
+                        case 13: // GA
+                            $modelDet = DB::table('ViewLoteDetalleGA')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            break;
+                        case 15: // Solidos
+                            $modelDet = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            break;
+                        case 16: // Espectrofotonetria
+                            $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+    
+                            break;
+                        case 5: // FQ
+                            switch ($item->Id_parametro) {
+                                case 5: // DBO
+                                    $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                default:
+                                    $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                            }
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            // echo $item->Id_parametro."<br>";
+                            // echo "Lote:".$loteTemp->Id_lote."<br>";
+                            // echo $fechaTemp."<br>";
+                            break;
+                        case 8: // potable
+                            switch ($item->Id_parametro) {
+                                case 108: // N Amoniacal
+                                    $modelDet = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 14:
+                                case 110:
+                                case 98:
+                                    $modelDet = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 103:
+                                    $modelDet = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    echo "Entro dure";
+                                    break;
+                                default:
+                                    $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                            }
+                            // var_dump($modelDet[0]->Id_lote);
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            break;
+                        case 19:
+                        case 7:
+                            $modelDet = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                            if ($modelDet->count()) {
+                                $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                $fechaTemp = $loteTemp->Fecha;
+                            } else {
+                                $fechaTemp = "";
+                            }
+                            break;
+                        default:
                             $fechaTemp = "";
-                        }
-                        break;
-                    case 17: // Metales ICP
-                        // $modelDet = DB::table('lote_detalle_icp')->where('Id_codigo', $model->Folio_servicio)->where('Id_control', 1)->where('Id_parametro', $item->Parametro)->get();
-                        $modelDet = DB::table('lote_detalle_icp')->where('Id_control', 1)->where('Id_codigo', $model->Folio_servicio)->where('Id_parametro', $item->Id_parametro)->get();
-                        if ($modelDet->count()) {
-                            // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = date("d/m/Y", strtotime($modelDet[0]->Fecha));
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        break;
-                    case 6: // MB Residual
-                    case 12: // MB Alimentos
-                    case 3:
-                        switch ($item->Id_parametro) {
-                            case 5: // DBO
-                                $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            case 12: // Coliformes  
-                            case 134:
-                            case 135:
-                            case 35:
-                                $modelDet = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            case 16: // H.H
-                                $modelDet = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            case 78: // E.Coli
-                                $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            default:
-                                $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                        }
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-
-                        break;
-
-                    case 14: // volumetria 
-                        switch ($item->Id_parametro) {
-                            case 6: // DQO
-                                $modelDet = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            case "218":
-                                $modelDet = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            default:
-                                $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                        }
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        break;
-                    case 13: // GA
-                        $modelDet = DB::table('ViewLoteDetalleGA')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        break;
-                    case 15: // Solidos
-                        $modelDet = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        break;
-                    case 16: // Espectrofotonetria
-                        $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-
-                        break;
-                    case 5: // FQ
-                        switch ($item->Id_parametro) {
-                            case 19: // DBO
-                                $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            default:
-                                $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                        }
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        // echo $item->Id_parametro."<br>";
-                        // echo "Lote:".$loteTemp->Id_lote."<br>";
-                        // echo $fechaTemp."<br>";
-                        break;
-                    case 8: // potable
-                        switch ($item->Id_parametro) {
-                            case 108: // N Amoniacal
-                                $modelDet = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            case 14:
-                            case 110:
-                            case 98:
-                                $modelDet = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                            case 103:
-                                $modelDet = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                echo "Entro dure";
-                                break;
-                            default:
-                                $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                                break;
-                        }
-                        // var_dump($modelDet[0]->Id_lote);
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        break;
-                    case 19:
-                    case 7:
-                        $modelDet = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
-                        if ($modelDet->count()) {
-                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                            $fechaTemp = $loteTemp->Fecha;
-                        } else {
-                            $fechaTemp = "";
-                        }
-                        break;
-                    default:
-                        $fechaTemp = "";
-                        break;
+                            break;
+                    }
+                    
+    
+                    array_push($fechasSalidas, $fechaTemp);
+                    array_push($tempArea, $item->Id_area);
+                    array_push($area, $item->Area);
+                    array_push($idArea, $paramTemp->Id_area);
+                    array_push($idParametro,$item->Id_parametro);
+                    array_push($responsable, $user->name);
+                    array_push($firmas, $user->firma);
                 }
-                
-
-                array_push($fechasSalidas, $fechaTemp);
-                array_push($tempArea, $item->Id_area);
-                array_push($area, $item->Area);
-                array_push($idArea, $paramTemp->Id_area);
-                array_push($idParametro,$item->Id_parametro);
-                array_push($responsable, $user->name);
-                array_push($firmas, $user->firma);
             }
         }
 
@@ -4384,16 +4402,27 @@ class InformesController extends Controller
                             $resTemp = number_format(@$item->Resultado2, 2, ".", ".");
                         }
                         break;
+                    case 133:
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+
+                            // $resTemp = round($item->Resultado2, 2);
+                            $resTemp = number_format(@$item->Resultado2, 1, ".", ".");
+                        }
+                        break;
                 case 22:
                 case 7:
                 case 8:
                 case 23: //niquel
                 case 24: //plomo total
+                case 122:
+                case 124:
                     if ($item->Resultado2 <= $item->Limite) {
-                        $resTemp = "< " . $item->Limite;
+                        $resTemp = "< " . number_format(@$item->Limite, 3, ".", ".");
                     } else {
+                        $resTemp = number_format(@$item->Resultado2, 3, ".", ".");
 
-                        $resTemp = round($item->Resultado2, 3);
                     }
                 
                     break;
@@ -4408,7 +4437,7 @@ class InformesController extends Controller
                         }
                     }
                     break;
-                    case 14: // ph
+                case 14: // ph
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
@@ -4549,112 +4578,115 @@ class InformesController extends Controller
             // echo "Id:".$item->Id_area. ": ".$item->Area ." ".$item->Parametro."<br>";
             // $modelDet = LoteDetalleColiformes::where('Id_analisis',$idSol)->where('Id_parametro',5)->first();
             $temp = Parametro::find($item->Parametro);
+            $valParametro = CodigoParametros::where('Id_solicitud',$idSol)->where('Id_parametro',$item->Id_parametro)->get();
             // var_dump($temp->Id_area);
             $fechaTemp = "";
-            switch (@$temp->Id_area) {
-                case 2: // Metales
-                    $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = date("d-m-Y", strtotime($loteTemp->Fecha . "- 1 days"));
-                    } else {
+            if ($valParametro->count()) {
+                switch (@$temp->Id_area) {
+                    case 2: // Metales
+                        $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = date("d-m-Y", strtotime($loteTemp->Fecha . "- 1 days"));
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 17: // Metales ICP
+                        $modelDet = DB::table('lote_detalle_icp')->where('Id_codigo', $model->Folio_servicio)->where('Id_control', 1)->where('Id_parametro', $item->Parametro)->get();
+                        if ($modelDet->count()) {
+                            // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = date("d-m-Y", strtotime($modelDet[0]->Fecha . "- 1 days"));
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 6: // MB
+                    case 12:
+                        switch ($item->Parametro) {
+                            case 5: // DBO
+                                $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                            case 12: // Coliformes
+                                $modelDet = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                            case 16: // H.H
+                                $modelDet = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                            case 78: // E.Coli
+                                $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                        }
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = $loteTemp->Fecha;
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 14: // volumetria
+                        $modelDet = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = $loteTemp->Fecha;
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 13:
+                        $modelDet = DB::table('ViewLoteDetalleGA')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = $loteTemp->Fecha;
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 16:
+                        $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = $loteTemp->Fecha;
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 5:
+                        switch ($item->Parametro) {
+                            case 19: // DBO
+                                $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                        }
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = $loteTemp->Fecha;
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    case 8:
+                        switch ($item->Parametro) {
+                            case 108: // N Amoniacal
+                                $modelDet = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                            default:
+                                $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                        }
+                        if ($modelDet->count()) {
+                            $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                            $fechaTemp = $loteTemp->Fecha;
+                        } else {
+                            $fechaTemp = "";
+                        }
+                        break;
+                    default:
                         $fechaTemp = "";
-                    }
-                    break;
-                case 17: // Metales ICP
-                    $modelDet = DB::table('lote_detalle_icp')->where('Id_codigo', $model->Folio_servicio)->where('Id_control', 1)->where('Id_parametro', $item->Parametro)->get();
-                    if ($modelDet->count()) {
-                        // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = date("d-m-Y", strtotime($modelDet[0]->Fecha . "- 1 days"));
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                case 6: // MB
-                case 12:
-                    switch ($item->Parametro) {
-                        case 5: // DBO
-                            $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                        case 12: // Coliformes
-                            $modelDet = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                        case 16: // H.H
-                            $modelDet = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                        case 78: // E.Coli
-                            $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                    }
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = $loteTemp->Fecha;
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                case 14: // volumetria
-                    $modelDet = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = $loteTemp->Fecha;
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                case 13:
-                    $modelDet = DB::table('ViewLoteDetalleGA')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = $loteTemp->Fecha;
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                case 16:
-                    $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = $loteTemp->Fecha;
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                case 5:
-                    switch ($item->Parametro) {
-                        case 19: // DBO
-                            $modelDet = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                    }
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = $loteTemp->Fecha;
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                case 8:
-                    switch ($item->Parametro) {
-                        case 108: // N Amoniacal
-                            $modelDet = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                        default:
-                            $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
-                            break;
-                    }
-                    if ($modelDet->count()) {
-                        $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                        $fechaTemp = $loteTemp->Fecha;
-                    } else {
-                        $fechaTemp = "";
-                    }
-                    break;
-                default:
-                    $fechaTemp = "";
-                    break;
+                        break;
+                }
+    
+                array_push($fechasSalidas, $fechaTemp);
             }
-
-            array_push($fechasSalidas, $fechaTemp);
         }
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->first();
         $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->get();

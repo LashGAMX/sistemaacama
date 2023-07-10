@@ -53,9 +53,27 @@ class CadenaController extends Controller
     {
         $sw = true;
         $model = CodigoParametros::where('Id_codigo', $res->idCod)->first();
-        $model->Resultado2 = $res->resLiberado;
-        $model->Cadena = 1;
-        $model->save();
+        switch ($model->Id_parametro) {
+            case 5:
+                $aux = CodigoParametros::where('Id_parametro',$model->Id_parametro)->where('Id_solicitud',$model->Id_solicitud)->get();
+                for ($i=0; $i < $aux->count(); $i++) { 
+                    $aux[$i]->Cadena = 0;
+                    $aux[$i]->Reporte = 0; 
+                    $aux[$i]->save();
+                }
+                break;
+            
+            default:
+        
+                break;
+        }
+        $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
+        $model2->Resultado2 = $res->resLiberado; 
+        $model2->Cadena = 1;
+        $model2->Reporte = 1;
+        $model2->save();
+
+
         $data = array(
             'sw' => $sw,
         );
@@ -88,6 +106,18 @@ class CadenaController extends Controller
             case 300: //Niquel
             case 233: // Seleneio
             case 213: //Fierro 
+            case 197:
+            case 188:
+            case 189:
+            case 190:
+            case 191:
+            case 192:
+            case 194:
+            case 195:
+            case 196:
+            case 204:
+            case 219:
+            case 230:
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
@@ -103,6 +133,7 @@ class CadenaController extends Controller
             case 96:
             case 95: // Sulfatos
             case 87:
+            case 222:
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
@@ -193,6 +224,7 @@ class CadenaController extends Controller
                 break;
             case 12:
             case 134:
+            case 133:
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();

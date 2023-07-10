@@ -57,7 +57,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold">
                             @if ($solModel->Id_servicio != 3)  
-                                {{@$horaMuestreo}}
+                                COMPUESTA
                             @else
                                 INSTANTANEA                                    
                             @endif
@@ -151,7 +151,7 @@
             border-color="#000000" width="100%">
             <tbody>
                 <tr>
-                    <td class="nombreHeader fontBold nom justificadorCentr" style="font-size: 10px;">
+                    <td class="nombreHeader fontBold nom justificadorCentr" style="font-size: 8px;">
                         @switch(@$solicitud->Id_norma)
                         @case(1)
                         DE ACUERDO A NOM-001-SEMARNAT-1996

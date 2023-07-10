@@ -345,6 +345,7 @@ function createControlCalidadMetales()
         dataType: "json",
         success: function (response) {
             console.log(response);
+            getDataCaptura()
             getLoteCaptura()
         }
     });
@@ -357,6 +358,7 @@ function createControlCalidad()
         url: base_url + "/admin/laboratorio/" + area + "/createControlCalidad",
         data: {
             idMuestra: idMuestra,
+            idLote: idLote,
             idControl: $("#controlCalidad").val(),
             _token: $('input[name="_token"]').val()
         },
@@ -364,6 +366,7 @@ function createControlCalidad()
         success: function (response) {
             console.log(response);
             getLoteCaptura()
+        
         }
     });
 }
@@ -502,7 +505,7 @@ function liberarTodo()
 {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/liberarTodoGA",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarTodo",
         data: {
             idLote:idLote,
             _token: $('input[name="_token"]').val()

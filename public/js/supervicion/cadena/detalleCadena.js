@@ -185,6 +185,18 @@ function getDetalleAnalisis(idCodigo) {
                 case "300": //Niquel
                 case "233": // Seleneio
                 case "213": //Fierro 
+                case "197":
+                case "188":
+                case "189":
+                case "190":
+                case "191":
+                case "192":
+                case "194":
+                case "195":
+                case "196":
+                case "204":
+                case "219":
+                case "230":
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -441,7 +453,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "12":
-                
+                case "133":
                 case "134":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
