@@ -4,12 +4,14 @@ $(document).ready(function () {
 
     let table = $('#tableServicios').DataTable({        
         "ordering": false,
+        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
+            "infoEmpty": "No hay datos encontrados",   
+        },
+        
     });     
 
     $('#tableServicios tbody').on( 'click', 'tr', function () {

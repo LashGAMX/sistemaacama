@@ -26,8 +26,8 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>
                 <tr>
-                    <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 8px">
+                    <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot" style="font-size:10px">Empresa:</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 10px">
                         {{@$cliente->Empresa}}</td>
                     <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">
                         @if (@$solModel->Siralab == 1)
@@ -38,12 +38,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup paddingTopBot">Dirección:</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqSinSup" colspan="2" style="font-size: 8px;">{{@$direccion->Direccion}}</td>
+                    <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup paddingTopBot" style="font-size: 10px;">Dirección:</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqSinSup" colspan="2" style="font-size: 10px;">{{@$direccion->Direccion}}</td>
                 </tr>
                 <tr>
-                    <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6" style="font-size: 9px">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 8px;">{{$puntoMuestreo->Punto}}</td>
+                    <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6" style="font-size: 10px">Punto de muestreo:</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">{{$puntoMuestreo->Punto}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de
                         Muestreo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -113,8 +113,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
-                    <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="2">DE
+                    <td class="filasIzq bordesTabla anchoColumna11 bordeDer" style="font-size: 10px">Periodo de análisis:</td>
+                    <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="2" style="font-size: 10px">DE
                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}
                         A 
                         @switch($solModel->Id_norma)

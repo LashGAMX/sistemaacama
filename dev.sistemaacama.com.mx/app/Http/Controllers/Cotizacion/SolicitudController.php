@@ -288,7 +288,7 @@ class SolicitudController extends Controller
         $numCot = DB::table('solicitudes')->whereDate('created_at', $today)->where('Id_cliente', $res->clientes)->get();
         $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $res->clientes)->first();
         $cantCot = $numCot->count();
-
+        
         //var_dump($numCot);
         if ($cantCot > 0) {
             echo "Entro a if <br>";
@@ -656,7 +656,7 @@ class SolicitudController extends Controller
         $campo = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->first();
         $conduc = ConductividadMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
         $promConduc = 0;
-        $aux = 0; 
+        $aux = 0;
         foreach ($conduc as $item) {
             $promConduc = $promConduc + $item->Promedio;
             $aux++;
@@ -900,9 +900,9 @@ class SolicitudController extends Controller
         $modTemp = Solicitud::where('Id_cotizacion', $idOrden)->first();
         $cliente = SucursalCliente::where('Id_sucursal', $modTemp->Id_sucursal)->first();
         if ($model->Siralab == 1) {
-            $direccion = DB::table('ViewDireccionSir')->where('Id_sucursal', $modTemp->Id_sucursal)->first();
+            $direccion = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $modTemp->Id_direccion)->first();
         } else {
-            $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
+            $direccion = DireccionReporte::where('Id_direccion', $modTemp->Id_direccion)->first();
         }
         $puntos = SolicitudPuntos::where('Id_solicitud',$model->Id_solicitud)->get();
 
@@ -912,6 +912,7 @@ class SolicitudController extends Controller
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
         $norma = Norma::where('Id_norma',$model->Id_norma)->first();
         $contacto = SucursalContactos::where('Id_contacto',$model->Id_contacto)->first();
+
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1156,7 +1157,7 @@ class SolicitudController extends Controller
         
         return response()->json($data); 
     }
-    public function getPuntoMuestreoSol(Request $res) 
+    public function getPuntoMuestreoSol(Request $res)
     {
         $sol = Solicitud::where('Id_cotizacion', $res->id)->where('Padre',1)->first();
         $model = SolicitudPuntos::where('Id_solicitud',$sol->Id_solicitud)->get();
@@ -1269,6 +1270,7 @@ class SolicitudController extends Controller
     {
         $cotTemp = Solicitud::where('Id_cotizacion',$res->id)->where('Padre',1)->get();
         $msg = "No se puede generar folio";
+        $aux = 100;
         if ($cotTemp->count()) {     
             if ($cotTemp[0]->Folio_servicio == NULL) { 
                 $temp = strtotime($res->fecha);
@@ -1276,7 +1278,7 @@ class SolicitudController extends Controller
                 $dayYear = date("z", $temp) + 1;
                 $solDay = Solicitud::where('Fecha_muestreo',$res->fecha)->where('Padre',1)->where('Folio_servicio','!=','')->count();
         
-                $folio = $dayYear . "-" . ($solDay + 1) . "/" . $year;
+                $folio = $dayYear . "-" . ($aux + $solDay + 1) . "/" . $year;
                 
                 $model = Cotizacion::find($res->id);
                 $model->Folio_servicio = $folio;
@@ -1289,7 +1291,7 @@ class SolicitudController extends Controller
                 $msg = "Folio creado correctamente";
             }else{
                 $msg = "Esta solicitud ya tiene folio registrado";
-                $folio = $cotTemp[0]->Folio_servicio;
+                $folio = $cotTemp[0]->Folio;
                 $model = "";
             }
         }

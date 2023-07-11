@@ -110,8 +110,8 @@
                 </tr> --}}
     
                 <tr>
-                    <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
-                    <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3">DE
+                    <td class="filasIzq bordesTabla anchoColumna11 bordeDer" style="font-size: 10px">Periodo de análisis:</td>
+                    <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3" style="font-size: 10px">DE
                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->format('d/m/Y')}}
                         A {{ \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->addDays(7)->format('d/m/Y')}}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -130,7 +130,7 @@
         </table>
     </div>
     
-    <p style="font-size: 8px; font-weight: 100">Cloruros (mg/L): {{$compuesto->Cloruros}} &nbsp;&nbsp;&nbsp;&nbsp; Conductividad Promedio (µS/cm): {{$conducCampo->Resultado2}}</p>
+    <p style="font-size: 10px; font-weight: 100">Cloruros (mg/L): {{@$compuesto->Cloruros}} &nbsp;&nbsp;&nbsp;&nbsp; Conductividad Promedio (µS/cm): {{@$conducCampo->Resultado2}}</p>
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"
@@ -217,8 +217,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;UNIDADES DE pH&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
+                    {{-- <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td> --}}
                 </tr>
             </thead>
     
@@ -231,19 +231,19 @@
                         <td class="tableContent bordesTablaBody">{{\Carbon\Carbon::parse(@$item->Fecha)}}</td>
                         <td class="tableContent bordesTablaBody">{{$item->Num_toma}}</td>
                         @if ($item->Activo == 1)
-                            <td class="tableContent bordesTablaBody">{{$item->Promedio}}</td>
-                            <td class="tableContent bordesTablaBody">{{$gasto[0]->Promedio}}</td>
+                            <td class="tableContent bordesTablaBody">{{number_format(@$item->Promedio, 1, ".", ".")}}</td>
+                            <td class="tableContent bordesTablaBody">{{$gasto[$aux]->Promedio}}</td>
                         @else
                             <td class="tableContent bordesTablaBody">----</td>
                             <td class="tableContent bordesTablaBody">----</td>
                         @endif
                         @if ($aux == 0)
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$promPh}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limPh->Pm }}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{number_format(@$promPh, 1, ".", ".")}}</td>
+                            {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limPh->Pm }}</td> --}}
                             @php
                                 $auxPh = explode('-',$limPh->Pm);
                             @endphp
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promPh,2) >= $auxPh[0] && round($promPh,2) <= $auxPh[1] ) CUMPLE @else NO CUMPLE @endif</td>
+                            {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promPh,2) >= $auxPh[0] && round($promPh,2) <= $auxPh[1] ) CUMPLE @else NO CUMPLE @endif</td> --}}
                         @endif
                    </tr>
                    @php
@@ -264,8 +264,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;TEMPERATURA <br> DEL AGUA °C&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
+                    {{-- <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td> --}}
                 </tr>
             </thead>
     
@@ -286,9 +286,8 @@
                         @endif
                         @if ($aux == 0)
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$promTemp}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limTemp->Pm}}</td>
-                          
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promTemp,2) <= $limTemp->Pm) CUMPLE @else NO CUMPLE @endif</td>
+                            {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limTemp->Pm}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promTemp,2) <= $limTemp->Pm) CUMPLE @else NO CUMPLE @endif</td> --}}
                         @endif
                    </tr>
                    @php
@@ -309,8 +308,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;CONCENTRACION mg/L&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
+                    {{-- <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td> --}}
                 </tr>
             </thead>
     
@@ -331,8 +330,8 @@
                         @endif
                         @if ($aux == 0)
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{round($promGa,2)}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limGa->Pm}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promGa,2) <= $limGa->Pm ) CUMPLE @else NO CUMPLE @endif</td>
+                            {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limGa->Pm}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promGa,2) <= $limGa->Pm ) CUMPLE @else NO CUMPLE @endif</td> --}}
                         @endif
                    </tr>
                    @php
@@ -345,7 +344,7 @@
     
    @if ($ecoliModel->count())
     <div id="contenedorTabla">
-        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-042-SCFI-2015 / NMX-AA-167-SCFI-2017 DETERMINACIÓN DE E. COLI / ENTEROCOCOS </p>
+        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-042-SCFI-2015  DETERMINACIÓN DE E. COLI </p>
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
@@ -354,8 +353,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;NMP/100 mL&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
+                    {{-- <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td> --}}
                 </tr>
             </thead>
 
@@ -375,9 +374,9 @@
                             <td class="tableContent bordesTablaBody">----</td>
                         @endif
                         @if ($aux == 0)
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{@$promEcoli}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limCol->Pm}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promEcoli,2) <= $limCol->Pm ) CUMPLE @else NO CUMPLE @endif</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{number_format(@$ecoliModel[0]->Resultado2, 2, ".", ",")}}</td>
+                            {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limCol->Pm}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promEcoli,2) <= $limCol->Pm ) CUMPLE @else NO CUMPLE @endif</td> --}}
                         @endif
                 </tr>
                 @php
@@ -389,23 +388,103 @@
     </div> 
    @endif
 
+   @if ($enteModel->count())
+   <div id="contenedorTabla">
+       <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-167-SCFI-2017 DETERMINACIÓN DE ENTEROCOCOS </p>
+       <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+           <thead>
+               <tr>
+                   <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">HORA DE TOMA &nbsp;</td>
+                   <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
+                   <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;NMP/100 mL&nbsp;&nbsp;</td>
+                   <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
+                   <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
+                   {{-- <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                   <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td> --}}
+               </tr>
+           </thead>
 
+           <tbody>
+               @php 
+                   $aux = 0;
+               @endphp
+           @foreach ($phMuestra as $item)
+               <tr>
+                   <td class="tableContent bordesTablaBody">{{\Carbon\Carbon::parse(@$item->Fecha)}}</td>
+                       <td class="tableContent bordesTablaBody">{{$item->Num_toma}}</td>
+                       @if ($item->Activo == 1)
+                           <td class="tableContent bordesTablaBody">{{@$enteModel[$aux]->Resultado}}</td>
+                           <td class="tableContent bordesTablaBody">{{$gasto[$aux]->Promedio}}</td>
+                       @else 
+                           <td class="tableContent bordesTablaBody">----</td>
+                           <td class="tableContent bordesTablaBody">----</td>
+                       @endif 
+                       @if ($aux == 0)
+                           <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{number_format(@$enteModel[0]->Resultado2, 2, ".", ",")}}</td>
+                           {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limEnt->Pm}}</td>
+                           <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promEnt,2) <= $limEnt->Pm ) CUMPLE @else NO CUMPLE @endif</td> --}}
+                       @endif
+               </tr>
+               @php
+                   $aux++;
+               @endphp
+           @endforeach
+           </tbody>        
+       </table>  
+   </div> 
+  @endif
+
+
+  
+  @if ($colModel->count())
+  <div id="contenedorTabla">
+    <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-042-SCFI-2015  DETERMINACIÓN DE COLIFORMES FECALES </p>
+      <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+          <thead>
+              <tr>
+                  <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">HORA DE TOMA &nbsp;</td>
+                  <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
+                  <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;NMP/100 mL&nbsp;&nbsp;</td>
+                  <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
+                  <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
+                  {{-- <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                  <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td> --}}
+              </tr>
+          </thead>
+
+          <tbody>
+              @php 
+                  $aux = 0;
+              @endphp
+          @foreach ($phMuestra as $item)
+              <tr>
+                  <td class="tableContent bordesTablaBody">{{\Carbon\Carbon::parse(@$item->Fecha)}}</td>
+                      <td class="tableContent bordesTablaBody">{{$item->Num_toma}}</td>
+                      @if ($item->Activo == 1)
+                          <td class="tableContent bordesTablaBody">{{@$colModel[$aux]->Resultado}}</td>
+                          <td class="tableContent bordesTablaBody">{{$gasto[$aux]->Promedio}}</td>
+                      @else 
+                          <td class="tableContent bordesTablaBody">----</td>
+                          <td class="tableContent bordesTablaBody">----</td>
+                      @endif 
+                      @if ($aux == 0)                          
+                          <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{number_format(@$colModel[0]->Resultado2, 2, ".", ",")}}</td>
+                          {{-- <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limColiformes->Pm}}</td>
+                          <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promCol,2) <= $limColiformes->Pm ) CUMPLE @else NO CUMPLE @endif</td> --}}
+                      @endif
+              </tr>
+              @php
+                  $aux++;
+              @endphp
+          @endforeach
+          </tbody>        
+      </table>  
+  </div> 
+ @endif
    <footer> 
     
     
     </div>
-
-    {{-- <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-            <tbody>            
-                    <tr>
-                        <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$reportesInformes->Nota}}
-
-                        </td>
-                    </tr>                
-            </tbody>         
-        </table>  
-    </div>     --}}
         
    
 <br>

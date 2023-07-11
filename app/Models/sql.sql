@@ -470,7 +470,7 @@ INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
-INNER JOIN control_calidad as control
+INNER JOIN control_calidad as controlViewPuntoMuestreoSolSir
 ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo

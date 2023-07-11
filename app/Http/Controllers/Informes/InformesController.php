@@ -80,13 +80,13 @@ class InformesController extends Controller
 
     public function mensual()
     {
-        $model = DB::table('ViewSolicitud')->OrderBy('Id_solicitud', 'DESC')->where('Padre', 0)->get();
+        $model = DB::table('ViewSolicitud2')->OrderBy('Id_solicitud', 'DESC')->where('Padre', 0)->get();
         return view('informes.mensual', compact('model'));
     }
     public function getPreReporteMensual(Request $res)
     {
-        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $res->id1)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud', $res->id2)->first();
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->id1)->first();
+        $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->id2)->first();
         $sw = false;
         if ($solModel->Siralab == 1 && $solModel2->Siralab == 1) {
             $punto1 = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $res->id1)->first();
@@ -262,6 +262,7 @@ class InformesController extends Controller
                     case 10:
                     case 83:
                     case 4:
+                    case 3:
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
@@ -421,7 +422,7 @@ class InformesController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
-        $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
+        $model = DB::table('ViewSolicitud2')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->where('Tipo', 3)->orderBy('Id_relacion', 'desc')->get();
@@ -431,7 +432,7 @@ class InformesController extends Controller
             $reportesInformesCampo = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
             InformesRelacion::create([
                 'Id_solicitud' => $idSol,
-                'Tipo' => 3,
+                'Tipo' => 3, 
                 'Id_reporte' => $reportesInformesCampo->Id_reporte,
             ]);
         }
@@ -446,8 +447,8 @@ class InformesController extends Controller
                         $aux = false;
                     }
                 } else {
-                    $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $idPunto)->first();
-                    if ($model2->Id_solicitud == $item->Id_solicitud) {
+                    $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $idPunto)->get();
+                    if ($model2[0]->Id_solicitud == $item->Id_solicitud) {
                         $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
                         $aux = false;
                     }
@@ -482,7 +483,7 @@ class InformesController extends Controller
         $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
         $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();
-        $numOrden =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel->Hijo)->first();
+        $numOrden =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel->Hijo)->first();
         if ($solModel->Id_muestra == 1) {
             $horaMuestreo = \Carbon\Carbon::parse($phCampo[0]->Fecha)->format('H:i:s'); 
         } else {
@@ -603,12 +604,16 @@ class InformesController extends Controller
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $idSol)->get();
         $grasasModel = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
         @$ecoliModel = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 35)->get();
+        @$enteModel = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 253)->get();
+        @$colModel = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 12)->get();
         $sumGasto = 0;
         $gastoProm = array();
         $promPh = 0;
         $promTemp = 0;
         $promGa = 0;
         $promEcoli = 0;
+        $promEnt = 0;
+        $promCol = 0;
         $aux = 0;
 
         foreach ($gasto as $item) {
@@ -625,6 +630,8 @@ class InformesController extends Controller
                 $promPh = $promPh + ($item->Promedio * $gastoProm[$aux]);
                 $promGa = $promGa + ($grasasModel[$aux]->Resultado * $gastoProm[$aux]);
                 @$promEcoli = $promEcoli + (@$ecoliModel[$aux]->Resultado * $gastoProm[$aux]);
+                @$promEnt = $promEnt + (@$enteModel[$aux]->Resultado * $gastoProm[$aux]);
+                @$promCol = $promCol + (@$colModel[$aux]->Resultado * $gastoProm[$aux]);
                 $promTemp = $promTemp + ($tempMuestra[$aux]->Promedio * $gastoProm[$aux]);
                 $aux++;
             }
@@ -637,6 +644,8 @@ class InformesController extends Controller
         $limPh = DB::table('limite001_2021')->where('Id_parametro', 14)->first();
         $limTemp = DB::table('limite001_2021')->where('Id_parametro', 97)->first();
         $limCol = DB::table('limite001_2021')->where('Id_parametro', 35)->first();
+        $limEnt = DB::table('limite001_2021')->where('Id_parametro', 253)->first();
+        $limColiformes = DB::table('limite001_2021')->where('Id_parametro', 12)->first();
         $limGa = DB::table('limite001_2021')->where('Id_parametro', 13)->first();
 
         $data = array(
@@ -644,10 +653,16 @@ class InformesController extends Controller
             'limPh' => $limPh,
             'limTemp' => $limTemp,
             'limCol' => $limCol,
+            'limColiformes' => $limColiformes,
+            'limEnt' => $limEnt,
             'limGa' => $limGa,
             'compuesto' => $compuesto,
+            'promEnt' => $promEnt,
+            'promCol' => $promCol,
+            'enteModel' => $enteModel,
             'ecoliModel' => @$ecoliModel,
             'promEcoli' => @$promEcoli,
+            'colModel' => $colModel,
             'grasasModel' => $grasasModel,
             'promGa' => $promGa,
             'tempMuestra' => $tempMuestra,
@@ -1526,13 +1541,10 @@ class InformesController extends Controller
         ]);
 
         // Hace los filtros para realizar la comparacion
-        $solModel1 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol1)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol2)->first();
-        if ($solModel1->Siralab == 1) {
-            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
-        } else {
-            $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
-        }
+        $solModel1 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol1)->first();
+        $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol2)->first();
+
+        $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
 
         if ($solModel1->Id_norma == 27) {
             return redirect()->to('admin/informes/exportPdfInformeMensual/001/' . $idSol1 . '/' . $idSol2 . '/' . $tipo);
@@ -1683,16 +1695,17 @@ class InformesController extends Controller
             'defaultheaderline' => '0'
         ]);
         // Hace los filtros para realizar la comparacion
-        $solModel1 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol1)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol2)->first();
+        $solModel1 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol1)->first();
+        $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol2)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
         if ($solModel1->Siralab == 1) {
-            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
+            // $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $dirTemp = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $solModel1->Id_direccion)->first();
             $dirReporte = @$dirTemp->Calle . ' ' . @$dirTemp->Num_exterior . ' ' . @$dirTemp->Num_interior . ' ' . @$dirTemp->NomEstado . ' ' . @$dirTemp->NomMunicipio . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Ciudad . ' ' . @$dirTemp->Localidad;
         } else {
-            $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
+            // $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $dirTemp = DireccionReporte::where('Id_direccion', $solModel1->Id_direccion)->first();
@@ -1701,13 +1714,13 @@ class InformesController extends Controller
         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
 
-        $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
-        $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+        @$gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+        @$gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
 
         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
-        $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
-        $numOrden2 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel2->Hijo)->first();
+        $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
+        $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         $firma1 = User::find(14);
         $firma2 = User::find(17);
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
@@ -1717,9 +1730,9 @@ class InformesController extends Controller
         $reviso = DB::table('users')->where('id', $reportesInformes->Id_reviso)->first();
         $autorizo = DB::table('users')->where('id', $reportesInformes->Id_autorizo)->first();
 
-        $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
-        $parti1 = $gasto1->Resultado2 / $promGastos;
-        $parti2 = $gasto2->Resultado2 / $promGastos;
+        @$promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
+        @$parti1 = $gasto1->Resultado2 / $promGastos; 
+        @$parti2 = $gasto2->Resultado2 / $promGastos;
 
         $limitesN = array();
         $limitesC1 = array();
@@ -1747,9 +1760,10 @@ class InformesController extends Controller
                     }
                     break;
                 case 14:
+                case 110:
 
-                    $limC1 = round($item->Resultado2, 2);
-                    $limC2 = round($model2[$cont]->Resultado2, 2);
+                    $limC1 = round($item->Resultado2, 1);
+                    $limC2 = round($model2[$cont]->Resultado2, 1);
                     $limP = round((($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2)), 2);
 
                     break;
@@ -1826,7 +1840,7 @@ class InformesController extends Controller
                                 case 21: //Cromoa
                                 case 264:
                                 case 18: //Cadmio
-                                    $limC2 = round($item->Resultado2, 3);
+                                    $limC2 = round($model2[$cont]->Resultado2, 3);
                                     break;
                                 case 152:
                                     $limC2 = round($model2[$cont]->Resultado2);
@@ -1852,7 +1866,7 @@ class InformesController extends Controller
             }
             switch ($item->Id_norma) {
                 case 27:
-                    $limNo = DB::table('limite001_2021')->where('Id_categoria', $tipoReporte->Id_categoria)->where('Id_parametro', $item->Id_parametro)->get();
+                    @$limNo = DB::table('limite001_2021')->where('Id_categoria', $tipoReporte->Id_categoria)->where('Id_parametro', $item->Id_parametro)->get();
                     if ($limNo->count()) {
                         $aux = $limNo[0]->Pm;
                     } else {

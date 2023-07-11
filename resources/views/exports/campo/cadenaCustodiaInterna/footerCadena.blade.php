@@ -80,12 +80,22 @@
 
 <div class="col-md-12"> 
     <table class="table table-sm fontSize7" width="100%">
-
-
         <tr>
             <td class="anchoColumna" style="border: 0"></td>
             <td>&nbsp;</td>
+            <td class="justifyRight"></td>
+            <td class="justifyRight">RE-11-003-1</td>
+        </tr>
+        <tr>
+            <td class="anchoColumna" style="border: 0"></td>
+            <td>&nbsp;</td>
+            <td class="justifyRight"></td>
             <td class="justifyRight">Rev. {{$reportesCadena->Num_rev}}</td>
+        </tr>
+        <tr>
+            <td class="anchoColumna" style="border: 0"></td>
+            <td>&nbsp;</td>
+            <td class="justifyRight"></td>
             <td class="justifyRight">Fecha ultima revisión: 01/04/2016</td>
         </tr>
     </table>
