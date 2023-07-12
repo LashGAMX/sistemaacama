@@ -923,8 +923,8 @@ class MbController extends Controller
                 # DBO
                 if ($request->tipo == 1) {
                     $E = $request->D / $request->C;
-                    $res = ($request->A - $request->B) / round($E, 2);
-
+                    $res = ($request->A - $request->B) / round($E, 3);
+                    $res = round($res,3);
                     $model = LoteDetalleDbo::find($request->idDetalle);
                     $model->Botella_final = $request->H;
                     $model->Botella_od = $request->G;

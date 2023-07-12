@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Laboratorio;
 
+use App\Http\Controllers\Config\ConfiguracionesController;
 use App\Http\Controllers\Controller;
 use App\Imports\AnalisisQ\IcpImport;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
 use App\Models\CodigoParametros;
+use App\Models\ConfiguracionMetales;
 use App\Models\ControlCalidad;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
@@ -1661,7 +1663,7 @@ class MetalesController extends Controller
               //Opciones del documento PDF
               $mpdf = new \Mpdf\Mpdf([
                 'orientation' => 'P',
-                'format' => 'letter',
+                'format' => 'letter', 
                 'margin_left' => 10,
                 'margin_right' => 10,
                 'margin_top' => 35, 
@@ -1693,5 +1695,33 @@ class MetalesController extends Controller
             $mpdf->WriteHTML($htmlCaptura); 
             $mpdf->Output();
     }
-
+    public function configuracionMetales()
+    {
+        $parametros = DB::table('ViewParametros')
+        ->where('Id_tipo_formula',20)
+        ->orWhere('Id_tipo_formula',21)
+        ->orWhere('Id_tipo_formula',22)
+        ->orWhere('Id_tipo_formula',23)
+        ->orWhere('Id_tipo_formula',24)
+        ->orWhere('Id_tipo_formula',58)
+        ->get();
+        return view('laboratorio.metales.configuracionMetales', compact('parametros'));
+    }
+    public function getConfiguraciones(Request $res)
+    {
+        $model = ConfiguracionMetales::where('Id_parametro',$res->id)->get();
+        if ($model->count()) {
+        }else{
+            ConfiguracionMetales::create([
+                'Id_parametro' => $res->id,
+            ]);
+        }
+        $model = ConfiguracionMetales::where('Id_parametro',$res->id)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_parametro',$res->id)->first();
+        $data = array(
+            'model' => $model[0],
+            'parametro' => $parametro,
+        );
+        return response()->json($data);
+    }
 }

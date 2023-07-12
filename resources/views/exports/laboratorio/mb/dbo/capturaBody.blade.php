@@ -121,9 +121,9 @@
                     {{@$item->Ph_final}}
                 </td>
                 @if ($item->Resultado <= $item->Limite)
-                <td class="tableContent">< {{number_format(@$model[0]->Limite, 4, ".", ".")}}</td>
+                <td class="tableContent">< {{number_format(@$model[0]->Limite, 2, ".", ".")}}</td>
             @else
-                <td class="tableContent">{{@$item->Resultado}}</td>
+                <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>
             @endif
 
             <td class="tableContent">
@@ -131,8 +131,12 @@
                 </td>
 
                 <td class="tableContent">
-                    @if (@$ditem->Liberado == 1)
-                        Liberado
+                    @if (@$item->Liberado == 1)
+                        @if (@$item->Sugerido == 0)
+                            Analizado
+                        @else
+                            Liberado
+                        @endif
                     @elseif(@$item->Liberado == 0)
                         No liberado
                     @endif

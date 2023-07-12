@@ -1366,6 +1366,7 @@ class LabAnalisisController extends Controller
 
                             break;
                         case 119:
+                        case 218:
                             $resultado = 0;
                             $dilusion = $res->dilucion;
                             $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
@@ -2754,18 +2755,20 @@ class LabAnalisisController extends Controller
                         } else {
                             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                         }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                         //Comprobación de bitacora analizada
-                        $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
                         if ($comprobacion->count()) {
                             $analizo = "";
                         } else {
-                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                            $analizo = User::where('id', $model[0]->Analizo)->first();
                         }
-                        $reviso = User::where('id', 17)->first();
+                        $reviso = User::where('id', 14)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
                             'plantilla' => $plantilla,
+                            'procedimiento' => $procedimiento,
                             'analizo' => $analizo,
                             'reviso' => $reviso,
                             'comprobacion' => $comprobacion,
@@ -2902,7 +2905,7 @@ class LabAnalisisController extends Controller
                         } else {
                             $analizo = User::where('id', $model[0]->Analizo)->first();
                         }
-                        $reviso = User::where('id', 17)->first();
+                        $reviso = User::where('id', 14)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,

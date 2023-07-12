@@ -2463,13 +2463,29 @@ class FqController extends Controller
                 break;
             case 112:
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillaBitacora::where('Id_parametro', 112)->first();
+                $plantilla = Bitacoras::where('Id_lote', $idLote)->get();
+                if ($plantilla->count()) {
+                } else {
+                    $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                if ($comprobacion->count()) {
+                    $analizo = "";
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 14)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    'plantilla' => $plantilla,
+                    'curva' => $curva,
+                    'procedimiento',
+                    'plantilla' => $plantilla, 
+                    'analizo' => $analizo,
+                    'reviso' => $reviso,
+                    'comprobacion' => $comprobacion,
                 );
-
                 $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', $data);

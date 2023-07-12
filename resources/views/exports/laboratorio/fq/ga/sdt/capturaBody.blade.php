@@ -13,7 +13,7 @@
     <div id="contenidoCurva">
         <br>
         @php
-            echo $plantilla[0]->Texto;
+            echo $procedimiento[0];
         @endphp
     </div>
 
@@ -79,5 +79,13 @@
             </tbody>        
         </table>  
     </div>
+
+    <div id="contenidoCurva">
+        <br>
+        @php
+            echo $procedimiento[1];
+        @endphp
+    </div>
+
 </body>
 </html>
