@@ -45,7 +45,7 @@
                             <td><input type="text" placeholder="corriente" id="corrienteLampara"></td>
                         </tr>
                         <tr>
-                            <td>No. Inventario</td>
+                            <td>No. Inventario</td> 
                             <td><input type="text" placeholder="# Inventario" id="NoInventario"></td>
                         </tr>
                         <tr>

@@ -43,34 +43,39 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < @$dataLength ; $i++)
-                    <tr>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
-                                {{@$data[$i]->Folio_servicio}}
-                            @else
-                                {{@$data[$i]->Control}}
-                            @endif                                 
-                        </td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs3}}</td>
-                        <td class="tableContent">{{@$data[$i]->Promedio}}</td>
-                        <td class="tableContent">{{@$data[$i]->Ph_ini}}</td>
-                        <td class="tableContent">{{@$data[$i]->Ph_fin}}</td>
-                        <td class="tableContent">{{@$limites[$i]}}</td>
-                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent"> 
-                            @if (@$data[$i]->Liberado == 1)
-                                Liberado
-                            @elseif(@$data[$i]->Liberado == 0)
-                                No liberado
-                            @endif                        
-                        </td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>
-                    </tr>                
-                @endfor
+                @foreach ($model as $item) 
+                <tr>
+                    <td class="tableContent">
+                        @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                            {{@$item->Folio_servicio}}
+                        @else
+                            {{@$item->Control}}
+                        @endif                                
+                    </td>
+                    <td class="tableContent">{{@$item->Vol_muestra}}</td>
+                    <td class="tableContent">{{@$item->Abs1}}</td>
+                    <td class="tableContent">{{@$item->Abs2}}</td> 
+                    <td class="tableContent">{{@$item->Abs3}}</td>
+                    <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Ph_ini, 2, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Ph_fin, 2, ".", ".")}}</td>
+                    @if ($item->Resultado <= $item->Limite)
+                        <td class="tableContent">< {{$item->Limite}}</td>
+                    @else
+                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
+                    @endif
+                    <td class="tableContent">{{@$item->Observacion}}</td>
+                    <td class="tableContent">
+                        @if (@$item->Liberado == 1)
+                            Liberado
+                        @elseif(@$item->Liberado == 0)
+                            No liberado
+                        @endif     
+                    </td>
+                    <td class="tableContent">{{@$item->Control}}</td>
+                </tr>
+            @endforeach
+    
             </tbody>        
         </table>
         <div id="contenidoCurva">
@@ -90,7 +95,6 @@
     </div>
 
     <br>
-
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
             <thead>
@@ -100,7 +104,7 @@
                         Datos de la curva de calibración
                     </th>                    
                 </tr>                
-                
+                 
             </thead>
     
             <tbody>
@@ -116,7 +120,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <{{@$limiteC->Limite}} </td>
+                        <td class="tableContent"> < {{number_format(@$model[0]->Limite, 3, ".", ".")}}</td>
                     </tr>
 
                     <tr>
@@ -126,6 +130,6 @@
                 {{-- @endfor --}}
             </tbody>        
         </table>  
-    </div>
+    </div>      
 </body>
 </html>

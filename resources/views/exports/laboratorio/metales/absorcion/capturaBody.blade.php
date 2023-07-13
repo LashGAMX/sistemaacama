@@ -31,14 +31,14 @@
 
         <div class="subContenedor2">            
             <span class="elementos"> ESPECTROFOTÓMETRO DE ABSORCIÓN ATÓMICA <span><br></span> PERKIN ELMER MODELO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Equipo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="subElementos">{{@$detalle->Equipo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;
             </span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">CORRIENTE DE LA LÁMPARA: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Corriente}}</span>
+            <span class="subElementos">{{@$detalle->Corriente}}</span>
         </div>
     </div>
 
@@ -47,43 +47,43 @@
 
         <div class="subContenedor2">
             <span class="elementos">No. DE INV. LÁMPARA: </span>                    
-            <span class="subElementos">{{@$tecnicaMetales->Num_invent_lamp}}</span>
+            <span class="subElementos">{{@$detalle->No_lampara}}</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">ENERGÍA DE LÁMPARA: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Energia}}</span>
+            <span class="subElementos">{{@$detalle->Energia}}</span>
         </div>
     </div>
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Num_inventario}}</span>
+            <span class="subElementos">{{@$detalle->No_inventario}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">LONGITUD DE ONDA: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Longitud_onda}}</span>
+            <span class="subElementos">{{@$detalle->Longitud_onda}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">SLIT: </span>                    
-            <span class="subElementos">{{@$tecnicaMetales->Slit}} mm</span>
+            <span class="subElementos">{{@$detalle->Slit}} mm</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ACETILENO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Gas}} L/min</span>
+            <span class="subElementos">{{@$detalle->Gas}} L/min</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">AIRE: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Aire}} L/min</span>
+            <span class="subElementos">{{@$detalle->Aire}} L/min</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ÓXIDO NITROSO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Oxido_nitroso}}</span>
+            <span class="subElementos">{{@$detalle->Oxido_nitroso}}</span>
         </div>
     </div>
 
@@ -93,31 +93,31 @@
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">STD.CAL. {{@$verificacionMetales->STD_cal}} </span>            
+            <span class="elementos">STD.CAL. {{@$detalle->Std_calE}} </span>            
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS. TEÓRICA: {{@$verificacionMetales->ABS_teorica}}</span>
+            <span class="elementos">ABS. TEÓRICA: {{@$detalle->Abs_teoricoE}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 1: {{@$verificacionMetales->ABS1}}</span>
+            <span class="elementos">ABS 1: {{@$detalle->Abs1E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 2: {{@$verificacionMetales->ABS2}}</span>
+            <span class="elementos">ABS 2: {{@$detalle->Abs2E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 3: {{@$verificacionMetales->ABS3}}</span>
+            <span class="elementos">ABS 3: {{@$detalle->Abs3E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 4: {{@$verificacionMetales->ABS4}}</span>
+            <span class="elementos">ABS 4: {{@$detalle->Abs4E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 5: {{@$verificacionMetales->ABS5}}</span>
+            <span class="elementos">ABS 5: {{@$detalle->Abs5E}}</span>
         </div>
     </div>
 
@@ -126,7 +126,7 @@
         <div class="subContenedor5">            
             <span class="verifEspectro">CURVA DE CALIBRACIÓN</span>
             <br>
-            <span class="elementosCurvaCalib">Ver. RE-12-001-24-1 Bit.3 Folio: 378. (Bitacora para la preparación de estándares y curvas de calibración)</span>
+            <span class="elementosCurvaCalib">Ver. {{@$detalle->Bitacora}} Bit. Folio: {{@$detalle->Folio}}. (Bitacora para la preparación de estándares y curvas de calibración)</span>
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
@@ -371,10 +371,14 @@
                         </td>
                         <td id="tableContent">{{@$item->Factor_dilucion}}</td>
                         <td id="tableContent">
-                            @if (round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3) > $item->Limite)
+                            @if (@$item->Vol_disolucion != null)
+                                @if (round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3) > $item->Limite)
                                 {{$item->Vol_disolucion}}
+                                @else
+                                    < {{$item->Limite}}
+                                @endif
                             @else
-                                < {{$item->Limite}}
+                                -------
                             @endif
                         </td> 
                         <td id="tableContent">{{@$item->Observacion}}</td>                        

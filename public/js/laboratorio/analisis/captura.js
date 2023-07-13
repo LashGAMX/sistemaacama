@@ -1029,8 +1029,8 @@ function setDetalleMuestra() {
                             $("#absPromEspectro1").val(response.model.Promedio.toFixed(3));
                             $("#absPromEspectro2").val(response.model.Promedio.toFixed(3));
                             $("#resultadoEspectro").val(response.model.Resultado.toFixed(3));
-                            $("#fDilucionEspectro1").val(response.model.Vol_dilucion.toFixed(3));
-                            $("#fDilucionEspectro2").val(response.model.Vol_dilucion.toFixed(3));
+                            $("#fDilucionEspectro1").val(parseFloat(response.model.Vol_dilucion).toFixed(3));
+                            $("#fDilucionEspectro2").val(parseFloat(response.model.Vol_dilucion).toFixed(3));
 
                         }
                     });

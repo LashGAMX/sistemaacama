@@ -57,7 +57,8 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold">
                             @if ($solModel->Id_servicio != 3)  
-                                COMPUESTA
+                                {{-- COMPUESTA --}}
+                                {{@$horaMuestreo}}
                             @else
                                 INSTANTANEA                                    
                             @endif

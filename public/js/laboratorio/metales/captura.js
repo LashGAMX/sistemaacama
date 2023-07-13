@@ -224,7 +224,11 @@ function getLoteCaptura() {
                 tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';
+                if (item.Vol_disolucion != null) {
+                    tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+                } else {
+                    tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+                }
                 tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+item.Observacion+'"></td>';
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);

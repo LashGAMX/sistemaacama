@@ -790,8 +790,10 @@ class LabAnalisisController extends Controller
                             $model->B = $res->CB;
                             $model->M = $res->CM;
                             $model->R = $res->CR;
+                            $model->Ph_ini = $res->phIni;
+                            $model->Ph_fin = $res->phFin;
                             $model->Promedio = $x;
-                            $model->Vol_dilucion = $d;
+                            $model->Vol_dilucion = round($d,3);
                             $model->Vol_muestra = $res->E;
                             $model->Blanco = $res->CA;
                             $model->Analizo = Auth::user()->id;
@@ -2657,6 +2659,8 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 69: //Cromo Hexa
+                        $htmlFooter = view('exports.laboratorio.fq.espectro.cromoHex.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', $data);

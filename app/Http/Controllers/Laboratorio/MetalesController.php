@@ -252,11 +252,11 @@ class MetalesController extends Controller
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
         $model->Liberado = 0;
-        $model->Vol_disolucion = 0;  
-        $model->save();
+        $model->Vol_disolucion = null;  
+        $model->save(); 
 
-        $detalleModel = LoteDetalle::where('Id_lote', $request->Id_lote)->get();
-        $lote = LoteAnalisis::find($request->Id_lote);
+        $detalleModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
+        $lote = LoteAnalisis::find($request->idLote);
         $lote->Asignado = $detalleModel->count();
         $lote->save();
 
@@ -700,12 +700,6 @@ class MetalesController extends Controller
     {
        $parametros = DB::table('ViewParametros')
         ->where('Id_tipo_formula',$res->tipo)
-        ->where('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
-        ->orWhere('Id_tipo_formula',58)
         ->get();
 
         $model = array();
@@ -750,6 +744,7 @@ class MetalesController extends Controller
         $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
         $model = MetalesDetalle::where('Id_lote',$res->id)->get();
         $plantilla = Bitacoras::where('Id_lote', $res->id)->get(); 
+        $configuracion = ConfiguracionMetales::where('Id_parametro',$lote->Id_tecnica)->first();
         if ($plantilla->count()) {
         } else {
             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
@@ -758,6 +753,7 @@ class MetalesController extends Controller
         $data = array( 
             'plantilla' => $plantilla,
             'model' => $model,
+            'configuracion' => $configuracion,
         );
         return response()->json($data);
     }
@@ -1722,6 +1718,44 @@ class MetalesController extends Controller
             'model' => $model[0],
             'parametro' => $parametro,
         );
+        return response()->json($data);
+    }
+    public function setConfiguraciones(Request $res)
+    {
+        $model = ConfiguracionMetales::where('Id_parametro',$res->id)->first();
+        $model->Equipo = $res->Equipo;
+        $model->Lampara = $res->Lampara;
+        $model->No_inventario = $res->No_inventario;
+        $model->Energia = $res->Energia;
+        $model->No_lampara = $res->No_lampara;
+        $model->Concentracion = $res->Concentracion;
+        $model->Longitud_onda = $res->Longitud_onda;
+        $model->Slit = $res->Slit;
+        $model->Acetileno = $res->Acetileno;
+        $model->Aire = $res->Aire;
+        $model->Oxido_nitroso = $res->Oxido_nitroso;
+        $model->Hidruros = $res->Hidruros;
+        $model->Bitacora_curva = $res->Bitacora_curva;
+        $model->Sup_std1 = $res->Sup_std1;
+        $model->Sup_std2 = $res->Sup_std2;
+        $model->Sup_std3 = $res->Sup_std3;
+        $model->Sup_std4 = $res->Sup_std4;
+        $model->Sup_std5 = $res->Sup_std5;
+        $model->Abs_std1 = $res->Abs_std1;
+        $model->Abs_std2 = $res->Abs_std2;
+        $model->Abs_std3 = $res->Abs_std3;
+        $model->Abs_std4 = $res->Abs_std4;
+        $model->Abs_std5 = $res->Abs_std5;
+        $model->Inf_std1 = $res->Inf_std1;
+        $model->Inf_std2 = $res->Inf_std2;
+        $model->Inf_std3 = $res->Inf_std3;
+        $model->Inf_std4 = $res->Inf_std4;
+        $model->Inf_std5 = $res->Inf_std5;
+        $model->save();
+        $data = array(
+            'model' => $model,
+        );
+
         return response()->json($data);
     }
 }

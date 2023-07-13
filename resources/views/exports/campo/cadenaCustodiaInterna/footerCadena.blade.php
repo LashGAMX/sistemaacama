@@ -5,17 +5,22 @@
                 <tr>
                     @switch(@$norma->Id_norma)
                     @case(2)
-                    <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L </td>
-                    <td class="fontCalibri anchoColumna111 fontSize8">
-                        @if (@$promGra->Resultado2 <= @$promGra->Limite)
-                            < {{@$promGra->Limite}}
-                        @else
-                            {{round(@$promGra->Resultado2,2)}}
+                    @if (@$promGra->count())
+                        <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
+                        <td class="fontCalibri anchoColumna111 fontSize8">
+                            @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
+                                < {{@$promGra[0]->Limite}}
+                            @else
+                                {{round(@$promGra[0]->Resultado2,2)}}
+                            @endif
+                        </td>
                         @endif
-                    </td>
 
+                    @if (@$promGas->count())
                     <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                    <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}
+                    <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
+                    @endif
+
                     </td>
                     @break
                     @case(30)
