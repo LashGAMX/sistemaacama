@@ -1291,7 +1291,8 @@ class CampoController extends Controller
         $firmaRecepcion = "";
 
         if ($model->Siralab == 1) { //Es cliente Siralab
-            $direccion = DB::table('ViewDireccionSir')->where('Id_direccion', $model->Id_direccion)->first();
+            $direccion = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $model->Id_direccion)->first();
+            // $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
         } else {
             $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
         }

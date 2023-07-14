@@ -54,15 +54,15 @@ function getServicio(id,tipo) {
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
+            for (let i = 0; i < response.ids.length; i++) {
                 tab += '<tr>';
-                tab += '<td>' + item.Id_solicitud + '</td>';
-                tab += '<td>' + item.Folio + '</td>';
-                tab += '<td>' + item.Empresa + '</td>';
-                tab += '<td>' + item.Hora_recepcion + '</td>';
-                tab += '<td></td>';
-                tab += '</tr>';
-            });
+                tab += '<td>' + response.ids[i] + '</td>';
+                tab += '<td>' + response.folios[i] + '</td>';
+                tab += '<td>' + response.empresas[i] + '</td>';
+                tab += '<td>' + response.recepciones[i] + '</td>';
+                tab += '<td>' + response.recepciones2[i] + '</td>';
+                tab += '</tr>';   
+            }
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;

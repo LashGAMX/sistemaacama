@@ -233,6 +233,9 @@ class InformesController extends Controller
                     case 125:
                         $limC = number_format(@$item->Resultado2, 1, ".", ".");
                         break;
+                    case 26:
+                        $limC = number_format(@$item->Resultado2, 2, ".", ".");
+                        break;
                     case 34:
                         $limC = $item->Resultado2;
                         break;
@@ -4366,7 +4369,11 @@ class InformesController extends Controller
         // var_dump($fechasSalidas);
 
 
-        $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Cadena', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        $paramResultado = DB::table('ViewCodigoParametro')
+        ->where('Id_solicitud', $idSol)
+        ->where('Id_parametro','!=',26)
+        ->where('Cadena', 1)
+        ->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         $resInfo = array();
         $resTemp = 0;
         foreach ($paramResultado as $item) {
@@ -4452,6 +4459,7 @@ class InformesController extends Controller
                     }
                     break;
                 case 14: // ph
+                case 97:
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
