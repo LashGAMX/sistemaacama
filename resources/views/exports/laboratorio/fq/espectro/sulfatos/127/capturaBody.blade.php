@@ -30,15 +30,15 @@
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Abs 1 S/n</th>
-                    <th class="tableCabecera anchoColumna">Abs 2 S/n</th>
-                    <th class="tableCabecera anchoColumna">Abs 3 S/n</th>
-                    <th class="tableCabecera anchoColumna">Abs Prom. S/n</th>
-                    <th class="tableCabecera anchoColumna">Abs 1 C.</th>
-                    <th class="tableCabecera anchoColumna">Abs 2 C.</th>
-                    <th class="tableCabecera anchoColumna">Abs 3 C.</th>
-                    <th class="tableCabecera anchoColumna">Abs Prom. C.</th>
-                    <th class="tableCabecera anchoColumna">Dif Prom.</th>
+                    <th class="tableCabecera anchoColumna">Abs 1 Turb.</th>
+                    <th class="tableCabecera anchoColumna">Abs 2 Turb.</th>
+                    <th class="tableCabecera anchoColumna">Abs 3 Turb.</th>
+                    <th class="tableCabecera anchoColumna">Abs Prom. Turb</th>
+                    <th class="tableCabecera anchoColumna">Abs 1 Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs 2 Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs 3 Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs Prom. Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs Dif.</th>
                     <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
