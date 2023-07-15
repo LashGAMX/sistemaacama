@@ -17,7 +17,8 @@ use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
 use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
-use App\Models\CampoCompuestos; 
+use App\Models\CampoCompuestos;
+use App\Models\PhMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -94,6 +95,7 @@ class CampoAppController extends Controller
         $solModel->save();
         $puntoModel = SolicitudPuntos::where('Id_solicitud',$solModel->Id_solicitud)->first();
 
+        // generales
         $campoGenModel = CampoGenerales::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoGenModel->Captura = "Mobil";
         $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
@@ -107,7 +109,13 @@ class CampoAppController extends Controller
         $campoGenModel->Supervisor = $jsonGeneral[0]["Criterio"];
         $campoGenModel->save();
 
-        //Guardar observacion 
+
+        //phMuestra
+
+       // $phMuestra =  PhMuestra::where();
+        
+       
+       //Guardar observacion 
 
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         CampoPhTrazable::create([
