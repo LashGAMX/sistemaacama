@@ -1029,9 +1029,14 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         case 95:
-                            // Sulfatos Potable
-                            $x = ($res->X + $res->Y + $res->Z) / 3;
-                            $d =   100  / $res->E;
+                            // Sulfatos Potable 
+                            $val1 = $res->X2 - $res->X;
+                            $val2 = $res->Y2 - $res->Y;
+                            $val3 = $res->Z2 - $res->Z; 
+                            $prom1 = ($res->X + $res->Y + $res->Z) / 3;
+                            $prom2 = ($res->X2 + $res->Y2 + $res->Z2) / 3;
+                            $x = ($val1 + $val2 + $val3) / 3;
+                            $d =   100  / $res->E; 
                             $res1 = round($x, 3) - ($res->CB);
                             $res2 = $res1 / $res->CM;
                             $resultado = $res2 * round($d, 3);
@@ -1041,6 +1046,11 @@ class LabAnalisisController extends Controller
                             $model->Abs1 = $res->X;
                             $model->Abs2 = $res->Y;
                             $model->Abs3 = $res->Z;
+                            $model->Abs4 = $res->X2;
+                            $model->Abs5 = $res->Y2;
+                            $model->Abs6 = $res->Z2;
+                            $model->Abs7 = $prom1;
+                            $model->Abs8 = $prom2;
                             $model->B = $res->CB;
                             $model->M = $res->CM;
                             $model->R = $res->CR;

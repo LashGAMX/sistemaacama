@@ -1005,7 +1005,7 @@ function setDetalleMuestra() {
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
                             idLote: idLote,
-                            idMuestra: idMuestra,
+                            idMuestra: idMuestra, 
                             ABS: $('#absPromEspectro1').val(),
                             CA: $('#blancoEspectro1').val(),
                             CB: $('#bEspectro1').val(),
@@ -1021,6 +1021,9 @@ function setDetalleMuestra() {
                             X: $('#abs1Espectro1').val(),
                             Y: $('#abs2Espectro1').val(),
                             Z: $('#abs3Espectro1').val(),
+                            X2: $('#abs1Espectro2').val(),
+                            Y2: $('#abs2Espectro2').val(),
+                            Z2: $('#abs3Espectro2').val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
@@ -1989,6 +1992,47 @@ function getDetalleMuestra(id) {
                             $("#abs81SulfatosF").val(response.model.Abs8);
                             $("#abs82SulfatosF").val(response.model.Abs8);
                             $("#resultadoSulfatos").val(response.model.Resultado);
+                            break;
+                        case 95:
+                            $("#observacion").val(response.model.Observacion);
+                            $("#absPromEspectro1").val(parseFloat(response.model.Promedio).toFixed(3));
+                            $("#absPromEspectro2").val(parseFloat(response.model.Promedio).toFixed(3));
+                            $("#blancoEspectro1").val(response.model.Blanco);
+                            $("#blancoEspectro2").val(response.model.Blanco);
+                            $("#bEspectro1").val(response.curva.B);
+                            $("#mEspectro1").val(response.curva.M);
+                            $("#rEspectro1").val(response.curva.R);
+                            $("#bEspectro2").val(response.curva.B);
+                            $("#mEspectro2").val(response.curva.M);
+                            $("#rEspectro2").val(response.curva.R);
+                            $("#phIniEspectro1").val(response.model.Ph_ini);
+                            $("#phFinEspectro1").val(response.model.Ph_fin);
+                            if (response.model.Nitratos != null) {
+                                $("#nitratosEspectro1").val(response.model.Nitratos);
+                            } else {
+                                $("#nitratosEspectro1").val(0);
+                            }
+                            if (response.model.Nitritos != null) {
+                                $("#nitritosEspectro1").val(response.model.Nitritos);
+                            } else {
+                                $("#nitritosEspectro1").val(0);
+                            }
+                            if (response.model.Sulfuros != null) {
+                                $("#sulfurosEspectro1").val(response.model.Sulfuros);
+                            } else {
+                                $("#sulfurosEspectro1").val(0);
+                            }
+                            $("#fDilucion1").val(response.model.Vol_dilucion);
+                            $("#fDilucion2").val(response.model.Vol_dilucion);
+                            $("#volMuestraEspectro1").val(response.model.Vol_muestra);
+                            $("#volMuestraEspectro2").val(response.model.Vol_muestra);
+                            $("#abs1Espectro1").val(response.model.Abs1);
+                            $("#abs2Espectro1").val(response.model.Abs2);
+                            $("#abs3Espectro1").val(response.model.Abs3);
+                            $("#abs1Espectro2").val(response.model.Abs4);
+                            $("#abs2Espectro2").val(response.model.Abs5);
+                            $("#abs3Espectro2").val(response.model.Abs6);
+                            $("#resultadoEspectro").val(parseFloat(response.model.Resultado).toFixed(3));
                             break;
                         default:
                             $("#observacion").val(response.model.Observacion);

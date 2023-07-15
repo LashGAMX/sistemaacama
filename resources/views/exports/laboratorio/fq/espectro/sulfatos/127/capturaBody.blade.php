@@ -30,10 +30,15 @@
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Abs 1</th>
-                    <th class="tableCabecera anchoColumna">Abs 2</th>
-                    <th class="tableCabecera anchoColumna">Abs 3</th>
-                    <th class="tableCabecera anchoColumna">Abs Promedio</th>
+                    <th class="tableCabecera anchoColumna">Abs 1 Turb.</th>
+                    <th class="tableCabecera anchoColumna">Abs 2 Turb.</th>
+                    <th class="tableCabecera anchoColumna">Abs 3 Turb.</th>
+                    <th class="tableCabecera anchoColumna">Abs Prom. Turb</th>
+                    <th class="tableCabecera anchoColumna">Abs 1 Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs 2 Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs 3 Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs Prom. Sulf.</th>
+                    <th class="tableCabecera anchoColumna">Abs Dif.</th>
                     <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
@@ -56,11 +61,16 @@
                     <td class="tableContent">{{@$item->Abs1}}</td>
                     <td class="tableContent">{{@$item->Abs2}}</td>
                     <td class="tableContent">{{@$item->Abs3}}</td>
+                    <td class="tableContent">{{@$item->Abs7}}</td>
+                    <td class="tableContent">{{@$item->Abs4}}</td>
+                    <td class="tableContent">{{@$item->Abs5}}</td>
+                    <td class="tableContent">{{@$item->Abs6}}</td>
+                    <td class="tableContent">{{@$item->Abs8}}</td>
                     <td class="tableContent">{{@$item->Promedio}}</td>
                     @if ($item->Resultado <= $item->Limite)
-                        <td class="tableContent">< {{@$item->Limite}}</td>
+                        <td class="tableContent">< {{number_format(@$item->Limite, 3, ".", ".")}}</td>
                     @else
-                        <td class="tableContent">{{@$item->Resultado}}</td>
+                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
                     @endif
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">

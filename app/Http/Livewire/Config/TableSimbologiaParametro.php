@@ -54,7 +54,7 @@ class TableSimbologiaParametro extends Component
         $this->idSim = $model->Id_simbologia;
         $this->description = $model->Simbologia;
         $this->nota = "Creación de registro";
-        $this->historial();
+        // $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -63,7 +63,7 @@ class TableSimbologiaParametro extends Component
         $model = SimbologiaParametros::find($this->idSim);
         $model->Simbologia = $this->simbologia;
         $model->Descripcion = $this->description; 
-        $this->historial();
+        // $this->historial();
         $model->save();
         
         $this->alert = true;

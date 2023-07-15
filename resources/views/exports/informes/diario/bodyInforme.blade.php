@@ -57,10 +57,17 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold">
                             @if ($solModel->Id_servicio != 3)  
-                                {{-- COMPUESTA --}}
-                                {{@$horaMuestreo}}
+                                COMPUESTA
+                                {{-- {{@$horaMuestreo}} --}}
                             @else
-                                INSTANTANEA                                    
+                                @switch($solModel->Id_norma)
+                                    @case(30)
+                                    @case(7)
+                                        {{@$horaMuestreo}}
+                                        @break
+                                    @default
+                                    INSTANTANEA                                    
+                                @endswitch
                             @endif
                         </span>
                     </td>
@@ -395,6 +402,7 @@
                                                     <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
                                                     <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
                                                     <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
+                                                    <p> </p>
                                                 @else
                                                     <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
                                                     <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
@@ -407,6 +415,7 @@
                                                     <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
                                                     <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
                                                     <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
+                                                    <p> </p>
                                                 @endif
                                             @break
 
@@ -439,7 +448,7 @@
 
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>        
-
+                    <tr><td></td></tr>
                         @foreach ($model as $item)
                             @for ($i = 0; $i < sizeof($temp); $i++)
                                 @if ($temp[$i] == $item->Id_simbologia_info)
