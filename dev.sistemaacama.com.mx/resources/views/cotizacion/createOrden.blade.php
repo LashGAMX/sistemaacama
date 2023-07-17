@@ -33,7 +33,7 @@
                       <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{@$item->A_paterno}}</option>
                       @endforeach
                     </select>
-                  </div>
+                  </div> 
                 </div>
                 <div class="col-md-6">
                   <div class="row">
@@ -93,7 +93,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="siralab" onchange="getDireccionReporte()">
+                    <input type="checkbox" class="form-check-input" id="siralab" >
                     <label class="form-check-label" for="siralab">Siralab</label>
                   </div>
                 </div>
@@ -409,6 +409,6 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.0"></script>
+<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.1"></script>
 <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 @stop

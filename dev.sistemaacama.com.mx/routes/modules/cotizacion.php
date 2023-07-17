@@ -70,6 +70,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
  
     Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
     Route::post('setGenFolioSol',[SolicitudController::class,'setGenFolioSol']);
+    Route::get('duplicarSolicitud/{id}',[SolicitudController::class,'duplicarSolicitud']);
 
     Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
