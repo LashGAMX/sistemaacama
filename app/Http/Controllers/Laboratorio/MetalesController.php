@@ -36,6 +36,7 @@ use App\Models\LoteDetalleIcp;
 use App\Models\MetalesDetalle;
 use App\Models\PlantillaBitacora;
 use App\Models\PlantillaMetales;
+use App\Models\Solicitud;
 use App\Models\SolicitudPuntos;
 use App\Models\Tecnica;
 use App\Models\TempIcp;
@@ -109,9 +110,11 @@ class MetalesController extends Controller
                 $model = DB::table('ViewParametroProceso')
                 ->where('Id_tipo_formula',20)
                 ->orWhere('Id_tipo_formula',21)
-                ->orWhere('Id_tipo_formula',22)
+                ->orWhere('Id_tipo_formula',22) 
                 ->orWhere('Id_tipo_formula',23)
-                ->orWhere('Id_tipo_formula',24)->get();
+                ->orWhere('Id_tipo_formula',24)
+                ->where('Asignado','!=',1)
+                ->get();
                 foreach ($model as $item) {
                     $aux = 0;
                     for ($i=0; $i < sizeof($ids); $i++) { 
@@ -121,8 +124,10 @@ class MetalesController extends Controller
                     }
                     if ($aux == 0) {
                         $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+                        $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+                        $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
                         array_push($ids,$item->Id_solicitud);
-                        array_push($folios,$temp->Folio); 
+                        array_push($folios,$solAux->Folio_servicio); 
                         array_push($empresas,$temp->Empresa);
                         array_push($recepciones,$temp->Hora_recepcion);
                         array_push($recepciones2,$temp->Hora_entrada);
@@ -157,9 +162,10 @@ class MetalesController extends Controller
         foreach($punto as $item)
         {
             $temp = array();
-            
+            $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+            array_push($temp,$solTemp->Folio_servicio);
             array_push($temp,$item->Punto);   
-            array_push($temp,$solModel->Clave_norma);
+            array_push($temp,$solModel->Clave_norma); 
             array_push($temp,$item->Obs_metales);
             array_push($temp,$item->Ph_metales); 
 
@@ -176,27 +182,15 @@ class MetalesController extends Controller
 
     public function aplicarObservacion(Request $res)
     {
-        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
-        $punto = SolicitudPuntos::where('Id_solicitud',$solModel->Hijo)->get();
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud',$res->idSol)->first();
+        $punto = SolicitudPuntos::where('Id_solPadre',$solModel->Hijo)->get();
 
-        foreach($punto as $item)
+        foreach($punto as $item) 
         {
-            $obs = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->get();
-            if ($obs->count()) {
-                $temp = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->first();
-                $temp->Ph = $res->ph;
-                $temp->Observaciones = $res->obs;
-                $temp->Id_user_m = Auth::user()->id;
-                $temp->save();                
-            }else{
-                ObservacionMuestra::create([
-                    'Id_analisis' => $item->Id_solicitud,
-                    'Ph' => $res->ph,
-                    'Observaciones' => $res->obs,
-                    'Id_user_c' => Auth::user()->id,
-                    'Id_user_m' => Auth::user()->id,
-                ]);
-            }
+            $puntoModel = SolicitudPuntos::find($item->Id_punto);
+            $puntoModel->Obs_metales = $res->obs;
+            $puntoModel->Ph_metales = $res->ph;
+            $puntoModel->save();
         }
         
         $data = array(

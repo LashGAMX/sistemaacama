@@ -57,17 +57,20 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold">
                             @if ($solModel->Id_servicio != 3)  
-                                COMPUESTA
-                                {{-- {{@$horaMuestreo}} --}}
-                            @else
                                 @switch($solModel->Id_norma)
                                     @case(30)
                                     @case(7)
                                         {{@$horaMuestreo}}
                                         @break
                                     @default
-                                    INSTANTANEA                                    
+                                    @if ($solModel->Num_tomas > 1)
+                                        COMPUESTA
+                                    @else
+                                        INSTANTANEA          
+                                    @endif
                                 @endswitch
+                            @else
+                                INSTANTANEA  
                             @endif
                         </span>
                     </td>

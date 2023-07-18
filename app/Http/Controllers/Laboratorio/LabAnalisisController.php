@@ -3624,23 +3624,36 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 103:
+
                         $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $id)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
                         if ($plantilla->count()) {
                         } else {
                             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                         }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        $comprobacion = LoteDetalleDureza::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
-                            'plantilla' => $textoProcedimiento
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
                         );
 
 
-                        $htmlHeader = view('exports.laboratorio.potable.durezaTotal.bitacoraHeader', $data);
+                        $htmlHeader = view('exports.laboratorio.potable.durezaTotal.127.bitacoraHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                        $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.bitacoraBody', $data);
-                        $htmlFooter = view('exports.laboratorio.potable.durezaTotal.bitacoraFooter', $data);
+                        $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.127.bitacoraBody', $data);
+                        $htmlFooter = view('exports.laboratorio.potable.durezaTotal.127.bitacoraFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);

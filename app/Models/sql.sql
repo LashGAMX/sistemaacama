@@ -764,7 +764,8 @@ ON cot.Actualizado_por = usr2.id
 
 
 /* ViewParametrosProceso */ 
-CREATE VIEW ViewParametroProceso as SELECT cod.*,par.Parametro,par.Id_tipo_formula,pro.Cliente,pro.Empresa FROM codigo_parametro as cod
+CREATE VIEW ViewParametroProceso as SELECT cod.*,par.Parametro,par.Id_tipo_formula,pro.Cliente,pro.Empresa 
+FROM codigo_parametro as cod
 INNER JOIN parametros as par
 ON cod.Id_parametro = par.Id_parametro
 INNER JOIN proceso_analisis as pro
