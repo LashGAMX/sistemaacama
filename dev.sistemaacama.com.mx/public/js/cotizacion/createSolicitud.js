@@ -6,7 +6,7 @@ $(document).ready(function () {
         getPuntoMuestro();
      });
      addColPunto()
-     $('#parametro-tab').click(function () { 
+     $('#parametro-tab').click(function () {
         createTabParametros();
       });
     
@@ -181,7 +181,8 @@ function getDireccionReporte()
                     // } else {
                     //     tab += '<option value="'+item.Id_direccion+'">'+item.Calle+' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.Ciudad+' '+item.Localidad+'</option>'
                     // }
-                    tab += '<option value="'+item.Id_cliente_siralab+'">'+item.Calle+' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.Ciudad+' '+item.Localidad+'</option>'
+                    // tab += '<option value="'+item.Id_cliente_siralab+'">'+item.Calle+' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.Ciudad+' '+item.Localidad+'</option>'
+                    tab += '<option value="'+item.Id_direccion+'">'+item.Direccion+'</option>'
                 } else {
                     tab += '<option value="'+item.Id_direccion+'">'+item.Direccion+'</option>'
                     // if (model.Direccion == item.Direccion) {

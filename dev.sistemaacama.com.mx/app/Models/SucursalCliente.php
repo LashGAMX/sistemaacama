@@ -19,7 +19,7 @@ class SucursalCliente extends Model
         'Id_sucursal',
         'Empresa',
         'Estado',
-        'Telefono',
+        'Telefono', 
         'Correo', 
         'Atencion',
         'Id_siralab',

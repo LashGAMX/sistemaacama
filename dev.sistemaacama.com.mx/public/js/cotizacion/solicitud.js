@@ -64,7 +64,7 @@ $(document).ready(function () {
     } ); 
 
     $('#btnDuplicar').click(function(){                
-        window.location = base_url + "/admin/cotizacion/solicitud/duplicarSol/"+idCot;
+        window.location = base_url + "/admin/cotizacion/solicitud/duplicarSolicitud/"+idCot;
     });
 
     $('#btnGenFolio').click( function () {

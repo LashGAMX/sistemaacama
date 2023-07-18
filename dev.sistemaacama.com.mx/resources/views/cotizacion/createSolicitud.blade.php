@@ -67,7 +67,7 @@
               </div>
 
               <div class="col-md-12">
-                <div class="row">
+                <div class="row"> 
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="clientes">Clientes registrados</label>
@@ -91,7 +91,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group form-check">
-                      <input type="checkbox" class="form-check-input" id="siralab" onclick="getDireccionReporte()">
+                      <input type="checkbox" class="form-check-input" id="siralab" >
                       <label class="form-check-label" for="siralab">Siralab</label>
                     </div>
                   </div>
