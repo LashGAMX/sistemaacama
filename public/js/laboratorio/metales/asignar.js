@@ -14,6 +14,7 @@ $(document).ready(function() {
     $('#btnPendiente').click(function () {
         getPendientes()
     });
+    $('.select2').select2();
 });
 document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyS")
@@ -42,7 +43,7 @@ function getPendientes()
         success: function (response) {            
             console.log(response);
             model = response.model
-            tab += '<table class="table table-sm" style="font-size:10px">';
+            tab += '<table id="tablePendientes" class="table table-sm" style="font-size:10px">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Folio</th>';
@@ -61,6 +62,16 @@ function getPendientes()
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+
+            table = $('#tablePendientes').DataTable({
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
         }
     });
 }
@@ -75,6 +86,7 @@ function getMuestras(sw)
         data: {
             tecnica: $("#tecnica").val(),
             tipo: $("#tipo").val(),
+            norma: $("#norma").val(),
             fechaRecepcion: $("#fechaRecepcion").val(),
             fechaLote: $("#fechaLote").val(),
             sw:sw,

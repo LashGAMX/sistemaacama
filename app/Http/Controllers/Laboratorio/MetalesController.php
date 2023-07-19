@@ -34,6 +34,7 @@ use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
 use App\Models\LoteDetalleIcp;
 use App\Models\MetalesDetalle;
+use App\Models\Norma;
 use App\Models\PlantillaBitacora;
 use App\Models\PlantillaMetales;
 use App\Models\Solicitud;
@@ -650,7 +651,7 @@ class MetalesController extends Controller
                 $temp->Hora = $res->horas[$i];
                 $temp->save();
             }else{
-                LoteAnalisis::create([
+                $tempLote = LoteAnalisis::create([
                     'Id_area' => 2,
                     'Id_tecnica' => $res->ids[$i],
                     'Asignado' => 0,
@@ -658,6 +659,33 @@ class MetalesController extends Controller
                     'Fecha' => $res->fechas[$i],
                     'Hora' => $res->horas[$i],
                 ]);
+                $confModel = ConfiguracionMetales::where('Id_parametro',$res->ids[$i])->get();
+                if ($confModel->count()) {
+                    MetalesDetalle::create([
+                        'Id_lote'=> $tempLote->Id_lote,
+                        'Fecha_digestion' => $confModel[0]->Fecha_digestion,
+                        'Longitud_onda' => $confModel->Longitud_onda,
+                        'No_inventario' => $confModel->No_inventario,
+                        'Corriente' => $confModel->Corriente,
+                        'Gas' => $confModel->Gas,
+                        'Flujo_gas' => $confModel->Flujo_gas,
+                        'No_lampara' => $confModel->No_lampara,
+                        'Energia' => $confModel->Energia,
+                        'Aire' => $confModel->Aire,
+                        'Equipo' => $confModel->Equipo,
+                        'Slit' => $confModel->Slit,
+                        'Conc_std' => $confModel->Conc_std,
+                        'Oxido_nitroso' => $confModel->Oxido_nitroso,
+                        'Bitacora' => $confModel->Bitacora,
+                        'Folio' => $confModel->Folio,
+                        'Valor' => $confModel->Valor,
+                    ]);
+                }else{
+                    MetalesDetalle::create([
+                        'Id_lote'=> $tempLote->Id_lote,
+                    ]);
+                }
+ 
             }
            }
         }
@@ -702,16 +730,27 @@ class MetalesController extends Controller
     }
     public function getLote(Request $res)
     {
-       $parametros = DB::table('ViewParametros')
-        ->where('Id_tipo_formula',$res->tipo)
+        $parametros = DB::table('ViewParametros')
+        ->where('Id_area',2)
+        ->where(function($query) use ($res) {
+            $query->where('Id_tipo_formula',$res->tipo)
+                  ->orWhere(function($query) use ($res) {
+                      $query->where('Id_tipo_formula',58)
+                            ->when($res->tipo == 22, function($query) {
+                                $query->orWhere('Id_tipo_formula',22);
+                            });
+                  });
+        })
         ->get();
+    
 
         $model = array();
         $temp = array();
         foreach($parametros as $item)
         {
             $temp = array();
-            $lote = LoteAnalisis::where('Id_tecnica',$item->Id_parametro)->where('Fecha',$res->fecha)->get();
+            $lote = LoteAnalisis::where('Id_tecnica',$item->Id_parametro)
+            ->where('Fecha',$res->fecha)->get();
             if ($lote->count()) {
                 array_push($temp,$lote[0]->Id_lote);
                 array_push($temp,$item->Id_parametro);
@@ -950,9 +989,11 @@ class MetalesController extends Controller
         ->orWhere('Id_tecnica',21)
         ->orWhere('Id_tecnica',22)
         ->get();
+        $norma = Norma::all();
         $data = array(
             'tecnica' => $tecnica,
             'tipo' => $tipo,
+            'norma' => $norma,
         );
         return view('laboratorio.metales.asignar', $data);
     }
@@ -960,17 +1001,17 @@ class MetalesController extends Controller
     {
         $model = array();
         $temp = array();
-        $codigo = DB::table('ViewCodigoParametro')->where('Asignado',0)->get();
-        $param = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
-        
+        $codigo = DB::table('ViewCodigoParametro')->where('Asignado', 0)->get();
+        $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
+
         foreach ($codigo as $item) {
             $temp = array();
             foreach ($param as $item2) {
                 if ($item->Id_parametro == $item2->Id_parametro) {
-                    array_push($temp,$item->Codigo);
-                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
-                    array_push($temp,$item->Hora_recepcion);
-                    array_push($model,$temp);
+                    array_push($temp, $item->Codigo);
+                    array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro);
+                    array_push($temp, $item->Hora_recepcion);
+                    array_push($model, $temp);
                     break;
                 }
             }
@@ -1018,39 +1059,41 @@ class MetalesController extends Controller
                 break;
             case 2:
                 $codigo = DB::table('ViewCodigoParametro')
-                ->where('Id_area',2)
-                ->orWhere('Id_area',17)
-                ->where('Hijo','!=',0)
-                ->where('Id_tipo_formula',20)
-                ->orWhere('Id_tipo_formula',23)
-                ->orWhere('Id_tipo_formula',24)
-                ->orWhere('Id_tipo_formula',21)
-                ->orWhere('Id_tipo_formula',58)
+                ->where(function($query) {
+                    $query->where('Id_area',2);
+                        //   ->orWhere('Id_area',17);
+                })
+                ->when($res->tipo != 0, function($query) use ($res) {
+                    $query->where('Id_tipo_formula',$res->tipo);
+                })
+                ->when($res->tecnica != 0, function($query) use ($res) {
+                    $query->where('Id_tecnica',$res->tecnia);
+                })
+                ->when($res->norma != 0, function($query) use ($res) {
+                    $query->where('Id_norma',$res->norma);
+                })
+                ->when($res->fechaRecepcion != '', function($query) use ($res) {
+                    $query->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%');
+                })
                 ->where('Asignado',0)
-                // ->where('Id_tipo_formula',$res->tipo)
-                ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
-                // ->where('Id_solicitud',93)
                 ->get();
                 foreach ($codigo as $item) {
                     $temp = array();
                     array_push($temp,$item->Id_codigo);
                     array_push($temp,$item->Codigo);
                     array_push($temp,$item->Empresa);
-                    if ($item->Siralab == 1) {
-                        $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$item->Id_solicitud)->first();
-                        array_push($temp,@$punto->Punto);
-                    } else {
-                        $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$item->Id_solicitud)->first();
-                        array_push($temp,$punto->Punto_muestreo);
-                    }
+                    
+                    $punto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
+                    array_push($temp,@$punto->Punto);
+
                     array_push($temp,$item->Norma);
-                    array_push($temp,$item->Parametro);
+                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
+                    $lote = LoteAnalisis::where('Fecha',$res->fechaLote)->get();
                     $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
                     if($lote->count())
                     {
                         array_push($temp,$lote[0]->Id_lote);
-                        $loteDetalle = LoteAnalisis::find($lote[0]->Id_lote);
-                        array_push($temp,$loteDetalle->Fecha);
+                        array_push($temp,$lote[0]->Fecha);
                         // array_push($temp,$loteDetalle->Hora);
                     }else{
                         array_push($temp,"");
