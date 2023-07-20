@@ -186,7 +186,7 @@ class InformesController extends Controller
         if ($solModel->Id_servicio != 3) {
             $horaMuestreo = \Carbon\Carbon::parse($phCampo[0]->Fecha)->format('H:i');
         } else {
-            $horaMuestreo = 'COMPUESTA';
+            $horaMuestreo = '';
         }
        
         $temp = DB::table('ph_muestra')

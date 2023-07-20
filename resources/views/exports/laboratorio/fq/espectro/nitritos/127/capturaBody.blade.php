@@ -53,14 +53,14 @@
                         @endif                                
                     </td>
                     <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                    <td class="tableContent">{{@$item->Abs1}}</td>
-                    <td class="tableContent">{{@$item->Abs2}}</td>
-                    <td class="tableContent">{{@$item->Abs3}}</td>
-                    <td class="tableContent">{{@$item->Promedio}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs1, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs2, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs3, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
                     @if ($item->Resultado <= $item->Limite)
-                        <td class="tableContent">< {{@$item->Limite}}</td>
+                        <td class="tableContent">< {{number_format(@$item->Limite, 3, ".", ".")}}</td>
                     @else
-                        <td class="tableContent">{{@$item->Resultado}}</td>
+                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
                     @endif
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">

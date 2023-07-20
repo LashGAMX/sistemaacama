@@ -24,6 +24,7 @@ class ConfiguracionMetales extends Model
         'Longitud_onda',
         'Slit',
         'Acetileno',
+        'Flujo_gas',
         'Aire',
         'Oxido_nitroso',
         'Hidruros',

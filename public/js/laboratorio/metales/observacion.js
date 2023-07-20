@@ -117,6 +117,7 @@ function getPuntoAnalisis(id)
             tab += '<table id="tablaPuntos" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
+            tab += '          <th>Folio</th>';
             tab += '          <th>Punto Muestre</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Parametros</th>';
@@ -129,9 +130,10 @@ function getPuntoAnalisis(id)
                 tab += '<tr>';
                 tab += '<td>' + response.model[i][0] + '</td>';
                 tab += '<td>' + response.model[i][1] + '</td>';
-                tab += '<td></td>';
                 tab += '<td>' + response.model[i][2] + '</td>';
+                tab += '<td></td>';
                 tab += '<td>' + response.model[i][3] + '</td>';
+                tab += '<td>' + response.model[i][4] + '</td>';
                 tab += '</tr>';
             }
             tab += '    </tbody>';

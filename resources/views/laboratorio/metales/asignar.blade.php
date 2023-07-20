@@ -15,14 +15,25 @@
     <div class="col-md-3">
       <label for="tipo">Tipo fórmula</label>
       <select class="form-control" id="tipo">
+        <option value="0">Sin seleccionar</option>
         @foreach($tipo as $item)
           <option value="{{$item->Id_tipo_formula}}">{{$item->Tipo_formula}}</option>
+        @endforeach
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label for="norma">Norma</label>
+      <select class="form-control select2" id="norma">
+        <option value="0">Sin seleccionar</option>
+        @foreach($norma as $item)
+          <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
         @endforeach
       </select>
     </div>
     <div class="col-md-2">
       <label for="tipo">Tecnica</label>
       <select class="form-control" id="tecnica">
+        <option value="0">Sin seleccionar</option>
         @foreach($tecnica as $item)
           <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
         @endforeach
@@ -44,6 +55,7 @@
       <button class="btn-info" type="button" id="btnPendiente" data-toggle="modal" data-target="#pendientes">Pendientes</button> &nbsp;
       <button class="btn-secondary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
     </div>
+
   </div>
   <div class="row">
     <div class="" style="float: right;">
@@ -71,7 +83,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="pendientes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="pendientes"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
