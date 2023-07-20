@@ -19,6 +19,8 @@ use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
 use App\Models\CampoCompuestos;
 use App\Models\PhMuestra;
+use App\Models\TemperaturaAmbiente;
+use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -106,7 +108,7 @@ class CampoAppController extends Controller
         $campoGenModel->Longitud = $jsonGeneral[0]["Longitud"];
         $campoGenModel->Pendiente = $jsonGeneral[0]["Pendiente"];
         $campoGenModel->Criterio = $jsonGeneral[0]["Criterio"];
-        $campoGenModel->Supervisor = $jsonGeneral[0]["Criterio"];
+        $campoGenModel->Supervisor = $jsonGeneral[0]["Supervisor"];
         $campoGenModel->save();
 
 
@@ -189,19 +191,27 @@ class CampoAppController extends Controller
             $phMuestra[$i]->save();
          }
            
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
+        for ($i = 0; $i < $tempMuestra->count(); $i++){
+            $tempMuestra[$i]->Temperatura1 = $jsonTempMuestra[$i]["Temp1"];
+            $tempMuestra[$i]->Temperatura2 = $jsonTempMuestra[$i]["Temp2"];
+            $tempMuestra[$i]->Temperatura3 = $jsonTempMuestra[$i]["Temp3"];
+            $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
+            $tempMuestra[$i]->save();
+        }
 
+        $tempMuestra = TemperaturaAmbiente::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-    //     $phMuestra =  PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->first();
-    //     $phMuestra->Num_toma = $jsonPhMuestra[0]["Num_toma"];
-    //    // $phMuestra->Materia = $jsonPhMuestra[0]["Materia"];
-    //    // $phMuestra->Olor = $jsonPhMuestra[0]["Olor"];
-    //    // $phMuestra->Color = $jsonPhMuestra[0]["Color"];
-    //     $phMuestra->Ph1 = $jsonPhMuestra[0]["Ph1"];
-    //     $phMuestra->Ph2 = $jsonPhMuestra[0]["Ph2"];
-    //     $phMuestra->Ph3 = $jsonPhMuestra[0]["Ph3"];
-    //     $phMuestra->Promedio = $jsonPhMuestra[0]["Promedio"];
-    //     $phMuestra->save();
+        for ($i = 0; $i < $tempMuestra->count(); $i++){
+            $tempMuestra[$i]->Temperatura1 = $jsonTempMuestra[$i]["Temp1"];
+            $tempMuestra[$i]->Temperatura2 = $jsonTempMuestra[$i]["Temp2"];
+            $tempMuestra[$i]->Temperatura3 = $jsonTempMuestra[$i]["Temp3"];
+            $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
+            $tempMuestra[$i]->save();
+        }
+
+        // -------------------------EVIDENCIA---------------------------------------
 
         // for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
         //     # code...
