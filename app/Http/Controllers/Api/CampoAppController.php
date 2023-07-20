@@ -17,7 +17,10 @@ use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
 use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
-use App\Models\CampoCompuestos; 
+use App\Models\CampoCompuestos;
+use App\Models\PhMuestra;
+use App\Models\TemperaturaAmbiente;
+use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -64,7 +67,7 @@ class CampoAppController extends Controller
             'phCalidad' => $phCalidad,
             'phTrazable' => $phTrazable,
             'conTrazable' => $conTrazable,  
-            'conCalidad' => $conCalidad,
+            'conCalidad' => $conCalidad, 
             'response' => true,
         );
         return response()->json($data);
@@ -94,6 +97,7 @@ class CampoAppController extends Controller
         $solModel->save();
         $puntoModel = SolicitudPuntos::where('Id_solicitud',$solModel->Id_solicitud)->first();
 
+        //CAMPO GENERAL
         $campoGenModel = CampoGenerales::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoGenModel->Captura = "Mobil";
         $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
@@ -104,70 +108,110 @@ class CampoAppController extends Controller
         $campoGenModel->Longitud = $jsonGeneral[0]["Longitud"];
         $campoGenModel->Pendiente = $jsonGeneral[0]["Pendiente"];
         $campoGenModel->Criterio = $jsonGeneral[0]["Criterio"];
-        $campoGenModel->Supervisor = $jsonGeneral[0]["Criterio"];
+        $campoGenModel->Supervisor = $jsonGeneral[0]["Supervisor"];
         $campoGenModel->save();
 
-        //Guardar observacion 
 
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
-        CampoPhTrazable::create([
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_phTrazable' => $catPhTra->Id_ph,
-            'Lectura1' => $jsonPhTra[0]["Lectura1"],
-            'Lectura2' => $jsonPhTra[0]["Lectura2"],
-            'Lectura3' => $jsonPhTra[0]["Lectura3"],
-            'Estado' => $jsonPhTra[0]["Estado"]
-        ]);
+        $phTrazable = CampoPhTrazable::where('Id_solicitud',$solModel->Id_solicitud)->get();
+            //$phTrazable[0]->Id_solicitud = $solModel->Id_solicitud;
+            //$phTrazable[0]->Ph = $jsonPhTra[0]["Id_phTrazable"];
+            $phTrazable[0]->Lectura1 = $jsonPhTra[0]["Lectura1"];
+            $phTrazable[0]->Lectura2 = $jsonPhTra[0]["Lectura2"];
+            $phTrazable[0]->Lectura3 =$jsonPhTra[0]["Lectura3"];
+            $phTrazable[0]->Estado = $jsonPhTra[0]["Estado"];
+            $phTrazable[0]->save();
+        
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[1]["Id_phTrazable"])->first();
-        CampoPhTrazable::create([
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_phTrazable' => $catPhTra->Id_ph,
-            'Lectura1' => $jsonPhTra[1]["Lectura1"],
-            'Lectura2' => $jsonPhTra[1]["Lectura2"],
-            'Lectura3' => $jsonPhTra[1]["Lectura3"],
-            'Estado' => $jsonPhTra[1]["Estado"]
-        ]);
+            //$phTrazable[1]->Id_solicitud = $solModel->Id_solicitud;
+            //$phTrazable[1]->Id_phTrazable = $catPhTra->Id_ph;
+            $phTrazable[1]->Lectura1 = $jsonPhTra[1]["Lectura1"];
+            $phTrazable[1]->Lectura2 = $jsonPhTra[1]["Lectura2"];
+            $phTrazable[1]->Lectura3 =$jsonPhTra[1]["Lectura3"];
+            $phTrazable[1]->Estado = $jsonPhTra[1]["Estado"];
+            $phTrazable[1]->save();
 
         $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[0]["Id_phCalidad"])->first();
-        CampoPhCalidad::create([
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_phCalidad' => $catPhCal->Id_ph,
-            'Lectura1' => $jsonPhCal[0]["Lectura1"],
-            'Lectura2' => $jsonPhCal[0]["Lectura2"],
-            'Lectura3' => $jsonPhCal[0]["Lectura3"],
-            'Estado' => $jsonPhCal[0]["Estado"],
-            'Promedio' => $jsonPhCal[0]["Promedio"]
-        ]);
+        $phCalidad = CampoPhCalidad::where('Id_solicitud',$solModel->Id_solicitud)->get();
+        
+            //$phCalidad->Id_solicitud[0] = $solModel->Id_solicitud;
+            //$phCalidad->Id_phCalidad[0] = $catPhCal->Id_ph;
+            $phCalidad[0]->Lectura1 = $jsonPhCal[0]["Lectura1"];
+            $phCalidad[0]->Lectura2 = $jsonPhCal[0]["Lectura2"];
+            $phCalidad[0]->Lectura3 = $jsonPhCal[0]["Lectura3"];
+            $phCalidad[0]->Estado = $jsonPhCal[0]["Estado"];
+            $phCalidad[0]->Promedio = $jsonPhCal[0]["Promedio"];
+            $phCalidad[0]->save();
+
+
         $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[1]["Id_phCalidad"])->first();
-        CampoPhCalidad::create([
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_phCalidad' => $catPhCal->Id_ph,
-            'Lectura1' => $jsonPhCal[1]["Lectura1"],
-            'Lectura2' => $jsonPhCal[1]["Lectura2"],
-            'Lectura3' => $jsonPhCal[1]["Lectura3"],
-            'Estado' => $jsonPhCal[1]["Estado"],
-            'Promedio' => $jsonPhCal[1]["Promedio"]
-        ]);
+            //$phCalidad->Id_solicitud[1] = $solModel->Id_solicitud;
+            //$phCalidad->Id_phCalidad[1] = $catPhCal->Id_ph;
+            $phCalidad[1]->Lectura1 = $jsonPhCal[1]["Lectura1"];
+            $phCalidad[1]->Lectura2 = $jsonPhCal[1]["Lectura2"];
+            $phCalidad[1]->Lectura3 = $jsonPhCal[1]["Lectura3"];
+            $phCalidad[1]->Estado = $jsonPhCal[1]["Estado"];
+            $phCalidad[1]->Promedio = $jsonPhCal[1]["Promedio"];
+            $phCalidad[1]->save();
 
         $catConTra = ConductividadTrazable::where('Conductividad',$jsonConTra[0]["Id_conTrazable"])->first();
-        CampoConTrazable::create([
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_conTrazable' => $catConTra->Id_conductividad,
-            'Lectura1' => $jsonConTra[0]["Lectura1"],
-            'Lectura2' => $jsonConTra[0]["Lectura2"],
-            'Lectura3' => $jsonConTra[0]["Lectura3"],
-            'Estado' => $jsonConTra[0]["Estado"]
-        ]);
+        $conTrazable = CampoConTrazable::where('Id_solicitud',$solModel->Id_solicitud)->first();
+        
+           // $conTrazable->Id_solicitud = $solModel->Id_solicitud;
+            //$conTrazable->Id_conTrazable = $catConTra->Id_conductividad;
+            $conTrazable->Lectura1 = $jsonConTra[0]["Lectura1"];
+            $conTrazable->Lectura2 = $jsonConTra[0]["Lectura2"];
+            $conTrazable->Lectura3 = $jsonConTra[0]["Lectura3"];
+            $conTrazable->Estado = $jsonConTra[0]["Estado"];
+            $conTrazable->save();
+        
         $catConCal = ConductividadCalidad::where('Conductividad',$jsonConCal[0]["Id_conCalidad"])->first();
-        CampoConCalidad::create([ 
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_conCalidad' => $catConCal->Id_conductividad,
-            'Lectura1' => $jsonConCal[0]["Lectura1"],
-            'Lectura2' => $jsonConCal[0]["Lectura2"], 
-            'Lectura3' => $jsonConCal[0]["Lectura3"],
-            'Estado' => $jsonConCal[0]["Estado"],
-            'Promedio' => $jsonConCal[0]["Promedio"]
-        ]);
+        $conCalidad = CampoConCalidad::where('Id_solicitud',$solModel->Id_solicitud)->first();
+        
+            //$conCalidad->Id_solicitud = $solModel->Id_solicitud;
+            //$conCalidad->Id_conCalidad = $catConCal->Id_conductividad;
+            $conCalidad->Lectura1 = $jsonConCal[0]["Lectura1"];
+            $conCalidad->Lectura2 = $jsonConCal[0]["Lectura2"];
+            $conCalidad->Lectura3 = $jsonConCal[0]["Lectura3"];
+            $conCalidad->Estado = $jsonConCal[0]["Estado"];
+            $conCalidad->Promedio = $jsonConCal[0]["Promedio"];
+            $conCalidad->save();
+
+
+        //MUESTRA
+
+        //phMuestra
+        $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+         for ($i = 0; $i < $phMuestra->count(); $i++) {
+            $phMuestra[$i]->Ph1 = $jsonPhMuestra[$i]["Ph1"];
+            $phMuestra[$i]->Ph2 = $jsonPhMuestra[$i]["Ph2"];
+            $phMuestra[$i]->Ph3 = $jsonPhMuestra[$i]["Ph3"];
+            $phMuestra[$i]->Promedio = $jsonPhMuestra[$i]["Promedio"];
+            $phMuestra[$i]->save();
+         }
+           
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+        for ($i = 0; $i < $tempMuestra->count(); $i++){
+            $tempMuestra[$i]->Temperatura1 = $jsonTempMuestra[$i]["Temp1"];
+            $tempMuestra[$i]->Temperatura2 = $jsonTempMuestra[$i]["Temp2"];
+            $tempMuestra[$i]->Temperatura3 = $jsonTempMuestra[$i]["Temp3"];
+            $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
+            $tempMuestra[$i]->save();
+        }
+
+        $tempMuestra = TemperaturaAmbiente::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+        for ($i = 0; $i < $tempMuestra->count(); $i++){
+            $tempMuestra[$i]->Temperatura1 = $jsonTempMuestra[$i]["Temp1"];
+            $tempMuestra[$i]->Temperatura2 = $jsonTempMuestra[$i]["Temp2"];
+            $tempMuestra[$i]->Temperatura3 = $jsonTempMuestra[$i]["Temp3"];
+            $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
+            $tempMuestra[$i]->save();
+        }
+
+        // -------------------------EVIDENCIA---------------------------------------
 
         // for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
         //     # code...
@@ -187,6 +231,7 @@ class CampoAppController extends Controller
             'response' => true,
             'solModel' => $solModel->Id_solicitud,
             'punto' => $puntoModel->Id_muestreo,
+            //'phMuestra' => $phMuestra,
             // 'jsonEv' => $jsonEviencia[0]["Codigo"],
             
             //'jsonLong' => sizeof($jsonPhMuestra)

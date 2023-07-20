@@ -47,15 +47,12 @@
                         <td class="contenidoBody bordesTabla">{{ $item->Confirmativa1}}</td>
                         <td class="contenidoBody bordesTabla">{{ $item->Confirmativa2}}</td>
                         <td class="contenidoBody bordesTabla">
-                            @if ($item->Resultado == 0)
-                                NO DETECTABLE
+                            @if ($item->Resultado <= $item->Limite)
+                              <{{$item->Limite}}
                             @else
-                                @if ($item->Resultado <= $item->Limite)
-                                    < {{@$item->Limite}}
-                                @else
-                                    {{@$item->Resultado}}
-                                @endif
+                                {{$item->Resultado}}
                             @endif
+                           
                         </td>
                         <td class="contenidoBody">{{ $item->Observacion }}</td>
                         <td class="contenidoBody">{{ $item->Control }}</td>

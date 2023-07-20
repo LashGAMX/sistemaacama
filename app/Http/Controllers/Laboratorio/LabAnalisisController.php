@@ -457,25 +457,25 @@ class LabAnalisisController extends Controller
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
                 case 5: // Fisicoquimicos
-                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $res->idLote)->get();
+                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
                 case 13: // G&A
-                    $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
+                    $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
                 case 15: // Solidos
-                    $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->get();
+                    $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
                 case 14: //Volumetria
                     switch ($lote[0]->Id_tecnica) {
                         case 6: // Dqo
                             $aux = DqoDetalle::where('Id_lote', $res->idLote)->first();
-                            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 33: // Cloro
                         case 64:
                         case 119:
                         case 218:
-                            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 9: // Nitrogeno
                         case 10:
@@ -484,16 +484,16 @@ class LabAnalisisController extends Controller
                         case 83:
                         case 108:
                         case 28://Alcalinidad
-                            $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         default:
-                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)>get();
                             break;
                     }
                     break;
                 case 7: // Campo
                 case 19: //Directos
-                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->get();
+                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
                 case 8: //Potable
                     switch ($lote[0]->Id_tecnica) {
@@ -501,10 +501,10 @@ class LabAnalisisController extends Controller
                         case 103:
                         case 251:
                         case 252:
-                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         default:
-                            $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                     }
                     break;
@@ -518,27 +518,27 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
-                            $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 253: //todo  ENTEROCOCO FECAL
-                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
-                            $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 16: //todo Huevos de Helminto 
-                            $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 78:
-                            $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         default:
-                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                     }
                     break;
                 default:
-                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->get();
+                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
             }
         } else {
@@ -857,7 +857,7 @@ class LabAnalisisController extends Controller
                             $resultado = (($x - $res->CB) / $res->CM) * $d;
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
-                            $model->Resultado = $resultado;
+                            $model->Resultado = round($resultado,3);
                             $model->Abs1 = $res->X;
                             $model->Abs2 = $res->Y;
                             $model->Abs3 = $res->Z;
@@ -1637,8 +1637,8 @@ class LabAnalisisController extends Controller
 
                     $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->get();
                     break;
-                case 6:
-                case 12:
+                case 6://Mb
+                case 12://Mb Alimentos
                     switch ($lote[0]->Id_tecnica) {
                         case 135: // Coliformes fecales
                         case 132:
@@ -1701,7 +1701,35 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
-                default:
+                    case 8: //Potable
+                        switch ($lote[0]->Id_tecnica) {
+                            case 77: //Dureza
+                            case 103:
+                            case 251:
+                            case 252:
+                                $muestra = LoteDetalleDureza::where('Id_detalle', $res->idMuestra)->first();
+                                $model = $muestra->replicate();
+                                $model->Id_control = $res->idControl;
+                                $model->Resultado = NULL;
+                                $model->Liberado = 0;
+                                $model->save();
+
+                                $model = LoteDetalleDureza::where('Id_lote', $res->idLote)->get();
+                                break;
+                            default:
+                                $muestra = LoteDetallePotable::where('Id_detalle', $res->idMuestra)->first();
+                                $model = $muestra->replicate();
+                                $model->Id_control = $res->idControl;
+                                $model->Resultado = NULL;
+                                $model->Liberado = 0;
+                                $model->save();
+
+                                $model = LoteDetallePotable::where('Id_lote', $res->idLote)->get();
+
+                                break;
+                        }
+                        break;
+                    default:
                     $muestra = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
                     $model = $muestra->replicate();
                     $model->Id_control = $res->idControl;
@@ -2043,6 +2071,57 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
+                    case 8: //Potable
+                        switch ($lote[0]->Id_tecnica) {
+                            case 77: //Dureza
+                            case 103:
+                            case 251:
+                            case 252:
+    
+                                $muestras = LoteDetalleDureza::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleDureza::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetalleDureza::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                                break;
+                            default:
+    
+                                
+                                $muestras = LoteDetallePotable::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetallePotable::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->save();
+                                }
+                            }
+
+                            $model = LoteDetallePotable::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+
+                                break;
+                        }
+                        break;
                 default:
                     $muestras = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                     foreach ($muestras as $item) {
@@ -2470,7 +2549,24 @@ class LabAnalisisController extends Controller
                         break;
                 }
                 break;
-            default:
+                case 8: //Potable
+                    switch ($lote[0]->Id_tecnica) {
+                        case 77: //Dureza
+                        case 103:
+                        case 251:
+                        case 252:
+                            $model = LoteDetalleDureza::where('Id_detalle', $res->idMuestra)->first();
+                            $model->Observacion = $res->observacion;
+                            $model->save();
+                            break;
+                        default:
+                            $model = LoteDetallePotable::where('Id_detalle', $res->idMuestra)->first();
+                            $model->Observacion = $res->observacion;
+                            $model->save();
+                            break;
+                    }
+                    break;
+                default:
                 $model = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
                 $model->Observacion = $res->observacion;
                 $model->save();

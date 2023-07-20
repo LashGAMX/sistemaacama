@@ -319,7 +319,8 @@ ON lo.Id_tecnica = pa.Id_parametro
 
 
 /* Lista ViewDetalleLote */ 
-CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control FROM lote_detalle as lote
+CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
+FROM lote_detalle as lote
 INNER JOIN ViewSolicitud2 as sol
 ON lote.Id_analisis = sol.Id_solicitud
 INNER JOIN ViewParametros as pa
@@ -465,7 +466,9 @@ INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleCloro */ 
-CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_cloro as col
+CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,
+param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra 
+FROM lote_detalle_cloro as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -478,13 +481,17 @@ ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleNitrogeno */ 
 
-CREATE VIEW ViewLoteDetalleNitrogeno as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_nitrogeno as col
+CREATE VIEW ViewLoteDetalleNitrogeno as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,
+param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra 
+FROM lote_detalle_nitrogeno as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON col.Id_codigo = cod.Id_codigo
 
 
 /* Lista ViewPuntoMuestreoGen */ 

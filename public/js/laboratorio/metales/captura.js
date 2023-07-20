@@ -139,7 +139,7 @@ function getLoteCaptura() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-            
+            let aux = 0
             switch (parseInt(response.detalle[0].Id_parametro)) {
                 case 215:
                 case 195:
@@ -229,10 +229,15 @@ function getLoteCaptura() {
                 } else {
                     tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
                 }
-                tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+item.Observacion+'"></td>';
+                if (item.Observacion != "") {
+                    tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+obs[$aux]+'"></td>';   
+                } else {
+                    tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+item.Observacion+'"></td>';
+                }
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++; 
+                aux++
          
             }); 
             tab += '    </tbody>';
@@ -324,7 +329,8 @@ function operacion()
              FC:$("#factorConversion"+idMuestra).val(),
              obs:$("#obs"+idMuestra).val(),
             _token: $('input[name="_token"]').val()
-        }, 
+        }, s
+
         dataType: "json",
         success: function (response) {            
             console.log(response);

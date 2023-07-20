@@ -1073,7 +1073,7 @@ function setDetalleMuestra() {
                         $("#kGA1").val(fixk1);
                         $("#cGA1").val(fixc1);
                         $('#pGA').val(response.model.Matraz);
-                        $('#resultadoGA').val(response.model.Resultado.toFixed(4));
+                        $('#resultadoGA').val(response.model.Resultado.toFixed(2));
 
                         alert("Datos guardados y calculados")
                     } else {
@@ -1152,10 +1152,10 @@ function setDetalleMuestra() {
                                 $('#crisolSolidos').val(response.model.Crisol);
                                 $("#m11Solidos").val(response.model.Masa1);
                                 $("#m21Solidos").val(response.model.Masa2);
-                                $("#pcm11Solidos").val(response.model.Peso_muestra1);
-                                $("#pcm21Solidos").val(response.model.Peso_muestra2);
-                                $("#pc1Solidos").val(response.model.Peso_constante1);
-                                $("#pc21Solidos").val(response.model.Peso_constante2);
+                                $("#pcm11Solidos").val(response.model.Peso_constante1);
+                                $("#pcm21Solidos").val(response.model.Peso_constante2);
+                                $("#pc1Solidos").val(response.model.Peso_muestra1);
+                                $("#pc21Solidos").val(response.model.Peso_muestra2);
                             } else {
                                 $('#resultadoSolidos').val(response.model.Resultado.toFixed(4));
                             }
@@ -1648,16 +1648,29 @@ function setDetalleMuestra() {
                             dataType: "json",
                             success: function (response) {
                                 console.log(response)
-                                if (response.resultado == 8.0){
-                                    $("#resultadoColAli").val(">"+response.resultado)
-                                } else {
-                                    $("#resultadoColAli").val(response.resultado)
+                                switch(response.parametro){
+                                    case "135":
+                                        if (response.resultado == 8.0){
+                                            $("#resultadoColAli").val(">"+response.resultado)
+                                        } else {
+                                            $("#resultadoColAli").val(response.resultado)
+                                        }
+                                        if(response.resultado == 0){
+                                            $("#resultadoColAli").val("No Detectable")
+                                        } else {
+                                            $("#resultadoColAli").val(response.model.Resultado)  
+                                        }
+                                    break;
+                                    default:
+                                        if (response.resultado <= response.limite){
+                                            $("#resultadoColAli").val("<"+response.limite)
+                                        } else {
+                                            $("#resultadoColAli").val(response.resultado)
+                                        }
+
+                                    break;
                                 }
-                                if(response.resultado == 0){
-                                    $("#resultadoColAli").val("No Detectable")
-                                } else {
-                                    $("#resultadoColAli").val(response.model.Resultado)  
-                                }
+                                
                             }
                         });
                     
@@ -2107,8 +2120,8 @@ function getDetalleMuestra(id) {
                     break;
                 case 15://Solidos
                     if (response.model.Id_parametro == 4) {
-                        document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 2'
-                        document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 6'
+                        document.getElementById('titulomasa1Solidos').innerHTML = 'Peso 2'
+                        document.getElementById('titulomasa2Solidos').innerHTML = 'Peso 6'
                     } else {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa B'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa A'

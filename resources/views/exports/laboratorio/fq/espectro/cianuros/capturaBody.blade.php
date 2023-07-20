@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/coliformes/coliformesPDF.css')}}">
     <title>Captura PDF</title>
-</head>
-<body>
+</head> 
+<body> 
     <div id="contenidoCurva">
         @php
-             echo $procedimiento[0];
+            echo $plantilla[0]->Texto; 
         @endphp
     </div>
+
     <br>
 
     <div class="contenedorTabla">
@@ -21,7 +22,7 @@
 
                 <tr>
                     <th class="nombreHeader" colspan="13">
-                        Resultado de las muestras
+                        Resultado de las muestras 
                     </th>                    
                 </tr>                
 
@@ -48,7 +49,7 @@
             </thead>
     
             <tbody>
-                @foreach ($model as $item) 
+                @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">
                         @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
@@ -59,9 +60,9 @@
                     </td>
                     <td class="tableContent">{{@$item->Vol_muestra}}</td>
                     <td class="tableContent">{{@$item->Abs1}}</td>
-                    <td class="tableContent">{{@$item->Abs2}}</td> 
+                    <td class="tableContent">{{@$item->Abs2}}</td>
                     <td class="tableContent">{{@$item->Abs3}}</td>
-                    <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{@$item->Promedio}}</td>
                     <td class="tableContent">
                         @if (@$item->Sulfuros == NULL)
                             -----        
@@ -75,18 +76,18 @@
                         @else
                             {{@$item->Nitratos}}
                         @endif
-                    </td>
+                    </td> 
                     <td class="tableContent">
                         @if (@$item->Nitritos == NULL)
                         -----        
                         @else
                             {{@$item->Nitritos}}
-                        @endif 
+                        @endif
                     </td>
                     @if ($item->Resultado <= $item->Limite)
-                        <td class="tableContent">< {{$item->Limite}}</td>
+                        <td class="tableContent">< {{@$item->Limite}}</td>
                     @else
-                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
+                        <td class="tableContent">{{@$item->Resultado}}</td>
                     @endif
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">
@@ -99,23 +100,23 @@
                     <td class="tableContent">{{@$item->Control}}</td>
                 </tr>
             @endforeach
+ 
             </tbody>        
         </table>  
     </div>    
     
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: 0</span> <br><br>
-        <span>Absorbancia B2: 0</span> <br><br>
-        <span>Absorbancia B3: 0</span> <br><br>
-        <span>RESULTADO BLANCO: 0</span>
+        <span style="font-size: 10px;"><br> Absorbancia B1: 0</span> <br><br>
+        <span style="font-size: 10px;">Absorbancia B2: 0</span> <br><br>
+        <span style="font-size: 10px;">Absorbancia B3: 0</span> <br><br>
+        <span style="font-size: 10px;">RESULTADO BLANCO: 0</span>
     </div>
 
-    <br>
     <div id="contenidoCurva">
-        <span id='curvaProcedimiento'>Valoración</span> 
-        @php
-             echo $procedimiento[1];
-        @endphp
+        {{-- <span id='curvaProcedimiento'>Valoración</span>  --}}
+       @php
+           echo @$plantilla[1]->Texto; 
+       @endphp
     </div>
 
     <br>
@@ -128,8 +129,8 @@
                     <th class="nombreHeader" colspan="4">
                         Datos de la curva de calibración
                     </th>                    
-                </tr>                
-                 
+                </tr>                 
+                
             </thead>
     
             <tbody>
@@ -145,7 +146,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> < {{number_format(@$model[0]->Limite, 4, ".", ".")}}</td>
+                        <td class="tableContent"> < {{@$model[0]->Limite}}</td>
                     </tr>
 
                     <tr>

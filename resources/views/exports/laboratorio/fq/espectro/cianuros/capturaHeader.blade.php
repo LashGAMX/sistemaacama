@@ -3,7 +3,7 @@
         echo $plantilla[0]->Titulo;
     @endphp
 </p>
-
+ 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
 <span class="fecha">{{$lote->Fecha}}</span>
 

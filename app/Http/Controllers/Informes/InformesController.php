@@ -266,6 +266,9 @@ class InformesController extends Controller
                     case 83:
                     case 4:
                     case 3:
+                    case 103:
+                    case 98:
+                    case 112:
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {

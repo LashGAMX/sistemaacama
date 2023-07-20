@@ -629,7 +629,11 @@ class MbController extends Controller
         }
         $model->save();
 
+        $detalleParametro = Parametro::where('Id_parametro', $model->Id_parametro)->first();
+
         $data = array(
+            'parametros' => $model->Id_parametro,
+            'limite' => $detalleParametro->Limite,
             'resultado' => $resultado,
             'model' => $model,
 

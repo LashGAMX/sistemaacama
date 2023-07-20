@@ -777,7 +777,13 @@ class MetalesController extends Controller
     public function getLoteCaptura(Request $request)
     {
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        $obs = array();
+        foreach ($detalle as $item) {
+            $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_analisis)->first();
+            array_push($obs,$temp->Obs_metales);
+        }
         $data = array(
+            'obs' => $obs,
             'detalle' => $detalle,
         );
         return response()->json($data);

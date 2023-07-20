@@ -28,11 +28,11 @@
             <thead> 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
-                    <th class="tableCabecera anchoColumna">TEMP DE<br> LA MUESTRA</th>
+                    <th class="tableCabecera anchoColumna">TEMP DE<br> LA MUESTRA °C</th>
                     <th class="tableCabecera anchoColumna">Lectura 1</th>
                     <th class="tableCabecera anchoColumna">Lectura 2</th>
                     <th class="tableCabecera anchoColumna">Lectura 3</th>
-                    <th class="tableCabecera anchoColumna">PROMEDIO DE <br> CONDUCTIVIDAD <br> ELECTRICA UNIDAD</th>
+                    <th class="tableCabecera anchoColumna">PROMEDIO DE <br> CONDUCTIVIDAD <br> ELECTRICA UNIDAD µS/cm</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
