@@ -1633,7 +1633,7 @@ function setDetalleMuestra() {
                         alert("La confirmativas de 24hrs no puede ser mayor a la Confirmativa de 48hrs")
                     }
                     else{
-                
+                 
                         $.ajax({
                             type: "POST",
                             url: base_url + "/admin/laboratorio/micro/operacionColAlimentos",
@@ -1650,6 +1650,7 @@ function setDetalleMuestra() {
                                 console.log(response)
                                 switch(response.parametro){
                                     case "135":
+                                    case "134": 
                                         if (response.resultado == 8.0){
                                             $("#resultadoColAli").val(">"+response.resultado)
                                         } else {
@@ -1662,7 +1663,7 @@ function setDetalleMuestra() {
                                         }
                                     break;
                                     default:
-                                        if (response.resultado <= response.limite){
+                                        if (response.resultado < response.limite){
                                             $("#resultadoColAli").val("<"+response.limite)
                                         } else {
                                             $("#resultadoColAli").val(response.resultado)
@@ -2367,6 +2368,7 @@ function getDetalleMuestra(id) {
                     break;
                 case 6: // Mb
                 case 12:
+                case 3:
                     switch (parseInt(response.model.Id_parametro)) {
                         case 12:
                         case 35:
@@ -2661,6 +2663,7 @@ function getCapturaLote() {
                         break;
                     case 6://Mb
                     case 12://
+                    case 3: // Alimentos
                         switch (parseInt(item.Id_parametro)) {
                             case 12://Coliformes
                             case 35://Ecoli

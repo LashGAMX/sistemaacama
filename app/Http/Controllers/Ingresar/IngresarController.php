@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
@@ -47,7 +48,7 @@ class IngresarController extends Controller
             $cliente = DB::table('ViewSolicitud2')->where('Folio_servicio', $request->folioSol)->first();
             $model = DB::table('ViewSolicitud2')->where('Hijo', $cliente->Id_solicitud)->get();
             $proceso = ProcesoAnalisis::where('Id_solicitud', $cliente->Id_solicitud)->get();
-            
+
             if ($proceso->count()) {
                 $std = true;
             }
@@ -118,16 +119,16 @@ class IngresarController extends Controller
             'model' => $model,
         );
         return response()->json($data);
-    } 
+    }
     public function getCodigoRecepcion(Request $res)
     {
         $model = DB::table('ViewCodigoParametroSol')->where('Id_solicitud', $res->idSol)->get();
-        $data = array( 
+        $data = array(
             'model' => $model,
-        ); 
+        );
         return response()->json($data);
     }
-    public function getDataPuntoMuestreo(Request $res) 
+    public function getDataPuntoMuestreo(Request $res)
     {
         $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
         $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
@@ -159,7 +160,7 @@ class IngresarController extends Controller
             if ($swCodigo->count()) {
                 $msg = "Los codigos ya fueron generados";
             } else {
-                $canceladoAux = array(); 
+                $canceladoAux = array();
                 if ($item->Id_servicio != 3) {
                     $phTemp = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->get();
                     foreach ($phTemp as $phItem) {
@@ -195,8 +196,22 @@ class IngresarController extends Controller
                                 ]);
                             }
                             break;
+                        case 12: //Coliformes
+                            for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-C-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+                                    'Cancelado' => $canceladoAux[$i],
+                                ]);
+                            }
+                            break;
                         case 35: //E.Coli
-                        case 78:
                             if ($model[0]->Id_norma == "27") {
                                 if ($res->conductividad[$contP] < 3500) {
                                     for ($i = 0; $i < $item->Num_tomas; $i++) {
@@ -288,7 +303,7 @@ class IngresarController extends Controller
                                 'Analizo' => 1,
                                 'Reporte' => 1,
                                 'Cadena' => 1,
-                                'Cancelado' => 0, 
+                                'Cancelado' => 0,
                             ]);
                             // if ($model[0]->Id_norma == "27") {
                             //     if ($res->cloruros[$contP] <= 1000) {
@@ -323,7 +338,7 @@ class IngresarController extends Controller
                                         'Id_solicitud' => $item->Id_solicitud,
                                         'Id_parametro' => $item2->Id_subnorma,
                                         'Codigo' => $item->Folio_servicio,
-                                        'Num_muestra' => 1, 
+                                        'Num_muestra' => 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
                                         'Reporte' => 1,
@@ -355,7 +370,7 @@ class IngresarController extends Controller
                                 'Analizo' => 1,
                                 'Reporte' => 1,
                                 'Cadena' => 1,
-                                'Cancelado' => 0, 
+                                'Cancelado' => 0,
                             ]);
                             CodigoParametros::create([
                                 'Id_solicitud' => $item->Id_solicitud,
@@ -366,7 +381,7 @@ class IngresarController extends Controller
                                 'Analizo' => 1,
                                 'Reporte' => 1,
                                 'Cadena' => 1,
-                                'Cancelado' => 0, 
+                                'Cancelado' => 0,
                             ]);
                             CodigoParametros::create([
                                 'Id_solicitud' => $item->Id_solicitud,
@@ -377,7 +392,7 @@ class IngresarController extends Controller
                                 'Analizo' => 1,
                                 'Reporte' => 1,
                                 'Cadena' => 1,
-                                'Cancelado' => 0, 
+                                'Cancelado' => 0,
                             ]);
                             break;
                         default:
@@ -390,7 +405,7 @@ class IngresarController extends Controller
                                 'Analizo' => 1,
                                 'Reporte' => 1,
                                 'Cadena' => 1,
-                                
+
                                 'Cancelado' => 0,
                             ]);
                             break;
@@ -424,13 +439,13 @@ class IngresarController extends Controller
     public function setIngresar(Request $res)
     {
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->idSol)->get();
-        $puntoModel = SolicitudPuntos::where('Id_solPadre',$res->idSol)->get();
+        $puntoModel = SolicitudPuntos::where('Id_solPadre', $res->idSol)->get();
         $sw = true;
         $msg = "";
         foreach ($puntoModel as $item) {
-            $codigoParametro = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->get();
+            $codigoParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($codigoParametro->count()) {
-            }else{
+            } else {
                 $sw = false;
             }
         }
@@ -452,13 +467,13 @@ class IngresarController extends Controller
             $date1 = new DateTime($res->horaRecepcion);
             $date2 = new DateTime($fecha_muestreo);
             $diff = $date1->diff($date2);
-            $valProce = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->get();
-            
+            $valProce = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->get();
+
             if ($valProce->count()) {
                 $msg = "Esta muestra ya fue ingresada";
-            }else{
+            } else {
                 $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-    
+
                 ProcesoAnalisis::create([
                     'Id_solicitud' => $res->idSol,
                     'Folio' => $res->folio,
@@ -489,7 +504,7 @@ class IngresarController extends Controller
                 $msg = "Muestra ingresada";
                 // if ($date1 >= $date2) {
                 //     $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-    
+
                 //         ProcesoAnalisis::create([
                 //             'Id_solicitud' => $res->idSol,
                 //             'Folio' => $res->folio,
@@ -522,7 +537,7 @@ class IngresarController extends Controller
                 //     //     $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
                 //     // }else{
                 //     //     $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-    
+
                 //     //     ProcesoAnalisis::create([
                 //     //         'Id_solicitud' => $res->idSol,
                 //     //         'Folio' => $res->folio,
@@ -551,12 +566,12 @@ class IngresarController extends Controller
                 //     //     }
                 //     //     $sw = true;
                 //     //     $msg = "Muestra ingresada";
-                    
+
                 //     // }
                 // }else{
                 //     if ($solModel->Id_servicio == 3) {
                 //         $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-    
+
                 //         ProcesoAnalisis::create([
                 //             'Id_solicitud' => $res->idSol,
                 //             'Folio' => $res->folio,
@@ -590,7 +605,7 @@ class IngresarController extends Controller
                 //     }
                 // }
             }
-        }else{
+        } else {
             $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";
         }
         $data = array(

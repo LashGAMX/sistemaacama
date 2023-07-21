@@ -5,6 +5,7 @@ var idLote = 0;
 var tecnica = 0;
 $(document).ready(function () {
     $('#formulaTipo').select2();
+    $('.select2').select2();
     
 });
 
@@ -33,6 +34,7 @@ $('#btnLiberarTodo').click(function () {
 });
 
 function getDataCaptura() {
+    console.log("getDataCaptura")
     cleanTable(); 
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
@@ -171,7 +173,7 @@ function getLoteCaptura() {
             tab += '          <th>Abs1</th>';
             tab += '          <th>Abs2</th>';
             tab += '          <th>Abs3</th>';
-            tab += '          <th>Absorción promedio</th>';
+            tab += '          <th>Absorbancia Prom.</th>';
             tab += '          <th>Factor dilución D</th>';
             tab += '          <th>Factor conversion G</th>';
             tab += '          <th>Resultado</th>';
@@ -230,7 +232,7 @@ function getLoteCaptura() {
                     tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
                 }
                 if (item.Observacion != "") {
-                    tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+obs[$aux]+'"></td>';   
+                    tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+response.obs[aux]+'"></td>';   
                 } else {
                     tab += '<td><input '+status+' style="width: 80px" id="obs'+item.Id_detalle+'" value="'+item.Observacion+'"></td>';
                 }
@@ -273,7 +275,7 @@ function getLoteCaptura() {
 
 
         }
-    });
+    }); 
 }
 
 
@@ -329,7 +331,7 @@ function operacion()
              FC:$("#factorConversion"+idMuestra).val(),
              obs:$("#obs"+idMuestra).val(),
             _token: $('input[name="_token"]').val()
-        }, s
+        }, 
 
         dataType: "json",
         success: function (response) {            

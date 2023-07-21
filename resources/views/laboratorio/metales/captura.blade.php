@@ -9,11 +9,11 @@
   </h6>
  
 <div class="container-fluid">
-    <div class="row">
+    <div class="row"> 
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control" name="formulaTipo" id="formulaTipo">
+                <select class="form-control select2" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $parametros)
                         <option value= "{{$parametros->Id_parametro}}">({{$parametros->Id_parametro}}){{$parametros->Parametro}} ({{$parametros->Tipo_formula}})</option>
@@ -190,7 +190,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.0.4"></script>
+  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.0.5"></script>
   @stop
 
 @endsection    

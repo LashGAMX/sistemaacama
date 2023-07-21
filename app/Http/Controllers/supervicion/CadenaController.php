@@ -18,6 +18,7 @@ use App\Models\SolicitudPuntos;
 use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CadenaController extends Controller
 {
@@ -71,6 +72,7 @@ class CadenaController extends Controller
         $model2->Resultado2 = $res->resLiberado; 
         $model2->Cadena = 1;
         $model2->Reporte = 1;
+        $model2->Analizo = Auth::user()->id;
         $model2->save();
 
 

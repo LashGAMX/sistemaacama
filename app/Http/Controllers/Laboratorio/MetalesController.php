@@ -776,7 +776,7 @@ class MetalesController extends Controller
     }
     public function getLoteCaptura(Request $request)
     {
-        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->where('Liberado',0)->get(); // Asi se hara con las otras
         $obs = array();
         foreach ($detalle as $item) {
             $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_analisis)->first();
@@ -989,6 +989,7 @@ class MetalesController extends Controller
         ->orWhere('Id_tipo_formula',22)
         ->orWhere('Id_tipo_formula',23)
         ->orWhere('Id_tipo_formula',24)
+        ->orWhere('Id_tipo_formula',58)
         ->get();
         $tecnica = DB::table('tecnicas')
         ->where('Id_tecnica',20)
@@ -1071,6 +1072,9 @@ class MetalesController extends Controller
                 })
                 ->when($res->tipo != 0, function($query) use ($res) {
                     $query->where('Id_tipo_formula',$res->tipo);
+                    if ($res->tipo == 22) {
+                        $query->orWhere('Id_tipo_formula',58);
+                    }
                 })
                 ->when($res->tecnica != 0, function($query) use ($res) {
                     $query->where('Id_tecnica',$res->tecnia);

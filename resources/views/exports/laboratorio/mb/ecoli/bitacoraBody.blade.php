@@ -29,7 +29,7 @@
                     <th style="font-size: 10px" rowspan="2">N.M.P obtenido</th>
                     <th style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Tabla)</th>
                     <th style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Formula 1 )</th>
-                    <th style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Formula 2 ) mL (Formula 1 )</th>
+                    <th style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Formula 2 ) mL</th>
                 </tr>
                 <tr>
                     <th style="font-size: 8px" colspan="3">24 horas</th>

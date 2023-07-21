@@ -10,6 +10,8 @@ use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadTrazable;
+use App\Models\ConTratamiento;
+use App\Models\TipoTratamiento;
 use App\Models\Evidencia;
 use App\Models\PHCalidad;
 use App\Models\PHTrazable;
@@ -18,6 +20,8 @@ use App\Models\SolicitudPuntos;
 use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
 use App\Models\CampoCompuestos;
+use App\Models\Color;
+use App\Models\MetodoAforo;
 use App\Models\PhMuestra;
 use App\Models\TemperaturaAmbiente;
 use App\Models\TemperaturaMuestra;
@@ -60,6 +64,14 @@ class CampoAppController extends Controller
         $conTrazable = ConductividadTrazable::all();
         $conCalidad = ConductividadCalidad::all(); 
 
+        //catalogos de muestra simple
+        $color = Color::all();
+        //catalogo datos compuestos
+        $aforo = MetodoAforo::all();
+        $conTratamiento = ConTratamiento::all();
+        $tipo = TipoTratamiento::all();
+        
+
         $data = array(
             'datos' => $request->solicitudesModel,
             'modelSolGen' => $modelSolGen, 
@@ -97,11 +109,16 @@ class CampoAppController extends Controller
         $solModel->save();
         $puntoModel = SolicitudPuntos::where('Id_solicitud',$solModel->Id_solicitud)->first();
 
+        //obtener id de termometros a
+        $termo1 = $jsonGeneral[0]["Id_equipo"]; 
+        $idTermo1 = explode("/", $termo1);
+        $termo2 = $jsonGeneral[0]["Id_equipo2"]; 
+        $idTermo2 = explode("/", $termo2);
         //CAMPO GENERAL
         $campoGenModel = CampoGenerales::where('Id_solicitud',$solModel->Id_solicitud)->first();
-        $campoGenModel->Captura = "Mobil";
-        $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
-        $campoGenModel->Id_equipo2 = $jsonGeneral[0]["Id_equipo2"]; 
+        $campoGenModel->Captura = "App";
+        $campoGenModel->Id_equipo = $idTermo1[0]; 
+        $campoGenModel->Id_equipo2 = $idTermo2[0]; 
         $campoGenModel->Temperatura_a = $jsonGeneral[0]["Temperatura_a"];
         $campoGenModel->Temperatura_b = $jsonGeneral[0]["Temperatura_b"];
         $campoGenModel->Latitud = $jsonGeneral[0]["Latitud"];
