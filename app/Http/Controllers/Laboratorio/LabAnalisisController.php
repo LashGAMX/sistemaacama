@@ -532,6 +532,7 @@ class LabAnalisisController extends Controller
                             break;
                         case 16: //todo Huevos de Helminto 
                             $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            // $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 78:
                             $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
