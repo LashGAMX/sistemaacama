@@ -80,6 +80,9 @@ class CampoAppController extends Controller
             'phTrazable' => $phTrazable,
             'conTrazable' => $conTrazable,  
             'conCalidad' => $conCalidad, 
+            'modelColor' => $color,
+            'modelAforo' => $aforo,
+            'modelTipo' => $tipo,
             'response' => true,
         );
         return response()->json($data);
