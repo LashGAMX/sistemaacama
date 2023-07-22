@@ -176,16 +176,14 @@
                         <br> BIENES NACIONALES.
                         @break
                         @case(27)
-                            DE ACUERDO A NOM-001-SEMARNAT-2021
-                            @if (@$solModel->Id_muestra == 1)
-                              INSTANTANEA
-                            @else
-                             COMPUESTA
-                            @endif
-                                TIPO  QUE ESTABLECE
-                                LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
-                            <br> BIENES NACIONALES.
-                        @break
+                        DE ACUERDO A LAS NOM-001-SERMARNAT-2021       
+                        @if (@$solModel->Id_muestra == 1)
+                        INSTANTANEA
+                        @else
+                        COMPUESTA
+                        @endif
+                         QUE ESTABLECE LOS LIMITES PERMICIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN CUERPO RECEPTORES PROPIEDAD DE LA NACION
+                     @break
                         @case(2)
                         DE ACUERDO A NOM-002-SEMARNAT-1996 PARA MUESTRA
                         @if (@$solModel->Id_muestra == 1)
@@ -257,7 +255,7 @@
                 @foreach ($model as $item)
                     @if (@$item->Id_area != 9)
                         <tr> 
-                            <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td>
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Clave_metodo}}</td>
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
@@ -469,9 +467,9 @@
                                             @else
                                                 
                                             @endif
-                                            <!-- <tr>
+                                            {{-- <tr>
                                                  <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
-                                            </tr> -->
+                                            </tr> --}}
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
                                             @endphp
@@ -479,7 +477,7 @@
                                         @default
 
                                         <tr>
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php echo  $item->Descripcion2; @endphp</td>
                                         </tr>
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);

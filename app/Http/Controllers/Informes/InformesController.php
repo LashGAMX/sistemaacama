@@ -372,6 +372,7 @@ class InformesController extends Controller
 
 
         $data = array(
+            'hola' => "hilasd",
             'tipoReporte2' => $tipoReporte2,
             'folioEncript' => $folioEncript,
             'campoCompuesto' => $campoCompuesto,
