@@ -81,6 +81,7 @@ class CampoAppController extends Controller
             'conTrazable' => $conTrazable,  
             'conCalidad' => $conCalidad, 
             'modelColor' => $color,
+            'modelConTratamiento' => $conTratamiento,
             'modelAforo' => $aforo,
             'modelTipo' => $tipo,
             'response' => true,
