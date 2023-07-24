@@ -3,20 +3,15 @@ var table;
 // var selectedRow = false;
 var idCot = 0; 
 $(document).ready(function () {
-
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
-        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        },
-        "scrollY": 400,
-        "scrollCollapse": true
+            "infoEmpty": "No hay datos encontrados",   
+        }
     });
-
     $('#tablaSolicitud tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -69,7 +64,7 @@ $(document).ready(function () {
     } ); 
 
     $('#btnDuplicar').click(function(){                
-        window.location = base_url + "/admin/cotizacion/solicitud/duplicarSol/"+idCot;
+        window.location = base_url + "/admin/cotizacion/solicitud/duplicarSolicitud/"+idCot;
     });
 
     $('#btnGenFolio').click( function () {

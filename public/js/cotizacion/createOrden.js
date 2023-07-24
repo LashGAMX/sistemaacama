@@ -246,18 +246,10 @@ function getDireccionReporte() {
     success: function (response) {
       console.log(response);
       $.each(response.model, function (key, item) {
-        if (siralab.checked == true) {
-          if (data.Id_direccion == item.Id_cliente_siralab) {
-            tab += '<option value="' + item.Id_cliente_siralab + '" selected>' + item.Calle + ' ' + item.Num_exterior + ' ' + item.Num_interior + ' ' + item.Colonia + ' ' + item.Ciudad + ' ' + item.Localidad + '</option>'
-          } else {
-            tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' ' + item.Num_exterior + ' ' + item.Num_interior + ' ' + item.Colonia + ' ' + item.Ciudad + ' ' + item.Localidad + '</option>'
-          }
+        if (data.Id_direccion == item.Id_direccion) {
+          tab += '<option value="' + item.Id_direccion + '" selected>' + item.Direccion + '</option>'
         } else {
-          if (data.Id_direccion == item.Id_direccion) {
-            tab += '<option value="' + item.Id_direccion + '" selected>' + item.Direccion + '</option>'
-          } else {
-            tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>'
-          }
+          tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>'
         }
 
       })

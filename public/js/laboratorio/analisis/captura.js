@@ -1682,7 +1682,6 @@ function setDetalleMuestra() {
                         type: "POST",
                         url: base_url + "/admin/laboratorio/micro/operacion",
                         data: {
-                            tecnica: tecnica,
                             idDetalle: idMuestra,
                             resultadoCol: $("#resultadoEnt").val(),
                             idParametro: $('#parametro').val(),
@@ -1739,7 +1738,6 @@ function setDetalleMuestra() {
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
-                            getLoteCapturaMicro();
                             // inicio metodo corto
                             if (response.metodoCorto == 1) {
                                 console.log("metodo corto hecho!");
@@ -1750,7 +1748,7 @@ function setDetalleMuestra() {
                                 } else {
                                     $('#resultadoEnt').val(response.res);
                                 }
-                                $('#ennmp1Ent').val(response.res)
+                                // $('#ennmp1Ent').val(response.res)
                                 $('#indicadorEnt').val("");
                             }
                         }

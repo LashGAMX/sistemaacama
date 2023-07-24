@@ -39,13 +39,26 @@
                         @endif
                     
                         @if (@$promCol->count())
-                            <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
-                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promCol[0]->Resultado2,2)}}</td>
-                        @endif
+                        <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
+                        <td class="fontCalibri anchoColumna111 fontSize8">
+                            @if (@$promCol[0]->Resultado2 <= @$promCol[0]->Limite)
+                                < {{@$promCol[0]->Limite}}
+                            @else
+                                {{round(@$promCol[0]->Resultado2,2)}}
+                            @endif
+                        </td>
+                    @endif
                         @if (@$promGas->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                        <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
-                        @endif
+                        <td class="fontCalibri anchoColumna111 fontSize8">
+                            @if (@$promGas[0]->Resultado2 <= @$promGas[0]->Limite)
+                                < {{@$promGas[0]->Limite}}
+                            @else
+                                {{round(@$promGas[0]->Resultado2,2)}}
+                            @endif
+                        </td>
+                    @endif
+
                     @break
                     @case(27)
                         @if (@$promGra->count())
@@ -61,19 +74,43 @@
                     
                         @if (@$promCol->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
-                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promCol[0]->Resultado2,2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promCol[0]->Resultado2 <= @$promCol[0]->Limite)
+                                    < {{@$promCol[0]->Limite}}
+                                @else
+                                    {{round(@$promCol[0]->Resultado2,2)}}
+                                @endif
+                            </td>
                         @endif
                         @if (@$promEco->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">Escherichia coli NMP/100mL</td>
-                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promEco[0]->Resultado2,2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promEco[0]->Resultado2 <= @$promEco[0]->Limite)
+                                    < {{@$promEco[0]->Limite}}
+                                @else
+                                    {{round(@$promEco[0]->Resultado2,2)}}
+                                @endif
+                            </td>
                         @endif
                         @if (@$promEnt->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">	Enterococos Fecales NMP/100mL</td>
-                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promEnt[0]->Resultado2,2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promEnt[0]->Resultado2 <= @$promEnt[0]->Limite)
+                                    < {{@$promEnt[0]->Limite}}
+                                @else
+                                    {{round(@$promEnt[0]->Resultado2,2)}}
+                                @endif
+                            </td>
                         @endif
                         @if (@$promGas->count())
-                        <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                        <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promGas[0]->Resultado2 <= @$promGas[0]->Limite)
+                                    < {{@$promGas[0]->Limite}}
+                                @else
+                                    {{round(@$promGas[0]->Resultado2,2)}}
+                                @endif
+                            </td>
                         @endif
 
             
