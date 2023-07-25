@@ -179,6 +179,7 @@ var idMuestra = 0
 var idArea = 0
 var blanco = 0
 var idTecnica = 0
+var numColonia = 0
 //todo funciones
 function getStdMenu() {
     $("#tabGa-tab").hide()
@@ -249,6 +250,34 @@ function getStdMenu() {
         default:
             break;
     }
+}
+function getDetalleEcoli(idMuestra,colonia,indice){
+    numColonia = colonia;
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/micro/getDetalleEcoli",
+        data: {
+            colonia:colonia,
+            idDetalle: idMuestra,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            $("#indol1Ecoli").val(response.convinaciones.Indol)
+            $("#rm1Ecoli").val(response.convinaciones.Rm)
+            $("#vp1Ecoli").val(response.convinaciones.Vp)
+            $("#citrato1Ecoli").val(response.convinaciones.Citrato)
+            $("#bgn1Ecoli").val(response.convinaciones.BGN)
+            $("#indol2Ecoli").val(response.convinaciones.Indol2)
+            $("#rm2Ecoli").val(response.convinaciones.Rm2)
+            $("#vp2Ecoli").val(response.convinaciones.Vp2)
+            $("#citrato2Ecoli").val(response.convinaciones.Citrato2)
+            $("#bgn2Ecoli").val(response.convinaciones.BGN2)
+            $("#observacionEcoli").val(response.model.observacion)
+            $("#indiceEcoli").val(indice)
+        }
+    });
 }
 function metodoCortoCol() {
     $.ajax({
@@ -1819,7 +1848,7 @@ function setDetalleMuestra() {
                     var obs = $("#observacionEcoli option:selected").text();
                     $.ajax({
                         type: "POST",
-                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        url: base_url + "/admin/laboratorio/micro/operacionEcoli",
                         data: {
                             idLote: idLote,
                             colonia: numColonia,
@@ -1848,8 +1877,10 @@ function setDetalleMuestra() {
                             } else {
                                 $("#resultadoEcoli").val("Negativo para E. coli")
                             }
+                            getCapturaLote()
                         }
                     });
+
                     break;
                 default:
                     $.ajax({
@@ -2473,6 +2504,21 @@ function getDetalleMuestra(id) {
                             $("#resultadoHH").val(response.model.Resultado);
                             break;
                         case 78:
+
+                        $("#indol1Ecoli").val()
+                        $("#rm1Ecoli").val()
+                        $("#vp1Ecoli").val()
+                        $("#citrato1Ecoli").val()
+                        $("#bgn1Ecoli").val()
+                        $("#indol2Ecoli").val()
+                        $("#rm2Ecoli").val()
+                        $("#vp2Ecoli").val()
+                        $("#citrato2Ecoli").val()
+                        $("#bgn2Ecoli").val()
+                        $("#observacionEcoli").val()
+                        $("#indiceEcoli").val()
+                        $("#resultadoEcoli").val()
+
                             $("#indol1Ecoli").val(response.convinaciones.Indol)
                             $("#rm1Ecoli").val(response.convinaciones.Rm)
                             $("#vp1Ecoli").val(response.convinaciones.Vp)
@@ -2485,6 +2531,12 @@ function getDetalleMuestra(id) {
                             $("#bgn2Ecoli").val(response.convinaciones.BGN2)
                             $("#observacionEcoli").val(response.model.observacion)
                             $("#indiceEcoli").val(indice)
+
+                            if (response.model.convinaciones == 1) {
+                                $("#resultadoEcoli").val("Positivo para E. coli")
+                            } else {
+                                $("#resultadoEcoli").val("Negativo para E. coli")
+                            }
                             break;
                         default:
                             $("#observacionDirectoDef").val(response.model.Observacion);
@@ -2510,6 +2562,7 @@ function getCapturaLote() {
     let cont = 0
     let tabla = document.getElementById('divCaptura');
     let tab = '';
+    let clase = ''
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/" + area + "/getCapturaLote",
@@ -2536,8 +2589,10 @@ function getCapturaLote() {
                 if (item.Liberado != 1) {
                     status = "";
                     color = "success";
+                    clase = "btn btn-success";
                 } else {
                     status = "disabled";
+                    clase = "btn btn-warning";
                     color = "warning"
                 }
                 tab += '<tr>';
@@ -2686,6 +2741,7 @@ function getCapturaLote() {
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColiformesAlimentos">Capturar</button>';
                                 break;
                             case 78:
+                                let temp78 = ""
                                 let data = [item.Colonia1, item.Colonia2, item.Colonia3, item.Colonia4, item.Colonia5];
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '">';
                                 tab += '<div class="row">'
@@ -2703,13 +2759,19 @@ function getCapturaLote() {
                                 }
 
                                 for (let i = 0; i < indice[contador]; i++) {
+                                    temp78 = ""
                                     tab += '<div class="row">'
                                     tab += '<div class="col-md-12">'
                                     tab += '<button type="button" id="col' + i + '" ' + status + ' class="' + clase + '" onclick="getDetalleEcoli(' + item.Id_detalle + ',' + (i + 1) + ',' + indice[contador] + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
                                     tab += '<label>'
                                     tab += "&nbsp Colonia &nbsp" + (i + 1) + '&nbsp';
                                     tab += '</label>';
-                                    tab += '<input type="text" id="resultColonia" value="' + data[i] + '">'
+                                    if (data[i] == 1) {
+                                        temp78 = "Positivo para E. coli"
+                                    } else {
+                                        temp78 = "Negativo para E. coli"
+                                    }
+                                    tab += '<input type="text" id="resultColonia" value="' + temp78 + '">'
                                     tab += '</div>';
                                     tab += '</div">';
                                 }

@@ -5,6 +5,7 @@ var idCot = 0;
 $(document).ready(function () {
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
+        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
