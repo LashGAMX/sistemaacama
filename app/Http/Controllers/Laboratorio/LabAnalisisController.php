@@ -454,6 +454,7 @@ class LabAnalisisController extends Controller
     {
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
         $aux = array();
+        $indice = array();
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
@@ -537,6 +538,21 @@ class LabAnalisisController extends Controller
                             break;
                         case 78:
                             $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            // $detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
+                            foreach ($model as $item) {
+                                $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
+                                if ($values != null) {
+                                    if ($values->Indice == 0) {
+                                        array_push($indice, 1);
+                                    }else {
+                                        array_push($indice, $values->Indice);
+                                    }
+                                   
+                                } else {
+                                    $indice = null;
+                                    break;
+                                }
+                            }
                             break;
                         default:
                             $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -552,6 +568,7 @@ class LabAnalisisController extends Controller
         }
 
         $data = array(
+            'indice' => $indice,
             'aux' => $aux,
             'model' => $model,
             'lote' => $lote,
@@ -882,8 +899,8 @@ class LabAnalisisController extends Controller
                         case 222:
                             # Boro (B) 
                             $x = ($res->X + $res->Y + $res->Z) / 3;
-                            $resultado = (($x - $res->CB) / $res->CM) * 1;
-                            $d = 0;
+                            $d = 1 / $res->E;
+                            $resultado = (($x - $res->CB) / $res->CM) * $d;
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
                             $model->Resultado = $resultado;

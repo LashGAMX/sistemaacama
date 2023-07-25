@@ -72,7 +72,7 @@ class CadenaController extends Controller
         $model2->Resultado2 = $res->resLiberado; 
         $model2->Cadena = 1;
         $model2->Reporte = 1;
-        $model2->Analizo = Auth::user()->id;
+        // $model2->Analizo = Auth::user()->id;
         $model2->save();
 
 
