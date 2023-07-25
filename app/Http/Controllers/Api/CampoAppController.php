@@ -201,17 +201,20 @@ class CampoAppController extends Controller
 
 
         // //MUESTRA
-
-        // //phMuestra
-        // $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-        //  for ($i = 0; $i < $phMuestra->count(); $i++) {
-        //     $phMuestra[$i]->Ph1 = $jsonPhMuestra[$i]["Ph1"];
-        //     $phMuestra[$i]->Ph2 = $jsonPhMuestra[$i]["Ph2"];
-        //     $phMuestra[$i]->Ph3 = $jsonPhMuestra[$i]["Ph3"];
-        //     $phMuestra[$i]->Promedio = $jsonPhMuestra[$i]["Promedio"];
-        //     $phMuestra[$i]->save();
-        //  }
+        // //phMuestra
+        $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+         for ($i = 0; $i < $phMuestra->count(); $i++) {
+            $phMuestra[$i]->Materia =$jsonPhMuestra[$i]["Materia"];
+            $phMuestra[$i]->Olor = $jsonPhMuestra[$i]["Olor"];
+            $phMuestra[$i]->Color = $jsonPhMuestra[$i]["Color"];
+            $phMuestra[$i]->Ph1 = $jsonPhMuestra[$i]["Ph1"];
+            $phMuestra[$i]->Ph2 = $jsonPhMuestra[$i]["Ph2"];
+            $phMuestra[$i]->Ph3 = $jsonPhMuestra[$i]["Ph3"];
+            $phMuestra[$i]->Promedio = $jsonPhMuestra[$i]["Promedio"];
+            $phMuestra[$i]->save();
+         }
            
         // $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
@@ -233,18 +236,23 @@ class CampoAppController extends Controller
         //     $tempMuestra[$i]->save();
         // }
 
+        //DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
+        $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
+        $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
+        $phMuestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];
+
         $campoCompuesto = CampoCompuesto::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoCompuesto->Metodo_aforo = $aforo;
-            // $campoCompuesto->Con_tratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
-            // $campoCompuesto->Tipo_tratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
-            // $campoCompuesto->Proce_muestreo = $jsonDatosCompuestos[0]["Proc_muestreo"];
-            // $campoCompuesto->Observaciones = $jsonDatosCompuestos[0]["Observaciones"];
-            // $campoCompuesto->Obser_solicitud = $jsonDatosCompuestos[0]["Obser_solicitud"];
-            // $campoCompuesto->Ph_muestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];
-            // $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
-            // $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
-            // $campoCompuesto->Cloruros = $jsonDatosCompuestos[0]["Cloruros"];
+        $campoCompuesto->Con_tratamiento = $conTratamiento;
+        $campoCompuesto->Tipo_tratamiento = $tipoTratamiento;
+        $campoCompuesto->Proce_muestreo = $jsonDatosCompuestos[0]["Proc_muestreo"];
+        $campoCompuesto->Observaciones = $jsonDatosCompuestos[0]["Observaciones"];
+        $campoCompuesto->Obser_solicitud = $jsonDatosCompuestos[0]["Obser_solicitud"];
+        $campoCompuesto->Ph_muestraComp = $phMuestraComp;
+        $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
+        $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
+        $campoCompuesto->Cloruros = $jsonDatosCompuestos[0]["Cloruros"];
         $campoCompuesto->save();
         // -------------------------EVIDENCIA---------------------------------------
 
@@ -266,7 +274,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'compuesto' => $campoCompuesto,
+            // 'ph' => $phMuestra,
              
           
         );
