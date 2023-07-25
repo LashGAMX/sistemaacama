@@ -840,7 +840,7 @@ class MbController extends Controller
                             $op1 = 10 / $request->D1;
                             $res = $op1 * $request->NMP;
                         } else {
-                            $res =  $request->NMP / $request->D3;
+                            $res =  round($request->NMP / $request->D3);
                         }
 
                         $tipo = 2; // Formula 1
@@ -853,7 +853,7 @@ class MbController extends Controller
                     //Formula 2
                     $op1 = $request->G1 * 100;
                     $op2 = sqrt($request->G2 * $request->G3);
-                    $res1 = $op1 / $op2;
+                    $res1 = round(($op1 / $op2));
                     $tipo = 3; //Formula 2
                     $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
 

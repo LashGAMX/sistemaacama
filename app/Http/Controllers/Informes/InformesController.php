@@ -142,7 +142,7 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
+        @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
 
         $relacion = InformesRelacion::where('Id_solicitud', $idPunto)->get();
 
@@ -173,7 +173,7 @@ class InformesController extends Controller
             $tempAmbienteProm = $tempAmbienteProm + $item->Temperatura1;
             $auxTem++;
         }
-        @$tempAmbienteProm = $tempAmbienteProm / $auxTem;
+        @$tempAmbienteProm = round($tempAmbienteProm / $auxTem);
 
         //Recupera la temperatura compuesta
         $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
@@ -182,6 +182,7 @@ class InformesController extends Controller
         $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
         $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();
+        $numTomas = PhMuestra::where('Id_solicitud', $idSol)->where('Activo',1)->get();
         $numOrden =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel->Hijo)->first();
         if ($solModel->Id_servicio != 3) {
             $horaMuestreo = \Carbon\Carbon::parse($phCampo[0]->Fecha)->format('H:i');
@@ -372,7 +373,7 @@ class InformesController extends Controller
 
 
         $data = array(
-            'hola' => "hilasd",
+            'numTomas' => @$numTomas,
             'tipoReporte2' => $tipoReporte2,
             'folioEncript' => $folioEncript,
             'campoCompuesto' => $campoCompuesto,
@@ -4151,8 +4152,9 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
-        $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
-        $phMuestra = PhMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Id_parametro','!=',64)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+        // $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+        $phMuestra = PhMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get(); 
         $tempArea = array();
         $temp = 0;
         $sw = false;
@@ -4179,10 +4181,14 @@ class InformesController extends Controller
                     $auxArea = DB::table('areas_lab')->where('Id_area', $item->Id_area)->first();
                     $user = DB::table('users')->where('id', $auxArea->Id_responsable)->first();
                     if (@$item->Id_areaAnalisis == 12 || @$item->Id_areaAnalisis == 6 || @$item->Id_areaAnalisis == 13 || @$item->Id_areaAnalisis == 3) {
-                        if ($model->Id_servicio != 3) {
-                            array_push($numRecipientes, $phMuestra->count());
-                        } else {
-                            array_push($numRecipientes, $model->Num_tomas);
+                        if (@$item->Id_parametro != 16) {
+                            if ($model->Id_servicio != 3) {
+                                array_push($numRecipientes, $phMuestra->count());
+                            } else {
+                                array_push($numRecipientes, $model->Num_tomas);
+                            }
+                        }else{
+                            array_push($numRecipientes, 1);    
                         }
 
                         array_push($stdArea, 1);
@@ -4235,6 +4241,9 @@ class InformesController extends Controller
                                     break;
                                 case 78: // E.Coli
                                     $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                    break;
+                                case 253:
+                                    $modelDet = DB::table('ViewLoteDetalleEnterococos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                     break;
                                 default:
                                     $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
@@ -4334,6 +4343,9 @@ class InformesController extends Controller
                                     $modelDet = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                     echo "Entro dure";
                                     break;
+                                case 64:
+
+                                    break;
                                 default:
                                     $modelDet = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                     break;
@@ -4389,6 +4401,7 @@ class InformesController extends Controller
                 case 12:
                 case 13:
                 case 35:
+                case 253:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
@@ -4414,7 +4427,7 @@ class InformesController extends Controller
                     break;
                 case 3:
                 case 4:
-                case 13: // g y a
+                // case 13: // g y a
                 case 6: //DQO
                 case 5: //DBO
                 case 9: //nitrogeno amoniacal
@@ -4422,6 +4435,7 @@ class InformesController extends Controller
                 case 10: //organico
                 case 11: //nitrogeno total
                 case 15: //Fosforo
+                case 152:
                     if ($item->Resultado2 <= $item->Limite) {
                         $resTemp = "< " . $item->Limite;
                     } else {
@@ -4637,6 +4651,7 @@ class InformesController extends Controller
                         break;
                     case 6: // MB
                     case 12:
+                    case 3:
                         switch ($item->Parametro) {
                             case 5: // DBO
                                 $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
@@ -4649,6 +4664,9 @@ class InformesController extends Controller
                                 break;
                             case 78: // E.Coli
                                 $modelDet = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
+                                break;
+                            case 253:
+                                $modelDet = DB::table('ViewLoteDetalleEnterococos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
                                 break;
                         }
                         if ($modelDet->count()) {
@@ -4734,6 +4752,7 @@ class InformesController extends Controller
             switch ($item->Id_parametro) {
                 case 12:
                 case 13:
+                case 253:
                     if ($item->Resultado >= $item->Limite) {
                         $resTemp = $item->Resultado;
                     } else {

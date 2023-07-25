@@ -93,7 +93,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="siralab" onchange="getDireccionReporte()">
+                    <input type="checkbox" class="form-check-input" id="siralab" >
                     <label class="form-check-label" for="siralab">Siralab</label>
                   </div>
                 </div>
@@ -282,7 +282,7 @@
                   </select>
               </div>
               <div class="col-md-6">
-                  <label for="tipoReporte2">Tipo de reporte 2023</label>
+                  <label for="tipoReporte2">Tipo de reporte 2021</label>
                   <select name="tipoReporte2" id="tipoReporte2" class="form-control">
                       <option value="0">Sin seleccionar</option>
                       @foreach (@$categorias0012 as $item)

@@ -446,7 +446,9 @@
                     $temp = array();
                     $sw = false;
                 @endphp
-
+            
+            @if (@$solModel->Num_tomas > 1)
+                    
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>        
                     <tr><td></td></tr>
@@ -457,7 +459,44 @@
                                 @endif
                             @endfor
                             @if ($sw != true)
-                                @if ($item->Id_simbologia_info	!= 9)
+                                @switch($item->Id_simbologia_info)
+                                    @case(9)
+                                        
+                                        @break
+                                    @case(11)
+                                        <tr> 
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1++ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE ESCHERICHIA COLI.</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @break
+                                    @case(5)
+                                        <tr> 
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1# PROMEDIO PONDERADO DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE GRASAS Y ACEITES</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @break
+                                    @case(4)
+                                        <tr> 
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1+ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERA DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL
+                                                LABORATORIO.</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @break
+                                    @case(12)
+                                        <tr> 
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1+++ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE ENTEROCOCOS FECALES. </td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @break
+                                    @default
                                     @switch($item->Id_parametro)
                                         @case(97)
                                             @if ($solicitud->Num_tomas > 1)
@@ -468,7 +507,7 @@
                                                 
                                             @endif
                                             {{-- <tr>
-                                                 <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
                                             </tr> --}}
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
@@ -483,7 +522,7 @@
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
                                     @endswitch
-                                @endif
+                                @endswitch
                             
                             @endif 
                             @php
@@ -492,6 +531,7 @@
                         @endforeach 
                 </tbody>         
             </table>  
+                @endif
             
             </div>    
 

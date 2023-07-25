@@ -58,13 +58,13 @@
                         <td class="tableContent">{{$item->Abs1}}</td>
                         <td class="tableContent">{{$item->Abs2}}</td>
                         <td class="tableContent">{{$item->Abs3}}</td>
-                        <td class="tableContent">{{$item->Promedio}}</td>
+                        <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", "")}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado != NULL)
                                 @if ($item->Limite >= $item->Resultado)
-                                < {{$item->Limite}}
+                                < {{number_format(@$item->Limite, 3, ".", "")}}
                                 @else
-                                    {{$item->Resultado}}
+                                    {{number_format(@$item->Resultado, 3, ".", "")}}
                                 @endif
                             @else
                                 ------

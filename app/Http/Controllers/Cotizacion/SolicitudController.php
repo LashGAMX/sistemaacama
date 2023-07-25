@@ -192,7 +192,8 @@ class SolicitudController extends Controller
     {
 
         if ($res->siralab == "true") {
-            $model = DB::table('ViewDireccionSir')->where('Id_sucursal', $res->id)->get();
+            // $model = DB::table('ViewDireccionSir')->where('Id_sucursal', $res->id)->get();
+            $model = DireccionReporte::where('Id_sucursal', $res->id)->get();
         } else {
             $model = DireccionReporte::where('Id_sucursal', $res->id)->get();
         }
@@ -951,6 +952,7 @@ class SolicitudController extends Controller
     public function setOrdenServicio(Request $res)
     {
         $model = Solicitud::where('Id_cotizacion',$res->id)->where('Padre',1)->get();
+        $nombreCli = "";
         $siralab = 0;
         if ($res->siralab == "true") {
             $siralab = 1;
@@ -985,10 +987,17 @@ class SolicitudController extends Controller
                 $tempSol->Id_user_m = Auth::user()->id;
                 $tempSol->save();
 
+                $aux = SucursalCliente::where('Id_sucursal',$res->sucursal)->get();
+                if ($aux->count()) {
+                    $nombreCli = $aux[0]->Empresa;
+                }
+
+
                 $cotizacion = Cotizacion::where('Id_cotizacion',$idCot)->first();
                 $cotizacion->Id_intermedio = $res->inter;
                 $cotizacion->Id_cliente = $res->clientes;
                 $cotizacion->Id_sucursal = $res->clienteSucursal;
+                $cotizacion->Nombre = $nombreCli;
                 $cotizacion->Id_direccion = $res->direccionReporte;
                 $cotizacion->Id_general = $res->idGen;
                 $cotizacion->Tipo_servicio = $res->tipoServicio;
@@ -1302,5 +1311,47 @@ class SolicitudController extends Controller
             'model' => $model,
         );
         return response()->json($data);
+    }
+    public function duplicarSolicitud($id)
+    {
+        $solModel = Solicitud::where('Id_cotizacion',$id)->where('Padre',1)->first();
+        $cotModel = Cotizacion::where('Id_cotizacion',$id)->first();
+
+
+        $cotDup = $cotModel->replicate();
+        $cotDup->Folio = "";
+        $cotDup->Folio_servicio = "";
+        $cotDup->save();
+
+        $solDup = $solModel->replicate();
+        $solDup->Id_cotizacion = $cotDup->Id_cotizacion;
+        $solDup->Folio_servicio = "";
+        $solDup->save();
+
+        
+        $model = SolicitudParametro::where('Id_solicitud',$solModel->Id_solicitud)->get();
+        if ($model->count()) {
+
+            foreach ($model as $item) {
+                $solParamDup = $item->replicate();
+                $solParamDup->Id_solicitud = $solDup->Id_solicitud;
+                $solParamDup->save();
+            }
+        }
+
+        $model = SolicitudPuntos::where('Id_solicitud',$solModel->Id_solicitud)->get();
+        if ($model->count()) {
+
+            foreach ($model as $item) {
+                $solPuntoDup = $item->replicate();
+                $solPuntoDup->Id_solicitud = $solDup->Id_solicitud;
+                $solPuntoDup->Conductividad = null;
+                $solPuntoDup->Cloruros = null;
+                $solPuntoDup->save();
+            }
+        }
+        
+  
+        return redirect()->to('admin/cotizacion/solicitud');
     }
 }

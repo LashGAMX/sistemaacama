@@ -486,6 +486,7 @@ class LabAnalisisController extends Controller
                         case 108:
                         case 28://Alcalinidad
                             $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            // $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->get();
                             break;
                         default:
                             $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -521,8 +522,8 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
-                            $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            // $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->get();
+                            // $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 253: //todo  ENTEROCOCO FECAL
                             $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -701,7 +702,7 @@ class LabAnalisisController extends Controller
                             $model = DB::table('ViewLoteDetalleColiformes')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
                             break;
                         case 253: //todo  ENTEROCOCO FECAL
-                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $model->Id_lote)->where('Id_control', 1)->get();
+                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_detalle', $res->id)->first();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                             $model = DB::table('ViewLoteDetalleDbo')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
@@ -985,6 +986,7 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         case 105: //Fluoruros (potable)
+                        case 121:
                             $x = ($res->X + $res->Y + $res->Z) / 3;
                             $d =  50 / $res->E;
                             $xround = round($x, 3);
