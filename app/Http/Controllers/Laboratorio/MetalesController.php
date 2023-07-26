@@ -459,7 +459,7 @@ class MetalesController extends Controller
         $resultado = "";
 
         switch ($parametro->Id_matriz) {
-            case 14:
+            case 14: // MetalPotable
 
                 switch ($parametro->Id_parametro) {
                     case  215:
@@ -473,9 +473,18 @@ class MetalesController extends Controller
                         break;
                 }
                 break;
-            case 13:
-                $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD * $request->volDirigido;   
-                $resultado = ($temp ) / ($request->volMuestra * $FC);
+            case 13: //Metal purificado
+            case 9:
+                switch ($parametro->Id_parametro) {
+                    case 190: 
+                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volDirigido);   
+                        $resultado = (($temp ) / ($request->volMuestra * $FC)); 
+                        break;
+                    default:
+                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volDirigido);   
+                        $resultado = ($temp ) / ($request->volMuestra * $FC); 
+                        break;
+                }
                 break;
             default:            
                 if ($parametroModel->count()) {
@@ -512,6 +521,7 @@ class MetalesController extends Controller
 
         $data = array(
             // 'temp' => $temp,
+            'parametro' =>  $parametro,
             'idDeta' => $request->idDetalle,
             'curva' => $curvaConstantes,
             'promedio' => $promedio,
