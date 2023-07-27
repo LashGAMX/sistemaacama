@@ -460,6 +460,7 @@ class LabAnalisisController extends Controller
                 case 16: // Espectrofotometria
                 case 5: // Fisicoquimicos
                     $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                    // $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $res->idLote)->get();
                     break;
                 case 13: // G&A
                     $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -852,12 +853,13 @@ class LabAnalisisController extends Controller
                             break;
                         case 114:
                         case 96:
+                        case 124:
                             # Sustancias activas al Azul de Metileno
                             $x = ($res->X + $res->Y + $res->Z) / 3;
                             $r1 = ($x - $res->CB) / $res->CM;
                             $r2 = 1000 / $res->E;
                             $resultado = $r1 * $r2;
-                            $d = 0;
+                            $d = $r2;
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
                             $model->Resultado = $resultado;
@@ -918,6 +920,7 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         case 7:
+                        case 122:
                             # N-Nitratos
                             $d = 10 / $res->E;
                             $x = ($res->X + $res->Y + $res->Z) / 3;
@@ -2428,10 +2431,11 @@ class LabAnalisisController extends Controller
 
                         $model = LoteDetalleHH::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                         break;
+
                     case 78:
                         $model = LoteDetalleEcoli::find($res->idMuestra);
                         $model->Liberado = 1;
-                        if ($model->Resultado != null) {
+                        if ($model->Resultado != null) { 
                             $sw = true;
                             $model->save();
                         }

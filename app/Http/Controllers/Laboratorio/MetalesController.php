@@ -466,7 +466,6 @@ class MetalesController extends Controller
                     $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD * $request->volDirigido;   
                     $resultado = ($temp ) / ($request->volMuestra * $FC);
                         break;
-                    
                     default:
                     $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
                     $resultado = ($paso1 * 1) / $FC;   

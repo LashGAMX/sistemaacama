@@ -34,9 +34,7 @@
                         
                         <div class="row">
                             <div class="col-md-1">
-                                @if (Auth::user()->role->id != 13)
-                                    <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
-                                @endif
+                                <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
                             </div>
                             {{-- <div class="col-md-2">
                                 @if (Auth::user()->role->id != 13)

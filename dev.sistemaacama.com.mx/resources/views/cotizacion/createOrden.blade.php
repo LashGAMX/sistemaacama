@@ -230,9 +230,9 @@
                   <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_tomas}}">
                 </div>  
                 <div class="col-md-8">
-                  <h6>Folio servicio</h6>
+                  {{-- <h6>Folio servicio</h6>
                   <input type="text" id="folio" value="{{@$model->Folio_servicio}}" disabled>
-                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>
+                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button> --}}
                 </div>
 
               </div>
@@ -324,7 +324,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                   <label for="normaPa">Norma : </label>
                   <input type="text" placeholder="Sin seleccionar norma" id="normaPa" style="width: 60%;border: none;"
                     disabled>
@@ -337,6 +337,11 @@
                 <div class="col-md-2">
                   <button type="button" id="btnCrearSolicitud"  class="btn btn-success"><i
                       class="fas fa-save"></i> Crear Orden</button>
+                </div>
+                <div class="col-md-2">
+                  <h6>Folio servicio</h6>
+                  <input type="text" id="folio" value="{{@$model->Folio_servicio}}" disabled>
+                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>                  
                 </div>
               </div>
             </div>

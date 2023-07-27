@@ -78,7 +78,7 @@ class CampoController extends Controller
     {
          
         if (Auth::user()->role->id == 13) {
-            $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->where('Id_user_c',Auth::user()->id)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre',1)->where('Id_servicio', 1)->where('Id_user_c',Auth::user()->id)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get();
         } else {
             $model = DB::table('ViewSolicitud2')->where('Padre',1)->where('Id_servicio', 1)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get(); 
         } 
