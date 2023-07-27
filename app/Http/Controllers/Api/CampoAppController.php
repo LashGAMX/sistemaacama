@@ -36,7 +36,7 @@ class CampoAppController extends Controller
 {
     public function login(Request $request)
     {
-        $idMuestreador = 0;
+        $idMuestreador = "";
         $model = UsuarioApp::where('User',$request->user)
             ->where('UserPass',$request->pass) 
             ->get();
