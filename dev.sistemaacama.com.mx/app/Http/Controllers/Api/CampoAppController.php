@@ -203,32 +203,29 @@ class CampoAppController extends Controller
             $conCalidad->save();
 
 
-        // //MUESTRA
+        //MUESTRA
         
-        // //phMuestra
-        // $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        //phMuestra
+         $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-        //  for ($i = 0; $i < $phMuestra->count(); $i++) {
-        //     $phMuestra[$i]->Materia =$jsonPhMuestra[$i]["Materia"];
-        //     $phMuestra[$i]->Olor = $jsonPhMuestra[$i]["Olor"];
-        //     $phMuestra[$i]->Color = $jsonPhMuestra[$i]["Color"];
-        //     $phMuestra[$i]->Ph1 = $jsonPhMuestra[$i]["Ph1"];
-        //     $phMuestra[$i]->Ph2 = $jsonPhMuestra[$i]["Ph2"];
-        //     $phMuestra[$i]->Ph3 = $jsonPhMuestra[$i]["Ph3"];
-        //     $phMuestra[$i]->Promedio = $jsonPhMuestra[$i]["Promedio"];
-        //     $phMuestra[$i]->save();
-        //  }
+         if($phMuestra->count())
+         {
+            for ($i = 0; $i < $phMuestra->count(); $i++) {
+                $materia  = $jsonPhMuestra[$i]["Materia"];
+                $olor = 
+                $tempPh = PhMuestra::find($phMuestra[$i]->Id_ph);
+                $tempPh->Materia =$materia;
+                // $tempPh->Olor = $jsonPhMuestra[$i]["Olor"];
+                // $tempPh->Color = $jsonPhMuestra[$i]["Color"];
+                // $tempPh->Ph1 = $jsonPhMuestra[$i]["Ph1"];
+                // $tempPh->Ph2 = $jsonPhMuestra[$i]["Ph2"];
+                // $tempPh->Ph3 = $jsonPhMuestra[$i]["Ph3"];
+                // $tempPh->Promedio = $jsonPhMuestra[$i]["Promedio"];
+                $tempPh->save();
+             }
+         }
            
-        // $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
-        
-        // for ($i = 0; $i < $tempMuestra->count(); $i++){
-        //     $tempMuestra[$i]->TemperaturaSin1 = $jsonTempMuestra[$i]["Temp1"];
-        //     $tempMuestra[$i]->TemperaturaSin2 = $jsonTempMuestra[$i]["Temp2"];
-        //     $tempMuestra[$i]->TemperaturaSin3 = $jsonTempMuestra[$i]["Temp3"];
-        //     $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
-        //     $tempMuestra[$i]->save();
-        // }
-
+      
         // $tempAmbiente= TemperaturaAmbiente::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
         // for ($i = 0; $i < $tempAmbiente->count(); $i++){
@@ -258,7 +255,17 @@ class CampoAppController extends Controller
         //     $gasto[$i]->Promedio = $jsonGastoMuestra[$i]["Promedio"];
         //     $gasto[$i]->save();
         // }
-        //DATOS COMPUESTOS -------------------------------------------------------------------
+        
+        // $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+        // for ($i = 0; $i < $tempMuestra->count(); $i++){
+        //     $tempMuestra[$i]->TemperaturaSin1 = $jsonTempMuestra[$i]["Temp1"];
+        //     $tempMuestra[$i]->TemperaturaSin2 = $jsonTempMuestra[$i]["Temp2"];
+        //     $tempMuestra[$i]->TemperaturaSin3 = $jsonTempMuestra[$i]["Temp3"];
+        //     $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
+        //     $tempMuestra[$i]->save();
+        // }
+    //   // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
         $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
@@ -286,18 +293,18 @@ class CampoAppController extends Controller
         //         'Base64' => $request->pruebaCod,
         //     ]);
         // }
-        Evidencia::create([
-            'Id_solicitud' => $solModel->Id_solicitud,
-            'Id_punto' => $puntoModel->Id_muestreo,
-            'Base64' => $jsonEviencia[0]["Codigo"],
-        ]);
-               // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
+        // Evidencia::create([
+        //     'Id_solicitud' => $solModel->Id_solicitud,
+        //     'Id_punto' => $puntoModel->Id_muestreo,
+        //     'Base64' => $jsonEviencia[0]["Codigo"],
+        // ]);
+        //        // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
 
         $data = array(
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-          //  'tempMuestra' => $tempAmbiente,
+           'simple' => $phMuestra->count(),
              
           
         );
