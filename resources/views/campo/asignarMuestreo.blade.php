@@ -184,7 +184,7 @@
 </div>
 
   <!-- Modal Asig. Multiple -->
-  <div class="modal fade" id="modalMultiple" tabindex="-1" aria-labelledby="modalObs" aria-hidden="true">
+  <div class="modal fade" id="modalMultiple" aria-labelledby="modalObs" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
