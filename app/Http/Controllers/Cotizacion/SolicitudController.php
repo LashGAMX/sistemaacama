@@ -108,7 +108,11 @@ class SolicitudController extends Controller
         $descargas = TipoDescarga::all();
         $frecuencia = DB::table('frecuencia001')->get();
         // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
-        $intermediario = DB::table('ViewIntermediarios')->get();
+        if (Auth::user()->role->id == 13) {
+            $intermediario = DB::table('ViewIntermediarios')->where('Id_cliente',Auth::user()->id)->get();
+        }else{
+            $intermediario = DB::table('ViewIntermediarios')->get();
+        }
         $categorias001 = DB::table('categorias001')->get();
         $categorias0012 = DB::table('categoria001_2021')->get();
         $data = array(

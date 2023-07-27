@@ -579,6 +579,33 @@ class MbController extends Controller
                 $loteDetalle = "default";
         }
 
+        $muestra = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+        $res = $muestra->Colonia1 + $muestra->Colonia2 + $muestra->Colonia3 + $muestra->Colonia4 + $muestra->Colonia5;
+        switch ($res) {
+            case 1:
+                $resultado = "1.1";
+                break;
+            case 2:
+                $resultado = "2.6";
+                break;
+            case 3:
+                $resultado = "4.6";
+                break;
+            case 4:
+                $resultado = "8.0";
+                break;
+            case 5:
+                $resultado = "8.0";
+                break;
+            default:
+                $resultado = "0";
+                break;
+        } 
+
+        $model2 = LoteDetalleEcoli::find($request->idDetalle);
+        $model2->resultado = $resultado;
+        $model2->save();
+
         $data = array(
             'model' => $model,
             'Resultado' => $muestraR,
