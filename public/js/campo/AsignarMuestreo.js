@@ -4,6 +4,7 @@ var table;
     listaSolicitudes();
     solicitudGenerada();
     puntoOrden();
+    $('.select2').select2();
  });
  
 function puntoOrden()
@@ -217,6 +218,7 @@ function setMuestreadorMultiple()
         async: false, 
         success: function (response) {            
             console.log(response);
+            let cont = 0
           tab += '<table id="solicitudGenerada" class="table table-sm">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
@@ -231,11 +233,12 @@ function setMuestreadorMultiple()
           $.each(response.model, function (key, item) {
             tab += '<tr>';
             tab += '    <td>'+item.Folio+'</td>';
-            tab += '    <td>'+item.Punto_muestreo+'</td>';
+            tab += '    <td>'+response.solPunto[cont]+'</td>';
             tab += '    <td>'+item.Captura+'</td>';
             tab += '    <td>'+item.Id_muestreador+'</td>';
             tab += '    <td>'+item.Nombres+'</td>';
             tab += '</tr>';
+            cont++
           });
           tab += '    </tbody>';
           tab += '</table>';

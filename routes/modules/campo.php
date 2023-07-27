@@ -9,6 +9,7 @@ Route::group(['prefix' => 'campo'], function () {
     Route::get('captura/{id}', [CampoController::class, 'captura']);
     Route::post('asignar/generar', [CampoController::class, 'generar']); 
     Route::post('asignar/asignarMultiple',[CampoController::class, 'asignarMultiple']); 
+    Route::post('asignar/setMuestreadorMultiple',[CampoController::class, 'setMuestreadorMultiple']); 
     Route::post('setObservacion',[CampoController::class,'setObservacion']);
     // Route::post('campo/asignar/generarUpdate', [CampoController::class,'generarUpdate']);
 
@@ -22,16 +23,6 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('setDataGeneral', [CampoController::class, 'setDataGeneral']);
         Route::post('getFactorCorreccion', [CampoController::class, 'getFactorCorreccion']);
         Route::post('generarVmsi', [CampoController::class, 'generarVmsi']);
-        // Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
-        // Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);
-        // Route::post('getConTrazable', [CampoController::class, 'getConTrazable']);
-        // Route::post('getConCalidad', [CampoController::class, 'getConCalidad']);
-        // Route::post('getFactorAplicado', [CampoController::class, 'getFactorAplicado']);
-        // // Guardar datos 
-        // Route::post('setDataGeneral', [CampoController::class, 'setDataGeneral']);
-        // Route::post('setDataMuestreo', [CampoController::class, 'setDataMuestreo']);
-        // Route::post('setDataCompuesto', [CampoController::class, 'setDataCompuesto']);
-        // Route::post('setEvidencia', [CampoController::class, 'setEvidencia']);
 
         //guardado de tablas
         Route::post('GuardarPhMuestra', [CampoController::class, 'GuardarPhMuestra']);
@@ -43,6 +34,9 @@ Route::group(['prefix' => 'campo'], function () {
    
         Route::post('SetDatosCompuestos', [CampoController::class, 'SetDatosCompuestos']);
         Route::post('CancelarMuestra', [CampoController::class, 'CancelarMuestra']);
+
+        Route::post('setEvidencia', [CampoController::class, 'setEvidencia']);
+        Route::post('setEvidenciaFirma', [CampoController::class, 'setEvidenciaFirma']);
     });
 
 
@@ -50,7 +44,6 @@ Route::group(['prefix' => 'campo'], function () {
     Route::get('configuracion/configPlan', [CampoController::class, 'configPlan']);
     Route::post('configuracion/getPaquetes', [CampoController::class, 'getPaquetes']);
     Route::post('configuracion/getEnvase', [CampoController::class, 'getEnvase']);
-    Route::post('configuracion/getParametroConfig', [CampoController::class, 'getParametroConfig']);
 
     Route::post('configuracion/getPlanMuestreo', [CampoController::class, 'getPlanMuestreo']);
     Route::post('configuracion/setPlanMuestreo', [CampoController::class, 'setPlanMuestreo']);

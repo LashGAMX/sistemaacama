@@ -230,9 +230,9 @@
                   <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_tomas}}">
                 </div>  
                 <div class="col-md-8">
-                  <h6>Folio servicio</h6>
+                  {{-- <h6>Folio servicio</h6>
                   <input type="text" id="folio" value="{{@$model->Folio_servicio}}" disabled>
-                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>
+                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button> --}}
                 </div>
 
               </div>
@@ -282,7 +282,7 @@
                   </select>
               </div>
               <div class="col-md-6">
-                  <label for="tipoReporte2">Tipo de reporte 2021</label>
+                  <label for="tipoReporte2">Tipo de reporte 2023</label>
                   <select name="tipoReporte2" id="tipoReporte2" class="form-control">
                       <option value="0">Sin seleccionar</option>
                       @foreach (@$categorias0012 as $item)
@@ -324,7 +324,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                   <label for="normaPa">Norma : </label>
                   <input type="text" placeholder="Sin seleccionar norma" id="normaPa" style="width: 60%;border: none;"
                     disabled>
@@ -337,6 +337,11 @@
                 <div class="col-md-2">
                   <button type="button" id="btnCrearSolicitud"  class="btn btn-success"><i
                       class="fas fa-save"></i> Crear Orden</button>
+                </div>
+                <div class="col-md-2">
+                  <h6>Folio servicio</h6>
+                  <input type="text" id="folio" value="{{@$model->Folio_servicio}}" disabled>
+                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>                  
                 </div>
               </div>
             </div>

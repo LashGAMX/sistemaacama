@@ -142,7 +142,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <select class="form-control" id="idUsuarios">
+              <select class="form-control select2" id="idUsuarios">
                 <option>Selecciona un usuario</option>
                 @foreach ($usuarios as $item)
                 <option value="{{$item->id}}">{{$item->name}}</option>
@@ -197,7 +197,7 @@
           <div class="row">
             <div class="col-md-6">
               <label for="idUser">Muestreador</label>
-              <select class="form-control" id="idUser">
+              <select class="form-control select2" id="idUser">
                 <option>Selecciona un usuario</option>
                 @foreach ($usuarios as $item)
                 <option value="{{$item->id}}">{{$item->name}}</option>

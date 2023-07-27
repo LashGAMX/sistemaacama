@@ -1110,7 +1110,7 @@ class CampoController extends Controller
     public function generar(Request $request) //Generar solicitud 
     {
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
-
+        
         if ($sol->count() > 0) {                    //ACTUALIZAR
             $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
             $msg = "Entro a if";
@@ -1199,10 +1199,17 @@ class CampoController extends Controller
 
             //$this->historial();
             $this->alert = true;
-            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
+          
+        }
+        $solPunto = array();
+        $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
+        foreach ($model as $item) {
+            $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
+            array_push($solPunto,$temp->Punto);
         }
 
         $data = array(
+            'solPunto' => $solPunto,
             'solPadre' => $sol->count(),
             'model' => $model,
             'diUser' => $request->idUser,

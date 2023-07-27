@@ -109,7 +109,7 @@ class SolicitudController extends Controller
         $frecuencia = DB::table('frecuencia001')->get();
         // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         if (Auth::user()->role->id == 13) {
-            $intermediario = DB::table('ViewIntermediarios')->where('Id_cliente',Auth::user()->id)->get();
+            $intermediario = DB::table('ViewIntermediarios')->where('Id_usuario',Auth::user()->id)->get();
         }else{
             $intermediario = DB::table('ViewIntermediarios')->get();
         }

@@ -108,6 +108,7 @@ class CampoAppController extends Controller
         $jsonTempAmbiente = json_decode($request->tempAmbiente,true);
         $jsonConMuestra = json_decode($request->conMuestra,true);
         $jsonGastoMuestra = json_decode($request->gastoMuestra,true);
+        $jsonphCalidadMuestra = json_decode($request->phcalidadMuestra,true);
         $jsonDatosCompuestos = json_decode($request->campoCompuesto,true);
         $jsonEviencia = json_decode($request->evidencia,true);
 
@@ -203,62 +204,102 @@ class CampoAppController extends Controller
             $conCalidad->save();
 
 
-        // //MUESTRA
+        //MUESTRA
         
-        // //phMuestra
-        $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        //phMuestra
+         $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-         for ($i = 0; $i < $phMuestra->count(); $i++) {
-            $phMuestra[$i]->Materia =$jsonPhMuestra[$i]["Materia"];
-            $phMuestra[$i]->Olor = $jsonPhMuestra[$i]["Olor"];
-            $phMuestra[$i]->Color = $jsonPhMuestra[$i]["Color"];
-            $phMuestra[$i]->Ph1 = $jsonPhMuestra[$i]["Ph1"];
-            $phMuestra[$i]->Ph2 = $jsonPhMuestra[$i]["Ph2"];
-            $phMuestra[$i]->Ph3 = $jsonPhMuestra[$i]["Ph3"];
-            $phMuestra[$i]->Promedio = $jsonPhMuestra[$i]["Promedio"];
-            $phMuestra[$i]->save();
+         if($phMuestra->count())
+         {
+            for ($i = 0; $i < $phMuestra->count(); $i++) {
+                $materia  = $jsonPhMuestra[$i]["Materia"];
+                $olor = $jsonPhMuestra[$i]["Olor"];
+                $color = $jsonPhMuestra[$i]["Color"];
+                $ph1 = $jsonPhMuestra[$i]["Ph1"];
+                $ph2 = $jsonPhMuestra[$i]["Ph2"];
+                $ph3 = $jsonPhMuestra[$i]["Ph3"];
+                $promedio = $jsonPhMuestra[$i]["Promedio"];
+
+                $phMuestra[$i]->Materia =$materia;
+                $phMuestra[$i]->Olor = $olor;
+                $phMuestra[$i]->Color = $color;
+                $phMuestra[$i]->Ph1 = $ph1;
+                $phMuestra[$i]->Ph2 = floatval($ph2);
+                $phMuestra[$i]->Ph3 = floatval($ph3);
+                $phMuestra[$i]->Promedio = floatval($promedio);
+                $phMuestra[$i]->save();
+             }
          }
            
-        $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
-        
-        for ($i = 0; $i < $tempMuestra->count(); $i++){
-            $tempMuestra[$i]->TemperaturaSin1 = $jsonTempMuestra[$i]["Temp1"];
-            $tempMuestra[$i]->TemperaturaSin2 = $jsonTempMuestra[$i]["Temp2"];
-            $tempMuestra[$i]->TemperaturaSin3 = $jsonTempMuestra[$i]["Temp3"];
-            $tempMuestra[$i]->Promedio = $jsonTempMuestra[$i]["Promedio"];
-            $tempMuestra[$i]->save();
-        }
-
+      
         $tempAmbiente= TemperaturaAmbiente::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
         for ($i = 0; $i < $tempAmbiente->count(); $i++){
-            $tempMuestra[$i]->Temperatura1 = $jsonTempAmbiente[$i]["TempA1"];
-            $tempMuestra[$i]->Temperatura2 = $jsonTempAmbiente[$i]["TempA2"];
-            $tempMuestra[$i]->Temperatura3 = $jsonTempAmbiente[$i]["TempA3"];
-            $tempMuestra[$i]->Promedio = $jsonTempAmbiente[$i]["PromedioA"];
-            $tempMuestra[$i]->save();
+            $tempA1 = $jsonTempAmbiente[$i]["TempA1"];
+            $tempA2 = $jsonTempAmbiente[$i]["TempA2"];
+            $tempA3 = $jsonTempAmbiente[$i]["TempA3"];
+            $promedioA = $jsonTempAmbiente[$i]["PromedioA"];
+            
+            $tempAmbiente[$i]->Temperatura1 = floatval($tempA1);
+            $tempAmbiente[$i]->Temperatura2 = floatval($tempA2);
+            $tempAmbiente[$i]->Temperatura3 = floatval($tempA3);
+            $tempAmbiente[$i]->Promedio = floatval($promedioA);
+            $tempAmbiente[$i]->save();
         }
 
         $condictuividad = ConductividadMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
 
         for ($i = 0; $i < $condictuividad->count(); $i++){
-            $condictuividad[$i]->Conductividad1 = $jsonConMuestra[$i]["Conductividad1"];
-            $condictuividad[$i]->Conductividad2 = $jsonConMuestra[$i]["Conductividad2"];
-            $condictuividad[$i]->Conductividad3 = $jsonConMuestra[$i]["Conductividad3"];
-            $condictuividad[$i]->Promedio = $jsonConMuestra[$i]["Promedio"];
+            $temp1 = $jsonConMuestra[$i]["Conductividad1"];
+            $temp2 = $jsonConMuestra[$i]["Conductividad2"];
+            $temp3 = $jsonConMuestra[$i]["Conductividad3"];
+            $temp4 = $jsonConMuestra[$i]["Promedio"];
+            $condictuividad[$i]->Conductividad1 = floatval($temp1);
+            $condictuividad[$i]->Conductividad2 = floatval($temp2);
+            $condictuividad[$i]->Conductividad3 = floatval($temp3);
+            $condictuividad[$i]->Promedio = floatval($temp4);
             $condictuividad[$i]->save();
         }
 
         $gasto = GastoMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
 
         for ($i = 0; $i < $gasto->count(); $i++){
-            $gasto[$i]->Gasto1 = $jsonGastoMuestra[$i]["Gasto1"];
-            $gasto[$i]->Gasto2 = $jsonGastoMuestra[$i]["Gasto2"];
-            $gasto[$i]->Gasto3 = $jsonGastoMuestra[$i]["Gasto3"];
-            $gasto[$i]->Promedio = $jsonGastoMuestra[$i]["Promedio"];
+            $temp1 = $jsonGastoMuestra[$i]["Gasto1"];
+            $temp2 = $jsonGastoMuestra[$i]["Gasto2"];
+            $temp3 = $jsonGastoMuestra[$i]["Gasto3"];
+            $temp4 = $jsonGastoMuestra[$i]["Promedio"];
+            $gasto[$i]->Gasto1 = floatval($temp1);
+            $gasto[$i]->Gasto2 = floatval($temp2);
+            $gasto[$i]->Gasto3 = floatval($temp3);
+            $gasto[$i]->Promedio = floatval($temp4);
             $gasto[$i]->save();
         }
-        //DATOS COMPUESTOS -------------------------------------------------------------------
+        
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+        for ($i = 0; $i < $tempMuestra->count(); $i++){
+            $temp1 = $jsonTempMuestra[$i]["Temp1"];
+            $temp2 = $jsonTempMuestra[$i]["Temp2"];
+            $temp3 = $jsonTempMuestra[$i]["Temp3"];
+            $temp4 = $jsonTempMuestra[$i]["Promedio"];
+
+            $tempMuestra[$i]->TemperaturaSin1 = floatval($temp1);
+            $tempMuestra[$i]->TemperaturaSin2 = floatval($temp2);
+            $tempMuestra[$i]->TemperaturaSin3 = floatval($temp3);
+            $tempMuestra[$i]->Promedio = floatval($temp4);
+            $tempMuestra[$i]->save();
+        }
+
+        // $tempMuestra = CampoPhCalidad::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        
+        // for ($i = 0; $i < $tempMuestra->count(); $i++){
+        //     $tempMuestra[$i]->Lectura1 = floatval($jsonphCalidadMuestra[$i]["Temp1"]);
+        //     $tempMuestra[$i]->Lectura2 = floatval($jsonphCalidadMuestra[$i]["Temp2"]);
+        //     $tempMuestra[$i]->Lectura3 = floatval($jsonphCalidadMuestra[$i]["Temp3"]);
+        //     $tempMuestra[$i]->Promedio = floatval($jsonphCalidadMuestra[$i]["Promedio"]);
+        //     $tempMuestra[$i]->save();
+        // }
+    //   // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
         $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
@@ -290,13 +331,14 @@ class CampoAppController extends Controller
         //     'Id_solicitud' => $solModel->Id_solicitud,
         //     'Id_punto' => $puntoModel->Id_muestreo,
         //     'Base64' => $jsonEviencia[0]["Codigo"],
-        // ]);git
-                // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
+        // ]);
+        //        // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
+
         $data = array(
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-            'tempMuestra' => $tempAmbiente,
+           'simple' => $phMuestra->count(),
              
           
         );
