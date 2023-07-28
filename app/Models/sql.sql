@@ -635,10 +635,11 @@ ON det.Id_codigo = cod.Id_codigo
 
 /* ViewLoteDetallePotable */
 
-CREATE VIEW ViewLoteDetallePotable AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_potable as det
+CREATE VIEW ViewLoteDetallePotable AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,
+param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_potable as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
-INNER JOIN  ViewSolicitud as sol
+INNER JOIN  ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro

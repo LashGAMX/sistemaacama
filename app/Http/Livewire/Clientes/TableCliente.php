@@ -15,8 +15,9 @@ class TableCliente extends Component
     use WithPagination; 
     public $idUser;
     public $search = '';
+    public $search2 = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 50;
+    public $perPage = 100;
     public $sw = false;
     public $alert = false;
 
@@ -50,10 +51,36 @@ class TableCliente extends Component
         ->orderBy('Nombres','asc')
         ->get();
         $model = DB::table('ViewGenerales')
-        ->where('Empresa','LIKE',"%{$this->search}%")
-        ->orWhere('RFC','LIKE',"%{$this->search}%")
         ->orderBy('Id_cliente','desc') 
         ->get();
+        if ($this->search != '' && $this->search2 != '') {
+            $model = DB::table('ViewGenerales')
+                ->where('Empresa','LIKE',"%{$this->search}%")
+                ->orWhere('RFC','LIKE',"%{$this->search}%")
+                ->orWhere('Id_intermediario','LIKE',"%{$this->search2}%")
+                ->orWhere('Nombres','LIKE',"%{$this->search2}%")
+                ->orWhere('A_paterno','LIKE',"%{$this->search2}%")
+                ->orderBy('Id_cliente','desc') 
+                ->get();
+        }else{
+            if ($this->search != '') {
+                $model = DB::table('ViewGenerales')
+                ->where('Empresa','LIKE',"%{$this->search}%")
+                ->orWhere('RFC','LIKE',"%{$this->search}%")
+                ->orderBy('Id_cliente','desc') 
+                ->get(); 
+            }else if($this->search2 != ''){
+                $model = DB::table('ViewGenerales')
+                ->where('Nombres','LIKE',"%{$this->search2}%")
+                ->orWhere('Id_intermediario','LIKE',"%{$this->search2}%")
+                ->orWhere('A_paterno','LIKE',"%{$this->search2}%")
+                ->orWhere('A_materno','LIKE',"%{$this->search2}%")
+                ->orderBy('Id_cliente','desc') 
+                ->get();
+            }
+        }
+
+
 
         return view('livewire.clientes.table-cliente',compact('model','intermediario'));
     }
@@ -94,7 +121,7 @@ class TableCliente extends Component
                 $model->Nombres = $this->cliente;
                 // $model->RFC = $this->rfc;
                 $model->Id_user_m = $this->idCliente;
-                $this->historial();
+                // $this->historial();
                 $model->save();
         if($this->status != 1) 
         {

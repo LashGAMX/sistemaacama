@@ -1,11 +1,16 @@
 <div>
 
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-2">
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalCliente" ><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
+        <label for="">Cliente</label>
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar por cliente">
+      </div>
+      <div class="col-md-4">
+        <label for="">Intermediario</label>
+        <input type="search" wire:model="search2" wire:click='resetAlert' class="form-control" placeholder="Buscar por intermediario">
       </div>
     </div>
     <table class="table table-hover table-striped">
