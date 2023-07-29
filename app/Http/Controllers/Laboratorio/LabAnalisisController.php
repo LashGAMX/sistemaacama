@@ -505,8 +505,8 @@ class LabAnalisisController extends Controller
                         case 103:
                         case 251:
                         case 252:
-                            // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
+                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
                             break;
                         default:
                             $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -1295,7 +1295,6 @@ class LabAnalisisController extends Controller
                             break;
                         case 33: // Cloro
                         case 218:
-                        case 64:
                         case 119:
                             $res1 = $res->A - $res->B;
                             $res2 = $res1 * $res->C;
@@ -1313,7 +1312,24 @@ class LabAnalisisController extends Controller
                             $model->Resultado = round($resultado);
                             $model->analizo = Auth::user()->id;
                             $model->save();
+                            break;
+                        case 64:
+                            $res1 = $res->A - $res->B;
+                            $res2 = $res1 * $res->C;
+                            $res3 = $res2 * $res->D;
+                            $resultado = $res3 / $res->E;
 
+                            $model = LoteDetalleCloro::find($res->idMuestra);
+                            $model->Vol_muestra = $res->A;
+                            $model->Ml_muestra = $res->E;
+                            $model->Vol_blanco = $res->B;
+                            $model->Normalidad = $res->C;
+                            $model->Ph_inicial = $res->G;
+                            $model->Ph_final = $res->H;
+                            $model->Factor_conversion = $res->D;
+                            $model->Resultado = round($resultado,2);
+                            $model->analizo = Auth::user()->id;
+                            $model->save();
                             break;
                         case 9: // Nitrogeno
                         case 10:

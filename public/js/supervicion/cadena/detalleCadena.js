@@ -350,6 +350,13 @@ function getDetalleAnalisis(idCodigo) {
                         resLiberado = resLiberado + parseFloat(item.Resultado);
                         tab += '</tr>';
                     });
+                    $.each(response.aux, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td>' + item.Parametro + '</td>';
+                        tab += '<td>' + item.Resultado + '</td>';
+                        resLiberado = resLiberado + parseFloat(item.Resultado);
+                        tab += '</tr>';
+                    });
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;

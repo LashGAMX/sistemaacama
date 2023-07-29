@@ -142,7 +142,8 @@ class CadenaController extends Controller
             case 11:
                 $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', 83)->first();
-                $aux = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                $aux = DB::table('ViewLoteDetalleEspectro')
+                ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->get();
                 break;
@@ -161,6 +162,12 @@ class CadenaController extends Controller
             case 83:
                 $model = DB::table('ViewLoteDetalleNitrogeno')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro',9)
+                    ->where('Id_control', 1)
+                    ->get();
+                $aux = DB::table('ViewLoteDetalleNitrogeno')
+                    ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro',10)
                     ->where('Id_control', 1)
                     ->get();
                 break;
