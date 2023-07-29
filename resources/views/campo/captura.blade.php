@@ -136,7 +136,7 @@
                         <div>
                             <label for="">Punto de muestreo</label>
                             <input type="text" class="form-control" placeholder="Punto de muestreo" id="puntoMuestreo"
-                                value="{{ $model->Punto_muestreo }}" >
+                                value="{{ $puntoSol->Punto }}" >
                         </div>
                     </div>
                     <div class="col-md-4">

@@ -904,11 +904,12 @@ class SolicitudController extends Controller
         $model = Solicitud::where('Id_cotizacion', $idOrden)->first();
         $modTemp = Solicitud::where('Id_cotizacion', $idOrden)->first();
         $cliente = SucursalCliente::where('Id_sucursal', $modTemp->Id_sucursal)->first();
-        if ($model->Siralab == 1) {
-            $direccion = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $modTemp->Id_direccion)->first();
-        } else {
-            $direccion = DireccionReporte::where('Id_direccion', $modTemp->Id_direccion)->first();
-        }
+        // if ($model->Siralab == 1) {
+        //     $direccion = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $modTemp->Id_direccion)->first();
+        // } else {
+        //     $direccion = DireccionReporte::where('Id_direccion', $modTemp->Id_direccion)->first();
+        // }
+        $direccion = DireccionReporte::where('Id_direccion', $modTemp->Id_direccion)->first();
         $puntos = SolicitudPuntos::where('Id_solicitud',$model->Id_solicitud)->get();
 
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
@@ -1186,6 +1187,14 @@ class SolicitudController extends Controller
         $model = SolicitudPuntos::where('Id_punto',$res->id)->first();
         $model->Punto = $res->idPunto;
         $model->save();
+
+        $tempSol = SolicitudPuntos::where('Id_solPadre',$model->Id_solicitud)->get();
+        if ($tempSol->count()) {
+            $tempPunto = SolicitudPuntos::where('Id_solPadre',$model->Id_solicitud)->where('Id_muestreo',$model->Id_muestreo)->first();
+            $tempPunto->Punto = $res->idPunto;
+            $tempPunto->save();
+        }
+
         $data = array(
             'model' => $model,
         );

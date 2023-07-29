@@ -31,11 +31,7 @@
                     <tr>
                         <td style="width: 25%">Dirección</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            @if ($model->Siralab != 1)
-                                {{@$direccion->Direccion}}
-                            @else
-                                {{@$direccion->Calle}} {{@$direccion->Num_exterior}} {{@$direccion->Num_interior}} {{@$direccion->Colonia}} {{@$direccion->NomMunicipio}} {{@$direccion->Estado}} CP: {{@$direccion->CP}}
-                            @endif
+                            {{@$direccion->Direccion}}
                         </td>
                     </tr> 
                     <tr>

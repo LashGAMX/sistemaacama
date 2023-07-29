@@ -159,8 +159,10 @@ class CampoController extends Controller
             $hidden = "hidden";
         }
 
+        $puntoSol = SolicitudPuntos::where('Id_solicitud',$model->Id_solicitud)->first();
 
         $data = array(
+            'puntoSol' => $puntoSol,
             'phCampoCalTemo' => $phCampoCalTemo,
             'hidden' => $hidden,
             'model' => $model,
@@ -221,9 +223,14 @@ class CampoController extends Controller
         $punto = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $punto->Punto_muestreo = $request->puntoMuestreo;
         $punto->save();
+
         $puntoSol = SolicitudPuntos::where('Id_solicitud', $request->idSolicitud)->first();
         $puntoSol->Punto = $request->puntoMuestreo;
         $puntoSol->save();
+
+        $auxPunto = SolicitudPuntos::where('Id_solicitud',$puntoSol->Id_solPadre)->where('Id_muestreo',$puntoSol->Id_muestreo)->first();
+        $auxPunto->Punto = $request->puntoMuestreo;
+        $auxPunto->save();
 
         //Ph trazable
         $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
