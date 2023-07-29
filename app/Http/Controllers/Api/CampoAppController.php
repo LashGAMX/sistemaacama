@@ -290,15 +290,15 @@ class CampoAppController extends Controller
             $tempMuestra[$i]->save();
         }
 
-        // $tempMuestra = CampoPhCalidad::where('Id_solicitud', $solModel->Id_solicitud)->get();
+        $tempMuestra = PhCalidadCampo::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-        // for ($i = 0; $i < $tempMuestra->count(); $i++){
-        //     $tempMuestra[$i]->Lectura1 = floatval($jsonphCalidadMuestra[$i]["Temp1"]);
-        //     $tempMuestra[$i]->Lectura2 = floatval($jsonphCalidadMuestra[$i]["Temp2"]);
-        //     $tempMuestra[$i]->Lectura3 = floatval($jsonphCalidadMuestra[$i]["Temp3"]);
-        //     $tempMuestra[$i]->Promedio = floatval($jsonphCalidadMuestra[$i]["Promedio"]);
-        //     $tempMuestra[$i]->save();
-        // }
+        for ($i = 0; $i < $tempMuestra->count(); $i++){
+            $tempMuestra[$i]->Lectura1 = floatval($jsonphCalidadMuestra[$i]["Temp1"]);
+            $tempMuestra[$i]->Lectura2 = floatval($jsonphCalidadMuestra[$i]["Temp2"]);
+            $tempMuestra[$i]->Lectura3 = floatval($jsonphCalidadMuestra[$i]["Temp3"]);
+            $tempMuestra[$i]->Promedio = floatval($jsonphCalidadMuestra[$i]["Promedio"]);
+            $tempMuestra[$i]->save();
+        }
     //   // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
