@@ -18,17 +18,11 @@ class IcpImport implements ToCollection
     public function collection(Collection $rows) 
     {
         $id = TempIcp::orderBy('Id','DESC')->first();
-        $aux = 0;
-        $aux2 = 1;
         foreach ($rows as $row) {
-            if ($row[$aux] != '') {
-                break;
-            }
-            $aux++;
-        }
-        foreach ($rows as $row) {
-            $elementoTemp = explode(' ', $row[$aux + 17]);
-            $codTemp =  DB::table('ViewCodigoParametro')->where('Parametro','LIKE','%('.$elementoTemp[0].')%')->where('Codigo',$row[$aux + 2])->get();
+
+            $elementoTemp = explode(' ', $row[24]);
+            // $idParametro = $this->getIdElemento($elementoTemp[0]);
+            $codTemp =  DB::table('ViewCodigoParametro')->where('Parametro','LIKE','%('.$elementoTemp[0].')%')->where('Codigo',$row[9])->get();
             if ($codTemp->count()) {
                 LoteDetalleIcp::create([
                     'Id_lote' => $id->Temp,
@@ -36,29 +30,76 @@ class IcpImport implements ToCollection
                     'Id_parametro' => $codTemp[0]->Id_parametro,
                     'Parametro' => $elementoTemp[0],
                     'Id_control' => 1,
-                    'Cps' => $row[$aux + 34],
-                    'Dilucion' => $row[$aux + 30],
-                    'Resultado' => $row[$aux + 30], // AL
-                    'Fecha' => $row[$aux + 11],
+                    'Cps' => $row[39],
+                    'Dilucion' => $row[35],
+                    'Resultado' => $row[37], // AL
+                    'Fecha' => $row[14],
                     'Analizo' => Auth::user()->id,
                 ]);
                 $codigo = CodigoParametros::find($codTemp[0]->Id_codigo);
                 $codigo->Asignado = 1;
+
+
+                
                 $codigo->save();
             }else{
                 LoteDetalleIcp::create([
                     'Id_lote' => $id->Temp,
-                    'Id_codigo' => $row[$aux + 2],
+                    'Id_codigo' => $row[9],
                     'Parametro' => $elementoTemp[0],
-                    'Cps' => $row[$aux + 34],
-                    'Dilucion' => $row[$aux + 30],
-                    'Resultado' => $row[$aux + 30], // AL
-                    'Fecha' => $row[$aux + 11],
+                    'Cps' => $row[39],
+                    'Dilucion' => $row[35],
+                    'Resultado' => $row[37],
+                    'Fecha' => $row[14],
                     'Analizo' => Auth::user()->id,
                 ]);
             }
         }
     }
+    // public function collection(Collection $rows) 
+    // {
+    //     $id = TempIcp::orderBy('Id','DESC')->first();
+    //     $aux = 0;
+    //     $aux2 = 1;
+    //     foreach ($rows as $row) {
+    //         if ($row[$aux] != '') {
+    //             break;
+    //         }
+    //         $aux++;
+    //     }
+    //     foreach ($rows as $row) {
+    //         $elementoTemp = explode(' ', $row[$aux + 17]);
+    //         $codTemp =  DB::table('ViewCodigoParametro')->where('Parametro','LIKE','%('.$elementoTemp[0].')%')->where('Codigo',$row[$aux + 2])->get();
+    //         if ($codTemp->count()) {
+    //             LoteDetalleIcp::create([
+    //                 'Id_lote' => $id->Temp,
+    //                 'Id_codigo' => $codTemp[0]->Codigo,     
+    //                 'Id_parametro' => $codTemp[0]->Id_parametro,
+    //                 'Parametro' => $elementoTemp[0],
+    //                 'Id_control' => 1,
+    //                 'Cps' => $row[$aux + 34],
+    //                 'Dilucion' => $row[$aux + 30],
+    //                 'Resultado' => $row[$aux + 30], // AL
+    //                 'Fecha' => $row[$aux + 11],
+    //                 'Analizo' => Auth::user()->id,
+    //             ]);
+    //             $codigo = CodigoParametros::find($codTemp[0]->Id_codigo);
+    //             $codigo->Asignado = 1;
+    //             $codigo->save();
+    //         }else{
+    //             LoteDetalleIcp::create([
+    //                 'Id_lote' => $id->Temp,
+    //                 'Id_codigo' => $row[$aux + 2],
+    //                 'Parametro' => $elementoTemp[0],
+    //                 'Cps' => $row[$aux + 34],
+    //                 'Dilucion' => $row[$aux + 30],
+    //                 'Resultado' => $row[$aux + 30], // AL
+    //                 'Fecha' => $row[$aux + 11],
+    //                 'Analizo' => Auth::user()->id,
+    //             ]);
+    //         }
+    //     }
+    // }
     function getIdElemento($elemento)
     {
         switch ($elemento) {

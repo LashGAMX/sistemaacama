@@ -72,7 +72,7 @@
   @endsection
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}?v=1.0.0"></script>
+  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}?v=1.0.3"></script>
   @stop
 
 @endsection

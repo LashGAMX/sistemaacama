@@ -464,6 +464,7 @@ class LabAnalisisController extends Controller
                     break;
                 case 13: // G&A
                     $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                    // $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
                     break;
                 case 15: // Solidos
                     $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->get();

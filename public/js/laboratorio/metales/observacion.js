@@ -3,6 +3,7 @@
 $(document).ready(function () {
     table = $('#solicitudGenerada').DataTable({
         "ordering": false,
+        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
@@ -69,7 +70,7 @@ function getServicio(id,tipo) {
 
             var table =  $('#tablaClientes').DataTable({
                 "ordering": false,
-                "pageLength": 100,
+                paging: false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",

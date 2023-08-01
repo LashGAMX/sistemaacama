@@ -218,6 +218,7 @@ class InformesController extends Controller
             if ($item->Resultado2 != NULL || $item->Resultado2 != "NULL") {
                 switch ($item->Id_parametro) {
                     case 97:
+                    case 32:
                         $limC = round($item->Resultado2);
                         break;
                     case 2:
@@ -291,6 +292,7 @@ class InformesController extends Controller
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
+                            // echo "<br> Dato error ".$item->Resultado2;
                             $limC = number_format(@$item->Resultado2, 3, ".", ".");
                         }
                         break;
@@ -4217,7 +4219,7 @@ class InformesController extends Controller
                             $modelDet = DB::table('lote_detalle_icp')->where('Id_control', 1)->where('Id_codigo', $model->Folio_servicio)->where('Id_parametro', $item->Id_parametro)->get();
                             if ($modelDet->count()) {
                                 // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                                $fechaTemp = date("d/m/Y", strtotime($modelDet[0]->Fecha));
+                                $fechaTemp = $modelDet[0]->Fecha;
                             } else {
                                 $fechaTemp = "";
                             }

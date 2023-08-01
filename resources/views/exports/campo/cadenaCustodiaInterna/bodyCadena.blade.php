@@ -76,8 +76,9 @@
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8"> {{$responsable[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$numRecipientes[$i]}}</td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
-                                    @if ($fechasSalidas[$i] != "")
+                                    @if (@$fechasSalidas[$i] != "")
                                         {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif
@@ -87,7 +88,7 @@
                                 @if ($stdArea[$i] == 1)
                                     ---------------
                                   @else
-                                      @if ($fechasSalidas[$i] != "")
+                                      @if (@$fechasSalidas[$i] != "")
                                           @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 || @$idArea[$i] == 3 ) 
                                               ---------------
                                           @else
@@ -104,7 +105,7 @@
                                     @if ($stdArea[$i] == 1)
                                       --------------- 
                                     @else
-                                        @if ($fechasSalidas[$i] != "")
+                                        @if (@$fechasSalidas[$i] != "")
                                             @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 || @$idArea[$i] == 3 ) 
                                                 ---------------
                                             @else
@@ -129,7 +130,7 @@
                                     @endif
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
-                                    @if ($fechasSalidas[$i] != "")
+                                    @if (@$fechasSalidas[$i] != "")
                                         @switch($model->Id_norma)
                                             @case(1)
                                             @case(27)  
@@ -147,7 +148,7 @@
                                     @endif
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
-                                    @if ($fechasSalidas[$i] != "")
+                                    @if (@$fechasSalidas[$i] != "")
                                         <center><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}"></center>
                                     @else
                                         <p style="color: red">Sin captura</p>
