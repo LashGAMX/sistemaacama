@@ -15,6 +15,7 @@ use App\Models\ConTratamiento;
 use App\Models\TipoTratamiento;
 use App\Models\Evidencia;
 use App\Models\PHCalidad;
+use App\Models\PhCalidadCampo;
 use App\Models\PHTrazable;
 use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
@@ -290,15 +291,20 @@ class CampoAppController extends Controller
             $tempMuestra[$i]->save();
         }
 
-       // $phCalidadMuestra = PhCalidadCampo::where('Id_solicitud', $solModel->Id_solicitud)->get();
+       $phCalidadMuestra = PhCalidadCampo::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-        // for ($i = 0; $i < $phCaludadMuestra->count(); $i++){
-        //     $phCalidadMuestra[$i]->Lectura1 = floatval($jsonphCalidadMuestra[$i]["LecturaC1"]);
-        //     $phCalidadMuestra[$i]->Lectura2 = floatval($jsonphCalidadMuestra[$i]["LecturaC2"]);
-        //     $phCalidadMuestra[$i]->Lectura3 = floatval($jsonphCalidadMuestra[$i]["LecturaC3"]);
-        //     $phCalidadMuestra[$i]->Promedio = floatval($jsonphCalidadMuestra[$i]["Promedio"]);
-        //     $phCalidadMuestra[$i]->save();
-        // }
+        for ($i = 0; $i < $phCalidadMuestra->count(); $i++){
+           $lectura1 = @$jsonphCalidadMuestra[$i]["LecturaC1"];
+            $lectura2 = @$jsonphCalidadMuestra[$i]["LecturaC2"];
+            $lectura3 = @$jsonphCalidadMuestra[$i]["LecturaC3"];
+            $promedio = @$jsonphCalidadMuestra[$i]["PromedioC"];
+
+            $phCalidadMuestra[$i]->Lectura1 = floatval($lectura1);
+            $phCalidadMuestra[$i]->Lectura2 = floatval($lectura2);
+            $phCalidadMuestra[$i]->Lectura3 = floatval($lectura3);
+            $phCalidadMuestra[$i]->Promedio = floatval($promedio);
+            $phCalidadMuestra[$i]->save();
+        }
     //   // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
@@ -339,6 +345,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
+             'json' => $jsonphCalidadMuestra,
             
              
           
