@@ -218,7 +218,6 @@ class InformesController extends Controller
             if ($item->Resultado2 != NULL || $item->Resultado2 != "NULL") {
                 switch ($item->Id_parametro) {
                     case 97:
-                    case 32:
                         $limC = round($item->Resultado2);
                         break;
                     case 2:
@@ -241,6 +240,7 @@ class InformesController extends Controller
                     case 34:
                     case 84:
                     case 86:
+                    case 32:
                         $limC = $item->Resultado2;
                         break;
                     case 135:
