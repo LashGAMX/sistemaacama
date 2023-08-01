@@ -108,7 +108,7 @@ class CampoAppController extends Controller
         $jsonTempAmbiente = json_decode($request->tempAmbiente,true);
         $jsonConMuestra = json_decode($request->conMuestra,true);
         $jsonGastoMuestra = json_decode($request->gastoMuestra,true);
-        $jsonphCalidadMuestra = json_decode($request->phcalidadMuestra,true);
+        $jsonphCalidadMuestra = json_decode($request->phCalidadMuestra,true);
         $jsonDatosCompuestos = json_decode($request->campoCompuesto,true);
         $jsonEviencia = json_decode($request->evidencia,true);
 
@@ -290,24 +290,25 @@ class CampoAppController extends Controller
             $tempMuestra[$i]->save();
         }
 
-        $tempMuestra = PhCalidadCampo::where('Id_solicitud', $solModel->Id_solicitud)->get();
+       // $phCalidadMuestra = PhCalidadCampo::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
-        for ($i = 0; $i < $tempMuestra->count(); $i++){
-            $tempMuestra[$i]->Lectura1 = floatval($jsonphCalidadMuestra[$i]["Temp1"]);
-            $tempMuestra[$i]->Lectura2 = floatval($jsonphCalidadMuestra[$i]["Temp2"]);
-            $tempMuestra[$i]->Lectura3 = floatval($jsonphCalidadMuestra[$i]["Temp3"]);
-            $tempMuestra[$i]->Promedio = floatval($jsonphCalidadMuestra[$i]["Promedio"]);
-            $tempMuestra[$i]->save();
-        }
+        // for ($i = 0; $i < $phCaludadMuestra->count(); $i++){
+        //     $phCalidadMuestra[$i]->Lectura1 = floatval($jsonphCalidadMuestra[$i]["LecturaC1"]);
+        //     $phCalidadMuestra[$i]->Lectura2 = floatval($jsonphCalidadMuestra[$i]["LecturaC2"]);
+        //     $phCalidadMuestra[$i]->Lectura3 = floatval($jsonphCalidadMuestra[$i]["LecturaC3"]);
+        //     $phCalidadMuestra[$i]->Promedio = floatval($jsonphCalidadMuestra[$i]["Promedio"]);
+        //     $phCalidadMuestra[$i]->save();
+        // }
     //   // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
+        $contratamiento = ConTratamiento::where('Tratamiento', $conTratamiento)->first();
         $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
         $phMuestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];
 
         $campoCompuesto = CampoCompuesto::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoCompuesto->Metodo_aforo = $aforo;
-        $campoCompuesto->Con_tratamiento = $conTratamiento;
+        $campoCompuesto->Con_tratamiento = $contratamiento->Id_tratamiento;
         $campoCompuesto->Tipo_tratamiento = $tipoTratamiento;
         $campoCompuesto->Proce_muestreo = $jsonDatosCompuestos[0]["Proc_muestreo"];
         $campoCompuesto->Observaciones = $jsonDatosCompuestos[0]["Observaciones"];
@@ -317,7 +318,7 @@ class CampoAppController extends Controller
         $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
         $campoCompuesto->Cloruros = $jsonDatosCompuestos[0]["Cloruros"];
         $campoCompuesto->save();
-        // -------------------------EVIDENCIA---------------------------------------
+       // -------------------------EVIDENCIA---------------------------------------
 
         // for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
         //     # code...
@@ -338,7 +339,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-           'simple' => $phMuestra->count(),
+            
              
           
         );
