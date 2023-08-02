@@ -11,7 +11,7 @@
     </div>    
 
     <div class="container-fluid h-100">         
-        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v0.2.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v0.1.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
     </div>   
     
     <br>
