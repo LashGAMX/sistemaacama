@@ -458,7 +458,7 @@
                                     @php $sw = true; @endphp
                                 @endif
                             @endfor
-                            @if ($sw != true)
+                            @if ($sw != true) 
                                 @switch($item->Id_simbologia_info)
                                     @case(9)
                                         
