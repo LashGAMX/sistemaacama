@@ -321,7 +321,7 @@
                             </td>
                             <td class="bordesTablaSupInfDer" style="width: 50%">
                                 Fecha y hora de conformación de la muestra: 
-                                <!-- {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}} -->
+                                {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i')}}
                             </td>
                         </tr> 
                             <tr>

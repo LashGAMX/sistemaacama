@@ -126,7 +126,7 @@
                     <div class="tab-pane fade" id="siralab" role="tabpanel" aria-labelledby="siralab-tab">
                         
                       <div class="accordion" id="accordionExample">
-                        <div class="card">
+                        {{-- <div class="card">
                           <div class="card-header" id="siralabRfc1">
                             <h2 class="mb-0">
                               <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#siralabRfc" aria-expanded="true" aria-controls="siralabRfc">
@@ -140,7 +140,7 @@
                               @livewire('clientes.table-rfc-siralab',['idUser' => Auth::user()->id ,'idSuc' => @$idSuc]) 
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
 
                         <div class="card">
                           <div class="card-header" id="siralabTitulo1">

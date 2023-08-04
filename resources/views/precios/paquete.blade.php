@@ -65,7 +65,7 @@
 </div> 
 
 <!-- Modal -->
-<div class="modal fade" id="modalPaquete" tabindex="-1" aria-labelledby="modalPaquete" aria-hidden="true">
+<div class="modal fade" id="modalPaquete" aria-labelledby="modalPaquete" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -75,13 +75,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <label for="norma">Paquetes</label>
-        <select class="form-control" id="paquete">  
-            <option value="0">Sin seleccionar</option>
-            @foreach ($paquete as $item)
-                <option value="{{$item->Id_subnorma}}">{{$item->Clave}}</option>
-            @endforeach
-        </select>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="norma">Paquetes</label>
+            <select class="form-control select2" id="paquete" style="width: 100%">  
+                <option value="0">Sin seleccionar</option>
+                @foreach ($paquete as $item)
+                    <option value="{{$item->Id_subnorma}}">{{$item->Clave}}</option>
+                @endforeach
+            </select>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
