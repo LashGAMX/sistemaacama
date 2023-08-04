@@ -245,7 +245,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="tipoReporte2">Tipo de reporte 2023</label>
+                                            <label for="tipoReporte2">Tipo de reporte 2021</label>
                                             <select name="tipoReporte2" id="tipoReporte2" class="form-control">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach (@$categorias0012 as $item)

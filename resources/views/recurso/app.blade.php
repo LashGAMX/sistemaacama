@@ -11,10 +11,26 @@
     </div>    
 
     <div class="container-fluid h-100">         
-        <a href="https://sistemaacama.com.mx/public/storage/Recursos/Muestreo.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v0.1.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
     </div>   
     
     <br>
+
+    <div class="col-md-12">
+        <code>
+            Consejo: Borrar datos de la aplicación despues de actualizar.
+        </code>
+
+            </div>
+   <br>
+   <br>
+    <div class="col-md-12">
+        <p>Mejoras: </p>
+        <p>Ahora puedes escoger cualquer modelo de termometro PC100 Y HANNA. Catalogos actualizados y separados.</p>
+        <p>En "Generales" ya se actualizan los selectores de "ph Trazable" y "pH Calidad" </p>
+    </div>
+
+
     <br>
     <br>
 

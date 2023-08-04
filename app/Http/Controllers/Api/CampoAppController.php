@@ -63,6 +63,8 @@ class CampoAppController extends Controller
 
         $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->orderBy('Id_solicitud','DESC')->get();
         $termometro = TermometroCampo::all();
+        $pc100 = TermometroCampo::where('Tipo', 2)->get();
+        $hanna =  TermometroCampo::where('Tipo', 1)->get();
         $phCalidad = PHCalidad::all();
         $phTrazable = PHTrazable::all();
         $conTrazable = ConductividadTrazable::all();
@@ -112,6 +114,7 @@ class CampoAppController extends Controller
         $jsonphCalidadMuestra = json_decode($request->phCalidadMuestra,true);
         $jsonDatosCompuestos = json_decode($request->campoCompuesto,true);
         $jsonEviencia = json_decode($request->evidencia,true);
+        
 
         $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
         $solModel->Estado = 3;
@@ -345,7 +348,8 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'json' => $jsonphCalidadMuestra,
+            
+           
             
              
           
