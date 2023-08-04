@@ -794,3 +794,5 @@ ON cod.Id_solicitud = pro.Id_solicitud
 /* ViewParametroProcesoMetales */
 CREATE VIEW  ViewParametroProcesoMetales as SELECT * FROM `ViewParametroProceso` WHERE Id_tipo_formula = 20 OR Id_tipo_formula = 21 OR Id_tipo_formula = 22 
 OR Id_tipo_formula = 23 OR Id_tipo_formula = 24 GROUP BY Id_solicitud;
+
+
