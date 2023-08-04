@@ -271,7 +271,11 @@
 
 
 
-
+<div class="col-md-12">
+  <code>Nota: Los tipos de reporte solo son obligatorios en caso de ser para SIRALAB. 
+    El tipo de reporte 1996 es para la NOM-001-SEMARTANT-1996 y el tipo de reporte 2021, es para la NOM-001-SEMARNAT-2021.
+  </code>
+</div>
                 <div class="col-md-6">
                   <label for="tipoReporte">Tipo de reporte 1996</label>
                   <select name="tipoReporte" id="tipoReporte" class="form-control">
@@ -282,7 +286,7 @@
                   </select>
               </div>
               <div class="col-md-6">
-                  <label for="tipoReporte2">Tipo de reporte 2023</label>
+                  <label for="tipoReporte2">Tipo de reporte 2021</label>
                   <select name="tipoReporte2" id="tipoReporte2" class="form-control">
                       <option value="0">Sin seleccionar</option>
                       @foreach (@$categorias0012 as $item)

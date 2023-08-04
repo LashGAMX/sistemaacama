@@ -284,6 +284,16 @@ INNER JOIN ViewSolicitud2 as sol
 ON gen.Id_solicitud = sol.Id_solicitud
 INNER JOIN users as us
 ON gen.Id_muestreador = us.id
+/*Solicitud con punto muestreo para la app*/
+CREATE VIEW ViewSolicitudGenerada as 
+SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM,punto.Punto
+FROM solicitudes_generadas as gen
+INNER JOIN ViewSolicitud2 as sol
+ON gen.Id_solicitud = sol.Id_solicitud
+INNER JOIN users as us
+ON gen.Id_muestreador = us.id
+INNER JOIN solicitud_puntos as punto
+ON gen.Id_solicitud = punto.Id_solicitud;
             /* Modificación de vista en prueba */
 CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
