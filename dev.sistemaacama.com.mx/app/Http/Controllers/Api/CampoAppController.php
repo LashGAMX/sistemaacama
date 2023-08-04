@@ -347,6 +347,13 @@ class CampoAppController extends Controller
         // ]);
         //        // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
 
+        for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
+            $ph = PhMuestra::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas["Muestra"][$i])->first();
+            $ph->Activo = 0;
+            $ph->save();
+
+        }
+
         $data = array(
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
