@@ -33,6 +33,15 @@
           <div class="col-md-2">
             <br><button class="btn btn-success" id="btnAplicar" onclick="aplicar();"><i class="fas fa-check"></i> Aplicar</button> 
           </div>
+          {{-- <div class="col-md-12">
+            <div class="col-md-2">
+              <label for="tipoFormula">Fecha Recepcion</label>                
+              <input type="date"  id="fechaRecepcion">     
+            </div>
+            <div class="col-md-1">
+              <br><button class="btn btn-info" id="btnBuscarFecha"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+          </div> --}}
         </div>
       </div>
     </div>
@@ -72,7 +81,7 @@
   @endsection
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}?v=1.0.3"></script>
+  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}?v=1.0.6"></script>
   @stop
 
 @endsection

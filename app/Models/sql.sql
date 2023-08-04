@@ -796,3 +796,7 @@ CREATE VIEW  ViewParametroProcesoMetales as SELECT * FROM `ViewParametroProceso`
 OR Id_tipo_formula = 23 OR Id_tipo_formula = 24 GROUP BY Id_solicitud;
 
 
+/* ViewClienteGeneral */
+CREATE VIEW ViewClienteGeneral as SELECT gen.*,cli.deleted_at as stdCliente FROM clientes_general as gen
+INNER JOIN clientes as cli
+ON gen.Id_cliente = cli.Id_cliente;

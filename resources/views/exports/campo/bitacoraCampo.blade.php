@@ -682,7 +682,7 @@
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    @if (@$phMuestra[$i]->Activo == 0   || @$gastoMuestra[$i]->Promedo == 0)
+                                    {{-- @if (@$phMuestra[$i]->Activo == 0   || @$gastoMuestra[$i]->Promedo == 0)
                                         -----
                                     @else                                        
                                         @if (@$gastoMuestra[$i]->Promedio === NULL)
@@ -692,7 +692,14 @@
                                                 echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
                                             @endphp                                            
                                         @endif
-                                    @endif                                    
+                                    @endif                                     --}}
+                                    @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                    -----
+                                    @else
+                                        @php
+                                            echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 3);
+                                        @endphp                                            
+                                    @endif
                                 </td>
                             </tr>                            
                         @endfor

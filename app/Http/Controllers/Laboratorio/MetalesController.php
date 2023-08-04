@@ -94,6 +94,7 @@ class MetalesController extends Controller
             ->orWhere('Id_tipo_formula',22)
             ->orWhere('Id_tipo_formula',23)
             ->orWhere('Id_tipo_formula',24)
+            ->orWhere('Id_tipo_formula',58)
             ->get();
         return view('laboratorio.metales.observacion', compact('formulas'));
     }
@@ -135,7 +136,30 @@ class MetalesController extends Controller
                     }
                 }
                 break;
-            
+            case 2:
+                $model = DB::table('ViewParametroProceso')
+                ->where('Id_tipo_formula',$res->id)
+                ->where('Asignado','!=',1)
+                ->get();
+                foreach ($model as $item) {
+                    $aux = 0;
+                    for ($i=0; $i < sizeof($ids); $i++) { 
+                        if ($ids[$i] == $item->Id_solicitud) {
+                            $aux = 1;
+                        }
+                    }
+                    if ($aux == 0) {
+                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+                        $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+                        $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
+                        array_push($ids,$item->Id_solicitud);
+                        array_push($folios,$solAux->Folio_servicio); 
+                        array_push($empresas,$temp->Empresa);
+                        array_push($recepciones,$temp->Hora_recepcion);
+                        array_push($recepciones2,$temp->Hora_entrada);
+                    }
+                }
+                break;
             default:
 
                 break;

@@ -322,6 +322,7 @@
                                                 {{@$obsCampo}}
                                                 @break
                                             @case(5) 
+                                            @case(7) 
                                             @case(30)
                                                 @if ($solModel->Id_servicio != 3)
                                                     OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 

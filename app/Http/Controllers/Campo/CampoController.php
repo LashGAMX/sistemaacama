@@ -1352,7 +1352,7 @@ class CampoController extends Controller
             'margin_left' => 2,
             'margin_right' => 2,
             'margin_top' => 18,
-            'margin_bottom' => 13
+            'margin_bottom' => 10
         ]);
 
         $mpdf->SetWatermarkImage(

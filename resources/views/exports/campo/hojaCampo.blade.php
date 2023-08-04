@@ -360,9 +360,7 @@
                 </table>
           
             </div>
-            
-            <br><br>
-
+ 
             <div class="col-12 ">
                 @php
                     /* $url = url()->current(); */

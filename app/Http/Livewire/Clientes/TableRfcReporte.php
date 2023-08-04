@@ -22,7 +22,7 @@ class TableRfcReporte extends Component
     public $status = 1;
  
     protected $rules = [ 
-        'rfc' => 'required|max:13|min:12|unique:rfc_sucursal',
+        'rfc' => 'required|max:13|min:12',
     ];
     protected $messages = [
         'rfc.required' => 'El RFC es un dato requerido',

@@ -176,7 +176,8 @@ class SolicitudController extends Controller
     }
     public function getClienteRegistrado(Request $res)
     {
-        $model = ClienteGeneral::where('Id_intermediario', $res->id)->get();
+        // $model = ClienteGeneral::where('Id_intermediario', $res->id)->get();
+        $model = DB::table('ViewClienteGeneral')->where('Id_intermediario', $res->id)->where('stdCliente',NULL)->get();
         $data = array(
             'model' => $model,
         );
