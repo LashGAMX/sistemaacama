@@ -80,6 +80,7 @@ class CampoAppController extends Controller
         $data = array(
             'datos' => $request->solicitudesModel,
             'pc100' => $pc100,
+            'hanna' => $hanna,
             'modelSolGen' => $modelSolGen, 
             
             'phCalidad' => $phCalidad,
@@ -115,6 +116,8 @@ class CampoAppController extends Controller
         $jsonphCalidadMuestra = json_decode($request->phCalidadMuestra,true);
         $jsonDatosCompuestos = json_decode($request->campoCompuesto,true);
         $jsonEviencia = json_decode($request->evidencia,true);
+        $jsonPunto = json_decode($request->solPunto,true);
+        $jsonCanceladas = json_decode($request->canceladas,true);
 
         $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
         $solModel->Estado = 3;
@@ -145,16 +148,16 @@ class CampoAppController extends Controller
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         $phTrazable = CampoPhTrazable::where('Id_solicitud',$solModel->Id_solicitud)->get();
             //$phTrazable[0]->Id_solicitud = $solModel->Id_solicitud;
-            //$phTrazable[0]->Ph = $jsonPhTra[0]["Id_phTrazable"];
+            $phTrazable[0]->Id_phTrazable = $catPhTra->Id_ph;
             $phTrazable[0]->Lectura1 = $jsonPhTra[0]["Lectura1"];
             $phTrazable[0]->Lectura2 = $jsonPhTra[0]["Lectura2"];
             $phTrazable[0]->Lectura3 =$jsonPhTra[0]["Lectura3"];
             $phTrazable[0]->Estado = $jsonPhTra[0]["Estado"];
             $phTrazable[0]->save();
-        
+       
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[1]["Id_phTrazable"])->first();
             //$phTrazable[1]->Id_solicitud = $solModel->Id_solicitud;
-            //$phTrazable[1]->Id_phTrazable = $catPhTra->Id_ph;
+            $phTrazable[1]->Id_phTrazable = $catPhTra->Id_ph;
             $phTrazable[1]->Lectura1 = $jsonPhTra[1]["Lectura1"];
             $phTrazable[1]->Lectura2 = $jsonPhTra[1]["Lectura2"];
             $phTrazable[1]->Lectura3 =$jsonPhTra[1]["Lectura3"];
@@ -188,7 +191,7 @@ class CampoAppController extends Controller
         $conTrazable = CampoConTrazable::where('Id_solicitud',$solModel->Id_solicitud)->first();
         
            // $conTrazable->Id_solicitud = $solModel->Id_solicitud;
-            //$conTrazable->Id_conTrazable = $catConTra->Id_conductividad;
+            $conTrazable->Id_conTrazable = $catConTra->Id_conductividad;
             $conTrazable->Lectura1 = $jsonConTra[0]["Lectura1"];
             $conTrazable->Lectura2 = $jsonConTra[0]["Lectura2"];
             $conTrazable->Lectura3 = $jsonConTra[0]["Lectura3"];
@@ -199,7 +202,7 @@ class CampoAppController extends Controller
         $conCalidad = CampoConCalidad::where('Id_solicitud',$solModel->Id_solicitud)->first();
         
             //$conCalidad->Id_solicitud = $solModel->Id_solicitud;
-            //$conCalidad->Id_conCalidad = $catConCal->Id_conductividad;
+            $conCalidad->Id_conCalidad = $catConCal->Id_conductividad;
             $conCalidad->Lectura1 = $jsonConCal[0]["Lectura1"];
             $conCalidad->Lectura2 = $jsonConCal[0]["Lectura2"];
             $conCalidad->Lectura3 = $jsonConCal[0]["Lectura3"];
@@ -348,8 +351,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'json' => $jsonphCalidadMuestra,
-            
+            'json' => $jsonCanceladas,
              
           
         );

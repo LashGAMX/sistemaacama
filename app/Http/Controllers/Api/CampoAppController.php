@@ -114,6 +114,7 @@ class CampoAppController extends Controller
         $jsonphCalidadMuestra = json_decode($request->phCalidadMuestra,true);
         $jsonDatosCompuestos = json_decode($request->campoCompuesto,true);
         $jsonEviencia = json_decode($request->evidencia,true);
+        
 
         $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
         $solModel->Estado = 3;
@@ -347,7 +348,8 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'json' => $jsonphCalidadMuestra,
+            
+           
             
              
           

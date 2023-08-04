@@ -17,6 +17,11 @@
     <br>
     <br>
     <br>
+    <div class="col-md-12">
+<code>
+    Consejo: Borrar datos de la aplicación despues de actualizar.
+</code>
+    </div>
 
     <div class="row w-100 align-items-center">
         <div class="col text-center">
