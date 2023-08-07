@@ -2129,8 +2129,8 @@ function getDetalleMuestra(id) {
                     $("#lGA1").val(response.model.Ph);
                     $("#iGA1").val(response.model.Vol_muestra);
                     if (response.model.Id_control != 5) {
-                        $("#gGA1").val(blanco);
-                        $("#gGA2").val(blanco);
+                        $("#gGA1").val(response.blanco.Resultado);
+                        $("#gGA2").val(response.blanco.Resultado);
                     } else {
                         $("#gGA1").val(response.model.Blanco);
                         $("#gGA2").val(response.model.Blanco);
