@@ -52,20 +52,20 @@ function setGenFolio() {
         let puntos = document.getElementById("puntos")
         for (let i = 1; i < puntos.rows.length; i++) {
             switch (puntos.rows[i].children[2].children[1].value) {
-                case "1":
+                case "500":
                     aux = "500"
                     break
-                case "2":
+                case "1000":
                     aux = "1000"
                     break
-                case "3":
+                case "1500":
                     aux = "1500"
                     break
-                case "4":
+                case "2000":
                     aux = "2000"
                     break
-                case "5":
-                    aux = ">3000"
+                case "3000":
+                    aux = "3000"
                     break
                 default: 
                     aux = ""
@@ -226,11 +226,11 @@ function tablePuntos(id) {
                 tab += '<td><input placeholder="Conduct" value="' + response.conductividad[aux] + '">'
                 tab += '<select id="sel' + item.Id_solicitud + '">'
                 if (response.cloruro[aux] == 0) { tab += '    <option selected value="0" >Sin seleccionar</option>' } else { tab += '    <option value="0" >Sin seleccionar</option>' }
-                if (response.cloruro[aux] == 1) { tab += '    <option selected value="1" >500</option>' } else { tab += '    <option value="1" >500</option>' }
-                if (response.cloruro[aux] == 2) { tab += '    <option selected value="2" >1000</option>' } else { tab += '    <option value="2" >1000</option>' }
-                if (response.cloruro[aux] == 3) { tab += '    <option selected value="3" >1500</option>' } else { tab += '    <option value="3" >1500</option>' }
-                if (response.cloruro[aux] == 4) { tab += '    <option selected value="4" >2000</option>' } else { tab += '    <option value="4" >2000</option>' }
-                if (response.cloruro[aux] == 5) { tab += '    <option selected value="5" > > 3000</option>' } else { tab += '    <option value="5" > > 3000</option>' }
+                if (response.cloruro[aux] == 500) { tab += '    <option selected value="500" >500</option>' } else { tab += '    <option value="500" >500</option>' }
+                if (response.cloruro[aux] == 1000) { tab += '    <option selected value="1000" >1000</option>' } else { tab += '    <option value="1000" >1000</option>' }
+                if (response.cloruro[aux] == 1500) { tab += '    <option selected value="1500" >1500</option>' } else { tab += '    <option value="1500" >1500</option>' }
+                if (response.cloruro[aux] == 2000) { tab += '    <option selected value="2000" >2000</option>' } else { tab += '    <option value="2000" >2000</option>' }
+                if (response.cloruro[aux] == 3000) { tab += '    <option selected value="3000" > >= 3000</option>' } else { tab += '    <option value="3000" > >= 3000</option>' }
                 tab += '</select></td>'
                 tab += '</tr>';
                 aux++
