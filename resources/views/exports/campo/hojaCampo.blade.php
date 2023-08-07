@@ -77,6 +77,12 @@
                         </td>
                     </tr>
                     @endif
+                    <tr>
+                        <td class="bordesTablaInfIzqDer">EQUIPOS </td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="5">
+                         Equipo PC-100 : {{@$equipo1->Modelo}}  |  Equipo HANNA {{@$equipo2->Modelo}}
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="col-12 negrita">
@@ -193,10 +199,16 @@
                                     @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
                                             ---
                                         @else
-                                            @php
-                                                echo number_format(@$phMuestra[$i]->Promedio, 1, ".", ",");
-                                            @endphp
-                                        @endif
+                                        @switch($model->Id_norma)
+                                            @case(1)
+                                            @case(27)
+                                                {{number_format(@$phMuestra[$i]->Promedio, 2, ".", ",")}}
+                                                @break
+                                            @default
+                                                {{number_format(@$phMuestra[$i]->Promedio, 1, ".", ",")}}            
+                                        @endswitch
+                                            
+                                    @endif
                                     
                                 @else
                                     ---
@@ -278,11 +290,20 @@
                     <tr>
                         <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> <br></td>
                         <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">
-                            @if ($campoGeneral->Firma_revisor == null)
-                                ---             
+                            @if (@$campoGeneral->Supervisor == null)
+                                ------
                             @else
-                                <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{$campoGeneral->Firma_revisor}}">
-                            @endif    
+                                {{@$campoGeneral->Supervisor}}
+                            @endif
+
+                            {{-- @if ($campoGeneral->Firma_revisor == null && @$campoGeneral->Supervisor == null)
+                                -----
+                                {{@$campoGeneral->Supervisor}}
+                            @else
+                                <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{@$campoGeneral->Firma_revisor}}">
+                                <br>
+                                {{@$campoGeneral->Supervisor}}
+                            @endif     --}}
                         </span> </td>
                     </tr>
                 </table>

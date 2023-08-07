@@ -393,7 +393,7 @@
                                             $temp3 = $item->Lote;
                                             @endphp
                                             @else
-                                            <option value="{{ $item->Id_conductividad }}"> {{ $item->Conductividad }}
+                                            <option value="{{ $item->Id_conductividad }}" selected> {{ $item->Conductividad }}
                                             </option>
                                             @endif
                                             @endforeach
@@ -474,7 +474,7 @@
                                             $temp3 = $item->Lote;
                                             @endphp
                                             @else
-                                            <option value="{{ $item->Id_conductividad }}">{{ $item->Conductividad }}
+                                            <option value="{{ $item->Id_conductividad }}" selected>{{ $item->Conductividad }}
                                             </option>
                                             @endif
                                             @endforeach
@@ -1081,9 +1081,15 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Cloruros</label>
-                                    <input type="number" class="form-control" id="valCloruros"
-                                        value="{{@$compuesto->Cloruros}}" placeholder="Cloruros"
-                                        onkeyup='valTempCompuesto("valTemp", "facTempApl");'>
+                                    {{-- <input type="number" class="form-control" id="valCloruros" value="{{@$compuesto->Cloruros}}" placeholder="Cloruros"> --}}
+                                    <select id="valCloruros" class="form-control">
+                                        @if (@$compuesto->Cloruros == 0)<option selected value="0"> Sin seleccionar</option> @else <option value="0"> Sin seleccionar</option> @endif
+                                        @if (@$compuesto->Cloruros == 500)<option selected value="500">500</option> @else <option value="500">500</option> @endif
+                                        @if (@$compuesto->Cloruros == 1000)<option selected value="1000">1000</option> @else <option value="1000">1000</option> @endif
+                                        @if (@$compuesto->Cloruros == 1500)<option selected value="1500">1500</option> @else <option value="1500">1500</option> @endif
+                                        @if (@$compuesto->Cloruros == 2000)<option selected value="2000">2000</option> @else <option value="2000">2000</option> @endif
+                                        @if (@$compuesto->Cloruros == 3000)<option selected value="3000">>= 3000</option> @else <option value="3000">>= 3000</option> @endif
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-4">

@@ -549,7 +549,12 @@
                                                     @endif
                                                 @break
                                             @default
-                                            {{@$phMuestra[$i]->Materia}}
+                                            @if ($materia->count())
+                                                {{@$phMuestra[$i]->Materia}}            
+                                            @else
+                                                ----     
+                                            @endif
+                                            
                                         @endswitch
                                     @endif
                                 </td>
@@ -692,13 +697,18 @@
                                                 echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
                                             @endphp                                            
                                         @endif
-                                    @endif                                     --}}
+                                    @endif              
+                                                           --}}
+                                    @php
+                                        $auxGasto = 0;
+                                    @endphp
                                     @if (@$gastoMuestra[$i]->Promedio === NULL)
                                     -----
                                     @else
                                         @php
-                                            echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 3);
+                                            $auxGasto = (@$gastoMuestra[$i]->Promedio / $gastoTotal) * $campoCompuesto->Volumen_calculado;
                                         @endphp                                            
+                                        {{number_format($auxGasto, 2, ".", ".")}}
                                     @endif
                                 </td>
                             </tr>                            
@@ -886,15 +896,20 @@
                                             @endif                                        
                                         </td>
                                         <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @php
+                                            $auxGasto = 0;
+                                        @endphp
                                             @if (@$gastoMuestra[$i]->Promedio === NULL)
                                                 ---
                                             @else
+                                                {{-- {{number_format((@$gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado) , 2, ".", ".")}} --}}
                                                 @php
-                                                    echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 3);
-                                                @endphp                                            
+                                                    $auxGasto = (@$gastoMuestra[$i]->Promedio / $gastoTotal) * $campoCompuesto->Volumen_calculado;
+                                                @endphp
+                                                {{number_format($auxGasto, 2, ".", ".")}}
                                             @endif
                                         </td>
-                                    </tr>                                
+                                    </tr>                                 
                                 @endfor
                                 <tr>
                                     <td>&nbsp;</td>

@@ -69,6 +69,7 @@ class IngresarController extends Controller
     {
         $model = SolicitudPuntos::where('Id_solPadre', $res->id)->get();
         $cloruro = array();
+        // $cloruro = 0;
         $conductividad = array();
         $temp = 0;
         $aux = 0;
@@ -82,33 +83,14 @@ class IngresarController extends Controller
                     $aux++;
                 }
                 $temp = $temp / $aux;
-                array_push($conductividad, $temp);
+                array_push($conductividad, round($temp));
             } else {
                 array_push($conductividad, '');
             }
 
             $campoModel = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($campoModel->count()) {
-                switch ($campoModel[0]->Cloruros) {
-                    case $campoModel[0]->Cloruros < 1000:
-                        array_push($cloruro, 1);
-                        break;
-                    case $campoModel[0]->Cloruros >= 1000 && $campoModel[0]->Cloruros < 1500:
-                        array_push($cloruro, 2);
-                        break;
-                    case $campoModel[0]->Cloruros >= 1500 && $campoModel[0]->Cloruros < 2000:
-                        array_push($cloruro, 3);
-                        break;
-                    case $campoModel[0]->Cloruros >= 2000 && $campoModel[0]->Cloruros < 3000:
-                        array_push($cloruro, 4);
-                        break;
-                    case $campoModel[0]->Cloruros >= 3000:
-                        array_push($cloruro, 5);
-                        break;
-                    default:
-                        # code...
-                        break;
-                }
+                array_push($cloruro, $campoModel[0]->Cloruros);  
             } else {
                 array_push($cloruro, '');
             }

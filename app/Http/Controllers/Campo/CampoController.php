@@ -51,6 +51,7 @@ use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use App\Models\Cotizacion;
+use App\Models\Intermediario;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -78,8 +79,9 @@ class CampoController extends Controller
     public function asignar()
     {
 
-        if (Auth::user()->role->id == 13) {
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', 1)->where('Id_user_c', Auth::user()->id)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+        if (Auth::user()->role->id == 13) { 
+            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
         } else {
             $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
         }
@@ -1324,6 +1326,8 @@ class CampoController extends Controller
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
 
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
+        $equipo1 = TermometroCampo::where('Id_termometro',$campoGeneral->Id_equipo)->first();
+        $equipo2 = TermometroCampo::where('Id_termometro',$campoGeneral->Id_equipo2)->first();
         $phMuestra = PhMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $id)->get();
@@ -1362,6 +1366,8 @@ class CampoController extends Controller
             array(0, 0),
         );
         $data = array(
+            'equipo1' => $equipo1,
+            'equipo2' => $equipo2,
             'campoGeneral' => $campoGeneral,
             'solGen' => $solGen,
             'procesoAnalisis' => $procesoAnalisis,
@@ -1495,14 +1501,14 @@ class CampoController extends Controller
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud', $id)->first();
-        $termometro1 = TermometroCampo::where('Id_termometro', $campoGen->Id_equipo)->first();
-        $termometro2 = TermometroCampo::where('Id_termometro', $campoGen->Id_equipo2)->first();
+        $termometro1 = TermometroCampo::where('Id_termometro', @$campoGen->Id_equipo)->first();
+        $termometro2 = TermometroCampo::where('Id_termometro', @$campoGen->Id_equipo2)->first();
 
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $id)->get();
         $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $id)->get();
 
-        $factorCorreccion = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo)->get();
-        $factorCorreccion2 = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo2)->get();
+        $factorCorreccion = TermFactorCorreccionTemp::where('Id_termometro', @$campoGen->Id_equipo)->get();
+        $factorCorreccion2 = TermFactorCorreccionTemp::where('Id_termometro', @$campoGen->Id_equipo2)->get();
 
         $factCorrec = array();
         $factApl = array();
