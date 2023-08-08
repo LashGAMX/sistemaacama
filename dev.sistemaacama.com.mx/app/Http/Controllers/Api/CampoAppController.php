@@ -216,6 +216,9 @@ class CampoAppController extends Controller
         
         //phMuestra
          $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
+                $m = "";
+                $d = "";
+                $finalDate = "";
          if($phMuestra->count())
          {
             for ($i = 0; $i < $phMuestra->count(); $i++) {
@@ -227,10 +230,25 @@ class CampoAppController extends Controller
                 $ph3 = $jsonPhMuestra[$i]["Ph3"];
                 $promedio = $jsonPhMuestra[$i]["Promedio"];
                 $fecha = $jsonPhMuestra[$i]["Fecha"];
-                $date = $jsonPhMuestra[$i]["Hora"];
-               // $date = fecha + " " + $hora;
-               // $dateAll = date("Y-m-d H:i:s", strtotime($date));
-                //$date = $date->format('Y-m-d');
+             
+                //hora 
+                
+                $datetemp =  $jsonPhMuestra[0]["Fecha"];
+                $hour = $jsonPhMuestra[0]["Hora"];
+                $dateExplode = explode("-",$datetemp);
+                $year = $dateExplode[0];
+                $mes = $dateExplode[1];
+                $dia = $dateExplode[2];
+               $srtm=  strlen($mes);
+               $srtd=  strlen($dia);
+                if ($srtm == 1){
+                    $m = "0" . $mes;
+                } 
+                if ($srtd == 1){
+                    $d = "0" . $dia;
+                }
+                $finalDate = $year."-".$m."-".$d."T".$hour;
+              
 
                 $phMuestra[$i]->Materia =$materia;
                 $phMuestra[$i]->Olor = $olor;
@@ -239,7 +257,7 @@ class CampoAppController extends Controller
                 $phMuestra[$i]->Ph2 = floatval($ph2);
                 $phMuestra[$i]->Ph3 = floatval($ph3);
                 $phMuestra[$i]->Promedio = floatval($promedio);
-               //$phMuestra[$i]->Fecha = $date;
+                $phMuestra[$i]->Fecha = $finalDate;
                 $phMuestra[$i]->save();
              }
          }
@@ -386,13 +404,33 @@ class CampoAppController extends Controller
             $ph->Activo = 0;
             $ph->save();
         }
-        
+    
+        $m = "";
+        $d = "";
+        $finalDate = "";
+        $datetemp =  $jsonPhMuestra[0]["Fecha"];
+        $hour = $jsonPhMuestra[0]["Hora"];
+        $dateExplode = explode("-",$datetemp);
+        $year = $dateExplode[0];
+        $mes = $dateExplode[1];
+        $dia = $dateExplode[2];
+       $srtm=  strlen($mes);
+       $srtd=  strlen($dia);
+        if ($srtm == 1){
+            $m = "0" . $mes;
+        } 
+        if ($srtd == 1){
+            $d = "0" . $dia;
+        }
+        $finalDate = $year."-".$m."-".$d."T".$hour;
 
         $data = array(
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-            'date' => $date,
+             'fecha' => $finalDate,
+             'Hora' => $hour,
+         
              
           
         );
