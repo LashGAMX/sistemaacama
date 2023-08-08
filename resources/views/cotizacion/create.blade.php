@@ -134,7 +134,7 @@
                                             <select name="tipoServicio" id="tipoServicio" class="form-control">
                                                 @foreach ($servicios as $item)
 
-                                                @if (@$model->Tipo_servicio == $item)
+                                                @if (@$model->Tipo_servicio == $item->Id_tipo)
                                                 <option value="{{ $item->Id_tipo }}" selected>{{ $item->Servicio }}
                                                 </option>
                                                 @else
