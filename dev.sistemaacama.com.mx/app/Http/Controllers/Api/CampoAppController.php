@@ -23,6 +23,7 @@ use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
 use App\Models\CampoCompuestos;
 use App\Models\Color;
+use Carbon\Carbon;
 use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
 use App\Models\MetodoAforo;
@@ -215,7 +216,9 @@ class CampoAppController extends Controller
         
         //phMuestra
          $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
-        
+                $m = "";
+                $d = "";
+                $finalDate = "";
          if($phMuestra->count())
          {
             for ($i = 0; $i < $phMuestra->count(); $i++) {
@@ -226,6 +229,26 @@ class CampoAppController extends Controller
                 $ph2 = $jsonPhMuestra[$i]["Ph2"];
                 $ph3 = $jsonPhMuestra[$i]["Ph3"];
                 $promedio = $jsonPhMuestra[$i]["Promedio"];
+                $fecha = $jsonPhMuestra[$i]["Fecha"];
+             
+                //hora 
+                
+                $datetemp =  $jsonPhMuestra[0]["Fecha"];
+                $hour = $jsonPhMuestra[0]["Hora"];
+                $dateExplode = explode("-",$datetemp);
+                $year = $dateExplode[0];
+                $mes = $dateExplode[1];
+                $dia = $dateExplode[2];
+               $srtm=  strlen($mes);
+               $srtd=  strlen($dia);
+                if ($srtm == 1){
+                    $m = "0" . $mes;
+                } 
+                if ($srtd == 1){
+                    $d = "0" . $dia;
+                }
+                $finalDate = $year."-".$m."-".$d."T".$hour;
+              
 
                 $phMuestra[$i]->Materia =$materia;
                 $phMuestra[$i]->Olor = $olor;
@@ -234,6 +257,7 @@ class CampoAppController extends Controller
                 $phMuestra[$i]->Ph2 = floatval($ph2);
                 $phMuestra[$i]->Ph3 = floatval($ph3);
                 $phMuestra[$i]->Promedio = floatval($promedio);
+                $phMuestra[$i]->Fecha = $finalDate;
                 $phMuestra[$i]->save();
              }
          }
@@ -275,10 +299,11 @@ class CampoAppController extends Controller
             $temp2 = $jsonGastoMuestra[$i]["Gasto2"];
             $temp3 = $jsonGastoMuestra[$i]["Gasto3"];
             $temp4 = $jsonGastoMuestra[$i]["Promedio"];
+            $gastoProm = round($temp4,2);
             $gasto[$i]->Gasto1 = floatval($temp1);
             $gasto[$i]->Gasto2 = floatval($temp2);
             $gasto[$i]->Gasto3 = floatval($temp3);
-            $gasto[$i]->Promedio = floatval($temp4);
+            $gasto[$i]->Promedio = floatval($gastoProm);
             $gasto[$i]->save();
         }
         
@@ -353,12 +378,59 @@ class CampoAppController extends Controller
             $ph->save();
             
         }
+        for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
+            $ph = TemperaturaAmbiente::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas[$i]["Muestra"])->first();
+            $ph->Activo = 0;
+            $ph->save();
+        }
+        
+        for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
+            $ph = ConductividadMuestra::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas[$i]["Muestra"])->first();
+            $ph->Activo = 0;
+            $ph->save();
+        }
+        for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
+            $ph = GastoMuestra::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas[$i]["Muestra"])->first();
+            $ph->Activo = 0;
+            $ph->save();
+        }
+        for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
+            $ph = TemperaturaMuestra::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas[$i]["Muestra"])->first();
+            $ph->Activo = 0;
+            $ph->save();
+        }
+        for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
+            $ph = PhCalidadCampo::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas[$i]["Muestra"])->first();
+            $ph->Activo = 0;
+            $ph->save();
+        }
+    
+        $m = "";
+        $d = "";
+        $finalDate = "";
+        $datetemp =  $jsonPhMuestra[0]["Fecha"];
+        $hour = $jsonPhMuestra[0]["Hora"];
+        $dateExplode = explode("-",$datetemp);
+        $year = $dateExplode[0];
+        $mes = $dateExplode[1];
+        $dia = $dateExplode[2];
+       $srtm=  strlen($mes);
+       $srtd=  strlen($dia);
+        if ($srtm == 1){
+            $m = "0" . $mes;
+        } 
+        if ($srtd == 1){
+            $d = "0" . $dia;
+        }
+        $finalDate = $year."-".$m."-".$d."T".$hour;
 
         $data = array(
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-            'json' => $jsonCanceladas,
+             'fecha' => $finalDate,
+             'Hora' => $hour,
+         
              
           
         );
