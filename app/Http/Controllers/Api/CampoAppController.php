@@ -405,24 +405,7 @@ class CampoAppController extends Controller
             $ph->save();
         }
     
-        $m = "";
-        $d = "";
-        $finalDate = "";
-        $datetemp =  $jsonPhMuestra[0]["Fecha"];
-        $hour = $jsonPhMuestra[0]["Hora"];
-        $dateExplode = explode("-",$datetemp);
-        $year = $dateExplode[0];
-        $mes = $dateExplode[1];
-        $dia = $dateExplode[2];
-       $srtm=  strlen($mes);
-       $srtd=  strlen($dia);
-        if ($srtm == 1){
-            $m = "0" . $mes;
-        } 
-        if ($srtd == 1){
-            $d = "0" . $dia;
-        }
-        $finalDate = $year."-".$m."-".$d."T".$hour;
+       
 
         $data = array(
             'response' => true,
