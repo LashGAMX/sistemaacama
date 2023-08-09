@@ -271,9 +271,9 @@ class CampoAppController extends Controller
             $tempA3 = $jsonTempAmbiente[$i]["TempA3"];
             $promedioA = $jsonTempAmbiente[$i]["PromedioA"];
             
-            $tempAmbiente[$i]->Temperatura1 = floatval($tempA1);
-            $tempAmbiente[$i]->Temperatura2 = floatval($tempA2);
-            $tempAmbiente[$i]->Temperatura3 = floatval($tempA3);
+            $tempAmbiente[$i]->TemperaturaSin1 = floatval($tempA1);
+            $tempAmbiente[$i]->TemperaturaSin2 = floatval($tempA2);
+            $tempAmbiente[$i]->TemperaturaSin3 = floatval($tempA3);
             $tempAmbiente[$i]->Promedio = floatval($promedioA);
             $tempAmbiente[$i]->save();
         }
