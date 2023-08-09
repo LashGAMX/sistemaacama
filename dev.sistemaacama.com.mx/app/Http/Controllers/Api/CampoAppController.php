@@ -78,7 +78,7 @@ class CampoAppController extends Controller
         $tipo = TipoTratamiento::all();
         
 
-        $data = array( 
+        $data = array(
             'datos' => $request->solicitudesModel,
             'pc100' => $pc100,
             'hanna' => $hanna,
@@ -428,7 +428,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-            
+             
          
              
           

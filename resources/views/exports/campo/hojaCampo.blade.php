@@ -77,12 +77,12 @@
                         </td>
                     </tr>
                     @endif
-                    <tr>
+                    {{-- <tr>
                         <td class="bordesTablaInfIzqDer">EQUIPOS </td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
                          Equipo PC-100 : {{@$equipo1->Modelo}}  |  Equipo HANNA {{@$equipo2->Modelo}}
                         </td>
-                    </tr>
+                    </tr> --}}
                 </table>
             </div>
             <div class="col-12 negrita">
@@ -201,6 +201,8 @@
                                         @else
                                         @switch($model->Id_norma)
                                             @case(1)
+                                            @case(2)
+                                            @case(3)
                                             @case(27)
                                                 {{number_format(@$phMuestra[$i]->Promedio, 2, ".", ",")}}
                                                 @break
@@ -334,7 +336,9 @@
                         <td class="bordesTablaSupInfDer justifyCenter" style="width: 50%">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
                     </tr>
 
-             
+                    <tr>
+                        <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">EQUIPOS:  EQUIPO {{@$equipo1->Modelo}}  |  EQUIPO HANNA {{@$equipo2->Modelo}}
+                    </td>
                     @if (@$model->Num_tomas > 1)
                         <tr>
                             <td class="bordesTablaInfIzqDer" style="width: 50%">Fecha y hora de recepción en Lab: 
