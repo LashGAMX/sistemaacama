@@ -344,7 +344,7 @@ INNER JOIN area_analisis as ar
 ON pa.Id_area = ar.Id_area_analisis;
 
 /* Lista ViewTipoFormulaAreas */
-CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tVipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo
+CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo
 INNER JOIN tipo_formulas as form
 ON tipo.Id_formula = form.Id_tipo_formula
 INNER JOIN area_analisis as areas
@@ -359,7 +359,7 @@ ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as con
-ON det.Id_control = con.Id_controlViewLoteDetalleSolidos
+ON det.Id_control = con.Id_control
 INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo;
 
@@ -487,7 +487,7 @@ INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
-INNER JOIN control_calidad as controlViewPuntoMuestreoSolSir
+INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo;
