@@ -6,7 +6,6 @@ $(document).ready(function() {
     $('#btnSetPrecioAnual').click(function () {
         setPrecioAnual();
     });
-    $(".select2").select2()
 });
 
 function setPrecioAnual()
