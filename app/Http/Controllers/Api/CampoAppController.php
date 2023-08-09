@@ -233,8 +233,8 @@ class CampoAppController extends Controller
              
                 //hora 
                 
-                $datetemp =  $jsonPhMuestra[0]["Fecha"];
-                $hour = $jsonPhMuestra[0]["Hora"];
+                $datetemp =  $jsonPhMuestra[$i]["Fecha"];
+                $hour = $jsonPhMuestra[$i]["Hora"];
                 $dateExplode = explode("-",$datetemp);
                 $year = $dateExplode[0];
                 $mes = $dateExplode[1];
