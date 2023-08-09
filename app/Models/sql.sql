@@ -803,3 +803,20 @@ OR Id_tipo_formula = 23 OR Id_tipo_formula = 24 GROUP BY Id_solicitud;
 CREATE VIEW ViewClienteGeneral as SELECT gen.*,cli.deleted_at as stdCliente FROM clientes_general as gen
 INNER JOIN clientes as cli
 ON gen.Id_cliente = cli.Id_cliente;
+
+
+
+
+-- ALTER TABLE `metales_detalle` CHANGE `RecuperacionE` `RecuperacionE` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `CumpleE` `CumpleE` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `ConcI` `ConcI` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `DesvI` `DesvI` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `CumpleI` `RecuperacionE` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Abs1I` `Abs1I` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Abs2I` `Abs2I` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Abs3I` `Abs3I` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Abs4I` `Abs4I` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Abs5I` `Abs5I` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Bitacora` `Bitacora` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Folio` `Folio` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+-- ALTER TABLE `metales_detalle` CHANGE `Valor` `Valor` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

@@ -32,7 +32,7 @@ Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
+    Voyager::routes(); 
 }); 
 Route::group(['prefix' => 'clientes'], function () {
     

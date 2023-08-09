@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'view_path' => resource_path('views/livewire'), 
+    'view_path' => resource_path('views/livewire'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,12 +39,12 @@ return [
     |
     */
 
-    'layout' => 'layouts.app', 
+    'layout' => 'layouts.app',
 
     /*
     |--------------------------------------------------------------------------
     | Livewire Assets URL
-    |-------------------------------------------------------------------------- 
+    |--------------------------------------------------------------------------
     |
     | This value sets the path to Livewire JavaScript assets, for cases where
     | your app's domain root is not the correct path. By default, Livewire
@@ -54,9 +54,9 @@ return [
     |
     */
 
-    'asset_url' => "http://acama.ddns.net:85/sofia",
+    'asset_url' => "http://acama.ddns.net:85/sofia/public",
 
-    /* 
+    /*
     |--------------------------------------------------------------------------
     | Livewire App URL
     |--------------------------------------------------------------------------
