@@ -80,10 +80,10 @@ class CampoAppController extends Controller
 
         $data = array( 
             'datos' => $request->solicitudesModel,
+            'modelSolGen' => $modelSolGen, 
             'pc100' => $pc100,
             'hanna' => $hanna,
             'modelSolGen' => $modelSolGen, 
-            
             'phCalidad' => $phCalidad,
             'phTrazable' => $phTrazable,
             'conTrazable' => $conTrazable,  
