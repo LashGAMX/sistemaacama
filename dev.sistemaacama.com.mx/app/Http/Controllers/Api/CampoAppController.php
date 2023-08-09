@@ -428,8 +428,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'fecha' => $finalDate,
-             'Hora' => $hour,
+             
          
              
           
