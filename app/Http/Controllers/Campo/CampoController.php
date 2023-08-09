@@ -153,7 +153,8 @@ class CampoController extends Controller
         $conductividadMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
 
-        $materiales =   DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
+        // $materiales =   DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
+        $materiales = array();
 
         if ($model->Num_tomas > 1) {
             $hidden = "";
