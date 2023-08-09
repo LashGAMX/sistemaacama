@@ -44,7 +44,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Livewire Assets URL
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------- 
     |
     | This value sets the path to Livewire JavaScript assets, for cases where
     | your app's domain root is not the correct path. By default, Livewire
@@ -54,9 +54,9 @@ return [
     |
     */
 
-    'asset_url' => "https://sistemaacama.com.mx/public",
+    'asset_url' => "http://acama.ddns.net:85/sofia",
 
-    /*
+    /* 
     |--------------------------------------------------------------------------
     | Livewire App URL
     |--------------------------------------------------------------------------
