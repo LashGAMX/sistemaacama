@@ -271,9 +271,9 @@ class CampoAppController extends Controller
             $tempA3 = $jsonTempAmbiente[$i]["TempA3"];
             $promedioA = $jsonTempAmbiente[$i]["PromedioA"];
             
-            $tempAmbiente[$i]->Temperatura1 = floatval($tempA1);
-            $tempAmbiente[$i]->Temperatura2 = floatval($tempA2);
-            $tempAmbiente[$i]->Temperatura3 = floatval($tempA3);
+            $tempAmbiente[$i]->TemperaturaSin1 = floatval($tempA1);
+            $tempAmbiente[$i]->TemperaturaSin2 = floatval($tempA2);
+            $tempAmbiente[$i]->TemperaturaSin3 = floatval($tempA3);
             $tempAmbiente[$i]->Promedio = floatval($promedioA);
             $tempAmbiente[$i]->save();
         }
@@ -353,7 +353,9 @@ class CampoAppController extends Controller
         $campoCompuesto->Ph_muestraComp = $phMuestraComp;
         $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
         $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
-        $campoCompuesto->Cloruros = $jsonDatosCompuestos[0]["Cloruros"];
+        $cloruros = $jsonDatosCompuestos[0]["Cloruros"];
+        $clorurosExploded = explode(" ", $cloruros);
+        $campoCompuesto->Cloruros = $clorurosExploded[1];
         $campoCompuesto->save();
        // -------------------------EVIDENCIA---------------------------------------
 
@@ -411,7 +413,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-            
+           
          
              
           

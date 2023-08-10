@@ -11,14 +11,17 @@
     </div>    
 
     <div class="container-fluid h-100">         
+
         <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v1.2.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
-    </div>   
     
+
+    </div>   
+
     <br>
 
     <div class="col-md-12">
         <code>
-            Consejo: Borrar datos de la aplicación despues de actualizar.
+            Nota: Borrar datos de la aplicación despues de actualizar para no tener problemas en la app! También puedes desistalar una versión anteriror.
         </code>
 
             </div>
