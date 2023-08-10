@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost:85'),
+    'url' => env('APP_URL', 'https://sistemaacama.com.mx'),
 
     'asset_url' => env('ASSET_URL', null),
 

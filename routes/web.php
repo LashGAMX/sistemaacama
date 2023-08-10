@@ -14,7 +14,7 @@ use App\Http\Controllers\Informes\InformesController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
 
 
-/*
+/* 
 |--------------------------------------------------------------------------
 | Web Routes
 |-------------------------------------------------------------------------- 
@@ -32,7 +32,7 @@ Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
+    Voyager::routes(); 
 }); 
 Route::group(['prefix' => 'clientes'], function () {
     

@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => "http://acama.ddns.net:85/sofia",
+    'asset_url' => "https://sistemaacama.com.mx", 
 
     /* 
     |--------------------------------------------------------------------------
