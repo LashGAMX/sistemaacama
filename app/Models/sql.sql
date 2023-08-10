@@ -1,31 +1,4 @@
--- SQLBook: Code
-/* Vista lista intermediario*/
 
--- CREATE VIEW ViewIntermediarios as SELECT
--- 	inter.Id_intermediario,
--- 	inter.Id_cliente,
--- 	cli.Nombres,
---     cli.A_paterno,
---     cli.A_materno,
---     cli.RFC,
---     cli.Id_tipo_cliente,
---     inter.Laboratorio as Id_laboratorio,
---     suc.Sucursal,
---     inter.Correo,
---     inter.Direccion,
---     inter.Tel_oficina,ViewLoteDetalleGA
---     inter.Extension,
---     inter.Celular1,
---     inter.Detalle,
---     inter.created_at,
---     inter.updated_at,
---     cli.deleted_at
--- FROM intermediarios as inter
--- INNER JOIN clientes as cli
--- ON inter.Id_cliente = cli.Id_cliente
--- INNER JOIN sucursales as suc
--- ON inter.Laboratorio = suc.Id_sucursal;
---nueva vista intermediarios con id_user_c y m
 CREATE VIEW ViewIntermediarios as SELECT
 	inter.Id_intermediario,
 	inter.Id_cliente,
@@ -109,7 +82,7 @@ ON p.Id_simbologia = sim.Id_simbologia;
 
 /* Vista Lista View_limite001*/
 CREATE VIEW ViewLimite001 as SELECT lim.*,tipo.Detalle,cla.Tipo_cuerpo FROM limitepnorma_001 as lim 
-INNER JOIN detalle_tipoCuerpos as tipo 
+INNER JOIN detalle_tipocuerpos as tipo 
 ON lim.Id_categoria = tipo.Id_detalle 
 INNER JOIN parametros as pa 
 ON lim.Id_parametro = pa.Id_parametro
@@ -177,9 +150,9 @@ INNER JOIN users as usr
 ON cot.Creado_por = usr.id
 INNER JOIN users as usr2
 ON cot.Actualizado_por = usr2.id
-INNER JOIN tipo_muestraCot as tipo
+INNER JOIN tipo_muestracot as tipo
 ON cot.Tipo_muestra = tipo.Id_muestraCot
-INNER JOIN promedioCot as prom
+INNER JOIN promediocot as prom
 ON cot.Promedio = prom.Id_promedioCot;
 
 /* Lista cotizacion parametros */
@@ -268,7 +241,7 @@ INNER JOIN titulo_concesion_sir as ti
 ON p.Titulo_consecion = ti.Id_titulo
 INNER JOIN tipo_cuerpo as t
 ON p.Cuerpo_receptor = t.Id_tipo
-INNER JOIN detalle_tipoCuerpos as d
+INNER JOIN detalle_tipocuerpos as d
 ON p.Uso_agua = d.Id_detalle;
 
 /* Lista ViewPuntoMuestreoSolSir */
@@ -415,7 +388,8 @@ ON col.Id_codigo = cod.Id_codigo;
 
 /* Lista ViewLoteDetalleEcoli */ 
 
-CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_Ecoli as col
+CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,
+control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_ecoli as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -426,7 +400,8 @@ INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo;
 
 /* Lista ViewLoteDetalleEnterococos */
-CREATE VIEW ViewLoteDetalleEnterococos as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_enterococos as col
+CREATE VIEW ViewLoteDetalleEnterococos as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,
+param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_enterococos as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -563,19 +538,19 @@ CREATE VIEW ViewPlanComplemento as SELECT com.*,cam.Complemento FROM plan_comple
 INNER JOIN complementos_campo as cam
 ON com.Id_complemento = cam.Id_complemento;
 
-CREATE VIEW ViewCampoPhCalidad as SELECT c.*,ph.Ph_calidad,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad  FROM campo_phCalidad as c
+CREATE VIEW ViewCampoPhCalidad as SELECT c.*,ph.Ph_calidad,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad  FROM campo_phcalidad as c
 INNER JOIN ph_calidad as ph
 ON c.Id_phCalidad = ph.Id_ph;
 
-CREATE VIEW ViewCampoPhTrazable as  SELECT c.*,ph.Ph,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad FROM campo_phTrazable as c
+CREATE VIEW ViewCampoPhTrazable as  SELECT c.*,ph.Ph,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad FROM campo_phtrazable as c
 INNER JOIN ph_trazable as ph
 ON c.Id_phTrazable = ph.Id_ph;
 
-CREATE VIEW ViewCampoConCalidad as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_conCalidad as c
+CREATE VIEW ViewCampoConCalidad as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_concalidad as c
 INNER JOIN conductividad_calidad as con
 ON c.Id_conCalidad = con.Id_conductividad;
 
-CREATE VIEW ViewCampoConTrazable as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_conTrazable as c
+CREATE VIEW ViewCampoConTrazable as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_contrazable as c
 INNER JOIN conductividad_trazable as con
 ON c.Id_conTrazable = con.Id_conductividad;
 
@@ -604,7 +579,7 @@ INNER JOIN estados as est
 ON cot.Estado = est.Id_estado;
 
 /* ViewDetalleCuerpos */
-CREATE VIEW ViewDetalleCuerpos as SELECT det.*,tipo.Cuerpo FROM detalle_tipoCuerpos as det
+CREATE VIEW ViewDetalleCuerpos as SELECT det.*,tipo.Cuerpo FROM detalle_tipocuerpos as det
 INNER JOIN tipo_cuerpo as tipo
 ON det.Id_tipo = tipo.Id_tipo;
 
@@ -668,7 +643,7 @@ INNER JOIN ViewParametros as pa
 ON paraUser.Id_parametro = pa.Id_parametro;
 
 
-CREATE VIEW ViewLoteDetalleMatraz as SELECT mat.*,lot.Id_detalle,lot.Id_analisis, lot.Id_lote FROM matraz_GA as mat, 
+CREATE VIEW ViewLoteDetalleMatraz as SELECT mat.*,lot.Id_detalle,lot.Id_analisis, lot.Id_lote FROM matraz_ga as mat, 
 lote_detalle_ga as lot where mat.Id_matraz = lot.Id_matraz;
 
 /* ViewIncidencias */
@@ -768,7 +743,7 @@ ON  met.Id_parametro = p.Id_parametro;
 
 /* ViewMatrazConMuestra */
 CREATE VIEW  ViewMatrazConMuestra as SELECT ga.*,ma.Peso,ma.Min,ma.Max,ma.Estado FROM ViewLoteDetalleGA as ga
-INNER JOIN matraz_GA as ma
+INNER JOIN matraz_ga as ma
 ON ga.Id_matraz = ma.Id_matraz;
 
 /* ViewCotizacionList */
