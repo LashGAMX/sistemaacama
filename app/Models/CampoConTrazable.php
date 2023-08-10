@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CampoConTrazable extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'campo_conTrazable';
+    protected $table = 'campo_contrazable';
     protected $primaryKey = 'Id_conductividad';
     public $timestamps = true;
 

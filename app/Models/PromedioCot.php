@@ -10,7 +10,7 @@ class PromedioCot extends Model
 {
     use HasFactory,SoftDeletes;
     
-    protected $table = 'promedioCot';
+    protected $table = 'promediocot';
     protected $primaryKey = 'Id_promedioCot';
     public $timestamps = true;
 

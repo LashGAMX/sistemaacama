@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LoteDetalleEcoli extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'lote_detalle_Ecoli';
+    protected $table = 'lote_detalle_ecoli';
     protected $primaryKey = 'Id_detalle';
     public $timestamps = true;
 

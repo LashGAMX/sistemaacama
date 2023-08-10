@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ConvinacionesEcoli extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'convinacion_Ecoli';
+    protected $table = 'convinacion_ecoli';
     protected $primaryKey = 'Id_convinacion';
     public $timestamps = true;
 

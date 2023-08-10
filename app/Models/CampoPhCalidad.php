@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CampoPhCalidad extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'campo_phCalidad';
+    protected $table = 'campo_phcalidad';
     protected $primaryKey = 'Id_ph';
     public $timestamps = true;
 

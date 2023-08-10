@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CrisolesGA extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'crisol_GA';  
+    protected $table = 'crisol_ga';  
     protected $primaryKey = 'Id_crisol'; 
     public $timestamps = true;
 

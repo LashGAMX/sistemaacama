@@ -10,7 +10,7 @@ class TipoMuestraCot extends Model
 {
     use HasFactory,SoftDeletes;
     
-    protected $table = 'tipo_muestraCot';
+    protected $table = 'tipo_muestracot'; 
     protected $primaryKey = 'Id_muestraCot';
     public $timestamps = true;
 

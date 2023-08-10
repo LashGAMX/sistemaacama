@@ -129,7 +129,7 @@ class TableSucursal extends Component
     }
     public function clean()
     {
-        $this->suc = '';
+        $this->idSuc = '';
         $this->empresa = '';
         $this->estado = '';
         $this->tipo = '';

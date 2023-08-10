@@ -52,7 +52,7 @@ class TablePuntoSiralab extends Component
     public function render()
     {
         $cuerpos = DB::table('tipo_cuerpo')->get();
-        $uso = DB::table('detalle_tipoCuerpos')->where('Id_tipo',$this->cuerpo)->get();
+        $uso = DB::table('detalle_tipocuerpos')->where('Id_tipo',$this->cuerpo)->get();
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
         $categorias = DB::table('categoria001_2021')->get();
         $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal',$this->idSuc)->get();

@@ -11,7 +11,7 @@ class PhCalidadCampo extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'ph_calidadCampo';
+    protected $table = 'ph_calidadcampo';
     protected $primaryKey = 'Id_phCalidad';
     public $timestamps = true;
 

@@ -260,21 +260,22 @@ ON sir.Titulo_consecion = con.Id_titulo;
 -- INNER JOIN users as us
 -- ON gen.Id_muestreador = us.id
 
--- CREATE VIEW ViewSolicitudGenerada as 
--- SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM,punto.Punto
--- FROM solicitudes_generadas as gen
--- INNER JOIN ViewSolicitud2 as sol
--- ON gen.Id_solicitud = sol.Id_solicitud
--- INNER JOIN users as us
--- ON gen.Id_muestreador = us.id
--- INNER JOIN solicitud_puntos as punto
--- ON gen.Id_solicitud = punto.Id_solicitud;
-            /* Modificación de vista en prueba */
-CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
-INNER JOIN ViewSolicitud as sol
+CREATE VIEW ViewSolicitudGenerada as 
+SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM,punto.Punto
+FROM solicitudes_generadas as gen
+INNER JOIN ViewSolicitud2 as sol
 ON gen.Id_solicitud = sol.Id_solicitud
 INNER JOIN users as us
-ON gen.Id_muestreador = us.id;
+ON gen.Id_muestreador = us.id
+INNER JOIN solicitud_puntos as punto
+ON gen.Id_solicitud = punto.Id_solicitud;
+
+            /* Modificación de vista en prueba */
+-- CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
+-- INNER JOIN ViewSolicitud as sol
+-- ON gen.Id_solicitud = sol.Id_solicitud
+-- INNER JOIN users as us
+-- ON gen.Id_muestreador = us.id;
 /* Campo generales */ 
 CREATE VIEW ViewCampoGenerales as SELECT c.Id_general,c.Id_solicitud,c.Captura,c.Id_equipo,c.Id_equipo2,t.Id_muestreador,t.Equipo,t.Marca,t.Modelo,t.Serie,t2.Equipo as Equipo2,t2.Marca as Marca2,t2.Modelo as Modelo2, t2.Serie as Serie2 ,c.Temperatura_a,c.Temperatura_b,c.Latitud,c.Longitud,c.Altitud,c.Pendiente,c.Criterio,c.Supervisor,c.created_at,c.updated_at,c.deleted_at 
 FROM campo_generales as c

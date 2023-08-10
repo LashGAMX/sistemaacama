@@ -11,7 +11,7 @@ class DetallesTipoCuerpo extends Model
     use HasFactory;
     use SoftDeletes;
     
-    protected $table = 'detalle_tipoCuerpos';
+    protected $table = 'detalle_tipocuerpos';
     protected $primaryKey = 'Id_detalle';
     
     protected $fillable = [
@@ -20,4 +20,5 @@ class DetallesTipoCuerpo extends Model
         'Id_user_c',
         'Id_user_m'
     ];
-}
+} 
+ 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MatrazGA extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'matraz_GA'; 
+    protected $table = 'matraz_ga'; 
     protected $primaryKey = 'Id_matraz';
     public $timestamps = true;
 

@@ -53,11 +53,7 @@ return [
     |
     */
 
-<<<<<<< HEAD
     'url' => env('APP_URL', 'https://sistemaacama.com.mx'),
-=======
-    'url' => env('APP_URL', 'http://acama.ddns.net:85'),
->>>>>>> 4ae5a5e942ddf1fef27d028ad4f2de0fe86bca1f
 
     'asset_url' => env('ASSET_URL', null),
 
