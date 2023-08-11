@@ -1861,7 +1861,7 @@ class FqController extends Controller
         $model->Blanco = $request->G;
         $model->F_conversion = $request->E;
         $model->Vol_muestra = $request->I;
-        $model->Resultado = ($request->R - $request->G);
+        $model->Resultado = round(($request->R - $request->G),4);
         $model->Analizo = Auth::user()->id;
         $model->save();
 
