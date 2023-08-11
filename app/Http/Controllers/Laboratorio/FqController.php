@@ -326,8 +326,10 @@ class FqController extends Controller
                 break;
             case 114:
             case 96:
+            case 124:
                 # Sustancias activas al Azul de Metileno
-                $x = ($request->X + $request->Y + $request->Z) / 3;
+                $prom = ($request->X + $request->Y + $request->Z) / 3;
+                $x = round($prom, 3);
                 $r1 = ($x - $request->CB) / $request->CM;
                 $r2 = 1000 / $request->E;
                 $resultado = $r1 * $r2;

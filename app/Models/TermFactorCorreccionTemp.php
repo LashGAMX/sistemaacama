@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TermFactorCorreccionTemp extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'term_factCorrtemp';
+    protected $table = 'term_factcorrtemp';
     protected $primaryKey = 'Id_factor';
     public $timestamps = true;
 

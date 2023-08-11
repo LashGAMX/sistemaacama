@@ -95,6 +95,7 @@ class MetalesController extends Controller
             ->orWhere('Id_tipo_formula',23)
             ->orWhere('Id_tipo_formula',24)
             ->orWhere('Id_tipo_formula',58)
+            ->orWhere('Id_tipo_formula',59)
             ->get();
         return view('laboratorio.metales.observacion', compact('formulas'));
     }
@@ -115,6 +116,8 @@ class MetalesController extends Controller
                 ->orWhere('Id_tipo_formula',22) 
                 ->orWhere('Id_tipo_formula',23)
                 ->orWhere('Id_tipo_formula',24)
+                ->orWhere('Id_tipo_formula',58)
+                ->orWhere('Id_tipo_formula',59)
                 ->where('Asignado','!=',1)
                 ->get();
                 foreach ($model as $item) {
@@ -666,6 +669,8 @@ class MetalesController extends Controller
         ->orWhere('Id_tipo_formula',22)
         ->orWhere('Id_tipo_formula',23)
         ->orWhere('Id_tipo_formula',24)
+        ->orWhere('Id_tipo_formula',58)
+        ->orWhere('Id_tipo_formula',59)
         ->get();
 
         $data = array(
@@ -770,6 +775,7 @@ class MetalesController extends Controller
             $query->where('Id_tipo_formula',$res->tipo)
                   ->orWhere(function($query) use ($res) {
                       $query->where('Id_tipo_formula',58)
+                            ->orWhere('Id_tipo_formula',59)
                             ->when($res->tipo == 22, function($query) {
                                 $query->orWhere('Id_tipo_formula',22);
                             });
@@ -1024,6 +1030,7 @@ class MetalesController extends Controller
         ->orWhere('Id_tipo_formula',23)
         ->orWhere('Id_tipo_formula',24)
         ->orWhere('Id_tipo_formula',58)
+        ->orWhere('Id_tipo_formula',59)
         ->get();
         $tecnica = DB::table('tecnicas')
         ->where('Id_tecnica',20)
@@ -1108,6 +1115,8 @@ class MetalesController extends Controller
                     $query->where('Id_tipo_formula',$res->tipo);
                     if ($res->tipo == 22) {
                         $query->orWhere('Id_tipo_formula',58);
+                        $query->orWhere('Id_tipo_formula',59);
+
                     }
                 })
                 ->when($res->tecnica != 0, function($query) use ($res) {
@@ -1791,6 +1800,7 @@ class MetalesController extends Controller
         ->orWhere('Id_tipo_formula',23)
         ->orWhere('Id_tipo_formula',24)
         ->orWhere('Id_tipo_formula',58)
+        ->orWhere('Id_tipo_formula',59)
         ->get();
         return view('laboratorio.metales.configuracionMetales', compact('parametros'));
     }
