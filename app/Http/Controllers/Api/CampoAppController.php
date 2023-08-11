@@ -214,7 +214,7 @@ class CampoAppController extends Controller
 
         //MUESTRA
         
-        //phMuestra
+       // phMuestra
          $phMuestra = PhMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
                 $m = "";
                 $d = "";
@@ -239,13 +239,18 @@ class CampoAppController extends Controller
                 $year = $dateExplode[0];
                 $mes = $dateExplode[1];
                 $dia = $dateExplode[2];
-               $srtm=  strlen($mes);
-               $srtd=  strlen($dia);
+                $srtm=  strlen($mes);
+                $srtd=  strlen($dia);
                 if ($srtm == 1){
                     $m = "0" . $mes;
-                } 
+                } else {
+                    $m = $mes;
+                }
                 if ($srtd == 1){
                     $d = "0" . $dia;
+                }
+                else {
+                    $d = $dia;
                 }
                 $finalDate = $year."-".$m."-".$d."T".$hour;
               
@@ -413,7 +418,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-           
+            'fecha' =>   $phMuestra[0]->Fecha,
          
              
           
