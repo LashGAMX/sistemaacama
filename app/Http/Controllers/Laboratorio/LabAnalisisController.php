@@ -681,6 +681,10 @@ class LabAnalisisController extends Controller
                             $model = DB::table("ViewLoteDetalleNitrogeno")->where('Id_detalle', $res->id)->first();
                             $valoracion = ValoracionNitrogeno::where('Id_lote', $model->Id_lote)->first();
                             break;
+                        case 103:
+                            $model = LoteDetalleDureza::where("Id_detalle", $res->id)->first();
+                            $valoracion = ValoracionDureza::where('Id_lote', $model->Id_lote)->first();
+                            break;
                         default: // Default Directos
                             // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
                             break;
