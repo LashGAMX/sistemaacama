@@ -506,8 +506,8 @@ class LabAnalisisController extends Controller
                         case 103:
                         case 251:
                         case 252:
-                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
+                            // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
                             break;
                         default:
                             $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -695,11 +695,11 @@ class LabAnalisisController extends Controller
                         case 77: //Dureza 
                         case 103:
                         case 251:
-                            $model = LoteDetalleDureza::where("Id_detalle", $res->idDetalle)->first();
+                            $model = LoteDetalleDureza::where("Id_detalle", $res->id)->first();
                             $valoracion = ValoracionDureza::where('Id_lote', $model->Id_lote)->first();
                             break;
                         case 252:
-                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_detalle', $res->idDetalle)->first();
+                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_detalle', $res->id)->first();
                             $d1 = DB::table('ViewLoteDetalleDureza')->where('Codigo', $model->Folio_servicio)->where('Id_parametro', 251)->first();
                             $d2 = DB::table('ViewLoteDetalleDureza')->where('Codigo', $model->Folio_servicio)->where('Id_parametro', 77)->first();
                             break;

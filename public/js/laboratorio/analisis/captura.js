@@ -200,6 +200,7 @@ function getStdMenu() {
             $("#tabGa-tab").show()
             break;
         case 14://Vol
+        case 8:
             $("#tabVol-tab").show()
             $("#dqo-tab").show()
             switch (parseInt($("#parametro").val())) {
@@ -223,8 +224,9 @@ function getStdMenu() {
                 case 10: //Nitrogeno Organico
                     $("#secctionNitrogeno").show();
                     break;
-                case 103: //Nitrogeno Organico
+                case 103: //Dureza total
                     $("#secctionDureza").show();
+                    break;
                 default:
                     break;
             }

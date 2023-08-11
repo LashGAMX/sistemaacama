@@ -241,6 +241,8 @@ class InformesController extends Controller
                     case 84:
                     case 86:
                     case 32:
+                    case 111:
+                    case 109:
                         $limC = $item->Resultado2;
                         break;
                     case 135:

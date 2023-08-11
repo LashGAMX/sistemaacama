@@ -484,7 +484,7 @@ class MetalesController extends Controller
 
         switch ($parametro->Id_matriz) {
             case 14: // MetalPotable
-
+                case 8:
                 switch ($parametro->Id_parametro) {
                     case  215:
                     $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD * $request->volDirigido;   
@@ -498,6 +498,7 @@ class MetalesController extends Controller
                 break;
             case 13: //Metal purificado
             case 9:
+                
                 switch ($parametro->Id_parametro) {
                     case 190: 
                         $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volDirigido);   
