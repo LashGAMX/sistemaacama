@@ -1142,7 +1142,7 @@ class LabAnalisisController extends Controller
                         $model = LoteDetalleGA::find($res->idMuestra);
                         $model->Id_matraz = $matraz[$mat]->Id_matraz;
                         $model->Matraz = $matraz[$mat]->Num_serie;
-                        $model->M_final = $mf;
+                        $model->M_final = round($mf,4);
                         $model->M_inicial1 = $m1;
                         $model->M_inicial2 = $m2;
                         $model->M_inicial3 = $m3;

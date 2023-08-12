@@ -1265,11 +1265,22 @@ class MetalesController extends Controller
     {
         $sw = false;
         $msg = "";
+        $conversion = 0;
+
         for ($i=0; $i <  sizeof($res->ids); $i++) { 
             $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
             $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
             ->where('Id_tecnica',$parametro->Id_parametro)->get();
             $msg = "Entro a for";
+            switch ($parametro->Id_parametro) {
+                case 232:
+                    $conversion = 1;
+                    break;
+                
+                default:
+                    $conversion = 1000;
+                    break;
+            }
             if ($lote->count()) {
                 $msg = "Entro a if";
                 $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
@@ -1282,7 +1293,7 @@ class MetalesController extends Controller
                         'Id_parametro' => $parametro->Id_parametro,
                         'Id_control' => 1,
                         'Factor_dilucion' => 1,
-                        'Factor_conversion' => 1000,
+                        'Factor_conversion' => $conversion,
                         'Liberado' => 0,
                         'Analisis' => 1,
                         

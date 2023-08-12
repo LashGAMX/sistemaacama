@@ -1,6 +1,4 @@
 <footer>
-    <div class="col-md-12" style="border:1px solid">
-    </div>
 
     <div class="col-md-12">
         <table class="table table-sm fontSize7" width="100%">

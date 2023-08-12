@@ -14,6 +14,7 @@ use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetallePotable;
 use App\Models\PhMuestra;
 use App\Models\Solicitud;
+use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
 use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
@@ -68,11 +69,43 @@ class CadenaController extends Controller
         
                 break;
         }
-        $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
-        $model2->Resultado2 = $res->resLiberado; 
-        $model2->Cadena = 1;
-        $model2->Reporte = 1;
+
+        $solModel = Solicitud::where('Id_solicitud',$model->Id_solicitud)->where('Id_servicio','!=',3)->get();
+        switch ($model->Id_parametro) {
+            case 14:
+            case 31:
+            case 97:
+            case 100:
+            case 67:
+            case 68:
+            case 26:
+            case 2:
+                if ($solModel->count()) {
+                    $solGen = SolicitudesGeneradas::where('Id_solicitud',$model->Id_solicitud)->first();
+                    $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
+                    $model2->Resultado2 = $res->resLiberado; 
+                    $model2->Cadena = 1;
+                    $model2->Analizo = $solGen->Id_muestreador;
+                    $model2->Reporte = 1;
+                }else{
+                    $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
+                    $model2->Resultado2 = $res->resLiberado; 
+                    $model2->Cadena = 1;
+                    $model2->Reporte = 1;
+                }
+                break;
+            
+            default:
+                $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
+                $model2->Resultado2 = $res->resLiberado; 
+                $model2->Cadena = 1;
+                $model2->Reporte = 1;
+                break;
+        }
+
+
         // $model2->Analizo = Auth::user()->id;
+        $model2->Asignado = 1;
         $model2->save();
 
 

@@ -58,7 +58,8 @@
                             @if ($model->Siralab != 1)
                                 {{@$direccion->Direccion}}
                             @else
-                                {{@$direccion->Calle}} {{@$direccion->Num_exterior}} {{@$direccion->Num_interior}} {{@$direccion->Colonia}} {{@$direccion->NomMunicipio}} {{@$direccion->Estado}} CP: {{@$direccion->CP}}
+                                {{@$direccion->Direccion}}
+                                <!-- {{@$direccion->Calle}} {{@$direccion->Num_exterior}} {{@$direccion->Num_interior}} {{@$direccion->Colonia}} {{@$direccion->NomMunicipio}} {{@$direccion->Estado}} CP: {{@$direccion->CP}} -->
                             @endif
                         </td>
                     </tr>
@@ -298,14 +299,6 @@
                                 {{@$campoGeneral->Supervisor}}
                             @endif
 
-                            {{-- @if ($campoGeneral->Firma_revisor == null && @$campoGeneral->Supervisor == null)
-                                -----
-                                {{@$campoGeneral->Supervisor}}
-                            @else
-                                <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{@$campoGeneral->Firma_revisor}}">
-                                <br>
-                                {{@$campoGeneral->Supervisor}}
-                            @endif     --}}
                         </span> </td>
                     </tr>
                 </table>
@@ -384,16 +377,6 @@
                         @endif
                 </table>
           
-            </div>
- 
-            <div class="col-12 ">
-                @php
-                    /* $url = url()->current(); */
-                    $url = "https://sistemaacama.com.mx/clientes/hojaCampo/".@$model->Id_solicitud;
-                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                @endphp
-                                                        
-                {{-- <img style="width: 12%; height: 12%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp; QR Hoja Campo</span> --}}
             </div>
         </div>
     </div>
