@@ -862,7 +862,7 @@ class LabAnalisisController extends Controller
                         case 124:
                             # Sustancias activas al Azul de Metileno
                             $x = ($res->X + $res->Y + $res->Z) / 3;
-                            $r1 = ($x - $res->CB) / $res->CM;
+                            $r1 = (round($x,3) - $res->CB) / $res->CM;
                             $r2 = 1000 / $res->E;
                             $resultado = $r1 * $r2;
                             $d = $r2;
@@ -1134,10 +1134,12 @@ class LabAnalisisController extends Controller
                         $ran = (round($dif, 4)) / 10;
                         $m3 = $matraz[$mat]->Max - $ran;
 
-
                         $mf = ((($res->R / $res->E) * $res->I) + $m3);
                         $m1 = ($m3 - 0.0002);
                         $m2 = ($m3 - 0.0001);
+
+                        $auxMf = (($mf - $m3) / $res->I) * $res->E;
+                        $resultado = $auxMf - $res->G;
 
                         $model = LoteDetalleGA::find($res->idMuestra);
                         $model->Id_matraz = $matraz[$mat]->Id_matraz;
@@ -1150,7 +1152,7 @@ class LabAnalisisController extends Controller
                         $model->Blanco = $res->G;
                         $model->F_conversion = $res->E;
                         $model->Vol_muestra = $res->I;
-                        $model->Resultado = ($res->R - $res->G);
+                        $model->Resultado = number_format($resultado, 2, ".", ",");
                         $model->Analizo = Auth::user()->id;
                         $model->save();
                     } else {

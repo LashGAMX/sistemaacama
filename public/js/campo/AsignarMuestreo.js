@@ -156,6 +156,59 @@ var folioAsignar;
             }
         } );  
  }
+ 
+ function buesquedaFecha(){
+    let tablaDoc = document.getElementById('divListaServ')
+    let table = ''
+    $.ajax({
+        url: base_url + '/admin/campo/asignar/buesquedaFecha', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            dia:$("#dia").val(),
+            mes:$("#mes").val(),
+            year:$("#year").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {   
+            console.log(response);
+            table += '<table id="listaAsignar" class="table table-sm">';
+            table += '    <thead class="thead-dark">';
+            table += '        <tr>';
+            table += '            <th>Id Solicitud</th>';
+            table += '            <th>Folio Servicio</th>';
+            table += '            <th>Nombre Cliente</th>';
+            table += '            <th>Servicio</th>';
+            table += '            <th>Tipo Descarga</th>';
+            table += '            <th>Fecha muestro</th>';
+            table += '            <th>Observaciones</th>';
+            table += '            <th>Fecha Creacion</th>';
+            table += '            <th>Fecha Actualizacion</th>';
+            table += '        </tr>';
+            table += '    </thead>';
+            table += '    <tbody>';
+            $.each(response.model, function (key, item) {
+              table += '<tr>';
+              table += '    <td>'+item.Id_solicitud+'</td>';
+              table += '    <td>'+item.Folio_servicio+'</td>';
+              table += '    <td>'+item.Nombres+'</td>';
+              table += '    <td>'+item.Servicio+'</td>';
+              table += '    <td>'+item.Descarga+'</td>';
+              table += '    <td>'+item.Fecha_muestreo+'</td>';
+              table += '    <td>'+item.Observaciones+'</td>';
+              table += '    <td>'+item.created_at+'</td>';
+              table += '    <td>'+item.updated_at+'</td>';
+              table += '</tr>';
+              //cont++
+            });
+            table += '    </tbody>';
+            table += '</table>';
+            tablaDoc.innerHTML = table;         
+        }
+    });  
+ }
+
  function asignarMultiple(){
     let sub = document.getElementById("idPunto")
     let tab = ''

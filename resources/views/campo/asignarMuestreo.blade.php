@@ -9,34 +9,32 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
+        
         <div class="col-md-2">
-          <input type="Nombre" class="form-control" placeholder="nombre">
-        </div>
-        <div class="col-md-2">
-          <input type="Folio" class="form-control" placeholder="folio">
+          <input type="number" class="form-control" placeholder="Día" id="dia">
         </div>
         <div class="col-md-2"> 
-          <select type="Mes" class="form-control" placeholder="">
-            <option>mes</option>
-            <option>Enero</option>
-            <option>Febrero</option>
-            <option>Marzo</option>
-            <option>Abril</option>
-            <option>Mayo</option>
-            <option>Junio</option>
-            <option>Julio</option>
-            <option>Agosto</option>
-            <option>Septiembre</option>
-            <option>Octubre</option>
-            <option>Noviembre</option>
-            <option>Diciembre</option>
+          <select type="Mes" class="form-control" placeholder="" id="mes">
+            <option value="00">mes</option>
+            <option value="01">Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
         </select>
         </div>
         <div class="col-md-2">
-          <input type="Año" class="form-control" placeholder="Año">
+          <input type="number" class="form-control" placeholder="Año" id="year" value="2023">
         </div> 
         <div class="col-md-2">
-          <button type="button" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
+          <button type="button" class="btn btn-success"><i class="fa fa-search" onclick="buesquedaFecha()"></i> Buscar</button>
         </div>
       </div>
     </div>
@@ -59,7 +57,7 @@
     </div>
    </div>
   
-    <div class="col-md-12">
+    <div class="col-md-12" id="divListaServ">
       <table class="table table-sm" id="listaAsignar">
         <thead>
           <tr>

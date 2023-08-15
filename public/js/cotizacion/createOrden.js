@@ -116,6 +116,7 @@ function setGenFolio() {
         console.log(response)
         alert(response.msg)
         $("#folio").val(response.folio)
+        $("#fechaMuestreo").attr("disabled",true)
       }
     });
   } else {

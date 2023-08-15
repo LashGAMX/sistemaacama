@@ -14,6 +14,7 @@ Route::group(['prefix' => 'campo'], function () {
     // Route::post('campo/asignar/generarUpdate', [CampoController::class,'generarUpdate']);
 
     Route::post('asignar/getFolio', [CampoController::class, 'getFolio']);
+    Route::post('asignar/buesquedaFecha', [CampoController::class, 'buesquedaFecha']);
 
     Route::group(['prefix' => 'captura'], function () {
         Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);

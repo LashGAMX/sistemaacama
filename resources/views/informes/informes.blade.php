@@ -83,6 +83,7 @@
                                         <select class="form-control" id="tipoReporte">
                                             <option value="2">Sin Comparación</option>
                                             <option value="1">Con comparación</option>
+                                            <option value="4">Cadena de custodia</option>
                                             <option value="3">Campo</option>
                                             
                                         </select>
@@ -136,5 +137,5 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/informes/informes.js')}}?v=0.0.1"></script>
+    <script src="{{asset('/public/js/informes/informes.js')}}?v=1.0.1"></script>
 @stop

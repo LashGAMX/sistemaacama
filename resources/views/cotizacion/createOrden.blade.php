@@ -210,8 +210,7 @@
                 </div>
                 <div class="col-md-4">
                   <label for="fechaMuestreo">Fecha muestreo</label>
-                  <input type="date" id="fechaMuestreo" name="fechaMuestreo" class="form-control"
-                    value="{{@$model->Fecha_muestreo}}">
+                  <input type="date" id="fechaMuestreo" name="fechaMuestreo" @if (@$model->Folio_servicio != "") disabled @endif class="form-control" value="{{@$model->Fecha_muestreo}}">
                 </div>
                 <div class="col-md-4">
                   <label for="frecuencia">Muestreo</label>
@@ -418,6 +417,6 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.1"></script>
+<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.2"></script>
 <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 @stop

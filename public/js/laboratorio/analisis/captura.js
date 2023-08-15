@@ -1104,7 +1104,7 @@ function setDetalleMuestra() {
                         $("#kGA1").val(fixk1);
                         $("#cGA1").val(fixc1);
                         $('#pGA').val(response.model.Matraz);
-                        $('#resultadoGA').val(response.model.Resultado.toFixed(2));
+                        $('#resultadoGA').val(response.model.Resultado);
 
                         alert("Datos guardados y calculados")
                     } else {

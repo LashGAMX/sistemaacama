@@ -203,7 +203,7 @@
                                         @switch($model->Id_norma)
                                             @case(1)
                                             @case(2)
-                                            @case(3)
+                                            @case(4)
                                             @case(27)
                                                 {{number_format(@$phMuestra[$i]->Promedio, 2, ".", ",")}}
                                                 @break

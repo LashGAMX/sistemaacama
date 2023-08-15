@@ -78,7 +78,6 @@ class CampoController extends Controller
 
     public function asignar()
     {
-
         if (Auth::user()->role->id == 13) { 
             $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
             $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
@@ -90,6 +89,29 @@ class CampoController extends Controller
         $generadas = SolicitudesGeneradas::all();
         $usuarios = Usuario::all();
         return view('campo.asignarMuestreo', compact('model', 'intermediarios', 'generadas', 'usuarios'));
+    }
+    public function buesquedaFecha(Request $res){
+        $dia = "";
+        if(strlen($res->dia) == 1){
+            $dia = "0".$res->dia;
+        } else {
+            $dia = $res->dia;
+        }
+        $fecha =  $res->year."-".$res->mes."-".$dia;
+        if (Auth::user()->role->id == 13) { 
+            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
+            $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+        } else {
+            $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+        }
+
+        $data = array(
+            'model' => $model,  
+        );
+       
+
+        return response()->json($data);
+
     }
     public function listaMuestreo()
     {

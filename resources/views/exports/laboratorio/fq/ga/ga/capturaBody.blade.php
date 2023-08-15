@@ -412,7 +412,7 @@
                      <td class="tableContent bordesTabla">< {{@$item->Limite}}</td>
                     @else  
                         <td class="tableContent bordesTabla">{{number_format(@$item->Resultado, 2, ".", ".")}}</td> 
-                    @endif                       
+                    @endif                        
                     <td class="tableContent bordesTabla">{{@$item->Observacion}}</td>
                     <td class="tableContent">
                         @if (@$item->Liberado == 1)

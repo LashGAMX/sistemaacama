@@ -37,6 +37,9 @@ $(document).ready(function () {
             case "3":
                 window.open(base_url+"/admin/informes/exportPdfInformeCampo/"+idSol+"/"+$("#puntoMuestreo").val()) 
                 break;
+            case "4":
+                window.open(base_url+"/admin/informes/cadena/pdf/"+$("#puntoMuestreo").val()) 
+                break;
             default:
                 break;
         }
