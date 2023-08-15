@@ -5,7 +5,8 @@ var table;
     solicitudGenerada();
     puntoOrden();
     $('.select2').select2();
- });
+    
+});
  
 function puntoOrden()
 {
@@ -65,6 +66,10 @@ var folioAsignar;
         folioAsignar = dato;
     });
 
+    $('#btnBuscar').click( function () {
+        buesquedaFecha()
+    });
+
     $('#btnImprimir').click( function () {
         alert("Imprimir"+" Id: "+idSolicitud);
         
@@ -98,13 +103,15 @@ var folioAsignar;
         setMuestreadorMultiple();
     });
     
-
     $('#btnGuardarObservacion').click( function () {
         
         setObservacion(idSolicitud)
     });
-    
+   
  }
+
+
+
  function setObservacion()
 {
     $.ajax({
@@ -157,23 +164,27 @@ var folioAsignar;
         } );  
  }
  
+
+
  function buesquedaFecha(){
+
     let tablaDoc = document.getElementById('divListaServ')
     let table = ''
+   
     $.ajax({
-        url: base_url + '/admin/campo/asignar/buesquedaFecha', //archivo que recibe la peticion
         type: 'POST', //método de envio
+        url: base_url + '/admin/campo/asignar/buesquedaFecha', //archivo que recibe la peticion
         data: {
-            dia:$("#dia").val(),
-            mes:$("#mes").val(),
-            year:$("#year").val(),
+            month:$("#month").val(),
+            daystart:$("#daystart").val(),
+            dayfinish:$("#dayfinish").val(),
             _token: $('input[name="_token"]').val(),
           },
-        dataType: 'json', 
-        async: false, 
+        dataType: 'json',  
+        async: false,
         success: function (response) {   
             console.log(response);
-            table += '<table id="listaAsignar" class="table table-sm">';
+            table += ' <table class="table table-sm" id="listaAsignar">';
             table += '    <thead class="thead-dark">';
             table += '        <tr>';
             table += '            <th>Id Solicitud</th>';
@@ -196,7 +207,7 @@ var folioAsignar;
               table += '    <td>'+item.Servicio+'</td>';
               table += '    <td>'+item.Descarga+'</td>';
               table += '    <td>'+item.Fecha_muestreo+'</td>';
-              table += '    <td>'+item.Observaciones+'</td>';
+              table += '    <td>'+item.Observacion+'</td>';
               table += '    <td>'+item.created_at+'</td>';
               table += '    <td>'+item.updated_at+'</td>';
               table += '</tr>';
@@ -204,9 +215,24 @@ var folioAsignar;
             });
             table += '    </tbody>';
             table += '</table>';
-            tablaDoc.innerHTML = table;         
+            tablaDoc.innerHTML = table;   
+                 
+            tableGenerar = $("#listaAsignar").DataTable ({
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",   
+                },
+                scrollY:        '30vh',
+                scrollCollapse: true,
+                paging:         false
+            });
         }
+        
     });  
+
  }
 
  function asignarMultiple(){
