@@ -1729,22 +1729,22 @@
                   <td><input name="campos" type="text" id="m22Solidos" value="0"></td>
                 </tr>
                 <tr>
-                  <td>Peso constante c/muestra 1 A</td>
+                  <td id="pscmS1">Peso constante c/muestra 1 A</td>
                   <td><input name="campos" type="text" id="pcm11Solidos" value="0"></td>
                   <td><input name="campos" type="text" id="pcm12Solidos" value="0"></td>
                 </tr>
                 <tr>
-                  <td>Peso constante c/muestra 2 A</td>
+                  <td id="pscmS2">Peso constante c/muestra 2 A</td>
                   <td><input name="campos" type="text" id="pcm21Solidos" value="0"></td>
                   <td><input name="campos" type="text" id="pcm22Solidos" value="0"></td>
                 </tr>
                 <tr>
-                  <td>Peso constante 1 B</td>
+                  <td id="pcS1">Peso constante 1 B</td>
                   <td><input name="campos" type="text" id="pc1Solidos" value="0"></td>
                   <td><input name="campos" type="text" id="pc2Solidos" value="0"></td>
                 </tr>
                 <tr>
-                  <td>Peso constante 2 B</td>
+                  <td id="pcS2">Peso constante 2 B</td>
                   <td><input name="campos" type="text" id="pc21Solidos" value="0"></td>
                   <td><input name="campos" type="text" id="pc22Solidos" value="0"></td>
                 </tr>
@@ -3859,7 +3859,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.8"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.11"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

@@ -1187,6 +1187,7 @@ function setDetalleMuestra() {
                                 $("#pcm21Solidos").val(response.model.Peso_constante2);
                                 $("#pc1Solidos").val(response.model.Peso_muestra1);
                                 $("#pc21Solidos").val(response.model.Peso_muestra2);
+                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(4));
                             } else {
                                 $('#resultadoSolidos').val(response.model.Resultado.toFixed(4));
                             }
@@ -2153,6 +2154,11 @@ function getDetalleMuestra(id) {
                     if (response.model.Id_parametro == 4) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Peso 2'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Peso 6'
+
+                        document.getElementById('pscmS1').innerHTML = 'Peso constante c/muestra 2 A'
+                        document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 6 A'
+                        document.getElementById('pcS1').innerHTML = 'Peso constante 2 B'
+                        document.getElementById('pcS2').innerHTML = 'Peso constante 6 B'
                     } else {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa B'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa A'
@@ -2170,12 +2176,12 @@ function getDetalleMuestra(id) {
                         case 44:
                         case 45:
                             $("#nomParametro1SolidosDif").val(response.nom1);
-                            $("#val11SolidosDif").val(response.dif1.Resultado);
+                            $("#val11SolidosDif").val(response.dif1.Resultado2);
                             $("#nomParametro2SolidosDif").val(response.nom2);
-                            $("#val21SolidosDif").val(response.dif2.Resultado);
-                            let res = (response.dif1.Resultado) - (response.dif2.Resultado);
+                            $("#val21SolidosDif").val(response.dif2.Resultado2);
+                            let res = (response.dif1.Resultado2) - (response.dif2.Resultado2);
                             $("#preResDifSolidosDif").val(res);
-                            $("#resultadoSolidosDif").val(response.model.Resultado);
+                            $("#resultadoSolidosDif").val(response.model.Resultado2);
                             $("#observacionSolidosDif").val(response.model.Observacion);
                             break;
                         default: // Default
@@ -2584,6 +2590,7 @@ function getCapturaLote() {
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
             tab += '          <th>Observación</th>';
+            tab += '          <th hidden></th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -2805,6 +2812,7 @@ function getCapturaLote() {
                 } else {
                     tab += '<td></td>';
                 }
+                tab += '<td hidden>'+item.Codigo+'</td>';
                 tab += '</tr>';
 
             });

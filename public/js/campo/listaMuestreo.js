@@ -34,6 +34,9 @@ $(document).ready(function () {
         let dato = $(this).find('td:first').html();
         idCot = dato;
       });
+    $('#btnBuscar').click(function(){
+        console.log("buscar")
+    });
     $('#btnCapturar').click( function () {
         //alert("Capturar");
         window.location = base_url+"/admin/campo/captura/"+idCot;

@@ -8,35 +8,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        
-        <div class="col-md-2">
-          <input type="number" class="form-control" placeholder="Día" id="dia">
-        </div>
-        <div class="col-md-2"> 
-          <select type="Mes" class="form-control" placeholder="" id="mes">
-            <option value="00">mes</option>
-            <option value="01">Enero</option>
-            <option value="02">Febrero</option>
-            <option value="03">Marzo</option>
-            <option value="04">Abril</option>
-            <option value="05">Mayo</option>
-            <option value="06">Junio</option>
-            <option value="07">Julio</option>
-            <option value="08">Agosto</option>
-            <option value="09">Septiembre</option>
-            <option value="10">Octubre</option>
-            <option value="11">Noviembre</option>
-            <option value="12">Diciembre</option>
-        </select>
-        </div>
-        <div class="col-md-2">
-          <input type="number" class="form-control" placeholder="Año" id="year" value="2023">
-        </div> 
-        <div class="col-md-2">
-          <button type="button" class="btn btn-success"><i class="fa fa-search" onclick="buesquedaFecha()"></i> Buscar</button>
-        </div>
-      </div>
+      
     </div>
    <div class="col-md-12">
     <div class="row">
@@ -53,6 +25,12 @@
         <div class="col-md-2">
           <button type="button" id="btnObservacion" class="btn btn-primary" data-toggle="modal" data-target="#modalObs"><i class="fa fa-tools" ></i> Observacion</button>
         </div>
+        <div class="col-md-6">
+          <input type="month" class="form-control" id="month">
+          <input type="date" class="form-control" id="daystart">
+          <input type="date" class="form-control" id="dayfinish">
+          <button type="button" class="btn btn-success"><i class="fa fa-search" id="btnBuscar""></i> Buscar</button>
+        </div>
       </div>
     </div>
    </div>
@@ -64,9 +42,6 @@
             <th>Id Solicitud</th>
             <th>Folio Servicio</th>
             <th>Nombre Cliente</th>
-            {{-- <th>Ap. Paterno</th>
-            <th>Ap. Materno</th>7 --}}           
-            {{-- <th>Nombre</th> --}}
             <th>Servicio</th>
             <th>Tipo Descarga</th>
             <th>Fecha muestreo</th>
@@ -82,9 +57,6 @@
                   <td>{{$item->Id_solicitud}}</td>
                   <td>{{$item->Folio_servicio}}</td>
                   <td>{{$item->Nombres}}</td>
-                  {{-- <td>{{$item->A_paterno}}</td>
-                  <td>{{$item->Nom_pat}}</td> --}}
-                  {{-- <td>{{$item->Nom_con}}</td> --}}
                   <td>{{$item->Servicio}}</td>
                   <td>{{$item->Descarga}}</td>
                   <td>{{$item->Fecha_muestreo}}</td>
@@ -223,8 +195,9 @@
 
 
 @section('javascript')
-    <script src="{{asset('/public/js/campo/AsignarMuestreo.js')}}?v=1.0.0"></script>
+    <script src="{{asset('/public/js/campo/AsignarMuestreo.js')}}?v=1.0.3"></script>
     <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
+   
 @stop
 

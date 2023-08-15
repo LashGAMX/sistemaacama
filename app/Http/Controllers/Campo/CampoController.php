@@ -91,27 +91,56 @@ class CampoController extends Controller
         return view('campo.asignarMuestreo', compact('model', 'intermediarios', 'generadas', 'usuarios'));
     }
     public function buesquedaFecha(Request $res){
-        $dia = "";
-        if(strlen($res->dia) == 1){
-            $dia = "0".$res->dia;
+        $sw = "";
+       if($res->month != null){
+        $fecha = explode("-",$res->month);
+        if (Auth::user()->role->id == 13) { 
+            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
+            $model = DB::table('ViewSolicitud2')->whereMonth('Fecha_muestreo', $fecha[1])->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+
         } else {
-            $dia = $res->dia;
+            $model = DB::table('ViewSolicitud2')->whereMonth('Fecha_muestreo', $fecha[1])->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
         }
-        $fecha =  $res->year."-".$res->mes."-".$dia;
+        $sw = $fecha[1];
+       } else if ($res->dayfinish == null){
+        $fecha = $res->daystart;
         if (Auth::user()->role->id == 13) { 
             $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
             $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
         } else {
             $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
         }
+        $sw = "daystart";
+       } else {
+        if (Auth::user()->role->id == 13) { 
+            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
+            $model = DB::table('ViewSolicitud2')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+        } else {
+            $model = DB::table('ViewSolicitud2')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+        }
+        $sw = "range";
+       }
+        
 
         $data = array(
-            'model' => $model,  
+            'model' => $model,
+            'sw' => $sw,
+            'month' => $res->month,
+            'day' => $res->daystart,
+            'finish' => $res->dayfinish,
         );
        
 
         return response()->json($data);
 
+    }
+    public function buscarLista(Request $res){
+        
+
+        $data = array(
+            'id' => "hola",
+        );
+        return response()->json($data);
     }
     public function listaMuestreo()
     {
@@ -1326,6 +1355,7 @@ class CampoController extends Controller
     {
 
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $id)->first();
+        $this->updateConductividad($id);
         $direccion = "";
         $firmaRecepcion = "";
 
@@ -1421,6 +1451,46 @@ class CampoController extends Controller
         $htmlFooter = view('exports.campo.hojaCampoFooter');
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->Output();
+    }
+    public function updateConductividad($id)
+    {
+        $model = ConductividadMuestra::where('Id_solicitud', $id)->get();
+        $cond = 0;
+        foreach ($model as $item) {
+            $cond = 0;
+            $temp = ConductividadMuestra::find($item->Id_conductividad);
+            if ($item->Conductividad1 >= 3500) {
+                $temp->Conductividad1 = 3500;
+                $cond += 3500;
+            }else{
+                $cond += $item->Conductividad1;
+            }
+            if ($item->Conductividad2 >= 3500) {
+                $temp->Conductividad2 = 3500;
+                $cond += 3500; 
+            }else{
+                $cond += $item->Conductividad2;
+            }
+            if ($item->Conductividad3 >= 3500) {
+                $temp->Conductividad3 = 3500;
+                $cond += 3500;
+            }else{
+                $cond += $item->Conductividad3;
+            }
+
+            $temp->Promedio = round(($cond / 3));
+            $temp->save();
+            
+        }
+        $model2 = ConductividadMuestra::where('Id_solicitud', $id)->where('Activo',1)->get();
+        $promCond = 0;
+        foreach ($model2 as $item) {
+            $promCond += $item->Promedio;
+        }
+        $puntoMuestra = SolicitudPuntos::where('Id_solicitud', $id)->first();
+        $puntoMuestra->Conductividad = round($promCond / $model2->count());
+        $puntoMuestra->save();   
+
     }
 
     public function hojaCampoCli($id)

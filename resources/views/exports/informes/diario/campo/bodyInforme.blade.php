@@ -130,7 +130,7 @@
         </table>
     </div>
     
-    <p style="font-size: 10px; font-weight: 100">Cloruros (mg/L): {{@$compuesto->Cloruros}} &nbsp;&nbsp;&nbsp;&nbsp; Conductividad Promedio (µS/cm): {{@$conducCampo->Resultado2}}</p>
+    <p style="font-size: 10px; font-weight: 100">Cloruros (mg/L): {{@$compuesto->Cloruros}} &nbsp;&nbsp;&nbsp;&nbsp; Conductividad Promedio (µS/cm): @if (@$conducCampo->Resultado2 >= 3500) > 3500 @else {{@$conducCampo->Resultado2}} @endif</p>
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"

@@ -611,35 +611,35 @@ class LabAnalisisController extends Controller
                 case 15: // Solidos
                     $model = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
                     switch ($lote[0]->Id_tecnica) {
-                        case 112: // SDT 
+                        case 88: // SDT 
                             $nom1 = "ST";
-                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 91)->first();
+                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
                             $nom2 = "SST";
-                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 93)->first();
+                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
                             break;
                         case 44: // SDV
                             $nom1 = "STV";
-                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 49)->first();
+                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 49)->first();
                             $nom2 = "SSV";
-                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 47)->first();
+                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 47)->first();
                             break;
                         case 43: // SDF
                             $nom1 = "SDT";
-                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 89)->first();
+                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 89)->first();
                             $nom2 = "SDV";
-                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 45)->first();
+                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 45)->first();
                             break;
                         case 45: // SSF
                             $nom1 = "SST";
-                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 93)->first();
+                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 93)->first();
                             $nom2 = "SSV";
-                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 47)->first();
+                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 47)->first();
                             break;
                         case 47: // STF
                             $nom1 = "ST";
-                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 91)->first();
+                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 91)->first();
                             $nom2 = "STV";
-                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 49)->first();
+                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 49)->first();
                             break;
                         case 3: // SS
                             $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 3)->first();
@@ -1138,7 +1138,7 @@ class LabAnalisisController extends Controller
                         $m1 = ($m3 - 0.0002);
                         $m2 = ($m3 - 0.0001);
 
-                        $auxMf = (($mf - $m3) / $res->I) * $res->E;
+                        $auxMf = ((round($mf,4) - $m3) / $res->I) * $res->E;
                         $resultado = $auxMf - $res->G;
 
                         $model = LoteDetalleGA::find($res->idMuestra);
@@ -1152,7 +1152,7 @@ class LabAnalisisController extends Controller
                         $model->Blanco = $res->G;
                         $model->F_conversion = $res->E;
                         $model->Vol_muestra = $res->I;
-                        $model->Resultado = number_format($resultado, 2, ".", ",");
+                        $model->Resultado = round($resultado,2);
                         $model->Analizo = Auth::user()->id;
                         $model->save();
                     } else {
@@ -1219,20 +1219,22 @@ class LabAnalisisController extends Controller
                                 }
 
 
-                                $mf = ((($res->R / $res->factor) * $res->volumen) + $crisol->Peso);
+                                $mf = ((($res->R / $res->factor) * $res->volumen) + round($crisol->Peso,4));
+                                $auxMf =  (((round($mf,4) - round($crisol->Peso,4)) / $res->volumen) * $res->factor);
+                                $resultado = $auxMf;
 
                                 $model = LoteDetalleSolidos::find($res->idMuestra);
                                 $model->Id_crisol = $crisol->Id_crisol;
                                 $model->Crisol = $crisol->Num_serie;
-                                $model->Masa1 = $crisol->Peso;
-                                $model->Masa2 = $mf;
-                                $model->Peso_muestra1 = ($crisol->Peso + 0.0001);
-                                $model->Peso_muestra2 = ($crisol->Peso + 0.0002);
-                                $model->Peso_constante1 = $mf + 0.0001;
-                                $model->Peso_constante2 = $mf + 0.0002;
+                                $model->Masa1 = round($crisol->Peso,4);
+                                $model->Masa2 = round($mf,4);
+                                $model->Peso_muestra1 = round(($crisol->Peso + 0.0001),4);
+                                $model->Peso_muestra2 = round(($crisol->Peso + 0.0002),4);
+                                $model->Peso_constante1 = round(($mf + 0.0001),4);
+                                $model->Peso_constante2 = round(($mf + 0.0002),4);
                                 $model->Vol_muestra = $res->volumen;
                                 $model->Factor_conversion = $res->factor;
-                                $model->Resultado = $res->R;
+                                $model->Resultado = $resultado;
                                 $model->Analizo = Auth::user()->id;
                                 $model->save();
                             } else {
@@ -1882,6 +1884,10 @@ class LabAnalisisController extends Controller
                         if ($model->Resultado != null) {
                             $sw = true;
                             $model->save();
+
+                            $modelMatraz = MatrazGA::find($model->Id_matraz);
+                            $modelMatraz->Estado = 0;
+                            $modelMatraz->save();
                         }
                         if ($item->Id_control == 1) {
                             $modelCod = CodigoParametros::find($model->Id_codigo);
@@ -2280,6 +2286,9 @@ class LabAnalisisController extends Controller
                     $sw = true;
                     $model->save();
                 }
+                $modelMatraz = MatrazGA::find($model->Id_matraz);
+                $modelMatraz->Estado = 0;
+                $modelMatraz->save();
 
                 $modelCod = CodigoParametros::find($model->Id_codigo);
                 $modelCod->Resultado = $model->Resultado;
@@ -3798,7 +3807,6 @@ class LabAnalisisController extends Controller
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
-                            'plantilla' => $textoProcedimiento
                         );
 
 
@@ -4363,12 +4371,26 @@ class LabAnalisisController extends Controller
         $model->Reflujo_salida = $request->cuatrosalida;
         $model->Enfriado_matraces_entrada = $request->cincoentrada;
         $model->Enfriado_matraces_salida = $request->cincosalida;
-        $model->save();
+        $model->save(); 
 
         $data = array(
             'model' => $model,
         );
 
         return response()->json($data);
+    }
+    public function liberarMatraz(){
+        $model = MatrazGA::all();
+
+        foreach ($model as $item) {
+            $temp = LoteDetalleGA::where('Id_matraz',$item->Id_matraz)->where('Liberado',0)->get();
+            if ($temp->count()) {
+                
+            }else{
+                $aux = MatrazGA::find($item->Id_matraz);
+                $aux->Estado = 0;
+                $aux->save();
+            }
+        }
     }
 }

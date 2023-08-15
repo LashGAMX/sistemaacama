@@ -271,10 +271,14 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                    @if (@$conMuestra[$i]->Promedio == "" || @$conMuestra[$i]->Promedio == null)
+                                    @if (@$conMuestra[$i]->Promedio == "" || @$conMuestra[$i]->Promedio == null || @$conMuestra[$i]->Promedio == 0)
                                         ---
                                     @else
-                                        {{@$conMuestra[$i]->Promedio}}
+                                        @if (@$conMuestra[$i]->Promedio >= 3500)
+                                            > 3500
+                                        @else
+                                            {{@$conMuestra[$i]->Promedio}}
+                                        @endif
                                     @endif
                                 @else
                                     ---

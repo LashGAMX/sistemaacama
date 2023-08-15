@@ -11,47 +11,7 @@
 @stop
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <input type="text" placeholder="Nombre cliente" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <input type="text" placeholder="Folio" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <select type="Mes" class="form-control" placeholder="">
-                                <option>mes</option>
-                                <option>Enero</option>
-                                <option>Febrero</option>
-                                <option>Marzo</option>
-                                <option>Abril</option>
-                                <option>Mayo</option>
-                                <option>Junio</option>
-                                <option>Julio</option>
-                                <option>Agosto</option>
-                                <option>Septiembre</option>
-                                <option>Octubre</option>
-                                <option>Noviembre</option>
-                                <option>Diciembre</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <input type="text" placeholder="Año" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <button class="btn btn-success"><i class="fa fa-search"></i>Buscar</button>
-                        </div>
-                    </div>
+       
                 </div>
             </div>
             <div class="col-md-12">
@@ -68,7 +28,14 @@
                     <div class="col-md-2">
                         <button id="btnBitacora" class="btn btn-secundary" data-toggle="modal" data-target="#modalObs"><i class="fa fa-add"></i> Observacion</button>
                     </div>
+                    <div class="col-md-3">
+                        <input type="month" class="form-control" id="month">
+                        <input type="date" class="form-control" id="daystart">
+                        <input type="date" class="form-control" id="dayfinish">
+                        <button type="button" class="btn btn-success"><i class="fa fa-search" id="btnBuscar""></i> Buscar</button>
+                    </div>
                 </div>
+               
                 
                 <table class="table table-sm" id="listaServicio">
                     <thead>
@@ -157,6 +124,6 @@
 
 
 @section('javascript')
-    <script src="{{asset('public/js/campo/listaMuestreo.js')}}?v=1.0.1"></script> 
+    <script src="{{asset('public/js/campo/listaMuestreo.js')}}?v=1.0.2"></script> 
 @stop
 

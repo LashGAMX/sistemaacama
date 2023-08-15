@@ -94,7 +94,14 @@ class CadenaController extends Controller
                     $model2->Reporte = 1;
                 }
                 break;
-            
+            case 11:
+            case 83:
+                $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
+                $model2->Resultado2 = $res->resLiberado; 
+                $model2->Cadena = 1;
+                $model2->Reporte = 1;
+                $model2->Analizo = Auth::user()->id;
+                break;
             default:
                 $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
                 $model2->Resultado2 = $res->resLiberado; 

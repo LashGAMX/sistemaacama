@@ -323,30 +323,35 @@ class MetalesController extends Controller
         //blanco reactivo
         $model = $muestra->replicate();
         $model->Id_control = 9;
+        $model->Liberado = 0;
         $model->Vol_disolucion = NULL;
         $model->save();
 
         //Estandar
         $model = $muestra->replicate();
         $model->Id_control = 4;
+        $model->Liberado = 0;
         $model->Vol_disolucion = NULL;
         $model->save();
 
         //Estandar verificacioón
         $model = $muestra->replicate();
         $model->Id_control = 14;
+        $model->Liberado = 0;
         $model->Vol_disolucion = NULL;
         $model->save();
 
         //Muestra adicionada
         $model = $muestra->replicate();
         $model->Id_control = 3;
+        $model->Liberado = 0;
         $model->Vol_disolucion = NULL;
         $model->save();
 
         //Muestra Duplicada
         $model = $muestra->replicate();
         $model->Id_control = 2;
+        $model->Liberado = 0;
         $model->Vol_disolucion = NULL;
         $model->save();
 

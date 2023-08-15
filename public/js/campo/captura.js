@@ -176,6 +176,10 @@ function valConMuestra(id) {
     let l1 = parseFloat(document.getElementById("con1"+id).value);
     let l2 = parseFloat(document.getElementById("con2"+id).value);
     let l3 = parseFloat(document.getElementById("con3"+id).value);
+
+    if (l1 > 3500 || l2 > 3500 || l3 > 3500) {
+        alert("La conductividad no puede sobrepasar mas de 3500")
+    } 
     
 
     //El valor entre ellos no debe diferir de 5 unidades de conductividad

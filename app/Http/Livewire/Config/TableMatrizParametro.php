@@ -45,7 +45,7 @@ class TableMatrizParametro extends Component
         ]);
         $this->idMatriz = $model->Id_matriz_parametro;
         $this->nota = "Creación de registro";
-        $this->historial();
+        
         $this->alert = true;
     }
     public function store()
@@ -53,7 +53,7 @@ class TableMatrizParametro extends Component
         $this->validate();
         $model = MatrizParametro::find($this->idMatriz);
         $model->Matriz = $this->matriz;
-        $this->historial();
+        
         $model->save();
         
         $this->alert = true;
