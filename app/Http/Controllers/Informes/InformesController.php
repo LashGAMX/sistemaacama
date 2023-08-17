@@ -163,7 +163,13 @@ class InformesController extends Controller
         $cliente = SucursalCliente::where('Id_sucursal', $solModel->Id_sucursal)->first();
         $rfc = RfcSucursal::where('Id_sucursal', $solModel->Id_sucursal)->first();
 
+        $tituloConsecion = "";
         $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
+        if ($solModel->Siralab == 1) {
+            $auxPunto = PuntoMuestreoSir::where('Id_punto',$puntoMuestreo->Id_muestreo)->first();
+            $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
+            $tituloConsecion = $titTemp->Titulo;
+        }
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
         $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
@@ -228,6 +234,18 @@ class InformesController extends Controller
                         }
                         break;
                     case 14:
+                        switch ($solModel->Id_norma) {
+                            case 1:
+                            case 27:
+                            case 2:
+                            case 4:
+                                $limC = number_format(@$item->Resultado2, 2, ".", ".");
+                                break;
+                            default:
+                                $limC = number_format(@$item->Resultado2, 1, ".", ".");        
+                                break;
+                        }
+                        break;
                     case 110:
                     case 67:
                     case 68:
@@ -377,6 +395,7 @@ class InformesController extends Controller
 
 
         $data = array(
+            'tituloConsecion' => $tituloConsecion,
             'numTomas' => @$numTomas,
             'tipoReporte2' => $tipoReporte2,
             'folioEncript' => $folioEncript,

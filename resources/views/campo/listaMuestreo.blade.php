@@ -4,39 +4,49 @@
 
 
 @section('page_header')
-<h6 class="page-title"> 
-  <i class="voyager-treasure"></i>
+<!--<h6 class="page-title"> 
+   <i class="voyager-treasure"></i>
   Lista muestreo
-</h6>
+</h6> -->
 @stop
     <div class="container-fluid">
         <div class="row">
        
                 </div>
             </div>
-            <div class="col-md-12">
+        
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button id="btnCapturar" class="btn btn-primary"><i class="fa fa-file-invoice"></i> Capturar</button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button id="btnHojaCampo" class="btn btn-secundary"><i class="fa fa-print"></i> Hoja campo</button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button id="btnBitacora" class="btn btn-secundary"><i class="fa fa-print"></i> Bitacora</button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button id="btnBitacora" class="btn btn-secundary" data-toggle="modal" data-target="#modalObs"><i class="fa fa-add"></i> Observacion</button>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <input type="month" class="form-control" id="month">
-                        <input type="date" class="form-control" id="daystart">
-                        <input type="date" class="form-control" id="dayfinish">
-                        <button type="button" class="btn btn-success"><i class="fa fa-search" id="btnBuscar""></i> Buscar</button>
+                        <label for="">Mes</label>
                     </div>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" id="daystart">
+                        <label for="">Día (inicio)</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" id="dayfinish">
+                        <label for="">Fecha Final</label>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
+                    </div>
+                    
                 </div>
                
-                
+                <div id="divTabla">
                 <table class="table table-sm" id="listaServicio">
                     <thead>
                         <tr>
@@ -90,6 +100,7 @@
                      @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

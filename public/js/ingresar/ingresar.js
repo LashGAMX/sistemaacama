@@ -35,6 +35,12 @@ $(document).ready(function () {
     });
 
 });
+function valSinCondiciones()
+{
+    if ($("#condiciones").prop("checked") == true) {
+        alert("Estas segur@ de darle recepcion sin codiciones")
+    } 
+}
 function setGenFolio() {
     let sw = true
     let conductividad = new Array()
@@ -81,6 +87,7 @@ function setGenFolio() {
                 id: $("#idSol").val(),
                 conductividad:conductividad,
                 cloruros:cloruros,
+                condiciones:$("#condiciones").prop("checked"),
             },
             dataType: "json",
             async: false,
@@ -220,6 +227,11 @@ function tablePuntos(id) {
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
+                if (item.Condiciones == 1) {
+                    $("#condiciones").prop("checked",true)    
+                }else{
+                    $("#condiciones").prop("checked",false)    
+                }
                 tab += '<tr>';
                 tab += '<td>' + item.Id_solicitud + '</td>';
                 tab += '<td>' + item.Punto + '</td>';

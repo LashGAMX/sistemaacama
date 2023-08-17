@@ -274,11 +274,19 @@
                                     @if (@$conMuestra[$i]->Promedio == "" || @$conMuestra[$i]->Promedio == null || @$conMuestra[$i]->Promedio == 0)
                                         ---
                                     @else
+                                    @switch($model->Id_norma)
+                                        @case(1)
+                                        @case(27)
                                         @if (@$conMuestra[$i]->Promedio >= 3500)
                                             > 3500
-                                        @else
-                                            {{@$conMuestra[$i]->Promedio}}
-                                        @endif
+                                            @else
+                                                {{@$conMuestra[$i]->Promedio}}
+                                            @endif
+                                        @break
+                                        @default
+                                        {{@$conMuestra[$i]->Promedio}}
+                                    @endswitch
+                             
                                     @endif
                                 @else
                                     ---

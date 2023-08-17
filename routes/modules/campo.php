@@ -7,6 +7,7 @@ Route::group(['prefix' => 'campo'], function () {
     Route::get('asignar', [CampoController::class, 'asignar']);
     Route::get('capturar', [CampoController::class, 'listaMuestreo']);
     Route::get('captura/{id}', [CampoController::class, 'captura']);
+    Route::post('captura/buscar', [CampoController::class, 'buscar']); 
     Route::post('asignar/generar', [CampoController::class, 'generar']); 
     Route::post('asignar/asignarMultiple',[CampoController::class, 'asignarMultiple']); 
     Route::post('asignar/setMuestreadorMultiple',[CampoController::class, 'setMuestreadorMultiple']); 

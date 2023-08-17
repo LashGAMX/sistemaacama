@@ -566,25 +566,14 @@ class MetalesController extends Controller
         return response()->json($data);
     }
     public function enviarObservacion(Request $request)
-    {
-        $detalle = "";
-        if ($request->idMuestra != 0) {
+    {       
             $detalle = LoteDetalle::find($request->idMuestra);
             $detalle->Observacion = $request->observacion;
-            $detalle->Ph = $request->ph;
-            $detalle->Solidos = $request->solidos;
-            $detalle->Olor = $request->olor;
-            $detalle->Color = $request->color;
-            $detalle->save();
-            $mensaje = "Obs individual";
-        } else {
-            $mensaje = "Obs en todas las muestras";
-        }
+            $detalle->save();  
       
         $data = array(
-            'idDetalle' => $request->idDetalle,
+            'idDetalle' => $request->idMuestra,
             'model' => $detalle,
-            'mensaje' => $mensaje,
         );
         return response()->json($data);
     }

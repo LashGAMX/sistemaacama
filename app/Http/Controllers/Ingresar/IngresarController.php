@@ -137,6 +137,11 @@ class IngresarController extends Controller
             $puntoMuestra = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
             $puntoMuestra->Conductividad = $res->conductividad[$contP];
             $puntoMuestra->Cloruros = $res->cloruros[$contP];
+            if ($res->condiciones == "true") {
+                $puntoMuestra->Condiciones = 1;
+            }else{
+                $puntoMuestra->Condiciones = 0;
+            }
             $puntoMuestra->save();
 
             if ($swCodigo->count()) {
@@ -195,7 +200,7 @@ class IngresarController extends Controller
                             break;
                         case 35: //E.Coli
                             if ($model[0]->Id_norma == "27") {
-                                if ($res->conductividad[$contP] < 3500) {
+                                if ($res->condiciones == "true") {
                                     for ($i = 0; $i < $item->Num_tomas; $i++) {
                                         CodigoParametros::create([
                                             'Id_solicitud' => $item->Id_solicitud,
@@ -209,7 +214,24 @@ class IngresarController extends Controller
                                             'Cancelado' => $canceladoAux[$i],
                                         ]);
                                     }
+                                }else{
+                                    if ($res->conductividad[$contP] < 3500) {
+                                        for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                            CodigoParametros::create([
+                                                'Id_solicitud' => $item->Id_solicitud,
+                                                'Id_parametro' => $item2->Id_subnorma,
+                                                'Codigo' => $item->Folio_servicio . "-EC-" . ($i + 1) . "",
+                                                'Num_muestra' => $i + 1,
+                                                'Asignado' => 0,
+                                                'Analizo' => 1,
+                                                'Reporte' => 1,
+                                                'Cadena' => 1,
+                                                'Cancelado' => $canceladoAux[$i],
+                                            ]);
+                                        }
+                                    }
                                 }
+                                
                             } else {
                                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                                     CodigoParametros::create([
@@ -228,7 +250,7 @@ class IngresarController extends Controller
                             break;
                         case 253: //Enterococos
                             if ($model[0]->Id_norma == "27") {
-                                if ($res->conductividad[$contP] >= 3500) {
+                                if ($res->condiciones == "true") {
                                     for ($i = 0; $i < $item->Num_tomas; $i++) {
                                         CodigoParametros::create([
                                             'Id_solicitud' => $item->Id_solicitud,
@@ -242,7 +264,24 @@ class IngresarController extends Controller
                                             'Cancelado' => $canceladoAux[$i],
                                         ]);
                                     }
+                                }else{
+                                    if ($res->conductividad[$contP] >= 3500) {
+                                        for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                            CodigoParametros::create([
+                                                'Id_solicitud' => $item->Id_solicitud,
+                                                'Id_parametro' => $item2->Id_subnorma,
+                                                'Codigo' => $item->Folio_servicio . "-EF-" . ($i + 1) . "",
+                                                'Num_muestra' => $i + 1,
+                                                'Asignado' => 0,
+                                                'Analizo' => 1,
+                                                'Reporte' => 1,
+                                                'Cadena' => 1,
+                                                'Cancelado' => $canceladoAux[$i],
+                                            ]);
+                                        }
+                                    }
                                 }
+                               
                             } else {
                                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                                     CodigoParametros::create([
@@ -315,7 +354,7 @@ class IngresarController extends Controller
                             break;
                         case 152: // COT
                             if ($model[0]->Id_norma == "27") {
-                                if ($res->cloruros[$contP] > 1000) {
+                                if ($res->condiciones == "true") {
                                     CodigoParametros::create([
                                         'Id_solicitud' => $item->Id_solicitud,
                                         'Id_parametro' => $item2->Id_subnorma,
@@ -327,7 +366,22 @@ class IngresarController extends Controller
                                         'Cadena' => 1,
                                         'Cancelado' => 0,
                                     ]);
+                                }else{
+                                    if ($res->cloruros[$contP] > 1000) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $item->Id_solicitud,
+                                            'Id_parametro' => $item2->Id_subnorma,
+                                            'Codigo' => $item->Folio_servicio,
+                                            'Num_muestra' => 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                            'Reporte' => 1,
+                                            'Cadena' => 1,
+                                            'Cancelado' => 0,
+                                        ]);
+                                    }
                                 }
+                               
                             } else {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,

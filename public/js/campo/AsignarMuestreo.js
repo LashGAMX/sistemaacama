@@ -1,11 +1,11 @@
 
 var table;
  $(document).ready(function (){
+    
     listaSolicitudes();
     solicitudGenerada();
     puntoOrden();
     $('.select2').select2();
-    
 });
  
 function puntoOrden()
@@ -26,6 +26,7 @@ function puntoOrden()
 var folioAsignar;
  function listaSolicitudes()
  {
+    
     tableGenerar = $("#listaAsignar").DataTable ({
         "ordering": false,
         "language": {
@@ -60,26 +61,20 @@ var folioAsignar;
         folio = dato2;
         idSolicitud = dato;
     });
-    
+    $('#btnBuscar').click( function () {
+        buesquedaFecha()
+    });
     $('#solicitudGenerada tr').on('click', function(){
         let dato = $(this).find('td:eq(0)').html();
         folioAsignar = dato;
     });
-
-    $('#btnBuscar').click( function () {
-        buesquedaFecha()
-    });
-
     $('#btnImprimir').click( function () {
         alert("Imprimir"+" Id: "+idSolicitud);
-        
-
         // window.location = base_url+"/admin/cotizacion/update/"+idSolicitud;
     } );
     $('#btnGenerar').click( function () {
         // alert("Generar");
         generar(idSolicitud, folio);
-        
         // window.location = base_url+"/admin/campo/asignar";
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
@@ -87,31 +82,23 @@ var folioAsignar;
         window.open(base_url+"/admin/campo/planMuestreo/"+idSolicitud);
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
-    $('#btnGuardar').click( function () {
-        
+    $('#btnGuardar').click( function () {  
         getFolio(idSolicitud);
         swal("Registro!", "Registro guardado correctamente!", "success");
         $('#modalAsignar').modal('hide')
         generar(idSolicitud, folio);
        
     });
-
     $('#btnAsignarMultiple').click(function (){
         asignarMultiple();
     });
     $('#btnGuardarMuestreador').click(function (){
         setMuestreadorMultiple();
     });
-    
-    $('#btnGuardarObservacion').click( function () {
-        
+    $('#btnGuardarObservacion').click( function () {   
         setObservacion(idSolicitud)
     });
-   
- }
-
-
-
+}
  function setObservacion()
 {
     $.ajax({
@@ -123,7 +110,7 @@ var folioAsignar;
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
-        async: false, 
+     
         success: function (response) {            
             console.log(response);
             alert("Observacion guardada correctamente");
@@ -181,9 +168,9 @@ var folioAsignar;
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json',  
-        async: false,
         success: function (response) {   
             console.log(response);
+
             table += ' <table class="table table-sm" id="listaAsignar">';
             table += '    <thead class="thead-dark">';
             table += '        <tr>';
@@ -229,6 +216,19 @@ var folioAsignar;
                 scrollCollapse: true,
                 paging:         false
             });
+        
+                $("#btnEdit").prop('disabled', true);
+        
+        
+                $('#listaAsignar tbody').on( 'click', 'tr', function () {
+                    if ( $(this).hasClass('selected') ) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        tableGenerar.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                    }
+                } );
         }
         
     });  
@@ -245,8 +245,7 @@ var folioAsignar;
             id:idSol,
             _token: $('input[name="_token"]').val(),
           },
-        dataType: 'json', 
-        async: false, 
+        dataType: 'json',  
         success: function (response) {            
             console.log(response);
           tab += '<option value="0">Sin seleccionar</option>'
@@ -270,7 +269,7 @@ function setMuestreadorMultiple()
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
-        async: false, 
+
         success: function (response) {            
             console.log(response);
           generar(response.model.Id_solPadre, folio);
@@ -294,7 +293,6 @@ function setMuestreadorMultiple()
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
-        async: false, 
         success: function (response) {            
             console.log(response);
             let cont = 0
@@ -338,7 +336,6 @@ function getFolio(idSol)
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
-        async: false, 
         success: function (response) {
           console.log(response)
         }

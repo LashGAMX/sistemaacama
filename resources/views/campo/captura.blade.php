@@ -4,6 +4,7 @@
 
 @section('page_header')
     <input type="text" id="numTomas" value="{{$model->Num_tomas}}" hidden>
+    <input type="text" id="idNorma" value="{{$model->Id_norma}}" hidden>
 @stop
 
 
@@ -1313,5 +1314,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.2"></script>
+<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.3"></script>
 @stop

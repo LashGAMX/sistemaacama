@@ -66,7 +66,16 @@
                                     @if ($solModel->Num_tomas > 1)
                                         COMPUESTA
                                     @else
-                                        INSTANTANEA          
+                                        @switch($solModel->Id_norma)
+                                        @case(1)
+                                        @case(27)
+                                        @case(2)
+                                        @case(4)
+                                        {{@$horaMuestreo}}   
+                                                @break
+                                            @default
+                                            INSTANTANEA   
+                                        @endswitch       
                                     @endif
                                 @endswitch
                             @else
@@ -146,10 +155,11 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold"> @if (@$solModel->Siralab == 1)
-                            TITULO DE CONCESIÓN: {{@$puntoMuestreo->Titulo}}
+                            TITULO DE CONCESIÓN: {{@$tituloConsecion}}
                             @else
     
-                            @endif</span>
+                            @endif
+                        </span>
                     </td>
                 </tr>
             </tbody>

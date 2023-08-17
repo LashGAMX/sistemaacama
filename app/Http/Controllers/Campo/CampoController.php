@@ -124,21 +124,49 @@ class CampoController extends Controller
 
         $data = array(
             'model' => $model,
-            'sw' => $sw,
-            'month' => $res->month,
-            'day' => $res->daystart,
-            'finish' => $res->dayfinish,
         );
        
 
         return response()->json($data);
 
     }
-    public function buscarLista(Request $res){
+    public function buscar(Request $res){
+        if($res->month != null){
+        $fecha = explode("-",$res->month);
+            switch (Auth::user()->role_id) {
+                case 1:
+                case 15:
+                    $model = DB::table('ViewSolicitudGenerada')->whereMonth('Fecha_muestreo', $fecha[1])->orderBy('Id_solicitud', 'DESC')->get();
+                    break;
+                default:
+                    $model = DB::table('ViewSolicitudGenerada')->whereMonth('Fecha_muestreo', $fecha[1])->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                    break;
+            }
+        } else if ($res->dayfinish == null){
+            $fecha = $res->daystart;
+            switch (Auth::user()->role_id) {
+                case 1:
+                case 15:
+                    $model = DB::table('ViewSolicitudGenerada')->where('Fecha_muestreo', $fecha)->orderBy('Id_solicitud', 'DESC')->get();
+                    break;
+                default:
+                    $model = DB::table('ViewSolicitudGenerada')->where('Fecha_muestreo', $fecha)->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                    break;
+            }
+        } else {
+            switch (Auth::user()->role_id) {
+                case 1:
+                case 15:
+                    $model = DB::table('ViewSolicitudGenerada')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->orderBy('Id_solicitud', 'DESC')->get();
+                    break;
+                default:
+                    $model = DB::table('ViewSolicitudGenerada')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                    break;
+            }
+        }
         
-
         $data = array(
-            'id' => "hola",
+            'model' => $model,
         );
         return response()->json($data);
     }
@@ -1355,7 +1383,14 @@ class CampoController extends Controller
     {
 
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $id)->first();
-        $this->updateConductividad($id);
+        switch ($model->Id_norma) {
+            case 1:
+            case 27:
+                $this->updateConductividad($id);       
+                break;
+            default:
+                break;
+        }
         $direccion = "";
         $firmaRecepcion = "";
 

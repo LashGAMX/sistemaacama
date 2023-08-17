@@ -19,17 +19,26 @@
         <div class="col-md-1">
           <button type="button" id="btnGenerar" class="btn btn-success"><i class="fa fa-plus"></i> Generar</button>
         </div>
-        <div class="col-md-2">
-          <button type="button" id="btnPlanMuestreo" class="btn btn-primary"><i class="fa fa-tools" ></i> Plan de muestreo</button>
+        <div class="col-md-1">
+          <button type="button" id="btnPlanMuestreo" class="btn btn-primary">Plan de muestreo</button>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <button type="button" id="btnObservacion" class="btn btn-primary" data-toggle="modal" data-target="#modalObs"><i class="fa fa-tools" ></i> Observacion</button>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2">
           <input type="month" class="form-control" id="month">
+          <label for="">Mes</label>
+        </div>
+        <div class="col-md-2">
           <input type="date" class="form-control" id="daystart">
+          <label for="">Día (inicio)</label>
+        </div>
+        <div class="col-md-2">
           <input type="date" class="form-control" id="dayfinish">
-          <button type="button" class="btn btn-success"><i class="fa fa-search" id="btnBuscar""></i> Buscar</button>
+          <label for="">Fecha Final</label>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-success"  id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
         </div>
       </div>
     </div>

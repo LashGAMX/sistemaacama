@@ -20,6 +20,7 @@ class SolicitudPuntos extends Model
         'Punto',
         'Conductividad',
         'Cloruros',
+        'Condiciones',
         'Obs_metales',
         'Ph_metales',
         'Fecha',

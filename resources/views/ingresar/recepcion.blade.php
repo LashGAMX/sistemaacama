@@ -59,6 +59,7 @@
                 <div class="col-md-12">
                     <button id="btnIngresar" class="btn-info" ><i class="fas fa-arrow-right"></i> Ingresar</button>
                     <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Generar codigos</button>
+                    <label for="">sin condiciones </label><input type="checkbox" id="condiciones" onchange="valSinCondiciones()">
                 </div>
                 <div class="col-md-12">
                     <div class="" id=divCodigos>
@@ -97,5 +98,5 @@
 
 
 @section('javascript')
-<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.4"></script>
+<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.5"></script>
 @stop

@@ -123,5 +123,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.0.3"></script>
+<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.0.4"></script>
 @stop
