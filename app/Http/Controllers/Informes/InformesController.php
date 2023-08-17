@@ -32,6 +32,7 @@ use App\Models\RfcSiralab;
 use App\Models\RfcSucursal;
 use App\Models\SimbologiaParametros;
 use App\Models\Solicitud;
+use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\SucursalCliente;
@@ -367,18 +368,17 @@ class InformesController extends Controller
             case 5:
             case 7:
             case 30:
-                $firma1 = User::find(14);
+                //potable y purificada
+                $firma1 = User::find(12);
                 $firma2 = User::find(4);
                 break;
 
             default:
-                $firma1 = User::find(14);
+            //Residual
+                $firma1 = User::find(12);
                 $firma2 = User::find(17);
                 break;
         }
-
-
-
         //Proceso de Reporte Informe
 
         $clave  = 'fol123ABC!"#Loremipsumdolorsitamet';
@@ -5081,5 +5081,21 @@ class InformesController extends Controller
 
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Cadena de Custodia Interna.pdf', 'D');
+    }
+
+    public function muestrasCanceladas()
+    {
+        $sol = DB::table('ViewSolicitudGenerada')->where('Id_muestreador','!=',null)->whereDate('Fecha_muestreo', '>=', "2023-08-1")->whereDate('Fecha_muestreo', '<=', "2023-08-15")->get();
+
+        foreach ($sol as $item) {
+            $ph = PhMuestra::where('Id_solicitud',$item->Id_solicitud)->where('Activo',1)->where('Promedio',null)->get();
+
+            foreach ($ph as $item2) {
+                echo '-------------------------';
+                echo '<br>';
+                echo 'ID Sol: '.$item2->Id_solicitud;
+                echo '<br>';
+            }
+        }
     }
 }

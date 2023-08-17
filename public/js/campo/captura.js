@@ -1486,8 +1486,9 @@ function CancelarMuestra(){
         success: function (response) {
             console.log(response);
             muestraCancelada($("#selectCancelMuestra").val(),response.std)
+            alert("Muestra cancelada");
         }
-
+        
     });
 }
 

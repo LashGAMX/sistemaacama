@@ -700,12 +700,13 @@ function getDetalleAnalisis(idCodigo) {
                         if ($("#idNorma").val() == "27") {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                tab += '<td> pH - ' + item.Num_toma + '</td>';
-                                tab += '<td>' + item.Promedio + '</td>';
-                                tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
+                                tab += '<td> pH compuesto</td>';
+                                tab += '<td>' + item.Ph_muestraComp + '</td>';
+                                tab += '<td>------</td>';
+                                // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
                                 tab += '</tr>';
-                                if (item.Promedio != null) {
-                                    aux = aux + (response.aux[cont] * item.Promedio);
+                                if (item.Ph_muestraComp != null) {
+                                    aux = aux + item.Ph_muestraComp;
                                     cont++;
                                 }
                             });
@@ -713,16 +714,17 @@ function getDetalleAnalisis(idCodigo) {
                         } else {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                tab += '<td> pH - ' + (cont + 1) + '</td>';
                                 if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    tab += '<td>' + item.Promedio + '</td>';   
+                                    tab += '<td> pH Compuesto</td>';
+                                    tab += '<td>' + item.Ph_muestraComp + '</td>';   
                                 } else { 
+                                    tab += '<td> pH - ' + (cont + 1) + '</td>';
                                     tab += '<td>' + item.Resultado + '</td>';
                                 }
                                 tab += '</tr>';
-                                if (item.Promedio != null || item.Resultado != null) {
+                                if (item.Ph_muestraComp != null || item.Resultado != null) {
                                     if (parseInt(response.solModel.Id_servicio) != 3) {
-                                        aux = aux + parseFloat(item.Promedio);
+                                        aux = aux + parseFloat(item.Ph_muestraComp);
                                     } else { 
                                         aux = aux + parseFloat(item.Resultado);
                                     }

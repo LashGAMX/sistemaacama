@@ -638,6 +638,7 @@
                                             </td>
                                             <td>
                                                 <select id="color{{ $item->Id_ph }}" {{$std}}>
+                                                <option value="">Seleccionar</option>
                                                     @foreach ($color as $item2)
                                                     @if ($item->Color == $item2->Color)
                                                     <option value="{{$item2->Color}}" selected>{{$item2->Color}}
@@ -1314,5 +1315,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.3"></script>
+<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.4"></script>
 @stop

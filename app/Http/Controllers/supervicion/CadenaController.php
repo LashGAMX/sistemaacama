@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
+use App\Models\CampoCompuesto;
 use App\Models\CodigoParametros;
 use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
@@ -362,9 +363,11 @@ class CadenaController extends Controller
                     {
                         array_push($aux,($item->Promedio/$sumGasto));
                     }
+                    $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
                 }
                 if ($solModel->Id_servicio != 3) {
-                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
                 }else{
                     $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
                 }

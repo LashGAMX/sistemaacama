@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="col-md-2">
-                                <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
+                                <button id="btnDuplicar" class="btn btn-info" disabled><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                             </div>
 
                             <div class="col-md-1">
