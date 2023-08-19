@@ -80,6 +80,7 @@ class CadenaController extends Controller
             case 67:
             case 68:
             case 26:
+            case 64:
             case 2:
                 if ($solModel->count()) {
                     $solGen = SolicitudesGeneradas::where('Id_solicitud',$model->Id_solicitud)->first();

@@ -40,7 +40,16 @@
                     <tr>
                         <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup></sup></td>
                         <td class="tableContent bordesTablaBody">{{$item->Unidad}}</td>
-                        <td class="tableContent bordesTablaBody">{{$item->Clave_metodo}}</td>
+                        <td class="tableContent bordesTablaBody">
+                            @switch($item->Id_parametro)
+                                @case(64) 
+                                @case(67)
+                                    METODO DIRECTO
+                                    @break
+                                @default
+                                {{$item->Clave_metodo}}
+                            @endswitch
+                        </td>
                         <td class="tableContent bordesTablaBody">
                             {{@$limitesC1[$cont]}}
                         </td>                    

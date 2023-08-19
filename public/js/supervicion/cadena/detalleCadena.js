@@ -706,11 +706,11 @@ function getDetalleAnalisis(idCodigo) {
                                 // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
                                 tab += '</tr>';
                                 if (item.Ph_muestraComp != null) {
-                                    aux = aux + item.Ph_muestraComp;
+                                    aux =  item.Ph_muestraComp;
                                     cont++;
                                 }
                             });
-                            resLiberado = (aux).toFixed(2);
+                            resLiberado = parseFloat(aux).toFixed(2);
                         } else {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';

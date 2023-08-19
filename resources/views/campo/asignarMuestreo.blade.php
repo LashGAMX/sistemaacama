@@ -54,6 +54,7 @@
             <th>Servicio</th>
             <th>Tipo Descarga</th>
             <th>Fecha muestreo</th>
+            <th>Norma</th>
             <th>Observaciones</th>
             <th>Fecha Creación</th>
             <th>Fecha Actualización</th>
@@ -69,6 +70,7 @@
                   <td>{{$item->Servicio}}</td>
                   <td>{{$item->Descarga}}</td>
                   <td>{{$item->Fecha_muestreo}}</td>
+                  <td>{{$item->Clave_norma}}</td>
                   <td>{{$item->Observacion}}</td>
                   <td>{{$item->created_at}}</td>
                   <td>{{$item->updated_at}}</td>
@@ -204,7 +206,7 @@
 
 
 @section('javascript')
-    <script src="{{asset('/public/js/campo/AsignarMuestreo.js')}}?v=1.0.3"></script>
+    <script src="{{asset('/public/js/campo/AsignarMuestreo.js')}}?v=1.0.4"></script>
     <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
    

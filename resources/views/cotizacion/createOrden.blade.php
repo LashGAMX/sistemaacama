@@ -18,6 +18,7 @@
         </li>
       </ul>
       <input type="text" class="" id="idCot" hidden value="{{@$model->Id_cotizacion}}">
+      
       <div class="tab-content" id="myTabContent">
         {{-- Inicio Datos --}}
         <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">

@@ -77,6 +77,7 @@ function buscar(){
             table += '            <th>Solicitud</th>';
             table += '            <th>Cliente</th>';
             table += '            <th>Fecha muestro</th>';
+            table += '            <th>Norma</th>';
             table += '            <th>Muestreador</th>';
             table += '            <th>Fecha Creacion</th>';
             table += '            <th>Fecha Modificación</th>';
@@ -89,6 +90,7 @@ function buscar(){
               table += '    <td>'+item.Folio_servicio+'</td>';
               table += '    <td>'+item.Empresa+'</td>';
               table += '    <td>'+item.Fecha_muestreo+'</td>';
+              table += '    <td>'+item.Clave_norma+'</td>';
               table += '    <td>'+item.name+'</td>';
               table += '    <td>'+item.created_at+'</td>';
               table += '    <td>'+item.updated_at+'</td>';

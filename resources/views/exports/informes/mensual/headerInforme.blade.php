@@ -16,13 +16,13 @@
 
                 <tr>                    
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Dirección:</td>                    
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$solModel1->Direccion}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$direccion1->Direccion}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer">
                         @if (@$solModel1->Siralab == 1) 
-                            TITULO DE CONCESIÓN: {{@$punto->Titulo}}
+                            TITULO DE CONCESIÓN: {{@$tituloConsecion->Titulo}}
                         @else
                           
                         @endif
@@ -31,11 +31,7 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold soloBordeInf">@if ($solModel1->Siralab == 1)
-                        {{$punto->Punto}}
-                    @else
-                        {{$punto->Punto_muestreo}}
-                    @endif</td>
+                    <td class="filasIzq bordesTabla fontBold soloBordeInf"> {{$punto->Punto}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>

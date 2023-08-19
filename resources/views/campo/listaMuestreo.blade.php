@@ -46,7 +46,7 @@
                     
                 </div>
                
-                <div id="divTabla">
+                <div id="divTabla"> 
                 <table class="table table-sm" id="listaServicio">
                     <thead>
                         <tr>
@@ -55,6 +55,7 @@
                             <th>Cliente</th>
                             {{-- <th>PM</th> --}}
                             <th>Fecha muestreo</th>
+                            <th>Norma</th>
                             <th>Estado</th>
                             <th>Captura</th>
                             <th>Equipo</th>
@@ -74,6 +75,7 @@
                         <td>{{$item->Empresa}}</td>
                         {{-- <td>{{$item->Direccion}}</td> --}}
                         <td>{{$item->Fecha_muestreo}}</td>
+                        <td>{{$item->Clave_norma}}</td>
                         @switch($item->StdSol)
                             @case(1)
                                 <td>Asignado</td>
@@ -135,6 +137,6 @@
 
 
 @section('javascript')
-    <script src="{{asset('public/js/campo/listaMuestreo.js')}}?v=1.0.3"></script> 
+    <script src="{{asset('public/js/campo/listaMuestreo.js')}}?v=1.0.4"></script> 
 @stop
 

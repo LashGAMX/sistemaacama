@@ -171,7 +171,7 @@ class InformesController extends Controller
             $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
             $tituloConsecion = $titTemp->Titulo;
         }
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
         $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
         $tempAmbienteProm = 0;
@@ -248,8 +248,6 @@ class InformesController extends Controller
                         }
                         break;
                     case 110:
-                    case 67:
-                    case 68:
                     case 125:
                         $limC = number_format(@$item->Resultado2, 1, ".", ".");
                         break;
@@ -261,8 +259,17 @@ class InformesController extends Controller
                     case 86:
                     case 32:
                     case 111:
-                    case 109:
+                    case 109: 
+                    case 67:
+                    case 68:
                         $limC = $item->Resultado2;
+                        break;
+                    case 64:
+                        if ($item->Resultado2 >= 3000) {
+                            $limC = "> 3000";
+                        }else{
+                            $limC = $item->Resultado2;
+                        }
                         break;
                     case 135:
                     case 78:
@@ -1577,23 +1584,27 @@ class InformesController extends Controller
         // Hace los filtros para realizar la comparacion
         $solModel1 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol1)->first();
         $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol2)->first();
+        $direccion1 = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
+        // $direccion2 = DireccionReporte::where('Id_direccion',$solModel2->Id_direccion)->first();
 
         $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
+        $auxPunto = PuntoMuestreoSir::where('Id_punto',$punto->Id_muestreo)->first();
+        $tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
 
         if ($solModel1->Id_norma == 27) {
             return redirect()->to('admin/informes/exportPdfInformeMensual/001/' . $idSol1 . '/' . $idSol2 . '/' . $tipo);
         }
 
         //historial (informe Mensual)
-        $informesModel = DB::table('ViewReportesInformes')->where('Id_solicitud', $idSol1)->where('Id_solicitud2', $idSol2)->first();
+        $informesModel = InformesRelacion::where('Id_solicitud', $idSol1)->where('Id_solicitud2', $idSol2)->get();
         if ($informesModel->count()) {
-            $informesReporte = DB::table('ViewReportesInformes')->where('Id_reporte', $informesModel->Id_reporte)->first();
+            $informesReporte = DB::table('ViewReportesInformesMensual')->where('Id_reporte', $informesModel[0]->Id_reporte)->first();
         } else {
-            $informesReporte = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
+            $informesReporte = DB::table('ViewReportesInformesMensual')->orderBy('Num_rev', 'desc')->where('deleted_at',null)->first();
             InformesRelacion::create([
                 'Id_solicitud' => $idSol1,
                 'Id_solicitud2' => $idSol2,
-                'Tipo' => 2,
+                'Tipo' => $tipo,
                 'Id_reporte' => $informesReporte->Id_reporte,
             ]);
         }
@@ -1606,8 +1617,8 @@ class InformesController extends Controller
         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
-        $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
-        $numOrden2 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel2->Hijo)->first();
+        $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
+        $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         $firma1 = User::find(14);
         $firma2 = User::find(17);
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
@@ -1682,6 +1693,8 @@ class InformesController extends Controller
             $cont++;
         }
         $data = array(
+            'tituloConsecion' => $tituloConsecion,
+            'direccion1' => $direccion1,
             'cliente' => $cliente,
             'limitesN' => $limitesN,
             'limitesC1' => $limitesC1,
@@ -4415,7 +4428,9 @@ class InformesController extends Controller
             ->where('Id_solicitud', $idSol)
             ->where('Id_parametro', '!=', 26)
             ->where('Cadena', 1)
+            ->where('Id_area','!=',9)
             ->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+            
         $resInfo = array();
         $resTemp = 0;
         foreach ($paramResultado as $item) {
@@ -4483,6 +4498,8 @@ class InformesController extends Controller
                 case 24: //plomo total
                 case 122:
                 case 124:
+                case 114:
+                case 96:
                     if ($item->Resultado2 <= $item->Limite) {
                         $resTemp = "< " . number_format(@$item->Limite, 3, ".", ".");
                     } else {
@@ -4505,7 +4522,7 @@ class InformesController extends Controller
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
-                        $resTemp = round($item->Resultado2, 1);
+                        $resTemp = round($item->Resultado2, 2);
                     }
                     break;
                 case 97:
