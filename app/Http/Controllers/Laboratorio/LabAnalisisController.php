@@ -1124,6 +1124,26 @@ class LabAnalisisController extends Controller
                             $model->Analizo = Auth::user()->id;
                             $model->save();
                             break;
+                        case 87:
+                            $promedio = ($res->X + $res->Y + $res->Z) / 3;
+                            $dilucion =  50 / $res->E;
+                            $resultado = (($promedio - $res->CB) / $res->CM) * $dilucion;
+
+                            $model = LoteDetalleEspectro::find($res->idMuestra);
+                            $model->Resultado = round($resultado,3);
+                            $model->Abs1 = $res->X;
+                            $model->Abs2 = $res->Y;
+                            $model->Abs3 = $res->Z;
+                            $model->B = $res->CB;
+                            $model->M = $res->CM;
+                            $model->R = $res->CR;
+                            $model->Promedio = $promedio;
+                            $model->Vol_dilucion = $dilucion;
+                            $model->Vol_muestra = $res->E;
+                            $model->Blanco = $res->CA;
+                            $model->Analizo = Auth::user()->id;
+                            $model->save();
+                            break;
                         default:
                             $promedio = ($res->X + $res->Y + $res->Z) / 3;
                             $dilucion =  $res->E / $res->E;

@@ -15,7 +15,7 @@
             border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    @if (@$tipo == 1)
+                    @if (@$tipo == 1) 
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="47%">PARAMETRO &nbsp;</td>
                     @else
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="40.9%">PARAMETRO &nbsp;</td>    
@@ -59,7 +59,52 @@
                         </td>
 
                         <td class="tableContent bordesTablaBody">
-                            {{(@$item->Resultado2 + @$model2[$cont]->Resultado2) / 2}} 
+                            @php
+                             $promedio = (@$item->Resultado2 + @$model2[$cont]->Resultado2) / 2;
+                            @endphp
+                         
+                             
+                         @switch($item->Id_parametro)
+                            @case(6)
+                            @case(4)
+                            @if ($ponderado[$cont] <= $item->Limite)
+                                < {{$item->Limite}}
+                                @else
+                                {{round($ponderado[$cont], 2)}}
+                                @endif 
+                                @break
+                             @case(97)
+                                {{round($promedio)}}
+                                @break;
+                             @case(12)
+                             @case(5)
+                             @case(6)
+                             @case(13)
+                             @case(15)
+                             @case(26)
+                             @case(83)
+                             @case(10)
+                             @if ($promedio <= $item->Limite)
+                                 < {{$item->Limite}}
+                             @else
+                                {{round($promedio, 2)}}
+                             @endif 
+                                 @break
+                            @case(2)
+                                @if ($item->Resultado2 == 1)
+                                    PRESENTE
+                                @else
+                                    AUSENTE
+                                @endif
+                                @break
+                             @default
+                             @if ($promedio <= $item->Limite)
+                                 <{{$item->Limite}}
+                             @else
+                                {{round($promedio, 3)}}
+                             @endif 
+                               
+                         @endswitch
                         </td>
                         @if (@$tipo == 1)
                             <td class="tableContent bordesTablaBody">

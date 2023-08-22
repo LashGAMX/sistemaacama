@@ -81,6 +81,7 @@ class CadenaController extends Controller
             case 68:
             case 26:
             case 64:
+            case 110:
             case 2:
                 if ($solModel->count()) {
                     $solGen = SolicitudesGeneradas::where('Id_solicitud',$model->Id_solicitud)->first();
@@ -364,11 +365,21 @@ class CadenaController extends Controller
                     {
                         array_push($aux,($item->Promedio/$sumGasto));
                     }
-                    $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    
+                    if ($solModel->Id_muestra == 1) {
+                        $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    }else{
+                        $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    }
                 }
                 if ($solModel->Id_servicio != 3) {
                     // $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    if ($solModel->Id_muestra == 1) {
+                        $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    }else{
+                        $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    }
+                    
                 }else{
                     $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
                 }
@@ -414,6 +425,7 @@ class CadenaController extends Controller
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
             case 66: // Color verdadero
+            case 65:
             case 98: // Turbiedad
             case 89: // Turbiedad
             case 218: //Cloro

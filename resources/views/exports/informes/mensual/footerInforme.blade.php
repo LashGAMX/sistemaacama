@@ -4,16 +4,27 @@
 
             <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
-                        <tr>
-                            <td class="nombreHeader nom fontSize727 justificadorIzq">OBSERVACIONES: {{-- OBSERVACIONES: EL MUESTREO FUE REALIZADO DE ACUERDO A LO
-                                ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
-                                DIA SOLEADO, EQUIPO UTILIZADO INVLAB 583 // NO HUBO DESCARGA EN LAS TOMAS 2, 5 Y 6 CONDICIONES AMBIENTALES: 
-                                DÍA SOLEADO, EQUIPO UTILIZADO INVLAB583, EN LAS TOMAS 4, 5 Y 6 NO HAY FLUJO POR LO CUAL NO SE TOMAN MUESTRAS.     --}}                            
-                                </td>
+                        <tr> 
+    
+                                <td class="nombreHeader nom fontSize727 justificadorIzq">
+                                FOLIO {{$solModel1->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm1)}}°C, 
+                                @php if(@$olor1 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color1; }@endphp
+                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                {{@$obs1->Observaciones}}
+                                <br>
+                                FOLIO {{$solModel2->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm2)}}°C, 
+                                @php if(@$olor2 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color2; }@endphp
+                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                {{@$obs2->Observaciones}}
+    
+                            </td>
                         </tr>                
                 </tbody>         
-            </table> 
-
+            </table>  
+            @php
+            $temp = array();
+            $sw = false;
+        @endphp
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
@@ -26,6 +37,9 @@
                          
                             </td>
                         </tr>
+                        <tr>
+                            @forech
+                        </tr>
 
                         <tr>
                             <td class="justificadorCentr">
@@ -36,7 +50,7 @@
                                 @endphp
                                                                 
                                 <br>
-                                <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
+                            
                             </td>                            
                         </tr>
                 </tbody>         
@@ -46,7 +60,7 @@
         <div class="contenedorSubPadre12" cellpadding="0" cellspacing="0" border-color="#000000" style="text-align:right;">
             <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr" style="margin-left: 130px;margin-right:0px;">  
                 <br>                         
-                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma1->firma)}}"> <br></span>
+               
                 <br>
                 <span class="bodyStdMuestra fontSize5"> BIOL. GUADALUPE GARCÍA PÉREZ{{-- {{@$usuario->name}} --}}</span> <br>
                 <span class="cabeceraStdMuestra fontNormal fontSize5"> REVISÓ SIGNATARIO</span>
@@ -54,15 +68,19 @@
 
             <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr">            
                 <br>
-                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma2->firma)}}"> <br></span>          
+               
                 <br>
                 <span class="bodyStdMuestra fontSize5"> TSU. MARÍA IRENE REYES MORALES{{-- {{@$usuario->name}} --}} </span> <br>
                 <span class="cabeceraStdMuestra fontNormal fontSize5"> AUTORIZÓ SIGNATARIO</span>      
-            </div>                
-
+            </div>     
+            <br>           
+            <img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
             <br>
 
             <span class="revisiones">FO-13-001</span> <br> <span class="revisiones fontSize5">Revisión 5</span>
+            
+            
+           
         </div>    
     </div>    
     <br> <br>

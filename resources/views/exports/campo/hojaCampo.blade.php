@@ -218,17 +218,12 @@
                                 @endif
                             </td>                            
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (@$phMuestra[$i]->Activo == 1)                           
-                                    @if (@$tempAmbiente[$i]->Temperatura1 == "" || @$tempAmbiente[$i]->Temperatura1 == null)
-                                                ---
-                                            @else
-                                                @php
-                                                    echo number_format(@$tempAmbiente[$i]->Temperatura1, 0, ".", ",");
-                                                @endphp
-                                            @endif
-                                   
+                                @if (@$tempAmbiente[$i]->Temperatura1 == "" || @$tempAmbiente[$i]->Temperatura1 == null)
+                                 ---
                                 @else
-                                    ---
+                                    @php
+                                        echo number_format(@$tempAmbiente[$i]->Temperatura1, 0, ".", ",");
+                                    @endphp
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">

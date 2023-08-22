@@ -262,15 +262,17 @@ class InformesController extends Controller
                     case 109: 
                     case 67:
                     case 68:
+                    case 57:
+                    case 59:
                         $limC = $item->Resultado2;
                         break;
-                    case 64:
-                        if ($item->Resultado2 >= 3000) {
-                            $limC = "> 3000";
-                        }else{
-                            $limC = $item->Resultado2;
-                        }
-                        break;
+                    // case 64:
+                    //     if ($item->Resultado2 >= 3000) {
+                    //         $limC = "> 3000";
+                    //     }else{
+                    //         $limC = $item->Resultado2;
+                    //     }
+                    //     break;
                     case 135:
                     case 78:
                     case 134:
@@ -302,6 +304,7 @@ class InformesController extends Controller
                     case 103:
                     case 98:
                     case 112:
+                    case 64:
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
@@ -376,13 +379,13 @@ class InformesController extends Controller
             case 7:
             case 30:
                 //potable y purificada
-                $firma1 = User::find(12);
+                $firma1 = User::find(14);
                 $firma2 = User::find(4);
                 break;
 
             default:
             //Residual
-                $firma1 = User::find(12);
+                $firma1 = User::find(14);
                 $firma2 = User::find(17);
                 break;
         }
@@ -1613,6 +1616,30 @@ class InformesController extends Controller
         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
 
+        $obs1 = CampoCompuesto::where('Id_solicitud', $idSol1)->first();
+        $obs2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
+        $auxAmbienteProm1 = TemperaturaAmbiente::where('Id_solicitud', $idSol1)->where('Activo', 1)->get();
+        $tempAmbienteProm1 = 0;
+        $auxTem1 = 0;
+        foreach ($auxAmbienteProm1 as $item) {
+            $tempAmbienteProm = $tempAmbienteProm1 + $item->Temperatura1;
+            $auxTem1++;
+        }
+        @$tempAmbienteProm1 = round($tempAmbienteProm1 / $auxTem1);
+
+        $auxAmbienteProm2 = TemperaturaAmbiente::where('Id_solicitud', $idSol2)->where('Activo', 1)->get();
+        $tempAmbienteProm2 = 0;
+        $auxTem2 = 0;
+        foreach ($auxAmbienteProm2 as $item) {
+            $tempAmbienteProm2 = $tempAmbienteProm2 + $item->Temperatura1;
+            $auxTem2++;
+        }
+        @$tempAmbienteProm2 = round($tempAmbienteProm2 / $auxTem2);
+
+        $PhMuestra1 = PhMuestra::where('Id_solicitud', $idSol1)->get();
+        $PhMuestra2 = PhMuestra::where('Id_solicitud', $idSol2)->get();
+        
+
         $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
@@ -1625,13 +1652,18 @@ class InformesController extends Controller
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
 
+        @$promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
+        @$parti1 = $gasto1->Resultado2 / $promGastos;
+        @$parti2 = $gasto2->Resultado2 / $promGastos;
         $limitesN = array();
         $limitesC1 = array();
         $limitesC2 = array();
         $limitesC3 = array();
+        $ponderado = array();
         $aux = 0;
         $limC1 = 0;
         $limC2 = 0;
+        $limP = 0;
         $cont = 0;
         foreach ($model1 as $item) {
 
@@ -1649,40 +1681,146 @@ class InformesController extends Controller
                     }
                     break;
                 case 14:
-                    $limC1 = $item->Resultado2;
-                    $limC2 = $model2[$cont]->Resultado2;
+                case 110:
+
+                    $limC1 = round($item->Resultado2, 1);
+                    $limC2 = round($model2[$cont]->Resultado2, 1);
+                    $limP = round((($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2)), 2);
+
                     break;
                 default:
-                    if ($item->Resultado2 <= $item->Limite) {
-                        $limC1 = "< " . $item->Limite;
+                    if ($item->Resultado2 != NULL || $model2[$cont]->Resultado2 != NULL) {
+
+                        $limAux1 = 0;
+                        $limAux2 = 0;
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $limAux1 = $item->Limite;
+                        }else{
+                            $limAux1 = $item->Resultado2;
+                        }
+                        if ( $model2[$cont]->Resultado2 <= $item->Limite) {
+                            $limAux2 = $item->Limite;
+                        }else{
+                            $limAux2 = $model2[$cont]->Resultado2;
+                        }
+                        
+                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                        {
+                            goto a;
+                        }else{
+                            $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
+                            // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                        }
+
+
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $limC1 = "< " . $item->Limite;
+                        } else {
+                            a: 
+                            switch ($item->Id_parametro) {
+                                    //Redondeo a enteros
+                                case 97:
+                                    $limP = round($limP);
+                                    $limC1 = round($item->Resultado2);
+                                    break;
+                                    // 3 Decimales
+                                case 17: // Arsenico
+                                case 231:
+                                case 20: // Cobre
+                                case 22: //Mercurio
+                                case 25: //Zinc
+                                case 227:
+                                case 24: //Plomo
+                                case 21: //Cromoa
+                                case 264:
+                                case 18: //Cadmio
+                                    $limC1 = number_format(@$item->Resultado2, 3, ".", ".");
+                                    break;
+                                case 67:
+                                    $limC1 = round($item->Resultado2);
+                                    $limP = round($limP);
+                                    break;
+                                case 152:
+                                    $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC1 = number_format(@$item->Resultado2, 2, ".", ".");
+                                    break;
+                                case 9:
+                                case 10:
+                                case 11:
+                                case 83:
+                                    $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC1 = number_format(@$item->Resultado2, 2, ".", ".");
+                                    break;
+                                default:
+
+                                $limC1 = number_format(@$item->Resultado2, 2, ".", ".");
+                                    break;
+                            }
+                        }
+                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                        {
+                            goto b;
+                        }
+                        if ($model2[$cont]->Resultado2 <= $model2[$cont]->Limite) {
+                            $limC2 = "< " . $model2[$cont]->Limite;
+                        } else {
+                            b:
+                            switch ($item->Id_parametro) {
+                                    //Redondeo a enteros
+                                case 97:
+                                case 100:
+                                    $limP = round($limP);
+                                    $limC2 = round($model2[$cont]->Resultado2);
+                                    break;
+                                case 67:
+
+                                    $limC2 = round($model2[$cont]->Resultado2);
+                                    $limP = round($limP);
+                                    break;
+                                    // 3 Decimales
+                                case 17: // Arsenico
+                                case 231:
+                                case 20: // Cobre
+                                case 22: //Mercurio
+                                case 25: //Zinc
+                                case 227:
+                                case 24: //Plomo
+                                case 21: //Cromoa
+                                case 264:
+                                case 18: //Cadmio
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", ".");
+                                    break;
+                                case 152:
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
+                                    break;
+                                case 9:
+                                case 10:
+                                case 11:
+                                case 83:
+                                    $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
+                                    break;
+                                default:
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
+                                    break;
+                            }
+                        }
                     } else {
-                        $limC1 = $item->Resultado2;
-                    }
-                    if ($model2[$cont]->Resultado2 <= $model2[$cont]->Limite) {
-                        $limC2 = "< " . $model2[$cont]->Limite;
-                    } else {
-                        $limC2 = $model2[$cont]->Resultado2;
+                        $limC1 = "-----";
+                        $limC2 = "-----";
+                        $limP = "-----";
                     }
                     break;
             }
             switch ($item->Id_norma) {
-                case 1:
-                    $limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
+                case 27:
+                    @$limNo = DB::table('limite001_2021')->where('Id_categoria', $tipoReporte->Id_categoria)->where('Id_parametro', $item->Id_parametro)->get();
                     if ($limNo->count()) {
-                        $aux = $limNo[0]->Prom_Mmax;
+                        $aux = $limNo[0]->Pm;
                     } else {
                         $aux = "N/A";
                     }
                     break;
-                case 2:
-                    $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();
-                    if ($limNo->count()) {
-                        $aux = $limNo[0]->PromM;
-                    } else {
-                        $aux = "N/A";
-                    }
-                    break;
-
                 default:
 
                     break;
@@ -1690,9 +1828,104 @@ class InformesController extends Controller
             array_push($limitesN, $aux);
             array_push($limitesC1, $limC1);
             array_push($limitesC2, $limC2);
+            array_push($ponderado, $limP);
             $cont++;
         }
+        $phMuestra1 = PhMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
+        $phMuestra2 = PhMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+
+        $auxPh = 0;
+        $olor1 = false;
+        $olor2 = false;
+        $color1 = "";
+        $color2 = "";
+
+        foreach ($phMuestra1 as $item) {
+            if ($item->Olor == "Si") {
+                $olor1 = true;   
+            }
+            if ($phMuestra2[$auxPh]->Olor == "Si") {
+                $olor2 = true;   
+            }
+            $auxPh++;
+        }
+        foreach ($phMuestra1 as $item) {
+            $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get();
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+                $color1 = $item->Color;
+                break;
+            }else{
+                $color1 = $item->Color;
+            }
+        }
+        foreach ($phMuestra2 as $item) {
+            $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get(); 
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+                $color2 = $item->Color;
+                break;
+            }else{
+                $color2 = $item->Color;
+            }
+        }
+        $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
+        $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+        $auxTemp = 0;
+        $tempProm1 = 0;
+        $tempProm2 = 0;
+        foreach ($tempAmbiente1 as $item) {
+            $tempProm1 += $item->Promedio;
+            $tempProm2 += $tempAmbiente2[$auxTemp]->Promedio;
+            $auxTemp++;
+        }
+        $tempProm1 = $tempProm1 / $auxTemp;
+        $tempProm2 = $tempProm2 / $auxTemp;
+
+        
+        $auxPh = 0;
+        $olor1 = false;
+        $olor2 = false;
+        $color1 = "";
+        $color2 = "";
+
+        foreach ($phMuestra1 as $item) {
+            if ($item->Olor == "Si") {
+                $olor1 = true;   
+            }
+            if ($phMuestra2[$auxPh]->Olor == "Si") {
+                $olor2 = true;   
+            }
+            $auxPh++;
+        }
+        foreach ($phMuestra1 as $item) {
+            $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get();
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+                $color1 = $item->Color;
+                break;
+            }else{
+                $color1 = $item->Color;
+            }
+        }
+        foreach ($phMuestra2 as $item) {
+            $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get(); 
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+                $color2 = $item->Color;
+                break;
+            }else{
+                $color2 = $item->Color;
+            }
+        }
+    
+
         $data = array(
+            'ponderado' => $ponderado,
+            'tempProm1' => $tempProm1,
+            'tempProm2' => $tempProm2,
+            'color1' => $color1,
+            'color2' => $color2,
+            'olor1' => $olor1,
+            'olor2' => $olor2,
+            'obs1' => $obs1,
+            'obs2' => $obs2,
             'tituloConsecion' => $tituloConsecion,
             'direccion1' => $direccion1,
             'cliente' => $cliente,
@@ -1736,33 +1969,92 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 5,
-            'margin_bottom' => 5,
+            'margin_top' => 78,
+            'margin_bottom' => 50,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
+
         // Hace los filtros para realizar la comparacion
         $solModel1 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol1)->first();
         $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol2)->first();
         $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
         if ($solModel1->Siralab == 1) {
             // $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
-            $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            $dirTemp = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $solModel1->Id_direccion)->first();
-            $dirReporte = @$dirTemp->Calle . ' ' . @$dirTemp->Num_exterior . ' ' . @$dirTemp->Num_interior . ' ' . @$dirTemp->NomEstado . ' ' . @$dirTemp->NomMunicipio . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Ciudad . ' ' . @$dirTemp->Localidad;
+            // $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            // $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            // $dirTemp = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $solModel1->Id_direccion)->first();
+            // $dirReporte = @$dirTemp->Calle . ' ' . @$dirTemp->Num_exterior . ' ' . @$dirTemp->Num_interior . ' ' . @$dirTemp->NomEstado . ' ' . @$dirTemp->NomMunicipio . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Ciudad . ' ' . @$dirTemp->Localidad;
         } else {
             // $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
-            $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            $dirTemp = DireccionReporte::where('Id_direccion', $solModel1->Id_direccion)->first();
-            $dirReporte = $dirTemp->Direccion;
+            // $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            // $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            // $dirTemp = DireccionReporte::where('Id_direccion', $solModel1->Id_direccion)->first();
+            // $dirReporte = $dirTemp->Direccion;
         }
+        $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+        $direccion1 = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
+        $auxPunto = PuntoMuestreoSir::where('Id_punto',$punto->Id_muestreo)->first();
+        $tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
+
         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
 
         @$gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         @$gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+        $obs1 = CampoCompuesto::where('Id_solicitud', $idSol1)->first();
+        $obs2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
+        $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
+        $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+        $auxTemp = 0;
+        $tempProm1 = 0;
+        $tempProm2 = 0;
+        foreach ($tempAmbiente1 as $item) {
+            $tempProm1 += $item->Promedio;
+            $tempProm2 += $tempAmbiente2[$auxTemp]->Promedio;
+            $auxTemp++;
+        }
+        $tempProm1 = $tempProm1 / $auxTemp;
+        $tempProm2 = $tempProm2 / $auxTemp;
+
+        
+        $phMuestra1 = PhMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
+        $phMuestra2 = PhMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+
+        $auxPh = 0;
+        $olor1 = false;
+        $olor2 = false;
+        $color1 = "";
+        $color2 = "";
+
+        foreach ($phMuestra1 as $item) {
+            if ($item->Olor == "Si") {
+                $olor1 = true;   
+            }
+            if ($phMuestra2[$auxPh]->Olor == "Si") {
+                $olor2 = true;   
+            }
+            $auxPh++;
+        }
+        foreach ($phMuestra1 as $item) {
+            $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get();
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+                $color1 = $item->Color;
+                break;
+            }else{
+                $color1 = $item->Color;
+            }
+        }
+        foreach ($phMuestra2 as $item) {
+            $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get(); 
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+                $color2 = $item->Color;
+                break;
+            }else{
+                $color2 = $item->Color;
+            }
+        }
 
         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
@@ -1771,7 +2063,7 @@ class InformesController extends Controller
         $firma1 = User::find(14);
         $firma2 = User::find(17);
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
-        $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
+        $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte2)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
         $reportesInformes = DB::table('ViewReportesInformesMensual')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)  
         $reviso = DB::table('users')->where('id', $reportesInformes->Id_reviso)->first();
@@ -1809,23 +2101,42 @@ class InformesController extends Controller
                 case 14:
                 case 110:
 
-                    $limC1 = round($item->Resultado2, 1);
-                    $limC2 = round($model2[$cont]->Resultado2, 1);
-                    $limP = round((($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2)), 2);
+                    $limC1 = number_format(@$item->Resultado2, 2, ".", ".");
+                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
+                    $limP = number_format((($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2)), 2, ".", ".");
 
                     break;
                 default:
                     if ($item->Resultado2 != NULL || $model2[$cont]->Resultado2 != NULL) {
 
-                        $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-
+                        $limAux1 = 0;
+                        $limAux2 = 0;
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $limAux1 = $item->Limite;
+                        }else{
+                            $limAux1 = $item->Resultado2;
+                        }
+                        if ( $model2[$cont]->Resultado2 <= $item->Limite) {
+                            $limAux2 = $item->Limite;
+                        }else{
+                            $limAux2 = $model2[$cont]->Resultado2;
+                        }
+                        
+                        
+                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                        {
+                            goto a;
+                        }else{
+                            $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
+                        }
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC1 = "< " . $item->Limite;
                         } else {
+                            a:
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
-                                    $limP = Round($limP);
+                                    $limP = round($limP);
                                     $limC1 = round($item->Resultado2);
                                     break;
                                     // 3 Decimales
@@ -1839,33 +2150,41 @@ class InformesController extends Controller
                                 case 21: //Cromoa
                                 case 264:
                                 case 18: //Cadmio
-                                    $limC1 = round($item->Resultado2, 3);
+                                case 7:
+                                case 8:
+                                    $limP = number_format(@$limP, 3, ".", ".");
+                                    $limC1 = number_format(@$item->Resultado2, 3, ".", ".");
                                     break;
                                 case 67:
                                     $limC1 = round($item->Resultado2);
-                                    $limP = Round($limP);
+                                    $limP = round($limP);
                                     break;
                                 case 152:
-                                    $limP = Round($limP, 2);
-                                    $limC1 = round($item->Resultado2, 2);
+                                    $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC1 = number_format(@$item->Resultado2, 2, ".", ".");
                                     break;
                                 case 9:
                                 case 10:
                                 case 11:
                                 case 83:
-                                    $limP = Round($limP, 2);
-                                    $limC1 = round($item->Resultado2, 2);
+                                case 12:
+                                    $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC1 = number_format(@$item->Resultado2, 2, ".", "."); 
                                     break;
                                 default:
-
-                                    $limC1 = round($item->Resultado2, 2);
+                                    $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC1 = number_format(@$item->Resultado2, 2, ".", "."); 
                                     break;
                             }
                         }
-
+                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                        {
+                            goto b;
+                        }
                         if ($model2[$cont]->Resultado2 <= $model2[$cont]->Limite) {
                             $limC2 = "< " . $model2[$cont]->Limite;
                         } else {
+                            b:
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
@@ -1874,11 +2193,15 @@ class InformesController extends Controller
                                 case 67:
 
                                     $limC2 = round($model2[$cont]->Resultado2);
-                                    $limP = Round($limP);
+                                    $limP = round($limP);
                                     break;
                                     // 3 Decimales
                                 case 17: // Arsenico
-                                case 231:
+                                    //$limP = number_format(@$limP, 3, ".", ".");
+                                    $limP = round($limP,3);
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", ".");
+                                    break;
+                                case 231:        
                                 case 20: // Cobre
                                 case 22: //Mercurio
                                 case 25: //Zinc
@@ -1887,7 +2210,10 @@ class InformesController extends Controller
                                 case 21: //Cromoa
                                 case 264:
                                 case 18: //Cadmio
-                                    $limC2 = round($model2[$cont]->Resultado2, 3);
+                                case 7:
+                                case 8:
+                                    $limP = number_format(@$limP, 3, ".", ".");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", ".");
                                     break;
                                 case 152:
                                     $limC2 = round($model2[$cont]->Resultado2);
@@ -1896,11 +2222,15 @@ class InformesController extends Controller
                                 case 10:
                                 case 11:
                                 case 83:
-                                    $limP = Round($limP, 2);
-                                    $limC2 = round($model2[$cont]->Resultado2, 2);
+                                case 12:
+                                    $limP = round($limP,2);
+                                   // $limP = number_format(@$limP, 2, ".", ".");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
                                     break;
                                 default:
-                                    $limC2 = round($model2[$cont]->Resultado2, 2);
+                                    $limP = round($limP,2);
+                                    //$limP = number_format(@$limP, 2, ".", ".");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
                                     break;
                             }
                         }
@@ -1930,15 +2260,28 @@ class InformesController extends Controller
             array_push($ponderado, $limP);
             $cont++;
         }
+        
         $campoCompuesto1 = CampoCompuesto::where('Id_solicitud', $idSol1)->first();
         $campoCompuesto2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
         $data = array(
+             'olor1' => $olor1,
+             'olor2' => $olor2,
+            'color2' => $color2,
+            'color1' => $color1,
+            'tempProm1' => $tempProm1,
+            'tempProm2' => $tempProm2,
+            'obs1' => $obs1,
+            'obs2' => $obs2,
+            'tempAmbiente1' => $tempAmbiente1,
+            'tempAmbiente2'=> $tempAmbiente2,
+            'direccion1' => $direccion1,
+            'tituloConsecion' => $tituloConsecion,
             'campoCompuesto1' => $campoCompuesto1,
             'campoCompuesto2' => $campoCompuesto2,
-            'dirReporte' => $dirReporte,
+            // 'dirReporte' => $dirReporte,
             'ponderado' => $ponderado,
             'rfc' => $rfc,
-            'titulo' => $titulo,
+            // 'titulo' => $titulo,
             'tipoReporte' => $tipoReporte,
             'cliente' => $cliente,
             'limitesN' => $limitesN,

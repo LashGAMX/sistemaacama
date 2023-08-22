@@ -268,28 +268,12 @@
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td>
                             {{-- <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup> | {{$item->Simbologia_inf}}</td> --}}
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
-                                @switch($item->Id_parametro)
-                                @case(64) 
-                                    METODO DIRECTO
-                                    @break
-                                @default
                                 {{$item->Clave_metodo}}
-                            @endswitch
                             </td>
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
-                                    @switch($item->Id_parametro)
-                                    @case(64)
-                                        @if ($solicitud->Id_norma == 27)
-                                            {{$campoCompuesto->Cloruros}}
-                                        @else
-                                            {{@$limitesC[$i]}}        
-                                        @endif
-                                        @break
-                                    @default
                                     {{@$limitesC[$i]}}
-                                   @endswitch
                                 @else
                                     -------
                                 @endif

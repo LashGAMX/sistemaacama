@@ -104,7 +104,8 @@
                     <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6">GASTO PROMEDIO</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup justificadorCentr fontSize6">
                         @php
-                            echo (@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2;
+                        $gastoprom = (@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2;
+                            echo round($gastoprom, 2);
                         @endphp
                     </td>
                     <td class="filasIzq bordesTabla bordeIzqSinSup fontSize6 fontBold bordeIzqDerSinSup justificadorCentr">L/s</td>                                        
@@ -119,8 +120,8 @@
                     
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">GASTO LPS</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gasto1->Resultado2}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gasto2->Resultado2}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{number_format(@$gasto1->Resultado2, 2, ".", ".")}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{number_format(@$gasto2->Resultado2, 2, ".", ".")}}</td>
                 </tr>
 
                 <tr>
@@ -138,17 +139,17 @@
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE EMISIÓN:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{\Carbon\Carbon::parse($proceso1->Hora_entrada)->addDays(7)->format('d/m/Y')}}                        
+                        {{\Carbon\Carbon::parse($proceso1->Hora_recepcion)->addDays(11)->format('d/m/Y')}}                        
                     </td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{\Carbon\Carbon::parse($proceso2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                        {{\Carbon\Carbon::parse($proceso2->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
                     </td>
                 </tr>
                 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">PERIODO DE ANALISIS:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$proceso1->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($proceso1->Hora_entrada)->addDays(7)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$proceso2->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($proceso2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$proceso1->Hora_recepcion)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($proceso1->Hora_recepcion)->addDays(11)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$proceso2->Hora_recepcion)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($proceso2->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
                     </td>
                 </tr>
 

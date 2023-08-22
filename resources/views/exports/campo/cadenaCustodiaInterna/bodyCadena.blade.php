@@ -12,14 +12,12 @@
     --}}
     <title>Cadena de custodia interna</title>
 </head>
-
 <body>
     <div class="container" id="pag">
         <div class="row">
-
             <div class="col-12 negrita">
                 <div>
-                    <div class="fontNormal fontCalibri justifyRight fontSize13">
+                    <div class="fontNormal fontCalibri justifyCenter fontSize13">
                     {{$reportesCadena->Encabezado}}
                     </div>
                     <div class="fontNormal fontCalibri">

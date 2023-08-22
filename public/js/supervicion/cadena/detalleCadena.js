@@ -274,8 +274,8 @@ function getDetalleAnalisis(idCodigo) {
                         if (item.Id_parametro == "7" || item.Id_parametro == "8") {
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
-                            if (item.Resultado < item.Limite) {
-                                tab += '<td>' + item.Limite + '</td>';
+                            if (item.Resultado <= item.Limite) {
+                                tab += '<td>< ' + item.Limite + '</td>';
                                 aux = aux + parseFloat(item.Limite);
                             } else {
                                 tab += '<td>' + item.Resultado + '</td>';
@@ -347,15 +347,25 @@ function getDetalleAnalisis(idCodigo) {
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        resLiberado = resLiberado + parseFloat(item.Resultado);
+                        if (item.Resultado <= item.Limite) {
+                            tab += '<td> < ' + item.Limite + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Limite);
+                        } else {
+                            tab += '<td>' + item.Resultado + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Resultado);   
+                        }
                         tab += '</tr>';
                     });
                     $.each(response.aux, function (key, item) {
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        resLiberado = resLiberado + parseFloat(item.Resultado);
+                        if (item.Resultado <= item.Limite) {
+                            tab += '<td> < ' + item.Limite + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Limite);
+                        } else {
+                            tab += '<td>' + item.Resultado + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Resultado);   
+                        }
                         tab += '</tr>';
                     });
                     tab += '    </tbody>';
@@ -700,31 +710,46 @@ function getDetalleAnalisis(idCodigo) {
                         if ($("#idNorma").val() == "27") {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                tab += '<td> pH compuesto</td>';
-                                tab += '<td>' + item.Ph_muestraComp + '</td>';
-                                tab += '<td>------</td>';
-                                // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
-                                tab += '</tr>';
-                                if (item.Ph_muestraComp != null) {
-                                    aux =  item.Ph_muestraComp;
-                                    cont++;
+                                if (response.solModel.Id_muestra == 1) {
+                                    tab += '<td> Ph</td>';
+                                    tab += '<td>' + item.Promedio + '</td>';   
+                                    aux =  item.Promedio;
+                                } else {  
+                                    tab += '<td> pH compuesto</td>';
+                                    tab += '<td>' + item.Ph_muestraComp + '</td>';
+                                    tab += '<td>------</td>';
+                                    // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
+                                    if (item.Ph_muestraComp != null) {
+                                        aux =  item.Ph_muestraComp;
+                                        cont++;
+                                    }
                                 }
+                                tab += '</tr>';
                             });
                             resLiberado = parseFloat(aux).toFixed(2);
                         } else {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
                                 if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    tab += '<td> pH Compuesto</td>';
-                                    tab += '<td>' + item.Ph_muestraComp + '</td>';   
+                                    if (response.solModel.Id_muestra == 1) {
+                                        tab += '<td> Ph</td>';
+                                        tab += '<td>' + item.Promedio + '</td>';   
+                                    } else { 
+                                        tab += '<td> pH Compuesto</td>';
+                                        tab += '<td>' + item.Ph_muestraComp + '</td>';      
+                                    }
                                 } else { 
                                     tab += '<td> pH - ' + (cont + 1) + '</td>';
                                     tab += '<td>' + item.Resultado + '</td>';
                                 }
                                 tab += '</tr>';
-                                if (item.Ph_muestraComp != null || item.Resultado != null) {
+                                if (item.Ph_muestraComp != null || item.Resultado != null || item.Promedio != null) {
                                     if (parseInt(response.solModel.Id_servicio) != 3) {
-                                        aux = aux + parseFloat(item.Ph_muestraComp);
+                                        if (response.solModel.Id_muestra == 1) {
+                                            aux = aux + parseFloat(item.Promedio); 
+                                        } else {
+                                            aux = aux + parseFloat(item.Ph_muestraComp);   
+                                        }
                                     } else { 
                                         aux = aux + parseFloat(item.Resultado);
                                     }
@@ -799,6 +824,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "66":
+                case "65":
                 case "98":
                 case "89":
                 case "218":
