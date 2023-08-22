@@ -96,6 +96,9 @@ class CampoAppController extends Controller
         );
         return response()->json($data);
     } 
+    public function version(request $request) {
+        
+    }
     public function prueba(Request $request)
     {
         $catPhTra = PHTrazable::where('Ph',$request->id)->first();
@@ -290,10 +293,26 @@ class CampoAppController extends Controller
             $temp2 = $jsonConMuestra[$i]["Conductividad2"];
             $temp3 = $jsonConMuestra[$i]["Conductividad3"];
             $temp4 = $jsonConMuestra[$i]["Promedio"];
-            $condictuividad[$i]->Conductividad1 = floatval($temp1);
-            $condictuividad[$i]->Conductividad2 = floatval($temp2);
-            $condictuividad[$i]->Conductividad3 = floatval($temp3);
-            $condictuividad[$i]->Promedio = floatval($temp4);
+            if ($temp1 == 0) { 
+            } else {
+                $condictuividad[$i]->Conductividad1 = floatval($temp1);
+            }
+            if ($temp2 == 0) { 
+            } else {
+                $condictuividad[$i]->Conductividad2 = floatval($temp2);
+            }
+            if ($temp3 == 0) { 
+            } else {
+                $condictuividad[$i]->Conductividad3 = floatval($temp3);
+            }
+            //$condictuividad[$i]->Conductividad1 = floatval($temp1);
+            //$condictuividad[$i]->Conductividad2 = floatval($temp2);
+            //$condictuividad[$i]->Conductividad3 = floatval($temp3);
+            if ($temp4 == 0) { 
+            } else {
+                $condictuividad[$i]->Promedio = floatval($temp4);
+            }
+            //$condictuividad[$i]->Promedio = floatval($temp4);
             $condictuividad[$i]->save();
         }
 
@@ -319,7 +338,7 @@ class CampoAppController extends Controller
             $temp2 = $jsonTempMuestra[$i]["Temp2"];
             $temp3 = $jsonTempMuestra[$i]["Temp3"];
             $temp4 = $jsonTempMuestra[$i]["Promedio"];
-
+           
             $tempMuestra[$i]->TemperaturaSin1 = floatval($temp1);
             $tempMuestra[$i]->TemperaturaSin2 = floatval($temp2);
             $tempMuestra[$i]->TemperaturaSin3 = floatval($temp3);
@@ -330,11 +349,11 @@ class CampoAppController extends Controller
        $phCalidadMuestra = PhCalidadCampo::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
         for ($i = 0; $i < $phCalidadMuestra->count(); $i++){
-           $lectura1 = @$jsonphCalidadMuestra[$i]["LecturaC1"];
-            $lectura2 = @$jsonphCalidadMuestra[$i]["LecturaC2"];
-            $lectura3 = @$jsonphCalidadMuestra[$i]["LecturaC3"];
-            $promedio = @$jsonphCalidadMuestra[$i]["PromedioC"];
-
+            $lectura1 = $jsonphCalidadMuestra[$i]["Lectura1C"];
+            $lectura2 = $jsonphCalidadMuestra[$i]["Lectura2C"];
+            $lectura3 = $jsonphCalidadMuestra[$i]["Lectura3C"];
+            $promedio = $jsonphCalidadMuestra[$i]["PromedioC"];
+            $phCalidadMuestra[$i]->Ph_calidad = 7;
             $phCalidadMuestra[$i]->Lectura1 = floatval($lectura1);
             $phCalidadMuestra[$i]->Lectura2 = floatval($lectura2);
             $phCalidadMuestra[$i]->Lectura3 = floatval($lectura3);
@@ -418,8 +437,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-            'fecha' =>   $phMuestra[0]->Fecha,
-         
+             'phcalidad' => $jsonphCalidadMuestra[0]["Lectura2C"]
              
           
         );
