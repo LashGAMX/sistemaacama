@@ -93,10 +93,34 @@ function getParametros() {
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
-                if (item.Resultado != null) {
+                if (item.Resultado2 != null) {
                     color = "success";
                 } else {
                     color = "warning"
+                }
+                switch (parseInt(item.Id_parametro)) {
+                    case 14: //Ph
+                    case 100:
+                    case 26:// Gasto
+                    case 13: // GA
+                    case 12: //Coliformes
+                    case 134: 
+                    case 132:
+                    case 67: //conductividad
+                    case 2: //Materia Floatante
+                    case 97: //Températura 
+                    case 100:
+                    case 5:
+                        if(item.Liberado != 1)
+                        {
+                            color = "danger"
+                        }else{
+                            color = "success";
+                        }
+                        break;
+                
+                    default:
+                        break;
                 }
                 tab += '<tr>';
                 tab += '<td>' + item.Id_codigo + '</td>';
@@ -415,30 +439,44 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    </thead>';
                     tab += '    <tbody>';
 
-                    if ($("#idNorma").val() == "27") {
-                        aux = 0;
-                        cont = 0;
-                        $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            tab += '<td> GA - ' + item.Num_tomas + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
-                            tab += '</tr>';
-                            if (item.Resultado != null) {
-                                aux = aux + (response.aux[cont] * item.Resultado);
-                                cont++;
-                            }
-                        });
-                        resLiberado = (aux).toFixed(2);
-                    } else {
-                        $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            tab += '</tr>';
-                        });
-                        resLiberado = (response.aux);
-                    }
+                    aux = 0; 
+                    cont = 0;
+                $.each(response.model, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td> GA - ' + item.Num_tomas + '</td>';
+                        tab += '<td>' + item.Resultado + '</td>';
+                        tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
+                        tab += '</tr>';
+                        if (item.Resultado != null) {
+                            aux = aux + (response.aux[cont] * item.Resultado);
+                            cont++;
+                        }
+                    });
+                    resLiberado = (aux).toFixed(2);
+                    // if ($("#idNorma").val() == "27") {
+                    //     aux = 0; 
+                    //     cont = 0;
+                    // $.each(response.model, function (key, item) {
+                    //         tab += '<tr>';
+                    //         tab += '<td> GA - ' + item.Num_tomas + '</td>';
+                    //         tab += '<td>' + item.Resultado + '</td>';
+                    //         tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
+                    //         tab += '</tr>';
+                    //         if (item.Resultado != null) {
+                    //             aux = aux + (response.aux[cont] * item.Resultado);
+                    //             cont++;
+                    //         }
+                    //     });
+                    //     resLiberado = (aux).toFixed(2);
+                    // } else {
+                    //     $.each(response.model, function (key, item) {
+                    //         tab += '<tr>';
+                    //         tab += '<td>' + item.Parametro + '</td>';
+                    //         tab += '<td>' + item.Resultado + '</td>';
+                    //         tab += '</tr>';
+                    //     });
+                    //     resLiberado = (response.aux);
+                    // }
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -458,13 +496,13 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '<tr>';
                         if (item.Sugerido == 1) {
                             tab += '<td class="bg-success">';
+                            resLiberado = item.Resultado;
                         } else {
                             tab += '<td>';
                         }
                         tab += '' + item.Parametro + '</td>';
                         tab += '<td>' + item.Resultado + '</td>';
                         tab += '</>';
-                        resLiberado = item.Resultado;
                     });
                     tab += '    </tbody>';
                     tab += '</table>';

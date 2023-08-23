@@ -38,7 +38,7 @@
                 @endphp
                 @foreach ($model1 as $item)
                     <tr>
-                        <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup></sup></td>
+                        <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
                         <td class="tableContent bordesTablaBody">{{$item->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">
                             @switch($item->Id_parametro)
@@ -84,10 +84,13 @@
                              @case(26)
                              @case(83)
                              @case(10)
+                             @case(9)
+                             @case(14)
+                             @case(11)
                              @if ($promedio <= $item->Limite)
                                  < {{$item->Limite}}
                              @else
-                                {{round($promedio, 2)}}
+                                {{ number_format(@$promedio, 2, ".", ".");}}
                              @endif 
                                  @break
                             @case(2)
@@ -114,9 +117,30 @@
                     </tr>
                     @php $cont++; @endphp
                 @endforeach
+                
             </tbody>
         </table>
     </div>
+<br>
+    <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+        <tbody>            
+                <tr> 
+
+                        <td class="nombreHeader nom fontSize727 justificadorIzq">
+                        FOLIO {{$solModel1->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm1)}}°C, 
+                        @php if(@$olor1 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color1; }@endphp
+                        EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                        {{@$obs1->Observaciones}}
+                        <br>
+                        FOLIO {{$solModel2->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm2)}}°C, 
+                        @php if(@$olor2 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color2; }@endphp
+                        EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                        {{@$obs2->Observaciones}}
+
+                        </td>
+                </tr>                
+        </tbody>         
+    </table> 
     
 </body>
 

@@ -1,87 +1,115 @@
-<footer>    
-    <div autosize="1" class="contenedorPadre12">
-        <div autosize="1" class="contenedorSubPadre11" cellpadding="0" cellspacing="0" border-color="#000000">
+<footer style="">    
 
-            <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                <tbody>            
-                        <tr> 
+    <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000">
+
+   
+
+        <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+            <tbody>            
+                    <tr>
+                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq" colspan="2">
+
+                            @php
+                                echo $reportesInformes->Nota;
+
+                            @endphp
+                        </td>
+                    </tr>
+                    <tr></tr>
+   
+            </tbody>         
+        </table>                                                        
+    </div>
     
-                                <td class="nombreHeader nom fontSize727 justificadorIzq">
-                                FOLIO {{$solModel1->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm1)}}°C, 
-                                @php if(@$olor1 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color1; }@endphp
-                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
-                                {{@$obs1->Observaciones}}
-                                <br>
-                                FOLIO {{$solModel2->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm2)}}°C, 
-                                @php if(@$olor2 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color2; }@endphp
-                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
-                                {{@$obs2->Observaciones}}
-    
-                            </td>
-                        </tr>                
-                </tbody>         
-            </table>  
-            @php
+    <div id="contenedorTabla">
+        @php
             $temp = array();
             $sw = false;
         @endphp
-            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                <tbody>            
-                        <tr>
-                            <td class="nombreHeaders fontBold fontSize5 justificadorIzq" colspan="2">NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEGÚN NORMA NOM-008-SCFI-2002 <br>
-                                LOS VALORES CON EL SIGNO MENOR (<) CORRESPONDEN AL VALOR MÍNIMO CUANTIFICADO POR EL MÉTODO. <br>
-                                ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACIÓN DEL LABORATORIO EMISOR. <br>
-                                N.A INTERPRETAR COMO NO APLICA. <br>
-                                N.N INTERPRETAR COMO NO NORMADO. <br>
-                                NOTA 2: LOS DATOS EXPRESADOS AVALAN ÚNICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA. <br> <br>
-                         
-                            </td>
-                        </tr>
-                        <tr>
-                            @forech
-                        </tr>
-
-                        <tr>
-                            <td class="justificadorCentr">
-                                @php
-                                    /*$url = url()->current();*/
-                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$solModel->Id_solicitud;
-                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                                @endphp
-                                                                
-                                <br>
+        <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+            <tbody>            
+                    @foreach ($model1 as $item)
+                        @for ($i = 0; $i < sizeof($temp); $i++)
+                            @if ($temp[$i] == $item->Id_simbologia_info)
+                                @php $sw = true; @endphp
+                            @endif
+                        @endfor
+                        @if ($sw != true)
+                            @switch($item->Id_parametro)
+                                @case(97)
+                                    <tr>
+                                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{round(@$campoCompuesto1->Temp_muestraComp)}}°C Y EL PH COMPUESTO ES DE {{ number_format(@$campoCompuesto1->Ph_muestraComp, 2, ".", ".")}} FOLIO {{$numOrden1->Folio_servicio}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{round(@$campoCompuesto2->Temp_muestraComp)}}°C Y EL PH COMPUESTO ES DE {{ number_format(@$campoCompuesto2->Ph_muestraComp, 2, ".", ".")}} FOLIO {{$numOrden2->Folio_servicio}} </td>
+                                    </tr>
+                                    @php
+                                        array_push($temp,$item->Id_simbologia_info);
+                                    @endphp
+                                    @break
+                                @default
+                                    @if ($item->Id_simbologia_info != 9)
+                                        <tr>
+                                            <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @endif
+                            @endswitch
+                           
+                        @endif
+                        @php
+                            $sw = false;
+                        @endphp
+                    @endforeach
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>        
+                        <td>
+                            {{-- <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma1->firma)}}"> <br></span> --}}
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> BIOL. GUADALUPE GARCÍA PÉREZ{{-- {{@$usuario->name}} --}}</span> <br>
+                            <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 8px;"> REVISÓ SIGNATARIO</span></center>
+                        </td>
+                        <td>
+                            {{-- <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma2->firma)}}"> <br></span>           --}}
                             
-                            </td>                            
-                        </tr>
-                </tbody>         
-            </table>                                                        
-        </div>
-            
-        <div class="contenedorSubPadre12" cellpadding="0" cellspacing="0" border-color="#000000" style="text-align:right;">
-            <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr" style="margin-left: 130px;margin-right:0px;">  
-                <br>                         
-               
-                <br>
-                <span class="bodyStdMuestra fontSize5"> BIOL. GUADALUPE GARCÍA PÉREZ{{-- {{@$usuario->name}} --}}</span> <br>
-                <span class="cabeceraStdMuestra fontNormal fontSize5"> REVISÓ SIGNATARIO</span>
-            </div>
-
-            <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr">            
-                <br>
-               
-                <br>
-                <span class="bodyStdMuestra fontSize5"> TSU. MARÍA IRENE REYES MORALES{{-- {{@$usuario->name}} --}} </span> <br>
-                <span class="cabeceraStdMuestra fontNormal fontSize5"> AUTORIZÓ SIGNATARIO</span>      
-            </div>     
-            <br>           
-            <img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
-            <br>
-
-            <span class="revisiones">FO-13-001</span> <br> <span class="revisiones fontSize5">Revisión 5</span>
-            
-            
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> TSU. MARÍA IRENE REYES MORALES{{-- {{@$usuario->name}} --}} </span> <br>
+                            <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 8px;"> AUTORIZÓ SIGNATARIO</span> </center>
+                        </td>
+                    </tr>
+                    </tr>
+                    
+            </tbody>         
            
-        </div>    
+        </table>  
+ 
     </div>    
-    <br> <br>
+
+    <div >
+        @php
+        $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript;
+        $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+        @endphp
+           
+        <img style="float: right;width: 50px;height: 50px;" src="{{@$qr_code}}" alt="qrcode" />
+    </div>
+   
+    
+<div id="contenedorTabla">
+    <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+        <thead>
+            <tr>                    
+                                                                                 
+            </tr>
+
+            <tr>
+                <td style="text-align: right;"><span class="revisiones" style="font-size: 8px">FO-13-001</span> <br> <span class="revisiones" style="font-size: 8px">Revisión 5</span></td>
+            </tr>
+        </thead>                        
+    </table>  
+</div> 
+           
 </footer>

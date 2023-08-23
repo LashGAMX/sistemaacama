@@ -103,7 +103,8 @@ class CadenaController extends Controller
                 $model2->Resultado2 = $res->resLiberado; 
                 $model2->Cadena = 1;
                 $model2->Reporte = 1;
-                $model2->Analizo = Auth::user()->id;
+                // $model2->Analizo = Auth::user()->id;
+                $model2->Analizo = 14;
                 break;
             default:
                 $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();
@@ -115,6 +116,7 @@ class CadenaController extends Controller
 
 
         // $model2->Analizo = Auth::user()->id;
+        $model2->Liberado = 1;
         $model2->Asignado = 1;
         $model2->save();
 
@@ -232,41 +234,52 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)->get();
-                $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
-                if ($solModel->Id_norma == 27) {
-                    $sumGasto = 0;
-                    $aux = array();
-                    foreach($gasto as $item)
-                    {
-                        $sumGasto = $sumGasto + $item->Promedio;
-                    }
-                    foreach($gasto as $item)
-                    {
-                        array_push($aux,($item->Promedio/$sumGasto));
-                    }
-                }else{
-                    $res1 = array();
-                    $promTemp = 0;
-                    $cont = 0;
-                    foreach ($gasto as $item) {
-                        if ($item->Activo == 1) {
-                            $promTemp = $promTemp + $item->Promedio;
-                            $cont++;
-                        }
-                    }
-                    $promGasto = $promTemp / $cont;
-    
-                    $res = 0;
-                    $cont = 0;
-                    for ($i = 0; $i < sizeof($model); $i++) {
-                        if ($gasto[$i]->Activo == 1) {
-                            $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
-                            $cont++;
-                        }
-                    }
-    
-                    $aux = $res / $cont;
+                $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo',1)->get();
+
+                $sumGasto = 0;
+                $aux = array();
+                foreach($gasto as $item)
+                {
+                    $sumGasto = $sumGasto + $item->Promedio;
                 }
+                foreach($gasto as $item) 
+                {
+                    array_push($aux,($item->Promedio/$sumGasto));
+                }
+                // if ($solModel->Id_norma == "27") {
+                //     $sumGasto = 0;
+                //     $aux = array();
+                //     foreach($gasto as $item)
+                //     {
+                //         $sumGasto = $sumGasto + $item->Promedio;
+                //     }
+                //     foreach($gasto as $item)
+                //     {
+                //         array_push($aux,($item->Promedio/$sumGasto));
+                //     }
+                // }else{
+                //     $res1 = array();
+                //     $promTemp = 0;
+                //     $cont = 0;
+                //     foreach ($gasto as $item) {
+                //         if ($item->Activo == 1) {
+                //             $promTemp = $promTemp + $item->Promedio;
+                //             $cont++;
+                //         }
+                //     }
+                //     $promGasto = $promTemp / $cont;
+    
+                //     $res = 0;
+                //     $cont = 0;
+                //     for ($i = 0; $i < sizeof($model); $i++) {
+                //         if ($gasto[$i]->Activo == 1) {
+                //             $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
+                //             $cont++;
+                //         }
+                //     }
+    
+                //     $aux = $res / $cont;
+                // }
               
                 break;
                 //Mb

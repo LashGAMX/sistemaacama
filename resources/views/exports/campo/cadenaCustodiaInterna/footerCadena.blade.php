@@ -44,7 +44,7 @@
                             @if (@$promCol[0]->Resultado2 <= @$promCol[0]->Limite)
                                 < {{@$promCol[0]->Limite}}
                             @else
-                                {{round(@$promCol[0]->Resultado2,2)}}
+                                {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
                             @endif
                         </td>
                     @endif
@@ -78,7 +78,7 @@
                                 @if (@$promCol[0]->Resultado2 <= @$promCol[0]->Limite)
                                     < {{@$promCol[0]->Limite}}
                                 @else
-                                    {{round(@$promCol[0]->Resultado2,2)}}
+                                    {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
                                 @endif
                             </td>
                         @endif

@@ -40,6 +40,7 @@ Route::group(['prefix' => 'clientes'], function () {
     // Route::get('informe-de-resultados-acama/{id}',[ClientesAcamaController::class,'informederesultados']);
     Route::get('cadena-custodia-interna/{id}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
     Route::get('informe-de-resultados-acama/{id}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
+    Route::get('informe-de-resultados-acama-mensual/{id}/{id2}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
 }); 
 
 Route::group(['prefix' => 'admin'], function (){

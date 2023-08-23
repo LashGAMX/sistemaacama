@@ -26,6 +26,7 @@ class CodigoParametros extends Model
         'Reporte',
         'Cadena',
         'Cancelado',
+        'Liberado',
         'Id_user_c',
         'Id_user_m'
     ];

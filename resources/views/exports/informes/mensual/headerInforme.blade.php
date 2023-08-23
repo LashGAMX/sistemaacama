@@ -1,4 +1,4 @@
-<p id='header1'>
+<p id='header1' style="font-size: 11px">
     INFORME DE RESULTADOS AGUA RESIDUAL
 </p>
 
@@ -10,22 +10,23 @@
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="400.8px">{{$solModel1->Empresa}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="137.3px">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="92.9px">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzq">&nbsp;</td>                    
-                    <td class="filasIzq bordesTabla fontBold bordeFinal justificadoDer" ></td>                    
-                </tr>
+                    <td class="filasIzq bordesTabla fontBold bordeIzq">&nbsp;RFC: {{@$rfc->RFC}}</td>                                 
+                    <td class="filasIzq bordesTabla fontBold bordeFinal justificadoDer" >
+                    
+                    </td>                    
+                </tr> 
 
                 <tr>                    
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Dirección:</td>                    
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$direccion1->Direccion}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;@if (@$solModel1->Siralab == 1) 
+                        TITULO DE CONCESIÓN: {{@$tituloConsecion->Titulo}}
+                    @else
+                      
+                    @endif</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer">
-                        @if (@$solModel1->Siralab == 1) 
-                            TITULO DE CONCESIÓN: {{@$tituloConsecion->Titulo}}
-                        @else
-                          
-                        @endif
                     </td>
                 </tr>
 

@@ -24,11 +24,8 @@
 <div id="contenedorTabla">
     <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
         <thead>
-            <tr>                    
-                                                                                 
-            </tr>
-
-            <tr>
+            <tr>   
+                </td>
                 <td style="text-align: right;"><span class="revisiones" style="font-size: 8px">FO-13-001</span> <br> <span class="revisiones" style="font-size: 8px">Revisión 5</span></td>
             </tr>
         </thead>                        

@@ -59,7 +59,7 @@
                                         @if (@$limitesC1[$cont] == "PRESENTE" || $limitesC2[$cont] == "PRESENTE")
                                             PRESENTE    
                                         @else
-                                            AUSENTE
+                                            AUSENTE 
                                         @endif
                                     @break;
                                 @case(14)
@@ -188,12 +188,14 @@
                                     @endphp
                                     @break
                                 @default
-                                <tr>
-                                    <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
-                                </tr>
-                                @php
-                                    array_push($temp,$item->Id_simbologia_info);
-                                @endphp
+                                    @if ($item->Id_simbologia_info != 9)
+                                        <tr>
+                                            <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @endif
                             @endswitch
                            
                         @endif
@@ -201,22 +203,27 @@
                             $sw = false;
                         @endphp
                     @endforeach
+                                        
+                    </tr>
+                    <tr>
+                        <td>
+                            @php
+                            /*$url = url()->current();*/
+                            $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$solModel1->Id_solicitud;
+                            $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                        @endphp
+                        <br>
+                        
+                        <img style="width: 5%; height: 5%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
+                        </td>
+                    </tr>
                     
             </tbody>         
            
         </table>  
-        <div class="">
-            @php
-                /*$url = url()->current();*/
-                $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$solModel->Id_solicitud;
-                $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-            @endphp
-                                            
-            
-            <img style="width: 8%; height: 8%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
-        </div>
+ 
     </div>    
-  
+
     
 </body>
 
