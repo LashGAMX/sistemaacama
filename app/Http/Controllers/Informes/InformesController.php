@@ -2177,7 +2177,7 @@ class InformesController extends Controller
                                     break;
                             }
                         }
-                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A." || @$item->Limite == "NA")
                         {
                             goto b;
                         }
@@ -2197,9 +2197,8 @@ class InformesController extends Controller
                                     break;
                                     // 3 Decimales
                                 case 17: // Arsenico
-                                    //$limP = number_format(@$limP, 3, ".", ".");
-                                    $limP = round($limP,3);
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", ".");
+                                    $limP = number_format(@$limP, 3, ".", "");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
                                     break;
                                 case 231:        
                                 case 20: // Cobre
@@ -2212,8 +2211,8 @@ class InformesController extends Controller
                                 case 18: //Cadmio
                                 case 7:
                                 case 8:
-                                    $limP = number_format(@$limP, 3, ".", ".");
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", ".");
+                                    $limP = number_format(@$limP, 3, ".", "");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
                                     break;
                                 case 152:
                                     $limC2 = round($model2[$cont]->Resultado2);
@@ -2223,14 +2222,13 @@ class InformesController extends Controller
                                 case 11:
                                 case 83:
                                 case 12:
-                                    $limP = round($limP,2);
-                                   // $limP = number_format(@$limP, 2, ".", ".");
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
+                                    $limP = round(@$limP, 2);
+                                    //$limP = number_format(@$limP, 2, ".", "");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     break;
-                                default:
-                                    $limP = round($limP,2);
-                                    //$limP = number_format(@$limP, 2, ".", ".");
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
+                                default:     
+                                    $limP = number_format(@$limP, 2, ".", "");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     break;
                             }
                         }
