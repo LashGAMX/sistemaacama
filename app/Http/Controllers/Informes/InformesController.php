@@ -2269,7 +2269,7 @@ class InformesController extends Controller
                                     break;
                             }
                         }
-                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A." || @$item->Limite == "NA")
                         {
                             goto b;
                         }
