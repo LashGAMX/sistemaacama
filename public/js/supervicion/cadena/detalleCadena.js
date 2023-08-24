@@ -221,6 +221,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "204":
                 case "219":
                 case "230":
+                case "23":
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';

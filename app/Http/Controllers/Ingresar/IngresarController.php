@@ -125,7 +125,34 @@ class IngresarController extends Controller
         );
         return response()->json($data);
     }
+    public function setActCC(Request $res)
+    {
+        $msg = "";
+        $model = Solicitud::where('Hijo', $res->id)->get();
 
+        $contP = 0;
+        foreach ($model as $item) {
+            $swCodigo = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->get();
+            $puntoMuestra = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+            $puntoMuestra->Conductividad = $res->conductividad[$contP];
+            $puntoMuestra->Cloruros = $res->cloruros[$contP];
+            if ($res->condiciones == "true") {
+                $puntoMuestra->Condiciones = 1;
+            }else{
+                $puntoMuestra->Condiciones = 0;
+            }
+            $puntoMuestra->save();
+
+            $contP++;
+        }
+
+        $msg = "Conductividad y cloruros modificados";
+        $data = array(
+            'model' => $model,
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
     public function setGenFolio(Request $res)
     {
         $msg = "";

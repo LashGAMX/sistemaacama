@@ -31,14 +31,14 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold soloBordeInf" colspan="2">@if ($solModel1->Siralab == 1)
+                    <td class="filasIzq bordesTabla fontBold soloBordeInf" colspan="4">@if ($solModel1->Siralab == 1)
                         {{$punto->Punto}}
                     @else
-                        {{$punto->Punto_muestreo}}
+                    {{$punto->Punto}}
                     @endif</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
+                    {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
+                    {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup">&nbsp;</td>
                 </tr>
                 <tr>                    

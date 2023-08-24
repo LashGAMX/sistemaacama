@@ -64,15 +64,19 @@
                                 @case(14)
                                     {{@$ponderado[$cont]}}
                                     @break
+                                @case(67)
+                                    {{@$ponderado[$cont]}}
+                                    @break;
                                 @default
                                     @if (@$item->Limite != "N.A" || @$item->Limite != "N.N" || @$item->Limite != "N/A" || @$item->Limite != "N.A.")
-                                        @if (@$ponderado[$cont] <= @$item->Limite)
+                                   
+                                        @if ($ponderado[$cont] <= $item->Limite)
                                             < {{@$item->Limite}}
                                         @else
                                             {{@$ponderado[$cont]}}
                                         @endif
                                     @else
-                                        {{@$ponderado[$cont]}}
+                                        {{@$ponderado[$cont]}} 
                                     @endif
                             @endswitch
                         </td>
@@ -156,12 +160,18 @@
             </tbody>         
         </table>                                                        
     </div>
+    @php
+
+@endphp
     
     <div id="contenedorTabla">
         @php
             $temp = array();
             $sw = false;
+            $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
+            $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
         @endphp
+        <img style="width: 8%; height: 8%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>            
                     @foreach ($model1 as $item)
@@ -203,18 +213,6 @@
                         @endphp
                     @endforeach
                                         
-                    </tr>
-                    <tr>
-                        <td>
-                            @php
-                            /*$url = url()->current();*/
-                            $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$solModel1->Id_solicitud;
-                            $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                        @endphp
-                        <br>
-                        
-                        <img style="width: 5%; height: 5%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
-                        </td>
                     </tr>
                     
             </tbody>         

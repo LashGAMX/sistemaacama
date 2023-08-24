@@ -835,29 +835,24 @@
                         @case(0)
 
                             @break
+                        @case(499)
+                            @php
+                                $auxCloruros = "< 500"
+                            @endphp
+                            @break
                         @case(500)
                             @php
                                 $auxCloruros = 500
                             @endphp
                             @break
                         @case(1000)
-                            @php
-                                $auxCloruros = 1000
-                            @endphp
+                                @php
+                                    $auxCloruros = 1000
+                                @endphp
                             @break
                         @case(1500)
                                 @php
-                                    $auxCloruros = 1500
-                                @endphp
-                            @break
-                        @case(2000)
-                                @php
-                                    $auxCloruros = 2000
-                                @endphp
-                            @break
-                        @case(3000)
-                                @php
-                                    $auxCloruros = 3000
+                                    $auxCloruros =  "> 1000"
                                 @endphp
                             @break
                             @default

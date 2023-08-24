@@ -70,7 +70,7 @@
                             @if ($ponderado[$cont] <= $item->Limite)
                                 < {{$item->Limite}}
                                 @else
-                                {{round($ponderado[$cont], 2)}}
+                                {{ number_format(@$ponderado[$cont], 2, ".", "")}}
                                 @endif 
                                 @break
                              @case(97)
@@ -93,7 +93,7 @@
                              @if ($promedio <= $item->Limite)
                                  < {{$item->Limite}}
                              @else
-                                {{ number_format(@$promedio, 2, ".", ".");}}
+                                {{ number_format(@$promedio, 2, ".", "");}}
                              @endif 
                                  @break
                             @case(2)

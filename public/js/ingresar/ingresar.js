@@ -33,8 +33,71 @@ $(document).ready(function () {
             setIngresar()
         }
     });
+    $('#btnActCC').click(function () {
+        if (confirm("Esta segur@ de modificar el Cloruros y la Conductividad?")) {
+            setActCC()
+        }
+    });
 
 });
+function setActCC()
+{
+    let sw = true
+    let conductividad = new Array()
+    let cloruros = new Array();
+    let aux = ""
+    if (idNorma == 27) {
+        let puntos = document.getElementById("puntos")
+        for (let i = 1; i < puntos.rows.length; i++) {
+            if (puntos.rows[i].children[2].children[0].value == "" || puntos.rows[i].children[2].children[1].value == 0) {
+                sw = false
+            }
+        }
+    }
+    if (sw == true) {
+        let puntos = document.getElementById("puntos")
+        for (let i = 1; i < puntos.rows.length; i++) {
+            switch (puntos.rows[i].children[2].children[1].value) {
+                case "499":
+                    aux = "499"
+                    break;
+                case "500":
+                    aux = "500"
+                    break
+                case "1000":
+                    aux = "1000"
+                    break
+                case "1500":
+                    aux = "1500"
+                    break
+
+                default: 
+                    aux = ""
+                    break
+            }
+            conductividad.push(puntos.rows[i].children[2].children[0].value)
+            cloruros.push(aux)
+        }
+        $.ajax({
+            type: "POST",
+            url: base_url + '/admin/ingresar/setActCC',
+            data: {
+                id: $("#idSol").val(),
+                conductividad:conductividad,
+                cloruros:cloruros,
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                alert(response.msg)
+                tableCodigos(dataPunto) 
+            }
+        });
+    } else {
+        alert("Para generar los codigos es necesario ingresar la conductividad y el cloruros en los puntos de muestreo")
+    }
+}
 function valSinCondiciones()
 {
     if ($("#condiciones").prop("checked") == true) {
@@ -58,6 +121,9 @@ function setGenFolio() {
         let puntos = document.getElementById("puntos")
         for (let i = 1; i < puntos.rows.length; i++) {
             switch (puntos.rows[i].children[2].children[1].value) {
+                case "499":
+                    aux = "499"
+                    break;
                 case "500":
                     aux = "500"
                     break
@@ -66,12 +132,6 @@ function setGenFolio() {
                     break
                 case "1500":
                     aux = "1500"
-                    break
-                case "2000":
-                    aux = "2000"
-                    break
-                case "3000":
-                    aux = "3000"
                     break
                 default: 
                     aux = ""
@@ -94,7 +154,6 @@ function setGenFolio() {
             success: function (response) {
                 console.log(response);
                 alert(response.msg)
-                tableCodigos(dataPunto) 
             }
         });
     } else {
@@ -237,13 +296,18 @@ function tablePuntos(id) {
                 tab += '<td>' + item.Punto + '</td>';
                 tab += '<td><input placeholder="Conduct" value="' + response.conductividad[aux] + '">'
                 tab += '<select id="sel' + item.Id_solicitud + '">'
+                // if (response.cloruro[aux] == "") { tab += '    <option selected  >Sin seleccionar</option>' } else { tab += '    <option  >Sin seleccionar</option>' }
+                // if (response.cloruro[aux] == 0) { tab += '    <option selected value="0" ><= 500</option>' } else { tab += '    <option value="0" ><= 500</option>' }
+                // if (response.cloruro[aux] == 500) { tab += '    <option selected value="500" >500</option>' } else { tab += '    <option value="500" >500</option>' }
+                // if (response.cloruro[aux] == 1000) { tab += '    <option selected value="1000" >1000</option>' } else { tab += '    <option value="1000" >1000</option>' }
+                // if (response.cloruro[aux] == 1500) { tab += '    <option selected value="1500" >1500</option>' } else { tab += '    <option value="1500" >1500</option>' }
+                // if (response.cloruro[aux] == 2000) { tab += '    <option selected value="2000" >2000</option>' } else { tab += '    <option value="2000" >2000</option>' }
+                // if (response.cloruro[aux] == 3000) { tab += '    <option selected value="3000" > >= 3000</option>' } else { tab += '    <option value="3000" > >= 3000</option>' }
                 if (response.cloruro[aux] == "") { tab += '    <option selected  >Sin seleccionar</option>' } else { tab += '    <option  >Sin seleccionar</option>' }
-                if (response.cloruro[aux] == 0) { tab += '    <option selected value="0" ><= 500</option>' } else { tab += '    <option value="0" ><= 500</option>' }
+                if (response.cloruro[aux] == 499) { tab += '    <option selected value="499" >< 500</option>' } else { tab += '    <option value="499" >< 500</option>' }
                 if (response.cloruro[aux] == 500) { tab += '    <option selected value="500" >500</option>' } else { tab += '    <option value="500" >500</option>' }
                 if (response.cloruro[aux] == 1000) { tab += '    <option selected value="1000" >1000</option>' } else { tab += '    <option value="1000" >1000</option>' }
-                if (response.cloruro[aux] == 1500) { tab += '    <option selected value="1500" >1500</option>' } else { tab += '    <option value="1500" >1500</option>' }
-                if (response.cloruro[aux] == 2000) { tab += '    <option selected value="2000" >2000</option>' } else { tab += '    <option value="2000" >2000</option>' }
-                if (response.cloruro[aux] == 3000) { tab += '    <option selected value="3000" > >= 3000</option>' } else { tab += '    <option value="3000" > >= 3000</option>' }
+                if (response.cloruro[aux] == 1500) { tab += '    <option selected value="1500" >>1000</option>' } else { tab += '    <option value="1500" >> 1000</option>' }
                 tab += '</select></td>'
                 tab += '</tr>';
                 aux++

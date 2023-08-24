@@ -1084,7 +1084,7 @@
                                 <div class="form-group">
                                     <label for="">Cloruros</label>
                                     {{-- <input type="number" class="form-control" id="valCloruros" value="{{@$compuesto->Cloruros}}" placeholder="Cloruros"> --}}
-                                    <select id="valCloruros" class="form-control">
+                                    {{-- <select id="valCloruros" class="form-control">
                                         @if (@$compuesto->Cloruros == "")<option selected value="0"> Sin seleccionar</option> @else <option value="0"> Sin seleccionar</option> @endif
                                         @if (@$compuesto->Cloruros == 0)<option selected value="0"><= 500</option> @else <option value="0"><= 500</option> @endif
                                         @if (@$compuesto->Cloruros == 500)<option selected value="500">500</option> @else <option value="500">500</option> @endif
@@ -1092,6 +1092,13 @@
                                         @if (@$compuesto->Cloruros == 1500)<option selected value="1500">1500</option> @else <option value="1500">1500</option> @endif
                                         @if (@$compuesto->Cloruros == 2000)<option selected value="2000">2000</option> @else <option value="2000">2000</option> @endif
                                         @if (@$compuesto->Cloruros == 3000)<option selected value="3000">>= 3000</option> @else <option value="3000">>= 3000</option> @endif
+                                    </select> --}} 
+                                    <select id="valCloruros" class="form-control">
+                                        @if (@$compuesto->Cloruros == "")<option selected value=""> Sin seleccionar</option> @else <option value=""> Sin seleccionar</option> @endif
+                                        @if (@$compuesto->Cloruros == 499)<option selected value="499">< 500</option> @else <option value="499">< 500</option> @endif
+                                        @if (@$compuesto->Cloruros == 500)<option selected value="500">500</option> @else <option value="500">500</option> @endif
+                                        @if (@$compuesto->Cloruros == 1000)<option selected value="1000">1000</option> @else <option value="1000">1000</option> @endif
+                                        @if (@$compuesto->Cloruros == 1500)<option selected value="1500">> 1000</option> @else <option value="1500">> 1000</option> @endif
                                     </select>
                                 </div>
                             </div>
@@ -1316,5 +1323,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.4"></script>
+<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.5"></script>
 @stop
