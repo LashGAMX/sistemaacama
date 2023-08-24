@@ -1,3 +1,4 @@
+-- SQLBook: Code
 
 CREATE VIEW ViewIntermediarios as SELECT
 	inter.Id_intermediario,
@@ -796,3 +797,4 @@ ON gen.Id_cliente = cli.Id_cliente;
 -- ALTER TABLE `metales_detalle` CHANGE `Bitacora` `Bitacora` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 -- ALTER TABLE `metales_detalle` CHANGE `Folio` `Folio` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 -- ALTER TABLE `metales_detalle` CHANGE `Valor` `Valor` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+

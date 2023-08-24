@@ -22,7 +22,7 @@
                     @endif 
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="7%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="14%">&nbsp;METODO DE
-                        PRUEBA&nbsp;&nbsp;</td>
+                        PRUEBA&nbsp;&nbsp;</td> 
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
@@ -74,6 +74,9 @@
                                 @endif 
                                 @break
                              @case(97)
+                                @php
+                                    $promedio = (round(@$item->Resultado2) + (round(@$model2[$cont]->Resultado2))) / 2;
+                                @endphp
                                 {{round($promedio)}}
                                 @break;
                              @case(12)

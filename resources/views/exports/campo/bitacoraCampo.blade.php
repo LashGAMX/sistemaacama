@@ -25,14 +25,14 @@
                             Calibración Analitica Interna del equipo</td>
                         <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="45%">MEDIDOR DE PH,
                             TEMPERATURA Y CONDUCTIVIDAD</td>
-                      
-                             <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
-                                {{@$termometro1->Modelo}}
-                            </td>
-                            <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
-                                {{@$termometro1->Marca}}
-                            </td> 
-                            
+
+                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
+                            {{@$termometro1->Modelo}}
+                        </td>
+                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
+                            {{@$termometro1->Marca}}
+                        </td>
+
                     </tr>
                     <tr>
                         <td></td>
@@ -42,13 +42,13 @@
                         </td>
                         <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
                             {{@$termometro2->Marca}}
-                        </td> 
+                        </td>
                     </tr>
                     <tr>
                         <td class="fontNormal justificadorIzq fontSize10 fontCalibri">Con No. serie:
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fontBold">{{@$campoGen->Serie}}</span></td>
-                        <td class="fontNormal justificadorIzq fontSize10 fontCalibri">a una temperatura de 
-                            <span class="fontBold">                                                                
+                        <td class="fontNormal justificadorIzq fontSize10 fontCalibri">a una temperatura de
+                            <span class="fontBold">
                                 {{round(@$campoGen->Temperatura_a, 0)}}°C.
                             </span>
                         </td>
@@ -84,11 +84,14 @@
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lote}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura1, 2, ".", ",")}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
+                                        {{number_format($item->Lectura1, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura2, 2, ".", ",")}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
+                                        {{number_format($item->Lectura2, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura3, 2, ".", ",")}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
+                                        {{number_format($item->Lectura3, 2, ".", ",")}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Estado}}
                                     </td>
@@ -119,11 +122,14 @@
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lote}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura1, 2, ".", ",")}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
+                                        {{number_format($item->Lectura1, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura2, 2, ".", ",")}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
+                                        {{number_format($item->Lectura2, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura3, 2, ".", ",")}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
+                                        {{number_format($item->Lectura3, 2, ".", ",")}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Estado}}
                                     </td>
@@ -220,7 +226,7 @@
                 </table>
             </div>
 
-            <div class="col-12 fontBold fontCalibri fontSize12"> 
+            <div class="col-12 fontBold fontCalibri fontSize12">
                 Empresa
             </div>
 
@@ -229,21 +235,21 @@
             </div>
 
             <div class="col-12 fontCalibri fontSize12 fontNormal">
-                PUNTO DE MUESTREO: <span class="fontBold">                    
-                    {{@$solGen->Punto_muestreo}} {{-- <br> --}}
+                PUNTO DE MUESTREO: <span class="fontBold">
+                    {{@$punto->Punto}} {{-- <br> --}}
                 </span>
             </div>
             @if (@$idNorma != 1)
-                <div class="col-12 fontCalibri fontSize12 fontNormal">
-                   
-                </div>
-           
+            <div class="col-12 fontCalibri fontSize12 fontNormal">
+
+            </div>
+
             @else
             <div class="col-12 fontCalibri fontSize12 fontNormal">
-                    TIPO DE REPORTE: <span class="fontBold">{{@$tipoReporte->Categoria}}</span>
-                </div>
+                TIPO DE REPORTE: <span class="fontBold">{{@$tipoReporte->Categoria}}</span>
+            </div>
             @endif
-             
+
 
             <br>
 
@@ -265,7 +271,8 @@
 
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">TIPO DE MUESTREO</td>
-                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}} ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}}
+                            ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})</td>
                         <td class="fontNormal fontCalibri fontSize12">NUMERO DE MUESTRAS</td>
                         <td class="fontBold fontCalibri fontSize12">{{@$model->Num_tomas}}</td>
                     </tr>
@@ -274,9 +281,9 @@
                         <td class="fontNormal fontCalibri fontSize12">MATERIAL USADO EN EL MUESTREO</td>
                         <td class="fontNormal fontCalibri fontSize10">Ver plan de muestreo RE-11-005</td>
                         {{-- <td class="fontBold fontCalibri fontSize12">{{$tipoReporte->Categoria}}</td> --}}
-                        
+
                     </tr>
-                    
+
                 </table>
             </div>
 
@@ -294,13 +301,14 @@
 
                     <tbody>
                         @for ($i = 0; $i < @$model->Num_tomas; $i++)
-                            <tr>                                
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i + 1}}</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">                                    
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i +
+                                    1}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
                                     {{number_format(@$tempAmbiente[$i]->Temperatura1, 1, ".", ",")}}
-                                </td>                                
+                                </td>
                             </tr>
-                        @endfor                        
+                            @endfor
                     </tbody>
                 </table>
             </div>
@@ -315,17 +323,21 @@
                             <tr>
                                 <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">°C</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de
+                                    correción</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach ($factorCorreccion as $item)
-                                <tr>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$item->De_c}} - {{@$item->A_c}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor_aplicado}}</td>
-                                </tr>
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{@$item->De_c}} - {{@$item->A_c}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                                    {{@$item->Factor}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                                    {{@$item->Factor_aplicado}}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -337,41 +349,47 @@
                     <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">
                         <thead>
                             <tr>
-                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C</th>
+                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra
+                                </th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C
+                                </th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">+/-</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura ajustada</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de
+                                    correción</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura
+                                    ajustada</th>
                             </tr>
                         </thead>
-                        <tbody>                            
+                        <tbody>
                             @php
-                                $aux = 0;
+                            $aux = 0;
                             @endphp
                             @foreach ($tempMuestra as $item)
-                              <tr>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$item->Num_toma}}</td>
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
                                     @php
-                                        echo number_format((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 + @$item->TemperaturaSin3) / 3, 1, ".", ".");                                
+                                    echo number_format((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 +
+                                    @$item->TemperaturaSin3) / 3, 1, ".", ".");
                                     @endphp
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{@$factCorrec[$aux]}}                       
+                                    {{@$factCorrec[$aux]}}
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{@$factApl[$aux]}}                       
+                                    {{@$factApl[$aux]}}
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @php
-                                        echo number_format(@$item->Promedio, 1, ".", ".");                                
+                                    echo number_format(@$item->Promedio, 1, ".", ".");
                                     @endphp
                                 </td>
                                 @php
-                                    $aux++;
+                                $aux++;
                                 @endphp
-                              </tr>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -389,17 +407,21 @@
                             <tr>
                                 <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">°C</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de
+                                    correción</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach ($factorCorreccion2 as $item)
-                                <tr>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$item->De_c}} - {{@$item->A_c}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor_aplicado}}</td>
-                                </tr>
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{@$item->De_c}} - {{@$item->A_c}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                                    {{@$item->Factor}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                                    {{@$item->Factor_aplicado}}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -411,42 +433,47 @@
                     <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">
                         <thead>
                             <tr>
-                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C</th>
+                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra
+                                </th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C
+                                </th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">+/-</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura ajustada</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de
+                                    correción</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura
+                                    ajustada</th>
                             </tr>
                         </thead>
 
-                        <tbody>                      
+                        <tbody>
                             @php
-                                $aux = 0;
-                            @endphp      
+                            $aux = 0;
+                            @endphp
                             @foreach ($tempAmbiente as $item)
                             <tr>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$item->Num_toma}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
                                     @php
-                                        echo number_format(@$item->Temperatura1, 1, ".", ".");                                
+                                    echo number_format(@$item->Temperatura1, 1, ".", ".");
                                     @endphp
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{@$factCorrec2[$aux]}}                       
+                                    {{@$factCorrec2[$aux]}}
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{@$factApl2[$aux]}}                       
+                                    {{@$factApl2[$aux]}}
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @php
-                                        echo number_format((@$item->Temperatura1 - @$factoApl2[$aux]), 1, ".", ".");                                
+                                    echo number_format((@$item->Temperatura1 - @$factoApl2[$aux]), 1, ".", ".");
                                     @endphp
-                                </td> 
+                                </td>
                                 @php
-                                    $aux++;
+                                $aux++;
                                 @endphp
-                            </tr>               
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -516,11 +543,16 @@
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Temperatura °C</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Temperatura °C</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Temperatura °C</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio temp. °C</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad (µS/cm)</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad (µS/cm)</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad (µS/cm)</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio Conduc. µS/cm (+-5%)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio temp. °C
+                            </th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad
+                                (µS/cm)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad
+                                (µS/cm)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad
+                                (µS/cm)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio Conduc.
+                                µS/cm (+-5%)</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Gasto (L/s)</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Gasto (L/s)</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Gasto (L/s)</th>
@@ -532,211 +564,214 @@
                     </thead>
 
                     <tbody>
-                        @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                                                
+                        @for ($i = 0; $i < @$model->Num_tomas; $i++)
                             <tr>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i+1}}</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">                                    
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i+1}}
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Materia == "0")
-                                        ----
+                                    ----
                                     @else
-                                        @switch($model->Id_norma)
-                                            @case(5)
-                                            @case(30)
-                                                    @if ($materia->count())
-                                                        {{@$phMuestra[$i]->Materia}}            
-                                                    @else
-                                                        ----     
-                                                    @endif
-                                                @break
-                                            @default
-                                            @if ($materia->count())
-                                                {{@$phMuestra[$i]->Materia}}            
-                                            @else
-                                                ----     
-                                            @endif
-                                            
-                                        @endswitch
+                                    @switch($model->Id_norma)
+                                    @case(5)
+                                    @case(30)
+                                    @if ($materia->count())
+                                    {{@$phMuestra[$i]->Materia}}
+                                    @else
+                                    ----
                                     @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Color == "0")
-                                        -----
+                                    @break
+                                    @default
+                                    @if ($materia->count())
+                                    {{@$phMuestra[$i]->Materia}}
                                     @else
-                                        {{@$phMuestra[$i]->Color}}
+                                    ----
                                     @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Olor == "0")
-                                        -----
-                                    @else
-                                        {{@$phMuestra[$i]->Olor}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph1 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$phMuestra[$i]->Ph1, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph2 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$phMuestra[$i]->Ph2, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph3 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$phMuestra[$i]->Ph3, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Promedio == 0)
-                                        -----
-                                    @else
-                                        {{round(@$phMuestra[$i]->Promedio, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura1 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$tempMuestra[$i]->Temperatura1, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura2 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$tempMuestra[$i]->Temperatura2, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura3 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$tempMuestra[$i]->Temperatura3, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    
-                                        @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Promedio == 0)
-                                            -----
-                                        @else
-                                            {{round(@$tempMuestra[$i]->Promedio, 0)}}
-                                        @endif
-                                    
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0  || @$conMuestra[$i]->Conductividad1 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$conMuestra[$i]->Conductividad1, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Conductividad2 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$conMuestra[$i]->Conductividad2, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Conductividad3 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$conMuestra[$i]->Conductividad3, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Promedio == 0)
-                                        -----
-                                    @else
-                                        {{round(@$conMuestra[$i]->Promedio, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Gasto1 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$gastoMuestra[$i]->Gasto1, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Gasto2 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$gastoMuestra[$i]->Gasto2, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Gasto3 == 0)
-                                        -----
-                                    @else
-                                        {{round(@$gastoMuestra[$i]->Gasto3, 2)}}
-                                    @endif
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Promedio == 0)
-                                        -----
-                                    @else
-                                        {{round(@$gastoMuestra[$i]->Promedio, 2)}}
+
+                                    @endswitch
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{-- @if (@$phMuestra[$i]->Activo == 0   || @$gastoMuestra[$i]->Promedo == 0)
-                                        -----
-                                    @else                                        
-                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                            0
-                                        @else
-                                            @php
-                                                echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
-                                            @endphp                                            
-                                        @endif
-                                    @endif              
-                                                           --}}
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Color == "0")
+                                    -----
+                                    @else
+                                    {{@$phMuestra[$i]->Color}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Olor == "0")
+                                    -----
+                                    @else
+                                    {{@$phMuestra[$i]->Olor}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph1 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$phMuestra[$i]->Ph1, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph2 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$phMuestra[$i]->Ph2, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph3 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$phMuestra[$i]->Ph3, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Promedio == 0)
+                                    -----
+                                    @else
+                                    {{round(@$phMuestra[$i]->Promedio, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura1 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$tempMuestra[$i]->Temperatura1, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura2 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$tempMuestra[$i]->Temperatura2, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura3 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$tempMuestra[$i]->Temperatura3, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Promedio == 0)
+                                    -----
+                                    @else
+                                    {{round(@$tempMuestra[$i]->Promedio, 0)}}
+                                    @endif
+
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Conductividad1 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$conMuestra[$i]->Conductividad1, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Conductividad2 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$conMuestra[$i]->Conductividad2, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Conductividad3 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$conMuestra[$i]->Conductividad3, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$conMuestra[$i]->Promedio == 0)
+                                    -----
+                                    @else
+                                    {{round(@$conMuestra[$i]->Promedio, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Gasto1 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$gastoMuestra[$i]->Gasto1, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Gasto2 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$gastoMuestra[$i]->Gasto2, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Gasto3 == 0)
+                                    -----
+                                    @else
+                                    {{round(@$gastoMuestra[$i]->Gasto3, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Promedio == 0)
+                                    -----
+                                    @else
+                                    {{round(@$gastoMuestra[$i]->Promedio, 2)}}
+                                    @endif
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{-- @if (@$phMuestra[$i]->Activo == 0 || @$gastoMuestra[$i]->Promedo == 0)
+                                    -----
+                                    @else
+                                    @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                    0
+                                    @else
                                     @php
-                                        $auxGasto = 0;
+                                    echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) *
+                                    $campoCompuesto->Volumen_calculado, 4);
+                                    @endphp
+                                    @endif
+                                    @endif
+                                    --}}
+                                    @php
+                                    $auxGasto = 0;
                                     @endphp
                                     @if (@$gastoMuestra[$i]->Promedio === NULL)
                                     -----
                                     @else
-                                        @php
-                                            $auxGasto = (@$gastoMuestra[$i]->Promedio / $gastoTotal) * $campoCompuesto->Volumen_calculado;
-                                        @endphp                                            
-                                        {{number_format($auxGasto, 2, ".", ".")}}
+                                    @php
+                                    $auxGasto = (@$gastoMuestra[$i]->Promedio / $gastoTotal) *
+                                    $campoCompuesto->Volumen_calculado;
+                                    @endphp
+                                    {{number_format($auxGasto, 2, ".", ".")}}
                                     @endif
                                 </td>
-                            </tr>                            
-                        @endfor
+                            </tr>
+                            @endfor
 
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th class="fontBold fontCalibri fontSize9 sinBorde justificadorCentr" colspan="2">Gasto
-                                Total {{@$gastoTotal}} L/s</th>
-                            <th>&nbsp;</th>
-                        </tr>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th class="fontBold fontCalibri fontSize9 sinBorde justificadorCentr" colspan="2">Gasto
+                                    Total {{@$gastoTotal}} L/s</th>
+                                <th>&nbsp;</th>
+                            </tr>
                     </tbody>
                 </table>
             </div>
@@ -753,7 +788,8 @@
 
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Procedimiento de muestreo</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="75%"> PE-10-002-{{@$campoCompuesto->Proce_muestreo}}</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="75%">
+                                PE-10-002-{{@$campoCompuesto->Proce_muestreo}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -766,30 +802,81 @@
                     <tbody>
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Cuenta con tratamiento</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$conTratamiento->Tratamiento}}</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$conTratamiento->Tratamiento}}
+                            </td>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Tipo</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$tipoTratamiento->Tratamiento}}</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$tipoTratamiento->Tratamiento}}
+                            </td>
                         </tr>
 
+                        @switch(@$model->Id_norma)
+                        @case(30)
                         <tr>
-                            @switch(@$model->Id_norma)
-                                @case(30)
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    @break
-                                @default
-                                @if (@$model->Num_tomas > 1)
-                                    <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
-                                    <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
-                                    <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
-                                    <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} u pH</td>
-                                @else
-                                    
-                                @endif
-                            @endswitch
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            @break
                         </tr>
+                        @default
+                        @if (@$model->Num_tomas > 1)
+                        <tr>
+                            <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">
+                                {{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
+                            <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">
+                                {{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} u pH</td>
+                        </tr>
+                        @php
+                            $auxCloruros = ""
+                        @endphp
+                        @switch($punto->Cloruros)
+                        @case(0)
+
+                            @break
+                        @case(500)
+                            @php
+                                $auxCloruros = 500
+                            @endphp
+                            @break
+                        @case(1000)
+                            @php
+                                $auxCloruros = 1000
+                            @endphp
+                            @break
+                        @case(1500)
+                                @php
+                                    $auxCloruros = 1500
+                                @endphp
+                            @break
+                        @case(2000)
+                                @php
+                                    $auxCloruros = 2000
+                                @endphp
+                            @break
+                        @case(3000)
+                                @php
+                                    $auxCloruros = 3000
+                                @endphp
+                            @break
+                            @default
+
+                        @endswitch
+
+                        @if ($auxCloruros != "")
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize12" width="25%">Cloruros</td>
+                                <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$auxCloruros}}</td>
+                                <td class="fontNormal fontCalibri fontSize12" width="25%"></td>
+                                <td class="fontCalibri fontSize12 fontBold" width="25%"></td>
+                            </tr>
+                        @endif
+                    
+                        @else
+
+                        @endif
+                        @endswitch
                     </tbody>
                 </table>
 
@@ -799,7 +886,8 @@
                     <tbody>
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="40%">Observaciones</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="60%">{{@$campoCompuesto->Observaciones}}</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="60%">{{@$campoCompuesto->Observaciones}}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -808,138 +896,142 @@
             <br>
 
             @switch(@$model->Id_norma)
-                @case(30)
-                    
-                    @break
+            @case(30)
 
-                @default
-                @if (@$model->Num_tomas > 1)
-                <div class="contenedorPadre12">
-                    <div class="contenedorHijo131">
-                        <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
-                            <tbody>
+            @break
+
+            @default
+            @if (@$model->Num_tomas > 1)
+            <div class="contenedorPadre12">
+                <div class="contenedorHijo131">
+                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="fontBold fontCalibri fontSize12 justificadorIzq" colspan="3">
+                                    Calculo de muestra compuesta
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
+                            </tr>
+
+                            <tr>
+                                <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="fontCalibri fontSize12 fontBold">{{@$campoCompuesto->Volumen_calculado}}</td>
+                                <td class="fontCalibri fontSize12 fontBold">L</td>
+                            </tr>
+
+                            <tr>
+                                <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="fontCalibri fontSize12 fontBold">{{@$gastoTotal}}</td>
+                                <td class="fontCalibri fontSize12 fontBold">L/s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="contenedorHijo132">
+                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+
+                            <tr>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">(Qi / QT)</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">x</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>
+                            </tr>
+
+                            @for ($i = 0; $i < @$model->Num_tomas; $i++)
                                 <tr>
-                                    <td class="fontBold fontCalibri fontSize12 justificadorIzq" colspan="3">
-                                        Calculo de muestra compuesta
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{$i+1}}</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                        ---
+                                        @else
+                                        {{@$gastoMuestra[$i]->Promedio}}
+                                        @endif
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                        ---
+                                        @else
+                                        {{@$gastoTotal}}
+                                        @endif
+                                        &nbsp;&nbsp;&nbsp; =</td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                        ---
+                                        @else
+                                        @php
+                                        echo round($gastoMuestra[$i]->Promedio / $gastoTotal, 3);
+                                        @endphp
+                                        @endif
+                                    </td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                        ---
+                                        @else
+                                        {{@$campoCompuesto->Volumen_calculado}}
+                                        @endif
+                                    </td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @php
+                                        $auxGasto = 0;
+                                        @endphp
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                        ---
+                                        @else
+                                        {{-- {{number_format((@$gastoMuestra[$i]->Promedio / $gastoTotal, 4)) *
+                                        $campoCompuesto->Volumen_calculado) , 2, ".", ".")}} --}}
+                                        @php
+                                        $auxGasto = (@$gastoMuestra[$i]->Promedio / $gastoTotal) *
+                                        $campoCompuesto->Volumen_calculado;
+                                        @endphp
+                                        {{number_format($auxGasto, 2, ".", ".")}}
+                                        @endif
                                     </td>
                                 </tr>
-    
-                                <tr>
-                                    <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
-                                </tr>
-    
-                                <tr>
-                                    <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td class="fontCalibri fontSize12 fontBold">{{@$campoCompuesto->Volumen_calculado}}</td>
-                                    <td class="fontCalibri fontSize12 fontBold">L</td>
-                                </tr>
-    
-                                <tr>
-                                    <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
-                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td class="fontCalibri fontSize12 fontBold">{{@$gastoTotal}}</td>
-                                    <td class="fontCalibri fontSize12 fontBold">L/s</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-    
-                    <div class="contenedorHijo132">
-                        <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
-                            <tbody>
-                                <tr>
-                                    <td colspan="5">&nbsp;</td>
-                                </tr>
-                            
-                                <tr>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">(Qi / QT)</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">x</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>
-                                </tr>
-                                
-                                @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                             
-                                    <tr>
-                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{$i+1}}</td>
-                                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                ---
-                                            @else
-                                                {{@$gastoMuestra[$i]->Promedio}}
-                                            @endif                                                                                
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                                            
-                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                ---
-                                            @else
-                                                {{@$gastoTotal}}
-                                            @endif                                        
-                                            &nbsp;&nbsp;&nbsp; =</td>
-                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">
-                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                ---
-                                            @else
-                                                @php
-                                                    echo round($gastoMuestra[$i]->Promedio / $gastoTotal, 3);
-                                                @endphp                                            
-                                            @endif                                        
-                                        </td>
-                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">
-                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                ---
-                                            @else
-                                                {{@$campoCompuesto->Volumen_calculado}}
-                                            @endif                                        
-                                        </td>
-                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">
-                                        @php
-                                            $auxGasto = 0;
-                                        @endphp
-                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                ---
-                                            @else
-                                                {{-- {{number_format((@$gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado) , 2, ".", ".")}} --}}
-                                                @php
-                                                    $auxGasto = (@$gastoMuestra[$i]->Promedio / $gastoTotal) * $campoCompuesto->Volumen_calculado;
-                                                @endphp
-                                                {{number_format($auxGasto, 2, ".", ".")}}
-                                            @endif
-                                        </td>
-                                    </tr>                                 
                                 @endfor
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI = 
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI =
                                         @php
-                                            $sumaVMSI = 0;
-    
-                                            for($i = 0; $i < @$model->Num_tomas; $i++){
-                                                if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                    $sumaVMSI += 0;
-                                                else{                                            
-                                                    $sumaVMSI += round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 3)) * $campoCompuesto->Volumen_calculado, 3);
-                                                }                                        
+                                        $sumaVMSI = 0;
+
+                                        for($i = 0; $i < @$model->Num_tomas; $i++){
+                                            if (@$gastoMuestra[$i]->Promedio === NULL)
+                                            $sumaVMSI += 0;
+                                            else{
+                                            $sumaVMSI += round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 3)) *
+                                            $campoCompuesto->Volumen_calculado, 3);
                                             }
-                                            echo round($sumaVMSI, 1)."L";                                        
-                                        @endphp                                    
+                                            }
+                                            echo round($sumaVMSI, 1)."L";
+                                            @endphp
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-                @else
-                    
-                @endif
-      
-    
+            </div>
+            @else
+
+            @endif
+
+
             @endswitch
 
 

@@ -1085,7 +1085,8 @@
                                     <label for="">Cloruros</label>
                                     {{-- <input type="number" class="form-control" id="valCloruros" value="{{@$compuesto->Cloruros}}" placeholder="Cloruros"> --}}
                                     <select id="valCloruros" class="form-control">
-                                        @if (@$compuesto->Cloruros == 0)<option selected value="0"> Sin seleccionar</option> @else <option value="0"> Sin seleccionar</option> @endif
+                                        @if (@$compuesto->Cloruros == "")<option selected value="0"> Sin seleccionar</option> @else <option value="0"> Sin seleccionar</option> @endif
+                                        @if (@$compuesto->Cloruros == 0)<option selected value="0"><= 500</option> @else <option value="0"><= 500</option> @endif
                                         @if (@$compuesto->Cloruros == 500)<option selected value="500">500</option> @else <option value="500">500</option> @endif
                                         @if (@$compuesto->Cloruros == 1000)<option selected value="1000">1000</option> @else <option value="1000">1000</option> @endif
                                         @if (@$compuesto->Cloruros == 1500)<option selected value="1500">1500</option> @else <option value="1500">1500</option> @endif

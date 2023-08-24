@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"
             border-color="#000000" width="100%">
@@ -53,7 +52,7 @@
                         <td class="tableContent bordesTablaBody">
                             @switch($item->Id_parametro)
                                 @case(26)
-                                    {{(@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2;}}
+                                    {{number_format(((@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2), 2, ".", "")}}
                                     @break;
                                 @case(2)
                                         @if (@$limitesC1[$cont] == "PRESENTE" || $limitesC2[$cont] == "PRESENTE")

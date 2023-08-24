@@ -1581,6 +1581,7 @@ function setDetalleMuestra() {
         case 6: // Mb
         case 12:
         case 3:
+        case 52:
             switch (parseInt($('#parametro').val())) {
                 case 12:
                 case 35:
@@ -2765,10 +2766,12 @@ function getCapturaLote() {
                         break;
                     case 6://Mb
                     case 12://
+                    case 51:
                     case 3: // Alimentos
                         switch (parseInt(item.Id_parametro)) {
                             case 12://Coliformes
                             case 35://Ecoli
+                            case 51:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                                 break;
                             case 253://Enterococos

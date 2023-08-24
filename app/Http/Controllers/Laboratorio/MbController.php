@@ -681,12 +681,56 @@ class MbController extends Controller
             $resultado = (10 / $request->D1) * $convinacion->NMP;
         }
        
+                    $metodoCorto = 1;
+                    $model = LoteDetalleColiformes::find($request->idDetalle);
+                    $model->Tipo = 1;
+                    $model->Dilucion1 = $request->D1;
+                    $model->Dilucion2 = $request->D2;
+                    $model->Dilucion3 = $request->D3;
+                    $model->Indice = $request->NMP;
+                    $model->Muestra_tubos = $request->G3;
+                    $model->Tubos_negativos = $request->G2;
+                    $model->Tubos_positivos = $request->G1;
+                    $model->Confirmativa1 = $request->con1;
+                    $model->Confirmativa2 = $request->con2;
+                    $model->Confirmativa3 = $request->con3;
+                    $model->Confirmativa4 = $request->con4;
+                    $model->Confirmativa5 = $request->con5;
+                    $model->Confirmativa6 = $request->con6;
+                    $model->Confirmativa7 = $request->con7;
+                    $model->Confirmativa8 = $request->con8;
+                    $model->Confirmativa9 = $request->con9;
+                    $model->Presuntiva1 = $request->pre1;
+                    $model->Presuntiva2 = $request->pre2;
+                    $model->Presuntiva3 = $request->pre3;
+                    $model->Presuntiva4 = $request->pre4;
+                    $model->Presuntiva5 = $request->pre5;
+                    $model->Presuntiva6 = $request->pre6;
+                    $model->Presuntiva7 = $request->pre7;
+                    $model->Presuntiva8 = $request->pre8;
+                    $model->Presuntiva9 = $request->pre9;
+
+                    $model->Presuntiva10 = $request->pre11;
+                    $model->Presuntiva11 = $request->pre22;
+                    $model->Presuntiva12 = $request->pre33;
+                    $model->Presuntiva13 = $request->pre44;
+                    $model->Presuntiva14 = $request->pre55;
+                    $model->Presuntiva15 = $request->pre66;
+                    $model->Presuntiva16 = $request->pre77;
+                    $model->Presuntiva17 = $request->pre88;
+                    $model->Presuntiva18 = $request->pre99;
+
+                    $model->Resultado = $resultado;
+                    $model->Analizo = Auth::user()->id;
+                    $model->save();
         
         $data = array(
             'convinacion' => $convinacion,
             'metodoCorto' => $metodoCorto,
             'positivos' =>  $positivos,
             'resultado' => $resultado,
+            'model' => $model,
+            'IdDetalle' => $request->idDetalle,
          );
 
         return response()->json($data);
@@ -1702,7 +1746,7 @@ class MbController extends Controller
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraBitacorasMb::create([
+            $model = BitacoraBitacorasMb::create([ 
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,

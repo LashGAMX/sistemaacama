@@ -51,11 +51,12 @@
                         @if (@$promGas->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
                         <td class="fontCalibri anchoColumna111 fontSize8">
-                            @if (@$promGas[0]->Resultado2 <= @$promGas[0]->Limite)
+                            {{-- @if (@$promGas[0]->Resultado2 <= @$promGas[0]->Limite)
                                 < {{@$promGas[0]->Limite}}
                             @else
                                 {{round(@$promGas[0]->Resultado2,2)}}
-                            @endif
+                            @endif --}}
+                            {{round(@$promGas[0]->Resultado2,2)}}
                         </td>
                     @endif
 
@@ -105,11 +106,12 @@
                         @if (@$promGas->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
                             <td class="fontCalibri anchoColumna111 fontSize8">
-                                @if (@$promGas[0]->Resultado2 <= @$promGas[0]->Limite)
+                                {{-- @if (@$promGas[0]->Resultado2 <= @$promGas[0]->Limite)
                                     < {{@$promGas[0]->Limite}}
                                 @else
                                     {{round(@$promGas[0]->Resultado2,2)}}
-                                @endif
+                                @endif --}}
+                                {{round(@$promGas[0]->Resultado2,2)}}
                             </td>
                         @endif
 

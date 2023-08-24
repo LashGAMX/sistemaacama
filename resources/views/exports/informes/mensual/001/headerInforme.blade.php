@@ -16,8 +16,8 @@
 
                 <tr>                    
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Dirección:</td>                    
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{@$direccion1->Direccion}}</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup" colspan="2"> {{@$direccion1->Direccion}}</td>
+                    {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;@if (@$solModel1->Siralab == 1) 
                         TITULO DE CONCESIÓN: {{@$tituloConsecion->Titulo}}
@@ -31,13 +31,13 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold soloBordeInf">@if ($solModel1->Siralab == 1)
+                    <td class="filasIzq bordesTabla fontBold soloBordeInf" colspan="2">@if ($solModel1->Siralab == 1)
                         {{$punto->Punto}}
                     @else
                         {{$punto->Punto_muestreo}}
                     @endif</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
+                    {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup">&nbsp;</td>
                 </tr>
@@ -45,9 +45,7 @@
                     <td class="filasIzq bordesTabla soloBordeDer" colspan="2" rowspan="9">&nbsp;</td>
                     <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6">GASTO PROMEDIO</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup justificadorCentr fontSize6">
-                        @php
-                            echo (@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2;
-                        @endphp
+                        {{number_format(((@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2), 2, ".", "")}}
                     </td>
                     <td class="filasIzq bordesTabla bordeIzqSinSup fontSize6 fontBold bordeIzqDerSinSup justificadorCentr">L/s</td>                                        
                     <td class="filasIzq bordesTabla soloBordeDer fontBold fontSize12 justificadorCentr" rowspan="9" width="13.05%">

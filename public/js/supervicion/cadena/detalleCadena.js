@@ -685,9 +685,14 @@ function getDetalleAnalisis(idCodigo) {
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
                             tab += '<td>Gasto Campo - ' + (cont + 1) + '</td>';
-                            tab += '<td>' + item.Promedio + '</td>';
+                            if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += '<td>' + item.Promedio + '</td>';   
+                                aux = aux + parseFloat(item.Promedio);
+                            } else { 
+                                tab += '<td>' + item.Resultado + '</td>';
+                                aux = aux + parseFloat(item.Promedio);
+                            }
                             tab += '</tr>';
-                            aux = aux + parseFloat(item.Promedio);
                             cont++
                         });
                         resLiberado = (aux / cont);
@@ -734,11 +739,18 @@ function getDetalleAnalisis(idCodigo) {
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
                             tab += '<td> Materia - ' + (cont + 1) + '</td>';
-                            tab += '<td>' + item.Materia + '</td>';
-                            tab += '</tr>';
-                            if (item.Materia == "Presente") {
-                                aux = 1;
+                            if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += '<td>' + item.Materia + '</td>';   
+                                if (item.Materia == "Presente") {
+                                    aux = 1;
+                                }
+                            } else { 
+                                tab += '<td>' + item.Resultado + '</td>';
+                                if (item.Resultado == "Presente" || item.Resultado == "PRESENTE") {
+                                    aux = 1;
+                                }
                             }
+                            tab += '</tr>';
                             cont++;
                         });
                         resLiberado = aux;

@@ -237,12 +237,13 @@ function tablePuntos(id) {
                 tab += '<td>' + item.Punto + '</td>';
                 tab += '<td><input placeholder="Conduct" value="' + response.conductividad[aux] + '">'
                 tab += '<select id="sel' + item.Id_solicitud + '">'
-                if (response.cloruro[aux] == 0) { tab += '    <option selected value="0" >Sin seleccionar</option>' } else { tab += '    <option value="0" >Sin seleccionar</option>' }
+                if (response.cloruro[aux] == "") { tab += '    <option selected  >Sin seleccionar</option>' } else { tab += '    <option  >Sin seleccionar</option>' }
+                if (response.cloruro[aux] == 0) { tab += '    <option selected value="0" ><= 500</option>' } else { tab += '    <option value="0" ><= 500</option>' }
                 if (response.cloruro[aux] == 500) { tab += '    <option selected value="500" >500</option>' } else { tab += '    <option value="500" >500</option>' }
                 if (response.cloruro[aux] == 1000) { tab += '    <option selected value="1000" >1000</option>' } else { tab += '    <option value="1000" >1000</option>' }
                 if (response.cloruro[aux] == 1500) { tab += '    <option selected value="1500" >1500</option>' } else { tab += '    <option value="1500" >1500</option>' }
                 if (response.cloruro[aux] == 2000) { tab += '    <option selected value="2000" >2000</option>' } else { tab += '    <option value="2000" >2000</option>' }
-                if (response.cloruro[aux] == 3000) { tab += '    <option selected value="3000" > > 3000</option>' } else { tab += '    <option value="3000" > > 3000</option>' }
+                if (response.cloruro[aux] == 3000) { tab += '    <option selected value="3000" > >= 3000</option>' } else { tab += '    <option value="3000" > >= 3000</option>' }
                 tab += '</select></td>'
                 tab += '</tr>';
                 aux++

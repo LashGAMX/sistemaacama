@@ -336,8 +336,12 @@ class CadenaController extends Controller
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
             case "26": //Gasto
-                $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
+                if ($solModel->Id_servicio != 3) {
+                    $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
+
                 break;
             case "67": //Conductividad
             case "68":
@@ -361,8 +365,11 @@ class CadenaController extends Controller
                 }
             break;
             case "2": //Materia flotante
-                $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
+                if ($solModel->Id_servicio != 3) {
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();   
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
                 break;
             case "14": //ph
             case "110":

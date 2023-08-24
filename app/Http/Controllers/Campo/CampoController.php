@@ -1626,7 +1626,8 @@ class CampoController extends Controller
             $puntos = $puntoMuestreo->count();
         }
 
-        $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
+        // $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud', $id)->first();
@@ -1690,6 +1691,7 @@ class CampoController extends Controller
         $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
         $materia = SolicitudParametro::where('Id_subnorma', 2)->where('Id_solicitud', $model->Id_solicitud)->get();
+
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',

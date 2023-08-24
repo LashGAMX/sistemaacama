@@ -9,7 +9,7 @@
  
     <title>Hoja de Campo </title>
 </head>
-<body style="font-size: 10px"> 
+<body style="font-size: 9px"> 
     <div class="container" id="pag">
         <div class="row">
             <div class="col-md-12">
@@ -177,7 +177,8 @@
                                 @if (@$gastoMuestra[$i]->Promedio == "" || @$gastoMuestra[$i]->Promedio == null)
                                     ---
                                 @else 
-                                    {{@$gastoMuestra[$i]->Promedio}}
+                                {{number_format(@$gastoMuestra[$i]->Promedio, 2, ".", ",")}}    
+                                    <!-- {{@$gastoMuestra[$i]->Promedio}} -->
                                 @endif  
                             @else
                                 ---
