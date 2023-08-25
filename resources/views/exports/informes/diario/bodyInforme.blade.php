@@ -192,7 +192,7 @@
                         @else
                         COMPUESTA
                         @endif
-                         QUE ESTABLECE LOS LIMITES PERMICIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN CUERPO RECEPTORES PROPIEDAD DE LA NACION
+                         QUE ESTABLECE LOS LIMITES PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN CUERPO RECEPTORES PROPIEDAD DE LA NACION
                      @break
                         @case(2)
                         DE ACUERDO A NOM-002-SEMARNAT-1996 PARA MUESTRA
