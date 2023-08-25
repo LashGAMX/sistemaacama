@@ -1,9 +1,12 @@
 <footer style="">    
-
+    @php
+        $temp = array();
+        $sw = false;
+        $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
+        $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+    @endphp
+    <img style="width: 8%; height: 8%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
     <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000">
-
-   
-
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>            
                     <tr>
@@ -22,10 +25,8 @@
     </div>
     
     <div id="contenedorTabla">
-        @php
-            $temp = array();
-            $sw = false;
-        @endphp
+   
+        
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>            
                     @foreach ($model1 as $item)
@@ -76,7 +77,7 @@
                         <td>
                             {{-- <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma2->firma)}}"> <br></span>           --}}
                             
-                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> TSU. MARÍA IRENE REYES MORALES{{-- {{@$usuario->name}} --}} </span> <br>
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B. SANDRA ROJAS NAVARRO{{-- {{@$usuario->name}} --}} </span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 8px;"> AUTORIZÓ SIGNATARIO</span> </center>
                         </td>
                     </tr>
@@ -88,15 +89,7 @@
  
     </div>    
 
-    <div >
-        @php
-        $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript;
-        $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-        @endphp
-           
-        <img style="float: right;width: 50px;height: 50px;" src="{{@$qr_code}}" alt="qrcode" />
-    </div>
-   
+ 
     
 <div id="contenedorTabla">
     <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">

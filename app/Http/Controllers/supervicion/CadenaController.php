@@ -165,6 +165,7 @@ class CadenaController extends Controller
             case 204:
             case 219:
             case 230:
+            case 23:
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
