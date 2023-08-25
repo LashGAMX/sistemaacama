@@ -366,7 +366,7 @@ class CampoAppController extends Controller
         $contratamiento = ConTratamiento::where('Tratamiento', $conTratamiento)->first();
         $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
         $phMuestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];
-
+        
         $campoCompuesto = CampoCompuesto::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoCompuesto->Metodo_aforo = $aforo;
         $campoCompuesto->Con_tratamiento = $contratamiento->Id_tratamiento;
@@ -377,9 +377,17 @@ class CampoAppController extends Controller
         $campoCompuesto->Ph_muestraComp = $phMuestraComp;
         $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
         $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
-        $cloruros = $jsonDatosCompuestos[0]["Cloruros"];
-        $clorurosExploded = explode(" ", $cloruros);
-        $campoCompuesto->Cloruros = $clorurosExploded[1];
+        $explode =  explode(" ", $jsonDatosCompuestos[0]["Cloruros"]);
+        $clorurosJson = $jsonDatosCompuestos[0]["Cloruros"];
+        if ($explode[0] == "<"){
+            $cloruros = 499;
+        } else if ($explode[0] == ">"){
+            $cloruros = 1500;
+        }
+        else {
+            $cloruros = $explode[1];
+        }
+        $campoCompuesto->Cloruros = $cloruros;
         $campoCompuesto->save();
        // -------------------------EVIDENCIA---------------------------------------
 
@@ -437,7 +445,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'phcalidad' => $jsonphCalidadMuestra[0]["Lectura2C"]
+             'phcalidad' => $explode[0]
              
           
         );
