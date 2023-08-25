@@ -2189,8 +2189,8 @@ class InformesController extends Controller
         $auxPunto = PuntoMuestreoSir::where('Id_punto',$punto->Id_muestreo)->first();
         $tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
 
-        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte', 1)->where('Mensual',1)->orderBy('Parametro', 'ASC')->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte', 1)->where('Mensual',1)->orderBy('Parametro', 'ASC')->get();
 
         @$gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         @$gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
@@ -2198,7 +2198,7 @@ class InformesController extends Controller
         $obs2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
         $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
         $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
-        $auxTemp = 0;
+        $auxTemp = 0; 
         $tempProm1 = 0;
         $tempProm2 = 0;
         foreach ($tempAmbiente1 as $item) {
@@ -2343,23 +2343,15 @@ class InformesController extends Controller
                             $aux64 = $aux64 + @$model2[$cont]->Resultado2;
                             break;
                     }
-                    switch (($aux64 / 2)) {
-                        case 499:
-                            $limP = "< 500";
-                            break;
-                        case 500:
-                            $limP = "500";
-                            break;
-                        case 1000:
-                            $limP = "1000";
-                            break;
-                        case 1500:
-                            $limP = "> 1000";
-                            break;
-                        default:
-                            $limP =  number_format(@$item->Resultado2, 2, ".", "");
-                            break;
+                    $aux64 = $aux64 / 2;
+                    if ($aux64 < 500) {
+                        $limP = "< 500";
+                    } else if ($aux64 > 1000) {
+                        $limP = "> 1000";
+                    }else{
+                        $limP = number_format(@$aux64, 2, ".", "");;
                     }
+                
                     break;
                     case 67:
                         $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
@@ -2405,47 +2397,64 @@ class InformesController extends Controller
 
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC1 = "< " . $item->Limite; 
+                            
                             switch ($item->Id_parametro) {
-                                //Redondeo a enteros
-                            case 97:
-                                $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
-                                $limP = round($limP);
-                                break;
-                            case 67:
-                                // $limP = round($limP); 
-                                $limP = "N/A";
-                                break;
-                                // 3 Decimales
-                            case 17: // Arsenico
-                            case 231:        
-                            case 20: // Cobre
-                            case 22: //Mercurio
-                            case 25: //Zinc 
-                            case 227:
-                            case 24: //Plomo
-                            case 21: //Cromoa
-                            case 264:
-                            case 18: //Cadmio
-                            case 7:  
-                            case 8:
-                                $limP = number_format(@$limP, 3, ".", "");
-                                break;
-                            case 152:
-                                $limP = number_format(@$limP, 3, ".", "");
-                                break;
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 83:
-                            case 12: 
-                                $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                                $limP = number_format(@$limP, 2, ".", "");
-                                break;
-                            default: 
-                                $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                                $limP = number_format(@$limP, 2, ".", "");
-                                break;
-                        }
+                                    //Redondeo a enteros
+                                case 97:
+                                    $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
+                                    $limP = round($limP);
+                                    break;
+                                case 67:
+                                    // $limP = round($limP); 
+                                    $limP = "N/A";
+                                    break;
+                                    // 3 Decimales
+                                case 17: // Arsenico
+                                case 231:        
+                                case 20: // Cobre
+                                case 22: //Mercurio
+                                case 25: //Zinc 
+                                case 227:
+                                case 24: //Plomo
+                                case 21: //Cromoa
+                                case 264:
+                                case 18: //Cadmio
+                                case 7:  
+                                case 8:
+                                    if ($limP <= $item->Limite) {
+                                        $limP = "< " . $item->Limite; 
+                                    }else{
+                                        $limP = number_format(@$limP, 3, ".", "");
+                                    }
+                                    break;
+                                case 152:
+                                    if ($limP <= $item->Limite) {
+                                        $limP = "< " . $item->Limite; 
+                                    }else{
+                                        $limP = number_format(@$limP, 3, ".", "");
+                                    }
+                                    break;
+                                case 9:
+                                case 10:
+                                case 11:
+                                case 83:
+                                case 12: 
+                                    $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                    if ($limP <= $item->Limite) {
+                                        $limP = "< " . $item->Limite; 
+                                    }else{
+                                        $limP = number_format(@$limP, 2, ".", "");
+                                    }
+                                    break;
+                                default: 
+                                    $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                    if ($limP <= $item->Limite) {
+                                        $limP = "< " . $item->Limite; 
+                                    }else{
+                                        $limP = number_format(@$limP, 2, ".", "");
+                                    }
+                                    break;
+                            }
                         } else {
                             a:
                             switch ($item->Id_parametro) {
@@ -2506,47 +2515,7 @@ class InformesController extends Controller
                         }
                         if ($model2[$cont]->Resultado2 <= $model2[$cont]->Limite) {
                             $limC2 = "< " . $model2[$cont]->Limite;
-                            switch ($item->Id_parametro) {
-                                //Redondeo a enteros
-                            case 97:
-                                $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
-                                $limP = round($limP);
-                                break;
-                            case 67:
-                                // $limP = round($limP); 
-                                $limP = "N/A";
-                                break;
-                                // 3 Decimales
-                            case 17: // Arsenico
-                            case 231:        
-                            case 20: // Cobre
-                            case 22: //Mercurio
-                            case 25: //Zinc 
-                            case 227:
-                            case 24: //Plomo
-                            case 21: //Cromoa
-                            case 264:
-                            case 18: //Cadmio
-                            case 7:  
-                            case 8:
-                                $limP = number_format(@$limP, 3, ".", "");
-                                break;
-                            case 152:
-                                $limP = number_format(@$limP, 3, ".", "");
-                                break;
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 83:
-                            case 12: 
-                                $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                                $limP = number_format(@$limP, 2, ".", "");
-                                break;
-                            default: 
-                                $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                                $limP = number_format(@$limP, 2, ".", "");
-                                break;
-                        }
+
                         } else {
                             b:
                             switch ($item->Id_parametro) {

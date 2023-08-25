@@ -446,12 +446,18 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '<tr>';
                         tab += '<td> GA - ' + item.Num_tomas + '</td>';
                         tab += '<td>' + item.Resultado + '</td>';
-                        tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
-                        tab += '</tr>';
+                        
                         if (item.Resultado != null) {
-                            aux = aux + (response.aux[cont] * item.Resultado);
-                            cont++;
+                            if (response.solModel.Id_servicio != "3") {
+                                tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
+                                aux = aux + (response.aux[cont] * item.Resultado);
+                                cont++;
+                            } else {
+                                aux = parseFloat(item.Resultado)
+                                cont++;
+                            }
                         }
+                        tab += '</tr>';
                     });
                     resLiberado = (aux).toFixed(2);
                     // if ($("#idNorma").val() == "27") {
@@ -691,7 +697,7 @@ function getDetalleAnalisis(idCodigo) {
                                 aux = aux + parseFloat(item.Promedio);
                             } else { 
                                 tab += '<td>' + item.Resultado + '</td>';
-                                aux = aux + parseFloat(item.Promedio);
+                                aux = aux + parseFloat(item.Resultado);
                             }
                             tab += '</tr>';
                             cont++

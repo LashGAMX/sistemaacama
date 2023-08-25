@@ -24,6 +24,7 @@ class CodigoParametros extends Model
         'Asignado',
         'Analizo',
         'Reporte',
+        'Mensual',
         'Cadena',
         'Cancelado',
         'Liberado',
