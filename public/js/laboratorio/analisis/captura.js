@@ -215,6 +215,7 @@ function getStdMenu() {
                 //     $("#secctionAlcalinidad").show();
                 //     break;
                 case 6: // DQO
+                case 161:
                     $("#secctionDqo").show();
                     break;
                 case 28:
@@ -243,6 +244,7 @@ function getStdMenu() {
                     $("#coliformes-tab").show()
                     break;
                 case 5:
+                case 71:
                     $("#dbo-tab").show()
                     break;
                 default:
@@ -456,6 +458,7 @@ function setFormulaValoracion() {
             $("#molaridadResAlc").val(res.toFixed(3));
             break;
         case '6': // DQO
+        case '161': // DQO
             $("#blancoResD").val($("#blancoValD").val())
             titulado1 = $("#titulado1D").val();
             titulado2 = $("#titulado2D").val();
@@ -556,6 +559,7 @@ function setValoracion() {
             });
             break;
         case '6': // DQO
+        case '161':
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -1227,6 +1231,7 @@ function setDetalleMuestra() {
 
                     break;
                 case 6: // Dqo
+                case 161:
                     if (idTecnica == 2) {
                         $.ajax({
                             type: "POST",
@@ -1788,6 +1793,7 @@ function setDetalleMuestra() {
                     });
                     break;
                 case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                case 71:
                     let sug = 0;
                     if (document.getElementById("sugeridoDbo").checked == true) {
                         sug = 1;
@@ -2272,6 +2278,7 @@ function getDetalleMuestra(id) {
                             }
                             break;
                         case 6: // Dqo
+                        case 161:
                             if (response.valoracion == "") { // Tubo sellado
                                 $("#b1").val(response.curva.B);
                                 $("#m1").val(response.curva.M);
@@ -2521,6 +2528,7 @@ function getDetalleMuestra(id) {
                             $("#observacionEnt").val(response.model.Observacion);
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        case 71:
                             $('#botellaF1Dbo').val(response.model.Botella_final);
                             $('#od1Dbo').val(response.model.Botella_od);
                             $('#oxiFinal1Dbo').val(response.model.Odf);
@@ -2694,6 +2702,7 @@ function getCapturaLote() {
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';
                                 break;
                             case 6: // Dqo
+                            case 161:
                                 idTecnica = response.aux.Tecnica
                                 if (response.aux.Tecnica == 2) {
                                     tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDqoVol">Capturar</button>';
@@ -2778,6 +2787,7 @@ function getCapturaLote() {
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaEnt">Capturar</button>';
                                 break;
                             case 5://Dbo
+                            case 71:
                                 if (item.Id_control == 5) {
                                     tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaDboBlanco">Capturar</button>';
                                 } else {

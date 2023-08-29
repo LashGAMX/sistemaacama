@@ -308,7 +308,7 @@ class InformesController extends Controller
                     case 98:
                     case 112:
                     case 218:
-                        if ($item->Resultado2 <= $item->Limite) {
+                        if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
                             $limC = number_format(@$item->Resultado2, 2, ".", "");
@@ -369,9 +369,9 @@ class InformesController extends Controller
                                 break;
                                
                             default:
+                                $limC = round($item->Resultado2);
                                 break;
                         }
-                        $limC = round($item->Resultado2);
                         break;
                     default:
                         if ($item->Resultado2 <= $item->Limite) {
@@ -2096,13 +2096,13 @@ class InformesController extends Controller
         $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol2Temp)->first();
         $valFol = explode('-',$solModel1->Folio_servicio);
         $valFol2 = explode('-',$solModel2->Folio_servicio);
-        echo "<br> VALFOL1: ".$valFol[0];
-        echo "<br> VALFOL2: ".$valFol2[0];
+        // echo "<br> VALFOL1: ".$valFol[0];
+        // echo "<br> VALFOL2: ".$valFol2[0];
         if ($valFol[0] < $valFol2[0]) {
             // Hace los filtros para realizar la comparacion
             $solModel1 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol1Temp)->first();
             $solModel2 = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol2Temp)->first();
-            echo "<br> Entro IF";
+            // echo "<br> Entro IF";
             $idSol2 = $idSol2Temp;
             $idSol1 = $idSol1Temp;
         }else{
@@ -2421,12 +2421,6 @@ class InformesController extends Controller
                                 case 18: //Cadmio
                                 case 7:  
                                 case 8:
-                                    if ($limP <= $item->Limite) {
-                                        $limP = "< " . $item->Limite; 
-                                    }else{
-                                        $limP = number_format(@$limP, 3, ".", "");
-                                    }
-                                    break;
                                 case 152:
                                     if ($limP <= $item->Limite) {
                                         $limP = "< " . $item->Limite; 
@@ -2434,6 +2428,13 @@ class InformesController extends Controller
                                         $limP = number_format(@$limP, 3, ".", "");
                                     }
                                     break;
+                                // case 152:
+                                //     if ($limP <= $item->Limite) {
+                                //         $limP = "< " . $item->Limite; 
+                                //     }else{
+                                //         $limP = number_format(@$limP, 3, ".", "");
+                                //     }
+                                //     break;
                                 case 9:
                                 case 10:
                                 case 11:
@@ -2477,6 +2478,7 @@ class InformesController extends Controller
                                 case 18: //Cadmio
                                 case 7:
                                 case 8:
+                                case 152:
                                     $limP = number_format(@$limP, 3, ".", "");
                                     $limC1 = number_format(@$item->Resultado2, 3, ".", "");
                                     break;
@@ -2490,10 +2492,13 @@ class InformesController extends Controller
                                     $limP = "N/A";
                                     // $limP = round($limP);
                                     break;
-                                case 152:
-                                    $limP = number_format(@$limP, 3, ".", "");
-                                    $limC1 = number_format(@$item->Resultado2, 3, ".", "");
-                                    break;
+                                // case 152:
+                                //     if (@$item->Resultado2 <= $item->Limite) {
+                                //         $limC1 = "< " . $item->Limite; 
+                                //     }else{
+                                //         $limC1 = number_format(@$item->Resultado2, 3, ".", "");
+                                //     }
+                                //     break;
                                 case 9:
                                 case 10:
                                 case 11:
@@ -2549,13 +2554,21 @@ class InformesController extends Controller
                                 case 18: //Cadmio
                                 case 7:  
                                 case 8:
+                                case 152:
                                     $limP = number_format(@$limP, 3, ".", "");
                                     $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
                                     break;
-                                case 152:
-                                    $limP = number_format(@$limP, 3, ".", "");
-                                    $limC1 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
-                                    break;
+                                // case 152:
+                                //     if ($limP <= $item->Limite) {
+                                //         $limP = "< " . $item->Limite; 
+                                //     }else{
+                                //         $limP = number_format(@$limP, 3, ".", "");
+                                //     }
+                                //     if (@$model2[$cont]->Resultado2 <= $item->Limite) {
+                                //         $limC2 = "< " . $item->Limite; 
+                                //     }else{
+                                //         $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
+                                //     }
                                 case 9:
                                 case 10:
                                 case 11:

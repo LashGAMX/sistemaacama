@@ -252,6 +252,7 @@ class LabAnalisisController extends Controller
                 case 14: //volumetria
                     switch ($model->Id_parametro) {
                         case 6:
+                        case 161:
                             $temp = LoteDetalleDqo::create([
                                 'Id_lote' => $res->idLote,
                                 'Id_analisis' => $model->Id_solicitud,
@@ -380,6 +381,7 @@ class LabAnalisisController extends Controller
                             $tempModel = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->get();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        case 71:
                             $temp = LoteDetalleDbo::create([
                                 'Id_lote' => $res->idLote,
                                 'Id_analisis' => $model->Id_solicitud,
@@ -480,6 +482,7 @@ class LabAnalisisController extends Controller
                 case 14: //Volumetria
                     switch ($lote[0]->Id_tecnica) {
                         case 6: // Dqo
+                        case 161:
                             $aux = DqoDetalle::where('Id_lote', $res->idLote)->first();
                             $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
@@ -541,6 +544,7 @@ class LabAnalisisController extends Controller
                             $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
+                        case 71:
                             $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 16: //todo Huevos de Helminto 
@@ -1312,6 +1316,7 @@ class LabAnalisisController extends Controller
                 case 14: // volumetria
                     switch ($lote[0]->Id_tecnica) {
                         case 6: // Dqo
+                        case 161:
                             $x = 0;
                             $d = 0;
                             if ($res->sw == 2) {
@@ -1438,7 +1443,6 @@ class LabAnalisisController extends Controller
                 case 12:
                 case 3:
                     switch ($lote[0]->Id_tecnica) {
-
                         default:
                             $model = LoteDetalleDirectos::find($res->idMuestra);
                             $model->Resultado = $res->resultado;
@@ -1601,6 +1605,7 @@ class LabAnalisisController extends Controller
 
                             break;
                         case 6: // DQO
+                        case 161:
                             $temp = DqoDetalle::where('Id_lote', $res->id)->get();
                             switch ($temp[0]->Tipo) {
                                 case 1: // Dqo Alta
@@ -1716,6 +1721,7 @@ class LabAnalisisController extends Controller
                 case 14: //Volumetria
                     switch ($lote[0]->Id_tecnica) {
                         case 6: // Dqo
+                        case 161:
                             $muestra = LoteDetalleDqo::where('Id_detalle', $res->idMuestra)->first();
                             $model = $muestra->replicate();
                             $model->Id_control = $res->idControl;
@@ -1806,6 +1812,7 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->get();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        case 71:
                             $muestra = LoteDetalleDbo::where('Id_detalle', $res->idMuestra)->first();
                             $model = $muestra->replicate();
                             $model->Id_control = $res->idControl;
@@ -1969,6 +1976,7 @@ class LabAnalisisController extends Controller
                 case 14: //Volumetria
                     switch ($lote[0]->Id_tecnica) {
                         case 6: // Dqo
+                        case 161:
                             $muestras = LoteDetalleDqo::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleDqo::find($item->Id_detalle);
@@ -2133,6 +2141,7 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        case 71:
                             $muestras = LoteDetalleDbo::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleDbo::find($item->Id_detalle);
@@ -2365,6 +2374,7 @@ class LabAnalisisController extends Controller
             case 14: //Volumetria
                 switch ($lote[0]->Id_tecnica) {
                     case 6: // Dqo
+                    case 161:
                         $model = LoteDetalleDqo::find($res->idMuestra);
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
@@ -2481,6 +2491,7 @@ class LabAnalisisController extends Controller
                         $model = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                         break;
                     case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                    case 71:
                         $model = LoteDetalleDbo::find($res->idMuestra);
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
@@ -2628,6 +2639,7 @@ class LabAnalisisController extends Controller
                         $model->save();
                         break;
                     case 6: // Dqo
+                    case 161:
                         $model = LoteDetalleDqo::where('Id_detalle', $res->idMuestra)->first();
                         $model->Observacion = $res->observacion;
                         $model->save();
@@ -2675,6 +2687,7 @@ class LabAnalisisController extends Controller
                         $model->save();
                         break;
                     case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                    case 71:
                         $model = LoteDetalleDbo::where('Id_detalle', $res->idMuestra)->first();
                         $model->Observacion = $res->observacion;
                         $model->save();
@@ -3249,6 +3262,7 @@ class LabAnalisisController extends Controller
                 switch ($lote->Id_tecnica) {
                         //bitacora dqo
                     case 6:
+                    case 161:
                         $dqoDetalle = DB::table('dqo_detalle')->where('Id_lote', $id)->get();
                         $loteDetalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id)->get();
                         switch ($dqoDetalle[0]->Tipo) {
@@ -4288,6 +4302,7 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 5:
+                    case 71:
                         $mpdf = new \Mpdf\Mpdf([
                             'orientation' => "L",
                             'format' => 'letter',

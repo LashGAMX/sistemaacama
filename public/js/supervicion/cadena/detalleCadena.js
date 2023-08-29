@@ -557,11 +557,19 @@ function getDetalleAnalisis(idCodigo) {
 
 
                     $.each(response.model, function (key, item) {
-                        aux = aux * parseFloat(item.Resultado);
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Resultado) <= parseInt(item.Limite)) {
+                            aux = aux * 3;
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td> < 3</td>';
+                            tab += '</tr>';
+                        } else {
+                            aux = aux * parseFloat(item.Resultado);
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '</tr>';   
+                        }
                         cont++;
                     });
                     // resLiberado = (aux / cont);

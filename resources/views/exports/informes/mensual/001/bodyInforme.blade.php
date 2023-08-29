@@ -121,14 +121,10 @@
         </table>
     </div>
 
-    <br>
-
-    <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000">
-
+    <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000" style="margin-top: 8px">
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>            
                     <tr> 
-
                             <td class="nombreHeader nom fontSize727 justificadorIzq">
                             FOLIO {{$solModel1->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm1)}}°C, 
                             @php if(@$olor1 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color1; }@endphp
@@ -139,8 +135,7 @@
                             @php if(@$olor2 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1;; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color2; }@endphp
                             EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                             {{@$obs2->Observaciones}}
-
-                        </td>
+                            </td>
                     </tr>                
             </tbody>         
         </table> 
@@ -152,7 +147,6 @@
 
                             @php
                                 echo $reportesInformes->Nota;
-
                             @endphp
                         </td>
                     </tr>
@@ -171,8 +165,8 @@
             $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
             $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
         @endphp
-        <img style="width: 8%; height: 8%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
-        <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+        <img style="width: 7%; height: 7%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
+        <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" style="margin-top: -30px">
             <tbody>            
                     @foreach ($model1 as $item)
                         @for ($i = 0; $i < sizeof($temp); $i++)

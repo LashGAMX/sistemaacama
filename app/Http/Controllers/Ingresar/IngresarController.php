@@ -143,6 +143,10 @@ class IngresarController extends Controller
             }
             $puntoMuestra->save();
 
+            $campo = CampoCompuesto::where('Id_solicitud',$item->Id_solicitud)->first();
+            $campo->Cloruros = $res->cloruros[$contP];
+            $campo->save();
+
             $contP++;
         }
 

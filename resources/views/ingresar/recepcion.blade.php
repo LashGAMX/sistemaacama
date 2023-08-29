@@ -60,7 +60,7 @@
                     <button id="btnIngresar" class="btn-info" ><i class="fas fa-arrow-right"></i> Ingresar</button>
                     <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Generar codigos</button>
                     <label for="">sin condiciones </label><input type="checkbox" id="condiciones" onchange="valSinCondiciones()">
-                    @switch(Auth::user()->id)
+                    @switch(Auth::user()->role->id)
                         @case(1)
                             <button id="btnActCC" class="btn-info"><i class="voyager-edit"></i> Act. C.C</button>
                             @break

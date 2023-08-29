@@ -32,9 +32,15 @@
                 <tr>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Punto de muestreo:</td>
                     <td class="filasIzq bordesTabla fontBold soloBordeInf" colspan="4">@if ($solModel1->Siralab == 1)
-                        {{$punto->Punto}}
+                        {{-- {{$punto->Punto}} --}}
+                        @php
+                            echo $punto->Punto;
+                        @endphp
                     @else
-                    {{$punto->Punto}}
+                        {{-- {{$punto->Punto}} --}}
+                        @php
+                            echo $punto->Punto;
+                        @endphp    
                     @endif</td>
                     {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
                     {{-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> --}}
