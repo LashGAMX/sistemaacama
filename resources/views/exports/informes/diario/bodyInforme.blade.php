@@ -179,15 +179,19 @@
                     <td class="nombreHeader fontBold nom justificadorCentr" style="font-size: 8px;">
                         @switch(@$solicitud->Id_norma)
                         @case(1)
-                        DE ACUERDO A NOM-001-SEMARNAT-1996
-                        @if (@$solModel->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}} QUE ESTABLECE
-                        LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
-                        <br> BIENES NACIONALES.
+                            DE ACUERDO A NOM-001-SEMARNAT-1996
+                            @if (@$solModel->Id_muestra == 1)
+                            INSTANTANEA
+                            @else
+                            COMPUESTA
+                            @endif
+                            @if (@$solModel->Id_reporte != 0)
+                                TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{@$tipoReporte->Detalle}} 
+                            @else
+                                
+                            @endif
+                            QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
+                            BIENES NACIONALES.
                         @break
                         @case(27)
                         DE ACUERDO A LAS NOM-001-SERMARNAT-2021       

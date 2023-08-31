@@ -24,7 +24,7 @@ Route::group(['prefix' => 'config/plantillas'], function () {
     Route::get('/bitacoras', [PlantillasController::class,'bitacoras']);
     Route::post('/getPlantillas',[PlantillasController::class,'getPlantillas']);
     Route::post('/getDetalleBitacora',[PlantillasController::class,'getDetalleBitacora']);
-    Route::post('/setPlantilla',[PlantillasController::class,'setPlantilla']);
+    Route::post('/setPlantilla',[PlantillasController::class,'setPlantilla']); 
     Route::post('/setNewPlantilla',[PlantillasController::class,'setNewPlantilla']);
 });
 

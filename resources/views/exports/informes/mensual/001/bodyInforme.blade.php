@@ -65,6 +65,7 @@
                                     {{@$ponderado[$cont]}}
                                     @break
                                 @case(67)
+                                @case(97)
                                     {{@$ponderado[$cont]}}
                                     @break;
                                 @default

@@ -994,7 +994,8 @@ class MbController extends Controller
                 $model->save();
 
                 break;
-            case 5: //todo Metodo electrometrico
+            case 5:
+            case 71: //todo Metodo electrometrico
                 # DBO
                 if ($request->tipo == 1) {
                     $E = $request->D / $request->C;
@@ -1746,7 +1747,7 @@ class MbController extends Controller
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraBitacorasMb::create([ 
+            $model = BitacoraBitacorasMb::create([  
                 'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,

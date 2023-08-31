@@ -384,7 +384,7 @@ class InformesController extends Controller
                 }
                 switch ($item->Id_norma) {
                     case 1:
-                        $limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
+                        @$limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
                         if ($limNo->count()) {
                             $aux = $limNo[0]->Prom_Dmax;
                         } else {
@@ -2253,8 +2253,8 @@ class InformesController extends Controller
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         $firma1 = User::find(14);
         $firma2 = User::find(12);
-        $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
-        $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte2)->first();
+        $cotModel = DB::table('ViewSolicitud2')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
+        $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Id_reporte2)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
         $reportesInformes = DB::table('ViewReportesInformesMensual')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)  
         $reviso = DB::table('users')->where('id', $reportesInformes->Id_reviso)->first();
@@ -2289,6 +2289,37 @@ class InformesController extends Controller
                         $limC2 = "AUSENTE";
                     }
                     break;
+                case 97:
+                    // @$limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
+                    $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                    $limP = round($limP);
+                    $limC1 = round($item->Resultado2);
+                    $limC2 = round($model2[$cont]->Resultado2);
+                    break;
+                // case 13:
+                
+                //     if ($item->Resultado2 <= $item->Limite) {
+                //         // $limC1 = "< " . $item->Limite; 
+                //         $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                //     }else{
+                //         $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                //     } 
+
+                //     if (@$model2[$cont]->Resultado2 <= $item->Limite) {
+                //         // $limC2 = "< " . $item->Limite; 
+                //         $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                //     }else{
+                //         $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                //     }
+
+                //     $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                //     if ($limP < $item->Limite) {
+                //         // $limP = "< " . $item->Limite; 
+                //         $limP = number_format(@$limP, 2, ".", "");
+                //     }else{
+                //         $limP = number_format(@$limP, 2, ".", "");
+                //     }
+                //     break;
                 case 14:
                 case 110:
 
@@ -2376,15 +2407,15 @@ class InformesController extends Controller
 
                         $limAux1 = 0;
                         $limAux2 = 0;
-                        if ($item->Resultado2 <= $item->Limite) {
-                            $limAux1 = $item->Limite;
+                        if (@$item->Resultado2 <= $item->Limite) {
+                            @$limAux1 = @$item->Limite;
                         }else{
-                            $limAux1 = $item->Resultado2;
+                            @$limAux1 = @$item->Resultado2;
                         }
-                        if ( $model2[$cont]->Resultado2 <= $item->Limite) {
-                            $limAux2 = $item->Limite;
+                        if (@$model2[$cont]->Resultado2 <= @$item->Limite) {
+                            @$limAux2 = $item->Limite;
                         }else{
-                            $limAux2 = $model2[$cont]->Resultado2;
+                            @$limAux2 = @$model2[$cont]->Resultado2;
                         }
                         
                         
@@ -2401,7 +2432,7 @@ class InformesController extends Controller
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
-                                    $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
+                                    @$limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
                                     $limP = round($limP);
                                     break;
                                 case 67:
@@ -2448,8 +2479,8 @@ class InformesController extends Controller
                                     }
                                     break;
                                 default: 
-                                    $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                                    if ($limP <= $item->Limite) {
+                                    // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                    if ($limP < $item->Limite) {
                                         $limP = "< " . $item->Limite; 
                                     }else{
                                         $limP = number_format(@$limP, 2, ".", "");
@@ -2504,6 +2535,7 @@ class InformesController extends Controller
                                 case 11:
                                 case 83:
                                 case 12:
+                                // case 13:
                                     $limP = number_format(@$limP, 2, ".", "");
                                     $limC1 = number_format(@$item->Resultado2, 2, ".", "");
                                     break;
@@ -2574,12 +2606,13 @@ class InformesController extends Controller
                                 case 11:
                                 case 83:
                                 case 12: 
+                                // case 13:
                                     $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
                                     $limP = number_format(@$limP, 2, ".", "");
                                     $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     break;
                                 default: 
-                                    $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                    // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
                                     $limP = number_format(@$limP, 2, ".", "");
                                     $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     break;
@@ -4919,7 +4952,7 @@ class InformesController extends Controller
         $idParametro = array();
         foreach ($areaParam as $item) {
             $sw = false;
-            $valParametro = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+            $valParametro = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', $item->Id_parametro)->where('Cancelado',0)->get();
             if ($valParametro->count()) {
                 for ($i = 0; $i < sizeof($tempArea); $i++) {
                     if ($item->Id_area == $tempArea[$i]) {
@@ -5148,6 +5181,7 @@ class InformesController extends Controller
         $resTemp = 0;
         foreach ($paramResultado as $item) {
             $resTemp = 0;
+            if ($item->Cancelado != 1) {    
             switch ($item->Id_parametro) {
                 case 12:
                 case 13:
@@ -5341,6 +5375,10 @@ class InformesController extends Controller
                     }
                     break;
             }
+            } else {
+                $resTemp = "----";
+            }
+
             array_push($resInfo, $resTemp);
         }
 

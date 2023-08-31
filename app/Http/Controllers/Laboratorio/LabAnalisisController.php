@@ -564,7 +564,7 @@ class LabAnalisisController extends Controller
                                     }
                                    
                                 } else {
-                                    $indice = null;
+                                    array_push($indice, 0);
                                     break;
                                 }
                             }
@@ -3488,59 +3488,61 @@ class LabAnalisisController extends Controller
 
                         break;
                     case 108: //Nitrogeno Amoniacal
-                        // $mpdf = new \Mpdf\Mpdf([
-                        //     'orientation' => 'P',
-                        //     'format' => 'letter',
-                        //     'margin_left' => 10,
-                        //     'margin_right' => 10,
-                        //     'margin_top' => 35,
-                        //     'margin_bottom' => 45,
-                        //     'defaultheaderfontstyle' => ['normal'],
-                        //     'defaultheaderline' => '0'
-                        // ]);
-                        // //Establece la marca de agua del documento PDF
-                        // $mpdf->SetWatermarkImage(
-                        //     asset('/public/storage/MembreteVertical.png'),
-                        //     1,
-                        //     array(215, 280),
-                        //     array(0, 0),
-                        // );
-                        // $mpdf->showWatermarkImage = true;
-                        // $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => 'P',
+                            'format' => 'letter',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 35,
+                            'margin_bottom' => 45,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        //Establece la marca de agua del documento PDF
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/MembreteVertical.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        );
+                        $mpdf->showWatermarkImage = true;
+                        $mpdf->CSSselectMedia = 'mpdf';
 
-                        // $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id)->get();
-                        // $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $id)->first();
-                        // $plantilla = Bitacoras::where('Id_lote', $id)->get();
-                        // if ($plantilla->count()) {
-                        // } else {
-                        //     $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
-                        // }
-                        // $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                        // $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $id)->get();
-                        // if ($comprobacion->count()) {
-                        //     $analizo = "";
-                        // } else {
-                        //     $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
-                        // }
-                        // $reviso = User::where('id', 17)->first();
-                        // $data = array(
-                        //     'comprobacion' => $comprobacion,
-                        //     'analizo' => $analizo,
-                        //     'reviso' => $reviso,
-                        //     'lote' => $lote,
-                        //     'loteDetalle' => $loteDetalle,
-                        //     'plantilla' => $plantilla,
-                        //     'valNitrogenoA' => $valNitrogenoA,
-                        //     'procedimiento' => $procedimiento,
-                        // );
-                        // $htmlFooter = view('exports.laboratorio.volumetria.nitrogenoA.capturaFooter', $data);
-                        // $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                        // $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody', $data);
-                        // $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
+                        $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id)->get();
+                        $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $id)->first();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        // var_dump($procedimiento[0]);
+                        $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
+                        $data = array(
+                            'comprobacion' => $comprobacion,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'lote' => $lote,
+                            'loteDetalle' => $loteDetalle,
+                            'plantilla' => $plantilla,
+                            'valNitrogenoA' => $valNitrogenoA,
+                            'procedimiento' => $procedimiento,
+                        );
 
-                        // $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                        // $mpdf->SetHTMLFooter("", 'O', 'E');
-                        // $mpdf->WriteHTML($htmlCaptura);
+                        $htmlFooter = view('exports.laboratorio.volumetria.nitrogenoA.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody', $data);
+                        $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
+
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $mpdf->SetHTMLFooter("", 'O', 'E');
+                        $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 10:
                         $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id)->get();

@@ -118,7 +118,7 @@ function getDetalleBitacora(id,parametro){
 function setPlantilla()
 {
     $.ajax({ 
-        type: "POST",
+        type: "POST", 
         url: base_url + "/admin/config/plantillas/setPlantilla",
         data: {
             id: idPlantilla,
