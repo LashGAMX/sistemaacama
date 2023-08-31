@@ -399,6 +399,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 // case 218:
                 case "64":
+                case "358":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -489,6 +490,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "5":
+                
                     console.log("Entro a id 5")
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -732,18 +734,37 @@ function getDetalleAnalisis(idCodigo) {
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
+                            // $.each(response.model, function (key, item) {
+                            //     tab += '<tr>';
+                            //     tab += '<td>Conductividad Campo - ' + (cont + 1) + '</td>';
+                            //     tab += '<td>' + item.Promedio + '</td>';
+                            //     tab += '<td>' + (response.aux[cont] * item.Promedio) + '</td>';
+                            //     tab += '</tr>';
+                            //     if (item.Promedio != null) {
+                            //         aux = aux + (response.aux[cont] * item.Promedio);
+                            //         cont++;
+                            //     }
+                            // });
+                            // resLiberado = (aux).toFixed(2);
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                tab += '<td>Conductividad Campo - ' + (cont + 1) + '</td>';
-                                tab += '<td>' + item.Promedio + '</td>';
-                                tab += '<td>' + (response.aux[cont] * item.Promedio) + '</td>';
+                                tab += '<td> Conductividad Campo - ' + (cont + 1) + '</td>';
+                                if (parseInt(response.solModel.Id_servicio) != 3) {
+                                    tab += '<td>' + item.Promedio + '</td>';   
+                                } else { 
+                                    tab += '<td>' + item.Resultado + '</td>';
+                                }
                                 tab += '</tr>';
-                                if (item.Promedio != null) {
-                                    aux = aux + (response.aux[cont] * item.Promedio);
-                                    cont++;
+                                if (item.Promedio != null || item.Resultado != null) {
+                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                        aux = aux + parseFloat(item.Promedio);
+                                    } else { 
+                                        aux = aux + parseFloat(item.Resultado);
+                                    }
+                                    cont++; 
                                 }
                             });
-                            resLiberado = (aux).toFixed(2);
+                            resLiberado = (aux /cont);
                         } else {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
@@ -789,49 +810,102 @@ function getDetalleAnalisis(idCodigo) {
                     } else if (response.codigoModel.Id_parametro == 14 || response.codigoModel.Id_parametro == 110) { // PH
                         aux = 0;
                         cont = 0;
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>Ph Campo - ' + (cont + 1) + '</td>';
+                            if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += '<td>' + item.Promedio + '</td>';   
+                                aux = aux + parseFloat(item.Promedio);  
+                            } else {  
+                                tab += '<td>' + item.Promedio + '</td>';
+                                aux = aux + parseFloat(item.Promedio); 
+                            }
+                            tab += '<td></td>'; 
+                            tab += '</tr>'; 
+                            cont++ 
+                        }); 
+                        resLiberado = (aux / cont);
+                        // aux = 0;
+                        // cont = 0;
+                        // if ($("#idNorma").val() == "27") {
+                        //     $.each(response.model, function (key, item) {
+                        //         tab += '<tr>';
+                        //         if (response.solModel.Id_muestra == 1) {
+                        //             tab += '<td> Ph</td>';
+                        //             tab += '<td>' + item.Promedio + '</td>';   
+                        //             aux =  item.Promedio;
+                        //         } else {  
+                        //             tab += '<td> pH compuesto</td>';
+                        //             tab += '<td>' + item.Ph_muestraComp + '</td>';
+                        //             tab += '<td>------</td>';
+                        //             // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
+                        //             if (item.Ph_muestraComp != null) {
+                        //                 aux =  item.Ph_muestraComp;
+                        //                 cont++;
+                        //             }
+                        //         }
+                        //         tab += '</tr>';
+                        //     });
+                        //     resLiberado = parseFloat(aux).toFixed(2);
+                        // } else {
+                        //     $.each(response.model, function (key, item) {
+                        //         tab += '<tr>';
+                        //         if (parseInt(response.solModel.Id_servicio) != 3) {
+                        //             if (response.solModel.Id_muestra == 1) {
+                        //                 tab += '<td> Ph</td>';
+                        //                 tab += '<td>' + item.Promedio + '</td>';   
+                        //             } else { 
+                        //                 tab += '<td> pH Compuesto</td>';
+                        //                 tab += '<td>' + item.Ph_muestraComp + '</td>';      
+                        //             }
+                        //         } else { 
+                        //             tab += '<td> pH - ' + (cont + 1) + '</td>';
+                        //             tab += '<td>' + item.Resultado + '</td>';
+                        //         }
+                        //         tab += '</tr>';
+                        //         if (item.Ph_muestraComp != null || item.Resultado != null || item.Promedio != null) {
+                        //             if (parseInt(response.solModel.Id_servicio) != 3) {
+                        //                 if (response.solModel.Id_muestra == 1) {
+                        //                     aux = aux + parseFloat(item.Promedio); 
+                        //                 } else {
+                        //                     aux = aux + parseFloat(item.Ph_muestraComp);   
+                        //                 }
+                        //             } else { 
+                        //                 aux = aux + parseFloat(item.Resultado);
+                        //             }
+                        //             cont++; 
+                        //         }
+                        //     });
+                        //     resLiberado = (aux / cont).toFixed(2);
+                        // }
+                    } else if (response.codigoModel.Id_parametro == "97" || response.codigoModel.Id_parametro == "100") { // Temperatura
+                        aux = 0;
+                        cont = 0;
                         if ($("#idNorma").val() == "27") {
+                            // $.each(response.model, function (key, item) {
+                            //     tab += '<tr>';
+                            //     tab += '<td> Temperatura - ' + item.Num_toma + '</td>';
+                            //     tab += '<td>' + item.Promedio + '</td>';
+                            //     tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
+                            //     tab += '</tr>';
+                            //     if (item.Promedio != null) {
+                            //         aux = aux + (response.aux[cont] * item.Promedio);
+                            //         cont++;
+                            //     }
+                            // });
+                            // resLiberado = (aux).toFixed();
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                if (response.solModel.Id_muestra == 1) {
-                                    tab += '<td> Ph</td>';
-                                    tab += '<td>' + item.Promedio + '</td>';   
-                                    aux =  item.Promedio;
-                                } else {  
-                                    tab += '<td> pH compuesto</td>';
-                                    tab += '<td>' + item.Ph_muestraComp + '</td>';
-                                    tab += '<td>------</td>';
-                                    // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
-                                    if (item.Ph_muestraComp != null) {
-                                        aux =  item.Ph_muestraComp;
-                                        cont++;
-                                    }
-                                }
-                                tab += '</tr>';
-                            });
-                            resLiberado = parseFloat(aux).toFixed(2);
-                        } else {
-                            $.each(response.model, function (key, item) {
-                                tab += '<tr>';
+                                tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
                                 if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    if (response.solModel.Id_muestra == 1) {
-                                        tab += '<td> Ph</td>';
-                                        tab += '<td>' + item.Promedio + '</td>';   
-                                    } else { 
-                                        tab += '<td> pH Compuesto</td>';
-                                        tab += '<td>' + item.Ph_muestraComp + '</td>';      
-                                    }
+                                    tab += '<td>' + item.Promedio + '</td>';   
                                 } else { 
-                                    tab += '<td> pH - ' + (cont + 1) + '</td>';
                                     tab += '<td>' + item.Resultado + '</td>';
                                 }
                                 tab += '</tr>';
-                                if (item.Ph_muestraComp != null || item.Resultado != null || item.Promedio != null) {
+                                if (item.Promedio != null || item.Resultado != null) {
                                     if (parseInt(response.solModel.Id_servicio) != 3) {
-                                        if (response.solModel.Id_muestra == 1) {
-                                            aux = aux + parseFloat(item.Promedio); 
-                                        } else {
-                                            aux = aux + parseFloat(item.Ph_muestraComp);   
-                                        }
+                                        aux = aux + parseFloat(item.Promedio);
                                     } else { 
                                         aux = aux + parseFloat(item.Resultado);
                                     }
@@ -839,23 +913,6 @@ function getDetalleAnalisis(idCodigo) {
                                 }
                             });
                             resLiberado = (aux / cont).toFixed(2);
-                        }
-                    } else if (response.codigoModel.Id_parametro == "97" || response.codigoModel.Id_parametro == "100") { // Temperatura
-                        aux = 0;
-                        cont = 0;
-                        if ($("#idNorma").val() == "27") {
-                            $.each(response.model, function (key, item) {
-                                tab += '<tr>';
-                                tab += '<td> Temperatura - ' + item.Num_toma + '</td>';
-                                tab += '<td>' + item.Promedio + '</td>';
-                                tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
-                                tab += '</tr>';
-                                if (item.Promedio != null) {
-                                    aux = aux + (response.aux[cont] * item.Promedio);
-                                    cont++;
-                                }
-                            });
-                            resLiberado = (aux).toFixed();
                         } else {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
@@ -966,7 +1023,7 @@ function getDetalleAnalisis(idCodigo) {
             });
 
 
-            let tableResultado = $('#tableResultado').DataTable({
+            let tableResultado = $('#tableResultadof').DataTable({
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",

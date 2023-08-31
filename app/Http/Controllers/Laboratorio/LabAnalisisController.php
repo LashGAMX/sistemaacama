@@ -454,6 +454,7 @@ class LabAnalisisController extends Controller
     }
     public function getCapturaLote(Request $res)
     {
+        
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
         $aux = array();
         $indice = array();
@@ -564,7 +565,8 @@ class LabAnalisisController extends Controller
                                     }
                                    
                                 } else {
-                                    array_push($indice, 0);
+                                    
+                                    $indice = null;
                                     break;
                                 }
                             }

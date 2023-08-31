@@ -308,8 +308,9 @@ class InformesController extends Controller
                     case 98:
                     case 112:
                     case 218:
+                    case 253:
                         if ($item->Resultado2 < $item->Limite) {
-                            $limC = "< " . $item->Limite;
+                            $limC = "< " . $item->Limite; 
                         } else {
                             $limC = number_format(@$item->Resultado2, 2, ".", "");
                         }
@@ -323,6 +324,7 @@ class InformesController extends Controller
                         }
                         break;
                     case 64:
+                    case 358:
                         switch ($item->Id_norma) {
                             case 1:
                             case 27:
@@ -361,13 +363,16 @@ class InformesController extends Controller
                         switch ($item->Id_norma) {
                             case 1:
                             case 27:
-                                if ($item->Resultado2 >= 3500) {
-                                    $limC = "> 3500";
-                                } else {
+                                if ($puntoMuestreo->Condiciones != 1) {
+                                    if ($item->Resultado2 >= 3500) {
+                                        $limC = "> 3500";
+                                    } else {
+                                        $limC = round($item->Resultado2);
+                                    }
+                                }else{
                                     $limC = round($item->Resultado2);
                                 }
                                 break;
-                               
                             default:
                                 $limC = round($item->Resultado2);
                                 break;
@@ -1668,7 +1673,7 @@ class InformesController extends Controller
 
         $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
         $auxPunto = PuntoMuestreoSir::where('Id_punto',$punto->Id_muestreo)->first();
-        $tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
+        @$tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
         $rfc = RfcSucursal::where('Id_sucursal', $solModel1->Id_sucursal)->first();
         if ($solModel1->Id_norma == 27) { 
             return redirect()->to('admin/informes/exportPdfInformeMensual/001/' . $idSol1 . '/' . $idSol2 . '/' . $tipo);
@@ -2084,7 +2089,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 78,
-            'margin_bottom' => 50,
+            'margin_bottom' => 55,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -2329,6 +2334,7 @@ class InformesController extends Controller
 
                     break;
                 case 64:
+                case 358:
                     $aux64 = 0;
                     switch (@$item->Resultado2) {
                         case 499:
@@ -2432,7 +2438,7 @@ class InformesController extends Controller
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
-                                    @$limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
+                                    // @$limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
                                     $limP = round($limP);
                                     break;
                                 case 67:
@@ -2492,7 +2498,7 @@ class InformesController extends Controller
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
-                                    $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
+                                    // $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
                                     $limP = round($limP);
                                     $limC1 = round($item->Resultado2);
                                     break;
@@ -2558,7 +2564,7 @@ class InformesController extends Controller
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
-                                    $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
+                                    // $limP = ($item->Resultado2 + $model2[$cont]->Resultado2)/2;
                                     $limP = round($limP);
                                     $limC2 = round($model2[$cont]->Resultado2);
                                     break;
@@ -5126,6 +5132,7 @@ class InformesController extends Controller
                                     echo "Entro dure";
                                     break;
                                 case 64:
+                                case 358:
 
                                     break;
                                 default:
@@ -5220,7 +5227,7 @@ class InformesController extends Controller
                 case 10: //organico
                 case 11: //nitrogeno total
                 case 15: //Fosforo
-                case 152:
+                // case 152:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     }else{
@@ -5294,10 +5301,23 @@ class InformesController extends Controller
                     }
                     break;
                 case 14: // ph
-                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
-                        $resTemp = "----";
-                    } else {
-                        $resTemp = round($item->Resultado2, 2);
+                    switch ($model->Id_norma) {
+                        case 1:
+                        case 27:
+                            if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                                $resTemp = "----";
+                            } else {
+                                $resTemp = number_format(@$item->Resultado2, 2, ".", "");
+                                
+                            }
+                            break;
+                        default:
+                            if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                                $resTemp = "----";
+                            } else {
+                                $resTemp = number_format(@$item->Resultado2, 1, ".", "");
+                            }
+                            break;
                     }
                     break;
                 case 97:
@@ -5329,6 +5349,7 @@ class InformesController extends Controller
                     }
                     break;
                     case 64:
+                    case 358:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {

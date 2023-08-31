@@ -81,6 +81,7 @@ class CadenaController extends Controller
             case 68:
             case 26:
             case 64:
+            case 358:
             case 110:
             case 2:
                 if ($solModel->count()) {
@@ -220,6 +221,7 @@ class CadenaController extends Controller
                 break;
             // case 218: //Cloro
             case 64:
+            case 358:
                 if ($solModel->Id_norma == 27) {
                     $model = DB::table('campo_compuesto') 
                     ->where('Id_solicitud', $codigoModel->Id_solicitud)
@@ -285,6 +287,7 @@ class CadenaController extends Controller
                 break;
                 //Mb
             case "5":
+            case 71:
                 $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
@@ -381,25 +384,25 @@ class CadenaController extends Controller
                     foreach($gasto as $item)
                     {
                         $sumGasto = $sumGasto + $item->Promedio;
-                    }
+                    } 
                     foreach($gasto as $item)
                     {
                         array_push($aux,($item->Promedio/$sumGasto));
                     }
-                    
-                    if ($solModel->Id_muestra == 1) {
-                        $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    }else{
-                        $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
-                    }
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // if ($solModel->Id_muestra == 1) {
+                    //     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // }else{
+                    //     $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    // }
                 }
                 if ($solModel->Id_servicio != 3) {
-                    // $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    if ($solModel->Id_muestra == 1) {
-                        $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    }else{
-                        $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
-                    }
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // if ($solModel->Id_muestra == 1) {
+                    //     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // }else{
+                    //     $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    // }
                     
                 }else{
                     $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
