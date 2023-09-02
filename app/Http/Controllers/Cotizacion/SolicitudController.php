@@ -76,28 +76,29 @@ class SolicitudController extends Controller
 
     public function create($idCot)
     { 
-        $tipoMuestraCot = TipoMuestraCot::all();
-        $promedioCot = PromedioCot::all();
-        $servicios = TipoServicios::all();
-        $descargas = TipoDescarga::all();
-        $frecuencia = DB::table('frecuencia001')->get();
-        $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
-        $intermediario = DB::table('ViewIntermediarios')->get();
-        $categorias001 = DB::table('categorias001')->get();
-        $categorias0012 = DB::table('categoria001_2021')->get();
-        $data = array(
-            'model' => $model,
-            'tipoMuestraCot' => $tipoMuestraCot,
-            'promedioCot' => $promedioCot,
-            'servicio' => $servicios,
-            'descargas' => $descargas,
-            'categorias001' => $categorias001,
-            'categorias0012' => $categorias0012,
-            'frecuencia' => $frecuencia,
-            'intermediario' => $intermediario,
-        );
+        // $tipoMuestraCot = TipoMuestraCot::all();
+        // $promedioCot = PromedioCot::all();
+        // $servicios = TipoServicios::all();
+        // $descargas = TipoDescarga::all();
+        // $frecuencia = DB::table('frecuencia001')->get();
+        // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
+        // $intermediario = DB::table('ViewIntermediarios')->get();
+        // $categorias001 = DB::table('categorias001')->get();
+        // $categorias0012 = DB::table('categoria001_2021')->get();
+        // $data = array(
+        //     'model' => $model,
+        //     'tipoMuestraCot' => $tipoMuestraCot,
+        //     'promedioCot' => $promedioCot,
+        //     'servicio' => $servicios,
+        //     'descargas' => $descargas,
+        //     'categorias001' => $categorias001,
+        //     'categorias0012' => $categorias0012,
+        //     'frecuencia' => $frecuencia,
+        //     'intermediario' => $intermediario,
+        // );
 
-        return view('cotizacion.createSolicitud', $data);
+        // return view('cotizacion.createSolicitud', $data);
+        $this->updateOrden($idCot);
     }
     
     public function createOrden()

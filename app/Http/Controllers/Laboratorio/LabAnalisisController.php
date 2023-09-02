@@ -59,7 +59,7 @@ class LabAnalisisController extends Controller
     {
         $model = array();
         $temp = array();
-        $codigo = DB::table('ViewCodigoParametro')->where('Asignado', 0)->get();
+        $codigo = DB::table('ViewCodigoParametro')->where('Asignado', 0)->where('Cancelado','!=',1)->get();
         $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
         foreach ($codigo as $item) {
@@ -159,7 +159,7 @@ class LabAnalisisController extends Controller
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->idLote)->first();
         if ($res->fecha != "") {
         } else {
-            $model = DB::table('ViewCodigoParametro')->where('Asignado', 0)->where('Id_parametro', $res->idParametro)->get();
+            $model = DB::table('ViewCodigoParametro')->where('Asignado', 0)->where('Id_parametro', $res->idParametro)->where('Cancelado','!=',1)->get();
             for ($i = 0; $i < $model->count(); $i++) {
                 $puntoModel = SolicitudPuntos::where('Id_solicitud', $model[$i]->Id_solicitud)->first();
                 $proceso = ProcesoAnalisis::where('Id_solicitud', $model[$i]->Id_solicitud)->first();
@@ -628,9 +628,11 @@ class LabAnalisisController extends Controller
                     switch ($lote[0]->Id_tecnica) {
                         case 88: // SDT 
                             $nom1 = "ST";
-                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
+                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
+                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',90)->first();
                             $nom2 = "SST";
-                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
+                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
+                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',4)->first();
                             break;
                         case 44: // SDV
                             $nom1 = "STV";

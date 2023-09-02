@@ -678,7 +678,7 @@ class MbController extends Controller
         if($request->D1 == 10 && $request->D2 == 1 && $request->D3 == 0.1){
             $resultado = $convinacion->Nmp;
         } else {
-            $resultado = (10 / $request->D1) * $convinacion->NMP;
+            $resultado = (10 / $request->D1) * $convinacion->Nmp;
         }
        
                     $metodoCorto = 1;
@@ -730,7 +730,8 @@ class MbController extends Controller
             'positivos' =>  $positivos,
             'resultado' => $resultado,
             'model' => $model,
-            'IdDetalle' => $request->idDetalle,
+            'IdDetalle' => $request->idDetalle,  
+           
          );
 
         return response()->json($data);

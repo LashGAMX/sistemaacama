@@ -38,6 +38,9 @@ $(document).ready(function () {
   } else {
     _constructor()
   }
+  if ($("#folio").val() != "") {
+    disabledInput()
+  }
 }); 
 //todo Goblales
 var model = new Array()
@@ -58,6 +61,32 @@ function _constructor() {
   // createTabParametros()
 }
 //todo Funciones generales
+function disabledInput()
+{
+  $("#intermediario").attr('disabled',true)
+  $("#clientes").attr('disabled',true)
+  $("#sucursal").attr('disabled',true)
+  $("#direccionReporte").attr('disabled',true)
+  $("#siralab").attr('disabled',true)
+  $("#contacto").attr('disabled',true)
+  $("#atencion").attr('disabled',true)
+  $("#observacion").attr('disabled',true)
+  $("#tipoServicio").attr('disabled',true)
+  $("#tipoDescarga").attr('disabled',true)
+  $("#norma").attr('disabled',true)
+  $("#subnorma").attr('disabled',true)
+  $("#frecuencia").attr('disabled',true)
+  $("#numTomas").attr('disabled',true)
+  $("#tipoMuestra").attr('disabled',true)
+  $("#promedio").attr('disabled',true)
+  $("#tipoReporte").attr('disabled',true)
+  $("#tipoReporte2").attr('disabled',true)
+  $("#addRow").attr('disabled',true)
+  $("#delRow").attr('disabled',true)
+  $("#btnSetParametro").attr('disabled',true)
+  $("#btnCrearSolicitud").attr('disabled',true)
+  $("#btnFolio").attr('disabled',true)
+}
 function getDataUpdate() {
   data = new Array()
   parametros = new Array()

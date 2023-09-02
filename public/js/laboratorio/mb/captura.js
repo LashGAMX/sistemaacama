@@ -615,7 +615,7 @@ function imprimir(id) {
 function guardarMetodoCortoCol(){
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/metodoCortoCol",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarMetodoCortoCol",
         data: {
             tecnica: tecnica,
             idDetalle: idMuestra,

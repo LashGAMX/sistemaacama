@@ -292,6 +292,7 @@ function metodoCortoCol() {
             indicador: $('#indicadorCol').val(),
             resultadoCol: $("#resultadoColCol").val(),
             idParametro: $('#formulaTipoCol').val(),
+            
             D1: $("#dil1Col").val(),
             D2: $('#dil2Col').val(),
             D3: $('#dil3Col').val(),

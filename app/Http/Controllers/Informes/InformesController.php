@@ -309,7 +309,7 @@ class InformesController extends Controller
                     case 112:
                     case 218:
                     case 253:
-                        if ($item->Resultado2 < $item->Limite) {
+                        if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite; 
                         } else {
                             $limC = number_format(@$item->Resultado2, 2, ".", "");
@@ -2546,7 +2546,7 @@ class InformesController extends Controller
                                     $limC1 = number_format(@$item->Resultado2, 2, ".", "");
                                     break;
                                 default:
-                                $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
                                     $limP = number_format(@$limP, 2, ".", "");
                                     $limC1 = number_format(@$item->Resultado2, 2, ".", ""); 
                                     break;
@@ -5184,11 +5184,12 @@ class InformesController extends Controller
             ->where('Id_area','!=',9)
             ->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
             
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
         $resInfo = array();
         $resTemp = 0;
         foreach ($paramResultado as $item) {
             $resTemp = 0;
-            if ($item->Cancelado != 1) {    
+            if ($item->Cancelado != 1) {     
             switch ($item->Id_parametro) {
                 case 12:
                 case 13:
@@ -5335,11 +5336,16 @@ class InformesController extends Controller
                         switch ($item->Id_norma) {
                             case 1:
                             case 27:
-                                if ($item->Resultado2 >= 3500) {
-                                    $resTemp = "> 3500";
+                                if ($puntoMuestreo->Condiciones != 1) {
+                                    if ($item->Resultado2 >= 3500) {
+                                        $resTemp = "> 3500";
+                                    }else{
+                                        $resTemp = round($item->Resultado2);
+                                    }
                                 }else{
                                     $resTemp = round($item->Resultado2);
                                 }
+                               
                                 break;
                             
                             default:

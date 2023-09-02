@@ -63,7 +63,7 @@ class CampoAppController extends Controller
         $json = json_decode($arr,true);
 
         $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->orderBy('Id_solicitud','DESC')->get();
-        $termometro = TermometroCampo::all();
+       // $termometro = TermometroCampo::all();
         $pc100 = TermometroCampo::where('Tipo', 2)->get();
         $hanna =  TermometroCampo::where('Tipo', 1)->get();
         $phCalidad = PHCalidad::all();
@@ -75,8 +75,7 @@ class CampoAppController extends Controller
         //catalogo datos compuestos
         $aforo = MetodoAforo::all();
         $conTratamiento = ConTratamiento::all();
-        $tipo = TipoTratamiento::all();
-        
+        $tipo = TipoTratamiento::all();      
 
         $data = array( 
             'datos' => $request->solicitudesModel,
@@ -365,7 +364,7 @@ class CampoAppController extends Controller
             $phCalidadMuestra[$i]->Promedio = floatval($promedio);
             $phCalidadMuestra[$i]->save();
         }
-    //   // DATOS COMPUESTOS -------------------------------------------------------------------
+      // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
         $contratamiento = ConTratamiento::where('Tratamiento', $conTratamiento)->first();
@@ -450,7 +449,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'phcalidad' => $explode[0]
+             
              
           
         );
