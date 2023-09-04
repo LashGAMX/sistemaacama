@@ -17,8 +17,8 @@
                             @endif
 
                         @if (@$promGas->count())
-                        <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                        <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
                         @endif
 
                         </td>
@@ -45,6 +45,16 @@
                                 < {{@$promCol[0]->Limite}}
                             @else
                                 {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
+                            @endif
+                        </td>
+                    @endif
+                    @if (@$promCol2->count())
+                        <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES TOTAL NMP/100mL</td>
+                        <td class="fontCalibri anchoColumna111 fontSize8">
+                            @if (@$promCol2[0]->Resultado2 <= @$promCol2[0]->Limite)
+                                < {{@$prpromCol2mCol[0]->Limite}}
+                            @else
+                                {{number_format(@$promCol2[0]->Resultado2, 2, ".", "")}}
                             @endif
                         </td>
                     @endif
@@ -80,6 +90,16 @@
                                     < {{@$promCol[0]->Limite}}
                                 @else
                                     {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
+                                @endif
+                            </td>
+                        @endif
+                        @if (@$promCol2->count())
+                            <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES TOTAL NMP/100mL</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promCol2[0]->Resultado2 <= @$promCol2[0]->Limite)
+                                    < {{@$prpromCol2mCol[0]->Limite}}
+                                @else
+                                    {{number_format(@$promCol2[0]->Resultado2, 2, ".", "")}}
                                 @endif
                             </td>
                         @endif

@@ -286,7 +286,7 @@ class CadenaController extends Controller
               
                 break;
                 //Mb
-            case "5":
+            case 5:
             case 71:
                 $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
@@ -295,6 +295,8 @@ class CadenaController extends Controller
             case 12:
             case 134:
             case 133:
+            case 137:
+            case 51:
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();

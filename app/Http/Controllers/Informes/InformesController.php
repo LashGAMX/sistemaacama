@@ -308,8 +308,8 @@ class InformesController extends Controller
                     case 98:
                     case 112:
                     case 218:
-                    case 253:
-                        if ($item->Resultado2 <= $item->Limite) {
+                    case 253: 
+                        if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
                             $limC = number_format(@$item->Resultado2, 2, ".", "");
@@ -445,7 +445,8 @@ class InformesController extends Controller
             default:
             //Residual
                 $firma1 = User::find(14);
-                $firma2 = User::find(12);
+                // $firma2 = User::find(12);
+                $firma2 = User::find(4);
                 break;
         }
         //Proceso de Reporte Informe
@@ -2432,7 +2433,7 @@ class InformesController extends Controller
                             $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
                         }
 
-                        if ($item->Resultado2 <= $item->Limite) {
+                        if ($item->Resultado2 < $item->Limite) {
                             $limC1 = "< " . $item->Limite; 
                             
                             switch ($item->Id_parametro) {
@@ -2478,7 +2479,7 @@ class InformesController extends Controller
                                 case 83:
                                 case 12: 
                                     $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                                    if ($limP <= $item->Limite) {
+                                    if ($limP < $item->Limite) {
                                         $limP = "< " . $item->Limite; 
                                     }else{
                                         $limP = number_format(@$limP, 2, ".", "");
@@ -2556,7 +2557,7 @@ class InformesController extends Controller
                         {
                             goto b;
                         }
-                        if ($model2[$cont]->Resultado2 <= $model2[$cont]->Limite) {
+                        if ($model2[$cont]->Resultado2 < $model2[$cont]->Limite) {
                             $limC2 = "< " . $model2[$cont]->Limite;
 
                         } else {
@@ -5015,6 +5016,7 @@ class InformesController extends Controller
                         case 3:
                             switch ($item->Id_parametro) {
                                 case 5: // DBO
+                                case 71:
                                     $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                     break;
                                 case 12: // Coliformes  
@@ -5022,6 +5024,8 @@ class InformesController extends Controller
                                 case 135:
                                 case 133:
                                 case 35:
+                                case 137:
+                                case 51:
                                     $modelDet = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                     break;
                                 case 16: // H.H
@@ -5101,6 +5105,7 @@ class InformesController extends Controller
                         case 5: // FQ
                             switch ($item->Id_parametro) {
                                 case 5: // DBO
+                                case 71:
                                     $modelDet = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                     break;
                                 default:
@@ -5195,13 +5200,15 @@ class InformesController extends Controller
                 case 13:
                 case 35:
                 case 253:
+                case 137:
+                case 51:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
-                        if ($item->Resultado >= $item->Limite) {
-                            $resTemp = $item->Resultado;
-                        } else {
+                        if ($item->Resultado < $item->Limite) {
                             $resTemp = "< " . $item->Limite;
+                        } else {
+                            $resTemp = $item->Resultado;
                         }
                     }
                     break;
@@ -5223,6 +5230,7 @@ class InformesController extends Controller
                 // case 13: // g y a
                 case 6: //DQO
                 case 5: //DBO
+                case 71:
                 case 9: //nitrogeno amoniacal
                 case 83: //kejendal
                 case 10: //organico
@@ -5412,12 +5420,14 @@ class InformesController extends Controller
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->get();
         $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->get();
         $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->get();
+        $promCol2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 137)->where('Num_muestra', 1)->get();
         $promEco = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 35)->where('Num_muestra', 1)->get();
         $promEnt = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 253)->where('Num_muestra', 1)->get();
 
         $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
-        $firmaRes = User::where('id', 17)->first();
+        // $firmaRes = User::where('id', 17)->first();
+        $firmaRes = User::where('id', 4)->first();
         $reportesCadena = DB::table('ViewReportesCadena')->where('Num_rev', 9)->first(); //Condición de busqueda para las configuraciones(Historicos)
 
         $clave  = 'fol123ABC!"#Loremipsumdolorsitamet';
@@ -5437,6 +5447,7 @@ class InformesController extends Controller
         $data = array(
             'idParametro' => $idParametro,
             'idArea' => $idArea,
+            'promCol2' => $promCol2,
             'promGra' => $promGra,
             'promGas' => $promGas,
             'promCol' => $promCol,

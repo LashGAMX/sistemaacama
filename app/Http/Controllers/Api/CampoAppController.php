@@ -96,7 +96,7 @@ class CampoAppController extends Controller
         return response()->json($data);
     } 
     public function version(request $request) {
-        $version = "1.4";
+        $version = "1.4.1";
 
         $data = array(
             'version' => $version,

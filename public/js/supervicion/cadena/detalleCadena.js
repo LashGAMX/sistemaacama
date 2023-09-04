@@ -104,6 +104,8 @@ function getParametros() {
                     case 26:// Gasto
                     case 13: // GA
                     case 12: //Coliformes
+                    case 137:
+                    case 51:
                     case 134: 
                     case 132:
                     case 67: //conductividad
@@ -111,6 +113,7 @@ function getParametros() {
                     case 97: //Températura 
                     case 100:
                     case 5:
+                    case 71:
                         if(item.Liberado != 1)
                         {
                             color = "danger"
@@ -490,6 +493,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "5":
+                case "71":
                 
                     console.log("Entro a id 5")
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
@@ -520,6 +524,8 @@ function getDetalleAnalisis(idCodigo) {
                 case "12":
                 case "133":
                 case "134":
+                case "137":
+                case "51":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -1023,7 +1029,7 @@ function getDetalleAnalisis(idCodigo) {
             });
 
 
-            let tableResultado = $('#tableResultadof').DataTable({
+            let tableResultado = $('#tableResultado').DataTable({
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",

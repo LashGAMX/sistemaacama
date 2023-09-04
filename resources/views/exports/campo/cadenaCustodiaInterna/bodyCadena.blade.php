@@ -193,6 +193,7 @@
                                     @if (@$paramResultado[$i]->Id_area == 12 || @$paramResultado[$i]->Id_area == 6 || @$paramResultado[$i]->Id_area == 13 || @$paramResultado[$i]->Id_area == 3 ) 
                                         @switch(@$paramResultado[$i]->Id_parametro)
                                             @case(5)
+                                            @case(71)
                                             {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}    
                                                 @break
                                             @default
@@ -207,6 +208,7 @@
                                     @if (@$paramResultado[$i + $temp]->Id_area == 12 || @$paramResultado[$i + $temp]->Id_area == 6 || @$paramResultado[$i + $temp]->Id_area == 13 || @$paramResultado[$i + $temp]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + $temp]->Id_parametro)
                                         @case(5)
+                                        @case(71)
                                             {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                             @break
                                         @default
@@ -221,6 +223,7 @@
                                     @if (@$paramResultado[$i + ($temp * 2)]->Id_area == 12 || @$paramResultado[$i + ($temp * 2)]->Id_area == 6 || @$paramResultado[$i + ($temp * 2)]->Id_area == 13 || @$paramResultado[$i + ($temp * 2)]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + ($temp * 2)]->Id_parametro)
                                         @case(5)
+                                        @case(71)
                                             {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                             @break
                                         @default

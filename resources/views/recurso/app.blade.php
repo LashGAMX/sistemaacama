@@ -12,7 +12,7 @@
 
     <div class="container-fluid h-100">         
 
-        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v1.4.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v1.4.1.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
         
     </div>   
 
@@ -30,6 +30,7 @@
         <p>Mejoras: </p>
         <p>Ahora cada ves que inicies sesión podras comprobar si existen nuevas actualizaciones.</p>
         <p>Conductividad puede dejarse en blanco en caso de ser necesario.</p>
+        <p>Se quitaron las validaciones por boton</p>
         <p>Se solicionaron bugs y problemas al sincronizar las ordenes de servicio.</p>
     </div>
 
