@@ -92,7 +92,8 @@
                            </div>
                         </div>
                         <div class="col-md-3">
-                            <button id="btnLiberar"><i class="fas fa-square-root-alt"></i></button>
+                            <button id="btnLiberar" class="btn-success"><i class="fas fa-square-root-alt"></i></button>
+                            <button id="btnRegresar" class="btn-info"><i class="voyager-double-left"></i></button>
                             <div id="divTabDescripcion">
                                 <table id="tableResultado" class="display compact cell-border" style="width:100%">
                                     <thead>

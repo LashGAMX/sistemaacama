@@ -62,8 +62,29 @@ $(document).ready(function () {
     $('#btnLiberar').click(function () {
         liberarResultado();
     });
+    $('#btnRegresar').click(function () {
+        setRegresarMuestra();
+    });
 });
-
+function setRegresarMuestra()
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/getDetalleAnalisis",
+        data: {
+            idSol: $("#idSol").val(),
+            idCodigo: idCodigo,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response)
+ 
+            alert("Muestra regresada");
+        }
+    });
+}
 function getParametros() {
     let color = "";
     let tabla = document.getElementById('divTableParametros');

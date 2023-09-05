@@ -12,6 +12,7 @@ use App\Models\LoteDetalle;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetalleGA;
 use App\Models\LoteDetallePotable;
 use App\Models\PhMuestra;
 use App\Models\Solicitud;
@@ -538,6 +539,318 @@ class CadenaController extends Controller
 
         $data = array(
             'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function setRegresarMuestra(Request $res)
+    {
+        $aux = 0;
+        $model = array();
+        $solModel = Solicitud::where('Id_solicitud',$res->idSol)->first();
+        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
+        $codigo = CodigoParametros::where('Id_parametro',$codigoModel->Id_parametro)->where('Id_solicitud',$codigoModel->Id_solicitud);
+        $codigo->Liberado = 0;
+        $codigo->save();
+
+        switch ($codigoModel->Id_parametro) {
+                // Metales
+            case 17: // Arsenico
+            case 231:
+            case 208:
+            case 207:
+            case 20: // Cobre
+            case 22: //Mercurio
+            case 215:
+            case 25: //Zinc
+            case 227: 
+            case 24: //Plomo
+            case 216:
+            case 21: //Cromoa
+            case 264: 
+            case 18: //Cadmio
+            case 210:
+            case 300: //Niquel
+            case 233: // Seleneio
+            case 213: //Fierro 
+            case 197:
+            case 188:
+            case 189:
+            case 190:
+            case 191:
+            case 192:
+            case 194:
+            case 195:
+            case 196:
+            case 204:
+            case 219:
+            case 230:
+            case 23:
+                $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+                break;
+            case "15": // fosforo
+            case "19": // Cianuros
+            case "7": //Nitrats 
+            case "8": //Nitritos
+            case "152": //Cot
+            case "99": //Cianuros 127
+            case "105": //floururos 127
+            case 106:
+            case 107:
+            case 96:
+            case 95: // Sulfatos
+            case 87:
+            case 222:
+            case 79:
+                $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+                break;
+            case 11:
+                $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', 83)->first();
+                $aux = DB::table('ViewLoteDetalleEspectro')
+                ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->get();
+                break;
+            case "6":
+                $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)
+                    ->where('Id_control', 1)->get();
+                break;
+            case 9:
+            case 10:
+            case 108:
+                $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 83:
+                $model = DB::table('ViewLoteDetalleNitrogeno')
+                    ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro',9)
+                    ->where('Id_control', 1)
+                    ->get();
+                $aux = DB::table('ViewLoteDetalleNitrogeno')
+                    ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro',10)
+                    ->where('Id_control', 1)
+                    ->get();
+                break;
+            // case 218: //Cloro
+            case 64:
+            case 358:
+                if ($solModel->Id_norma == 27) {
+                    $model = DB::table('campo_compuesto') 
+                    ->where('Id_solicitud', $codigoModel->Id_solicitud)
+                    ->get();
+                }else{
+                    $model = DB::table('ViewLoteDetalleCloro')
+                    ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->get();
+                }
+                break;
+            case "13": // Grasas y Aceites
+                $model = LoteDetalleGA::where('Id_analisis',$codigoModel->Id_solicitud);
+                $model->Liberado = 0;
+                $model->save();
+
+                break;
+                //Mb
+            case 5:
+            case 71:
+                $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 12:
+            case 134:
+            case 133:
+            case 137:
+            case 51:
+                $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 253:
+                if ($solModel->Id_norma == 27) {
+                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    $sumGasto = 0;
+                    $aux = array();
+                    foreach($gasto as $item)
+                    {
+                        $sumGasto = $sumGasto + $item->Promedio;
+                    }
+                    foreach($gasto as $item) 
+                    {
+                        array_push($aux,($item->Promedio/$sumGasto));
+                    }
+                }
+                $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 35:
+                $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 16:
+                $model = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 78:
+                $model = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 3: // Solidos
+            case 4:
+            case 112:
+                $model = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case "26": //Gasto
+                if ($solModel->Id_servicio != 3) {
+                    $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
+
+                break;
+            case "67": //Conductividad
+            case "68":
+                if ($solModel->Id_norma == 27) {
+                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    $sumGasto = 0;
+                    $aux = array();
+                    foreach($gasto as $item)
+                    {
+                        $sumGasto = $sumGasto + $item->Promedio;
+                    }
+                    foreach($gasto as $item)
+                    {
+                        array_push($aux,($item->Promedio/$sumGasto));
+                    }
+                }
+                if ($solModel->Id_servicio != 3) {
+                    $model = ConductividadMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
+            break;
+            case "2": //Materia flotante
+                if ($solModel->Id_servicio != 3) {
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();   
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
+                break;
+            case "14": //ph
+            case "110":
+                if ($solModel->Id_norma == 27) {
+                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    $sumGasto = 0;
+                    $aux = array();
+                    foreach($gasto as $item)
+                    {
+                        $sumGasto = $sumGasto + $item->Promedio;
+                    } 
+                    foreach($gasto as $item)
+                    {
+                        array_push($aux,($item->Promedio/$sumGasto));
+                    }
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // if ($solModel->Id_muestra == 1) {
+                    //     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // }else{
+                    //     $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    // }
+                }
+                if ($solModel->Id_servicio != 3) {
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // if ($solModel->Id_muestra == 1) {
+                    //     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    // }else{
+                    //     $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
+                    // }
+                    
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
+                break;
+            case "97": //Temperatura
+                if ($solModel->Id_servicio != 3) {
+                    if ($solModel->Id_norma == 27) {
+                        $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                        $sumGasto = 0;
+                        $aux = array();
+                        foreach($gasto as $item)
+                        {
+                            $sumGasto = $sumGasto + $item->Promedio;
+                        }
+                        foreach($gasto as $item)
+                        {
+                            array_push($aux,($item->Promedio/$sumGasto));
+                        }
+                    }
+                    $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();   
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
+                break;
+
+                //Potable
+            case 95: // Sulfatos
+            case 116:
+                $model = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+                //Dureza
+            case 77:
+            case 251:
+            case 252:
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                break;
+            case 103:
+                $model = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 66: // Color verdadero
+            case 65:
+            case 98: // Turbiedad
+            case 89: // Turbiedad
+            case 218: //Cloro
+            case 84: // Olor
+            case 86: // Sabor
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 114:
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 69:
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            default:
+                break;
+        }
+        
+        $data = array(
+            'solModel' => $solModel,
+            'codigoModel' => $codigoModel,
+            'model' => $model,
         );
         return response()->json($data);
     }
