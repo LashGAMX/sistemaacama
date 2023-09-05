@@ -146,6 +146,7 @@ function setGenFolio() {
         alert(response.msg)
         $("#folio").val(response.folio)
         $("#fechaMuestreo").attr("disabled",true)
+        disabledInput()
       }
     });
   } else {

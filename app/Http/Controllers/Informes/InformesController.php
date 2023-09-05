@@ -286,6 +286,7 @@ class InformesController extends Controller
                         }
                         break;
                     case 133:
+                    case 65:
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
@@ -309,6 +310,7 @@ class InformesController extends Controller
                     case 112:
                     case 218:
                     case 253: 
+                    case 51: 
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
@@ -2460,6 +2462,7 @@ class InformesController extends Controller
                                 case 7:  
                                 case 8:
                                 case 152:
+                                    $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
                                     if ($limP <= $item->Limite) {
                                         $limP = "< " . $item->Limite; 
                                     }else{
@@ -2517,7 +2520,17 @@ class InformesController extends Controller
                                 case 7:
                                 case 8:
                                 case 152:
-                                    $limP = number_format(@$limP, 3, ".", "");
+                                    $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
+                                    $numero_entero = intval($limP * 1000); // Convierte a entero
+                                    $limP = $numero_entero / 1000;
+                                    // if ($limP <= $item->Limite) {
+                                    //     $limP = "< " . $item->Limite; 
+                                    // }else{
+                                    //     $limP = number_format(@$limP, 3, ".", "");
+                                    // }
+                                    // $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
+                                    // $limP = number_format(@$limP, 3, ".", "");
+                                    // $limP = sprintf("%.3f", $limP);
                                     $limC1 = number_format(@$item->Resultado2, 3, ".", "");
                                     break;
                                 case 67:
@@ -2548,6 +2561,7 @@ class InformesController extends Controller
                                     break;
                                 default:
                                 // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                
                                     $limP = number_format(@$limP, 2, ".", "");
                                     $limC1 = number_format(@$item->Resultado2, 2, ".", ""); 
                                     break;
@@ -2594,7 +2608,12 @@ class InformesController extends Controller
                                 case 7:  
                                 case 8:
                                 case 152:
-                                    $limP = number_format(@$limP, 3, ".", "");
+                                    $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
+                                    if ($limP < $item->Limite) {
+                                        $limP = "< " . $item->Limite; 
+                                    }else{
+                                        $limP = number_format(@$limP, 3, ".", "");
+                                    }
                                     $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
                                     break;
                                 // case 152:
@@ -2620,6 +2639,7 @@ class InformesController extends Controller
                                     break;
                                 default: 
                                     // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                                    
                                     $limP = number_format(@$limP, 2, ".", "");
                                     $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     break;
@@ -5240,7 +5260,7 @@ class InformesController extends Controller
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     }else{
-                        if ($item->Resultado2 <= $item->Limite) {
+                        if ($item->Resultado2 < $item->Limite) {
                             $resTemp = "< " . $item->Limite;
                         } else {
     
@@ -5302,7 +5322,7 @@ class InformesController extends Controller
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
-                        if ($item->Resultado2 == 1) {
+                        if ($item->Resultado2 == 1 || $item->Resultado2 = "PRESENTE") {
                             $resTemp = "PRESENTE";
                         } else {
                             $resTemp = "AUSENTE";

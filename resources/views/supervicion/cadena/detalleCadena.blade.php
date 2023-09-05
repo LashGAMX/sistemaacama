@@ -93,7 +93,13 @@
                         </div>
                         <div class="col-md-3">
                             <button id="btnLiberar" class="btn-success"><i class="fas fa-square-root-alt"></i></button>
-                            <button id="btnRegresar" class="btn-info"><i class="voyager-double-left"></i></button>
+                            @switch(Auth::user()->role->id)
+                            @case(1)
+                                <button id="btnRegresar" class="btn-info"><i class="voyager-double-left"></i></button>
+                                @break
+                            @default
+                            
+                            @endswitch
                             <div id="divTabDescripcion">
                                 <table id="tableResultado" class="display compact cell-border" style="width:100%">
                                     <thead>

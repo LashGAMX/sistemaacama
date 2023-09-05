@@ -65,7 +65,7 @@
                             <button id="btnActCC" class="btn-info"><i class="voyager-edit"></i> Act. C.C</button>
                             @break
                         @default
-                            adf
+                            
                     @endswitch
                 </div>
                 <div class="col-md-12">

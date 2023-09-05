@@ -999,9 +999,16 @@ class MbController extends Controller
             case 71: //todo Metodo electrometrico
                 # DBO
                 if ($request->tipo == 1) {
-                    $E = $request->D / $request->C;
-                    $res = ($request->A - $request->B) / round($E, 3);
-                    $res = round($res,2);
+                    if ($request->D <= 0.1) {
+                        $E = $request->D / $request->C;
+                        $res = ($request->A - $request->B) / $E;
+                        $res = round($res,2);    
+                    }else{
+                        $E = $request->D / $request->C;
+                        $res = ($request->A - $request->B) / round($E, 3);
+                        $res = round($res,2);    
+                    }
+                    
                     $model = LoteDetalleDbo::find($request->idDetalle);
                     $model->Botella_final = $request->H;
                     $model->Botella_od = $request->G;
