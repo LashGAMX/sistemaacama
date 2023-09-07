@@ -366,22 +366,23 @@
                         </td>
                         <td id="tableContent">
                             @php
-                                echo round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
+                                $res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
+                                echo $res;
                             @endphp
                         </td>
                         <td id="tableContent">{{@$item->Factor_dilucion}}</td>
                         <td id="tableContent">
                             @if (@$item->Vol_disolucion != null)
-                                @if (round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3) > $item->Limite)
-                                {{$item->Vol_disolucion}}
+                                @if ($res < $item->Limite)
+                                    < {{$item->Limite}}                                
                                 @else
-                                    < {{$item->Limite}}
+                                    {{number_format(@$item->Vol_disolucion,3)}}
                                 @endif
                             @else
                                 -------
                             @endif
                         </td> 
-                        <td id="tableContent">{{@$item->Observacion}}</td>                        
+                        <td id="tableContent">{{@$item->Observacion}}</td>                         
                         <td id="tableContent">
                             @if (@$item->Liberado == 1)
                                 Liberado

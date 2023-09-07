@@ -69,15 +69,16 @@
                                     {{@$ponderado[$cont]}}
                                     @break;
                                 @default
-                                    @if (@$item->Limite != "N.A" || @$item->Limite != "N.N" || @$item->Limite != "N/A" || @$item->Limite != "N.A.")
+                                {{@$ponderado[$cont]}}
+                                    {{-- @if (@$item->Limite != "N.A" || @$item->Limite != "N.N" || @$item->Limite != "N/A" || @$item->Limite != "N.A.")
                                         @if ($ponderado[$cont] < $item->Limite)
-                                            < {{@$item->Limite}}
+                                            {{@$item->Limite}}
                                         @else
                                             {{@$ponderado[$cont]}}
                                         @endif
                                     @else
                                         {{@$ponderado[$cont]}} 
-                                    @endif
+                                    @endif --}}
                             @endswitch
                         </td>
                         @php

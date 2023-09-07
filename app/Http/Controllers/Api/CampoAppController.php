@@ -366,15 +366,17 @@ class CampoAppController extends Controller
         }
       // DATOS COMPUESTOS -------------------------------------------------------------------
         $aforo = $jsonDatosCompuestos[0]["Metodo_aforo"];
+        $aforoFinal = MetodoAforo::where("Aforo" , $aforo)->first();
         $conTratamiento = $jsonDatosCompuestos[0]["Con_tratamiento"];
         $contratamiento = ConTratamiento::where('Tratamiento', $conTratamiento)->first();
         $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
+        $tipoTratamientoFinal = TipoTratamiento::where('Tratamiento', $tipoTratamiento)->first();
         $phMuestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];
         
         $campoCompuesto = CampoCompuesto::where('Id_solicitud',$solModel->Id_solicitud)->first();
-        $campoCompuesto->Metodo_aforo = $aforo;
+        $campoCompuesto->Metodo_aforo = $aforoFinal->Id_aforo;
         $campoCompuesto->Con_tratamiento = $contratamiento->Id_tratamiento;
-        $campoCompuesto->Tipo_tratamiento = $tipoTratamiento;
+        $campoCompuesto->Tipo_tratamiento = $tipoTratamientoFinal->Id_tratamiento;
         $campoCompuesto->Proce_muestreo = $jsonDatosCompuestos[0]["Proc_muestreo"];
         $campoCompuesto->Observaciones = $jsonDatosCompuestos[0]["Observaciones"];
         $campoCompuesto->Obser_solicitud = $jsonDatosCompuestos[0]["Obser_solicitud"];
@@ -449,7 +451,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             
+             'aforo' => $tipoTratamientoFinal,
              
           
         );

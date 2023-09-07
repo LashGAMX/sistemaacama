@@ -180,7 +180,7 @@ class CadenaController extends Controller
             case "105": //floururos 127
             case 106:
             case 107:
-            case 96:
+            case 96: 
             case 95: // Sulfatos
             case 87:
             case 222:

@@ -547,6 +547,8 @@ function getDetalleAnalisis(idCodigo) {
                 case "134":
                 case "137":
                 case "51":
+                case "35":
+                    let swC = 0;
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -571,11 +573,18 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td>' + item.Resultado + '</td>';
                             tab += '</tr>';
                         }
+                        if (parseInt(item.Resultado) > 0) {
+                            swC = 1
+                        } 
                         cont++;
 
                     });
                     // resLiberado = (aux / cont);
-                    resLiberado = (Math.pow(aux, 1 / cont));
+                    if (swC == 1) {
+                        resLiberado = (Math.pow(aux, 1 / cont));   
+                    } else {
+                        resLiberado = 0;
+                    }
                     console.log("Res: "+resLiberado);
                     tab += '    </tbody>';
                     tab += '</table>';
