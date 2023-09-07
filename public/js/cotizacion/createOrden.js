@@ -84,7 +84,7 @@ function disabledInput()
   $("#addRow").attr('disabled',true)
   $("#delRow").attr('disabled',true)
   $("#btnSetParametro").attr('disabled',true)
-  $("#btnCrearSolicitud").attr('disabled',true)
+  // $("#btnCrearSolicitud").attr('disabled',true)
   $("#btnFolio").attr('disabled',true)
 }
 function getDataUpdate() {

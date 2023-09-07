@@ -42,13 +42,13 @@
                     <tr>
                         <td class="tableContent">{{ $item->Codigo }}</td>
                         <td class="tableContent">{{ $item->Vol_muestra }}</td>
-                        <td class="tableContent">{{$item->Lectura1}}</td>
-                        <td class="tableContent">{{$item->Lectura2}}</td>
-                        <td class="tableContent">{{$item->Lectura3}}</td>
-                        <td class="tableContent">{{ $item->Edta }}</td>
+                        <td class="tableContent">{{number_format($item->Lectura1,2)}}</td>
+                        <td class="tableContent">{{number_format($item->Lectura2,2)}}</td>
+                        <td class="tableContent">{{number_format($item->Lectura3,2)}}</td>
+                        <td class="tableContent">{{number_format($item->Edta,2)}}</td>
                         <td class="tableContent">
                             @if ($item->Resultado > $item->Limite)
-                                {{$item->Resultado}}
+                                {{number_format($item->Resultado,2)}}
                             @else
                                 < {{$item->Limite}}
                             @endif

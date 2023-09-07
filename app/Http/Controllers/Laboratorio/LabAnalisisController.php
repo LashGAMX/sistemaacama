@@ -628,11 +628,11 @@ class LabAnalisisController extends Controller
                     switch ($lote[0]->Id_tecnica) {
                         case 88: // SDT 
                             $nom1 = "ST";
-                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
-                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',90)->first();
+                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
+                            // $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',90)->first();
                             $nom2 = "SST";
-                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
-                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',4)->first();
+                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
+                            // $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',4)->first();
                             break;
                         case 44: // SDV
                             $nom1 = "STV";
@@ -1014,7 +1014,7 @@ class LabAnalisisController extends Controller
                             $resultado = $d / $res->D;
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
-                            $model->Resultado = $resultado;
+                            $model->Resultado = round($resultado,2);
                             $model->Abs1 = $res->X;
                             $model->Abs2 = $res->Y;
                             $model->Abs3 = $res->Z;

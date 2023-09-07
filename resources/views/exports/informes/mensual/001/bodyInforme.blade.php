@@ -70,7 +70,7 @@
                                     @break;
                                 @default
                                     @if (@$item->Limite != "N.A" || @$item->Limite != "N.N" || @$item->Limite != "N/A" || @$item->Limite != "N.A.")
-                                        @if ($ponderado[$cont] <= $item->Limite)
+                                        @if ($ponderado[$cont] < $item->Limite)
                                             < {{@$item->Limite}}
                                         @else
                                             {{@$ponderado[$cont]}}
