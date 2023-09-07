@@ -5310,9 +5310,12 @@ class InformesController extends Controller
                 case 23: //niquel
                 case 24: //plomo total
                 case 122:
+                case 106: //nitratos
                 case 124:
                 case 114:
                 case 96:
+                case 95:
+                case 243: //sulfatos
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     }else{
@@ -5324,6 +5327,20 @@ class InformesController extends Controller
                     }
 
                     break;
+                case 80:
+                case 105:
+                case 121: // Fluoruros 
+                        if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                            $resTemp = "----";
+                        }else{
+                            if ($item->Resultado2 < $item->Limite) {
+                                $resTemp = "< " . number_format(@$item->Limite, 3, ".", "");
+                            } else {
+                                $resTemp = number_format(@$item->Resultado2, 3, ".", "");
+                            }
+                        }
+    
+                        break;
                 case 2:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
@@ -5335,7 +5352,9 @@ class InformesController extends Controller
                         }
                     }
                     break;
-                case 14: // ph
+                case 14:
+                case 31:
+                case 110: // ph
                     switch ($model->Id_norma) {
                         case 1:
                         case 27:
