@@ -305,6 +305,7 @@ function getDetalleAnalisis(idCodigo) {
                 //Volumnetria
 
                 case "11":
+                    let swT = 0
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -316,14 +317,22 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    <tbody>';
                     tab += '<tr>';
                     tab += '<td>' + response.model.Parametro + '</td>';
-                    tab += '<td>' + response.model.Resultado2 + '</td>';
-                    aux = aux + parseFloat(response.model.Resultado2);
+                    if (response.model.Resultado2 < response.model.Limite) {
+                        tab += '<td>< ' + response.model.Limite + '</td>';
+                        aux = aux + parseFloat(response.model.Limite);
+                    } else {
+                        tab += '<td>' + response.model.Resultado2 + '</td>';
+                        aux = aux + parseFloat(response.model.Resultado2);
+                    }
+                    if (parseInt(response.model.Resultado2) >= response.model.Limite) {
+                        swT = 1
+                    } 
                     tab += '</tr>';
                     $.each(response.aux, function (key, item) {
                         if (item.Id_parametro == "7" || item.Id_parametro == "8") {
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
-                            if (item.Resultado <= item.Limite) {
+                            if (item.Resultado < item.Limite) {
                                 tab += '<td>< ' + item.Limite + '</td>';
                                 aux = aux + parseFloat(item.Limite);
                             } else {
@@ -331,9 +340,17 @@ function getDetalleAnalisis(idCodigo) {
                                 aux = aux + parseFloat(item.Resultado);
                             }
                             tab += '</tr>';
+                            if (parseFloat(item.Resultado) >= item.Limite) {
+                                swT = 1
+                            } 
                         }
                     });
-                    resLiberado = aux.toFixed(2);
+                    if (swT == 1) {
+                        resLiberado = aux.toFixed(2);
+                    } else {
+                        resLiberado = 1.50;
+                    }
+                    console.log(swT)
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -383,6 +400,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "83":
+                    let swK = 0;
                     console.log("Entro a kendal")
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -396,7 +414,7 @@ function getDetalleAnalisis(idCodigo) {
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
-                        if (item.Resultado <= item.Limite) {
+                        if (item.Resultado < item.Limite) {
                             tab += '<td> < ' + item.Limite + '</td>';
                             resLiberado = resLiberado + parseFloat(item.Limite);
                         } else {
@@ -404,6 +422,9 @@ function getDetalleAnalisis(idCodigo) {
                             resLiberado = resLiberado + parseFloat(item.Resultado);   
                         }
                         tab += '</tr>';
+                        if (parseInt(item.Resultado) >= item.Limite) {
+                            swK = 1
+                        } 
                     });
                     $.each(response.aux, function (key, item) {
                         tab += '<tr>';
@@ -416,7 +437,17 @@ function getDetalleAnalisis(idCodigo) {
                             resLiberado = resLiberado + parseFloat(item.Resultado);   
                         }
                         tab += '</tr>';
+                        if (parseInt(item.Resultado) > 0) {
+                            swK = 1
+                        } 
                     });
+
+                    // resLiberado = (aux / cont);
+                        if (swK == 1) {
+                            // resLiberado = (Math.pow(aux, 1 / cont));   
+                        } else {
+                            resLiberado = 1.39;
+                        }
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -591,6 +622,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "253":
+                    let swEn = 0
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -600,11 +632,11 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
-                    aux = 1;
+                    aux = 1; 
 
 
                     $.each(response.model, function (key, item) {
-                        if (parseInt(item.Resultado) <= parseInt(item.Limite)) {
+                        if (parseInt(item.Resultado) < parseInt(item.Limite)) {
                             aux = aux * 3;
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
@@ -617,10 +649,18 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td>' + item.Resultado + '</td>';
                             tab += '</tr>';   
                         }
+                        if (parseInt(item.Resultado) > 0) {
+                            swEn = 1
+                        } 
                         cont++;
                     });
                     // resLiberado = (aux / cont);
-                    resLiberado = (Math.pow(aux, 1 / cont));
+                    // resLiberado = (Math.pow(aux, 1 / cont));
+                    if (swEn == 1) {
+                        resLiberado = (Math.pow(aux, 1 / cont));   
+                    } else {
+                        resLiberado = 0;
+                    }
                     console.log(resLiberado);
                     tab += '    </tbody>';
                     tab += '</table>';
