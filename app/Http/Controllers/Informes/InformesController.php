@@ -5253,17 +5253,11 @@ class InformesController extends Controller
                         }
                     }
                     break;
-<<<<<<< HEAD
                 case 14: // ph
                 case 110:
-=======
-                case 14:
-                case 31:
-                case 110: // ph
->>>>>>> cc7b1df07e7eb522f40a2a28fc2735c10d43dca2
                     switch ($model->Id_norma) {
                         case 1:
-                        case 27:
+                        case 27: 
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
