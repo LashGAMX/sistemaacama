@@ -2518,7 +2518,7 @@ class InformesController extends Controller
                                     if (@$item->Resultado2 < @$item->Limite) {
                                         $limC1 = "< ".$item->Limite;
                                     }else{
-                                        $limC1 = number_format(@$item->Resultado2, 2, ".", "");x
+                                        $limC1 = number_format(@$item->Resultado2, 2, ".", "");
                                         // $limC1 = round(@$item->Resultado2);
                                     }
                                     if (@$model2[$cont]->Resultado2 < @$item->Limite) {
