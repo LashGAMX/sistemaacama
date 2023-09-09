@@ -18,6 +18,7 @@ use App\Models\PHCalidad;
 use App\Models\PhCalidadCampo;
 use App\Models\PHTrazable;
 use App\Models\SolicitudesGeneradas;
+use App\Models\TermFactorCorreccionTemp;
 use App\Models\SolicitudPuntos;
 use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
@@ -96,7 +97,7 @@ class CampoAppController extends Controller
         return response()->json($data);
     } 
     public function version(request $request) {
-        $version = "1.4.2";
+        $version = "1.5.0";
 
         $data = array(
             'version' => $version,
@@ -176,7 +177,7 @@ class CampoAppController extends Controller
         $phCalidad = CampoPhCalidad::where('Id_solicitud',$solModel->Id_solicitud)->get();
         
             //$phCalidad->Id_solicitud[0] = $solModel->Id_solicitud;
-            //$phCalidad->Id_phCalidad[0] = $catPhCal->Id_ph;
+            $phCalidad[0]->Id_phCalidad = $catPhCal->Id_ph;
             $phCalidad[0]->Lectura1 = $jsonPhCal[0]["Lectura1"];
             $phCalidad[0]->Lectura2 = $jsonPhCal[0]["Lectura2"];
             $phCalidad[0]->Lectura3 = $jsonPhCal[0]["Lectura3"];
@@ -184,10 +185,10 @@ class CampoAppController extends Controller
             $phCalidad[0]->Promedio = $jsonPhCal[0]["Promedio"];
             $phCalidad[0]->save();
 
-
-        $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[1]["Id_phCalidad"])->first();
+       
+        $catPhCal2 = PHCalidad::where('Ph_calidad',$jsonPhCal[1]["Id_phCalidad"])->first();
             //$phCalidad->Id_solicitud[1] = $solModel->Id_solicitud;
-            //$phCalidad->Id_phCalidad[1] = $catPhCal->Id_ph;
+            $phCalidad[1]->Id_phCalidad = $catPhCal2->Id_ph;
             $phCalidad[1]->Lectura1 = $jsonPhCal[1]["Lectura1"];
             $phCalidad[1]->Lectura2 = $jsonPhCal[1]["Lectura2"];
             $phCalidad[1]->Lectura3 = $jsonPhCal[1]["Lectura3"];
@@ -279,14 +280,12 @@ class CampoAppController extends Controller
         
         for ($i = 0; $i < $tempAmbiente->count(); $i++){
             $tempA1 = $jsonTempAmbiente[$i]["TempA1"];
-            $tempA2 = $jsonTempAmbiente[$i]["TempA2"];
-            $tempA3 = $jsonTempAmbiente[$i]["TempA3"];
-            $promedioA = $jsonTempAmbiente[$i]["PromedioA"];
+            $factor1 =  TermFactorCorreccionTemp::where('Id_Termometro', $idTermo2)->where('De_c', '<=', $tempA1)->where('A_c', '>', $tempA1)->first();
+            $aplicada1 = floatval($tempA1) + $factor1->Factor_aplicado;
             
             $tempAmbiente[$i]->TemperaturaSin1 = floatval($tempA1);
-            $tempAmbiente[$i]->TemperaturaSin2 = floatval($tempA2);
-            $tempAmbiente[$i]->TemperaturaSin3 = floatval($tempA3);
-            $tempAmbiente[$i]->Promedio = floatval($promedioA);
+            $tempAmbiente[$i]->Temperatura1 = $aplicada1;
+            $tempAmbiente[$i]->Fact_apl = $factor1->Factor_aplicado;
             $tempAmbiente[$i]->save();
         }
 
@@ -337,16 +336,26 @@ class CampoAppController extends Controller
         
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
+        
         for ($i = 0; $i < $tempMuestra->count(); $i++){
             $temp1 = $jsonTempMuestra[$i]["Temp1"];
             $temp2 = $jsonTempMuestra[$i]["Temp2"];
             $temp3 = $jsonTempMuestra[$i]["Temp3"];
             $temp4 = $jsonTempMuestra[$i]["Promedio"];
-           
+            $factor1 =  TermFactorCorreccionTemp::where('Id_Termometro', $idTermo1)->where('De_c', '<=', $temp1)->where('A_c', '>', $temp1)->first();
+            $aplicada1 = floatval($temp1) + $factor1->Factor_aplicado;
+            $factor2 =  TermFactorCorreccionTemp::where('Id_Termometro', $idTermo1)->where('De_c', '<=', $temp2)->where('A_c', '>', $temp2)->first();
+            $aplicada2 = floatval($temp2) + $factor2->Factor_aplicado;
+            $factor3 =  TermFactorCorreccionTemp::where('Id_Termometro', $idTermo1)->where('De_c', '<=', $temp3)->where('A_c', '>', $temp3)->first();
+            $aplicada3 = floatval($temp3) + $factor3->Factor_aplicado;
+            $promedio = ($aplicada1 + $aplicada2 + $aplicada3) / 3;
             $tempMuestra[$i]->TemperaturaSin1 = floatval($temp1);
+            $tempMuestra[$i]->Temperatura1 = $aplicada1;
             $tempMuestra[$i]->TemperaturaSin2 = floatval($temp2);
+            $tempMuestra[$i]->Temperatura2 = $aplicada2;
             $tempMuestra[$i]->TemperaturaSin3 = floatval($temp3);
-            $tempMuestra[$i]->Promedio = floatval($temp4);
+            $tempMuestra[$i]->Temperatura3 = $aplicada3;
+            $tempMuestra[$i]->Promedio = round($promedio, 2);
             $tempMuestra[$i]->save();
         }
 
@@ -451,7 +460,7 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'aforo' => $tipoTratamientoFinal,
+             'aplicada1' => $aplicada1,    
              
           
         );
