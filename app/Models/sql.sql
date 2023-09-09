@@ -809,3 +809,5 @@ UPDATE lote_detalle_coliformes SET Id_parametro = 137 where Id_lote = 2148;
 SELECT * FROM `codigo_parametro` where Codigo LIKE "%223-123/23%" AND Id_parametro = 51;
 
 UPDATE codigo_parametro SET Id_parametro = 137 where Codigo LIKE "%223-123/23%"  AND Id_parametro = 51;
+
+
