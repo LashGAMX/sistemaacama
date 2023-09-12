@@ -307,7 +307,7 @@ ON lo.Id_tecnica = pa.Id_parametro;
 
 
 /* Lista ViewDetalleLote */ 
-CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
+CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Id_tecnica,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
 FROM lote_detalle as lote
 INNER JOIN ViewSolicitud2 as sol
 ON lote.Id_analisis = sol.Id_solicitud

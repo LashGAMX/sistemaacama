@@ -166,6 +166,7 @@ function eventLote(id,parametro)
                 let model = response.model[0]
                 // Flama
                 $("#fechaDigestion").val(model.Fecha_digestion)
+                $("#fechaPreparacion").val(model.Fecha_preparacion),
                 $("#longitudOnda").val(model.Longitud_onda)
                 $("#noInventario").val(model.No_inventario),
                 $("#corriente").val(model.Corriente)
@@ -185,7 +186,7 @@ function eventLote(id,parametro)
                $("#abs2B").val(model.Abs2B)
                $("#abs3B").val(model.Abs3B)
                $("#abs4B").val(model.Abs4B)
-               $("#abs5B").val(model.Abs5B)
+               $("#abs5B").val(model.Abs5B) 
                $("#promedioB").val(model.PromedioB)
                $("#conclusionB").val(model.ConclusionB)
                //Verificacion de espectro
@@ -219,11 +220,12 @@ function eventLote(id,parametro)
 
             }else{
                 $("#fechaDigestion").val("")
+                $("#fechaPreparacion").val(""),
                 $("#longitudOnda").val(response.configuracion.Longitud_onda)
                 $("#noInventario").val(response.configuracion.No_Inventario)
                 $("#corriente").val(response.configuracion.Lampara)
                 $("#gas").val(response.configuracion.Gas)
-                $("#flujoGas").val("")
+                $("#flujoGas").val(response.configuracion.Flujo_gas) 
                 $("#noLampara").val(response.configuracion.No_lampara)
                 $("#energia").val(response.configuracion.Energia)
                 $("#aire").val(response.configuracion.Aire)
@@ -276,6 +278,7 @@ function setDetalleLote(){
     data: {
         id:idLote,
         fechaDigestion:$("#fechaDigestion").val(),
+        fechaPreparacion:$("#fechaPreparacion").val(),
         longitudOnda:$("#longitudOnda").val(),
         noInventario:$("#noInventario").val(), 
         corriente:$("#corriente").val(),

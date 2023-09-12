@@ -1611,7 +1611,7 @@ function setDetalleMuestra() {
                             con1: $("#con1Col").val(),
                             con4: $("#con4Col").val(),
                             con5: $("#con5Col").val(),
-                            con6: $("#con6Col").val(),
+                            con6: $("#con6Col").val(), 
                             con7: $("#con7Col").val(),
                             con8: $("#con8Col").val(),
                             con9: $("#con9Col").val(),
@@ -1635,6 +1635,8 @@ function setDetalleMuestra() {
                             pre77: $("#pre16Col").val(),
                             pre88: $("#pre17Col").val(),
                             pre99: $("#pre18Col").val(),
+
+                            // resultado: $('#resultadoCol').val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
@@ -2487,6 +2489,30 @@ function getDetalleMuestra(id) {
 
                             $("#resultadoCol").val(response.model.Resultado);
                             $("#observacionCol").val(response.model.Observacion);
+
+                            if (response.model.Id_control != 1) {
+                                $("#dil2Col").attr('hidden',true)
+                                $("#dil3Col").attr('hidden',true)
+                                $("#pre4Col").attr('hidden',true)
+                                $("#pre7Col").attr('hidden',true)
+                                $("#pre5Col").attr('hidden',true)
+                                $("#pre8Col").attr('hidden',true)
+                                $("#pre6Col").attr('hidden',true)
+                                $("#pre9Col").attr('hidden',true)
+                                $("#pre13Col").attr('hidden',true)
+                                $("#pre16Col").attr('hidden',true)
+                                $("#pre14Col").attr('hidden',true)
+                                $("#pre17Col").attr('hidden',true)
+                                $("#pre15Col").attr('hidden',true)
+                                $("#pre18Col").attr('hidden',true)
+
+                                $("#con4Col").attr('hidden',true)
+                                $("#con7Col").attr('hidden',true)
+                                $("#con5Col").attr('hidden',true)
+                                $("#con8Col").attr('hidden',true)
+                                $("#con6Col").attr('hidden',true)
+                                $("#con9Col").attr('hidden',true)
+                            }
                             break;
                         case 135: //Coliformes alimentos
                         case 133:

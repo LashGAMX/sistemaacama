@@ -120,7 +120,7 @@
                 <td class="tableContent">
                     {{@$item->Ph_final}}
                 </td>
-                @if ($item->Resultado <= $item->Limite)
+                @if ($item->Resultado < $item->Limite)
                 <td class="tableContent">< {{number_format(@$model[0]->Limite, 2, ".", ".")}}</td>
             @else
                 <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>

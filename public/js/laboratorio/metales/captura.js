@@ -207,6 +207,7 @@ function getLoteCaptura() {
                 case 191:
                 case 204:
                 case 230:
+                case 17:
                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="100"></td>';
                     break;
                 case 188:

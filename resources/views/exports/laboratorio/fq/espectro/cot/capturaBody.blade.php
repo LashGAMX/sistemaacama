@@ -61,7 +61,7 @@
                         <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", "")}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado != NULL)
-                                @if ($item->Limite >= $item->Resultado)
+                                @if ($item->Limite > $item->Resultado)
                                 < {{number_format(@$item->Limite, 3, ".", "")}}
                                 @else
                                     {{number_format(@$item->Resultado, 3, ".", "")}}

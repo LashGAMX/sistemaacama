@@ -43,7 +43,7 @@
                         </td>
                         <td class="tableContent">{{$item->Vol_muestra}}</td>
                         <td class="tableContent">{{$item->Titulo_muestra}}</td>
-                        @if ($item->Resultado <= $item->Limite)
+                        @if ($item->Resultado < $item->Limite)
                           <td class="tableContent">< {{@$item->Limite}}</td>
                         @else
                             <td class="tableContent">{{@$item->Resultado}}</td>

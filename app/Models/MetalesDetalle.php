@@ -17,6 +17,7 @@ class MetalesDetalle extends Model
         'Id_detalle', 
         'Id_lote',
         'Fecha_digestion',
+        'Fecha_peparacion',
         'Longitud_onda',
         'No_inventario',
         'Corriente',

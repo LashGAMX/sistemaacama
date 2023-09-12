@@ -51,7 +51,7 @@
                         @endif                            
                     </td>
                     <td class="tableContent">{{@$item->Inmhoff}}</td>
-                    @if ($item->Resultado <= $item->Limite)
+                    @if ($item->Resultado < $item->Limite)
                         <td class="tableContent">< {{$item->Limite}}</td>
                     @else
                         <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>

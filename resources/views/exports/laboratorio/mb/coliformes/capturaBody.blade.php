@@ -123,10 +123,10 @@
     
     <br>
 
-    <div id="contenidoCurva">
+    {{-- <div id="contenidoCurva">
         <p>Fecha de resiembra de la cepa utilizada: AQUÍ VA LA FECHA de la placa N° AQUÍ VA LA PLACA</p>
         <p>Bitácora AQUÍ VA LA BITÁCORA</p> <br>
-    </div>
+    </div> --}}
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración</span>
@@ -187,21 +187,31 @@
         </thead>
         
         <tbody>
+            @php
+                $aux = 3;
+            @endphp
             @for ($i = 0; $i < $dataLength ; $i++)
+            
                 <tr>
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        @if (@$data[$i]->Control == 'Estandar')
-                            ESTANDAR
-                        @elseif(@$data[$i]->Control == 'Blanco')
-                            BLANCO
-                        @elseif(@$data[$i]->Control == 'Positivo')
-                            POSITIVO
-                        @elseif(@$data[$i]->Control == 'Negativo')
-                            NEGATIVO
-                        @else
-                            {{@$data[$i]->Codigo}}
-                        @endif  
-                    </td>
+                    @switch($data[$i]->Id_control)
+                    @case(4)
+                    @case(5)
+                    @case(8)
+                    @case(18)
+                        <td class="contenidoBody bordesTabla" >
+                            {{@$data[$i]->Codigo}}    
+                            {{@$data[$i]->Control}}        
+                        </td>
+                        @php
+                            $aux = 0;
+                        @endphp
+                        @break
+                    @default
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            {{@$data[$i]->Codigo}}    
+                        </td>
+                    @endswitch
+                    
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Dilucion1}}
@@ -243,7 +253,7 @@
                     </td>
                     @switch($data[$i]->Tipo)
                         @case(1)
-                            <td class="contenidoBody bordesTabla" rowspan="3">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                                 @if (@$data[$i]->Resultado == 0)
                                     < 3
                                 @else
@@ -251,20 +261,20 @@
                                 @endif
                             </td>
         
-                            <td class="contenidoBody bordesTabla" rowspan="3">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                                 --
                             </td>
         
-                            <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}" style="font-weight: bold">
                                 --
                             </td>
                             @break
                         @case(2)
-                            <td class="contenidoBody bordesTabla" rowspan="3">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                                 --
                             </td>
         
-                            <td class="contenidoBody bordesTabla" rowspan="3">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                                 @if (@$data[$i]->Resultado == 0)
                                 < 3
                             @else
@@ -272,20 +282,20 @@
                             @endif
                             </td>
         
-                            <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}" style="font-weight: bold">
                                 --
                             </td>
                             @break
                         @case(3)
-                            <td class="contenidoBody bordesTabla" rowspan="3">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                                 --
                             </td>
         
-                            <td class="contenidoBody bordesTabla" rowspan="3">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                                 --
                             </td>
         
-                            <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            <td class="contenidoBody bordesTabla" rowspan="{{$aux}}" style="font-weight: bold">
                                 @if (@$data[$i]->Resultado == 0)
                                 < 3
                             @else
@@ -294,21 +304,21 @@
                             </td>
                             @break
                         @default
-                        <td class="contenidoBody bordesTabla" rowspan="3">
+                        <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                             --
                         </td>
     
-                        <td class="contenidoBody bordesTabla" rowspan="3">
+                        <td class="contenidoBody bordesTabla" rowspan="{{$aux}}">
                             --
                         </td>
     
-                        <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                        <td class="contenidoBody bordesTabla" rowspan="{{$aux}}" style="font-weight: bold">
                             --
                         </td>
                     @endswitch
                   
 
-                    <td class="contenidoBody" rowspan="3">
+                    <td class="contenidoBody" rowspan="{{$aux}}">
                         @if (@$data[$i]->Liberado == 1)
                             Liberado
                         @elseif(@$data[$i]->Liberado == 0)
@@ -316,11 +326,19 @@
                         @endif 
                     </td>
 
-                    <td class="contenidoBody" rowspan="3">
+                    <td class="contenidoBody" rowspan="{{$aux}}">
                         {{@$data[$i]->Control}}
                     </td>
                 </tr>
                 
+                @switch($data[$i]->Id_control)
+                @case(4)
+                @case(5)
+                @case(8)
+                @case(18)
+                    
+                    @break
+                @default
                 <tr>
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Dilucion2}}
@@ -402,6 +420,8 @@
                         {{@$data[$i]->Confirmativa7 + @$data[$i]->Confirmativa8 + @$data[$i]->Confirmativa9}}
                     </td>                          
                 </tr>
+                @endswitch
+
             @endfor
         </tbody>
     </table>

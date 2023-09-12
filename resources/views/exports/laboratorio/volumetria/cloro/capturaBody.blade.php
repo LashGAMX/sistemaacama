@@ -83,7 +83,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        @if (@$loteDetalle[$i]->Limite >= @$loteDetalle[$i]->Resultado)
+                        @if (@$loteDetalle[$i]->Limite > @$loteDetalle[$i]->Resultado)
                             {{@$loteDetalle[$i]->Limite}}
                         @else
                             {{@$loteDetalle[$i]->Resultado}}

@@ -92,6 +92,10 @@
                     <input type="text" class="form-control form-control-sm" id="longitudOnda"> 
                   </div>
                   <div class="col-md-4">
+                    <label for="">Fecha de preparacion</label>
+                    <input type="date"  class="form-control form-control-sm" id="fechaPreparacion">
+                  </div>
+                  <div class="col-md-4">
                     <label>No Inventario</label> 
                     <input type="text" class="form-control form-control-sm" id="noInventario"> 
                   </div>
@@ -229,7 +233,7 @@
                       </div>
                       <div class="col-md-12">
                         <label for="">Abs 3</label>
-                        <input type="text"  class="form-control" id="abs3e">
+                        <input type="text"  class="form-control" id="abs3E">
                       </div>
                       <div class="col-md-12">
                         <label for="">Abs 4</label>
@@ -378,7 +382,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-  <script src="{{asset('/public/js/laboratorio/metales/lote.js')}}?v=1.0.4"></script>
+  <script src="{{asset('/public/js/laboratorio/metales/lote.js')}}?v=1.0.7"></script>
   <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
   <script src="{{asset('/public/js/libs/tablas.js')}}"></script>  
 @endsection

@@ -479,9 +479,7 @@
                     </table>
                 </div>
             </div>
-
-            <br>
-
+<br>
             <div class="col-12 fontCalibri fontSize10 fontNormal">
                 Nota. Los demas valores registrados de temperatura llevan aplicado la temperatura corregida de la
                 temperatura correspondiente. <br>
@@ -490,8 +488,6 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="fontBold">{{$campoGen->Serie}}</span>
             </div>
-
-            <br>
 
             <div class="col-12 fontCalibri fontSize12 fontBold">
                 Datos de Campo
@@ -609,49 +605,49 @@
                                     @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph1 == 0)
                                     -----
                                     @else
-                                    {{round(@$phMuestra[$i]->Ph1, 2)}}
+                                    {{number_format(@$phMuestra[$i]->Ph1, 2)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph2 == 0)
                                     -----
                                     @else
-                                    {{round(@$phMuestra[$i]->Ph2, 2)}}
+                                    {{number_format(@$phMuestra[$i]->Ph2, 2)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Ph3 == 0)
                                     -----
                                     @else
-                                    {{round(@$phMuestra[$i]->Ph3, 2)}}
+                                    {{number_format(@$phMuestra[$i]->Ph3, 2)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Promedio == 0)
                                     -----
                                     @else
-                                    {{round(@$phMuestra[$i]->Promedio, 2)}}
+                                    {{number_format(@$phMuestra[$i]->Promedio, 2)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura1 == 0)
                                     -----
                                     @else
-                                    {{round(@$tempMuestra[$i]->Temperatura1, 2)}}
+                                    {{number_format(@$tempMuestra[$i]->Temperatura1, 1)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura2 == 0)
                                     -----
                                     @else
-                                    {{round(@$tempMuestra[$i]->Temperatura2, 2)}}
+                                    {{number_format(@$tempMuestra[$i]->Temperatura2, 1)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura3 == 0)
                                     -----
                                     @else
-                                    {{round(@$tempMuestra[$i]->Temperatura3, 2)}}
+                                    {{number_format(@$tempMuestra[$i]->Temperatura3, 1)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
@@ -789,14 +785,14 @@
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Procedimiento de muestreo</td>
                             <td class="fontCalibri fontSize12 fontBold" width="75%">
-                                PE-10-002-{{@$campoCompuesto->Proce_muestreo}}</td>
+                                PE-10-002-0{{@$campoCompuesto->Proce_muestreo}}</td> 
                         </tr>
                     </tbody>
                 </table>
 
-                Procedimiento de pH PE-10-02-03, procedimiento de Temperatura PE-10-02-02, Procedimiento de
-                Conductividad PE-10-02-01 <br>
-                Procedimiento de recepción de mtas, PG-11-01, Cadena de Custodia RE-11-02<br>
+                Procedimiento de pH PE-10-002-3, procedimiento de Temperatura PE-10-002-2, Procedimiento de
+                Conductividad PE-10-002-1 <br>
+                Procedimiento de recepción de mtas, PG-11-001, Cadena de Custodia RE-11-002<br>
 
                 <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
                     <tbody>

@@ -49,10 +49,10 @@
                 <td class="tableContent">{{@$item->Abs2}}</td>
                 <td class="tableContent">{{@$item->Abs3}}</td>
                 <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
-                @if ($item->Resultado <= $item->Limite)
+                @if ($item->Resultado < $item->Limite)
                     <td class="tableContent">< {{@$item->Limite}}</td>
                 @else
-                    <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>
                 @endif
                 <td class="tableContent">{{@$item->Observacion}}</td>
                 <td class="tableContent">
@@ -70,10 +70,14 @@
     </div>  
     
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$model[0]->Blanco}}</span> <br>
+        {{-- <span><br> Absorbancia B1: {{$model[0]->Blanco}}</span> <br>
         <span>Absorbancia B2: {{@$model[0]->Blanco}}</span> <br>
         <span>Absorbancia B3: {{@$model[0]->Blanco}}</span> <br>
-        <span>RESULTADO BLANCO: {{@$model[0]->Blanco}}</span>
+        <span>RESULTADO BLANCO: {{@$model[0]->Blanco}}</span> --}}
+        <span><br> Absorbancia B1: 0</span> <br>
+        <span>Absorbancia B2: 0</span> <br>
+        <span>Absorbancia B3: 0</span> <br>
+        <span>RESULTADO BLANCO: 0</span>
     </div> 
 
     <div id="contenidoCurva">

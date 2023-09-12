@@ -845,6 +845,7 @@ class MetalesController extends Controller
         $model = MetalesDetalle::where('Id_lote',$res->id)->get();
         if ($model->count()) {
             $model[0]->Fecha_digestion = $res->fechaDigestion;
+            $model[0]->Fecha_preparacion = $res->fechaPreparacion;
             $model[0]->Longitud_onda = $res->longitudOnda;
             $model[0]->No_inventario = $res->noInventario;
             $model[0]->Corriente = $res->corriente;
@@ -887,7 +888,7 @@ class MetalesController extends Controller
             $model[0]->Abs2I = $res->abs2I;
             $model[0]->Abs3I = $res->abs3I;
             $model[0]->Abs4I = $res->abs4I;
-            $model[0]->Abs5I = $res->abs5I;
+            $model[0]->Abs5I = $res->abs5I; 
             $model[0]->Bitacora = $res->bitacora;
             $model[0]->Folio = $res->folio;
             $model[0]->Valor = $res->valor;
@@ -896,6 +897,7 @@ class MetalesController extends Controller
             MetalesDetalle::create([
                 'Id_lote'=> $res->id,
                 'Fecha_digestion' => $res->fechaDigestion,
+                'Fecha_preparacion' => $res->fechaPreparacion,
                 'Longitud_onda' => $res->longitudOnda,
                 'No_inventario' => $res->noInventario,
                 'Corriente' => $res->corriente,
@@ -1602,12 +1604,13 @@ class MetalesController extends Controller
             $analizo = User::where('id', $model[0]->Analizo)->first();
         }
         $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
-        $hora = $fechaHora->isoFormat('H:mm:ss A');
+        $hora = $fechaHora->isoFormat('h:mm A');
         $today = $fechaHora->toDateString();
        
 
 
-        $reviso = User::where('id', 17)->first();
+        // $reviso = User::where('id', 17)->first();
+        $reviso = User::where('id', 39)->first();
         $data = array(
             'estandares' => $estandares,
             'detalle' => $detalle,

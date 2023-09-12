@@ -58,7 +58,7 @@
                     <td class="tableContent">{{@$item->Peso_constante2}}</td>
                     <td class="tableContent">{{@$item->Masa2}}</td>
                     <td class="tableContent">
-                        @if ($item->Resultado <= $item->Limite)
+                        @if ($item->Resultado < $item->Limite)
                             < {{@$item->Limite}}
                         @else
                             {{@$item->Resultado}}

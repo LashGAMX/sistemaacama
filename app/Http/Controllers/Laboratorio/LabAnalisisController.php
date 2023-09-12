@@ -1453,7 +1453,7 @@ class LabAnalisisController extends Controller
                             $model->Titulado_blanco = $res->B; //Concentracion de NH3 en mg/L
                             $model->Molaridad = $res->C; //Volumen Añadido al std
                             $model->Factor_equivalencia = $res->D; //Volumen añadido a la muestra
-                            $model->Vol_muestra = $res->V; //Volumen de la muestra en mL
+                            $model->Vol_muestra = $res->V; //Volumen de la muestra en mL 
                             $model->Resultado = $resultado; //Resultado
                             $model->Observacion = $res->O; //observacion
                             $model->analizo = Auth::user()->id;

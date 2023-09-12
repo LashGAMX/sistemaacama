@@ -764,14 +764,135 @@ class MbController extends Controller
         $numModel3 = 0;
         $tipo = 0;
         $metodoCorto = 0;
-
+        $loteModel = LoteDetalleColiformes::where('Id_detalle',$request->idDetalle)->first();
         switch ($request->idParametro) {
             case 12: //todo Número más probable (NMP), en tubos múltiples
             case 35: //Escheruchia coli/acreditado
                 # Coliformes
-                if ($request->indicador == 1) {
-                    //guarda datos del metodo corto
-                    $metodoCorto = 1;
+                if ($loteModel->Id_control == 1) {
+                    if ($request->indicador == 1) {
+                        //guarda datos del metodo corto
+                        $metodoCorto = 1;
+                        $model = LoteDetalleColiformes::find($request->idDetalle);
+                        $model->Tipo = 1;
+                        $model->Dilucion1 = $request->D1;
+                        $model->Dilucion2 = $request->D2;
+                        $model->Dilucion3 = $request->D3;
+                        $model->Indice = $request->NMP;
+                        $model->Muestra_tubos = $request->G3;
+                        $model->Tubos_negativos = $request->G2;
+                        $model->Tubos_positivos = $request->G1;
+                        $model->Confirmativa1 = $request->con1;
+                        $model->Confirmativa2 = $request->con2;
+                        $model->Confirmativa3 = $request->con3;
+                        $model->Confirmativa4 = $request->con4;
+                        $model->Confirmativa5 = $request->con5;
+                        $model->Confirmativa6 = $request->con6;
+                        $model->Confirmativa7 = $request->con7;
+                        $model->Confirmativa8 = $request->con8;
+                        $model->Confirmativa9 = $request->con9;
+                        $model->Presuntiva1 = $request->pre1;
+                        $model->Presuntiva2 = $request->pre2;
+                        $model->Presuntiva3 = $request->pre3;
+                        $model->Presuntiva4 = $request->pre4;
+                        $model->Presuntiva5 = $request->pre5;
+                        $model->Presuntiva6 = $request->pre6;
+                        $model->Presuntiva7 = $request->pre7;
+                        $model->Presuntiva8 = $request->pre8;
+                        $model->Presuntiva9 = $request->pre9;
+
+                        $model->Presuntiva10 = $request->pre11;
+                        $model->Presuntiva11 = $request->pre22;
+                        $model->Presuntiva12 = $request->pre33;
+                        $model->Presuntiva13 = $request->pre44;
+                        $model->Presuntiva14 = $request->pre55;
+                        $model->Presuntiva15 = $request->pre66;
+                        $model->Presuntiva16 = $request->pre77;
+                        $model->Presuntiva17 = $request->pre88;
+                        $model->Presuntiva18 = $request->pre99;
+
+                        $model->Resultado = $request->resultadoCol;
+                        $model->Analizo = Auth::user()->id;
+                        $model->save();
+                    } else {
+
+
+                        $n1 = $request->con1 + $request->con2 + $request->con3;
+                        $n2 = $request->con4 + $request->con5 + $request->con6;
+                        $n3 = $request->con7 + $request->con8 + $request->con9;
+
+                        $numModel = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->first();
+                        $numModel2 = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->get();
+                        $tipo =  "";
+                        if ($numModel2->count()) {
+                            if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
+                                //Formula escrita 1
+                                $op1 = 10 / $request->D1;
+                                $res = $op1 * $numModel->Nmp;
+                                $tipo = 2; // Formula 1
+                            } else {
+                                //Formula comparación por tabla  
+                                $res = $numModel->Nmp;
+                                $tipo = 1; // Formula Tabla
+                            }
+                        } else {
+                            //Formula 2
+                            $op1 = $request->G1 * 100;
+                            $op2 = sqrt($request->G2 * $request->G3);
+                            $res1 = $op1 / $op2;
+                            $tipo = 3; //Formula 2
+                            $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
+
+                            foreach ($numModel3 as $item) {
+                                if ($item->Nmp <= $res1) {
+                                    $aux = $item->Nmp;
+                                } else {
+                                    $res = $aux;
+                                }
+                            }
+                        }
+                        $model = LoteDetalleColiformes::find($request->idDetalle);
+                        $model->Tipo = $tipo;
+                        $model->Dilucion1 = $request->D1;
+                        $model->Dilucion2 = $request->D2;
+                        $model->Dilucion3 = $request->D3;
+                        $model->Indice = $res;
+                        $model->Muestra_tubos = $request->G3;
+                        $model->Tubos_negativos = $request->G2;
+                        $model->Tubos_positivos = $request->G1;
+                        $model->Confirmativa1 = $request->con1;
+                        $model->Confirmativa2 = $request->con2;
+                        $model->Confirmativa3 = $request->con3;
+                        $model->Confirmativa4 = $request->con4;
+                        $model->Confirmativa5 = $request->con5;
+                        $model->Confirmativa6 = $request->con6;
+                        $model->Confirmativa7 = $request->con7;
+                        $model->Confirmativa8 = $request->con8;
+                        $model->Confirmativa9 = $request->con9;
+
+                        $model->Presuntiva1 = $request->pre1;
+                        $model->Presuntiva2 = $request->pre2;
+                        $model->Presuntiva3 = $request->pre3;
+                        $model->Presuntiva4 = $request->pre4;
+                        $model->Presuntiva5 = $request->pre5;
+                        $model->Presuntiva6 = $request->pre6;
+                        $model->Presuntiva7 = $request->pre7;
+                        $model->Presuntiva8 = $request->pre8;
+                        $model->Presuntiva9 = $request->pre9;
+                        $model->Presuntiva10 = $request->pre11;
+                        $model->Presuntiva11 = $request->pre22;
+                        $model->Presuntiva12 = $request->pre33;
+                        $model->Presuntiva13 = $request->pre44;
+                        $model->Presuntiva14 = $request->pre55;
+                        $model->Presuntiva15 = $request->pre66;
+                        $model->Presuntiva16 = $request->pre77;
+                        $model->Presuntiva17 = $request->pre88;
+                        $model->Presuntiva18 = $request->pre99;
+                        $model->Resultado = $res;
+                        $model->Analizo = Auth::user()->id;
+                        $model->save();
+                    } 
+                }else{
                     $model = LoteDetalleColiformes::find($request->idDetalle);
                     $model->Tipo = 1;
                     $model->Dilucion1 = $request->D1;
@@ -813,83 +934,8 @@ class MbController extends Controller
                     $model->Resultado = $request->resultadoCol;
                     $model->Analizo = Auth::user()->id;
                     $model->save();
-                } else {
-
-
-                    $n1 = $request->con1 + $request->con2 + $request->con3;
-                    $n2 = $request->con4 + $request->con5 + $request->con6;
-                    $n3 = $request->con7 + $request->con8 + $request->con9;
-
-                    $numModel = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->first();
-                    $numModel2 = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->get();
-                    $tipo =  "";
-                    if ($numModel2->count()) {
-                        if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
-                            //Formula escrita 1
-                            $op1 = 10 / $request->D1;
-                            $res = $op1 * $numModel->Nmp;
-                            $tipo = 2; // Formula 1
-                        } else {
-                            //Formula comparación por tabla  
-                            $res = $numModel->Nmp;
-                            $tipo = 1; // Formula Tabla
-                        }
-                    } else {
-                        //Formula 2
-                        $op1 = $request->G1 * 100;
-                        $op2 = sqrt($request->G2 * $request->G3);
-                        $res1 = $op1 / $op2;
-                        $tipo = 3; //Formula 2
-                        $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
-
-                        foreach ($numModel3 as $item) {
-                            if ($item->Nmp <= $res1) {
-                                $aux = $item->Nmp;
-                            } else {
-                                $res = $aux;
-                            }
-                        }
-                    }
-                    $model = LoteDetalleColiformes::find($request->idDetalle);
-                    $model->Tipo = $tipo;
-                    $model->Dilucion1 = $request->D1;
-                    $model->Dilucion2 = $request->D2;
-                    $model->Dilucion3 = $request->D3;
-                    $model->Indice = $res;
-                    $model->Muestra_tubos = $request->G3;
-                    $model->Tubos_negativos = $request->G2;
-                    $model->Tubos_positivos = $request->G1;
-                    $model->Confirmativa1 = $request->con1;
-                    $model->Confirmativa2 = $request->con2;
-                    $model->Confirmativa3 = $request->con3;
-                    $model->Confirmativa4 = $request->con4;
-                    $model->Confirmativa5 = $request->con5;
-                    $model->Confirmativa6 = $request->con6;
-                    $model->Confirmativa7 = $request->con7;
-                    $model->Confirmativa8 = $request->con8;
-                    $model->Confirmativa9 = $request->con9;
-
-                    $model->Presuntiva1 = $request->pre1;
-                    $model->Presuntiva2 = $request->pre2;
-                    $model->Presuntiva3 = $request->pre3;
-                    $model->Presuntiva4 = $request->pre4;
-                    $model->Presuntiva5 = $request->pre5;
-                    $model->Presuntiva6 = $request->pre6;
-                    $model->Presuntiva7 = $request->pre7;
-                    $model->Presuntiva8 = $request->pre8;
-                    $model->Presuntiva9 = $request->pre9;
-                    $model->Presuntiva10 = $request->pre11;
-                    $model->Presuntiva11 = $request->pre22;
-                    $model->Presuntiva12 = $request->pre33;
-                    $model->Presuntiva13 = $request->pre44;
-                    $model->Presuntiva14 = $request->pre55;
-                    $model->Presuntiva15 = $request->pre66;
-                    $model->Presuntiva16 = $request->pre77;
-                    $model->Presuntiva17 = $request->pre88;
-                    $model->Presuntiva18 = $request->pre99;
-                    $model->Resultado = $res;
-                    $model->Analizo = Auth::user()->id;
-                    $model->save();
+                    $res = $request->resultadoCol;
+                    // $res = "Entro";
                 }
 
 
@@ -1063,6 +1109,7 @@ class MbController extends Controller
                 break;
         }
         $data = array(
+            'aux' =>$res,
             'res1' => $aux,
             'res' => $res,
             'tipo' => $tipo,
@@ -1719,7 +1766,7 @@ class MbController extends Controller
 
     public function setDetalleLote(Request $res)
     {
-        if ($res->idParametro == 13 || $res->idParametro == 35 || $res->idParametro == 51 || $res->idParametro == 52 || $res->idParametro == 141) { //Coliformes
+        if ($res->idParametro == 12 || $res->idParametro == 35 || $res->idParametro == 51 || $res->idParametro == 52 || $res->idParametro == 141) { //Coliformes
             $model = BitacoraColiformes::where('Id_lote', $res->idLote)->get();
             if ($model->count()) {
             } else {

@@ -47,7 +47,7 @@
                         <td class="contenidoBody bordesTabla">{{ $item->Confirmativa1}}</td>
                         <td class="contenidoBody bordesTabla">{{ $item->Confirmativa2}}</td>
                         <td class="contenidoBody bordesTabla">
-                            @if ($item->Resultado <= $item->Limite)
+                            @if ($item->Resultado < $item->Limite)
                               <{{$item->Limite}}
                             @else
                                 {{$item->Resultado}}

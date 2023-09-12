@@ -26,19 +26,32 @@
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">HORA DE DIGESTIÓN: </span>
-            <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
+            <span class="bodyStdMuestra">{{@$hora}}</span>
         </div>
 
         <div class="subContenedor2">            
             <span class="elementos"> ESPECTROFOTÓMETRO DE ABSORCIÓN ATÓMICA <span><br></span> PERKIN ELMER MODELO: </span>
-            <span class="subElementos">{{@$detalle->Equipo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="subElementos">@if (@$detalle->Equipo != "")
+                {{@$detalle->Equipo}}
+            @else
+                N/A
+            @endif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;
             </span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">CORRIENTE DE LA LÁMPARA: </span>
-            <span class="subElementos">{{@$detalle->Corriente}}</span>
+            <span class="subElementos">@if (@$detalle->Corriente != NULL) {{@$detalle->Corriente}} @else N/A @endif</span>
+            <br>
+            @switch( @$model[0]->Id_tecnica)
+                @case(21)
+                    <span class="elementos">GENERADOR DE HIDRUROAS INVLAB476</span>
+                    <span class="subElementos"></span>
+                    @break
+                @default
+                    
+            @endswitch
         </div>
     </div>
 
@@ -47,43 +60,43 @@
 
         <div class="subContenedor2">
             <span class="elementos">No. DE INV. LÁMPARA: </span>                    
-            <span class="subElementos">{{@$detalle->No_lampara}}</span>
+            <span class="subElementos">@if (@$detalle->No_lampara) {{@$detalle->No_lampara}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">ENERGÍA DE LÁMPARA: </span>
-            <span class="subElementos">{{@$detalle->Energia}}</span>
+            <span class="subElementos">@if (@$detalle->Energia != "") {{@$detalle->Energia}} @else N/A @endif</span>
         </div>
     </div>
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
-            <span class="subElementos">{{@$detalle->No_inventario}}</span>
+            <span class="subElementos">@if (@$detalle->No_inventario != "") {{@$detalle->No_inventario}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">LONGITUD DE ONDA: </span>
-            <span class="subElementos">{{@$detalle->Longitud_onda}}</span>
+            <span class="subElementos">@if (@$detalle->Longitud_onda != "") {{@$detalle->Longitud_onda}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">SLIT: </span>                    
-            <span class="subElementos">{{@$detalle->Slit}} mm</span>
+            <span class="subElementos">@if (@$detalle->Slit != ""){{@$detalle->Slit}}@else N/A @endif</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ACETILENO: </span>
-            <span class="subElementos">{{@$detalle->Gas}} L/min</span>
+            <span class="subElementos">@if (@$detalle->Gas != "") {{@$detalle->Gas}}@else N/A @endif </span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">AIRE: </span>
-            <span class="subElementos">{{@$detalle->Aire}} L/min</span>
+            <span class="subElementos">@if (@$detalle->Aire =! "") {{@$detalle->Aire}}@else N/A @endif </span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ÓXIDO NITROSO: </span>
-            <span class="subElementos">{{@$detalle->Oxido_nitroso}}</span>
+            <span class="subElementos">@if (@$detalle->Oxido_nitroso =! "") {{@$detalle->Oxido_nitroso}}  @else N/A @endif</span>
         </div>
     </div>
 
@@ -93,31 +106,31 @@
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">STD.CAL. {{@$detalle->Std_calE}} </span>            
+            <span class="elementos">STD.CAL. @if (@$detalle->Std_calE != "") {{@$detalle->Std_calE}} @else N/A @endif </span>            
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS. TEÓRICA: {{@$detalle->Abs_teoricoE}}</span>
+            <span class="elementos">ABS. TEÓRICA: @if (@$detalle->Abs_teoricoE) {{@$detalle->Abs_teoricoE}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 1: {{@$detalle->Abs1E}}</span>
+            <span class="elementos">ABS 1: @if (@$detalle->Abs1E != "") {{@$detalle->Abs1E}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 2: {{@$detalle->Abs2E}}</span>
+            <span class="elementos">ABS 2: @if (@$detalle->Abs2E != "") {{@$detalle->Abs2E}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 3: {{@$detalle->Abs3E}}</span>
+            <span class="elementos">ABS 3: @if (@$detalle->Abs3E != "") {{@$detalle->Abs3E}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 4: {{@$detalle->Abs4E}}</span>
+            <span class="elementos">ABS 4: @if (@$detalle->Abs4E != "") {{@$detalle->Abs4E}} @else N/A @endif</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 5: {{@$detalle->Abs5E}}</span>
+            <span class="elementos">ABS 5: @if (@$detalle->Abs5E != "") {{@$detalle->Abs5E}} @else N/A @endif</span>
         </div>
     </div>
 
@@ -246,7 +259,7 @@
                         <td id="tableContent"><span class="bmrTabla">r = </span></td>
                         <td id="tableContent">
                             @php
-                                echo number_format(@$bmr->R, 5, ".", ".");
+                                echo number_format(@$curva->R, 5, ".", ".");
                             @endphp
                         </td>
 
@@ -270,7 +283,7 @@
                             @endif
                         @endfor
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">{{@$hora}}</td>
+                        <td id="tableContent">{{@$detalle->Fecha_preparacion}}</td>
 
                     </tr>
                     <tr>

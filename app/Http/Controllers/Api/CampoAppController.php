@@ -330,7 +330,12 @@ class CampoAppController extends Controller
             $gasto[$i]->Gasto1 = floatval($temp1);
             $gasto[$i]->Gasto2 = floatval($temp2);
             $gasto[$i]->Gasto3 = floatval($temp3);
-            $gasto[$i]->Promedio = floatval($gastoProm);
+            if ($gasto[$i]->Promedio == " " || $gasto[$i]->Promedio == "0") {
+                $promedio  = ($gasto[$i]->Gasto1 + $gasto[$i]->Gasto2 + $gasto[$i]->Gasto3) / 3 ;
+                $gasto[$i]->Promedio = floatval(round($promedio, 3));
+            } else {
+                $gasto[$i]->Promedio = floatval($gastoProm);
+            }
             $gasto[$i]->save();
         }
         
