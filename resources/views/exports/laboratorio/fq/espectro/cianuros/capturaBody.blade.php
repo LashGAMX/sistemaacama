@@ -22,7 +22,7 @@
 
                 <tr>
                     <th class="nombreHeader" colspan="13">
-                        Resultado de las muestras 
+                        Resultado de las muestras git
                     </th>                    
                 </tr>                
 
