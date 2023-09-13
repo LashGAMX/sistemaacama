@@ -323,6 +323,9 @@ class InformesController extends Controller
                     case 58:
                     case 115:
                     case 88:
+                    case 161: //DQO soluble
+                    case 38: //ortofosfato
+                    case 46: //ssv
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
@@ -1784,142 +1787,296 @@ class InformesController extends Controller
                         $limC2 = "AUSENTE";
                     }
                     break;
+                case 97:
+                    $prom = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                    $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                    $limP = round($limP);
+                    $limC1 = round($item->Resultado2);
+                    $limC2 = round($model2[$cont]->Resultado2);
+                    break;
                 case 14:
                 case 110:
-
-                    $limC1 = number_format(@$item->Resultado2, 2, ".", ".");
-                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", ".");
-                    $limP = round((($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2)), 2);
-
+                    $prom = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                    $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                    $limP = number_format($prom, 2, ".", "");
                     break;
+                case 64:
+                case 358:
+                    $aux64 = 0;
+                    switch (@$item->Resultado2) {
+                        case 499:
+                            $limC1 = "< 500";
+                            $aux64 = 499;
+                            break;
+                        case 500:
+                            $limC1 = "500";
+                            $aux64 = 500;
+                            break;
+                        case 1000:
+                            $limC1 = "1000";
+                            $aux64 = 1000; 
+                            break;
+                        case 1500:
+                            $limC1 = "> 1000";
+                            $aux64 = 1500;
+                            break;
+                        default:
+                            $limC1 =  number_format(@$item->Resultado2, 2, ".", "");
+                            $aux64 = $aux64 + @$item->Resultado2;
+                            break;
+                    }
+                    switch (@$model2[$cont]->Resultado2) {
+                        case 499:
+                            $limC2 = "< 500";
+                            $aux64 = $aux64 + 499;
+                            break;
+                        case 500:
+                            $limC2 = "500";
+                            $aux64 = $aux64 + 500;
+                            break;
+                        case 1000:
+                            $limC2 = "1000";
+                            $aux64 = $aux64 + 1000;
+                            break;
+                        case 1500:
+                            $limC2 = "> 1000";
+                            $aux64 = $aux64 + 1500;
+                            break;
+                        default:
+                            $limC2 =  number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                            $aux64 = $aux64 + @$model2[$cont]->Resultado2;
+                            break;
+                    }
+                    $aux64 = $aux64 / 2;
+                    if ($aux64 < 500) {
+                        $limP = "< 500";
+                    } else if ($aux64 > 1000) {
+                        $limP = "> 1000";
+                    }else{
+                        $limP = number_format(@$aux64, 2, ".", "");;
+                    }
+                    break;
+                    case 67:
+                        $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                        if ($item->Resultado2 >= "3500") {
+                            $limC1 = "> 3500";
+                        }else{
+                            $limC1 = round($item->Resultado2);
+                        }
+                        if ($model2[$cont]->Resultado2 >= "3500") {
+                            $limC2 = "> 3500";
+                        }else{
+                            $limC2 = round($model2[$cont]->Resultado2);
+                        }
+                        if ($limP >= "3500") {
+                            $limP = "> 3500";
+                        }else{
+                            $limP = round($limP);
+                        }
+                        break;
                 default:
                     if ($item->Resultado2 != NULL || $model2[$cont]->Resultado2 != NULL) {
-
                         $limAux1 = 0;
                         $limAux2 = 0;
-                        if ($item->Resultado2 < $item->Limite) {
-                            $limAux1 = $item->Limite;
+                        $limPromAux = 1;
+                        if (@$item->Resultado2 < $item->Limite) {
+                            @$limAux1 = @$item->Limite;
+                            $limPromAux = 0;
                         }else{
-                            $limAux1 = $item->Resultado2;
+                            @$limAux1 = @$item->Resultado2;
                         }
-                        if ( $model2[$cont]->Resultado2 < $item->Limite) {
-                            $limAux2 = $item->Limite;
+                        if (@$model2[$cont]->Resultado2 < @$item->Limite) {
+                            @$limAux2 = $item->Limite;
+                            $limPromAux = 0;
                         }else{
-                            $limAux2 = $model2[$cont]->Resultado2;
+                            @$limAux2 = @$model2[$cont]->Resultado2;
                         }
-                        
-                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
-                        {
-                            goto a;
-                        }else{
-                            $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
-                            // $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
-                        }
-
-
-                        if ($item->Resultado2 < $item->Limite) {
-                            $limC1 = "< " . $item->Limite;
-                        } else {
-                            a: 
-                            switch ($item->Id_parametro) {
+                        switch ($item->Id_parametro) {
                                     //Redondeo a enteros
                                 case 97:
-                                    $limP = round($limP);
-                                    $limC1 = round($item->Resultado2);
+                                case 358:
+                                    $prom = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    $limP = round($prom);
+                                    $limC1 = round($item->Resultado2); 
+                                    $limC2 = round($model2[$cont]->Resultado2);
+                                    break;
+                                case 67:
+                                    $prom = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                   $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    if ($item->Resultado2 > "3500") {
+                                        $limC1 = "> 3500";
+                                    }else{
+                                        $limC1 = round($item->Resultado2);
+                                    }
+                                    if ($model2[$cont]->Resultado2 > "3500") {
+                                        $limC2 = "> 3500";
+                                    }else{
+                                        $limC2 = round($model2[$cont]->Resultado2);
+                                    }
+                                    break;
+                                case 26: //gasto
+                                    $prom = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    $limP = number_format($prom,2);
+                                    $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     break;
                                     // 3 Decimales
                                 case 17: // Arsenico
-                                case 231:
+                                case 231:         
                                 case 20: // Cobre
                                 case 22: //Mercurio
-                                case 25: //Zinc
+                                case 25: //Zinc 
                                 case 227:
                                 case 24: //Plomo
                                 case 21: //Cromoa
                                 case 264:
                                 case 18: //Cadmio
-                                case 7:
+                                case 7:  
                                 case 8:
-                                    $limC1 = number_format(@$item->Resultado2, 3, ".", "");
-                                    break;
-                                case 67:
-                                    $limC1 = round($item->Resultado2);
-                                    $limP = round($limP);
-                                    break;
-                                case 152:
-                                    $limP = number_format(@$limP, 2, ".", ".");
-                                    $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                case 152: 
+                                case 19:
+                                case 23:
+                                    if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                                    {
+                                        $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    }else{
+                                        $limP = ($limAux1 + $limAux2) / 2;
+                                    }
+                                    if ($limP < $item->Limite) {
+                                        $limP = "<" . number_format(@$item->Limite, 3, ".", "");
+                                    }else{
+                                        if ($limP == $item->Limite) {
+                                            if ($limPromAux == 0) {
+                                                $limP = "< ".$item->Limite;
+                                            }else{
+                                                $limP = number_format(@$limP, 3, ".", "");      
+                                            }
+                                        }else{
+                                            $limP = number_format(@$limP, 3, ".", "");  
+                                        }
+                                    }
+                                    if (@$item->Resultado2 < @$item->Limite) {
+                                        $limC1 = "< ".$item->Limite;
+                                    }else{
+                                        $limC1 = number_format(@$item->Resultado2, 3, ".", "");
+                                    }
+                                    if (@$model2[$cont]->Resultado2 < @$item->Limite) {
+                                        $limC2 = "< ".$item->Limite;
+                                    }else{
+                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
+                                    }
                                     break;
                                 case 9:
                                 case 10:
                                 case 11:
                                 case 83:
-                                case 14:
-                                case 110:
-                                    $limP = number_format(@$limP, 2, ".", ".");
-                                    $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                case 12:
+                                case 15:
+                                    if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                                    {
+                                        $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    }else{
+                                        $limP = ($limAux1 + $limAux2) / 2;
+                                    }
+                                    if ($limP < $item->Limite) {
+                                        $limP = "<" . number_format(@$item->Limite, 2, ".", "");
+                                    }else{
+                                        if ($limP == $item->Limite) {
+                                            if ($limPromAux == 0) {
+                                                $limP = "< ".$item->Limite;
+                                            }else{
+                                                $limP = number_format(@$limP, 2, ".", "");      
+                                            }
+                                        }else{
+                                            $limP = number_format(@$limP, 2, ".", "");  
+                                        }
+                                    }
+                                    if (@$item->Resultado2 < @$item->Limite) {
+                                        $limC1 = "< ".$item->Limite;
+                                    }else{
+                                        $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                    }
+                                    if (@$model2[$cont]->Resultado2 < @$item->Limite) {
+                                        $limC2 = "< ".$item->Limite;
+                                    }else{
+                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                                    }
                                     break;
-                          
-                                default:
+                                case 35:
+                                case 134:
+                                case 50:
+                                case 51:
+                                case 78:
+                                case 253: 
+                                    if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                                    {
+                                        $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    }else{
+                                        $limP = ($limAux1 + $limAux2) / 2;
+                                    }
+                                    if ($limP < $item->Limite) {
+                                        $limP = "<" . number_format(@$item->Limite, 2, ".", "");
+                                    }else{
+                                        if ($limP == $item->Limite) {
+                                            if ($limPromAux == 0) {
+                                                $limP = "< ".$item->Limite;
+                                            }else{
+                                                $limP = number_format(@$limP, 2, ".", "");      
+                                            }
+                                        }else{
+                                            $limP = number_format(@$limP, 2, ".", "");  
+                                        }
+                                    }
+                                    if (@$item->Resultado2 < @$item->Limite) {
+                                        $limC1 = "< ".$item->Limite;
+                                    }else{
+                                        $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                        // $limC1 = round(@$item->Resultado2);
+                                    }
+                                    if (@$model2[$cont]->Resultado2 < @$item->Limite) {
+                                        $limC2 = "< ".$item->Limite;
+                                    }else{
+                                        // $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                                        // $limC2 = round(@$model2[$cont]->Resultado2);
+                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                                    }
+                                    break;
+                                default: 
+                                    if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                                    {
+                                        $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
+                                    }else{
+                                        $limP = ($limAux1 + $limAux2) / 2;
+                                    }
 
-                                $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                    if ($limP < $item->Limite) {
+                                        $limP = "<" . number_format(@$item->Limite, 2, ".", "");
+                                    }else{
+                                        if ($limP == $item->Limite) {
+                                            if ($limPromAux == 0) {
+                                                $limP = "< ".$item->Limite;
+                                            }else{
+                                                $limP = number_format(@$limP, 2, ".", "");      
+                                            }
+                                        }else{
+                                            $limP = number_format(@$limP, 2, ".", "");  
+                                        }
+                                    }
+                                    if (@$item->Resultado2 < @$item->Limite) {
+                                        $limC1 = "< ".$item->Limite;
+                                    }else{
+                                        $limC1 = number_format(@$item->Resultado2, 2, ".", "");
+                                    }
+                                    if (@$model2[$cont]->Resultado2 < @$item->Limite) {
+                                        $limC2 = "< ".$item->Limite;
+                                    }else{
+                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
+                                    }
                                     break;
                             }
-                        }
-                        if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
-                        {
-                            goto b;
-                        }
-                        if ($model2[$cont]->Resultado2 < $model2[$cont]->Limite) {
-                            $limC2 = "< " . $model2[$cont]->Limite;
-                        } else {
-                            b:
-                            switch ($item->Id_parametro) {
-                                    //Redondeo a enteros
-                                case 97:
-                                case 100:
-                                    $limP = round($limP);
-                                    $limC2 = round($model2[$cont]->Resultado2);
-                                    break;
-                                case 67:
-
-                                    $limC2 = round($model2[$cont]->Resultado2);
-                                    $limP = round($limP);
-                                    break;
-                                    // 3 Decimales
-                                case 17: // Arsenico
-                                case 231:
-                                case 20: // Cobre
-                                case 22: //Mercurio
-                                case 25: //Zinc
-                                case 227:
-                                case 24: //Plomo
-                                case 21: //Cromoa
-                                case 264:
-                                case 18: //Cadmio
-                                case 7:
-                                case 8:
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
-                                    break;
-                                case 152:
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
-                                    break;
-                                case 9:
-                                case 10:
-                                case 11:
-                                case 83:
-                                case 14:
-                                case 110:
-                                    $limP = number_format(@$limP, 2, ".", ".");
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
-                                    break;
-                         
-                                default:
-                                    $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
-                                    break;
-                            }
-                        }
-                    } else {
+                    
+                    } else { 
                         $limC1 = "-----";
                         $limC2 = "-----";
                         $limP = "-----";

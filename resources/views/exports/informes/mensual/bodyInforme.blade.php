@@ -59,58 +59,28 @@
                         </td>
 
                         <td class="tableContent bordesTablaBody">
-                            @php
-                             $promedio = (@$item->Resultado2 + @$model2[$cont]->Resultado2) / 2;
-                            @endphp
-                         
-                             
-                         @switch($item->Id_parametro)
-                            @case(6)
-                            @case(4)
-                            @if ($ponderado[$cont] <= $item->Limite)
-                                < {{$item->Limite}}
-                                @else
-                                {{ number_format(@$ponderado[$cont], 2, ".", "")}}
-                                @endif 
-                                @break
-                             @case(97)
-                                @php
-                                    $promedio = (round(@$item->Resultado2) + (round(@$model2[$cont]->Resultado2))) / 2;
-                                @endphp
-                                {{round($promedio)}}
-                                @break;
-                             @case(12)
-                             @case(5)
-                             @case(6)
-                             @case(13) 
-                             @case(15)
-                             @case(26)
-                             @case(83)
-                             @case(10)
-                             @case(9)
-                             @case(14)
-                             @case(11)
-                             @if ($promedio <= $item->Limite)
-                                 < {{$item->Limite}}
-                             @else
-                                {{ number_format(@$promedio, 2, ".", "");}}
-                             @endif 
-                                 @break
-                            @case(2)
-                                @if ($item->Resultado2 == 1)
-                                    PRESENTE
-                                @else
-                                    AUSENTE
-                                @endif
-                                @break
-                             @default
-                             @if ($promedio < $item->Limite)
-                                 <{{$item->Limite}}
-                             @else
-                                {{round($promedio, 3)}}
-                             @endif 
-                               
-                         @endswitch
+                            @switch($item->Id_parametro)
+                                @case(26)
+                                    {{number_format(((@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2), 2, ".", "")}}
+                                    @break;
+                                @case(2)
+                                        @if (@$limitesC1[$cont] == "PRESENTE" || $limitesC2[$cont] == "PRESENTE")
+                                            PRESENTE    
+                                        @else
+                                            AUSENTE 
+                                        @endif
+                                    @break;
+                                @case(14)
+                                    {{@$ponderado[$cont]}}
+                                    @break
+                                @case(67)
+                                @case(97)
+                                    {{@$ponderado[$cont]}}
+                                    @break;
+                                @default
+                                {{@$ponderado[$cont]}}
+                                  
+                            @endswitch
                         </td>
                         @if (@$tipo == 1)
                             <td class="tableContent bordesTablaBody">

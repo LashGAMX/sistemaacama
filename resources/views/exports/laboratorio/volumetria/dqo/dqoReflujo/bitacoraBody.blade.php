@@ -13,11 +13,11 @@
              echo $procedimiento[0]; 
         @endphp
     </div>
-    <br<
+    <br>
     <div class="contenedorTabla"> 
         <div class="contenedorTabla">
             <p style="font-size: 10px">Resultado de las muestras</p>
-            <table autosize="1" class="table table-borderless" id="tablaDatos">
+            <table autosize="1" class="table table-borderless" id="tablaDatos"> 
                 <thead>
                     <tr>
                         <th class="tableCabecera anchoColumna">No. de muestras</th>

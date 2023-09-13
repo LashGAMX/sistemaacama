@@ -52,13 +52,17 @@
                 <th class="tableCabecera anchoColumna">
                     HORA
                 </th>
+                <th class="tableCabecera anchoColumna">
+                    HORA
+                </th>
 
                 <th class="tableCabecera anchoColumna">
                     Masa cte.
                 </th>
             </tr>
             
-            <tr>                
+            <tr> 
+                <th></th>               
                 <th class="tableCabecera anchoColumna">
                     Entrada
                 </th>
@@ -135,13 +139,17 @@
                 </th>
             </tr>
 
+
             <tr>
                 <th class="tableCabecera anchoColumna">
-                    Temp de la estufa
+                    Hora de entrada
                 </th>
 
                 <th class="tableCabecera anchoColumna">
-                    HORA
+                    Hora de salida
+                </th>
+                <th class="tableCabecera anchoColumna">
+                    Hora de pesado
                 </th>
 
                 <th class="tableCabecera anchoColumna">
@@ -149,15 +157,6 @@
                 </th>
             </tr>
             
-            <tr>                
-                <th class="tableCabecera anchoColumna">
-                    Entrada
-                </th>
-
-                <th class="tableCabecera anchoColumna">
-                    Salida
-                </th>                
-            </tr>
         </thead>
         <tbody>
             <tr>
@@ -253,7 +252,7 @@
         <tbody>
             <tr>
                 <td class="tableContent">
-                    {{@$detalle->Secado_temp}}
+                    {{@$detalle->Secado_temp}} °C
                 </td>
 
                 <td class="tableContent">
@@ -313,7 +312,7 @@
         <thead>
             <tr>                
                 <th class="tableCabecera anchoColumna" colspan="2">
-                    Enfriado de matraces en
+                    Enfriado de matraces en desecador
                 </th>
             </tr>
 
@@ -397,7 +396,7 @@
                     @php
                         $cont++;
                     @endphp
-                @endforeach
+                @endforeacha
                 @foreach ($modelSinControl as $item)
                 <tr>
                     {{-- <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td> --}}
@@ -407,7 +406,7 @@
                     <td class="tableContent bordesTabla">{{@$item->Matraz}}</td>
                     <td class="tableContent bordesTabla">{{number_format(@$item->M_inicial3, 4, ".", ".")}}</td>
                     <td class="tableContent bordesTabla">{{@$item->Vol_muestra}}</td>
-                    <td class="tableContent bordesTabla">{{number_format(@$item->M_final, 4, ".", ".")}}</td>
+                    <td class="tableContent bordesTabla">{{number_format(@$item->M_final, 4, ".", ".")}}</td>si
                     @if (@$item->Resultado < @$item->Limite)
                      <td class="tableContent bordesTabla">< {{@$item->Limite}}</td>
                     @else  
@@ -426,9 +425,10 @@
                 @php
                     $cont++;
                 @endphp
-                @endforeach
+                @endforeacha
             </tbody>
         </table>
 </div>
 </body>
 </html>
+

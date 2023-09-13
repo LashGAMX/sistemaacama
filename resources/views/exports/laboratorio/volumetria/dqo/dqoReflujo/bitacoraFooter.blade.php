@@ -23,4 +23,4 @@
             echo $plantilla[0]->Rev;
         @endphp
     </div>
-</footer> 
+</footer>  

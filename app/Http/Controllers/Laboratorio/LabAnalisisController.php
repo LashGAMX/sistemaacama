@@ -1398,7 +1398,7 @@ class LabAnalisisController extends Controller
                             $model->Ph_inicial = $res->G;
                             $model->Ph_final = $res->H;
                             $model->Factor_conversion = $res->D;
-                            $model->Resultado = round($resultado);
+                            $model->Resultado = round($resultado,2);
                             $model->analizo = Auth::user()->id;
                             $model->save();
                             break;
@@ -3320,7 +3320,7 @@ class LabAnalisisController extends Controller
                                 $data = array(
                                     'analizo' => $analizo,
                                     'procedimiento' => $procedimiento,
-                                    'comprobacion' => $comprobacion,
+                                    'comprobacion' => $comprobacion, 
                                     'reviso' => $reviso,
                                     'lote' => $lote,
                                     'loteDetalle' => $loteDetalle,
