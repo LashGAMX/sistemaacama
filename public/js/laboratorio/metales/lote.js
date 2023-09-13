@@ -168,7 +168,7 @@ function eventLote(id,parametro)
                 $("#fechaDigestion").val(model.Fecha_digestion)
                 $("#fechaPreparacion").val(model.Fecha_preparacion),
                 $("#longitudOnda").val(model.Longitud_onda)
-                $("#noInventario").val(model.No_inventario),
+                $("#noInventario").val(model.No_inventario), 
                 $("#corriente").val(model.Corriente)
                 $("#gas").val(model.Gas)
                 $("#flujoGas").val(model.Flujo_gas)
@@ -224,7 +224,7 @@ function eventLote(id,parametro)
                 $("#longitudOnda").val(response.configuracion.Longitud_onda)
                 $("#noInventario").val(response.configuracion.No_Inventario)
                 $("#corriente").val(response.configuracion.Lampara)
-                $("#gas").val(response.configuracion.Gas)
+                $("#gas").val(response.configuracion.Acetileno)
                 $("#flujoGas").val(response.configuracion.Flujo_gas) 
                 $("#noLampara").val(response.configuracion.No_lampara)
                 $("#energia").val(response.configuracion.Energia)

@@ -82,7 +82,7 @@
                              @case(12)
                              @case(5)
                              @case(6)
-                             @case(13)
+                            
                              @case(15)
                              @case(26)
                              @case(83)
@@ -96,6 +96,17 @@
                                 {{ number_format(@$promedio, 2, ".", "");}}
                              @endif 
                                  @break
+                            @case(13) 
+                            @php
+                                    $promedio = (round(@$item->Resultado2) + round((@$model2[$cont]->Resultado2))) / 2;
+                                    $resmodel2 = (@$model2[$cont]->Resultado2);
+                            @endphp
+                            @if ($promedio < $item->Limite)
+                                 < {{$resmodel2}}
+                             @else
+                                {{ number_format(@$promedio, 2, ".", "");}}
+                             @endif 
+                                 @break
                             @case(2)
                                 @if ($item->Resultado2 == 1)
                                     PRESENTE
@@ -104,7 +115,7 @@
                                 @endif
                                 @break
                              @default
-                             @if ($promedio <= $item->Limite)
+                             @if ($promedio < $item->Limite)
                                  <{{$item->Limite}}
                              @else
                                 {{round($promedio, 3)}}

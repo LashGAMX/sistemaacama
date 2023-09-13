@@ -12,7 +12,7 @@
 
     <div class="container-fluid h-100">         
 
-        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v1.5.0.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v2.0.1.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
         
     </div>   
 
@@ -28,11 +28,8 @@
    <br>
     <div class="col-md-12">
         <p>Mejoras: </p>
-        <p>Ahora cada ves que inicies sesión podras comprobar si existen nuevas actualizaciones.</p>
-        <p>Conductividad puede dejarse en blanco en caso de ser necesario.</p>
-        <p>Se quitaron las validaciones por boton</p>
-        <p>Se solucionaron bugs y problemas al sincronizar las ordenes de servicio.</p>
-        <p>Solución de problemas con Campo Compuesto. </p>
+        <p>Funciones al 100%</p>
+        
     </div>
 
 

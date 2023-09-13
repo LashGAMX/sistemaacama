@@ -97,7 +97,7 @@ class CampoAppController extends Controller
         return response()->json($data);
     } 
     public function version(request $request) {
-        $version = "1.5.0";
+        $version = "2.0.1";
 
         $data = array(
             'version' => $version,
@@ -152,7 +152,9 @@ class CampoAppController extends Controller
         $campoGenModel->Supervisor = $jsonGeneral[0]["Supervisor"];
         $campoGenModel->save();
       
-
+        $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
+        $modelPunto->Punto = $jsonPunto[0]["Punto"];
+        $modelPunto->save();
 
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         $phTrazable = CampoPhTrazable::where('Id_solicitud',$solModel->Id_solicitud)->get();
@@ -465,8 +467,6 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-             'aplicada1' => $aplicada1,    
-             
           
         );
         return response()->json($data);

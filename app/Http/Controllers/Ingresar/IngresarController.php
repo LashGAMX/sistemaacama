@@ -215,6 +215,7 @@ class IngresarController extends Controller
                             }
                             break;
                         case 12: //Coliformes
+                        case 137: //Coliformes Totales
                             for ($i = 0; $i < $item->Num_tomas; $i++) {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,

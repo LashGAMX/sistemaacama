@@ -271,12 +271,22 @@ class InformesController extends Controller
                         $limC = $item->Resultado2;
                         break;
 
-                    case 135:
                     case 78:
-                    case 134:
-                        case 350:
+                    case 350:
                         if ($item->Resultado2 > 0) {
                             $limC = $item->Resultado;
+                        } else {
+                            $limC = "<" . $item->Limite;
+                        }
+                        break;
+                    case 135:
+                    case 134:
+                        if ($item->Resultado2 > 0) {
+                            if ($item->Resultado >= 8) {
+                                $limC = "> 8";       
+                            }else{
+                                $limC = $item->Resultado;
+                            }
                         } else {
                             $limC = "<" . $item->Limite;
                         }
@@ -2526,7 +2536,7 @@ class InformesController extends Controller
                                     }else{
                                         // $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                         // $limC2 = round(@$model2[$cont]->Resultado2);
-                                        $limC2 = number_format(@$item->Resultado2, 2, ".", "");
+                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     }
                                     break;
                                 default: 
@@ -5220,6 +5230,7 @@ class InformesController extends Controller
                 case 96:
                 case 95:
                 case 243: //sulfatos
+                case 17: //arsenico total
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     }else{

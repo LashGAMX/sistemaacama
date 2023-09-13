@@ -13,8 +13,7 @@
              echo $procedimiento[0]; 
         @endphp
     </div>
-    <br>
-    <p style="font-size: 10px">Resultado de las muestras</p>
+    <br<
     <div class="contenedorTabla"> 
         <div class="contenedorTabla">
             <p style="font-size: 10px">Resultado de las muestras</p>
@@ -67,12 +66,12 @@
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="">
             <tbody>                              
-                <tr>
+                {{-- <tr>
                     <td class="tableContent">MILILITROS TITULADOS DEL BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
                     <td class="tableContent">{{@$valDqo->Vol_k2}}</td>
-                </tr>
+                </tr> --}}
 
                 <tr>
                     <td class="tableContent">RESULTADO BLANCO</td>

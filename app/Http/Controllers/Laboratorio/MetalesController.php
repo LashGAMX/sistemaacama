@@ -1824,6 +1824,7 @@ class MetalesController extends Controller
         $model = ConfiguracionMetales::where('Id_parametro',$res->id)->get();
         $parametro = DB::table('ViewParametros')->where('Id_parametro',$res->id)->first();
         $data = array(
+            'aux' => "Hola",
             'model' => $model[0],
             'parametro' => $parametro,
         );

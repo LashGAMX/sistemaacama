@@ -61,7 +61,7 @@
                         @if ($item->Resultado < $item->Limite)
                             < {{@$item->Limite}}
                         @else
-                            {{@$item->Resultado}}
+                            {{number_format(@$item->Resultado,2)}}
                         @endif
 
                     </td>
