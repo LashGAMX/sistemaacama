@@ -89,7 +89,7 @@ class CurvaController extends Controller
             $valbmr = false;
         }
       
-       // $idBMR = $bmr->Id_curvaConst;
+       $idBMR = $bmr->Id_curvaConst;
         
         $data = array(
             'parametro' => $request->parametro,
@@ -101,7 +101,7 @@ class CurvaController extends Controller
             'sw' => $sw,
             'fecha' => $today,
             'hijos' => $hijos,
-            //'idBMR' => $idBMR,
+            'idBMR' => $idBMR,
         );
         return response()->json($data);
     }

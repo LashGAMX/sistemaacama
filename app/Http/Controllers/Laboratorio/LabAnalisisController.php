@@ -900,6 +900,7 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         case 15:
+                        case 38: //ORTOFOSFATO
                             # Fosforo-Total 
                             $d = 100 / $res->E;
                             $x = ($res->X + $res->Y + $res->Z) / 3;
