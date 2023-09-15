@@ -1936,11 +1936,12 @@ class InformesController extends Controller
                                 case 21: //Cromoa
                                 case 264:
                                 case 18: //Cadmio
-                                case 7:  
+                                case 7:   
                                 case 8:
                                 case 152: 
                                 case 19:
                                 case 23:
+                                case 113:
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
@@ -2619,6 +2620,7 @@ class InformesController extends Controller
                                 case 152: 
                                 case 19:
                                 case 23:
+                                case 113:
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
@@ -5394,6 +5396,7 @@ class InformesController extends Controller
                 case 95:
                 case 243: //sulfatos
                 case 17: //arsenico total
+                case 113:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     }else{
