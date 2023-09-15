@@ -316,47 +316,79 @@ class MetalesController extends Controller
             compact('loteDetail')
         );
     }
-    public function createControlCalidadMetales(Request $request)
+    public function createControlCalidadMetales(Request $res)
     {
-        $muestra = LoteDetalle::where('id_Lote', $request->idLote)->first();
+        $msg = "Error al crear controles";
+        $temp = LoteDetalle::where('id_Lote', $res->idLote)->where('Id_control','!=',1)->get();
+        if ($temp->count()) {
+            
+        }else{
+            $muestra = LoteDetalle::where('id_Lote', $res->idLote)->get();
 
-        //blanco reactivo
-        $model = $muestra->replicate();
-        $model->Id_control = 9;
-        $model->Liberado = 0;
-        $model->Vol_disolucion = NULL;
-        $model->save();
+            //blanco reactivo
+            $model = $muestra[0]->replicate();
+            $model->Id_control = 9;
+            $model->Liberado = 0;
+            $model->Vol_disolucion = NULL;
+            $model->save();
 
-        //Estandar
-        $model = $muestra->replicate();
-        $model->Id_control = 4;
-        $model->Liberado = 0;
-        $model->Vol_disolucion = NULL;
-        $model->save();
+            //Estandar
+            $model = $muestra[0]->replicate();
+            $model->Id_control = 4;
+            $model->Liberado = 0;
+            $model->Vol_disolucion = NULL;
+            $model->save();
 
-        //Estandar verificacioón
-        $model = $muestra->replicate();
-        $model->Id_control = 14;
-        $model->Liberado = 0;
-        $model->Vol_disolucion = NULL;
-        $model->save();
+            //Estandar verificacioón
+            $model = $muestra[0]->replicate();
+            $model->Id_control = 14;
+            $model->Liberado = 0;
+            $model->Vol_disolucion = NULL;
+            $model->save();
 
-        //Muestra adicionada
-        $model = $muestra->replicate();
-        $model->Id_control = 3;
-        $model->Liberado = 0;
-        $model->Vol_disolucion = NULL;
-        $model->save();
+            //Muestra adicionada
+            $model = $muestra[0]->replicate();
+            $model->Id_control = 3;
+            $model->Liberado = 0;
+            $model->Vol_disolucion = NULL;
+            $model->save();
 
-        //Muestra Duplicada
-        $model = $muestra->replicate();
-        $model->Id_control = 2;
-        $model->Liberado = 0;
-        $model->Vol_disolucion = NULL;
-        $model->save();
+            //Muestra Duplicada
+            $model = $muestra[0]->replicate();
+            $model->Id_control = 2;
+            $model->Liberado = 0;
+            $model->Vol_disolucion = NULL;
+            $model->save();
+
+            $aux = 0;
+            foreach ($muestra as $item) {
+                if ($aux == 9) {
+                    //Muestra adicionada
+                    $model = $item->replicate();
+                    $model->Id_control = 3;
+                    $model->Liberado = 0;
+                    $model->Vol_disolucion = NULL;
+                    $model->save();
+
+                    //Muestra Duplicada
+                    $model = $item->replicate();
+                    $model->Id_control = 2;
+                    $model->Liberado = 0;
+                    $model->Vol_disolucion = NULL;
+                    $model->save();
+                    $aux = 0;
+                }
+                $aux++;
+            }
+            $msg = "Controles creados correctamente";
+        }
+        $detalleModel = LoteDetalle::where('Id_lote', $res->idLote)->get();
+        $lote = LoteAnalisis::find($res->idLote);
+        $lote->Asignado = $detalleModel->count();
+        $lote->save();
 
         $data = array(
-            'model' => $model,
+            'msg' => $msg,
         );
         return response()->json($data);
     }
@@ -809,8 +841,9 @@ class MetalesController extends Controller
         return response()->json($data);
     }
     public function getLoteCaptura(Request $request)
-    {
-        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->where('Liberado',0)->get(); // Asi se hara con las otras
+    { 
+        // $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->where('Liberado',0)->get(); // Asi se hara con las otras
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
         $obs = array();
         foreach ($detalle as $item) {
             $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_analisis)->first();

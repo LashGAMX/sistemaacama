@@ -276,7 +276,8 @@ class InformesController extends Controller
                         if ($item->Resultado2 > 0) {
                             $limC = $item->Resultado;
                         } else {
-                            $limC = "<" . $item->Limite;
+                            // $limC = "<" . $item->Limite;
+                            $limC = "NO DETECTABLE";
                         }
                         break;
                     case 135:
@@ -288,7 +289,8 @@ class InformesController extends Controller
                                 $limC = $item->Resultado;
                             }
                         } else {
-                            $limC = "<" . $item->Limite;
+                            // $limC = "<" . $item->Limite;
+                            $limC = "NO DETECTABLE";
                         }
                         break;
                     case 133:
@@ -326,6 +328,8 @@ class InformesController extends Controller
                     case 161: //DQO soluble
                     case 38: //ortofosfato
                     case 46: //ssv
+                    case 251:
+                    case 77:
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
@@ -5333,6 +5337,8 @@ class InformesController extends Controller
                 case 10: //organico
                 case 11: //nitrogeno total
                 case 15: //Fosforo
+                case 251:
+                case 77:
                 // case 152:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";

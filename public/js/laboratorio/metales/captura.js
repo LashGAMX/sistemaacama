@@ -352,8 +352,6 @@ function createControlCalidadMetales()
         url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadMetales",
         data: {
             idLote: idLote,
-            idMuestra: idMuestra,
-            idControl: $("#controlCalidad").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -361,6 +359,7 @@ function createControlCalidadMetales()
             console.log(response);
             getDataCaptura()
             getLoteCaptura()
+            alert(response.msg)
         }
     });
 }

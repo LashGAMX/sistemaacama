@@ -1691,8 +1691,8 @@ function setDetalleMuestra() {
                                 console.log(response)
                                 switch(response.parametro){
                                     case "135":
-                                    case "134": 
-                                        if (response.resultado == 8.0){
+                                    case "134":
+                                        if (response.resultado > 8.0){
                                             $("#resultadoColAli").val(">"+response.resultado)
                                         } else {
                                             $("#resultadoColAli").val(response.resultado)
@@ -1703,6 +1703,19 @@ function setDetalleMuestra() {
                                             $("#resultadoColAli").val(response.model.Resultado)  
                                         }
                                     break;
+                                    case 132:
+                                    case 133:
+                                        if (response.resultado > 8.0){
+                                            $("#resultadoColAli").val(">"+response.resultado)
+                                        } else {
+                                            $("#resultadoColAli").val(response.resultado)
+                                        }
+                                        if(response.resultado == 0){
+                                            $("#resultadoColAli").val("No Detectable")
+                                        } else {
+                                            $("#resultadoColAli").val(response.model.Resultado)  
+                                        }
+                                        break;
                                     default:
                                         if (response.resultado < response.limite){
                                             $("#resultadoColAli").val("<"+response.limite)
