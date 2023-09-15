@@ -595,7 +595,7 @@ function getDetalleAnalisis(idCodigo) {
                             aux = aux * parseFloat(3);
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td> < 3</td>';
+                            tab += '<td> < '+item.Limite+'</td>';
                             tab += '</tr>';
                         } else {
                             aux = aux * parseFloat(item.Resultado);
