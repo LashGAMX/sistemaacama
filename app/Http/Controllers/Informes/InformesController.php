@@ -1942,6 +1942,7 @@ class InformesController extends Controller
                                 case 19:
                                 case 23:
                                 case 113:
+                               
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
@@ -2621,6 +2622,7 @@ class InformesController extends Controller
                                 case 19:
                                 case 23:
                                 case 113:
+                                case 232: //fierro total
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
@@ -5435,6 +5437,7 @@ class InformesController extends Controller
                     break;
                 case 14: // ph
                 case 110:
+                case 64:
                     switch ($model->Id_norma) {
                         case 1:
                         case 27: 
@@ -5487,7 +5490,6 @@ class InformesController extends Controller
                         }
                     }
                     break;
-                    case 64:
                     case 358:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
