@@ -283,7 +283,6 @@ class InformesController extends Controller
                     case 135:
                     case 134:
                     case 132:
-                    case 133:
                         if ($item->Resultado2 > 0) {
                             if ($item->Resultado >= 8) {
                                 $limC = "> 8";       
@@ -296,6 +295,23 @@ class InformesController extends Controller
                         }
                         break;
                     case 133:
+                        if ($item->Resultado2 > 0) {
+                            if ($item->Resultado >= 8) {
+                                $limC = "> 8";       
+                            }else{
+                                $limC = $item->Resultado;
+                            }
+                        } else {
+                            $limC = "< " . $item->Limite;
+                        }
+                        break;
+                    case 30:
+                            if ($item->Resultado2 < $item->Limite) {
+                                $limC = "< " . $item->Limite;
+                            } else {
+                                $limC = number_format(@$item->Resultado2, 3, ".", "");
+                            }
+                            break;
                     case 65:
                         if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;

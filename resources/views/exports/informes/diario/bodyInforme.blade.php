@@ -12,7 +12,7 @@
     @endif Comparación</title>
 </head> 
 <body>
-    <p id='header1'>
+    <p id='header1'> 
         {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
         {{$reportesInformes->Encabezado}}
         <br> MUESTRA

@@ -1637,11 +1637,11 @@ class LabAnalisisController extends Controller
                                 case 1: // Dqo Alta
                                     $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
                                     if ($plantilla->count()) {
-                                        if ($temp[0]->Soluble == 1) {
-                                            $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get();
-                                        } else {
-                                            $plantilla = PlantillaBitacora::where('Id_parametro', 72)->get();
-                                        }
+                                        // if ($temp[0]->Soluble == 1) {
+                                        //     $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get();
+                                        // } else {
+                                        //     $plantilla = PlantillaBitacora::where('Id_parametro', 72)->get();
+                                        // }
                                     } else {
                                         if ($temp[0]->Soluble == 1) {
                                             $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get();
@@ -1653,11 +1653,11 @@ class LabAnalisisController extends Controller
                                 case 2:
                                     $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
                                     if ($plantilla->count()) {
-                                        if ($temp[0]->Soluble == 1) {
-                                            $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get();
-                                        } else {
-                                            $plantilla = PlantillaBitacora::where('Id_parametro', 73)->get();
-                                        }
+                                        // if ($temp[0]->Soluble == 1) {
+                                        //     $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get();
+                                        // } else {
+                                        //     $plantilla = PlantillaBitacora::where('Id_parametro', 73)->get();
+                                        // }
                                     } else {
                                         if ($temp[0]->Soluble == 1) {
                                             $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get();
@@ -3303,11 +3303,11 @@ class LabAnalisisController extends Controller
                                 $valDqo = ValoracionDqo::where('Id_lote', $id)->first();
                                 $plantilla = Bitacoras::where('Id_lote', $id)->get();
                                 if ($plantilla->count()) {
-                                    if ($loteDetalle[0]->Soluble == 1) {
-                                        $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get();
-                                    } else {
-                                        $plantilla = PlantillaBitacora::where('Id_parametro', 72)->get();
-                                    }
+                                    // if ($loteDetalle[0]->Soluble == 1) {
+                                    //     $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get();
+                                    // } else {
+                                    //     $plantilla = PlantillaBitacora::where('Id_parametro', 72)->get();
+                                    // } 
                                 } else {
                                     if ($loteDetalle[0]->Soluble == 1) {
                                         $plantilla = PlantillaBitacora::where('Id_parametro', 159)->get();
@@ -3347,11 +3347,11 @@ class LabAnalisisController extends Controller
                                 $valDqo = ValoracionDqo::where('Id_lote', $id)->first();
                                 $plantilla = Bitacoras::where('Id_lote', $id)->get();
                                 if ($plantilla->count()) {
-                                    if ($loteDetalle[0]->Soluble == 1) {
-                                        $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get();
-                                    } else {
-                                        $plantilla = PlantillaBitacora::where('Id_parametro', 73)->get();
-                                    }
+                                    // if ($loteDetalle[0]->Soluble == 1) {
+                                    //     $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get();
+                                    // } else {
+                                    //     $plantilla = PlantillaBitacora::where('Id_parametro', 73)->get();
+                                    // }
                                 } else {
                                     if ($loteDetalle[0]->Soluble == 1) {
                                         $plantilla = PlantillaBitacora::where('Id_parametro', 160)->get();

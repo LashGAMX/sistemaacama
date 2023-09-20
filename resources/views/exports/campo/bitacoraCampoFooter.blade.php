@@ -4,7 +4,11 @@
         <tbody>
             <tr>
                 <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{@$muestreador->name}}</td>
-                <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL SUPERVISOR</td>
+                @if (@$solGenTemp->Id_muestreador == 15)
+                <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{$firmaRevisor->name}}</td>
+                @else
+                    <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL SUPERVISOR</td>
+                @endif
                 <td class="fontNormal fontCalibri fontSize10 justificadoDer" width="33.33%">RE-12-001-25 REV. 15 26/03/2019 <br></td>
             </tr>
 

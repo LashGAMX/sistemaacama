@@ -46,7 +46,7 @@
             <br>
             @switch( @$model[0]->Id_tecnica)
                 @case(21)
-                    <span class="elementos">GENERADOR DE HIDRUROAS INVLAB476</span>
+                    <span class="elementos">GENERADOR DE HIDRUROS INVLAB476</span>
                     <span class="subElementos"></span>
                     @break
                 @default
@@ -84,19 +84,19 @@
             <span class="subElementos">@if (@$detalle->Slit != ""){{@$detalle->Slit}}@else N/A @endif</span>
         </div>
 
-        <div class="subContenedor3">
+        <div class="subContenedor3"> 
             <span class="elementos">ACETILENO: </span>
-            <span class="subElementos">@if (@$detalle->Gas != "") {{@$detalle->Gas}}@else N/A @endif </span>
+            <span class="subElementos">@if (@$detalle->Gas != "") @php echo @$detalle->Gas; @endphp @else N/A @endif </span>
         </div>
 
         <div class="subContenedor3">
-            <span class="elementos">AIRE: </span>
-            <span class="subElementos">@if (@$detalle->Aire =! "") {{@$detalle->Aire}}@else N/A @endif </span>
+            <span class="elementos">AIRE:  {{@$detalle->Aire}}</span>
+            <span class="subElementos"></span>
         </div>
 
         <div class="subContenedor3">
-            <span class="elementos">ÓXIDO NITROSO: </span>
-            <span class="subElementos">@if (@$detalle->Oxido_nitroso =! "") {{@$detalle->Oxido_nitroso}}  @else N/A @endif</span>
+            <span class="elementos">ÓXIDO NITROSO: {{@$detalle->Oxido_nitroso}}</span>
+            <span class="subElementos"></span>
         </div>
     </div>
 

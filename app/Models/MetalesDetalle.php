@@ -24,7 +24,7 @@ class MetalesDetalle extends Model
         'Gas',
         'Flujo_gas',
         'No_lampara',
-        'Energia',
+        'Energia', 
         'Aire',
         'Equipo',
         'Slit',

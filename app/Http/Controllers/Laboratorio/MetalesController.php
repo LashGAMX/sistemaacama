@@ -1639,8 +1639,7 @@ class MetalesController extends Controller
         $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
         $hora = $fechaHora->isoFormat('h:mm A');
         $today = $fechaHora->toDateString();
-       
-
+    
 
         // $reviso = User::where('id', 17)->first();
         $reviso = User::where('id', 39)->first();
