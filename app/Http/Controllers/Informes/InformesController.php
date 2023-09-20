@@ -282,6 +282,8 @@ class InformesController extends Controller
                         break;
                     case 135:
                     case 134:
+                    case 132:
+                    case 133:
                         if ($item->Resultado2 > 0) {
                             if ($item->Resultado >= 8) {
                                 $limC = "> 8";       

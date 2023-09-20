@@ -41,7 +41,7 @@
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    pH inicial de la
+                    pH inicial de la muestra
                 </th>
 
                 <th class="nombreHeader bordesTabla">
@@ -83,11 +83,15 @@
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    {{@$item->Resultado}}
+                    @if (@$item->Resultado < @$item->Limite)
+                        < {{@$item->Limite}}
+                    @else
+                        {{@$item->Resultado}}
+                    @endif
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    {{@$item->Ph_inicial}}
+                    {{number_format(@$item->Ph_inicial,2)}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">

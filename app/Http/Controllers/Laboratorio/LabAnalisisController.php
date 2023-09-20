@@ -2349,6 +2349,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
                             $sw = true;
+                            $model->Analizo = Auth::user()->id;
                             $model->save();
                         }
 
@@ -2367,6 +2368,7 @@ class LabAnalisisController extends Controller
                 $model->Liberado = 1;
                 if ($model->Resultado != null) {
                     $sw = true;
+                    $model->Analizo = Auth::user()->id;
                     $model->save();
                 }
                 $modelMatraz = MatrazGA::find($model->Id_matraz);
@@ -2386,6 +2388,7 @@ class LabAnalisisController extends Controller
                 $model->Liberado = 1;
                 if ($model->Resultado != null) {
                     $sw = true;
+                    $model->Analizo = Auth::user()->id;
                     $model->save();
                 }
 
@@ -2405,6 +2408,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
                             $sw = true;
+                            $model->Analizo = Auth::user()->id;
                             $model->save();
                         }
 
@@ -2423,6 +2427,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
                             $sw = true;
+                            $model->Analizo = Auth::user()->id;
                             $model->save();
                         }
 
@@ -2445,6 +2450,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
                             $sw = true;
+                            $model->Analizo = Auth::user()->id;
                             $model->save();
                         }
 
@@ -2461,6 +2467,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
                             $sw = true;
+                            $model->Analizo = Auth::user()->id;
                             $model->save();
                         }
 
@@ -3243,7 +3250,7 @@ class LabAnalisisController extends Controller
                         if ($comprobacion->count()) {
                             $analizo = "";
                         } else {
-                            $analizo = User::where('id', $model[0]->Analizo)->first();
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
                         }
                         $reviso = User::where('id', 17)->first();
                         $data = array(

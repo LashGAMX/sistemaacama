@@ -457,8 +457,9 @@ INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo;
 
 /* Lista ViewLoteDetalleCloro */ 
+
 CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,
-param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra 
+param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra 
 FROM lote_detalle_cloro as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud

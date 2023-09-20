@@ -578,7 +578,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "134":
                 case "137":
                 case "51":
-                case "35":
+                case "35": 
                     let swC = 0;
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';

@@ -295,7 +295,7 @@ class CadenaController extends Controller
                 break;
             case 12:
             case 134:
-            case 133:
+            case 133: 
             case 137:
             case 51:
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)

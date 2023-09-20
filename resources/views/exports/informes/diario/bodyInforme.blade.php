@@ -19,7 +19,7 @@
         @if (@$solModel->Id_muestra == 1)
         INSTANTANEA
         @else
-        COMPUESTA 
+        COMPUESTA
         @endif
     </p>
     <div style="width: 100%">

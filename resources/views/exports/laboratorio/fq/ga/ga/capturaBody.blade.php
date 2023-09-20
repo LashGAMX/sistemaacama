@@ -396,7 +396,7 @@
                     @php
                         $cont++;
                     @endphp
-                @endforeacha
+                @endforeach
                 @foreach ($modelSinControl as $item)
                 <tr>
                     {{-- <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td> --}}
@@ -425,7 +425,7 @@
                 @php
                     $cont++;
                 @endphp
-                @endforeacha
+                @endforeach
             </tbody>
         </table>
 </div>
