@@ -630,21 +630,21 @@
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura1 == 0)
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura1 == 0 || @$tempMuestra[$i]->TemperaturaSin1 == 0)
                                     -----
                                     @else
                                     {{number_format(@$tempMuestra[$i]->Temperatura1, 1)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura2 == 0)
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura2 == 0 || @$tempMuestra[$i]->TemperaturaSin2 == 0)
                                     -----
                                     @else
                                     {{number_format(@$tempMuestra[$i]->Temperatura2, 1)}}
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura3 == 0)
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Temperatura3 == 0 || @$tempMuestra[$i]->TemperaturaSin3 == 0)
                                     -----
                                     @else
                                     {{number_format(@$tempMuestra[$i]->Temperatura3, 1)}}
@@ -652,7 +652,7 @@
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
 
-                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Promedio == 0)
+                                    @if (@$phMuestra[$i]->Activo == 0 || @$tempMuestra[$i]->Promedio == 0 ||  @$tempMuestra[$i]->TemperaturaSin3 == 0)
                                     -----
                                     @else
                                     {{round(@$tempMuestra[$i]->Promedio, 0)}}

@@ -1,5 +1,4 @@
 <br>
-
 <footer>    
     <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">        
         <tbody>
@@ -15,11 +14,16 @@
                 </td>
 
                 <td class="justificadorCentr">
-                    @if ($campoGeneral->Firma_revisor == null)
-                        ---             
+                    @if (@$solGenTemp->Id_muestreador == 15)
+                        <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/{{$firmaRevisor->firma}}">
                     @else
-                        <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{$campoGeneral->Firma_revisor}}">
+                        @if ($campoGeneral->Firma_revisor == null)
+                            ---             
+                        @else
+                            <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{$campoGeneral->Firma_revisor}}">
+                        @endif
                     @endif
+                  
                     
                 </td>
 

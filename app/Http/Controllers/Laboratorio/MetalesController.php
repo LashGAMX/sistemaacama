@@ -1634,7 +1634,7 @@ class MetalesController extends Controller
         if ($comprobacion->count()) {
             $analizo = "";
         } else {
-            $analizo = User::where('id', $model[0]->Analizo)->first();
+            @$analizo = User::where('id', $model[0]->Analizo)->first();
         }
         $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
         $hora = $fechaHora->isoFormat('h:mm A');

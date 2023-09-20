@@ -1691,7 +1691,12 @@ class CampoController extends Controller
         $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
         $materia = SolicitudParametro::where('Id_subnorma', 2)->where('Id_solicitud', $model->Id_solicitud)->get();
-
+        $solGenTemp = SolicitudesGeneradas::where('Id_solicitud',$model->Id_solicitud)->first();
+        $firmaRevisor = array();
+        if ($solGenTemp->Id_muestreador == 15) {
+            @$firmaRevisor = User::where('id', 5)->first();
+        }
+        @$firmaRevisor = User::where('id', 5)->first();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1751,7 +1756,8 @@ class CampoController extends Controller
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
         $mpdf->setHeader("<br><br>" . $htmlHeader);
 
-        $htmlFooter = view('exports.campo.bitacoraCampoFooter', compact('muestreador', 'campoGeneral', 'model'));
+        $htmlFooter = view('exports.campo.bitacoraCampoFooter', 
+        compact('muestreador', 'campoGeneral', 'model','solGenTemp','firmaRevisor'));
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);
