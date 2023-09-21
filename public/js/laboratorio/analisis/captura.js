@@ -1848,6 +1848,45 @@ function setDetalleMuestra() {
                         }
                     });
                     break;
+                case 70:
+                    let sug2 = 0;
+                    if (document.getElementById("sugeridoDbo").checked == true) {
+                        sug2 = 1;
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        data: {
+                            tipo: 1,
+                            idParametro: $("#parametro").val(),
+                            idDetalle: idMuestra,
+                            Observacion: $('#observacionDboIno').val(),
+                            H: $('#botellaF1Dbo').val(),
+                            G: $('#od1Dbo').val(),
+                            B: $('#oxiFinal1Dbo').val(),
+                            A: $('#oxiInicial1Dbo').val(),
+                            J: $('#phF1Dbo').val(),
+                            I: $('#phIni1Dbo').val(),
+                            D: $('#volDbo1Dbo').val(),
+                            E: $('#dil1Dbo').val(),
+                            C: $('#win1Dbo').val(),
+                            OI: $('#oxigenoIncialB1Dbo').val(),
+                            OF: $('#oxigenofinalB1Dbo').val(),
+                            V: $('#volMuestraB1Dbo').val(),
+                            S: sug2,
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.tipo == 1) {
+                                $('#resultadoDbo').val(response.res);
+                            } else {
+                                $('#resDboB').val(response.res);
+                            }
+                        }
+                    });
+                    break;
                 case 16: //todo Huevos de Helminto 
                     $.ajax({
                         type: "POST",
@@ -2833,6 +2872,9 @@ function getCapturaLote() {
                                 } else {
                                     tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                                 }
+                                break;
+                            case 70:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaDboIno">Capturar</button>';
                                 break;
                             case 16://HH
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';

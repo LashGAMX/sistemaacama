@@ -3769,6 +3769,127 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalCapturaDboIno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados DBO Con Inoculo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionDboIno" placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionDboIno')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" id="resultadoDboIno" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="sugeridoDboIno">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                  <th>Valor2</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Y1</td>
+                  <td>Oxigeno disuelto inicial</td>
+                  <td><input type="text" id="oxiInicial1DboIno"></td>
+                  <td><input type="text" id="oxiInicial2DboIno"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>Y2</td>
+                  <td>Oxigeno disuelto final</td>
+                  <td><input type="text" id="oxiFinal1DboIno"></td>
+                  <td><input type="text" id="oxiFinal2DboIno"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>Y3</td>
+                  <td>Oxigeno disuelto blanco inicial</td>
+                  <td><input type="text" id="oxiInicial1BDboIno"></td>
+                  <td><input type="text" id="oxiInicial2BDboIno"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>Y4</td>
+                  <td>Oxigeno disuelto blanco final</td>
+                  <td><input type="text" id="oxiFinal1BDboIno" ></td>
+                  <td><input type="text" id="oxiFinal2BDboIno" ></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>Vm</td>
+                  <td>Vol de muestra</td>
+                  <td><input type="text" id="vol1DboIno"></td>
+                  <td><input type="text" id="vol2DboIno"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>Vt</td>
+                  <td>Vol total</td>
+                  <td><input type="text" id="volTotal1DboIno" ></td>
+                  <td><input type="text" id="volTotal2DboIno" ></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>F</td>
+                  <td>Factor de dilucion</td>
+                  <td><input type="text" id="dilucion1DboIno" ></td>
+                  <td><input type="text" id="dilucion2DboIno" ></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>Vim</td>
+                  <td>Vol muestra Ino</td>
+                  <td><input type="text" id="volInoculo1DboIno"></td>
+                  <td><input type="text" id="volInoculo2DboIno"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>ViB</td>
+                  <td>Vol Ino Blanco</td>
+                  <td><input type="text" id="volInoculoB1DboIno"></td>
+                  <td><input type="text" id="volInoculoB2DboIno"></td>
+                  <th>V</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 {{-- Fin Moda DBo --}}
 
 
