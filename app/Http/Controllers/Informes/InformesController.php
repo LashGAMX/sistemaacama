@@ -305,13 +305,6 @@ class InformesController extends Controller
                             $limC = "< " . $item->Limite;
                         }
                         break;
-                    case 30:
-                            if ($item->Resultado2 < $item->Limite) {
-                                $limC = "< " . $item->Limite;
-                            } else {
-                                $limC = number_format(@$item->Resultado2, 3, ".", "");
-                            }
-                            break;
                     case 65:
                         if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;
@@ -348,6 +341,8 @@ class InformesController extends Controller
                     case 46: //ssv
                     case 251:
                     case 77:
+                    case 30:
+                    case 90:
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {

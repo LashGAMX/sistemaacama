@@ -98,7 +98,7 @@ class CampoAppController extends Controller
     } 
     public function version(request $request) {
         $version = "2.0.1";
-        $name = "MuestreoApp_v2.0.1";
+        $name = "MuestreoApp_v2.0.1.apk";
         $data = array(
             'version' => $version,
             'name' => $name,

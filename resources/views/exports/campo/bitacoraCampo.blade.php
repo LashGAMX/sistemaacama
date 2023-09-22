@@ -456,7 +456,7 @@
                                     {{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
                                     @php
-                                    echo number_format(@$item->Temperatura1, 1, ".", ".");
+                                    echo number_format(@$item->TemperaturaSin1, 1, ".", ".");
                                     @endphp
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
