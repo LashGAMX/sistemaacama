@@ -3818,66 +3818,101 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Y1</td>
+                  <td>A</td>
                   <td>Oxigeno disuelto inicial</td>
-                  <td><input type="text" id="oxiInicial1DboIno"></td>
-                  <td><input type="text" id="oxiInicial2DboIno"></td>
+                  <td><input type="text" id="oxiInicialIno1Dbo" value="0"></td>
+                  <td><input type="text" id="oxiInicialIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>Y2</td>
+                  <td>B</td>
                   <td>Oxigeno disuelto final</td>
-                  <td><input type="text" id="oxiFinal1DboIno"></td>
-                  <td><input type="text" id="oxiFinal2DboIno"></td>
+                  <td><input type="text" id="oxiFinalIno1Dbo" value="0"></td>
+                  <td><input type="text" id="oxiFinalIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>Y3</td>
-                  <td>Oxigeno disuelto blanco inicial</td>
-                  <td><input type="text" id="oxiInicial1BDboIno"></td>
-                  <td><input type="text" id="oxiInicial2BDboIno"></td>
+                  <td>C</td>
+                  <td>Vol de inoculo de la muestra</td>
+                  <td><input type="text" id="volInoMuestra1Dbo"></td>
+                  <td><input type="text" id="volInoMuestra2Dbo"></td>
+                  <th>C</th>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td>Oxigeno disuelto del inoculo Ini</td>
+                  <td><input type="text" id="oxigenoDisueltoIniIno1Dbo" value="0"></td>
+                  <td><input type="text" id="oxigenoDisueltoIniIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>Y4</td>
-                  <td>Oxigeno disuelto blanco final</td>
-                  <td><input type="text" id="oxiFinal1BDboIno" ></td>
-                  <td><input type="text" id="oxiFinal2BDboIno" ></td>
+                  <td>E</td>
+                  <td>Oxigeno disuelto del inoculo Fin</td>
+                  <td><input type="text" id="oxigenoDisueltoFinIno1Dbo" value="0"></td>
+                  <td><input type="text" id="oxigenoDisueltoFinIno2Dbo" value="0"></td>
+                  <th>C</th>
+                </tr>
+                <tr>
+                  <td>G</td>
+                  <td>Vol Total del frasco</td>
+                  <td><input type="text" id="volTotalFrascoIno1Dbo" value="0"></td>
+                  <td><input type="text" id="volTotalFrascoIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>Vm</td>
-                  <td>Vol de muestra</td>
-                  <td><input type="text" id="vol1DboIno"></td>
-                  <td><input type="text" id="vol2DboIno"></td>
+                  <td>H</td>
+                  <td>Vol del inoculo en inoculo</td>
+                  <td><input type="text" id="volIno1Dbo" value="0"></td>
+                  <td><input type="text" id="volIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>Vt</td>
-                  <td>Vol total</td>
-                  <td><input type="text" id="volTotal1DboIno" ></td>
-                  <td><input type="text" id="volTotal2DboIno" ></td>
+                  <td>I</td>
+                  <td>Vol muestra siembra</td>
+                  <td><input type="text" id="volMuestraSiemIno1Dbo" value="0"></td>
+                  <td><input type="text" id="volMuestraSiemIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>F</td>
-                  <td>Factor de dilucion</td>
-                  <td><input type="text" id="dilucion1DboIno" ></td>
-                  <td><input type="text" id="dilucion2DboIno" ></td>
+                  <td>J</td>
+                  <td>Porcentaje de dilucion</td>
+                  <td><input type="text" id="porcentajeIno1Dbo" value="0"></td>
+                  <td><input type="text" id="porcentajeIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>Vim</td>
-                  <td>Vol muestra Ino</td>
-                  <td><input type="text" id="volInoculo1DboIno"></td>
-                  <td><input type="text" id="volInoculo2DboIno"></td>
+                  <td>K</td>
+                  <td>Vol botella Winker</td>
+                  <td><input type="text" id="volWinkerIno1Dbo" value="0"></td>
+                  <td><input type="text" id="volWinkerIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
                 <tr>
-                  <td>ViB</td>
-                  <td>Vol Ino Blanco</td>
-                  <td><input type="text" id="volInoculoB1DboIno"></td>
-                  <td><input type="text" id="volInoculoB2DboIno"></td>
+                  <td>L</td>
+                  <td>No de botella OD</td>
+                  <td><input type="text" id="noBotellaIno1Dbo" value="0"></td>
+                  <td><input type="text" id="noBotellaIno2Dbo" value="0"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>M</td>
+                  <td>No de botella Final</td>
+                  <td><input type="text" id="noBotellaFin1Dbo" value="0"></td>
+                  <td><input type="text" id="noBotellaFin2Dbo" value="0"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
+                  <td>N</td>
+                  <td>pH Inicial</td>
+                  <td><input type="text" id="phInicialIno1Dbo" value="0"></td>
+                  <td><input type="text" id="phInicialIno2Dbo" value="0"></td>
+                  <th>V</th> 
+                </tr>
+                <tr>
+                  <td>O</td>
+                  <td>pH Final</td>
+                  <td><input type="text" id="phFinIno1Dbo" value="0"></td>
+                  <td><input type="text" id="phFinIno2Dbo" value="0"></td>
                   <th>V</th>
                 </tr>
               </tbody>

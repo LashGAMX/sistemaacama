@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/dboIn/dboInPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>   
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
+   
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+        @php
+             echo $procedimiento[0];
+        @endphp
     </div>
 
-    <table cellpadding="0" cellspacing="0" border-color="#000000">
+    <table autosize="1" class="table table-borderless" id="tablaDatos">
         <thead>  
             <tr>
                 <th class="nombreHeader" colspan="13">
@@ -23,134 +24,151 @@
             </tr>
             
             <tr>
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     No. de muestra
                 </th>
 
-                <th class="nombreHeader bordesTabla">
-                    Vol. de la Muestra (ml)
+                <th class="tableCabecera anchoColumna">
+                    Vol. de la Muestra
                 </th>
 
-                <th class="nombreHeader bordesTabla">
-                    % de dilución expresado en decimales
+                <th class="tableCabecera anchoColumna">
+                    % de dilucion expresado en decimales
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     NO. DE BOTELLA INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     OXIGENO DISUELTO INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     NO. BOTELLA FINAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
-                    OXIGENO DISUELTO AL 5to. DIA
+                <th class="tableCabecera anchoColumna">
+                    Oxigeno disuelto inicial del blanco con inóculo
                 </th>
-
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
+                    Oxigeno disuleto al 5to
+                </th>
+                <th class="tableCabecera anchoColumna">
+                    Oxigeno disuleto al 5to día del blanco con inóculo
+                </th>
+                <th class="tableCabecera anchoColumna">
                     PH INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     PH FINAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     DBO5 mg/L
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="tableCabecera anchoColumna">
                     Observaciones
                 </th>
 
-                <th class="nombreHeader">
+                <th class="anchoColumna"></th>
                     
                 </th>
+                <th class="anchoColumna"></th>
+                    
+            </th>
 
-                <th class="nombreHeader">
-                    
-                </th>
+
             </tr>                        
         </thead>
         
         <tbody>
-            @for ($i = 0; $i < @$dataLength ; $i++)
+            @foreach ($loteDetalle as $item)
             <tr>
-                <td class="contenidoBody bordesTabla">
-                    @if (@$data[$i]->Control == 'Estandar')
-                        ESTANDAR
-                    @elseif(@$data[$i]->Control == 'Blanco')
-                        BLANCO
-                    @elseif(@$data[$i]->Control == 'Positivo')
-                        POSITIVO
-                    @elseif(@$data[$i]->Control == 'Negativo')
-                        NEGATIVO
+                <td class="tableContent">
+                    @if (@$item->Id_control == 5 || @$item->Id_control == 4 || @$item->Id_control == 7)
+                        {{@$item->Control}}
                     @else
-                        {{@$data[$i]->Folio_servicio}}
-                    @endif
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Vol_muestra}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Dilucion}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Botella_od}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Odi}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Botella_final}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Odf}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Ph_inicial}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Ph_final}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Resultado}}
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Observacion}}
-                </td>
-
-                <td class="contenidoBody">
-                    @if (@$data[$i]->Liberado == 1)
-                        Liberado
-                    @elseif(@$data[$i]->Liberado == 0)
-                        No liberado
+                        {{@$item->Codigo}}
                     @endif 
                 </td>
 
-                <td class="contenidoBody">
-                    {{@$data[$i]->Control}}
-                </td>           
-            </tr> 
-            @endfor                                   
-        </tbody>
-    </table>    
+                <td class="tableContent">
+                    {{@$item->Vol_muestra}}
+                </td>
 
-    <div id="contenedorTabla">
+                <td class="tableContent">
+                    {{@$item->Porcentaje_dilucion}}
+                </td>
+
+                <td class="tableContent">
+                    {{@$item->Botella_od}}
+                </td>
+
+                <td class="tableContent">
+                    {{@$item->Oxigeno_inicial }}
+                </td>
+
+                <td class="tableContent">
+                    {{@$item->Botella_fin}}
+                </td>
+
+                <td class="tableContent">
+                    {{@$item->Oxigeno_disueltoini}}
+                </td>
+
+                <td class="tableContent">
+                    {{@$item->Oxigeno_final}}
+                </td>
+                <td class="tableContent">
+                    {{@$item->Oxigeno_disueltofin}}
+                </td>
+                <td class="tableContent">
+                    {{@$item->Ph_inicial}}
+                </td>
+                <td class="tableContent">
+                    {{@$item->Ph_final}}
+                </td>
+                @if ($item->Resultado < $item->Limite)
+                  <td class="tableContent">< {{number_format(@$item->Limite, 2, ".", ".")}}</td>
+                @else
+                    <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>
+                @endif
+
+             <td class="tableContent">
+                    {{@$item->Observacion}}
+                </td>
+
+                <td class="tableContent">
+                    @if (@$item->Liberado == 1)
+                        @if (@$item->Sugerido == 0)
+                            Analizado
+                        @else
+                            Liberado
+                        @endif
+                    @elseif(@$item->Liberado == 0)
+                        No liberado
+                    @endif
+                </td>
+
+                <td class="tableContent">
+                    {{@$item->Control}}
+                </td>           
+            </tr>  
+            @endforeach
+                              
+        </tbody>
+    </table>
+
+    <br>
+    <div id="contenidoCurva">
+        @php
+             echo $procedimiento[1];
+        @endphp
+    </div>
+    {{-- <div id="contenedorTabla"> 
         <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 100%">
             <tbody>
                 <tr>
@@ -174,41 +192,40 @@
                         Cantidad de agua de dilucion
                     </td>
 
-                    <td class="tableContent">AQUÍ VA LA CANTIDAD</td>
+                    <td class="tableContent">{{$detalleLote->Cant_dilucion}}</td>
                     
                     <td></td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">{{$detalleLote->De}}</span>
                     </td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">{{$detalleLote->A}}</span>
                     </td>
 
                     <td></td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">AQUÍ VA LA PAG</span>
+                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">{{$detalleLote->Pag}}</span>
                     </td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">AQUÍ VA LA N</span>
+                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">{{$detalleLote->N}}</span>
                     </td>                
                 </tr>                
 
                 <tr>                
                     <td>
-                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">AQUÍ VA EL DÍA</span>
+                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">{{$detalleLote->Dilucion}}</span>
                     </td>
                 </tr>
             </tbody>                      
-        </table>          
-    </div>    
+        </table>  
+    </div>   --}}
 
-    <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span>
-        <?php echo html_entity_decode($textoProcedimiento[1]);?>
-    </div>
+    <br>
+    <br>
+
 </body>
 </html>

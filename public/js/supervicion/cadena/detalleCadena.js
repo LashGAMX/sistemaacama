@@ -422,7 +422,7 @@ function getDetalleAnalisis(idCodigo) {
                             resLiberado = resLiberado + parseFloat(item.Resultado);   
                         }
                         tab += '</tr>';
-                        if (parseInt(item.Resultado) >= item.Limite) {
+                        if (parseFloat(item.Resultado) >= item.Limite) {
                             swK = 1
                         } 
                     });
@@ -437,17 +437,14 @@ function getDetalleAnalisis(idCodigo) {
                             resLiberado = resLiberado + parseFloat(item.Resultado);   
                         }
                         tab += '</tr>';
-                        if (parseInt(item.Resultado) > 0) {
+                        if (parseFloat(item.Resultado) >= item.Limite) {
                             swK = 1
                         } 
                     });
 
-                    // resLiberado = (aux / cont);
-                        if (swK == 1) {
-                            // resLiberado = (Math.pow(aux, 1 / cont));   
-                        } else {
+                        if (swK != 1) {
                             resLiberado = 1.39;
-                        }
+                        } 
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
