@@ -86,7 +86,7 @@
                         @if (@$promCol->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                             <td class="fontCalibri anchoColumna111 fontSize8">
-                                @if (@$promCol[0]->Resultado2 <= @$promCol[0]->Limite)
+                                @if (@$promCol[0]->Resultado2 < @$promCol[0]->Limite)
                                     < {{@$promCol[0]->Limite}}
                                 @else
                                     {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
@@ -96,7 +96,7 @@
                         @if (@$promCol2->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES TOTAL NMP/100mL</td>
                             <td class="fontCalibri anchoColumna111 fontSize8">
-                                @if (@$promCol2[0]->Resultado2 <= @$promCol2[0]->Limite)
+                                @if (@$promCol2[0]->Resultado2 < @$promCol2[0]->Limite)
                                     < {{@$prpromCol2mCol[0]->Limite}}
                                 @else
                                     {{number_format(@$promCol2[0]->Resultado2, 2, ".", "")}}

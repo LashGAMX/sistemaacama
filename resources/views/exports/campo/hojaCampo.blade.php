@@ -219,7 +219,7 @@
                                 @endif
                             </td>                            
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (@$tempAmbiente[$i]->Temperatura1 == "" || @$tempAmbiente[$i]->Temperatura1 == null)
+                                @if (@$tempAmbiente[$i]->Temperatura1 == "" || @$tempAmbiente[$i]->Temperatura1 == null || @$tempAmbiente[$i]->TemperaturaSin1 == 0)
                                  ---
                                 @else
                                     @php
@@ -229,7 +229,7 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)                            
-                                    @if (@$tempMuestra[$i]->Promedio == "" || @$tempMuestra[$i]->Promedio == null)
+                                    @if (@$tempMuestra[$i]->Promedio == "" || @$tempMuestra[$i]->Promedio == null || @$tempMuestra[$i]->TemperaturaSin1 == 0)
                                             ---
                                         @else
                                             @php

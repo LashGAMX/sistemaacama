@@ -16,6 +16,7 @@ use App\Models\LoteDetalle;
 use App\Models\LoteDetalleCloro;
 use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleDboIno;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
@@ -357,6 +358,7 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
+                        case 137:
                             $temp = LoteDetalleColiformes::create([
                                 'Id_lote' => $res->idLote,
                                 'Id_analisis' => $model->Id_solicitud,
@@ -392,6 +394,18 @@ class LabAnalisisController extends Controller
                                 'Liberado' => 0,
                             ]);
                             $tempModel = LoteDetalleDbo::where('Id_lote', $res->idLote)->get();
+                            break;
+                        case 70:
+                            $temp = LoteDetalleDboIno::create([
+                                'Id_lote' => $res->idLote,
+                                'Id_analisis' => $model->Id_solicitud,
+                                'Id_codigo' => $model->Id_codigo,
+                                'Id_parametro' => $model->Id_parametro,
+                                'Id_control' => 1,
+                                'Analizo' => 1, 
+                                'Liberado' => 0,
+                            ]);
+                            $tempModel = LoteDetalleDboIno::where('Id_lote', $res->idLote)->get();
                             break;
                         case 16: //todo Huevos de Helminto 
                             $temp = LoteDetalleHH::create([
@@ -538,6 +552,7 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
+                        case 137:
                             // $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->get();
                             break;
@@ -547,6 +562,9 @@ class LabAnalisisController extends Controller
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
                         case 71:
                             $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            break;
+                        case 70:
+                            $model = DB::table('ViewLoteDetalleDboIno')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             break;
                         case 16: //todo Huevos de Helminto 
                             $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -740,6 +758,7 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
+                        case 137:
                             $model = DB::table('ViewLoteDetalleColiformes')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
                             break;
                         case 253: //todo  ENTEROCOCO FECAL
@@ -748,6 +767,9 @@ class LabAnalisisController extends Controller
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                             $model = DB::table('ViewLoteDetalleDbo')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
                             $model2 = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $model->Id_analisis)->first();
+                        break;
+                        case 70:
+                            $model = DB::table('ViewLoteDetalleDboIno')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
                             break;
                         case 16: //todo Huevos de Helminto 
                             $model = DB::table('ViewLoteDetalleHH')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
@@ -1818,6 +1840,7 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
+                        case 137:
                             $muestra = LoteDetalleColiformes::where('Id_detalle', $res->idMuestra)->first();
                             $model = $muestra->replicate();
                             $model->Id_control = $res->idControl;
@@ -2127,6 +2150,7 @@ class LabAnalisisController extends Controller
                         case 134: // E COLI
                         case 35:
                         case 51: // Coliformes totales
+                        case 137:
                             $muestras = LoteDetalleColiformes::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleColiformes::find($item->Id_detalle);
@@ -2492,6 +2516,7 @@ class LabAnalisisController extends Controller
                     case 134: // E COLI
                     case 35:
                     case 51: // Coliformes totales
+                    case 137:
                         $model = LoteDetalleColiformes::find($res->idMuestra);
                         $model->Liberado = 1;
                         if ($model->Resultado != null) {
@@ -2710,6 +2735,7 @@ class LabAnalisisController extends Controller
                     case 134: // E COLI
                     case 35:
                     case 51: // Coliformes totales
+                    case 137:
                         $model = LoteDetalleColiformes::where('Id_detalle', $res->idMuestra)->first();
                         $model->Observacion = $res->observacion;
                         $model->save();
@@ -4211,6 +4237,7 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 12:
+                    case 137:
                         return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $id);
                         break;
                         // case 135:
@@ -4389,6 +4416,61 @@ class LabAnalisisController extends Controller
                         $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', $data);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                    case 70:
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => "L",
+                            'format' => 'letter',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 40,
+                            'margin_bottom' => 50,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/HojaMembretadaHorizontal.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        );
+                        $mpdf->showWatermarkImage = true;
+
+                        $loteDetalle = DB::table('ViewLoteDetalleDboIno')->where('Id_lote', $id)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        //Comprobación de bitacora analizada
+                        $comprobacion = LoteDetalleDboIno::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
+                        // $detalleLote = DqoDetalle::where('Id_lote', $id)->first();
+
+                        $data = array(
+                            'lote' => $lote,
+                            // 'detalleLote' => $detalleLote,
+                            'procedimiento' => $procedimiento,
+                            'loteDetalle' => $loteDetalle,
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                        ); 
+
+                        $htmlFooter = view('exports.laboratorio.mb.dboIn.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.mb.dboIn.capturaHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;

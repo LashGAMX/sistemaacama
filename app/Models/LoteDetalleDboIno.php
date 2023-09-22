@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LoteDetalleDbo extends Model
+class LoteDetalleDboIno extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'lote_detalle_dboino';
@@ -21,13 +21,18 @@ class LoteDetalleDbo extends Model
         'Id_control',
         'Oxigeno_inicial',
         'Oxigeno_final',
-        'Oxigeno_blancoIni',
-        'Oxigeno_blancoFin',
         'Vol_muestra',
-        'Vol_total',
-        'Factor_dilucion',
-        'Vol_muestraIno',
-        'Vol_blancoino',
+        'Oxigeno_disueltoini',
+        'Oxigeno_disueltofin',
+        'Vol_total_frasco',
+        'Vol_inoculo',
+        'Vol_muestra_siembra',
+        'Porcentaje_dilucion',
+        'Vol_winker',
+        'Botella_od',
+        'Botella_fin',
+        'Ph_inicial',
+        'Ph_final',
         'Resultado',
         'Observacion',
         'Sugerido',

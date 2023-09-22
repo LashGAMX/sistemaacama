@@ -37,6 +37,7 @@ use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleDboIno;
 use App\Models\LoteDetalleEcoli;
 use App\Models\LoteDetalleEnterococos;
 use App\Models\LoteDetalleEspectro;
@@ -1085,6 +1086,36 @@ class MbController extends Controller
                 }
 
                 break;
+            case 70:
+                  # DBO
+                // $res = (($request->A - $request->B) - (($request->C*($request->D - $request->E)) * $request->G ) / ($request->H * $request->I)) / $request->J;
+                $aux = ($request->A - $request->B);
+                $aux2 = ($request->C / $request->H) * ($request->D - $request->E);
+                $aux3 = ($request->I / $request->K);
+                $temp = (($aux - round($aux2,2)) /  round($aux3,3)) * 1;
+                $res = number_format($temp,3);
+                 
+                $model = LoteDetalleDboIno::find($request->idDetalle);
+                $model->Oxigeno_inicial = $request->A;
+                $model->Oxigeno_final = $request->B;
+                $model->Vol_muestra = $request->C; 
+                $model->Oxigeno_disueltoini = $request->D;
+                $model->Oxigeno_disueltofin = $request->E;
+                $model->Vol_total_frasco = $request->G;
+                $model->Vol_inoculo = $request->H;
+                $model->Vol_muestra_siembra = $request->I;
+                $model->Porcentaje_dilucion = $request->J;  
+                $model->Vol_winker = $request->K;
+                $model->Botella_od = $request->L;
+                $model->Botella_fin = $request->M;
+                $model->Ph_inicial = $request->N;
+                $model->Ph_final = $request->O;
+                $model->Resultado = $res;
+                $model->Analizo = Auth::user()->id;
+                $model->Sugerido = $request->S;
+                $model->save();
+                $tipo = 1;
+                break;
             case 16: //todo Flotación de huevos de helminto
                 # code...
                 $suma = $request->lum1 + $request->na1 + $request->sp1 + $request->tri1 + $request->uni1;
@@ -1110,7 +1141,7 @@ class MbController extends Controller
         }
         $data = array(
             'aux' =>$res,
-            'res1' => $aux,
+            'res1' => $aux3,
             'res' => $res,
             'tipo' => $tipo,
             'model' => $numModel3,
@@ -1802,8 +1833,8 @@ class MbController extends Controller
             $model->Rev = $res->rev;
             $model->save();
         } else {
-            $model = BitacoraBitacorasMb::create([  
-                'Id_lote' => $res->id,
+            $model = BitacoraMb::create([  
+                'Id_lote' => $res->id, 
                 'Id_parametro' => $lote->Id_tecnica,
                 'Titulo' => $res->titulo,
                 'Texto' => $res->texto,

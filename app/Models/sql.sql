@@ -424,6 +424,17 @@ ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo;
 
+/* ViewLoteDetalleDboIno */
+CREATE VIEW ViewLoteDetalleDboIno as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dboino as col
+INNER JOIN ViewSolicitud2 as sol
+ON col.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON col.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON col.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON col.Id_codigo = cod.Id_codigo;
+
 /* Lista ViewEnvases */ 
 
 CREATE VIEW ViewEnvases as SELECT en.*,uni.Unidad FROM envase as en

@@ -237,6 +237,7 @@ function getStdMenu() {
         case 3:
             switch (parseInt($("#parametro").val())) {
                 case 12:
+                case 137:
                 case 35:
                     $("#coliformes-tab").show()
                     break;
@@ -245,6 +246,7 @@ function getStdMenu() {
                     break;
                 case 5:
                 case 71:
+                case 70:
                     $("#dbo-tab").show()
                     break;
                 default:
@@ -1592,6 +1594,7 @@ function setDetalleMuestra() {
                 case 12:
                 case 35:
                 case 51: // Coliformes totales
+                case 137:
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/micro/operacion",
@@ -1850,40 +1853,37 @@ function setDetalleMuestra() {
                     break;
                 case 70:
                     let sug2 = 0;
-                    if (document.getElementById("sugeridoDbo").checked == true) {
+                    if (document.getElementById("sugeridoDboIno").checked == true) {
                         sug2 = 1;
                     }
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/micro/operacion",
                         data: {
-                            tipo: 1,
                             idParametro: $("#parametro").val(),
                             idDetalle: idMuestra,
                             Observacion: $('#observacionDboIno').val(),
-                            H: $('#botellaF1Dbo').val(),
-                            G: $('#od1Dbo').val(),
-                            B: $('#oxiFinal1Dbo').val(),
-                            A: $('#oxiInicial1Dbo').val(),
-                            J: $('#phF1Dbo').val(),
-                            I: $('#phIni1Dbo').val(),
-                            D: $('#volDbo1Dbo').val(),
-                            E: $('#dil1Dbo').val(),
-                            C: $('#win1Dbo').val(),
-                            OI: $('#oxigenoIncialB1Dbo').val(),
-                            OF: $('#oxigenofinalB1Dbo').val(),
-                            V: $('#volMuestraB1Dbo').val(),
+                            A: $('#oxiInicialIno1Dbo').val(),
+                            B: $('#oxiFinalIno1Dbo').val(),
+                            C: $('#volInoMuestra1Dbo').val(),
+                            D: $('#oxigenoDisueltoIniIno1Dbo').val(),
+                            E: $('#oxigenoDisueltoFinIno1Dbo').val(),
+                            G: $('#volTotalFrascoIno1Dbo').val(),
+                            H: $('#volIno1Dbo').val(),
+                            I: $('#volMuestraSiemIno1Dbo').val(),
+                            J: $('#porcentajeIno1Dbo').val(),
+                            K: $('#volWinkerIno1Dbo').val(),
+                            L: $('#noBotellaIno1Dbo').val(),
+                            M: $('#noBotellaFin1Dbo').val(),
+                            N: $('#phInicialIno1Dbo').val(),
+                            O: $('#phFinIno1Dbo').val(),
                             S: sug2,
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
                         success: function (response) {
-                            console.log(response);
-                            if (response.tipo == 1) {
-                                $('#resultadoDbo').val(response.res);
-                            } else {
-                                $('#resDboB').val(response.res);
-                            }
+                            console.log(response)
+                            $('#resultadoDboIno').val(response.res);
                         }
                     });
                     break;
@@ -2513,6 +2513,7 @@ function getDetalleMuestra(id) {
                         case 12:
                         case 35:
                         case 51: // Coliformes totales
+                        case 137:
                             $("#dil1Col").val(response.model.Dilucion1);
                             $("#dil2Col").val(response.model.Dilucion2);
                             $("#dil3Col").val(response.model.Dilucion3);
@@ -2630,6 +2631,29 @@ function getDetalleMuestra(id) {
                             } else {
                                 $('#resultadoDbo').val(response.model2.Resultado);
                             }
+                            break;
+                        case 70:
+                            $('#oxiInicialIno1Dbo').val(response.model.Oxigeno_inicial)
+                            $('#oxiFinalIno1Dbo').val(response.model.Oxigeno_final)
+                            $('#volInoMuestra1Dbo').val(response.model.Vol_muestra )
+                            $('#oxigenoDisueltoIniIno1Dbo').val(response.model.Oxigeno_disueltoini)
+                            $('#oxigenoDisueltoFinIno1Dbo').val(response.model.Oxigeno_disueltofin)
+                            $('#volTotalFrascoIno1Dbo').val(response.model.Vol_total_frasco)
+                            $('#volIno1Dbo').val(response.model.Vol_inoculo)
+                            $('#volMuestraSiemIno1Dbo').val(response.model.Vol_muestra_siembra)
+                            $('#porcentajeIno1Dbo').val(response.model.Porcentaje_dilucion )
+                            $('#volWinkerIno1Dbo').val(response.model.Vol_winker)
+                            $('#noBotellaIno1Dbo').val(response.model.Botella_od)
+                            $('#noBotellaFin1Dbo').val(response.model.Botella_fin)
+                            $('#phInicialIno1Dbo').val(response.model.Ph_inicial)
+                            $('#phFinIno1Dbo').val(response.model.Ph_final)
+
+                            if (response.model.Sugerido == 1) {
+                                document.getElementById("sugeridoDboIno").checked = true;
+                            } else {
+                                document.getElementById("sugeridoDboIno").checked = false;
+                            }
+                            $('#resultadoDboIno').val(response.model.Resultado);
                             break;
                         case 16: //todo Huevos de Helminto 
                             $("#lum1HH").val(response.model.A_alumbricoides);
@@ -2860,6 +2884,7 @@ function getCapturaLote() {
                             case 12://Coliformes
                             case 35://Ecoli
                             case 51:
+                            case 137:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                                 break;
                             case 253://Enterococos
