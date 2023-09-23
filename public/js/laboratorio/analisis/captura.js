@@ -106,7 +106,7 @@ $(document).ready(function () {
             async: false,
             success: function (response) {
                 console.log(response);
-                //swal("Registro!", "Datos guardados correctamente!", "success");            
+                //swal("Registro!", "Datos guardados correctamente!", "success");
             }
         });
     });
@@ -129,7 +129,7 @@ $(document).ready(function () {
             async: false,
             success: function (response) {
                 console.log(response);
-                // swal("Registro!", "Datos guardados correctamente!", "success");            
+                // swal("Registro!", "Datos guardados correctamente!", "success");
             }
         });
     });
@@ -164,7 +164,7 @@ $(document).ready(function () {
         $("#pre7Col").val(0);
         $("#pre8Col").val(0);
         $("#pre9Col").val(0);
-    
+
         $("#resultadoCol").val("");
     });
 
@@ -207,7 +207,7 @@ function getStdMenu() {
                 case 33: // CLORO RESIDUAL LIBRE
                 case 64:
                 case 119:
-                case 218:  
+                case 218:
                     $("#secctionCloro").show();
                     break;
                 // case 28: //Alcalinidad
@@ -294,7 +294,7 @@ function metodoCortoCol() {
             indicador: $('#indicadorCol').val(),
             resultadoCol: $("#resultadoColCol").val(),
             idParametro: $('#formulaTipoCol').val(),
-            
+
             D1: $("#dil1Col").val(),
             D2: $('#dil2Col').val(),
             D3: $('#dil3Col').val(),
@@ -358,7 +358,7 @@ function metodoCortoCol() {
             // Confirmativas
             for (var i = 0; i < 3; i++) {
                 if ((i+1) <= parseInt(response.convinacion.Col1)) {
-                    $('#con' + cont1 + 'Col').val(1);   
+                    $('#con' + cont1 + 'Col').val(1);
                 } else {
                     $('#con' + cont1 + 'Col').val(0);
                 }
@@ -367,7 +367,7 @@ function metodoCortoCol() {
             }
             for (var j = 0; j < 3; j++) {
                 if ((j+1) <= parseInt(response.convinacion.Col2)) {
-                    $('#con' + cont2 + 'Col').val(1);    
+                    $('#con' + cont2 + 'Col').val(1);
                 } else {
                     $('#con' + cont2 + 'Col').val(0);
                 }
@@ -378,14 +378,14 @@ function metodoCortoCol() {
             }
             for (var k = 0; k < 3; k++) {
                 if ((k+1) <= parseInt(response.convinacion.Col3)) {
-                    $('#con' + cont3 + 'Col').val(1);   
+                    $('#con' + cont3 + 'Col').val(1);
                 } else {
                     $('#con' + cont3 + 'Col').val(0);
                 }
                 console.log(cont3);
                 cont3++;
             }
-            // presuntivas 
+            // presuntivas
             let c1 = 1;
             let c2 = 4;
             let c3 = 7;
@@ -444,7 +444,7 @@ function setFormulaValoracion() {
             $("#normalidadResCloro").val(res.toFixed(4));
             break;
         case '28':
-        case '29': // Alcalinidad 
+        case '29': // Alcalinidad
             $("#blancoResAlc").val($("#blancoValAlc").val())
             titulado1 = $("#gmCarbonato1Alc").val();
             titulado2 = $("#gmCarbonato2Alc").val();
@@ -490,7 +490,7 @@ function setFormulaValoracion() {
             // console.log(res)
             break;
         case '9':
-        case '108': // Nitrogeno amonicacal 
+        case '108': // Nitrogeno amonicacal
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -711,7 +711,7 @@ function setValoracion() {
                 }
             });
             break;
-        case '28': // ALCALINIDAD 
+        case '28': // ALCALINIDAD
         case '29':
             $.ajax({
                 type: 'POST',
@@ -1043,7 +1043,7 @@ function setDetalleMuestra() {
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
                             idLote: idLote,
-                            idMuestra: idMuestra, 
+                            idMuestra: idMuestra,
                             ABS: $('#absPromEspectro1').val(),
                             CA: $('#blancoEspectro1').val(),
                             CB: $('#bEspectro1').val(),
@@ -1614,11 +1614,11 @@ function setDetalleMuestra() {
                             con1: $("#con1Col").val(),
                             con4: $("#con4Col").val(),
                             con5: $("#con5Col").val(),
-                            con6: $("#con6Col").val(), 
+                            con6: $("#con6Col").val(),
                             con7: $("#con7Col").val(),
                             con8: $("#con8Col").val(),
                             con9: $("#con9Col").val(),
-                             
+
                             pre1: $("#pre1Col").val(),
                             pre2: $("#pre2Col").val(),
                             pre3: $("#pre3Col").val(),
@@ -1628,7 +1628,7 @@ function setDetalleMuestra() {
                             pre7: $("#pre7Col").val(),
                             pre8: $("#pre8Col").val(),
                             pre9: $("#pre9Col").val(),
- 
+
                             pre11: $("#pre10Col").val(),
                             pre22: $("#pre11Col").val(),
                             pre33: $("#pre12Col").val(),
@@ -1677,7 +1677,7 @@ function setDetalleMuestra() {
                         alert("La confirmativas de 24hrs no puede ser mayor a la Confirmativa de 48hrs")
                     }
                     else{
-                 
+
                         $.ajax({
                             type: "POST",
                             url: base_url + "/admin/laboratorio/micro/operacionColAlimentos",
@@ -1703,7 +1703,7 @@ function setDetalleMuestra() {
                                         if(response.resultado == 0){
                                             $("#resultadoColAli").val("No Detectable")
                                         } else {
-                                            $("#resultadoColAli").val(response.model.Resultado)  
+                                            $("#resultadoColAli").val(response.model.Resultado)
                                         }
                                     break;
                                     case 132:
@@ -1716,7 +1716,7 @@ function setDetalleMuestra() {
                                         if(response.resultado == 0){
                                             $("#resultadoColAli").val("No Detectable")
                                         } else {
-                                            $("#resultadoColAli").val(response.model.Resultado)  
+                                            $("#resultadoColAli").val(response.model.Resultado)
                                         }
                                         break;
                                     default:
@@ -1728,10 +1728,10 @@ function setDetalleMuestra() {
 
                                     break;
                                 }
-                                
+
                             }
                         });
-                    
+
                     }
                     break;
                 case 253: //todo  ENTEROCOCO FECAL
@@ -1811,7 +1811,7 @@ function setDetalleMuestra() {
                         }
                     });
                     break;
-                case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)
                 case 71:
                     let sug = 0;
                     if (document.getElementById("sugeridoDbo").checked == true) {
@@ -1887,7 +1887,7 @@ function setDetalleMuestra() {
                         }
                     });
                     break;
-                case 16: //todo Huevos de Helminto 
+                case 16: //todo Huevos de Helminto
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/micro/operacion",
@@ -2006,7 +2006,7 @@ function getDetalleMuestra(id) {
             console.log(response)
 
             switch (parseInt(response.lote[0].Id_area)) {
-                case 16: // Espectrofotometria 
+                case 16: // Espectrofotometria
                 case 5: // Fisicoquimicos
                     switch (parseInt(response.lote[0].Id_tecnica)) {
                         case 69:
@@ -2513,7 +2513,7 @@ function getDetalleMuestra(id) {
                         case 12:
                         case 35:
                         case 51: // Coliformes totales
-                        case 137:
+                        case 137: 
                             $("#dil1Col").val(response.model.Dilucion1);
                             $("#dil2Col").val(response.model.Dilucion2);
                             $("#dil3Col").val(response.model.Dilucion3);
@@ -2607,7 +2607,7 @@ function getDetalleMuestra(id) {
                             $("#resultadoEnt").val(response.model.Resultado);
                             $("#observacionEnt").val(response.model.Observacion);
                             break;
-                        case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)
                         case 71:
                             $('#botellaF1Dbo').val(response.model.Botella_final);
                             $('#od1Dbo').val(response.model.Botella_od);
@@ -2655,7 +2655,7 @@ function getDetalleMuestra(id) {
                             }
                             $('#resultadoDboIno').val(response.model.Resultado);
                             break;
-                        case 16: //todo Huevos de Helminto 
+                        case 16: //todo Huevos de Helminto
                             $("#lum1HH").val(response.model.A_alumbricoides);
                             $("#na1HH").val(response.model.H_nana);
                             $("#sp1HH").val(response.model.Taenia_sp);
@@ -2763,7 +2763,7 @@ function getCapturaLote() {
                 }
 
                 switch (parseInt(response.lote[0].Id_area)) {
-                    case 16: // Espectrofotometria 
+                    case 16: // Espectrofotometria
                     case 5: // Fisicoquimicos
                         switch (parseInt(item.Id_parametro)) {
                             case 152:
@@ -2884,7 +2884,7 @@ function getCapturaLote() {
                             case 12://Coliformes
                             case 35://Ecoli
                             case 51:
-                            case 137:
+                            case 137: 
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                                 break;
                             case 253://Enterococos

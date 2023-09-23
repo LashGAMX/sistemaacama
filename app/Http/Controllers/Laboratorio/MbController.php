@@ -769,6 +769,7 @@ class MbController extends Controller
         switch ($request->idParametro) {
             case 12: //todo Número más probable (NMP), en tubos múltiples
             case 35: //Escheruchia coli/acreditado
+            case 137:
                 # Coliformes
                 if ($loteModel->Id_control == 1) {
                     if ($request->indicador == 1) {
@@ -1141,7 +1142,7 @@ class MbController extends Controller
         }
         $data = array(
             'aux' =>$res,
-            'res1' => $aux3,
+            'res1' => $aux,
             'res' => $res,
             'tipo' => $tipo,
             'model' => $numModel3,
@@ -1797,9 +1798,20 @@ class MbController extends Controller
 
     public function setDetalleLote(Request $res)
     {
-        if ($res->idParametro == 12 || $res->idParametro == 35 || $res->idParametro == 51 || $res->idParametro == 52 || $res->idParametro == 141) { //Coliformes
+        if ($res->idParametro == 12 || $res->idParametro == 35 || $res->idParametro == 51 || $res->idParametro == 52 || $res->idParametro == 141 || $res->idParametro == 137) { //Coliformes
             $model = BitacoraColiformes::where('Id_lote', $res->idLote)->get();
             if ($model->count()) {
+                $model = BitacoraColiformes::where('Id_lote',$res->idLote)->first();
+                $model->Sembrado = $res->sembrado;
+                $model->Fecha_resiembra = $res->fechaResiembra;
+                $model->Num_tubo =  $res->numTubo;
+                $model->Bitacora = $res->bitacora;
+                $model->Preparacion_pre = $res->preparacion;
+                $model->Lectura_pre = $res->lectura;
+                $model->Medio_con = $res->medio;
+                $model->Preparacion_con = $res->preparacionCon;
+                $model->Lectura_con = $res->lecturaCon;
+                $model->save();
             } else {
                 $model = BitacoraColiformes::create([
                     'Id_lote' => $res->idLote,
@@ -2274,6 +2286,7 @@ class MbController extends Controller
                 break;
             case 135:
             case 12:
+            case 137:
             case 133: //Coliformes totales
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
@@ -2501,7 +2514,6 @@ class MbController extends Controller
         case 5:
             return redirect()->to('admin/laboratorio/micro/captura/exportPdfCapturaMb/' . $idLote);
             break;
-            break;
         default:
             # code...
             break;
@@ -2553,10 +2565,11 @@ class MbController extends Controller
         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textProcedimiento = Bitacoras::where('Id_lote', $id_lote)->first();
         $proced = false;
+    
         if (!is_null($textProcedimiento)) {
             $proced = true;
-            if ($bandera == 'coli') {
-                if ($parametro->Id_parametro == 12) { //Coliformes Fecales
+            if ($bandera == 'coli') { 
+                if ($parametro->Id_parametro == 12 || $parametro->Id_parametro == 137) { //Coliformes Fecales
                     $horizontal = 'P';
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
 
@@ -2569,7 +2582,7 @@ class MbController extends Controller
                             $parametroDeterminar = $parametro->Parametro;
                             $simbologiaParam = DB::table('ViewParametros')->where('Id_parametro', $parametro->Id_parametro)->first();
                             $fechaConFormato = date("d/m/Y", strtotime($sembrado->Sembrado));
-                            $hora = date("H:i:s", strtotime($sembrado->Sembrado));
+                            @$hora = date("H:i:s", strtotime($sembrado->Sembrado));
                         }
 
                         $pruebaPresun = PruebaPresuntivaFq::where('Id_lote', $id_lote)->first();
@@ -2702,7 +2715,7 @@ class MbController extends Controller
             }
         } else {  //----------------------
             if ($bandera == 'coli') {
-                if ($parametro->Id_parametro == 12) { // COLIFORMES FECALES
+                if ($parametro->Id_parametro == 12 || $parametro->Id_parametro == 137) { // COLIFORMES FECALES
                     $horizontal = 'P';
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
 
@@ -2853,7 +2866,7 @@ class MbController extends Controller
 
         //HEADER-FOOTER******************************************************************************************************************         
 
-        if ($parametro->Id_parametro == 12) { // COLIFORMES FECALES
+        if ($parametro->Id_parametro == 12 || $parametro->Id_parametro == 137) { // COLIFORMES FECALES
             $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
             $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
             $plantilla = BitacoraMb::where('Id_lote', $id_lote)->get();

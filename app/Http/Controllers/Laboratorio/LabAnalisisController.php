@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\BitacoraColiformes;
 use App\Models\Bitacoras;
 use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
@@ -32,6 +33,7 @@ use App\Models\MatrazGA;
 use App\Models\Parametro;
 use App\Models\PlantillaBitacora;
 use App\Models\ProcesoAnalisis;
+use App\Models\SembradoFq;
 use App\Models\SolicitudPuntos;
 use App\Models\User;
 use App\Models\ValoracionCloro;
@@ -1444,7 +1446,7 @@ class LabAnalisisController extends Controller
                             break;
                         case 9: // Nitrogeno
                         case 10:
-                        case 11:
+                        case 11: //Nitrogeno total
                         case 287:
                         case 83:
                             $res1 = $res->A - $res->B;
@@ -1870,6 +1872,16 @@ class LabAnalisisController extends Controller
                             $model->save();
 
                             $model = LoteDetalleDbo::where('Id_lote', $res->idLote)->get();
+                            break;
+                        case 70:
+                            $muestra = LoteDetalleDboIno::where('Id_detalle', $res->idMuestra)->first();
+                            $model = $muestra->replicate();
+                            $model->Id_control = $res->idControl;
+                            $model->Resultado = NULL;
+                            $model->Liberado = 0;
+                            $model->save();
+
+                            $model = LoteDetalleDboIno::where('Id_lote', $res->idLote)->get();
                             break;
                         case 16: //todo Huevos de Helminto 
                             $muestra = LoteDetalleHH::where('Id_detalle', $res->idMuestra)->first();
@@ -2505,6 +2517,7 @@ class LabAnalisisController extends Controller
                         break;
                 }
                 break;
+         
             case 6: //Mb
             case 12:
             case 3:
@@ -2598,6 +2611,23 @@ class LabAnalisisController extends Controller
 
                         $model = LoteDetalleEcoli::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                         break;
+                        case 70: // inoculko
+                            $model = LoteDetalleDboIno::where('Id_detalle' , $res->idMuestra)->first();
+                            $model->Liberado = 1;
+                            if ($model->Resultado != null) {
+                                $sw = true;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                            }
+            
+                            $modelCod = CodigoParametros::find($model->Id_codigo);
+                            $modelCod->Resultado = $model->Resultado;
+                            $modelCod->Resultado2 = $model->Resultado;
+                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->save();
+            
+                            $model = LoteDetalleDboIno::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
                     default:
                         $model = LoteDetalleDirectos::find($res->idMuestra);
                         $model->Liberado = 1;
@@ -2616,6 +2646,7 @@ class LabAnalisisController extends Controller
                         break;
                 }
                 break;
+            
             case 7: //Campo
             case 19: //directos
                 $model = LoteDetalleDirectos::find($res->idMuestra);
@@ -2658,6 +2689,7 @@ class LabAnalisisController extends Controller
         $data = array(
             'model' => $model,
             'sw' => $sw,
+           // 'muestra' => $res->idMuestra
         );
         return response()->json($data);
     }
@@ -2748,6 +2780,11 @@ class LabAnalisisController extends Controller
                     case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                     case 71:
                         $model = LoteDetalleDbo::where('Id_detalle', $res->idMuestra)->first();
+                        $model->Observacion = $res->observacion;
+                        $model->save();
+                        break;
+                    case 70:
+                        $model = LoteDetalleDboIno::where('Id_detalle', $res->idMuestra)->first();
                         $model->Observacion = $res->observacion;
                         $model->save();
                         break;
@@ -4096,7 +4133,7 @@ class LabAnalisisController extends Controller
                         );
                         $mpdf->showWatermarkImage = true;
                         $loteDetalleControles = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id)->where('Id_control', '!=', 1)->get();
-                        $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id)->get();
+                        $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id)->where('Id_control',1)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
                         if ($plantilla->count()) {
                         } else {
@@ -4238,7 +4275,60 @@ class LabAnalisisController extends Controller
                         break;
                     case 12:
                     case 137:
-                        return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $id);
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => "L",
+                            'format' => 'letter',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 40,
+                            'margin_bottom' => 50,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/HojaMembretadaHorizontal.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        ); 
+                        $mpdf->showWatermarkImage = true;
+                        $loteDetalleControles = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id)->where('Id_control', '!=', 1)->get();
+                        $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id)->get();
+                        $bitacora = BitacoraColiformes::where('Id_lote', $id)->first();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        //Comprobación de bitacora analizada
+                        $comprobacion = LoteDetalleColiformes::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
+
+
+                        $data = array(
+                            'lote' => $lote,
+                            'bitacora' => $bitacora,
+                            'data' => $loteDetalle,
+                            'plantilla' => $plantilla,
+                            'loteDetalleControles' => $loteDetalleControles,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                        );
+
+                        $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.mb.coliformes.capturaHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', $data);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        // return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $id);
                         break;
                         // case 135:
                     case 133: //Coliformes totales
@@ -4465,7 +4555,7 @@ class LabAnalisisController extends Controller
                             'reviso' => $reviso,
                             'comprobacion' => $comprobacion,
                         ); 
-
+ 
                         $htmlFooter = view('exports.laboratorio.mb.dboIn.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.mb.dboIn.capturaHeader', $data);
