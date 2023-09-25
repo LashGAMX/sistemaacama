@@ -45,23 +45,23 @@
                     <td>{{$item->Control}}</td>
                     <td>{{$item->Dilucion1}}</td>
                     <td>{{$item->Presuntiva1}}</td>
-                    <td>{{$item->Presuntiva4}}</td>
-                    <td>{{$item->Presuntiva7}}</td>
+                    <td>{{$item->Presuntiva2}}</td>
+                    <td>{{$item->Presuntiva3}}</td>
 
                     <td>{{$item->Presuntiva10}}</td>
-                    <td>{{$item->Presuntiva13}}</td>
-                    <td>{{$item->Presuntiva16}}</td>
+                    <td>{{$item->Presuntiva11}}</td>
+                    <td>{{$item->Presuntiva12}}</td>
                     <td>
-                        {{($item->Presuntiva1 + $item->Presuntiva4 + $item->Presuntiva7)}}
+                        {{($item->Presuntiva10 + $item->Presuntiva11 + $item->Presuntiva12)}}
                     </td>
                     <td>{{$item->Confirmativa1}}</td>
-                    <td>{{$item->Confirmativa4}}</td>
-                    <td>{{$item->Confirmativa7}}</td>
+                    <td>{{$item->Confirmativa2}}</td>
+                    <td>{{$item->Confirmativa3}}</td>
 
                     <td>{{$item->Confirmativa1}}</td>
-                    <td>{{$item->Confirmativa4}}</td>
-                    <td>{{$item->Confirmativa7}}</td>
-                    <td>{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa7)}}</td>
+                    <td>{{$item->Confirmativa2}}</td>
+                    <td>{{$item->Confirmativa3}}</td>
+                    <td>{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa3)}}</td>
                     @switch($item->Tipo)
                     @case(1)
                     <td class="contenidoBody bordesTabla" >

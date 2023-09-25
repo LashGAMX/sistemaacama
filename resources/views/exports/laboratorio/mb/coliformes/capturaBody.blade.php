@@ -9,12 +9,11 @@
 </head>
 <body>   
 
-    <p id='curvaProcedimiento'>Procedimientos</p>
-
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+        @php
+            echo $plantilla[0]->Texto; 
+        @endphp
     </div>
-
     <br>
 
     <div id="contenedorTabla">
@@ -58,7 +57,7 @@
                     <td class="tableContent">Caldo lactosado se prepara el día: </td>                    
                     <td class="tableContent">
                         @php
-                            $fechaFormateada = date("d/m/Y", strtotime(@$pruebaPresun->Preparacion));
+                            $fechaFormateada = date("d/m/Y", strtotime(@$bitacora->Preparacion_pre));
                             echo $fechaFormateada;
                         @endphp
                     </td>
@@ -67,12 +66,12 @@
                     
                     <td class="tableContent">El medio que se utiliza es:</td>
                     <td></td>
-                    <td class="tableContent">{{@$pruebaConf->Medio}}</td>                    
+                    <td class="tableContent">{{@$bitacora->Medio_con}}</td>                    
                 </tr>
 
                 <tr>
                     <td class="tableContent">Para determinar: </td>                    
-                    <td class="tableContent">{{@$parametroDeterminar}}<sup>{{@$simbologiaParam->Simbologia}}</sup></td>
+                    <td class="tableContent">{{@$lote->Parametro}}<sup>{{@$simbologiaParam->Simbologia}}</sup></td>
                     
                     <td></td>                  
                     
@@ -80,7 +79,7 @@
                     <td></td>
                     <td class="tableContent">
                         @php
-                            $fechaFormateadaPreparado = date("d/m/Y", strtotime(@$pruebaConf->Preparacion));
+                            $fechaFormateadaPreparado = date("d/m/Y", strtotime(@$bitacora->Preparacion_con));
                             echo $fechaFormateadaPreparado;
                         @endphp
                     </td>                    
@@ -90,7 +89,7 @@
                     <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
                     <td class="tableContent">
                         @php
-                            $fechaHoraFormateadaP = date("d/m/Y H:i:s", strtotime(@$pruebaPresun->Lectura));
+                            $fechaHoraFormateadaP = date("d/m/Y H:i:s", strtotime(@$bitacora->Lectura_pre));
                             echo $fechaHoraFormateadaP;
                         @endphp
                     </td>
@@ -99,7 +98,7 @@
                     
                     <td class="tableContent">Para determinar: </td>
                     <td></td>
-                    <td class="tableContent">{{@$parametroDeterminar}}<sup>{{@$simbologiaParam->Simbologia}}</sup></td>                    
+                    <td class="tableContent">{{@$lote->Parametro}}<sup>{{@$simbologiaParam->Simbologia}}</sup></td>                    
                 </tr>
 
                 <tr>
@@ -112,7 +111,7 @@
                     <td></td>                   
                     <td class="tableContent">
                         @php
-                            $fechaHoraFormateada = date("d/m/Y H:i:s", strtotime(@$pruebaConf->Lectura));
+                            $fechaHoraFormateada = date("d/m/Y H:i:s", strtotime(@$bitacora->Lectura_con));
                             echo $fechaHoraFormateada;
                         @endphp
                     </td>                    
@@ -129,8 +128,7 @@
     </div> --}}
 
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span>
-        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
+        
     </div>
 
     <br>
@@ -190,7 +188,7 @@
             @php
                 $aux = 3;
             @endphp
-            @for ($i = 0; $i < $dataLength ; $i++)
+            @for ($i = 0; $i < $data->count() ; $i++)
             
                 <tr>
                     @switch($data[$i]->Id_control)
@@ -228,9 +226,13 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva3}}
                     </td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva10}}</td>
+                    {{-- <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva10}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva11}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva12}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva12}}</td> --}}
+
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva1}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva2}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva3}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva1 + @$data[$i]->Presuntiva2 + @$data[$i]->Presuntiva3}}                        
@@ -355,9 +357,12 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva6}}
                     </td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva13}}</td>
+                    {{-- <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva13}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva14}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva15}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva15}}</td> --}}
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva4}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva5}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva6}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva4 + @$data[$i]->Presuntiva5 + @$data[$i]->Presuntiva6}}                        
@@ -396,9 +401,13 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva9}}
                     </td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva16}}</td>
+                    {{-- <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva16}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva17}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva18}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva18}}</td> --}}
+
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva7}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva8}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva9}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva7 + @$data[$i]->Presuntiva8 + @$data[$i]->Presuntiva9}}                    

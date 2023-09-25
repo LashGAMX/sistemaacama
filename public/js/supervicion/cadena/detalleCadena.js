@@ -323,10 +323,9 @@ function getDetalleAnalisis(idCodigo) {
                     } else {
                         tab += '<td>' + response.model.Resultado2 + '</td>';
                         aux = aux + parseFloat(response.model.Resultado2);
-                    }
-                    if (parseInt(response.model.Resultado2) >= response.model.Limite) {
                         swT = 1
-                    } 
+                    }
+                    console.log("Ken: "+ aux)
                     tab += '</tr>';
                     $.each(response.aux, function (key, item) {
                         if (item.Id_parametro == "7" || item.Id_parametro == "8") {
@@ -340,16 +339,15 @@ function getDetalleAnalisis(idCodigo) {
                                 aux = aux + parseFloat(item.Resultado);
                             }
                             tab += '</tr>';
-                            if (parseFloat(item.Resultado) >= item.Limite) {
+                            if (parseFloat(item.Resultado) >= parseFloat(item.Limite)) {
                                 swT = 1
                             } 
                         }
                     });
-                    if (swT == 1) {
-                        resLiberado = aux.toFixed(2);
-                    } else {
+                    resLiberado = aux
+                    if (swT != 1) {
                         resLiberado = 1.50;
-                    }
+                    } 
                     console.log(swT)
                     tab += '    </tbody>';
                     tab += '</table>';
@@ -374,7 +372,7 @@ function getDetalleAnalisis(idCodigo) {
                         resLiberado = item.Resultado;
                         tab += '</tr>';
                     });
-                    tab += '    </tbody>';
+                    tab += '    </tbody>'; 
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;

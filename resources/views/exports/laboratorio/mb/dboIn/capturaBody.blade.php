@@ -138,7 +138,7 @@
                 @endif
 
              <td class="tableContent">
-                    {{@$item->Observacion}}
+                    {{@$item->Observacion}} 
                 </td>
 
                 <td class="tableContent">
@@ -165,64 +165,9 @@
     <br>
     <div id="contenidoCurva">
         @php
-             echo $procedimiento[1];
+             echo @$procedimiento[1];
         @endphp
     </div>
-    {{-- <div id="contenedorTabla"> 
-        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 100%">
-            <tbody>
-                <tr>
-                    <th></th>
-
-                    <th></th>
-                    
-                    <th class="tableContent nombreHeaderBold" colspan="2">
-                        AIREAR APROX. 1 HORA
-                    </th>                   
-
-                    <th></th>                                       
-
-                    <th class="tableContent nombreHeaderBold" colspan="2">
-                        ESTANDAR BIT RE-12-001-1A-13
-                    </th>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent nombreHeaderBold">
-                        Cantidad de agua de dilucion
-                    </td>
-
-                    <td class="tableContent">{{$detalleLote->Cant_dilucion}}</td>
-                    
-                    <td></td>
-
-                    <td>
-                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">{{$detalleLote->De}}</span>
-                    </td>
-
-                    <td>
-                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">{{$detalleLote->A}}</span>
-                    </td>
-
-                    <td></td>
-
-                    <td>
-                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">{{$detalleLote->Pag}}</span>
-                    </td>
-
-                    <td>
-                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">{{$detalleLote->N}}</span>
-                    </td>                
-                </tr>                
-
-                <tr>                
-                    <td>
-                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">{{$detalleLote->Dilucion}}</span>
-                    </td>
-                </tr>
-            </tbody>                      
-        </table>  
-    </div>   --}}
 
     <br>
     <br>
