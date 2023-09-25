@@ -500,41 +500,24 @@ function getDetalleAnalisis(idCodigo) {
                         
                         if (item.Resultado != null) {
                             if (response.solModel.Id_servicio != "3") {
-                                tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
-                                aux = aux + (response.aux[cont] * item.Resultado);
-                                cont++;
+                              
+                                if (parseInt(response.solModel.Num_tomas) > 1) {
+                                    tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
+                                    aux = aux + (response.aux[cont] * item.Resultado);
+                                    cont++;
+                                } else {
+                                    aux = parseFloat(item.Resultado)
+                                    cont++;
+                                }
                             } else {
                                 aux = parseFloat(item.Resultado)
                                 cont++;
                             }
+                           
                         }
                         tab += '</tr>';
                     });
-                    resLiberado = (aux).toFixed(2);
-                    // if ($("#idNorma").val() == "27") {
-                    //     aux = 0; 
-                    //     cont = 0;
-                    // $.each(response.model, function (key, item) {
-                    //         tab += '<tr>';
-                    //         tab += '<td> GA - ' + item.Num_tomas + '</td>';
-                    //         tab += '<td>' + item.Resultado + '</td>';
-                    //         tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
-                    //         tab += '</tr>';
-                    //         if (item.Resultado != null) {
-                    //             aux = aux + (response.aux[cont] * item.Resultado);
-                    //             cont++;
-                    //         }
-                    //     });
-                    //     resLiberado = (aux).toFixed(2);
-                    // } else {
-                    //     $.each(response.model, function (key, item) {
-                    //         tab += '<tr>';
-                    //         tab += '<td>' + item.Parametro + '</td>';
-                    //         tab += '<td>' + item.Resultado + '</td>';
-                    //         tab += '</tr>';
-                    //     });
-                    //     resLiberado = (response.aux);
-                    // }
+                    resLiberado = (aux).toFixed(2);   
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;

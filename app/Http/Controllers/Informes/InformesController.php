@@ -5457,10 +5457,10 @@ class InformesController extends Controller
                     break;
                 case 14: // ph
                 case 110:
-                case 64:
                     switch ($model->Id_norma) {
                         case 1:
                         case 27: 
+                        case 9:
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
@@ -5475,6 +5475,17 @@ class InformesController extends Controller
                                 $resTemp = number_format(@$item->Resultado2, 1, ".", "");
                             }
                             break;
+                    }
+                    break;
+                case 64:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+                            $resTemp = number_format($item->Resultado2,2); 
+                        }
                     }
                     break;
                 case 97:
