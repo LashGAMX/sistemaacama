@@ -338,7 +338,9 @@ class InformesController extends Controller
                     case 88:
                     case 161: //DQO soluble
                     case 38: //ortofosfato
+                    case 36: //fosfatros
                     case 46: //ssv
+                    case 137: //Coliformes totales
                     case 251:
                     case 77:
                     case 30:
@@ -350,13 +352,19 @@ class InformesController extends Controller
                         }
                         break;
                     case 227:
-                    case 25:
                         if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
                             $limC = $item->Resultado2;
                         }
                         break;
+                    case 25:
+                            if ($item->Resultado2 < $item->Limite) {
+                                $limC = "< " . $item->Limite;
+                            } else {
+                                $limC = number_format(@$item->Resultado2, 3, ".", "");
+                            }
+                            break;
                     case 64:
                     case 358:
                         switch ($item->Id_norma) {
@@ -5815,10 +5823,10 @@ class InformesController extends Controller
                     $resTemp = $item->Resultado2;
                     break;
                 default:
-                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                    if (floatval($item->Resultado2) == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
-                        if ($item->Resultado2 >= $item->Limite) {
+                        if (floatval($item->Resultado2) >= $item->Limite) {
                             $resTemp = $item->Resultado2;
                         } else {
                             $resTemp = "< " . $item->Limite;

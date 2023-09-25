@@ -196,6 +196,9 @@ class LabAnalisisController extends Controller
                 case 5: // Fisicoquimicos
                     switch ($model->Id_parametro) {
                         case 152: // COT
+                        case 99: // Cianuros
+                        case 19:
+                        case 118:
                             $temp = LoteDetalleEspectro::create([
                                 'Id_lote' => $res->idLote,
                                 'Id_analisis' => $model->Id_solicitud,
