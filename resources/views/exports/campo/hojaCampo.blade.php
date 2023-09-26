@@ -206,8 +206,10 @@
                                             @case(2)
                                             @case(4)
                                             @case(27)
+                                            @case(9)
                                                 {{number_format(@$phMuestra[$i]->Promedio, 2, ".", ",")}}
                                                 @break
+                                            
                                             @default
                                                 {{number_format(@$phMuestra[$i]->Promedio, 1, ".", ",")}}            
                                         @endswitch

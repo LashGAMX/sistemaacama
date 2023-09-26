@@ -238,53 +238,26 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)->get();
-                $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo',1)->get();
+                    if ($solModel->Num_toma > 1) {
+                        $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo',1)->get();
 
-                $sumGasto = 0;
-                $aux = array();
-                foreach($gasto as $item)
-                {
-                    $sumGasto = $sumGasto + $item->Promedio;
-                }
-                foreach($gasto as $item) 
-                {
-                    array_push($aux,($item->Promedio/$sumGasto));
-                }
-                // if ($solModel->Id_norma == "27") {
-                //     $sumGasto = 0;
-                //     $aux = array();
-                //     foreach($gasto as $item)
-                //     {
-                //         $sumGasto = $sumGasto + $item->Promedio;
-                //     }
-                //     foreach($gasto as $item)
-                //     {
-                //         array_push($aux,($item->Promedio/$sumGasto));
-                //     }
-                // }else{
-                //     $res1 = array();
-                //     $promTemp = 0;
-                //     $cont = 0;
-                //     foreach ($gasto as $item) {
-                //         if ($item->Activo == 1) {
-                //             $promTemp = $promTemp + $item->Promedio;
-                //             $cont++;
-                //         }
-                //     }
-                //     $promGasto = $promTemp / $cont;
-    
-                //     $res = 0;
-                //     $cont = 0;
-                //     for ($i = 0; $i < sizeof($model); $i++) {
-                //         if ($gasto[$i]->Activo == 1) {
-                //             $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
-                //             $cont++;
-                //         }
-                //     }
-    
-                //     $aux = $res / $cont;
-                // }
-              
+                        $sumGasto = 0;
+                        $aux = array();
+                        foreach($gasto as $item)
+                        {
+                            $sumGasto = $sumGasto + $item->Promedio;
+                        }
+                        foreach($gasto as $item) 
+                        {
+                            array_push($aux,($item->Promedio/$sumGasto));
+                        }
+                  
+                    }else{
+                        $model = DB::table('ViewLoteDetalleGA')
+                        ->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)->get();
+                    }
+                   
                 break;
                 //Mb
             case 5:
@@ -353,16 +326,20 @@ class CadenaController extends Controller
             case "67": //Conductividad
             case "68":
                 if ($solModel->Id_norma == 27) {
-                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
-                    $sumGasto = 0;
-                    $aux = array();
-                    foreach($gasto as $item)
-                    {
-                        $sumGasto = $sumGasto + $item->Promedio;
-                    }
-                    foreach($gasto as $item)
-                    {
-                        array_push($aux,($item->Promedio/$sumGasto));
+                    if ($solModel->Num_toma > 1) {
+                        $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                        $sumGasto = 0;
+                        $aux = array();
+                        foreach($gasto as $item)
+                        {
+                            $sumGasto = $sumGasto + $item->Promedio;
+                        }
+                        foreach($gasto as $item)
+                        {
+                            array_push($aux,($item->Promedio/$sumGasto));
+                        }
+                    }else{
+                        $model = ConductividadMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
                     }
                 }
                 if ($solModel->Id_servicio != 3) {
@@ -381,7 +358,8 @@ class CadenaController extends Controller
             case "14": //ph
             case "110":
                 if ($solModel->Id_norma == 27) {
-                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    if ($solModel->Num_toma > 1) {
+                        $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
                     $sumGasto = 0;
                     $aux = array();
                     foreach($gasto as $item)
@@ -392,21 +370,13 @@ class CadenaController extends Controller
                     {
                         array_push($aux,($item->Promedio/$sumGasto));
                     }
-                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    // if ($solModel->Id_muestra == 1) {
-                    //     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    // }else{
-                    //     $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
-                    // }
+                     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    }else{
+                        $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                    }
                 }
                 if ($solModel->Id_servicio != 3) {
                     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    // if ($solModel->Id_muestra == 1) {
-                    //     $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
-                    // }else{
-                    //     $model = CampoCompuesto::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
-                    // }
-                    
                 }else{
                     $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
                 }
@@ -724,16 +694,20 @@ class CadenaController extends Controller
             case "67": //Conductividad
             case "68":
                 if ($solModel->Id_norma == 27) {
-                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
-                    $sumGasto = 0;
-                    $aux = array();
-                    foreach($gasto as $item)
-                    {
-                        $sumGasto = $sumGasto + $item->Promedio;
-                    }
-                    foreach($gasto as $item)
-                    {
-                        array_push($aux,($item->Promedio/$sumGasto));
+                    if ($solModel->Num_toma > 1) {
+                        $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                        $sumGasto = 0;
+                        $aux = array();
+                        foreach($gasto as $item)
+                        {
+                            $sumGasto = $sumGasto + $item->Promedio;
+                        }
+                        foreach($gasto as $item)
+                        {
+                            array_push($aux,($item->Promedio/$sumGasto));
+                        }   
+                    }else{
+
                     }
                 }
                 if ($solModel->Id_servicio != 3) {
