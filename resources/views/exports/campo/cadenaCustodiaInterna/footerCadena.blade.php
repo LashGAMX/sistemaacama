@@ -106,7 +106,7 @@
                         @if (@$promEco->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">Escherichia coli NMP/100mL</td>
                             <td class="fontCalibri anchoColumna111 fontSize8">
-                                @if (@$promEco[0]->Resultado2 <= @$promEco[0]->Limite)
+                                @if (@$promEco[0]->Resultado2 < @$promEco[0]->Limite)
                                     < {{@$promEco[0]->Limite}}
                                 @else
                                     {{round(@$promEco[0]->Resultado2,2)}}
