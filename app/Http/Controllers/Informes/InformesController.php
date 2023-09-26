@@ -497,7 +497,8 @@ class InformesController extends Controller
 
             default:
             //Residual
-                $firma1 = User::find(14);
+                // $firma1 = User::find(14);
+                $firma1 = User::find(4);
                 $firma2 = User::find(12);
                 //$firma2 = User::find(4);
                 break;
@@ -2411,14 +2412,14 @@ class InformesController extends Controller
         @$gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $obs1 = CampoCompuesto::where('Id_solicitud', $idSol1)->first();
         $obs2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
-        $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
-        $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+        $tempAmbiente1  = TemperaturaAmbiente::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
+        $tempAmbiente2  = TemperaturaAmbiente::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
         $auxTemp = 0; 
         $tempProm1 = 0;
-        $tempProm2 = 0;
+        $tempProm2 = 0; 
         foreach ($tempAmbiente1 as $item) {
-            $tempProm1 += $item->Promedio;
-            $tempProm2 += $tempAmbiente2[$auxTemp]->Promedio;
+            $tempProm1 += $item->Temperatura1;
+            $tempProm2 += $tempAmbiente2[$auxTemp]->Temperatura1;
             $auxTemp++;
         }
         $tempProm1 = $tempProm1 / $auxTemp;
@@ -2466,7 +2467,8 @@ class InformesController extends Controller
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
         $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
-        $firma1 = User::find(14);
+        // $firma1 = User::find(14);
+        $firma1 = User::find(4);
         $firma2 = User::find(12);
         $cotModel = DB::table('ViewSolicitud2')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Id_reporte2)->first();
@@ -5418,6 +5420,7 @@ class InformesController extends Controller
                 case 8:
                 case 23: //niquel
                 case 24: //plomo total
+                case 25: //zinc total
                 case 122:
                 case 106: //nitratos
                 case 124:

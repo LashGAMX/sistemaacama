@@ -500,7 +500,6 @@ function getDetalleAnalisis(idCodigo) {
                         
                         if (item.Resultado != null) {
                             if (response.solModel.Id_servicio != "3") {
-                              
                                 if (parseInt(response.solModel.Num_tomas) > 1) {
                                     tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
                                     aux = aux + (response.aux[cont] * item.Resultado);
@@ -936,18 +935,7 @@ function getDetalleAnalisis(idCodigo) {
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
-                            // $.each(response.model, function (key, item) {
-                            //     tab += '<tr>';
-                            //     tab += '<td> Temperatura - ' + item.Num_toma + '</td>';
-                            //     tab += '<td>' + item.Promedio + '</td>';
-                            //     tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
-                            //     tab += '</tr>';
-                            //     if (item.Promedio != null) {
-                            //         aux = aux + (response.aux[cont] * item.Promedio);
-                            //         cont++;
-                            //     }
-                            // });
-                            // resLiberado = (aux).toFixed();
+                      
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
                                 tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
