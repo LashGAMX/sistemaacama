@@ -128,6 +128,12 @@ class CadenaController extends Controller
         );
         return response()->json($data);
     }
+
+    // Controles de liberacion, regresas muestras, etc... 
+    public function regresarMuestra(Request $res) {
+        
+    }
+
     public function getDetalleAnalisis(Request $res)
     {
         $aux = 0;

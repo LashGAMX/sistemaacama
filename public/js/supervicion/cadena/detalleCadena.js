@@ -190,6 +190,25 @@ function getParametros() {
         }
     });
 }
+function regresarMuestra (idCodigo) {
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/regresarMuestra",
+        data: {
+            idSol: $("#idSol").val(),
+            idCodigo: idCodigo,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response)
+ 
+            alert("Muestra regresada");
+        }
+    });
+}
+
 var resLiberado = 0;
 var idCod = idCodigo;
 function getDetalleAnalisis(idCodigo) {
@@ -247,7 +266,6 @@ function getDetalleAnalisis(idCodigo) {
                 case "230":
                 case "23":
                     console.log("entro a caso 2");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -557,7 +575,6 @@ function getDetalleAnalisis(idCodigo) {
                 case "51":
                 case "35": 
                     let swC = 0;
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
