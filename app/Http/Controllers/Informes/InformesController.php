@@ -336,7 +336,9 @@ class InformesController extends Controller
                     case 98:
                     case 112:
                     case 218:
-                    case 253: 
+                    case 253:
+                    case 252: 
+                    case 29: 
                     case 51: 
                     case 98:
                     case 89:
@@ -499,7 +501,7 @@ class InformesController extends Controller
             default:
             //Residual
                 // $firma1 = User::find(14);
-                $firma1 = User::find(4);
+                $firma1 = User::find(14);
                 $firma2 = User::find(12);
                 //$firma2 = User::find(4);
                 break;
