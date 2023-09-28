@@ -131,7 +131,13 @@ class CadenaController extends Controller
 
     // Controles de liberacion, regresas muestras, etc... 
     public function regresarMuestra(Request $res) {
-        
+         
+        $data = array(
+            'idSol' => $res->idSol,
+            'idCodigo' => $res->idCodigo,
+        );
+
+        return response()->json($data);
     }
 
     public function getDetalleAnalisis(Request $res)

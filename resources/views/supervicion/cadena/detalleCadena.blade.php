@@ -95,7 +95,7 @@
                             <button id="btnLiberar" class="btn-success"><i class="fas fa-square-root-alt"></i></button>
                             @switch(Auth::user()->role->id)
                             @case(1)
-                                <button id="btnRegresar" class="btn-info"><i class="voyager-double-left"></i></button>
+                                <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()"><i class="voyager-double-left"></i></button>
                                 <button id="btnReasignar" class="btn-warning"><i class="voyager-check"></i></button>
                                 <button id="btnDesactivar" class="btn-danger"><i class="voyager-x"></i></button>
                                 @break

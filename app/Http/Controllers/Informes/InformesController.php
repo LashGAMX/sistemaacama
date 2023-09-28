@@ -354,6 +354,12 @@ class InformesController extends Controller
                     case 77:
                     case 30:
                     case 90:
+                        // audi
+                        case 52:
+                        case 250:
+                        case 54:
+                        case 261:
+
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
@@ -2406,7 +2412,7 @@ class InformesController extends Controller
         $direccion1 = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
         $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
         $auxPunto = PuntoMuestreoSir::where('Id_punto',$punto->Id_muestreo)->first();
-        $tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
+        @$tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
 
         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte', 1)->where('Mensual',1)->orderBy('Parametro', 'ASC')->get();
         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte', 1)->where('Mensual',1)->orderBy('Parametro', 'ASC')->get();
