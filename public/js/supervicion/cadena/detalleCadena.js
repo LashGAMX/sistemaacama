@@ -184,9 +184,7 @@ function regresarMuestra () {
         async: false,
         success: function (response) {
             console.log(response)
-            if (response.model.success) {
                 alert("Muestra regresada");
-            }
           
         }
     });
@@ -205,7 +203,7 @@ function reasignarMuestra () {
         async: false,
         success: function (response) {
             console.log(response)
-            if (response.model.success) {
+            if (response.success) {
                 alert("Muestra regresada");
             }
           
@@ -225,9 +223,8 @@ function desactivarMuestra () {
         async: false,
         success: function (response) {
             console.log(response)
-            if (response.model.success) {
-                alert("Muestra regresada");
-            }
+          
+                alert("Muestra desactivada");
           
         }
     });
@@ -1026,7 +1023,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "95":// Potable
                 case "116":
                     console.log("entro a caso 8");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -1054,7 +1051,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "84": // Olor
                 case "86": // Sabor
                     console.log("entro a caso 8");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -1076,7 +1073,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 default:
                     console.log("entro a break");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
