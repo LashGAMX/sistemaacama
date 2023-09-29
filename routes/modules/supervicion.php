@@ -12,6 +12,8 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::post('regresarRes', [CadenaController::class,'regresarRes']);
         Route::post('liberarMuestra', [CadenaController::class,'liberarMuestra']);
         Route::post('regresarMuestra', [CadenaController::class,'regresarMuestra']);
+        Route::post('reasignarMuestra', [CadenaController::class,'reasignarMuestra']);
+        Route::post('desactivarMuestra', [CadenaController::class,'desactivarMuestra']);
 
         Route::post('liberarSolicitud', [CadenaController::class,'liberarSolicitud']);
     });

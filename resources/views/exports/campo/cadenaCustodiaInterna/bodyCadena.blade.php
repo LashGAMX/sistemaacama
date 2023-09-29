@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('/public/css/custodiaInterna/custodiaInterna.css')}}">
-    {{--
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    --}}
+
     <title>Cadena de custodia interna</title>
 </head>
 <body>
@@ -31,7 +28,7 @@
                                 <td>{{$reportesCadena->Titulo2}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
                                         class="negrita">{{@$model->Descarga}}</span></td>
                                 <td>{{$reportesCadena->Titulo3}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
-                                        class="negrita">{{@$norma->Clave_norma}}</span></td>
+                                        class="negrita">{{@$model->Clave_norma}}</span></td>
                             </tr>
                         </table>
                     </div>

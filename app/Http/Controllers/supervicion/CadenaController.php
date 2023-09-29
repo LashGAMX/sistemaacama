@@ -131,17 +131,20 @@ class CadenaController extends Controller
 
     // Controles de liberacion, regresas muestras, etc... 
     public function regresarMuestra(Request $res) {
-       $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCod)->first();
+       $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
        switch ($codigoParametro->Id_area) {
         case 2:
-                 $model = LoteDetalle::find($res->idCodigo);
+                 $model = LoteDetalle::where('Id_codigo',$res->idCodigo)->first();
                  $model->Liberado = 0;
                  $model->save();
             break;
         case 16:
-                $model = LoteDetalleEspectro::find($res->idCodigo);
-                $model->Liberado = 0;
-                $model->save();
+                $model = LoteDetalleEspectro::where('Id_codigo',$res->idCodigo)->get();
+                foreach ($model as $item){
+                    $item->Liberado = 0;
+                    $item->save();
+                }
+                
             break;
 
         default:
@@ -161,29 +164,42 @@ class CadenaController extends Controller
         $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCod)->first();
        switch ($codigoParametro->Id_area) {
         case 2:
-                 $model = LoteDetalle::find($res->idCodigo);
-                 $model->Liberado = 0;
-                 $model->save();
+                 $model = LoteDetalle::where('Id_codigo', $res->idCod)->delete();
+                
             break;
         case 16:
-                $model = LoteDetalleEspectro::find($res->idCodigo);
-                $model->Liberado = 0;
-                $model->save();
+            $model = LoteDetalleEspectro::where('Id_codigo', $res->idCod)->delete();
             break;
 
         default:
             
             break;
        }
+
+       $codigo =  CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
+       $codigo->Asiganado = 0;
+       $codigo->save();
+
         $data = array(
             'idSol' => $res->idSol,
             'idCodigo' => $res->idCodigo,
             'model' => $model,
             
         ); 
+        return response()->json($data);
     }
     public function desactivarMuestra(Request $res){
+        $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
+        $model = CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
+        $model->Cadena = 0;
+        $model->Reporte = 0;
+        $model->Mensual = 0;
+        $model->save();
 
+        $data = array(
+            "model" => $model,
+        );
+        return response()->json($data);
     }
 
     public function getDetalleAnalisis(Request $res)

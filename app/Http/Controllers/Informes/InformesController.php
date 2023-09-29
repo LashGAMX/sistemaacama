@@ -5138,8 +5138,6 @@ class InformesController extends Controller
                     $paramTemp = Parametro::find($item->Id_parametro);
                     // var_dump($temp->Id_area);
                     $fechaTemp = '';
-                    // echo "<br>";
-                    // echo "Parametro: ".$paramTemp->Parametro."Area ".$paramTemp->Id_area . "Otra area: ".$item->Area. " Id area: ".$item->Id_area;
                     switch ($paramTemp->Id_area) {
                         case 2: // Metales
                             $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
@@ -5608,7 +5606,6 @@ class InformesController extends Controller
         $promEnt = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 253)->where('Num_muestra', 1)->get();
 
         $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
-        $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $firmaRes = User::where('id', 17)->first();
         // $firmaRes = User::where('id', 4)->first();
         $reportesCadena = DB::table('ViewReportesCadena')->where('Num_rev', 9)->first(); //Condición de busqueda para las configuraciones(Historicos)
@@ -5618,9 +5615,7 @@ class InformesController extends Controller
         $method = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
         $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        /*
-                 Encripta el contenido de la variable, enviada como parametro.
-                  */
+
         $folioSer = $model->Folio_servicio;
         $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
 
