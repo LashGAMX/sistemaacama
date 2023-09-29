@@ -1,5 +1,6 @@
 var idCodigo;
 var dataModel;
+var name;
 var idPunto;
 var detPa;
 $(document).ready(function () {
@@ -62,29 +63,8 @@ $(document).ready(function () {
     $('#btnLiberar').click(function () {
         liberarResultado();
     });
-    $('#btnRegresar').click(function () {
-        setRegresarMuestra();
-    });
 });
-function setRegresarMuestra()
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "/admin/supervicion/cadena/getDetalleAnalisis",
-        data: {
-            idSol: $("#idSol").val(),
-            idCodigo: idCodigo,
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            console.log(response)
- 
-            alert("Muestra regresada");
-        }
-    });
-}
+
 function getParametros() {
     let color = "";
     let tabla = document.getElementById('divTableParametros');
@@ -190,27 +170,72 @@ function getParametros() {
         }
     });
 }
-function regresarMuestra (idCodigo) {
+function regresarMuestra () {
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/supervicion/cadena/regresarMuestra",
         data: {
             idSol: $("#idSol").val(),
-            idCodigo: idCodigo,
+            idCodigo: idCod,
+           
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.log(response)
- 
-            alert("Muestra regresada");
+            if (response.model.success) {
+                alert("Muestra regresada");
+            }
+          
+        }
+    });
+}
+function reasignarMuestra () {
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/reasiganarMuestra",
+        data: {
+            idSol: $("#idSol").val(),
+            idCodigo: idCod,
+           
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response)
+            if (response.model.success) {
+                alert("Muestra regresada");
+            }
+          
+        }
+    });
+}
+function desactivarMuestra () {
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/desactivarMuestra",
+        data: {
+            idSol: $("#idSol").val(),
+            idCodigo: idCod,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response)
+            if (response.model.success) {
+                alert("Muestra regresada");
+            }
+          
         }
     });
 }
 
 var resLiberado = 0;
 var idCod = idCodigo;
+var name = ""
 function getDetalleAnalisis(idCodigo) {
     let tabla = document.getElementById('divTabDescripcion');
     let tab = '';
@@ -300,7 +325,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "87": // silice 
                 case "79":
                     console.log("entro a caso 16");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                  
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -324,7 +349,7 @@ function getDetalleAnalisis(idCodigo) {
 
                 case "11":
                     let swT = 0
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -374,7 +399,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "9":
                 case "10":
                 case "108": 
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -395,7 +420,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case 6:
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -418,7 +443,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "83":
                     let swK = 0;
                     console.log("Entro a kendal")
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                  
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -468,7 +493,7 @@ function getDetalleAnalisis(idCodigo) {
                 // case 218:
                 case "64":
                 case "358":
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -496,7 +521,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 case "13":// Graasas & Aceites
                     console.log("entro a caso 13");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -543,7 +568,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "71":
                 
                     console.log("Entro a id 5")
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -617,7 +642,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 case "253":
                     let swEn = 0
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -661,7 +686,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "35":
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -696,7 +721,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "16":
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                  
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -717,7 +742,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case "78":
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -742,7 +767,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "4":// Solidos
                 case "112":// Solidos
                     console.log("entro a caso 15");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -771,7 +796,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "67"://Conductividad
                 case "68":
                     console.log("entro a caso 7");
-                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -1075,12 +1100,6 @@ function getDetalleAnalisis(idCodigo) {
             $("#resDes").val(resLiberado);
 
 
-            $('#btnRegresar').click(function () {
-                if (confirm('Estas seguro de cancelar la muestra?')) {
-                    regresarRes();
-                }
-            });
-
 
             let tableResultado = $('#tableResultado').DataTable({
                 "ordering": false,
@@ -1126,23 +1145,7 @@ function liberarResultado() {
         }
     });
 }
-function regresarRes() {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "/admin/supervicion/cadena/regresarRes",
-        data: {
-            idSol: $("#idSol").val(),
-            idCodigo: idCodigo,
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            swal("Analisis!", "Analisis regresado", "success");
-            getParametros();
-        }
-    });
-}
+
 function liberarSolicitud() {
     $.ajax({
         type: 'POST',

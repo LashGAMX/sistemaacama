@@ -348,7 +348,9 @@
                                                 @endif
                                             @break 
                                             @default
-                                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                                            OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
+                                            @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
+                                            Y COLOR DE LA MUESTRA {{$color}} ,
                                                 EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                                                 {{@$obsCampo}}
                                         @endswitch

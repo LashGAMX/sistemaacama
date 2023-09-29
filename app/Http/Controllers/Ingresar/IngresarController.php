@@ -358,31 +358,7 @@ class IngresarController extends Controller
                                 'Cadena' => 1,
                                 'Cancelado' => 0,
                             ]);
-                            // if ($model[0]->Id_norma == "27") {
-                            //     if ($res->cloruros[$contP] <= 1000) {
-                            //         CodigoParametros::create([
-                            //             'Id_solicitud' => $item->Id_solicitud,
-                            //             'Id_parametro' => $item2->Id_subnorma,
-                            //             'Codigo' => $item->Folio_servicio,
-                            //             'Num_muestra' => 1,
-                            //             'Asignado' => 0,
-                            //             'Analizo' => 1,
-                            //             'Reporte' => $item2->Reporte,
-                            //             'Cancelado' => 0,
-                            //         ]);
-                            //     }
-                            // } else {
-                            //     CodigoParametros::create([ 
-                            //         'Id_solicitud' => $item->Id_solicitud,
-                            //         'Id_parametro' => $item2->Id_subnorma,
-                            //         'Codigo' => $item->Folio_servicio,
-                            //         'Num_muestra' => 1,
-                            //         'Asignado' => 0,
-                            //         'Analizo' => 1,
-                            //         'Reporte' => $item2->Reporte,
-                            //         'Cancelado' => 0,
-                            //     ]);
-                            // }
+                         
                             break;
                         case 152: // COT
                             if ($model[0]->Id_norma == "27") {

@@ -131,18 +131,65 @@ class CadenaController extends Controller
 
     // Controles de liberacion, regresas muestras, etc... 
     public function regresarMuestra(Request $res) {
-         
+       $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCod)->first();
+       switch ($codigoParametro->Id_area) {
+        case 2:
+                 $model = LoteDetalle::find($res->idCodigo);
+                 $model->Liberado = 0;
+                 $model->save();
+            break;
+        case 16:
+                $model = LoteDetalleEspectro::find($res->idCodigo);
+                $model->Liberado = 0;
+                $model->save();
+            break;
+
+        default:
+            
+            break;
+       }
         $data = array(
             'idSol' => $res->idSol,
             'idCodigo' => $res->idCodigo,
+            'model' => $model,
+            
         );
 
         return response()->json($data);
+    }
+    public function reasignarMuestra(Request $res){
+        $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCod)->first();
+       switch ($codigoParametro->Id_area) {
+        case 2:
+                 $model = LoteDetalle::find($res->idCodigo);
+                 $model->Liberado = 0;
+                 $model->save();
+            break;
+        case 16:
+                $model = LoteDetalleEspectro::find($res->idCodigo);
+                $model->Liberado = 0;
+                $model->save();
+            break;
+
+        default:
+            
+            break;
+       }
+        $data = array(
+            'idSol' => $res->idSol,
+            'idCodigo' => $res->idCodigo,
+            'model' => $model,
+            
+        ); 
+    }
+    public function desactivarMuestra(Request $res){
+
     }
 
     public function getDetalleAnalisis(Request $res)
     {
         $aux = 0;
+       
         $model = array();
         $solModel = Solicitud::where('Id_solicitud',$res->idSol)->first();
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
@@ -182,6 +229,7 @@ class CadenaController extends Controller
             case 23:
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+               
                 break;
             case "15": // fosforo
             case "19": // Cianuros
@@ -199,7 +247,8 @@ class CadenaController extends Controller
             case 79:
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
-                break;
+               
+                    break;
             case 11:
                 $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', 83)->first();
@@ -270,7 +319,7 @@ class CadenaController extends Controller
                         ->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)->get();
                     }
-                   
+               
                 break;
                 //Mb
             case 5:
@@ -278,6 +327,7 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                $name = "LoteDetalleDbo";
                 break;
             case 12:
             case 134:
@@ -287,6 +337,7 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+              
                 break;
             case 253:
                 if ($solModel->Id_norma == 27) {
@@ -303,7 +354,7 @@ class CadenaController extends Controller
                     }
                 }
                 $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_control', 1)
+                    ->where('Id_control', 1) 
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
             case 35:
@@ -464,6 +515,7 @@ class CadenaController extends Controller
             'paraModel' => $paraModel,
             'codigoModel' => $codigoModel,
             'model' => $model,
+           
         );
         return response()->json($data);
     }

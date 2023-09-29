@@ -229,6 +229,8 @@ class InformesController extends Controller
                         break;
                     case 2:
                     case 42: // salmonela
+                    case 57:
+                    case 59:
                         if ($item->Resultado2 == 1) {
                             $limC = "PRESENTE";
                         } else {
@@ -267,7 +269,7 @@ class InformesController extends Controller
                    // case 67:
                     case 68:
                     case 57:
-                    case 59:
+                    case 271:
                         $limC = $item->Resultado2;
                         break;
 
@@ -354,6 +356,8 @@ class InformesController extends Controller
                     case 77:
                     case 30:
                     case 90:
+                    case 33:
+                    // case 271:
                         // audi
                         case 52:
                         case 250:
