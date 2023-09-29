@@ -55,12 +55,7 @@
                     <tr>
                         <td class="bordesTablaInfIzqDer">DIRECCION</td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
-                            @if ($model->Siralab != 1)
-                                {{@$direccion->Direccion}}
-                            @else
-                                {{@$direccion->Direccion}}
-                                <!-- {{@$direccion->Calle}} {{@$direccion->Num_exterior}} {{@$direccion->Num_interior}} {{@$direccion->Colonia}} {{@$direccion->NomMunicipio}} {{@$direccion->Estado}} CP: {{@$direccion->CP}} -->
-                            @endif
+                            {{@$direccion->Direccion}}
                         </td>
                     </tr>
 

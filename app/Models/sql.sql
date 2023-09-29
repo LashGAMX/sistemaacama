@@ -214,7 +214,8 @@ ON sub.Id_subnorma = sol.Id_subnorma;
 
 
 /* Lista Solicitud parametros */
-CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio,pa.Metodo_prueba,pa.Unidad,sol.Reporte FROM solicitud_parametros as sol
+CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio,pa.Metodo_prueba,pa.Unidad,sol.Reporte 
+FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
 ON sol.Id_subnorma = pa.Id_parametro
 INNER JOIN solicitudes as s
@@ -576,6 +577,16 @@ pa.Metodo_prueba,pa.Unidad,env.stdArea
 FROM ViewEnvaseParametro as env 
 INNER JOIN ViewSolicitudParametros as pa
 ON env.Id_parametro = pa.Id_parametro;
+
+/* ViewEnvaseParametroCadena */
+
+CREATE VIEW ViewEnvaseParametroCadena as SELECT env.* FROM ViewEnvaseParametro as env 
+INNER JOIN solicitud_parametros as solPa
+ON env.Id_parametro = solPa.Id_parametro
+INNER JOIN parametros as pa
+ON env.Id_parametro = pa.Id_parametro
+INNER JOIN solicitudes as s
+ON env.Id_analisis = s.Id_solicitud;
 
 /* ViewParametroNorma */
 CREATE VIEW ViewParametroNorma as SELECT p.*, n.Norma,n.Clave_norma,pa.Id_laboratorio,pa.Sucursal,pa.Id_tipo_formula,pa.Tipo_formula,pa.Id_area,pa.Area_analisis,pa.Id_rama,pa.Rama,pa.Parametro,pa.Id_unidad,pa.Unidad,pa.Descripcion,

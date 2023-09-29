@@ -1405,11 +1405,7 @@ class CampoController extends Controller
 
         $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
-        $folio = explode("-", $model->Folio_servicio);
-        $parte1 = strval($folio[0]);
-        $parte2 = strval($folio[1]);
-
-        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
+        $numOrden = Solicitud::where('Hijo',$model->Hijo)->first();
 
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
@@ -1428,9 +1424,6 @@ class CampoController extends Controller
 
         $firmaRes = DB::table('users')->where('id', $solGen->Id_muestreador)->first();
 
-        //Recupera los parámetros de la solicitud
-        $paramSolicitud = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
-        $paramSolicitudLength = $paramSolicitud->count();
 
         $areaModel = AreaLab::all();
         $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $id)->get();
@@ -1474,7 +1467,6 @@ class CampoController extends Controller
             'tempMuestra' => $tempMuestra,
             'conMuestra' => $conMuestra,
             'muestreador' => $muestreador,
-            'paramSolicitudLength' => $paramSolicitudLength,
             'recepcion' => $recepcion,
             'firmaRes' => $firmaRes,
             'direccion' => $direccion,
