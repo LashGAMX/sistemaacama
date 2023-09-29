@@ -175,6 +175,11 @@ class CadenaController extends Controller
             
             break;
        }
+
+       $codigo =  CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
+       $codigo->Asiganado = 0;
+       $codigo->save();
+
         $data = array(
             'idSol' => $res->idSol,
             'idCodigo' => $res->idCodigo,
