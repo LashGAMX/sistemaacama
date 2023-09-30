@@ -96,7 +96,7 @@
                             @switch(Auth::user()->role->id)
                             @case(1)
                                 <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()"><i class="voyager-double-left"></i></button>
-                                <button id="btnReasignar" class="btn-warning"><i class="voyager-check"></i></button>
+                                <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()"><i class="voyager-check"></i></button>
                                 <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()"><i class="voyager-x"></i></button>
                                 @break
                             @default

@@ -3273,6 +3273,7 @@ function getPendientes() {
                 tab += '<td>' + model[i][2] + '</td>';
                 tab += '</tr>';
             }
+            tab += '<td>info</td>';
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;

@@ -192,7 +192,7 @@ function regresarMuestra () {
 function reasignarMuestra () {
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/supervicion/cadena/reasiganarMuestra",
+        url: base_url + "/admin/supervicion/cadena/reasignarMuestra",
         data: {
             idSol: $("#idSol").val(),
             idCodigo: idCod,

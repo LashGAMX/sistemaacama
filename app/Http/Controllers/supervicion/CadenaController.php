@@ -14,6 +14,7 @@ use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetallePotable;
+use App\Models\LoteDetalleSolidos;
 use App\Models\PhMuestra;
 use App\Models\Solicitud;
 use App\Models\SolicitudesGeneradas;
@@ -146,7 +147,14 @@ class CadenaController extends Controller
                 }
                 
             break;
-
+            case 15: 
+                $model = LoteDetalleSolidos::where('Id_codigo',$res->idCodigo)->get();
+                foreach ($model as $item){
+                    $item->Liberado = 0;
+                    $item->save();
+                }
+                
+            break;
         default:
             
             break;
@@ -161,14 +169,16 @@ class CadenaController extends Controller
         return response()->json($data);
     }
     public function reasignarMuestra(Request $res){
-        $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCod)->first();
+        $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
        switch ($codigoParametro->Id_area) {
         case 2:
-                 $model = LoteDetalle::where('Id_codigo', $res->idCod)->delete();
+                 $model = LoteDetalle::where('Id_codigo', $res->idCodigo)->delete();
                 
             break;
         case 16:
-            $model = LoteDetalleEspectro::where('Id_codigo', $res->idCod)->delete();
+        case 5:
+            $model= LoteDetalleEspectro::where('Id_codigo', $res->idCodigo)->delete();
+            
             break;
 
         default:
@@ -176,8 +186,8 @@ class CadenaController extends Controller
             break;
        }
 
-       $codigo =  CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
-       $codigo->Asiganado = 0;
+       $codigo = CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
+       $codigo->Asignado = 0;
        $codigo->save();
 
         $data = array(

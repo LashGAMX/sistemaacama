@@ -5073,7 +5073,7 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 15,
+            'margin_top' => 15, 
             'margin_bottom' => 15,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
