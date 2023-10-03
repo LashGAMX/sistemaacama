@@ -230,6 +230,34 @@ class IngresarController extends Controller
                                 ]);
                             }
                             break;
+                        case 78: // Ecoli alimentos
+                            for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-EC-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+                                    'Cancelado' => $canceladoAux[$i],
+                                ]);
+                            }
+                            for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => 134,
+                                    'Codigo' => $item->Folio_servicio . "-C-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 0,
+                                    'Reporte' => 0,
+                                    'Cadena' => 0,
+                                    'Cancelado' => $canceladoAux[$i],
+                                ]);
+                            }
+                            break;
                         case 35: //E.Coli
                             if ($model[0]->Id_norma == "27") {
                                 if ($res->condiciones == "true") {

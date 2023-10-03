@@ -2922,13 +2922,9 @@ function getCapturaLote() {
                                 tab += '</label>';
                                 tab += '</div>';
                                 tab += '</div">';
-                                if (response.indice[0] == null) {
-                                    indice.push(1)
-                                } else {
-                                    indice = response.indice;
-                                }
+                                
 
-                                for (let i = 0; i < indice[contador]; i++) {
+                                for (let i = 0; i < response.indice[contador]; i++) {
                                     temp78 = ""
                                     tab += '<div class="row">'
                                     tab += '<div class="col-md-12">'
@@ -3273,7 +3269,6 @@ function getPendientes() {
                 tab += '<td>' + model[i][2] + '</td>';
                 tab += '</tr>';
             }
-            tab += '<td>info</td>';
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;

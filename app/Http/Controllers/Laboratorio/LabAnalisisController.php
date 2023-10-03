@@ -360,7 +360,7 @@ class LabAnalisisController extends Controller
                         case 132:
                         case 133:
                         case 12:
-                        case 134: // E COLI
+                        case 134: // termotolerantes
                         case 35:
                         case 51: // Coliformes totales
                         case 137:
@@ -477,6 +477,7 @@ class LabAnalisisController extends Controller
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
         $aux = array();
         $indice = array();
+        $valores = array();
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
@@ -577,20 +578,31 @@ class LabAnalisisController extends Controller
                             break;
                         case 78:
                             $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            // $detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
-                            foreach ($model as $item) {
-                                $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
-                                if ($values != null) {
-                                    if ($values->Indice == 0) {
-                                        array_push($indice, 1);
+                            //$detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
+                            // foreach ($detalle as $item) {                      
+                            //     $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
+                            //     array_push($valores,$values);
+                            //     if ($values != null) {
+                            //         if ($values->Indice == 0) {
+                            //             array_push($indice,1);
+                            //         }else {
+                            //             array_push($indice, $values->Indice);
+                            //         } 
+                            //     }else {
+                            //         array_push($indice,1);
+                            //     }
+                            // } 
+                            $values = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $model[0]->Id_analisis)->get();     
+                            for ($i = 0; $i < count($values); $i++) {
+                              
+                                if ($values[$i] != null) {
+                                    if ($values[$i]->Indice == 0) {
+                                        array_push($indice,1);
                                     }else {
                                         array_push($indice, $values->Indice);
-                                    }
-                                   
-                                } else {
-                                    
-                                    $indice = null;
-                                    break;
+                                    } 
+                                }else {
+                                    array_push($indice,1);
                                 }
                             }
                             break;
@@ -612,6 +624,7 @@ class LabAnalisisController extends Controller
             'aux' => $aux,
             'model' => $model,
             'lote' => $lote,
+            'valores' => $valores
         );
         return response()->json($data);
     }
