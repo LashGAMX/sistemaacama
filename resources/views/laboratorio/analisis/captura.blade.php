@@ -62,6 +62,10 @@
                 <button class="btn-primary" style="width: 100%" id="btnPendientes" data-toggle="modal"
                   data-target="#modalPendientes"><i class="voyager-news"></i> Pendientes</button>
               </div>
+              <div class="form-group">
+                <button class="btn-secundary" style="width: 100%" id="btnHistorial" data-toggle="modal"
+                  data-target="#modalHistorial"><i class="voyager-receipt"></i> Historial</button>
+              </div>
             </div>
           </div>
         </div>
@@ -128,6 +132,87 @@
 </div>
 
 {{-- Fin modal pendientes --}}
+{{-- Inicio modal historial --}}
+<div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Historial de analisis</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4"><strong>Ph muestra compuesta:</strong> 8</div>
+              <div class="col-md-4"><strong>Conductividad:</strong> 3000</div>
+              <div class="col-md-4"><strong>Cloruros:</strong> 1500</div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-8">
+                <strong>Datos Análisis actual</strong>
+              </div>
+              <div class="col-md-2">
+                <strong>Color:</strong> TURBIO
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Cliente:</strong> LABACAMA
+              </div>    
+              <div class="col-md-6">
+                <strong>Tipo muestra:</strong> COMPUESTA
+              </div>
+              <div class="col-md-12">
+                <strong>Punto de muestreo:</strong> Lorem ipsum dolor sit amet.
+              </div>
+              <div class="col-md-6">
+                <strong>Norma:</strong> NOM-001-2021
+              </div>
+              <div class="col-md-6">
+                <strong>Parametro:</strong> (7) N-Nitritos
+              </div>
+              <div class="col-md-6">
+                <strong>Anexo:</strong> 1
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <strong>Datos de analisis anterior</strong>
+          </div>
+          <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>Folio:</strong> 264-125/23-1
+                </div>
+                <div class="col-md-6">
+                  <strong>Punto de muestreo:</strong> Lorem ipsum dolor sit amet.
+                </div>
+                <div class="col-md-6">
+                  <strong>Fecha muestreo:</strong> 10/09/23
+                </div>
+                <div class="col-md-6">
+                  <strong>Resultado:</strong> 8.5
+                </div>
+              </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- Fin modal historial --}}
+
 
 
 {{-- Inicio modal Asignar Lote --}}

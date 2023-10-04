@@ -3259,6 +3259,7 @@ function getPendientes() {
             tab += '          <th>Folio</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Fecha recepción</th>';
+            tab += '          <th>Empresa</th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -3267,6 +3268,7 @@ function getPendientes() {
                 tab += '<td>' + model[i][0] + '</td>';
                 tab += '<td>' + model[i][1] + '</td>';
                 tab += '<td>' + model[i][2] + '</td>';
+                tab += '<td>' + model[i][3] + '</td>';
                 tab += '</tr>';
             }
             tab += '    </tbody>';

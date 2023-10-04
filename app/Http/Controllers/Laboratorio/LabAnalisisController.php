@@ -72,6 +72,7 @@ class LabAnalisisController extends Controller
                     array_push($temp, $item->Codigo);
                     array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro);
                     array_push($temp, $item->Hora_recepcion);
+                    array_push($temp, $item->Empresa);
                     array_push($model, $temp);
                     break;
                 }

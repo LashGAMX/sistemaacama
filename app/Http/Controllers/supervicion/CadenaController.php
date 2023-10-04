@@ -9,7 +9,9 @@ use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleDbo;
 use App\Models\LoteDetalleDirectos;
+use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
@@ -145,7 +147,19 @@ class CadenaController extends Controller
                     $item->Liberado = 0;
                     $item->save();
                 }
-                
+        case 13:
+                $model = LoteDetalleGA::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 13)->get();
+                foreach ($model as $item){
+                    $codigo = LoteDetalleGA::where('Id_codigo',$item->Id_codigo)->first();
+                    $codigo->Liberado = 0;
+                    $codigo->save();
+                }
+        case 14:
+            $model = LoteDetalleDqo::where('Id_codigo',$res->idCodigo)->get();
+            foreach ($model as $item){
+                $item->Liberado = 0;
+                $item->save();
+            }
             break;
             case 15: 
                 $model = LoteDetalleSolidos::where('Id_codigo',$res->idCodigo)->get();
@@ -169,31 +183,61 @@ class CadenaController extends Controller
         return response()->json($data);
     }
     public function reasignarMuestra(Request $res){
+        $metodo = '';
         $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
        switch ($codigoParametro->Id_area) {
         case 2:
-                 $model = LoteDetalle::where('Id_codigo', $res->idCodigo)->delete();
-                
+                 $model = DB::table('lote_detalle')->where('Id_codigo', $res->idCodigo)->delete();
+                 $metodo = 'simple';
             break;
+        case 14:
+                $model = DB::table('lote_detalle_dqo')->where('Id_codigo', $res->idCodigo)->delete();
+                $metodo = 'simple';
+        break;
+        case 6:
+                $model = DB::table('lote_detalle_dbo')->where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 5)->get(); 
+                foreach($model as $item){
+                    $codigo = DB::table('lote_detalle_dbo')->where('Id_codigo', $item->Id_codigo)->delete();
+                }
+                $metodo = 'multiple';
+            break; 
         case 16:
         case 5:
-            $model= LoteDetalleEspectro::where('Id_codigo', $res->idCodigo)->delete();
-            
+            $model = DB::table('lote_detalle_espectro')->where('Id_codigo', $res->idCodigo)->delete();
+            $metodo = 'simple';
             break;
 
         default:
             
             break;
        }
-
-       $codigo = CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
-       $codigo->Asignado = 0;
-       $codigo->save();
-
+       if ($metodo == 'multiple'){
+        foreach ($model as $item) {
+            $codigo = CodigoParametros::where('Id_codigo', $item->idCodigo)->first();
+            $codigo->Asignado = 0;
+            $codigo->Resultado = null;
+            $codigo->Resultado2 = null;
+            $codigo->Id_lote = null;
+            $codigo->Analizo = 1;
+            $codigo->save();
+        }
+       } else {
+        $codigo = CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
+        $codigo->Asignado = 0;
+        $codigo->Resultado = null;
+        $codigo->Resultado2 = null;
+        $codigo->Id_lote = null;
+        $codigo->Analizo = 1;
+        $codigo->save();
+ 
+       }
+      
         $data = array(
             'idSol' => $res->idSol,
             'idCodigo' => $res->idCodigo,
+            'codigoParametros' => $codigoParametro,
             'model' => $model,
+            'area' => $codigoParametro->Id_area,
             
         ); 
         return response()->json($data);

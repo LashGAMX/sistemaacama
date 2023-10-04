@@ -384,7 +384,7 @@ class InformesController extends Controller
                                 $limC = number_format(@$item->Resultado2, 3, ".", "");
                             }
                             break;
-                    case 64:
+                   // case 64:
                     case 358:
                         switch ($item->Id_norma) {
                             case 1:
@@ -417,8 +417,12 @@ class InformesController extends Controller
                                 break;
                         }
                         break;
-                    case 358:
-                        $limC =  round(@$item->Resultado2);
+                    case 64:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        }else{
+                            $limC =  number_format(@$item->Resultado2, 2, ".", "");
+                        }
                         break;
                     case 67: //conductividad
                         switch ($item->Id_norma) {
