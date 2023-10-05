@@ -3061,6 +3061,7 @@ function getMuestraSinAsignar() {
             tab += '          <th>Norma</th> '
             tab += '          <th>Punto muestreo</th> '
             tab += '          <th>Fecha recepción</th> '
+            tab += '          <th>Info</th> '
             tab += '        </tr>'
             tab += '    </thead>'
             tab += '    <tbody>'
@@ -3071,6 +3072,7 @@ function getMuestraSinAsignar() {
                 tab += '<td>' + response.norma[i] + '</td>'
                 tab += '<td>' + response.punto[i] + '</td>'
                 tab += '<td>' + response.fecha[i] + '</td>'
+                tab += '<td><button id="btnInfo" class="btn-info"><i class="fas fa-info"></i></button></td>'
                 tab += '</tr>'
             }
 

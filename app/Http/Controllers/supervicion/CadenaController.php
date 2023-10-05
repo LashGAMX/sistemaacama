@@ -15,6 +15,7 @@ use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetallePotable;
 use App\Models\LoteDetalleSolidos;
 use App\Models\PhMuestra;
@@ -142,6 +143,7 @@ class CadenaController extends Controller
                  $model->save();
             break;
         case 16:
+        case 5:
                 $model = LoteDetalleEspectro::where('Id_codigo',$res->idCodigo)->get();
                 foreach ($model as $item){
                     $item->Liberado = 0;
@@ -155,11 +157,23 @@ class CadenaController extends Controller
                     $codigo->save();
                 }
         case 14:
-            $model = LoteDetalleDqo::where('Id_codigo',$res->idCodigo)->get();
-            foreach ($model as $item){
-                $item->Liberado = 0;
-                $item->save();
+            switch($codigoParametro->Id_parametro){
+                case 10:
+                    $model = LoteDetalleNitrogeno::where('Id_codigo',$res->idCodigo)->get();
+                    foreach ($model as $item){
+                        $item->Liberado = 0;
+                        $item->save();
+                    }
+                    break;
+                case 6:
+                    $model = LoteDetalleDqo::where('Id_codigo',$res->idCodigo)->get();
+                    foreach ($model as $item){
+                        $item->Liberado = 0;
+                        $item->save();
+                    }
+                    break;
             }
+           
             break;
             case 15: 
                 $model = LoteDetalleSolidos::where('Id_codigo',$res->idCodigo)->get();

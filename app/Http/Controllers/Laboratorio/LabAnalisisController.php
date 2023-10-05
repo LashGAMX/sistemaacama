@@ -578,34 +578,26 @@ class LabAnalisisController extends Controller
                             // $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 78:
-                            $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            //$detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
-                            // foreach ($detalle as $item) {                      
-                            //     $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
-                            //     array_push($valores,$values);
-                            //     if ($values != null) {
-                            //         if ($values->Indice == 0) {
-                            //             array_push($indice,1);
-                            //         }else {
-                            //             array_push($indice, $values->Indice);
-                            //         } 
-                            //     }else {
-                            //         array_push($indice,1);
-                            //     }
-                            // } 
-                            $values = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $model[0]->Id_analisis)->get();     
-                            for ($i = 0; $i < count($values); $i++) {
-                              
-                                if ($values[$i] != null) {
-                                    if ($values[$i]->Indice == 0) {
-                                        array_push($indice,1);
+                            $detalle = array();
+                            $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
+                            foreach ($model as $item) { 
+                                $ecoli = CodigoParametros::where('Id_codigo', $item->Id_codigo)->first();            
+                                    $coliformes = CodigoParametros::where('Id_solicitud', $ecoli->Id_solicitud)->where('Num_muestra', $ecoli->Num_muestra)->where('Id_parametro', 134)->first();                
+                                   array_push($detalle, $ecoli);
+                                    $detalleColiformes = LoteDetalleColiformes::where('Id_codigo', $coliformes->Id_codigo)->first();
+                                    if ($detalleColiformes != null) {
+                                        if ($detalleColiformes->Indice == 0) {
+                                            array_push($indice,1);
+                                        }else {
+                                            array_push($indice, $detalleColiformes->Indice);
+                                        } 
                                     }else {
-                                        array_push($indice, $values->Indice);
-                                    } 
-                                }else {
-                                    array_push($indice,1);
-                                }
-                            }
+                                        array_push($indice,1);
+                                    }
+                                
+                               
+                            } 
+                           
                             break;
                         default:
                             $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
@@ -625,7 +617,7 @@ class LabAnalisisController extends Controller
             'aux' => $aux,
             'model' => $model,
             'lote' => $lote,
-            'valores' => $valores
+            'detalle' => $detalle,
         );
         return response()->json($data);
     }
