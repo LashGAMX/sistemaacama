@@ -419,7 +419,7 @@
                                                     <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
                                                     <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
                                                     <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
-                                                    <p> </p>
+                                                    {{-- <p>4 PARÁMETRO NO ACREDITADO </p> --}}
                                                 @else
                                                     <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
                                                     <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>

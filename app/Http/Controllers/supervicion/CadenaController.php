@@ -184,6 +184,11 @@ class CadenaController extends Controller
                 
             break;
         default:
+            $model = LoteDetalleDirectos::where('Id_codigo',$res->idCodigo)->get();
+            foreach ($model as $item){
+            $item->Liberado = 0;
+            $item->save();
+        }
             
             break;
        }
