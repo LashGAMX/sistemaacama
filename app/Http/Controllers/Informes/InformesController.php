@@ -276,8 +276,12 @@ class InformesController extends Controller
 
                     case 78:
                     case 350:
-                        if ($item->Resultado2 > 0) {
-                            $limC = $item->Resultado;
+                        if ($item->Resultado2 > 0 ) {
+                            if ($item->Resultado2 > 8){
+                                $limC = '>' . 8;
+                            } else {
+                                $limC = $item->Resultado;
+                            }
                         } else {
                             // $limC = "<" . $item->Limite;
                             $limC = "NO DETECTABLE";
@@ -5375,7 +5379,11 @@ class InformesController extends Controller
                         $resTemp = "----";
                     } else {
                         if ($item->Resultado > 0) {
-                            $resTemp = $item->Resultado;
+                            if ($item->Resultado2 > 8){
+                                $resTemp = '>' . 8;
+                            } else {
+                                $resTemp = $item->Resultado;
+                            }
                         } else {
                             $resTemp = "" . $item->Limite;
                         }

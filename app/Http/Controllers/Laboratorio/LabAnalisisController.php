@@ -582,9 +582,8 @@ class LabAnalisisController extends Controller
                             $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
                             foreach ($model as $item) { 
                                 $ecoli = CodigoParametros::where('Id_codigo', $item->Id_codigo)->first();            
-                                    $coliformes = CodigoParametros::where('Id_solicitud', $ecoli->Id_solicitud)->where('Num_muestra', $ecoli->Num_muestra)->where('Id_parametro', 134)->first();                
-                                   array_push($detalle, $ecoli);
-                                    $detalleColiformes = LoteDetalleColiformes::where('Id_codigo', $coliformes->Id_codigo)->first();
+                                   // $coliformes = CodigoParametros::where('Id_solicitud', $ecoli->Id_solicitud)->where('Num_muestra', $ecoli->Num_muestra)->where('Id_parametro', 134)->first();                
+                                    $detalleColiformes = LoteDetalleColiformes::where('Id_parametro', 134)->where('Id_analisis', $item->Id_analisis)->first();
                                     if ($detalleColiformes != null) {
                                         if ($detalleColiformes->Indice == 0) {
                                             array_push($indice,1);
@@ -595,7 +594,6 @@ class LabAnalisisController extends Controller
                                         array_push($indice,1);
                                     }
                                 
-                               
                             } 
                            
                             break;
@@ -617,7 +615,6 @@ class LabAnalisisController extends Controller
             'aux' => $aux,
             'model' => $model,
             'lote' => $lote,
-            'detalle' => $detalle,
         );
         return response()->json($data);
     }
