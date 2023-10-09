@@ -9,12 +9,14 @@ use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleHH;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetallePotable;
 use App\Models\LoteDetalleSolidos;
@@ -149,6 +151,32 @@ class CadenaController extends Controller
                     $item->Liberado = 0;
                     $item->save();
                 }
+        case 6:
+            switch ($codigoParametro->Id_parametro) {
+                case 16: //Huevos
+                    $model = LoteDetalleHH::where('Id_codigo',$res->idCodigo)->get();
+                    foreach ($model as $item){
+                        $item->Liberado = 0;
+                        $item->save();
+                }
+                break;
+                case 5: // dbo
+                    $model = LoteDetalleDbo::where('Id_codigo',$res->idCodigo)->get();
+                    foreach ($model as $item){
+                        $item->Liberado = 0;
+                        $item->save();
+                }
+                break;
+                case 137:
+                    $model = LoteDetalleColiformes::where('Id_codigo',$res->idCodigo)->get();
+                    foreach ($model as $item){
+                        $item->Liberado = 0;
+                        $item->save();
+                    }
+                break;
+           
+            }
+            break;
         case 13:
                 $model = LoteDetalleGA::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 13)->get();
                 foreach ($model as $item){
@@ -156,6 +184,7 @@ class CadenaController extends Controller
                     $codigo->Liberado = 0;
                     $codigo->save();
                 }
+                break;
         case 14:
             switch($codigoParametro->Id_parametro){
                 case 10:
@@ -214,11 +243,24 @@ class CadenaController extends Controller
                 $metodo = 'simple';
         break;
         case 6:
-                $model = DB::table('lote_detalle_dbo')->where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 5)->get(); 
-                foreach($model as $item){
-                    $codigo = DB::table('lote_detalle_dbo')->where('Id_codigo', $item->Id_codigo)->delete();
-                }
-                $metodo = 'multiple';
+            switch ($codigoParametro->Id_parametro){
+                case 5:
+                    $model = DB::table('lote_detalle_dbo')->where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 5)->get(); 
+                    foreach($model as $item){
+                        $codigo = DB::table('lote_detalle_dbo')->where('Id_codigo', $item->Id_codigo)->delete();
+                    }
+                    $metodo = 'multiple';
+                    break;
+                case 16;
+                    $model = DB::table('lote_detalle_hh')->where('Id_codigo', $res->idCodigo)->delete();
+                    $metodo = 'simple';
+                    break;
+                case 137;
+                    $model = DB::table('lote_detalle_coliformes')->where('Id_codigo', $res->idCodigo)->delete();
+                    $metodo = 'simple';
+                break;
+            }
+                
             break; 
         case 16:
         case 5:

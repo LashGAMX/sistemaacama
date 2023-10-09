@@ -214,8 +214,9 @@ ON sub.Id_subnorma = sol.Id_subnorma;
 
 
 /* Lista Solicitud parametros */
-CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio,pa.Metodo_prueba,pa.Unidad,sol.Reporte 
-FROM solicitud_parametros as sol
+CREATE VIEW ViewSolicitudParametros as SELECT 
+sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,
+s.Folio_servicio,pa.Metodo_prueba,pa.Unidad,sol.Reporte FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
 ON sol.Id_subnorma = pa.Id_parametro
 INNER JOIN solicitudes as s
@@ -445,7 +446,8 @@ ON en.Id_unidad = uni.Id_unidad;
 /* Lista ViewEnvaseParametro */ 
 
 CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,lab.Reportes,lab.deleted_at as stdArea ,pa.Parametro,pa.Rama,pa.Tipo_formula,en.Nombre,
-en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,lab.Id_area FROM envase_parametro as env
+en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,lab.Id_area 
+FROM envase_parametro as env
 INNER JOIN areas_lab as lab
 ON env.Id_analisis = lab.Id_area
 INNER JOIN ViewParametros as pa
@@ -556,7 +558,7 @@ ON com.Id_complemento = cam.Id_complemento;
 CREATE VIEW ViewCampoPhCalidad as SELECT c.*,ph.Ph_calidad,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad  FROM campo_phcalidad as c
 INNER JOIN ph_calidad as ph
 ON c.Id_phCalidad = ph.Id_ph;
-
+ 
 CREATE VIEW ViewCampoPhTrazable as  SELECT c.*,ph.Ph,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad FROM campo_phtrazable as c
 INNER JOIN ph_trazable as ph
 ON c.Id_phTrazable = ph.Id_ph;
@@ -578,15 +580,21 @@ FROM ViewEnvaseParametro as env
 INNER JOIN ViewSolicitudParametros as pa
 ON env.Id_parametro = pa.Id_parametro;
 
-/* ViewEnvaseParametroCadena */
-
-CREATE VIEW ViewEnvaseParametroCadena as SELECT env.* FROM ViewEnvaseParametro as env 
-INNER JOIN solicitud_parametros as solPa
-ON env.Id_parametro = solPa.Id_parametro
-INNER JOIN parametros as pa
+/*ViewEnvasParametroCadena */
+CREATE VIEW ViewEnvaseParametroCadena as SELECT env.*,lab.Area,lab.Reportes,lab.deleted_at as stdArea ,pa.Parametro,pa.Rama,pa.Tipo_formula,en.Nombre,
+en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,lab.Id_area FROM envase_parametro as env
+INNER JOIN areas_lab as lab
+ON env.Id_analisis = lab.Id_area
+INNER JOIN ViewParametros as pa
 ON env.Id_parametro = pa.Id_parametro
-INNER JOIN solicitudes as s
-ON env.Id_analisis = s.Id_solicitud;
+INNER JOIN envase as en
+ON env.Id_envase = en.Id_envase
+INNER JOIN preservacion as pre
+ON env.Id_preservador = pre.Id_preservacion
+INNER JOIN unidades as uni
+ON en.Id_unidad = uni.Id_unidad
+INNER JOIN solicitud_parametros as solPa
+ON env.Id_parametro = solPa.Id_parametro;
 
 /* ViewParametroNorma */
 CREATE VIEW ViewParametroNorma as SELECT p.*, n.Norma,n.Clave_norma,pa.Id_laboratorio,pa.Sucursal,pa.Id_tipo_formula,pa.Tipo_formula,pa.Id_area,pa.Area_analisis,pa.Id_rama,pa.Rama,pa.Parametro,pa.Id_unidad,pa.Unidad,pa.Descripcion,
@@ -834,3 +842,12 @@ SELECT * FROM `codigo_parametro` where Codigo LIKE "%223-123/23%" AND Id_paramet
 UPDATE codigo_parametro SET Id_parametro = 137 where Codigo LIKE "%223-123/23%"  AND Id_parametro = 51;
 
 
+INSERT INTO `solicitud_parametros` (`Id_parametro`, `Id_solicitud`, `Id_subnorma`, `Extra`, `Asignado`, `Reporte`, `Id_user_c`, `Id_user_m`, `created_at`, `updated_at`, `deleted_at`)
+ VALUES 
+ 
+
+ (NULL, '4222', '83', '0', NULL, '0', NULL, NULL, '2023-09-29 08:38:52', '2023-09-29 08:38:52', NULL),
+ (NULL, '4223', '83', '0', NULL, '0', NULL, NULL, '2023-09-29 08:38:52', '2023-09-29 08:38:52', NULL),
+ (NULL, '4224', '83', '0', NULL, '0', NULL, NULL, '2023-09-29 08:38:52', '2023-09-29 08:38:52', NULL),
+ (NULL, '4225', '83', '0', NULL, '0', NULL, NULL, '2023-09-29 08:38:52', '2023-09-29 08:38:52', NULL),
+ (NULL, '4226', '83', '0', NULL, '0', NULL, NULL, '2023-09-29 08:38:52', '2023-09-29 08:38:52', NULL);

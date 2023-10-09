@@ -3405,28 +3405,28 @@
                   <td>Prueba presuntiva 24hrs / 48hrs</td>
                   <td>
                     <input type="text" id="pre1Col" value="0" style="width: 60px;">
-                    <input type="text" id="pre4Col" value="0" style="width: 60px;">
-                    <input type="text" id="pre7Col" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="pre2Col" value="0" style="width: 60px;">
-                    <input type="text" id="pre5Col" value="0" style="width: 60px;">
-                    <input type="text" id="pre8Col" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="pre3Col" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="pre4Col" value="0" style="width: 60px;">
+                    <input type="text" id="pre5Col" value="0" style="width: 60px;">
                     <input type="text" id="pre6Col" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="pre7Col" value="0" style="width: 60px;">
+                    <input type="text" id="pre8Col" value="0" style="width: 60px;">
                     <input type="text" id="pre9Col" value="0" style="width: 60px;">
                   </td>
                   <td>
                     <input type="text" id="pre10Col" value="0" style="width: 60px">
-                    <input type="text" id="pre13Col" value="0" style="width: 60px">
-                    <input type="text" id="pre16Col" value="0" style="width: 60px">
-                    <br>
                     <input type="text" id="pre11Col" value="0" style="width: 60px">
-                    <input type="text" id="pre14Col" value="0" style="width: 60px">
-                    <input type="text" id="pre17Col" value="0" style="width: 60px">
-                    <br>
                     <input type="text" id="pre12Col" value="0" style="width: 60px">
+                    <br>
+                    <input type="text" id="pre13Col" value="0" style="width: 60px">
+                    <input type="text" id="pre14Col" value="0" style="width: 60px">
                     <input type="text" id="pre15Col" value="0" style="width: 60px">
+                    <br>
+                    <input type="text" id="pre16Col" value="0" style="width: 60px">
+                    <input type="text" id="pre17Col" value="0" style="width: 60px">
                     <input type="text" id="pre18Col" value="0" style="width: 60px">
                   </td>
                   <td>V</td>
@@ -3436,15 +3436,15 @@
                   <td>Prueba confirmativa 24hrs </td>
                   <td>
                     <input type="text" id="con1Col" value="0" style="width: 60px;">
-                    <input type="text" id="con4Col" value="0" style="width: 60px;">
-                    <input type="text" id="con7Col" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="con2Col" value="0" style="width: 60px;">
-                    <input type="text" id="con5Col" value="0" style="width: 60px;">
-                    <input type="text" id="con8Col" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="con3Col" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="con4Col" value="0" style="width: 60px;">
+                    <input type="text" id="con5Col" value="0" style="width: 60px;">
                     <input type="text" id="con6Col" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="con7Col" value="0" style="width: 60px;">
+                    <input type="text" id="con8Col" value="0" style="width: 60px;">
                     <input type="text" id="con9Col" value="0" style="width: 60px;">
                   </td>
                   <td>
@@ -3558,29 +3558,29 @@
                   <td>
                     <center>24 Hrs</center> <br>
                     <input type="text" id="enPre1Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre4Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre7Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enPre2Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre5Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre8Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enPre3Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enPre4Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre5Ent" value="0" style="width: 60px;">
                     <input type="text" id="enPre6Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enPre7Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre8Ent" value="0" style="width: 60px;">
                     <input type="text" id="enPre9Ent" value="0" style="width: 60px;">
                   </td>
                   <td>
                     <center>48 Hrs</center> <br>
                     <input type="text" id="enPre12Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre42Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre72Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enPre22Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre52Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre82Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enPre32Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enPre42Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre52Ent" value="0" style="width: 60px;">
                     <input type="text" id="enPre62Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enPre72Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre82Ent" value="0" style="width: 60px;">
                     <input type="text" id="enPre92Ent" value="0" style="width: 60px;">
                   </td>
                   <td>V</td>
@@ -3591,29 +3591,29 @@
                   <td>
                     <center>24 Hrs</center><br>
                     <input type="text" id="enCon1Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon4Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon7Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enCon2Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon5Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon8Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enCon3Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enCon4Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon5Ent" value="0" style="width: 60px;">
                     <input type="text" id="enCon6Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enCon7Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon8Ent" value="0" style="width: 60px;">
                     <input type="text" id="enCon9Ent" value="0" style="width: 60px;">
                   </td>
                   <td>
                     <center>48 Hrs</center><br>
                     <input type="text" id="enCon12Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon42Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon72Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enCon22Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon52Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon82Ent" value="0" style="width: 60px;">
-                    <br>
                     <input type="text" id="enCon32Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enCon42Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon52Ent" value="0" style="width: 60px;">
                     <input type="text" id="enCon62Ent" value="0" style="width: 60px;">
+                    <br>
+                    <input type="text" id="enCon72Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon82Ent" value="0" style="width: 60px;">
                     <input type="text" id="enCon92Ent" value="0" style="width: 60px;">
                   </td>
                   <td>V</td>

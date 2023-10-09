@@ -771,7 +771,7 @@ class MbController extends Controller
             case 35: //Escheruchia coli/acreditado
             case 137:
                 # Coliformes
-                if ($loteModel->Id_control == 1) {
+                if ($loteModel->Id_control == 1 || $loteModel->Id_control == 11) {
                     if ($request->indicador == 1) {
                         //guarda datos del metodo corto
                         $metodoCorto = 1;
@@ -895,6 +895,7 @@ class MbController extends Controller
                         $model->save();
                     } 
                 }else{
+                    $resAux = 0;
                     $model = LoteDetalleColiformes::find($request->idDetalle);
                     $model->Tipo = 1;
                     $model->Dilucion1 = $request->D1;
@@ -933,10 +934,16 @@ class MbController extends Controller
                     $model->Presuntiva17 = $request->pre88;
                     $model->Presuntiva18 = $request->pre99;
 
-                    $model->Resultado = $request->resultadoCol;
+                    if ($request->con1 > 0) {
+                        $resAux = 3;
+                    }else{
+                        $resAux = 0;
+                    }
+
+                    $model->Resultado = $resAux;
                     $model->Analizo = Auth::user()->id;
                     $model->save();
-                    $res = $request->resultadoCol;
+                    $res = $resAux;
                     // $res = "Entro";
                 }
 
@@ -1126,7 +1133,7 @@ class MbController extends Controller
 
                 $model = LoteDetalleHH::find($request->idDetalle);
                 $model->A_alumbricoides = $request->lum1;
-                $model->H_nana = $request->lum1;
+                $model->H_nana = $request->na1;
                 $model->Taenia_sp = $request->sp1;
                 $model->T_trichiura = $request->tri1;
                 $model->Uncinarias = $request->uni1;

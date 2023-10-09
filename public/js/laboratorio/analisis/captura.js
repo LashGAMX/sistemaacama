@@ -1768,7 +1768,7 @@ function setDetalleMuestra() {
                             Presuntiva26: $("#enPre62Ent").val(),
                             Presuntiva27: $("#enPre72Ent").val(),
                             Presuntiva28: $("#enPre82Ent").val(),
-                            Presuntiva29: $("#enPre92Ent").val(),
+                            Presuntiva29: $("#enPre92Ent").val(), 
 
                             Confirmativa11: $("#enCon1Ent").val(),
                             Confirmativa12: $("#enCon2Ent").val(),
@@ -2531,7 +2531,7 @@ function getDetalleMuestra(id) {
                             $("#con8Col").val(response.model.Confirmativa8);
                             $("#con9Col").val(response.model.Confirmativa9);
                             $("#pre1Col").val(response.model.Presuntiva1);
-                            $("#pre2Col").val(response.model.Presuntiva2);
+                            $("#pre2Col").val(response.model.Presuntiva2); 
                             $("#pre3Col").val(response.model.Presuntiva3);
                             $("#pre4Col").val(response.model.Presuntiva4);
                             $("#pre5Col").val(response.model.Presuntiva5);
@@ -2541,30 +2541,56 @@ function getDetalleMuestra(id) {
                             $("#pre9Col").val(response.model.Presuntiva9);
 
                             $("#resultadoCol").val(response.model.Resultado);
-                            $("#observacionCol").val(response.model.Observacion);
+                            $("#observacionCol").val(response.model.Observacion); 
 
-                            if (response.model.Id_control != 1) {
-                                $("#dil2Col").attr('hidden',true)
-                                $("#dil3Col").attr('hidden',true)
-                                $("#pre4Col").attr('hidden',true)
-                                $("#pre7Col").attr('hidden',true)
-                                $("#pre5Col").attr('hidden',true)
-                                $("#pre8Col").attr('hidden',true)
-                                $("#pre6Col").attr('hidden',true)
-                                $("#pre9Col").attr('hidden',true)
-                                $("#pre13Col").attr('hidden',true)
-                                $("#pre16Col").attr('hidden',true)
-                                $("#pre14Col").attr('hidden',true)
-                                $("#pre17Col").attr('hidden',true)
-                                $("#pre15Col").attr('hidden',true)
-                                $("#pre18Col").attr('hidden',true)
+                            switch (parseFloat(response.model.Id_control)) {
+                                case 1:
+                                case 11:
+                                    $("#dil2Col").attr('hidden',false)
+                                    $("#dil3Col").attr('hidden',false)
+                                    $("#pre4Col").attr('hidden',false)
+                                    $("#pre7Col").attr('hidden',false)
+                                    $("#pre5Col").attr('hidden',false)
+                                    $("#pre8Col").attr('hidden',false)
+                                    $("#pre6Col").attr('hidden',false)
+                                    $("#pre9Col").attr('hidden',false)
+                                    $("#pre13Col").attr('hidden',false)
+                                    $("#pre16Col").attr('hidden',false)
+                                    $("#pre14Col").attr('hidden',false)
+                                    $("#pre17Col").attr('hidden',false)
+                                    $("#pre15Col").attr('hidden',false)
+                                    $("#pre18Col").attr('hidden',false)
 
-                                $("#con4Col").attr('hidden',true)
-                                $("#con7Col").attr('hidden',true)
-                                $("#con5Col").attr('hidden',true)
-                                $("#con8Col").attr('hidden',true)
-                                $("#con6Col").attr('hidden',true)
-                                $("#con9Col").attr('hidden',true)
+                                    $("#con4Col").attr('hidden',false)
+                                    $("#con7Col").attr('hidden',false)
+                                    $("#con5Col").attr('hidden',false)
+                                    $("#con8Col").attr('hidden',false)
+                                    $("#con6Col").attr('hidden',false)
+                                    $("#con9Col").attr('hidden',false)
+                                    break;
+                                default:
+                                    $("#dil2Col").attr('hidden',true)
+                                    $("#dil3Col").attr('hidden',true)
+                                    $("#pre4Col").attr('hidden',true)
+                                    $("#pre7Col").attr('hidden',true)
+                                    $("#pre5Col").attr('hidden',true)
+                                    $("#pre8Col").attr('hidden',true)
+                                    $("#pre6Col").attr('hidden',true)
+                                    $("#pre9Col").attr('hidden',true)
+                                    $("#pre13Col").attr('hidden',true)
+                                    $("#pre16Col").attr('hidden',true)
+                                    $("#pre14Col").attr('hidden',true)
+                                    $("#pre17Col").attr('hidden',true)
+                                    $("#pre15Col").attr('hidden',true)
+                                    $("#pre18Col").attr('hidden',true)
+
+                                    $("#con4Col").attr('hidden',true)
+                                    $("#con7Col").attr('hidden',true)
+                                    $("#con5Col").attr('hidden',true)
+                                    $("#con8Col").attr('hidden',true)
+                                    $("#con6Col").attr('hidden',true)
+                                    $("#con9Col").attr('hidden',true)
+                                    break;
                             }
                             break;
                         case 135: //Coliformes alimentos
@@ -2585,6 +2611,7 @@ function getDetalleMuestra(id) {
                             $("#entodos1Ent").val(response.model.Muestra_tubos);
                             $("#ennegativos1Ent").val(response.model.Tubos_negativos);
                             $("#enpositivo1Ent").val(response.model.Tubos_positivos);
+
                             $("#enCon1Ent").val(response.model.Confirmativa1);
                             $("#enCon2Ent").val(response.model.Confirmativa2);
                             $("#enCon3Ent").val(response.model.Confirmativa3);
@@ -2594,6 +2621,17 @@ function getDetalleMuestra(id) {
                             $("#enCon7Ent").val(response.model.Confirmativa7);
                             $("#enCon8Ent").val(response.model.Confirmativa8);
                             $("#enCon9Ent").val(response.model.Confirmativa9);
+
+                            $("#enCon12Ent").val(response.model.Confirmativa12);
+                            $("#enCon22Ent").val(response.model.Confirmativa22);
+                            $("#enCon32Ent").val(response.model.Confirmativa32);
+                            $("#enCon42Ent").val(response.model.Confirmativa42);
+                            $("#enCon52Ent").val(response.model.Confirmativa52);
+                            $("#enCon62Ent").val(response.model.Confirmativa62);
+                            $("#enCon72Ent").val(response.model.Confirmativa72);
+                            $("#enCon82Ent").val(response.model.Confirmativa82);
+                            $("#enCon92Ent").val(response.model.Confirmativa92);
+
                             $("#enPre1Ent").val(response.model.Presuntiva1);
                             $("#enPre2Ent").val(response.model.Presuntiva2);
                             $("#enPre3Ent").val(response.model.Presuntiva3);
@@ -2603,6 +2641,16 @@ function getDetalleMuestra(id) {
                             $("#enPre7Ent").val(response.model.Presuntiva7);
                             $("#enPre8Ent").val(response.model.Presuntiva8);
                             $("#enPre9Ent").val(response.model.Presuntiva9);
+
+                            $("#enPre12Ent").val(response.model.Presuntiva12);
+                            $("#enPre22Ent").val(response.model.Presuntiva22);
+                            $("#enPre32Ent").val(response.model.Presuntiva32);
+                            $("#enPre42Ent").val(response.model.Presuntiva42);
+                            $("#enPre52Ent").val(response.model.Presuntiva52);
+                            $("#enPre62Ent").val(response.model.Presuntiva62);
+                            $("#enPre72Ent").val(response.model.Presuntiva72);
+                            $("#enPre82Ent").val(response.model.Presuntiva82);
+                            $("#enPre92Ent").val(response.model.Presuntiva92);
 
                             $("#resultadoEnt").val(response.model.Resultado);
                             $("#observacionEnt").val(response.model.Observacion);

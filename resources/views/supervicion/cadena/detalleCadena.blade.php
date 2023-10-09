@@ -92,15 +92,19 @@
                            </div>
                         </div>
                         <div class="col-md-3">
-                            <button id="btnLiberar" class="btn-success"><i class="fas fa-square-root-alt"></i></button>
+                            <button id="btnLiberar" class="btn-success"><i class="fas fa-square-root-alt" data-toggle="tooltip" data-placement="top" title="Liberar"></i></button>
                             @switch(Auth::user()->role->id)
                             @case(1)
-                                <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()"><i class="voyager-double-left"></i></button>
-                                <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()"><i class="voyager-check"></i></button>
-                                <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()"><i class="voyager-x"></i></button>
+                                <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip" data-placement="top" title="Regresar Resultado"><i class="voyager-double-left"></i></button>
+                                <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()" data-toggle="tooltip" data-placement="top" title="Cuadro de asignación"><i class="voyager-check"></i></button>
+                                <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
                                 @break
                             @default
-                            
+                            @if (Auth::user()->id == 14)
+                                <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip" data-placement="top" title="Regresar Resultado"><i class="voyager-double-left"></i></button>
+                                <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()" data-toggle="tooltip" data-placement="top" title="Cuadro de asignación"><i class="voyager-check"></i></button>
+                                <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
+                            @endif                           
                             @endswitch
                             <div id="divTabDescripcion">
                                 <table id="tableResultado" class="display compact cell-border" style="width:100%">

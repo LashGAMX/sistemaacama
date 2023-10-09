@@ -205,14 +205,24 @@
                         @endphp
                         @break
                     @default
-                        <td class="contenidoBody bordesTabla" rowspan="3">
-                            {{@$data[$i]->Codigo}}    
-                        </td>
+                        @php
+                             $aux = 3;
+                        @endphp
+                        @if ($data[$i]->Id_control == 11)
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                {{@$data[$i]->Codigo}}    
+                                {{@$data[$i]->Control}}       
+                            </td>    
+                        @else
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                {{@$data[$i]->Codigo}}    
+                            </td>
+                        @endif
                     @endswitch
                     
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Dilucion1}}
+                        {{@$data[$i]->Dilucion1}} 
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -226,10 +236,7 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva3}}
                     </td>
-                    {{-- <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva10}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva11}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva12}}</td> --}}
-
+              
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva1}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva2}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva3}}</td>
@@ -357,9 +364,6 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva6}}
                     </td>
-                    {{-- <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva13}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva14}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva15}}</td> --}}
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva4}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva5}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva6}}</td>
@@ -401,9 +405,7 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva9}}
                     </td>
-                    {{-- <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva16}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva17}}</td>
-                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva18}}</td> --}}
+                    
 
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva7}}</td>
                     <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva8}}</td>
