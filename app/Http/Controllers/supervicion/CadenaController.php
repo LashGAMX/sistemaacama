@@ -14,6 +14,7 @@ use App\Models\LoteDetalleDbo;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
+use App\Models\LoteDetalleEcoli;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleHH;
@@ -144,6 +145,11 @@ class CadenaController extends Controller
                  $model->Liberado = 0;
                  $model->save();
             break;
+        case 8:
+                $model = LoteDetalleDureza::where('Id_codigo',$res->idCodigo)->first();
+                $model->Liberado = 0;
+                $model->save();
+           break;
         case 16:
         case 5:
                 $model = LoteDetalleEspectro::where('Id_codigo',$res->idCodigo)->get();
@@ -161,11 +167,12 @@ class CadenaController extends Controller
                 }
                 break;
                 case 5: // dbo
-                    $model = LoteDetalleDbo::where('Id_codigo',$res->idCodigo)->get();
+                    $model = LoteDetalleDbo::where('Id_analisis',$codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                     foreach ($model as $item){
-                        $item->Liberado = 0;
-                        $item->save();
-                }
+                        $codigo = LoteDetalleDbo::where('Id_codigo', $item->Id_codigo)->firts();
+                        $codigo->Liberado = 0;
+                        $codigo->save();
+                    }
                 break;
                 case 137:
                     $model = LoteDetalleColiformes::where('Id_codigo',$res->idCodigo)->get();
@@ -174,11 +181,20 @@ class CadenaController extends Controller
                         $item->save();
                     }
                 break;
+                case 35: //ecoli mb
+                    $model = LoteDetalleColiformes::where('Id_analisis',$codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                    foreach ($model as $item){
+                        $codigo = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
+                        $codigo->Liberado = 0;
+                        $codigo->save();
+                    }
+                break;
+           
            
             }
             break;
-        case 13:
-                $model = LoteDetalleGA::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 13)->get();
+        case 13: //grasas
+                $model = LoteDetalleGA::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                 foreach ($model as $item){
                     $codigo = LoteDetalleGA::where('Id_codigo',$item->Id_codigo)->first();
                     $codigo->Liberado = 0;
@@ -267,7 +283,10 @@ class CadenaController extends Controller
             $model = DB::table('lote_detalle_espectro')->where('Id_codigo', $res->idCodigo)->delete();
             $metodo = 'simple';
             break;
-
+        case 8:
+                $model = DB::table('lote_detalle_dureza')->where('Id_codigo', $res->idCodigo)->delete();
+                $metodo = 'simple';
+           break;
         default:
             
             break;

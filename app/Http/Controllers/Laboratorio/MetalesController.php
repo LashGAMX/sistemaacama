@@ -1135,11 +1135,21 @@ class MetalesController extends Controller
                 }
                 break;
             case 2:
+                $codigo2 = DB::table('ViewCodigoParametro')->where('Id_area', 2) 
+                ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
+               // ->where('Id_tipo_formula',$res->tipo)
+                //->where('Id_tecnica',$res->tecnia)
+                ->where('Id_norma',$res->norma)
+                ->get();
                 $codigo = DB::table('ViewCodigoParametro')
                 ->where(function($query) {
-                    $query->where('Id_area',2);
+                    $query->where('Id_area',2); 
                         //   ->orWhere('Id_area',17);
                 })
+                ->when($res->fechaRecepcion != '', function($query) use ($res) {
+                    $query->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%');
+                })
+               
                 ->when($res->tipo != 0, function($query) use ($res) {
                     $query->where('Id_tipo_formula',$res->tipo);
                     if ($res->tipo == 22) {
@@ -1154,9 +1164,7 @@ class MetalesController extends Controller
                 ->when($res->norma != 0, function($query) use ($res) {
                     $query->where('Id_norma',$res->norma);
                 })
-                ->when($res->fechaRecepcion != '', function($query) use ($res) {
-                    $query->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%');
-                })
+                
                 ->where('Asignado',0)
                 ->get();
                 foreach ($codigo as $item) {
@@ -1193,6 +1201,8 @@ class MetalesController extends Controller
         $data = array(
             'codigo' => $codigo,
             'model' => $model,
+            'codigo2' => $codigo2,
+            
         );
         return response()->json($data);
     }

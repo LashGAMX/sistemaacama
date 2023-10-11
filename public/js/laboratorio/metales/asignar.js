@@ -1,7 +1,7 @@
 
 //Múltiple selección
 $(document).ready(function() {
-    getMuestras(1)
+   // getMuestras(1)
     $('#btnBuscar').click(function () {
         getMuestras(2)
     });

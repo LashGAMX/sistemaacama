@@ -55,19 +55,15 @@
                             <table id="tablePuntos" class="display compact cell-border " style="width:100%">
                                 <thead>
                                     <tr>
-                                     <th>Id</th>
-                                     <th>Punto muestreo</th>
+                                        <th>Id</th>
+                                        <th>Punto muestreo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($puntos as $item)
                                         <tr>
                                             <td>{{$item->Id_solicitud}}</td>
-                                            @if ($swSir == true)
-                                                <td>{{$item->Punto}}</td>
-                                            @else
-                                                <td>{{$item->Punto_muestreo}}</td>
-                                            @endif
+                                            <td>{{$item->Punto}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody> 

@@ -1406,6 +1406,7 @@ class CampoController extends Controller
         $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
         $numOrden = Solicitud::where('Hijo',$model->Hijo)->first();
+        $folioPadre = Solicitud::where('Id_solicitud',$model->Hijo)->first();
 
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
@@ -1460,6 +1461,7 @@ class CampoController extends Controller
             'modelCompuesto' => $modelCompuesto,
             'areaModel' => $areaModel,
             'numOrden' => $numOrden,
+            'folioPadre' => $folioPadre,
             'punto' => $punto,
             'puntoMuestreo' => $puntoMuestreo,
             'phMuestra' => $phMuestra,

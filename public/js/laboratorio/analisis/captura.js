@@ -1975,7 +1975,7 @@ function setDetalleMuestra() {
                 data: {
                     idLote: idLote,
                     idMuestra: idMuestra,
-                    aparente: $("#resDirectoDef").val(),
+                    resultado: $("#resDirectoDef").val(),
                     _token: $('input[name="_token"]').val()
                 },
                 dataType: "json",
@@ -2514,6 +2514,28 @@ function getDetalleMuestra(id) {
                         case 35:
                         case 51: // Coliformes totales
                         case 137: 
+                        $("#con10Col").attr('hidden',true)
+                        $("#con11Col").attr('hidden',true)
+                        $("#con12Col").attr('hidden',true)
+                        $("#con13Col").attr('hidden',true)
+                        $("#con14Col").attr('hidden',true)
+                        $("#con15Col").attr('hidden',true)
+                        $("#con16Col").attr('hidden',true)
+                        $("#con17Col").attr('hidden',true)
+                        $("#con18Col").attr('hidden',true)
+
+                        if (parseInt(response.model.Id_parametro == 35)) {
+                            $("#con10Col").attr('hidden',false)
+                            $("#con11Col").attr('hidden',false)
+                            $("#con12Col").attr('hidden',false)
+                            $("#con13Col").attr('hidden',false)
+                            $("#con14Col").attr('hidden',false)
+                            $("#con15Col").attr('hidden',false)
+                            $("#con16Col").attr('hidden',false)
+                            $("#con17Col").attr('hidden',false)
+                            $("#con18Col").attr('hidden',false)  
+                        } 
+
                             $("#dil1Col").val(response.model.Dilucion1);
                             $("#dil2Col").val(response.model.Dilucion2);
                             $("#dil3Col").val(response.model.Dilucion3);
@@ -2521,6 +2543,7 @@ function getDetalleMuestra(id) {
                             $("#todos1Col").val(response.model.Muestra_tubos);
                             $("#negativos1Col").val(response.model.Tubos_negativos);
                             $("#positivo1Col").val(response.model.Tubos_positivos);
+
                             $("#con1Col").val(response.model.Confirmativa1);
                             $("#con2Col").val(response.model.Confirmativa2);
                             $("#con3Col").val(response.model.Confirmativa3);
@@ -2530,6 +2553,17 @@ function getDetalleMuestra(id) {
                             $("#con7Col").val(response.model.Confirmativa7);
                             $("#con8Col").val(response.model.Confirmativa8);
                             $("#con9Col").val(response.model.Confirmativa9);
+
+                            $("#con10Col").val(response.model.Confirmativa10);
+                            $("#con11Col").val(response.model.Confirmativa11);
+                            $("#con12Col").val(response.model.Confirmativa12);
+                            $("#con13Col").val(response.model.Confirmativa13);
+                            $("#con14Col").val(response.model.Confirmativa14);
+                            $("#con15Col").val(response.model.Confirmativa15);
+                            $("#con16Col").val(response.model.Confirmativa16);
+                            $("#con17Col").val(response.model.Confirmativa17);
+                            $("#con18Col").val(response.model.Confirmativa18);
+
                             $("#pre1Col").val(response.model.Presuntiva1);
                             $("#pre2Col").val(response.model.Presuntiva2); 
                             $("#pre3Col").val(response.model.Presuntiva3);
@@ -2714,19 +2748,19 @@ function getDetalleMuestra(id) {
                             break;
                         case 78:
 
-                        $("#indol1Ecoli").val()
-                        $("#rm1Ecoli").val()
-                        $("#vp1Ecoli").val()
-                        $("#citrato1Ecoli").val()
-                        $("#bgn1Ecoli").val()
-                        $("#indol2Ecoli").val()
-                        $("#rm2Ecoli").val()
-                        $("#vp2Ecoli").val()
-                        $("#citrato2Ecoli").val()
-                        $("#bgn2Ecoli").val()
-                        $("#observacionEcoli").val()
-                        $("#indiceEcoli").val()
-                        $("#resultadoEcoli").val()
+                            $("#indol1Ecoli").val()
+                            $("#rm1Ecoli").val()
+                            $("#vp1Ecoli").val()
+                            $("#citrato1Ecoli").val()
+                            $("#bgn1Ecoli").val()
+                            $("#indol2Ecoli").val()
+                            $("#rm2Ecoli").val()
+                            $("#vp2Ecoli").val()
+                            $("#citrato2Ecoli").val()
+                            $("#bgn2Ecoli").val()
+                            $("#observacionEcoli").val()
+                            $("#indiceEcoli").val()
+                            $("#resultadoEcoli").val()
 
                             $("#indol1Ecoli").val(response.convinaciones.Indol)
                             $("#rm1Ecoli").val(response.convinaciones.Rm)

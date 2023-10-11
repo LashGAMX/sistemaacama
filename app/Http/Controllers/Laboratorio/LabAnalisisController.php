@@ -1286,7 +1286,6 @@ class LabAnalisisController extends Controller
                         $model->Analizo = Auth::user()->id;
                         $model->save();
                     }
-
                     break;
                 case 15: // Solidos
                     switch ($lote[0]->Id_tecnica) {
@@ -1613,7 +1612,7 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleDirectos::find($res->idMuestra);
                             $model->Resultado = $res->resultado;
                             $model->save();
-                            break;
+                            break; 
                     }
                     break;
                 default:
@@ -2953,6 +2952,7 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 103: // Dureza potable
+                        
                         // $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', $data);
                         $htmlHeader = view('exports.laboratorio.potable.durezaTotal.127.bitacoraHeader', $data);
                         $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.127.bitacoraBody', $data);
@@ -4016,7 +4016,24 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 103:
-
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => 'P',
+                            'format' => 'letter',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 40,
+                            'margin_bottom' => 45,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/MembreteVertical.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        );
+                        $mpdf->showWatermarkImage = true;
+                        $mpdf->CSSselectMedia = 'mpdf';
                         $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $id)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
                         if ($plantilla->count()) {

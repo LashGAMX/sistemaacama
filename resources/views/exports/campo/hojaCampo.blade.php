@@ -35,7 +35,7 @@
                         <td class="bordesTabla">NUM. DE MUESTRA</td>
                         <td class="negrita bordesTablaSupInfDer">{{@$model->Folio_servicio}}</td>
                         <td class="bordesTablaSupInfDer">No DE ORDEN</td>
-                        <td class="bordesTablaSupInfDer justifyCenter negrita">{{@$numOrden->Folio_servicio}}</td>
+                        <td class="bordesTablaSupInfDer justifyCenter negrita">{{@$folioPadre->Folio_servicio}}</td>
                         <td class="bordesTablaSupInfDer">FECHA DE MUESTREO</td>
                         <td class="bordesTablaSupInfDer justifyCenter negrita">{{\Carbon\Carbon::parse(@$model->Fecha_muestreo)->format('d/m/Y')}}</td>
                     </tr>

@@ -3448,6 +3448,17 @@
                     <input type="text" id="con9Col" value="0" style="width: 60px;">
                   </td>
                   <td>
+                    <input type="text" id="con10Col" value="0" style="width: 60px">
+                    <input type="text" id="con11Col" value="0" style="width: 60px">
+                    <input type="text" id="con12Col" value="0" style="width: 60px">
+                    <br> 
+                    <input type="text" id="con13Col" value="0" style="width: 60px">
+                    <input type="text" id="con14Col" value="0" style="width: 60px">
+                    <input type="text" id="con15Col" value="0" style="width: 60px">
+                    <br>
+                    <input type="text" id="con16Col" value="0" style="width: 60px">
+                    <input type="text" id="con17Col" value="0" style="width: 60px">
+                    <input type="text" id="con18Col" value="0" style="width: 60px">
                   </td>
                   <td>V</td>
                 </tr>
@@ -4019,7 +4030,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.17"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.18"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

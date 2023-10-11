@@ -122,26 +122,26 @@
 
                 @foreach ($loteDetalle as $item)
                 <tr>
-                    <td rowspan="3" style="border: 1px solid black" >{{$item->Codigo}}</td>
-                    <td style="border: 1px solid black" >{{$item->Dilucion1}}</td>
-                    <td style="border: 1px solid black" >{{$item->Presuntiva1}}</td>
-                    <td style="border: 1px solid black" >{{$item->Presuntiva4}}</td>
-                    <td style="border: 1px solid black" >{{$item->Presuntiva7}}</td>
+                    <td class="tableContent " rowspan="3" style="border: 1px solid black" >{{$item->Codigo}}</td>
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Dilucion1}}</td>
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Presuntiva1}}</td>
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Presuntiva4}}</td>
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Presuntiva7}}</td>
 
-                    <td style="border: 1px solid black" >{{$item->Presuntiva10}}</td>
-                    <td style="border: 1px solid black" >{{$item->Presuntiva13}}</td>
-                    <td style="border: 1px solid black" >{{$item->Presuntiva16}}</td>
-                    <td style="border: 1px solid black">
-                        {{($item->Presuntiva1 + $item->Presuntiva4 + $item->Presuntiva7)}}
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Presuntiva10}}</td>
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Presuntiva13}}</td>
+                    <td class="tableContent " style="border: 1px solid black" >{{$item->Presuntiva16}}</td>
+                    <td class="tableContent " style="border: 1px solid black">
+                        {{($item->Presuntiva10 + $item->Presuntiva13 + $item->Presuntiva16)}}
                     </td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa1}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa4}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa7}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa1}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa4}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa7}}</td>
 
-                    <td style="border: 1px solid black">{{$item->Confirmativa1}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa4}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa7}}</td>
-                    <td style="border: 1px solid black">{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa7)}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa1}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa4}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa7}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa7)}}</td>
                     @switch($item->Tipo)
                     @case(1)
                     <td style="border: 1px solid black" class="contenidoBody bordesTabla" rowspan="3">
@@ -200,46 +200,46 @@
                 </tr>
                 <tr>
 
-                    <td style="border: 1px solid black">{{$item->Dilucion2}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva2}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva5}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva8}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Dilucion2}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva2}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva5}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva8}}</td>
 
-                    <td style="border: 1px solid black">{{$item->Presuntiva11}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva14}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva17}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva11}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva14}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva17}}</td>
 
-                    <td style="border: 1px solid black">{{($item->Presuntiva2 + $item->Presuntiva5 + $item->Presuntiva8)}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa2}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa5}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa8}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{($item->Presuntiva11 + $item->Presuntiva14 + $item->Presuntiva17)}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa2}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa5}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa8}}</td>
 
-                    <td style="border: 1px solid black">{{$item->Confirmativa2}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa5}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa8}}</td>
-                    <td style="border: 1px solid black">{{($item->Confirmativa2 + $item->Confirmativa5 + $item->Confirmativa8)}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa2}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa5}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa8}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{($item->Confirmativa2 + $item->Confirmativa5 + $item->Confirmativa8)}}</td>
 
                 </tr>
                 <tr>
 
-                    <td style="border: 1px solid black">{{$item->Dilucion3}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva3}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva6}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva9}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Dilucion3}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva3}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva6}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva9}}</td>
 
-                    <td style="border: 1px solid black">{{$item->Presuntiva12}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva15}}</td>
-                    <td style="border: 1px solid black">{{$item->Presuntiva18}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva12}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva15}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Presuntiva18}}</td>
 
-                    <td style="border: 1px solid black">{{($item->Presuntiva3 + $item->Presuntiva6 + $item->Presuntiva9)}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa3}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa6}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa9}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{($item->Presuntiva12 + $item->Presuntiva15 + $item->Presuntiva18)}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa3}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa6}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa9}}</td>
 
-                    <td style="border: 1px solid black">{{$item->Confirmativa3}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa6}}</td>
-                    <td style="border: 1px solid black">{{$item->Confirmativa9}}</td>
-                    <td style="border: 1px solid black">{{($item->Confirmativa3 + $item->Confirmativa6 + $item->Confirmativa9)}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa3}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa6}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{$item->Confirmativa9}}</td>
+                    <td class="tableContent " style="border: 1px solid black">{{($item->Confirmativa3 + $item->Confirmativa6 + $item->Confirmativa9)}}</td>
 
                 </tr>
                 @endforeach

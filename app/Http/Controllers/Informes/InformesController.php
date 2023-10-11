@@ -258,9 +258,13 @@ class InformesController extends Controller
                     case 26:
                         $limC = number_format(@$item->Resultado2, 2, ".", "");
                         break;
-                    // case 67:
-                    //     $limC = number_format(@$item->Resultado2, 0, ".", "");
-                    //     break;
+                    case 16:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+                         $limC = number_format(@$item->Resultado2, 0, ".", "");
+                        }
+                         break;
                     case 34:
                     case 84:
                     case 86:
