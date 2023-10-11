@@ -5,7 +5,9 @@
         $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
         $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
     @endphp
-    <img style="width: 8%; height: 8%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
+    <img style="width: 8%; height: 8%;float: right;" src="{{@$qr_code}}" alt="qrcode" /> 
+    <br> <span class="fontSize9 fontBold"> {{$solModel1->Folio_servicio}}</span>
+    <br> <span class="fontSize9 fontBold"> {{$solModel2->Folio_servicio}}</span>
     <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>            
