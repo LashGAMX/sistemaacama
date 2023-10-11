@@ -336,6 +336,17 @@ function metodoCortoCol() {
             $("#con7Col").val(0)
             $("#con8Col").val(0)
             $("#con9Col").val(0)
+
+            $("#pre10Col").val(0)
+            $("#pre11Col").val(0)
+            $("#pre12Col").val(0)
+            $("#pre13Col").val(0)
+            $("#pre14Col").val(0)
+            $("#pre15Col").val(0)
+            $("#pre16Col").val(0)
+            $("#pre17Col").val(0)
+            $("#pre19Col").val(0)
+
             $("#pre1Col").val(0)
             $("#pre2Col").val(0)
             $("#pre3Col").val(0)
@@ -345,6 +356,16 @@ function metodoCortoCol() {
             $("#pre7Col").val(0)
             $("#pre8Col").val(0)
             $("#pre9Col").val(0)
+
+            $("#con10Col").val(0)
+            $("#con11Col").val(0)
+            $("#con12Col").val(0)
+            $("#con13Col").val(0)
+            $("#con14Col").val(0)
+            $("#con15Col").val(0)
+            $("#con16Col").val(0)
+            $("#con17Col").val(0)
+            $("#con18Col").val(0)
 
 
             let positivos = response.positivos;
@@ -374,7 +395,39 @@ function metodoCortoCol() {
 
                 console.log(cont2);
                 cont2++;
+            }
+            for (var k = 0; k < 3; k++) {
+                if ((k+1) <= parseInt(response.convinacion.Col3)) {
+                    $('#con' + cont3 + 'Col').val(1);
+                } else {
+                    $('#con' + cont3 + 'Col').val(0);
+                }
+                console.log(cont3);
+                cont3++;
+            }
 
+            cont1 = 10;
+            cont2 = 13;
+            cont3 = 16;
+
+            for (var i = 0; i < 3; i++) {
+                if ((i+1) <= parseInt(response.convinacion.Col1)) {
+                    $('#con' + cont1 + 'Col').val(1);
+                } else {
+                    $('#con' + cont1 + 'Col').val(0);
+                }
+                console.log("# c1: "+cont1);
+                cont1++;
+            }
+            for (var j = 0; j < 3; j++) {
+                if ((j+1) <= parseInt(response.convinacion.Col2)) {
+                    $('#con' + cont2 + 'Col').val(1);
+                } else {
+                    $('#con' + cont2 + 'Col').val(0);
+                }
+
+                console.log(cont2);
+                cont2++;
             }
             for (var k = 0; k < 3; k++) {
                 if ((k+1) <= parseInt(response.convinacion.Col3)) {
@@ -1619,6 +1672,16 @@ function setDetalleMuestra() {
                             con8: $("#con8Col").val(),
                             con9: $("#con9Col").val(),
 
+                            con10: $("#con10Col").val(),
+                            con11: $("#con11Col").val(),
+                            con12: $("#con12Col").val(),
+                            con13: $("#con13Col").val(),
+                            con14: $("#con14Col").val(),
+                            con15: $("#con15Col").val(),
+                            con16: $("#con16Col").val(),
+                            con17: $("#con17Col").val(),
+                            con18: $("#con18Col").val(),
+
                             pre1: $("#pre1Col").val(),
                             pre2: $("#pre2Col").val(),
                             pre3: $("#pre3Col").val(),
@@ -2524,7 +2587,7 @@ function getDetalleMuestra(id) {
                         $("#con17Col").attr('hidden',true)
                         $("#con18Col").attr('hidden',true)
 
-                        if (parseInt(response.model.Id_parametro == 35)) {
+                        if (parseInt(response.model.Id_parametro) == 35) {
                             $("#con10Col").attr('hidden',false)
                             $("#con11Col").attr('hidden',false)
                             $("#con12Col").attr('hidden',false)
@@ -2534,15 +2597,37 @@ function getDetalleMuestra(id) {
                             $("#con16Col").attr('hidden',false)
                             $("#con17Col").attr('hidden',false)
                             $("#con18Col").attr('hidden',false)  
-                        } 
+ 
+                            $("#con10Col").val(response.model.Confirmativa1);
+                            $("#con11Col").val(response.model.Confirmativa2);
+                            $("#con12Col").val(response.model.Confirmativa3);
+                            $("#con13Col").val(response.model.Confirmativa4);
+                            $("#con14Col").val(response.model.Confirmativa5);
+                            $("#con15Col").val(response.model.Confirmativa6);
+                            $("#con16Col").val(response.model.Confirmativa7);
+                            $("#con17Col").val(response.model.Confirmativa8);
+                            $("#con18Col").val(response.model.Confirmativa9);
 
-                            $("#dil1Col").val(response.model.Dilucion1);
-                            $("#dil2Col").val(response.model.Dilucion2);
-                            $("#dil3Col").val(response.model.Dilucion3);
-                            $("#nmp1Col").val(response.model.Indice);
-                            $("#todos1Col").val(response.model.Muestra_tubos);
-                            $("#negativos1Col").val(response.model.Tubos_negativos);
-                            $("#positivo1Col").val(response.model.Tubos_positivos);
+                            $("#con1Col").val(response.model.Confirmativa10);
+                            $("#con2Col").val(response.model.Confirmativa11);
+                            $("#con3Col").val(response.model.Confirmativa12);
+                            $("#con4Col").val(response.model.Confirmativa13);
+                            $("#con5Col").val(response.model.Confirmativa14);
+                            $("#con6Col").val(response.model.Confirmativa15);
+                            $("#con7Col").val(response.model.Confirmativa16);
+                            $("#con8Col").val(response.model.Confirmativa17);
+                            $("#con9Col").val(response.model.Confirmativa18);
+
+                        } else{
+                            $("#con10Col").val(response.model.Confirmativa10);
+                            $("#con11Col").val(response.model.Confirmativa11);
+                            $("#con12Col").val(response.model.Confirmativa12);
+                            $("#con13Col").val(response.model.Confirmativa13);
+                            $("#con14Col").val(response.model.Confirmativa14);
+                            $("#con15Col").val(response.model.Confirmativa15);
+                            $("#con16Col").val(response.model.Confirmativa16);
+                            $("#con17Col").val(response.model.Confirmativa17);
+                            $("#con18Col").val(response.model.Confirmativa18);
 
                             $("#con1Col").val(response.model.Confirmativa1);
                             $("#con2Col").val(response.model.Confirmativa2);
@@ -2554,16 +2639,17 @@ function getDetalleMuestra(id) {
                             $("#con8Col").val(response.model.Confirmativa8);
                             $("#con9Col").val(response.model.Confirmativa9);
 
-                            $("#con10Col").val(response.model.Confirmativa10);
-                            $("#con11Col").val(response.model.Confirmativa11);
-                            $("#con12Col").val(response.model.Confirmativa12);
-                            $("#con13Col").val(response.model.Confirmativa13);
-                            $("#con14Col").val(response.model.Confirmativa14);
-                            $("#con15Col").val(response.model.Confirmativa15);
-                            $("#con16Col").val(response.model.Confirmativa16);
-                            $("#con17Col").val(response.model.Confirmativa17);
-                            $("#con18Col").val(response.model.Confirmativa18);
+                        }
 
+                            $("#dil1Col").val(response.model.Dilucion1);
+                            $("#dil2Col").val(response.model.Dilucion2);
+                            $("#dil3Col").val(response.model.Dilucion3);
+                            $("#nmp1Col").val(response.model.Indice);
+                            $("#todos1Col").val(response.model.Muestra_tubos);
+                            $("#negativos1Col").val(response.model.Tubos_negativos);
+                            $("#positivo1Col").val(response.model.Tubos_positivos);
+
+                     
                             $("#pre1Col").val(response.model.Presuntiva1);
                             $("#pre2Col").val(response.model.Presuntiva2); 
                             $("#pre3Col").val(response.model.Presuntiva3);
@@ -2601,6 +2687,13 @@ function getDetalleMuestra(id) {
                                     $("#con8Col").attr('hidden',false)
                                     $("#con6Col").attr('hidden',false)
                                     $("#con9Col").attr('hidden',false)
+
+                                    $("#con13Col").attr('hidden',false)
+                                    $("#con14Col").attr('hidden',false)
+                                    $("#con15Col").attr('hidden',false)
+                                    $("#con16Col").attr('hidden',false)
+                                    $("#con17Col").attr('hidden',false)
+                                    $("#con18Col").attr('hidden',false)
                                     break;
                                 default:
                                     $("#dil2Col").attr('hidden',true)
@@ -2624,6 +2717,13 @@ function getDetalleMuestra(id) {
                                     $("#con8Col").attr('hidden',true)
                                     $("#con6Col").attr('hidden',true)
                                     $("#con9Col").attr('hidden',true)
+
+                                    $("#con13Col").attr('hidden',true)
+                                    $("#con14Col").attr('hidden',true)
+                                    $("#con15Col").attr('hidden',true)
+                                    $("#con16Col").attr('hidden',true)
+                                    $("#con17Col").attr('hidden',true)
+                                    $("#con18Col").attr('hidden',true)
                                     break;
                             }
                             break;
@@ -2646,48 +2746,120 @@ function getDetalleMuestra(id) {
                             $("#ennegativos1Ent").val(response.model.Tubos_negativos);
                             $("#enpositivo1Ent").val(response.model.Tubos_positivos);
 
-                            $("#enCon1Ent").val(response.model.Confirmativa1);
-                            $("#enCon2Ent").val(response.model.Confirmativa2);
-                            $("#enCon3Ent").val(response.model.Confirmativa3);
-                            $("#enCon4Ent").val(response.model.Confirmativa4);
-                            $("#enCon5Ent").val(response.model.Confirmativa5);
-                            $("#enCon6Ent").val(response.model.Confirmativa6);
-                            $("#enCon7Ent").val(response.model.Confirmativa7);
-                            $("#enCon8Ent").val(response.model.Confirmativa8);
-                            $("#enCon9Ent").val(response.model.Confirmativa9);
+                            
 
-                            $("#enCon12Ent").val(response.model.Confirmativa12);
+                            $("#enCon1Ent").val(response.model.Confirmativa11);
+                            $("#enCon2Ent").val(response.model.Confirmativa12);
+                            $("#enCon3Ent").val(response.model.Confirmativa13);
+                            $("#enCon4Ent").val(response.model.Confirmativa14);
+                            $("#enCon5Ent").val(response.model.Confirmativa15);
+                            $("#enCon6Ent").val(response.model.Confirmativa16);
+                            $("#enCon7Ent").val(response.model.Confirmativa17);
+                            $("#enCon8Ent").val(response.model.Confirmativa18);
+                            $("#enCon9Ent").val(response.model.Confirmativa19);
+
+                            $("#enCon12Ent").val(response.model.Confirmativa21);
                             $("#enCon22Ent").val(response.model.Confirmativa22);
-                            $("#enCon32Ent").val(response.model.Confirmativa32);
-                            $("#enCon42Ent").val(response.model.Confirmativa42);
-                            $("#enCon52Ent").val(response.model.Confirmativa52);
-                            $("#enCon62Ent").val(response.model.Confirmativa62);
-                            $("#enCon72Ent").val(response.model.Confirmativa72);
-                            $("#enCon82Ent").val(response.model.Confirmativa82);
-                            $("#enCon92Ent").val(response.model.Confirmativa92);
+                            $("#enCon32Ent").val(response.model.Confirmativa23);
+                            $("#enCon42Ent").val(response.model.Confirmativa24);
+                            $("#enCon52Ent").val(response.model.Confirmativa25);
+                            $("#enCon62Ent").val(response.model.Confirmativa26);
+                            $("#enCon72Ent").val(response.model.Confirmativa27);
+                            $("#enCon82Ent").val(response.model.Confirmativa28);
+                            $("#enCon92Ent").val(response.model.Confirmativa29);
 
-                            $("#enPre1Ent").val(response.model.Presuntiva1);
-                            $("#enPre2Ent").val(response.model.Presuntiva2);
-                            $("#enPre3Ent").val(response.model.Presuntiva3);
-                            $("#enPre4Ent").val(response.model.Presuntiva4);
-                            $("#enPre5Ent").val(response.model.Presuntiva5);
-                            $("#enPre6Ent").val(response.model.Presuntiva6);
-                            $("#enPre7Ent").val(response.model.Presuntiva7);
-                            $("#enPre8Ent").val(response.model.Presuntiva8);
-                            $("#enPre9Ent").val(response.model.Presuntiva9);
+                            $("#enPre1Ent").val(response.model.Presuntiva11);
+                            $("#enPre2Ent").val(response.model.Presuntiva12);
+                            $("#enPre3Ent").val(response.model.Presuntiva13);
+                            $("#enPre4Ent").val(response.model.Presuntiva14);
+                            $("#enPre5Ent").val(response.model.Presuntiva15);
+                            $("#enPre6Ent").val(response.model.Presuntiva16);
+                            $("#enPre7Ent").val(response.model.Presuntiva17);
+                            $("#enPre8Ent").val(response.model.Presuntiva18);
+                            $("#enPre9Ent").val(response.model.Presuntiva19);
 
-                            $("#enPre12Ent").val(response.model.Presuntiva12);
+                            $("#enPre12Ent").val(response.model.Presuntiva21);
                             $("#enPre22Ent").val(response.model.Presuntiva22);
-                            $("#enPre32Ent").val(response.model.Presuntiva32);
-                            $("#enPre42Ent").val(response.model.Presuntiva42);
-                            $("#enPre52Ent").val(response.model.Presuntiva52);
-                            $("#enPre62Ent").val(response.model.Presuntiva62);
-                            $("#enPre72Ent").val(response.model.Presuntiva72);
-                            $("#enPre82Ent").val(response.model.Presuntiva82);
-                            $("#enPre92Ent").val(response.model.Presuntiva92);
+                            $("#enPre32Ent").val(response.model.Presuntiva23);
+                            $("#enPre42Ent").val(response.model.Presuntiva24);
+                            $("#enPre52Ent").val(response.model.Presuntiva25);
+                            $("#enPre62Ent").val(response.model.Presuntiva26);
+                            $("#enPre72Ent").val(response.model.Presuntiva27);
+                            $("#enPre82Ent").val(response.model.Presuntiva28);
+                            $("#enPre92Ent").val(response.model.Presuntiva29);
+                            
 
                             $("#resultadoEnt").val(response.model.Resultado);
                             $("#observacionEnt").val(response.model.Observacion);
+
+                            switch (parseFloat(response.model.Id_control)) {
+                                case 1:
+                                case 11:
+                                    $("#enCon4Ent").attr('hidden',false);
+                                    $("#enCon5Ent").attr('hidden',false);
+                                    $("#enCon6Ent").attr('hidden',false);
+                                    $("#enCon7Ent").attr('hidden',false);
+                                    $("#enCon8Ent").attr('hidden',false);
+                                    $("#enCon9Ent").attr('hidden',false);
+        
+                                    $("#enCon42Ent").attr('hidden',false);
+                                    $("#enCon52Ent").attr('hidden',false);
+                                    $("#enCon62Ent").attr('hidden',false);
+                                    $("#enCon72Ent").attr('hidden',false);
+                                    $("#enCon82Ent").attr('hidden',false);
+                                    $("#enCon92Ent").attr('hidden',false);
+        
+                                
+                                    $("#enPre4Ent").attr('hidden',false);
+                                    $("#enPre5Ent").attr('hidden',false);
+                                    $("#enPre6Ent").attr('hidden',false);
+                                    $("#enPre7Ent").attr('hidden',false);
+                                    $("#enPre8Ent").attr('hidden',false);
+                                    $("#enPre9Ent").attr('hidden',false);
+        
+                                    
+                                    $("#enPre42Ent").attr('hidden',false);
+                                    $("#enPre52Ent").attr('hidden',false);
+                                    $("#enPre62Ent").attr('hidden',false);
+                                    $("#enPre72Ent").attr('hidden',false);
+                                    $("#enPre82Ent").attr('hidden',false);
+                                    $("#enPre92Ent").attr('hidden',false);
+                                    
+                                    break;
+                                default:
+                                    
+                                    $("#enCon4Ent").attr('hidden',true);
+                                    $("#enCon5Ent").attr('hidden',true);
+                                    $("#enCon6Ent").attr('hidden',true);
+                                    $("#enCon7Ent").attr('hidden',true);
+                                    $("#enCon8Ent").attr('hidden',true);
+                                    $("#enCon9Ent").attr('hidden',true);
+        
+                                    $("#enCon42Ent").attr('hidden',true);
+                                    $("#enCon52Ent").attr('hidden',true);
+                                    $("#enCon62Ent").attr('hidden',true);
+                                    $("#enCon72Ent").attr('hidden',true);
+                                    $("#enCon82Ent").attr('hidden',true);
+                                    $("#enCon92Ent").attr('hidden',true);
+        
+                                
+                                    $("#enPre4Ent").attr('hidden',true);
+                                    $("#enPre5Ent").attr('hidden',true);
+                                    $("#enPre6Ent").attr('hidden',true);
+                                    $("#enPre7Ent").attr('hidden',true);
+                                    $("#enPre8Ent").attr('hidden',true);
+                                    $("#enPre9Ent").attr('hidden',true);
+        
+                                    
+                                    $("#enPre42Ent").attr('hidden',true);
+                                    $("#enPre52Ent").attr('hidden',true);
+                                    $("#enPre62Ent").attr('hidden',true);
+                                    $("#enPre72Ent").attr('hidden',true);
+                                    $("#enPre82Ent").attr('hidden',true);
+                                    $("#enPre92Ent").attr('hidden',true);
+
+                                    break;
+                            }
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)
                         case 71:

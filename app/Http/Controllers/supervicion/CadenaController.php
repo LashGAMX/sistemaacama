@@ -287,6 +287,10 @@ class CadenaController extends Controller
                 $model = DB::table('lote_detalle_dureza')->where('Id_codigo', $res->idCodigo)->delete();
                 $metodo = 'simple';
            break;
+        case 19;
+                $model = DB::table('lote_detalle_directos')->where('Id_codigo', $res->idCodigo)->delete();
+                $metodo = 'simple';
+            break;
         default:
             
             break;

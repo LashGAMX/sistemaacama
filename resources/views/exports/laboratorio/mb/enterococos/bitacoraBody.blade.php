@@ -43,6 +43,53 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($loteDetalleControles as $item)
+            <tr> 
+                <td class="contenidoBody bordesTabla">
+                    {{$item->Codigo}}
+                    <br>
+                    {{$item->Control}}
+                </td>
+
+                <td class="contenidoBody bordesTabla">{{$item->Dilucion1}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Presuntiva11}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Presuntiva12}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Presuntiva13}}</td>
+
+                <td class="contenidoBody bordesTabla">{{$item->Presuntiva21}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Presuntiva22}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Presuntiva23}}</td>
+                <td class="contenidoBody bordesTabla">
+                    {{($item->Presuntiva21 + $item->Presuntiva22 + $item->Presuntiva23)}}
+                </td>
+                <td class="contenidoBody bordesTabla">{{$item->Confirmativa11}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Confirmativa11}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Confirmativa12}}</td>
+
+                <td class="contenidoBody bordesTabla">{{$item->Confirmativa21}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Confirmativa22}}</td>
+                <td class="contenidoBody bordesTabla">{{$item->Confirmativa23}}</td>
+                <td class="contenidoBody bordesTabla">{{($item->Confirmativa21 + $item->Confirmativa22 + $item->Confirmativa23)}}</td>
+                <td class="contenidoBody bordesTabla">
+                    @if (@$item->Resultado == 0)
+                        < 3
+                    @else
+                    {{@$item->Resultado}}
+                    @endif
+                </td>
+
+                <td class="contenidoBody bordesTabla" >
+                    --
+                </td>
+
+                <td class="contenidoBody bordesTabla"  style="font-weight: bold">
+                    --
+                </td>
+                <td class="contenidoBody bordesTabla"  style="font-weight: bold;font-size: 10px">
+                    {{$item->Control}}
+                </td>
+            </tr>
+            @endforeach
             @foreach ($loteDetalle as $item)
                 <tr> 
                     @switch($item->Id_control)

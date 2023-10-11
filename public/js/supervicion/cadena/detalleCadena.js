@@ -203,9 +203,8 @@ function reasignarMuestra () {
         async: false,
         success: function (response) {
             console.log(response)
-            if (response.success) {
-                alert("Muestra regresada");
-            }
+           
+                alert("Muestra Para Reasignar");
           
         }
     });

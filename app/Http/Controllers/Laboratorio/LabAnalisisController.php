@@ -4231,7 +4231,8 @@ class LabAnalisisController extends Controller
                         );
                         $mpdf->showWatermarkImage = true;
 
-                        $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $id)->get();
+                        $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $id)->where('Id_control',1)->get();
+                        $loteDetalleControles = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $id)->where('Id_control','!=',1)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
                         if ($plantilla->count()) {
                         } else {
@@ -4249,6 +4250,7 @@ class LabAnalisisController extends Controller
 
                         $data = array(
                             'lote' => $lote,
+                            'loteDetalleControles' => $loteDetalleControles,
                             'loteDetalle' => $loteDetalle,
                             'plantilla' => $plantilla,
                             'analizo' => $analizo,

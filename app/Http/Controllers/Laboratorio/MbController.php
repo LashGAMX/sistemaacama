@@ -692,15 +692,17 @@ class MbController extends Controller
                     $model->Muestra_tubos = $request->G3;
                     $model->Tubos_negativos = $request->G2;
                     $model->Tubos_positivos = $request->G1;
+
                     $model->Confirmativa1 = $request->con1;
-                    $model->Confirmativa2 = $request->con2;
-                    $model->Confirmativa3 = $request->con3;
-                    $model->Confirmativa4 = $request->con4;
-                    $model->Confirmativa5 = $request->con5;
-                    $model->Confirmativa6 = $request->con6;
-                    $model->Confirmativa7 = $request->con7;
-                    $model->Confirmativa8 = $request->con8;
-                    $model->Confirmativa9 = $request->con9;
+                        $model->Confirmativa2 = $request->con2;
+                        $model->Confirmativa3 = $request->con3;
+                        $model->Confirmativa4 = $request->con4;
+                        $model->Confirmativa5 = $request->con5;
+                        $model->Confirmativa6 = $request->con6;
+                        $model->Confirmativa7 = $request->con7;
+                        $model->Confirmativa8 = $request->con8;
+                        $model->Confirmativa9 = $request->con9;
+
                     $model->Presuntiva1 = $request->pre1;
                     $model->Presuntiva2 = $request->pre2;
                     $model->Presuntiva3 = $request->pre3;
@@ -784,15 +786,40 @@ class MbController extends Controller
                         $model->Muestra_tubos = $request->G3;
                         $model->Tubos_negativos = $request->G2;
                         $model->Tubos_positivos = $request->G1;
-                        $model->Confirmativa1 = $request->con1;
-                        $model->Confirmativa2 = $request->con2;
-                        $model->Confirmativa3 = $request->con3;
-                        $model->Confirmativa4 = $request->con4;
-                        $model->Confirmativa5 = $request->con5;
-                        $model->Confirmativa6 = $request->con6;
-                        $model->Confirmativa7 = $request->con7;
-                        $model->Confirmativa8 = $request->con8;
-                        $model->Confirmativa9 = $request->con9;
+
+                        if ($request->idParametro == 35) {
+                            $model->Confirmativa1 = $request->con10;
+                            $model->Confirmativa2 = $request->con11;
+                            $model->Confirmativa3 = $request->con12;
+                            $model->Confirmativa4 = $request->con13;
+                            $model->Confirmativa5 = $request->con14;
+                            $model->Confirmativa6 = $request->con15;
+                            $model->Confirmativa7 = $request->con16;
+                            $model->Confirmativa8 = $request->con17;
+                            $model->Confirmativa9 = $request->con18;
+
+                            $model->Confirmativa10 = $request->con1;
+                            $model->Confirmativa11 = $request->con2;
+                            $model->Confirmativa12 = $request->con3;
+                            $model->Confirmativa13 = $request->con4;
+                            $model->Confirmativa14 = $request->con5;
+                            $model->Confirmativa15 = $request->con6;
+                            $model->Confirmativa16 = $request->con7;
+                            $model->Confirmativa17 = $request->con8;
+                            $model->Confirmativa18 = $request->con9;
+                        }else{
+                            $model->Confirmativa1 = $request->con1;
+                            $model->Confirmativa2 = $request->con2;
+                            $model->Confirmativa3 = $request->con3;
+                            $model->Confirmativa4 = $request->con4;
+                            $model->Confirmativa5 = $request->con5;
+                            $model->Confirmativa6 = $request->con6;
+                            $model->Confirmativa7 = $request->con7;
+                            $model->Confirmativa8 = $request->con8;
+                            $model->Confirmativa9 = $request->con9;
+                        }
+
+
                         $model->Presuntiva1 = $request->pre1;
                         $model->Presuntiva2 = $request->pre2;
                         $model->Presuntiva3 = $request->pre3;
@@ -818,10 +845,17 @@ class MbController extends Controller
                         $model->save();
                     } else {
 
-
-                        $n1 = $request->con1 + $request->con2 + $request->con3;
-                        $n2 = $request->con4 + $request->con5 + $request->con6;
-                        $n3 = $request->con7 + $request->con8 + $request->con9;
+                        if ($request->idParametro == 35) {
+                            $n1 = $request->con10 + $request->con11 + $request->con12;
+                            $n2 = $request->con13 + $request->con14 + $request->con15;
+                            $n3 = $request->con16 + $request->con17 + $request->con18;
+                        }else{
+                            $n1 = $request->con1 + $request->con2 + $request->con3;
+                            $n2 = $request->con4 + $request->con5 + $request->con6;
+                            $n3 = $request->con7 + $request->con8 + $request->con9;
+                        } 
+                        
+                        
 
                         $numModel = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->first();
                         $numModel2 = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->get();
@@ -862,16 +896,38 @@ class MbController extends Controller
                         $model->Muestra_tubos = $request->G3;
                         $model->Tubos_negativos = $request->G2;
                         $model->Tubos_positivos = $request->G1;
-                        $model->Confirmativa1 = $request->con1;
-                        $model->Confirmativa2 = $request->con2;
-                        $model->Confirmativa3 = $request->con3;
-                        $model->Confirmativa4 = $request->con4;
-                        $model->Confirmativa5 = $request->con5;
-                        $model->Confirmativa6 = $request->con6;
-                        $model->Confirmativa7 = $request->con7;
-                        $model->Confirmativa8 = $request->con8;
-                        $model->Confirmativa9 = $request->con9;
-
+                
+                        if ($request->idParametro == 35) {
+                            $model->Confirmativa1 = $request->con10;
+                            $model->Confirmativa2 = $request->con11;
+                            $model->Confirmativa3 = $request->con12;
+                            $model->Confirmativa4 = $request->con13;
+                            $model->Confirmativa5 = $request->con14;
+                            $model->Confirmativa6 = $request->con15;
+                            $model->Confirmativa7 = $request->con16;
+                            $model->Confirmativa8 = $request->con17;
+                            $model->Confirmativa9 = $request->con18;
+    
+                            $model->Confirmativa10 = $request->con1;
+                            $model->Confirmativa11 = $request->con2; 
+                            $model->Confirmativa12 = $request->con3;
+                            $model->Confirmativa13 = $request->con4;
+                            $model->Confirmativa14 = $request->con5;
+                            $model->Confirmativa15 = $request->con6;
+                            $model->Confirmativa16 = $request->con7;
+                            $model->Confirmativa17 = $request->con8;
+                            $model->Confirmativa18 = $request->con9;
+                        }else{
+                            $model->Confirmativa1 = $request->con1;
+                            $model->Confirmativa2 = $request->con2;
+                            $model->Confirmativa3 = $request->con3;
+                            $model->Confirmativa4 = $request->con4;
+                            $model->Confirmativa5 = $request->con5;
+                            $model->Confirmativa6 = $request->con6;
+                            $model->Confirmativa7 = $request->con7;
+                            $model->Confirmativa8 = $request->con8;
+                            $model->Confirmativa9 = $request->con9;
+                        }
                         $model->Presuntiva1 = $request->pre1;
                         $model->Presuntiva2 = $request->pre2;
                         $model->Presuntiva3 = $request->pre3;
@@ -905,15 +961,40 @@ class MbController extends Controller
                     $model->Muestra_tubos = $request->G3;
                     $model->Tubos_negativos = $request->G2;
                     $model->Tubos_positivos = $request->G1;
-                    $model->Confirmativa1 = $request->con1;
-                    $model->Confirmativa2 = $request->con2;
-                    $model->Confirmativa3 = $request->con3;
-                    $model->Confirmativa4 = $request->con4;
-                    $model->Confirmativa5 = $request->con5;
-                    $model->Confirmativa6 = $request->con6;
-                    $model->Confirmativa7 = $request->con7;
-                    $model->Confirmativa8 = $request->con8;
-                    $model->Confirmativa9 = $request->con9;
+
+                    if ($request->idParametro == 35) {
+                        $model->Confirmativa1 = $request->con10;
+                        $model->Confirmativa2 = $request->con11;
+                        $model->Confirmativa3 = $request->con12;
+                        $model->Confirmativa4 = $request->con13;
+                        $model->Confirmativa5 = $request->con14;
+                        $model->Confirmativa6 = $request->con15;
+                        $model->Confirmativa7 = $request->con16;
+                        $model->Confirmativa8 = $request->con17;
+                        $model->Confirmativa9 = $request->con18;
+
+                        $model->Confirmativa10 = $request->con1;
+                        $model->Confirmativa11 = $request->con2;
+                        $model->Confirmativa12 = $request->con3;
+                        $model->Confirmativa13 = $request->con4;
+                        $model->Confirmativa14 = $request->con5;
+                        $model->Confirmativa15 = $request->con6;
+                        $model->Confirmativa16 = $request->con7;
+                        $model->Confirmativa17 = $request->con8;
+                        $model->Confirmativa18 = $request->con9;
+                    }else{
+                        $model->Confirmativa1 = $request->con1;
+                        $model->Confirmativa2 = $request->con2;
+                        $model->Confirmativa3 = $request->con3;
+                        $model->Confirmativa4 = $request->con4;
+                        $model->Confirmativa5 = $request->con5;
+                        $model->Confirmativa6 = $request->con6;
+                        $model->Confirmativa7 = $request->con7;
+                        $model->Confirmativa8 = $request->con8;
+                        $model->Confirmativa9 = $request->con9;
+                    }
+
+
                     $model->Presuntiva1 = $request->pre1;
                     $model->Presuntiva2 = $request->pre2;
                     $model->Presuntiva3 = $request->pre3;
@@ -951,103 +1032,168 @@ class MbController extends Controller
                 break;
            
             case 253: //todo Número más probable (NMP), en tubos múltiples
-
-
-                $n1 = $request->Confirmativa21 + $request->Confirmativa22 + $request->Confirmativa23;
-                $n2 = $request->Confirmativa24 + $request->Confirmativa25 + $request->Confirmativa26;
-                $n3 = $request->Confirmativa27 + $request->Confirmativa28 + $request->Confirmativa29;
-
-                $numModel = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->first();
-                $numModel2 = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->get();
-                $tipo =  "";
-                if ($numModel2->count()) {
-                    if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
-                        //Formula escrita 1
-                        if ($request->idParametro == 35) {
-                            $op1 = 10 / $request->D1;
-                            $res = $op1 * $request->NMP;
+                $loteModel = LoteDetalleEnterococos::where('Id_detalle',$request->idDetalle)->first();
+                if ($loteModel->Id_control == 1 || $loteModel->Id_control == 11) {
+                    $n1 = $request->Confirmativa21 + $request->Confirmativa22 + $request->Confirmativa23;
+                    $n2 = $request->Confirmativa24 + $request->Confirmativa25 + $request->Confirmativa26;
+                    $n3 = $request->Confirmativa27 + $request->Confirmativa28 + $request->Confirmativa29;
+    
+                    $numModel = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->first();
+                    $numModel2 = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->get();
+                    $tipo =  "";
+                    if ($numModel2->count()) {
+                        if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
+                            //Formula escrita 1
+                            if ($request->idParametro == 35) {
+                                $op1 = 10 / $request->D1;
+                                $res = $op1 * $request->NMP;
+                            } else {
+                                $res =  round($request->NMP / $request->D3);
+                            }
+    
+                            $tipo = 2; // Formula 1
                         } else {
-                            $res =  round($request->NMP / $request->D3);
+                            //Formula comparación por tabla  
+                            $res = $numModel->Nmp;
+                            $tipo = 1; // Formula Tabla
                         }
-
-                        $tipo = 2; // Formula 1
                     } else {
-                        //Formula comparación por tabla  
-                        $res = $numModel->Nmp;
-                        $tipo = 1; // Formula Tabla
-                    }
-                } else {
-                    //Formula 2
-                    $op1 = $request->G1 * 100;
-                    $op2 = sqrt($request->G2 * $request->G3);
-                    $res1 = round(($op1 / $op2));
-                    $tipo = 3; //Formula 2
-                    $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
-
-                    foreach ($numModel3 as $item) {
-                        if ($item->Nmp <= $res1) {
-                            $aux = $item->Nmp;
-                        } else {
+                        //Formula 2
+                        $op1 = $request->G1 * 100;
+                        $op2 = sqrt($request->G2 * $request->G3);
+                        $res1 = round(($op1 / $op2));
+                        $tipo = 3; //Formula 2
+                        $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
+    
+                        foreach ($numModel3 as $item) {
+                            if ($item->Nmp <= $res1) {
+                                $aux = $item->Nmp;
+                            } else {
+                                $res = $aux;
+                            }
+                        }
+                        if ($request->idParametro == 35) {
                             $res = $aux;
                         }
                     }
-                    if ($request->idParametro == 35) {
-                        $res = $aux;
+                    $model = LoteDetalleEnterococos::find($request->idDetalle);
+                    $model->Tipo = $tipo;
+                    $model->Dilucion1 = $request->D1;
+                    $model->Dilucion2 = $request->D2;
+                    $model->Dilucion3 = $request->D3;
+                    $model->Indice = $res;
+                    $model->Muestra_tubos = $request->G3;
+                    $model->Tubos_negativos = $request->G2;
+                    $model->Tubos_positivos = $request->G1;
+    
+                    $model->Presuntiva11 = $request->Presuntiva11;
+                    $model->Presuntiva12 = $request->Presuntiva12;
+                    $model->Presuntiva13 = $request->Presuntiva13;
+                    $model->Presuntiva14 = $request->Presuntiva14;
+                    $model->Presuntiva15 = $request->Presuntiva15;
+                    $model->Presuntiva16 = $request->Presuntiva16;
+                    $model->Presuntiva17 = $request->Presuntiva17;
+                    $model->Presuntiva18 = $request->Presuntiva18;
+                    $model->Presuntiva19 = $request->Presuntiva19;
+    
+                    $model->Presuntiva21 = $request->Presuntiva21;
+                    $model->Presuntiva22 = $request->Presuntiva22;
+                    $model->Presuntiva23 = $request->Presuntiva23;
+                    $model->Presuntiva24 = $request->Presuntiva24;
+                    $model->Presuntiva25 = $request->Presuntiva25;
+                    $model->Presuntiva26 = $request->Presuntiva26;
+                    $model->Presuntiva27 = $request->Presuntiva27;
+                    $model->Presuntiva28 = $request->Presuntiva28;
+                    $model->Presuntiva29 = $request->Presuntiva29;
+    
+                    $model->Confirmativa11 = $request->Confirmativa11;
+                    $model->Confirmativa12 = $request->Confirmativa12;
+                    $model->Confirmativa13 = $request->Confirmativa13;
+                    $model->Confirmativa14 = $request->Confirmativa14;
+                    $model->Confirmativa15 = $request->Confirmativa15;
+                    $model->Confirmativa16 = $request->Confirmativa16;
+                    $model->Confirmativa17 = $request->Confirmativa17;
+                    $model->Confirmativa18 = $request->Confirmativa18;
+                    $model->Confirmativa19 = $request->Confirmativa19;
+    
+                    $model->Confirmativa21 = $request->Confirmativa21;
+                    $model->Confirmativa22 = $request->Confirmativa22;
+                    $model->Confirmativa23 = $request->Confirmativa23;
+                    $model->Confirmativa24 = $request->Confirmativa24;
+                    $model->Confirmativa25 = $request->Confirmativa25;
+                    $model->Confirmativa26 = $request->Confirmativa26;
+                    $model->Confirmativa27 = $request->Confirmativa27;
+                    $model->Confirmativa28 = $request->Confirmativa28;
+                    $model->Confirmativa29 = $request->Confirmativa29;
+    
+                    $model->Resultado = $res;
+                    $model->Analizo = Auth::user()->id;
+                    $model->save();
+                }else{
+                    $resAux = 0;
+                    $model = LoteDetalleEnterococos::find($request->idDetalle);
+                    $model->Tipo = $tipo;
+                    $model->Dilucion1 = $request->D1;
+                    $model->Dilucion2 = $request->D2;
+                    $model->Dilucion3 = $request->D3;
+                    $model->Indice = $res;
+                    $model->Muestra_tubos = $request->G3;
+                    $model->Tubos_negativos = $request->G2;
+                    $model->Tubos_positivos = $request->G1;
+    
+                    $model->Presuntiva11 = $request->Presuntiva11;
+                    $model->Presuntiva12 = $request->Presuntiva12;
+                    $model->Presuntiva13 = $request->Presuntiva13;
+                    $model->Presuntiva14 = $request->Presuntiva14;
+                    $model->Presuntiva15 = $request->Presuntiva15;
+                    $model->Presuntiva16 = $request->Presuntiva16;
+                    $model->Presuntiva17 = $request->Presuntiva17;
+                    $model->Presuntiva18 = $request->Presuntiva18;
+                    $model->Presuntiva19 = $request->Presuntiva19;
+    
+                    $model->Presuntiva21 = $request->Presuntiva21;
+                    $model->Presuntiva22 = $request->Presuntiva22;
+                    $model->Presuntiva23 = $request->Presuntiva23;
+                    $model->Presuntiva24 = $request->Presuntiva24;
+                    $model->Presuntiva25 = $request->Presuntiva25;
+                    $model->Presuntiva26 = $request->Presuntiva26;
+                    $model->Presuntiva27 = $request->Presuntiva27;
+                    $model->Presuntiva28 = $request->Presuntiva28;
+                    $model->Presuntiva29 = $request->Presuntiva29;
+    
+                    $model->Confirmativa11 = $request->Confirmativa11;
+                    $model->Confirmativa12 = $request->Confirmativa12;
+                    $model->Confirmativa13 = $request->Confirmativa13;
+                    $model->Confirmativa14 = $request->Confirmativa14;
+                    $model->Confirmativa15 = $request->Confirmativa15;
+                    $model->Confirmativa16 = $request->Confirmativa16;
+                    $model->Confirmativa17 = $request->Confirmativa17;
+                    $model->Confirmativa18 = $request->Confirmativa18;
+                    $model->Confirmativa19 = $request->Confirmativa19;
+    
+                    $model->Confirmativa21 = $request->Confirmativa21;
+                    $model->Confirmativa22 = $request->Confirmativa22;
+                    $model->Confirmativa23 = $request->Confirmativa23;
+                    $model->Confirmativa24 = $request->Confirmativa24;
+                    $model->Confirmativa25 = $request->Confirmativa25;
+                    $model->Confirmativa26 = $request->Confirmativa26;
+                    $model->Confirmativa27 = $request->Confirmativa27;
+                    $model->Confirmativa28 = $request->Confirmativa28;
+                    $model->Confirmativa29 = $request->Confirmativa29;
+ 
+                    if ($request->Confirmativa21 > 0) {
+                        $resAux = 3;
+                    }else{
+                        $resAux = 0;
                     }
+                    $res = $resAux;
+    
+                    $model->Resultado = $resAux;
+                    $model->Analizo = Auth::user()->id;
+                    $model->save();
                 }
-                $model = LoteDetalleEnterococos::find($request->idDetalle);
-                $model->Tipo = $tipo;
-                $model->Dilucion1 = $request->D1;
-                $model->Dilucion2 = $request->D2;
-                $model->Dilucion3 = $request->D3;
-                $model->Indice = $res;
-                $model->Muestra_tubos = $request->G3;
-                $model->Tubos_negativos = $request->G2;
-                $model->Tubos_positivos = $request->G1;
 
-                $model->Presuntiva11 = $request->Presuntiva11;
-                $model->Presuntiva12 = $request->Presuntiva12;
-                $model->Presuntiva13 = $request->Presuntiva13;
-                $model->Presuntiva14 = $request->Presuntiva14;
-                $model->Presuntiva15 = $request->Presuntiva15;
-                $model->Presuntiva16 = $request->Presuntiva16;
-                $model->Presuntiva17 = $request->Presuntiva17;
-                $model->Presuntiva18 = $request->Presuntiva18;
-                $model->Presuntiva19 = $request->Presuntiva19;
 
-                $model->Presuntiva21 = $request->Presuntiva21;
-                $model->Presuntiva22 = $request->Presuntiva22;
-                $model->Presuntiva23 = $request->Presuntiva23;
-                $model->Presuntiva24 = $request->Presuntiva24;
-                $model->Presuntiva25 = $request->Presuntiva25;
-                $model->Presuntiva26 = $request->Presuntiva26;
-                $model->Presuntiva27 = $request->Presuntiva27;
-                $model->Presuntiva28 = $request->Presuntiva28;
-                $model->Presuntiva29 = $request->Presuntiva29;
-
-                $model->Confirmativa11 = $request->Confirmativa11;
-                $model->Confirmativa12 = $request->Confirmativa12;
-                $model->Confirmativa13 = $request->Confirmativa13;
-                $model->Confirmativa14 = $request->Confirmativa14;
-                $model->Confirmativa15 = $request->Confirmativa15;
-                $model->Confirmativa16 = $request->Confirmativa16;
-                $model->Confirmativa17 = $request->Confirmativa17;
-                $model->Confirmativa18 = $request->Confirmativa18;
-                $model->Confirmativa19 = $request->Confirmativa19;
-
-                $model->Confirmativa21 = $request->Confirmativa21;
-                $model->Confirmativa22 = $request->Confirmativa22;
-                $model->Confirmativa23 = $request->Confirmativa23;
-                $model->Confirmativa24 = $request->Confirmativa24;
-                $model->Confirmativa25 = $request->Confirmativa25;
-                $model->Confirmativa26 = $request->Confirmativa26;
-                $model->Confirmativa27 = $request->Confirmativa27;
-                $model->Confirmativa28 = $request->Confirmativa28;
-                $model->Confirmativa29 = $request->Confirmativa29;
-
-                $model->Resultado = $res;
-                $model->Analizo = Auth::user()->id;
-                $model->save();
 
                 break;
             case 5:

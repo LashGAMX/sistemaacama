@@ -1137,7 +1137,7 @@ class MetalesController extends Controller
             case 2:
                 $codigo2 = DB::table('ViewCodigoParametro')->where('Id_area', 2) 
                 ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
-               // ->where('Id_tipo_formula',$res->tipo)
+                //->where('Id_tipo_formula',$res->tipo)
                 //->where('Id_tecnica',$res->tecnia)
                 ->where('Id_norma',$res->norma)
                 ->get();
