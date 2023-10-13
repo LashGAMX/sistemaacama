@@ -524,8 +524,8 @@ class InformesController extends Controller
 
             default:
             //Residual
+                $firma1 = User::find(4);
                 // $firma1 = User::find(14);
-                $firma1 = User::find(14);
                 $firma2 = User::find(12);
                 // $firma2 = User::find(4);
                 break;
@@ -1810,7 +1810,8 @@ class InformesController extends Controller
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
         $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
-        $firma1 = User::find(14);
+        // $firma1 = User::find(14);
+        $firma1 = User::find(4);
         $firma2 = User::find(12);
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
@@ -2482,7 +2483,7 @@ class InformesController extends Controller
         }
         foreach ($phMuestra2 as $item) {
             $colorTemp = PhMuestra::where('Id_solicitud', $idSol1)->where('Color',$item->Color)->where('Activo',1)->get(); 
-            if ($colorTemp->count() >= (($phMuestra1->count())/2)) {
+            if ($colorTemp->count() >= (($phMuestra1->count())/2)) { 
                 $color2 = $item->Color;
                 break;
             }else{
@@ -2495,7 +2496,7 @@ class InformesController extends Controller
         $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
-        $firma1 = User::find(4);
+        $firma1 = User::find(4); 
         $firma2 = User::find(12);
         $cotModel = DB::table('ViewSolicitud2')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Id_reporte2)->first();

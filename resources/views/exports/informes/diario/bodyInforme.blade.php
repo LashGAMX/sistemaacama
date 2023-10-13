@@ -465,7 +465,7 @@
             
             @if (@$solModel->Num_tomas > 1)
                     
-            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" style="margin-top:-70px">
                 <tbody>        
                     <tr><td></td></tr>
                         @foreach ($model as $item)
