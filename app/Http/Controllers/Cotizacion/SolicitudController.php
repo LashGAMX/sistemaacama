@@ -51,9 +51,9 @@ class SolicitudController extends Controller
     public function index()
     {
         if (Auth::user()->role->id == 13) {
-            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->where('Creado_por', Auth::user()->id)->get();
+            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->where('Creado_por', Auth::user()->id)->take(200)->get();
         } else {
-            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->get();
+            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->take(200)->get();
         }
         $norma = Norma::all();
         $descarga = TipoDescarga::all();
