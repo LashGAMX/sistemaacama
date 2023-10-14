@@ -96,7 +96,7 @@
                                 <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
                                 @break
                             @default
-                            @if (Auth::user()->id == 14)
+                            @if (Auth::user()->id == 14 || Auth::user()->id == 4)
                                 <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip" data-placement="top" title="Regresar Resultado"><i class="voyager-double-left"></i></button>
                                 <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()" data-toggle="tooltip" data-placement="top" title="Cuadro de asignación"><i class="voyager-check"></i></button>
                                 <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
