@@ -322,7 +322,7 @@ class CadenaController extends Controller
             'codigoParametros' => $codigoParametro,
             'model' => $model,
             'area' => $codigoParametro->Id_area,
-            
+            "metodo" => $metodo, 
         ); 
         return response()->json($data);
     }
@@ -336,6 +336,7 @@ class CadenaController extends Controller
 
         $data = array(
             "model" => $model,
+          
         );
         return response()->json($data);
     }
