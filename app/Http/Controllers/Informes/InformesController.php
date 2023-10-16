@@ -1786,10 +1786,10 @@ class InformesController extends Controller
         $tempAmbienteProm1 = 0;
         $auxTem1 = 0;
         foreach ($auxAmbienteProm1 as $item) {
-            $tempAmbienteProm = $tempAmbienteProm1 + $item->Temperatura1;
+            $tempAmbienteProm1 = $tempAmbienteProm1 + $item->Temperatura1;
             $auxTem1++;
         }
-        @$tempAmbienteProm1 = round($tempAmbienteProm1 / $auxTem1);
+        @$tempProm1 = round($tempAmbienteProm1 / $auxTem1);
 
         $auxAmbienteProm2 = TemperaturaAmbiente::where('Id_solicitud', $idSol2)->where('Activo', 1)->get();
         $tempAmbienteProm2 = 0;
@@ -1798,7 +1798,7 @@ class InformesController extends Controller
             $tempAmbienteProm2 = $tempAmbienteProm2 + $item->Temperatura1;
             $auxTem2++;
         }
-        @$tempAmbienteProm2 = round($tempAmbienteProm2 / $auxTem2);
+        @$tempProm2 = round($tempAmbienteProm2 / $auxTem2);
 
         $PhMuestra1 = PhMuestra::where('Id_solicitud', $idSol1)->get();
         $PhMuestra2 = PhMuestra::where('Id_solicitud', $idSol2)->get();
@@ -2201,18 +2201,18 @@ class InformesController extends Controller
                 $color2 = $item->Color;
             }
         }
-        $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
-        $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
-        $auxTemp = 0;
-        $tempProm1 = 0;
-        $tempProm2 = 0;
-        foreach ($tempAmbiente1 as $item) {
-            $tempProm1 += $item->Promedio;
-            $tempProm2 += $tempAmbiente2[$auxTemp]->Promedio;
-            $auxTemp++;
-        }
-        $tempProm1 = $tempProm1 / $auxTemp;
-        $tempProm2 = $tempProm2 / $auxTemp;
+        // $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
+        // $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+        // $auxTemp = 0;
+        // $tempProm1 = 0;
+        // $tempProm2 = 0;
+        // foreach ($tempAmbiente1 as $item) {
+        //     $tempProm1 += $item->Promedio;
+        //     $tempProm2 += $tempAmbiente2[$auxTemp]->Promedio;
+        //     $auxTemp++;
+        // }
+        // $tempProm1 = $tempProm1 / $auxTemp;
+        // $tempProm2 = $tempProm2 / $auxTemp;
 
         
         $auxPh = 0;
@@ -2931,7 +2931,7 @@ class InformesController extends Controller
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
         $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel2->Hijo)->first();
-        $firma1 = User::find(14);
+        $firma1 = User::find(4);
         $firma2 = User::find(12);
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
