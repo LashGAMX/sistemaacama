@@ -517,16 +517,17 @@ class InformesController extends Controller
             case 30:
                 //potable y purificada
                 // $firma1 = User::find(14);
-                $firma1 = User::find(12);
-                $firma2 = User::find(4);
+                $firma1 = User::find(14); // Reviso
+                // $firma2 = User::find(4); // Autorizo
+                $firma2 = User::find(4); // Autorizo
                 // $firma2 = User::find(14);
                 break;
 
             default:
             //Residual
-                $firma1 = User::find(4);
+                $firma1 = User::find(14); // Reviso
                 // $firma1 = User::find(14);
-                $firma2 = User::find(12);
+                $firma2 = User::find(12); // Autorizo
                 // $firma2 = User::find(4);
                 break;
         }
@@ -1811,8 +1812,8 @@ class InformesController extends Controller
         $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
-        $firma1 = User::find(4);
-        $firma2 = User::find(12);
+        $firma1 = User::find(14); //! Reviso
+        $firma2 = User::find(4); //! Autorizo
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
@@ -2496,8 +2497,8 @@ class InformesController extends Controller
         $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
-        $firma1 = User::find(4); 
-        $firma2 = User::find(12);
+        $firma1 = User::find(14); 
+        $firma2 = User::find(4);
         $cotModel = DB::table('ViewSolicitud2')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Id_reporte2)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
