@@ -465,6 +465,89 @@
             
             @if (@$solModel->Num_tomas > 1)
                     
+                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" style="margin-top:-70px">
+                    <tbody>        
+                        <tr><td></td></tr>
+                            @foreach ($model as $item)
+                                @for ($i = 0; $i < sizeof($temp); $i++)
+                                    @if ($temp[$i] == $item->Id_simbologia_info)
+                                        @php $sw = true; @endphp
+                                    @endif
+                                @endfor
+                                @if ($sw != true) 
+                                    @switch($item->Id_simbologia_info)
+                                        @case(9)
+                                            
+                                            @break
+                                        @case(11)
+                                            <tr> 
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">1++ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE ESCHERICHIA COLI.</td>
+                                            </tr>
+                                            @php
+                                                array_push($temp,$item->Id_simbologia_info);
+                                            @endphp
+                                        @break
+                                        @case(5)
+                                            <tr> 
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">1# PROMEDIO PONDERADO DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE GRASAS Y ACEITES</td>
+                                            </tr>
+                                            @php
+                                                array_push($temp,$item->Id_simbologia_info);
+                                            @endphp
+                                        @break
+                                        @case(4)
+                                            <tr> 
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">1+ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERA DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL
+                                                    LABORATORIO.</td>
+                                            </tr>
+                                            @php
+                                                array_push($temp,$item->Id_simbologia_info);
+                                            @endphp
+                                        @break
+                                        @case(12)
+                                            <tr> 
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">1+++ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE ENTEROCOCOS FECALES. </td>
+                                            </tr>
+                                            @php
+                                                array_push($temp,$item->Id_simbologia_info);
+                                            @endphp
+                                        @break
+                                        @default
+                                        @switch($item->Id_parametro)
+                                            @case(97)
+                                                @if ($solicitud->Num_tomas > 1)
+                                                    <tr> 
+                                                        <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                                    </tr>
+                                                @else
+                                                    
+                                                @endif
+                                                {{-- <tr>
+                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                                </tr> --}}
+                                                @php
+                                                    array_push($temp,$item->Id_simbologia_info);
+                                                @endphp
+                                                @break
+                                            @default
+
+                                            <tr>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php echo  $item->Descripcion2; @endphp</td>
+                                            </tr>
+                                            @php
+                                                array_push($temp,$item->Id_simbologia_info);
+                                            @endphp
+                                        @endswitch
+                                    @endswitch
+                                
+                                @endif 
+                                @php
+                                    $sw = false;
+                                @endphp
+                            @endforeach 
+                    </tbody>         
+                </table>  
+            @else
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" style="margin-top:-70px">
                 <tbody>        
                     <tr><td></td></tr>
@@ -480,34 +563,25 @@
                                         
                                         @break
                                     @case(11)
-                                        <tr> 
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1++ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE ESCHERICHIA COLI.</td>
-                                        </tr>
+                                       
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
                                     @break
                                     @case(5)
-                                        <tr> 
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1# PROMEDIO PONDERADO DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE GRASAS Y ACEITES</td>
-                                        </tr>
+                                      
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
                                     @break
                                     @case(4)
-                                        <tr> 
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1+ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERA DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL
-                                                LABORATORIO.</td>
-                                        </tr>
+                                     
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
                                     @break
                                     @case(12)
-                                        <tr> 
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">1+++ MEDIA GEOMETRICA DE LAS {{@$numTomas->count()}} MUESTRAS SIMPLES DE ENTEROCOCOS FECALES. </td>
-                                        </tr>
+                                      
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
@@ -516,24 +590,22 @@
                                     @switch($item->Id_parametro)
                                         @case(97)
                                             @if ($solicitud->Num_tomas > 1)
-                                                <tr> 
-                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
-                                                </tr>
+                                              
                                             @else
                                                 
                                             @endif
-                                            {{-- <tr>
-                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
-                                            </tr> --}}
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
                                             @endphp
-                                            @break
+                                        @break
+                                        @case(358)
+                                        
+                                            {{-- <tr>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php echo  $item->Descripcion2; @endphp</td>
+                                            </tr> --}}
+                                        @break
                                         @default
 
-                                        <tr>
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php echo  $item->Descripcion2; @endphp</td>
-                                        </tr>
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
@@ -547,7 +619,7 @@
                         @endforeach 
                 </tbody>         
             </table>  
-                @endif
+            @endif
             
             </div>    
 
