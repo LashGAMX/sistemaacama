@@ -526,9 +526,9 @@ class InformesController extends Controller
             default:
             //Residual
                 $firma1 = User::find(14); // Reviso
-                // $firma1 = User::find(14);
-                $firma2 = User::find(12); // Autorizo
-                // $firma2 = User::find(4);
+                //$firma1 = User::find(14);
+                //$firma2 = User::find(12); // Autorizo
+                 $firma2 = User::find(4);
                 break;
         }
         //Proceso de Reporte Informe
@@ -780,7 +780,7 @@ class InformesController extends Controller
             array_push($limitesC, $limC);
         }
         $firma1 = User::find(14);
-        $firma2 = User::find(12);
+        $firma2 = User::find(4);
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         $conducCampo = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 67)->first();
 
