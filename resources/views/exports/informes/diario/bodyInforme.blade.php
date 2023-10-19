@@ -16,7 +16,7 @@
         {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
         {{$reportesInformes->Encabezado}}
         <br> MUESTRA
-        @if (@$solModel->Id_muestra == 1)
+        @if (@$solModel->Id_muestra == 1 || @$solModel->Id_muestra == 0)
         INSTANTANEA
         @else
         COMPUESTA
