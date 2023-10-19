@@ -51,8 +51,7 @@
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de
                         Muestreo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold"> {{
-                            \Carbon\Carbon::parse(@$solModel->Fecha_muestreo)->format('d/m/Y')}}</span>
+                        <span class="fontBold"> {{ \Carbon\Carbon::parse(@$solModel->Fecha_muestreo)->format('d/m/Y') }}</span>
                     </td>
                 </tr>
                 <tr>
@@ -64,6 +63,7 @@
                                 @switch($solModel->Id_norma)
                                     @case(30)
                                     @case(7)
+                                    @case(9)
                                         {{@$horaMuestreo}}
                                         @break
                                     @default
