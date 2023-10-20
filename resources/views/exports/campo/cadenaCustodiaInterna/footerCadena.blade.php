@@ -144,7 +144,7 @@
                         @if (@$promEnt->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">	Enterococos Fecales NMP/100mL</td>
                             <td class="fontCalibri anchoColumna111 fontSize8">
-                                @if (@$promEnt[0]->Resultado2 <= @$promEnt[0]->Limite)
+                                @if (@$promEnt[0]->Resultado2 < @$promEnt[0]->Limite)
                                     < {{@$promEnt[0]->Limite}}
                                 @else
                                     {{round(@$promEnt[0]->Resultado2,2)}}

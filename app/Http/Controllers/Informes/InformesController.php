@@ -519,7 +519,7 @@ class InformesController extends Controller
                 // $firma1 = User::find(14);
                 $firma1 = User::find(14); // Reviso
                 // $firma2 = User::find(4); // Autorizo
-                $firma2 = User::find(4); // Autorizo
+                $firma2 = User::find(12); // Autorizo
                 // $firma2 = User::find(14);
                 break;
 
@@ -527,8 +527,8 @@ class InformesController extends Controller
             //Residual
                 $firma1 = User::find(14); // Reviso
                 //$firma1 = User::find(14);
-                //$firma2 = User::find(12); // Autorizo
-                 $firma2 = User::find(4);
+                $firma2 = User::find(12); // Autorizo
+                //$firma2 = User::find(4);
                 break;
         }
         //Proceso de Reporte Informe
