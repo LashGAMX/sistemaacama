@@ -334,14 +334,14 @@ class CampoAppController extends Controller
             $gasto[$i]->Gasto1 = floatval($temp1);
             $gasto[$i]->Gasto2 = floatval($temp2);
             $gasto[$i]->Gasto3 = floatval($temp3);
-            if ($temp4 == null){
+            if ($temp4 == null || $temp4 == 0.0 || $temp4 == 0){
                 $gasto[$i]->Promedio = null;
             } else {
                 $gasto[$i]->Promedio = floatval($temp4);
             }
             $gasto[$i]->save();
         }
-        
+           
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
         
         

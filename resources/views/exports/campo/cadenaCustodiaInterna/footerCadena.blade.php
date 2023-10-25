@@ -23,6 +23,34 @@
 
                         </td>
                     @break
+                    @case(4)
+                        @if (@$promGra->count())
+                            <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
+                                    < {{@$promGra[0]->Limite}}
+                                @else
+                                    {{round(@$promGra[0]->Resultado2,2)}}
+                                @endif
+                            </td>
+                            @endif
+
+                        @if (@$promGas->count())
+                            <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
+                        @endif
+                        @if (@$promCol->count())
+                            <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">
+                                @if (@$promCol[0]->Resultado2 < @$promCol[0]->Limite)
+                                    < {{@$promCol[0]->Limite}}
+                                @else
+                                    {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
+                                @endif
+                            </td>
+                        @endif
+
+                    @break
                     @case(30)
                     
                     @break
