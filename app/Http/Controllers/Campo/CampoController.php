@@ -480,7 +480,7 @@ class CampoController extends Controller
             $model->Ph3 = $res->ph3[$cont];
             $model->Promedio = $res->promedio[$cont];
             $model->Fecha = $res->fecha[$cont];
-            $model->Activo = $res->activo[$cont];
+            // $model->Activo = $res->activo[$cont];
             $model->save();
             $cont++;
         }
@@ -496,7 +496,7 @@ class CampoController extends Controller
             $model[$i]->TemperaturaSin2 = $request->array2[$i];
             $model[$i]->TemperaturaSin3 = $request->array3[$i];
             $model[$i]->Promedio = $request->promedio[$i];
-            $model[$i]->Activo = $request->estado[$i];
+            // $model[$i]->Activo = $request->estado[$i];
             $model[$i]->save();
         }
         $data = array(
@@ -512,7 +512,7 @@ class CampoController extends Controller
             $model[$i]->Temperatura1 = $request->array2[$i];
             $model[$i]->TemperaturaSin1 = $request->array1[$i];
             $model[$i]->Fact_apl = $request->factor[$i];
-            $model[$i]->Activo = $request->activo[$i];
+            // $model[$i]->Activo = $request->activo[$i];
             $model[$i]->save();
         }
         $data = array(
@@ -530,7 +530,7 @@ class CampoController extends Controller
             $model[$i]->Lectura3 = $request->array4[$i];
             $model[$i]->Promedio = $request->promedio[$i];
             $model[$i]->Estado = $request->estado[$i];
-            $model[$i]->Activo = $request->activo[$i];
+            // $model[$i]->Activo = $request->activo[$i];
             $model[$i]->save();
         }
         $data = array(
@@ -546,7 +546,7 @@ class CampoController extends Controller
             $model[$i]->Conductividad2 = $request->array2[$i];
             $model[$i]->Conductividad3 = $request->array3[$i];
             $model[$i]->Promedio = $request->promedio[$i];
-            $model[$i]->Activo = $request->activo[$i];
+            // $model[$i]->Activo = $request->activo[$i];
             $model[$i]->save();
         }
         $data = array(
@@ -563,7 +563,7 @@ class CampoController extends Controller
             $model[$i]->Gasto2 = $request->array2[$i];
             $model[$i]->Gasto3 = $request->array3[$i];
             $model[$i]->Promedio = $request->promedio[$i];
-            $model[$i]->Activo = $request->estado[$i];
+            // $model[$i]->Activo = $request->estado[$i];
             $model[$i]->save();
         }
         $data = array(

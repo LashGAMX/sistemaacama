@@ -70,6 +70,7 @@ class IngresarController extends Controller
         $model = SolicitudPuntos::where('Id_solPadre', $res->id)->get();
         $cloruro = array();
         // $cloruro = 0;
+
         $conductividad = array();
         $temp = 0;
         $aux = 0;
@@ -104,7 +105,7 @@ class IngresarController extends Controller
     }
     public function getCodigoRecepcion(Request $res)
     {
-        $model = DB::table('ViewCodigoParametroSol')->where('Id_solicitud', $res->idSol)->get();
+        $model = DB::table('viewcodigoparametro')->where('Id_solicitud', $res->idSol)->get();
         $data = array(
             'model' => $model,
         );

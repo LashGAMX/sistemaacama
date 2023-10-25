@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://sistemaacama.com.mx'),
+    'url' => env('APP_URL', 'http://sistemasofia.ddns.net:85/sofia'),
 
     'asset_url' => env('ASSET_URL', null),
 
