@@ -210,7 +210,12 @@
     </div>  
 
     <br>
-    <br>
+
+    <div id="contenidoCurva">
+        @php
+             echo @$procedimiento[1];
+        @endphp
+    </div> 
 
 </body>
 </html>
