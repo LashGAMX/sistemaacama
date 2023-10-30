@@ -136,7 +136,7 @@
     </div>
     <br>
     @php
-        echo $procedimiento[1]; 
+        echo @$procedimiento[1]; 
     @endphp
     
 </div>   

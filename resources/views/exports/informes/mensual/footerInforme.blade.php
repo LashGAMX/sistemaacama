@@ -78,7 +78,7 @@
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> BIOL. GUADALUPE GARCÍA PÉREZ{{-- {{@$usuario->name}} --}}</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 8px;"> REVISÓ SIGNATARIO</span></center> -->
                             {{-- <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma1->firma)}}"> <br></span> --}}
-                            {{-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">I.A. MARÍA LUISA ZAYAS RAMÍREZ{{@$usuario->name}}</span> <br> --}}
+                            <!-- {{-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">I.A. MARÍA LUISA ZAYAS RAMÍREZ{{@$usuario->name}}</span> <br> --}} -->
                             <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">BIOL. GUADALUPE GARCÍA PÉREZ{{-- {{@$usuario->name}} --}}</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 8px;"> REVISÓ SIGNATARIO</span></center>
                         </td>

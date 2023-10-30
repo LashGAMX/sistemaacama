@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('#termometro').select2();
     $('#termometro2').select2(); 
     validacionInicio()
-    $("#setPhMuestra").click(function () {
+    $("#setPhMuestra").click(function () { 
     guardarPhMuestra()
     });
     $(".btnSubir").click(function () {

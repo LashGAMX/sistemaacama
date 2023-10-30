@@ -173,7 +173,7 @@ class InformesController extends Controller
         }
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
-        $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->get();
         $tempAmbienteProm = 0;
         $auxTem = 0;
         foreach ($auxAmbienteProm as $item) {
@@ -324,6 +324,8 @@ class InformesController extends Controller
                             }
                         break;
                     case 65:
+                    case 66:
+                    case 102:
                         if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
@@ -519,8 +521,13 @@ class InformesController extends Controller
                 // $firma1 = User::find(14);
                 $firma1 = User::find(14); // Reviso
                 // $firma2 = User::find(4); // Autorizo
+<<<<<<< HEAD
                 $firma2 = User::find(12); // Autorizo
                 // $firma2 = User::find(14);
+=======
+                //$firma2 = User::find(4); // Autorizo
+                 $firma2 = User::find(12);
+>>>>>>> 9d29dbe42ba3228e19201f570a2f8b7dc7f2d68f
                 break;
 
             default:
@@ -528,7 +535,11 @@ class InformesController extends Controller
                 $firma1 = User::find(14); // Reviso
                 //$firma1 = User::find(14);
                 $firma2 = User::find(12); // Autorizo
+<<<<<<< HEAD
                 //$firma2 = User::find(4);
+=======
+                // $firma2 = User::find(4);
+>>>>>>> 9d29dbe42ba3228e19201f570a2f8b7dc7f2d68f
                 break;
         }
         //Proceso de Reporte Informe
@@ -2441,18 +2452,20 @@ class InformesController extends Controller
         @$gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $obs1 = CampoCompuesto::where('Id_solicitud', $idSol1)->first();
         $obs2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
-        $tempAmbiente1  = TemperaturaAmbiente::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
-        $tempAmbiente2  = TemperaturaAmbiente::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
+        $tempAmbiente1  = TemperaturaAmbiente::where('Id_solicitud', $idSol1)->get();
+        $tempAmbiente2  = TemperaturaAmbiente::where('Id_solicitud', $idSol2)->get();
         $auxTemp = 0; 
         $tempProm1 = 0;
         $tempProm2 = 0; 
         foreach ($tempAmbiente1 as $item) {
             $tempProm1 += $item->Temperatura1;
-            $tempProm2 += $tempAmbiente2[$auxTemp]->Temperatura1;
+            @$tempProm2 += $tempAmbiente2[$auxTemp]->Temperatura1;
             $auxTemp++;
         }
         $tempProm1 = $tempProm1 / $auxTemp;
         $tempProm2 = $tempProm2 / $auxTemp;
+
+        // echo "Temp2: ".$tempProm2; 
 
         
         $phMuestra1 = PhMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
@@ -2468,7 +2481,7 @@ class InformesController extends Controller
             if ($item->Olor == "Si") {
                 $olor1 = true;   
             }
-            if ($phMuestra2[$auxPh]->Olor == "Si") {
+            if (@$phMuestra2[$auxPh]->Olor == "Si") {
                 $olor2 = true;   
             }
             $auxPh++;
@@ -2883,7 +2896,7 @@ class InformesController extends Controller
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.mensual.001.bodyInforme', $data);
-        //HEADER-FOOTER******************************************************************************************************************
+        //HEADER-FOOTER************************************************************************************** ****************************
         $htmlHeader = view('exports.informes.mensual.001.headerInforme', $data);
         $htmlFooter = view('exports.informes.mensual.001.footerInforme', $data);
 
@@ -5374,7 +5387,7 @@ class InformesController extends Controller
                         if ($item->Resultado < $item->Limite) {
                             $resTemp = "< " . $item->Limite;
                         } else {
-                            $resTemp = $item->Resultado;
+                            $resTemp = number_format($item->Resultado,2);
                         }
                     }
                     break;
@@ -5509,6 +5522,7 @@ class InformesController extends Controller
                         case 9:
                         case 2:
                         case 3:
+                        case 4:
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {

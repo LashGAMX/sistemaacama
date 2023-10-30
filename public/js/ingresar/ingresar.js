@@ -135,7 +135,7 @@ function setGenFolio() {
                     break
                 default: 
                     aux = ""
-                    break
+                    break 
             }
             conductividad.push(puntos.rows[i].children[2].children[0].value)
             cloruros.push(aux)
@@ -154,6 +154,7 @@ function setGenFolio() {
             success: function (response) {
                 console.log(response);
                 alert(response.msg)
+                
             }
         });
     } else {
@@ -219,6 +220,7 @@ function tableCodigos(model) {
     tab += '        <tr>';
     tab += '          <th>Codigo</th>';
     tab += '          <th>Parametro</th>';
+    tab += '        </tr>';
     tab += '    </thead>';
     tab += '    <tbody>';
     $.each(model, function (key, item) {
@@ -231,10 +233,17 @@ function tableCodigos(model) {
             dataType: "json",
             async: false,
             success: function (response) {
+                console.log(response)
+                let tempSw = ""
                 $.each(response.model, function (key, item2) {
-                    tab += '<tr>';
-                    tab += '<td>' + item2.Codigo + '</td>';
-                    tab += '<td>' + item2.Parametro + '</td>';
+                    tab += '<tr>';   
+                    if (item2.Cancelado == 1) {
+                        tempSw = "bg-danger"
+                    } else {
+                        tempSw = ""
+                    }
+                    tab += '<td class="'+tempSw+'">' + item2.Codigo + '</td>';
+                    tab += '<td class="'+tempSw+'">' + item2.Parametro + '</td>';
                     tab += '</tr>';
                 });
             }
@@ -316,7 +325,7 @@ function tablePuntos(id) {
             tab += '</table>';
             tabla.innerHTML = tab;
 
-            tableCodigos(dataPunto)
+            tableCodigos(dataPunto) 
 
             $('#puntos').DataTable({
                 "ordering": false,

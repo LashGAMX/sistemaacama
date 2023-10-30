@@ -65,7 +65,7 @@ function getPuntoMuestro(id)
         success: function (response) {
           console.log(response);
           tab = '';
-          tab += '<select onclick="getSolParametro()" class="form-control" id="puntoMuestreo">';
+          tab += '<select class="form-control" id="puntoMuestreo">'; 
           $.each(response.model, function (key, item) {
             tab += '  <option value="'+item.Id_solicitud+'">'+item.Punto+'</option>';
          }); 

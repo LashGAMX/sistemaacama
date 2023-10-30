@@ -221,9 +221,9 @@ function getClienteRegistrado() {
       tab += '<option value="0">Sin seleccionar</option>';
       $.each(response.model, function (key, item) {
         if (data.Id_cliente == item.Id_cliente) {
-          tab += '<option value="' + item.Id_cliente + '" selected>' + item.Empresa + '</option>';
+          tab += '<option value="' + item.Id_cliente + '" selected>('+item.Id_cliente+') ' + item.Empresa + '</option>';
         } else {
-          tab += '<option value="' + item.Id_cliente + '">' + item.Empresa + '</option>';
+          tab += '<option value="' + item.Id_cliente + '">('+item.Id_cliente+') ' + item.Empresa + '</option>';
         }
       });
       sub.innerHTML = tab;

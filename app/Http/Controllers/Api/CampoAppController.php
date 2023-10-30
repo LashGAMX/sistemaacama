@@ -63,7 +63,8 @@ class CampoAppController extends Controller
         $arr = $request->solicitudesModel;
         $json = json_decode($arr,true);
 
-        $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->orderBy('Id_solicitud','DESC')->get();
+       // $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->orderBy('Id_solicitud','DESC')->get();
+        $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->get();
        // $termometro = TermometroCampo::all();
         $pc100 = TermometroCampo::where('Tipo', 2)->get();
         $hanna =  TermometroCampo::where('Tipo', 1)->get();
