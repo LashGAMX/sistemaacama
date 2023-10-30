@@ -16,7 +16,7 @@ class TableSucursal extends Component
     public $idCliente;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 30;
+    public $perPage = 500;
     public $sw = 0;
     public $dup = 0;
     public $alert = false;
