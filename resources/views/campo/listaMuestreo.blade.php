@@ -137,6 +137,6 @@
 
 
 @section('javascript')
-    <script src="{{asset('public/js/campo/listaMuestreo.js')}}?v=1.0.4"></script> 
+    <script src="{{asset('public/js/campo/listaMuestreo.js')}}?v=1.0.5"></script> 
 @stop
 

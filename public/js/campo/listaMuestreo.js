@@ -1,5 +1,6 @@
 
 var table;
+var idCot = 0; 
 // var selectedRow = false;
 $(document).ready(function () {
     table = $('#listaServicio').DataTable({
@@ -29,7 +30,7 @@ $(document).ready(function () {
         }
     } );
  
-    let idCot = 0; 
+    
     $('#listaServicio tr').on('click', function(){
         let dato = $(this).find('td:first').html();
         idCot = dato;
@@ -56,6 +57,7 @@ function buscar(){
 
     let tablaDoc = document.getElementById('divTabla')
     let table = ""
+    
    
     $.ajax({
         type: 'POST', //método de envio
@@ -122,12 +124,17 @@ function buscar(){
                 else {
                     table.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
-                    // console.log("Seleccionado");
-                    // selectedRow = true;
+                     //console.log("Seleccionado");
+                     //selectedRow = true;
                     $("#btnEdit").prop('disabled', false);
                 }
             } );
-
+         
+            $('#listaServicio tr').on('click', function(){
+                let dato = $(this).find('td:first').html();
+                idCot = dato;
+                console.log(idCot);
+              });
          }
         
     });  

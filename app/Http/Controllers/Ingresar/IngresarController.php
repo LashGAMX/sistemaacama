@@ -251,7 +251,7 @@ class IngresarController extends Controller
                                     'Codigo' => $item->Folio_servicio . "-C-" . ($i + 1) . "",
                                     'Num_muestra' => $i + 1,
                                     'Asignado' => 0,
-                                    'Analizo' => 0,
+                                    'Analizo' => 1,
                                     'Reporte' => 0,
                                     'Cadena' => 0,
                                     'Cancelado' => $canceladoAux[$i],
