@@ -2933,7 +2933,7 @@ class LabAnalisisController extends Controller
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    'curva' => $curva,
+                    'curva' => $curva, 
                     'plantilla' => $plantilla,
                     'procedimiento' => $procedimiento,
                     'analizo' => $analizo,

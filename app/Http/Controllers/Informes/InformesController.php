@@ -173,7 +173,7 @@ class InformesController extends Controller
         }
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
-        $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->get();
         $tempAmbienteProm = 0;
         $auxTem = 0;
         foreach ($auxAmbienteProm as $item) {
@@ -2456,7 +2456,7 @@ class InformesController extends Controller
         $tempProm1 = $tempProm1 / $auxTemp;
         $tempProm2 = $tempProm2 / $auxTemp;
 
-        echo "Temp2: ".$tempProm2;
+        // echo "Temp2: ".$tempProm2; 
 
         
         $phMuestra1 = PhMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
@@ -2896,7 +2896,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        // $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
+        $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
     }
     public function exportPdfInformeMensualCampo($idSol1, $idSol2)
     {
