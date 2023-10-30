@@ -18,7 +18,7 @@ $(document).ready(function () {
         "paging": false
     });
     $('#btnCadena').click(function () {
-        window.open("/admin/informes/cadena/pdf/"+idPunto)
+        window.open("/sofia/admin/informes/cadena/pdf/"+idPunto)
     });
 
     $('#tablePuntos tbody').on('click', 'tr', function () { 
@@ -254,38 +254,38 @@ function getDetalleAnalisis(idCodigo) {
             console.log(response)
             dataModel = response.model
             idCod = idCodigo;
-            switch (response.paraModel.Id_parametro) {
-                case "17": // Arsenico
-                case "208":
-                case "207": //Aluminio 
-                case "231":
-                case "20": // Cobre
-                case "22": //Mercurio
-                case "215":
-                case "25": //Zinc
-                case "227":
-                case "24": //Plomo
-                case "216":  
-                case "21": //Cromoa
-                case "264":
-                case "18": //Cadmio
-                case "210":
-                case "300": //Niquel
-                case "233": // Seleneio
-                case "213": //Fierro 
-                case "197":
-                case "188":
-                case "189":
-                case "190":
-                case "191":
-                case "192":
-                case "194":
-                case "195":
-                case "196":
-                case "204":
-                case "219":
-                case "230":
-                case "23":
+            switch (parseInt(response.paraModel.Id_parametro)) {
+                case 17: // Arsenico
+                case 208:
+                case 207: //Aluminio 
+                case 231:
+                case 20: // Cobre
+                case 22: //Mercurio
+                case 215:
+                case 25: //Zinc
+                case 227:
+                case 24: //Plomo
+                case 216:  
+                case 21: //Cromoa
+                case 264:
+                case 18: //Cadmio
+                case 210:
+                case 300: //Niquel
+                case 233: // Seleneio
+                case 213: //Fierro 
+                case 197:
+                case 188:
+                case 189:
+                case 190:
+                case 191:
+                case 192:
+                case 194:
+                case 195:
+                case 196:
+                case 204:
+                case 219:
+                case 230:
+                case 23:
                     console.log("entro a caso 2");
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -307,19 +307,19 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                    
-                case "15": // fosforo
-                case "19": // Cianuros
-                case "7": //Nitrats
-                case "8": //Nitritos
-                case "152": //COT
-                case "99": //Cianuros 127
-                case "105": //Floururos 127
-                case "106":
-                case "107":
-                case "96":
-                case "95": // Sulfatos
-                case "87": // silice 
-                case "79":
+                case 15: // fosforo
+                case 19: // Cianuros
+                case 7: //Nitrats
+                case 8: //Nitritos
+                case 152: //COT
+                case 99: //Cianuros 127
+                case 105: //Floururos 127
+                case 106:
+                case 107:
+                case 96:
+                case 95: // Sulfatos
+                case 87: // silice 
+                case 79:
                     console.log("entro a caso 16");
                   
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -343,7 +343,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 //Volumnetria
 
-                case "11":
+                case 11:
                     let swT = 0
                     
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -392,9 +392,9 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "9":
-                case "10":
-                case "108": 
+                case 9:
+                case 10:
+                case 108: 
                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -436,7 +436,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "83":
+                case 83:
                     let swK = 0;
                     console.log("Entro a kendal")
                   
@@ -487,8 +487,8 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 // case 218:
-                case "64":
-                case "358":
+                case 64:
+                case 358:
                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -515,7 +515,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "13":// Graasas & Aceites
+                case 13:// Graasas & Aceites
                     console.log("entro a caso 13");
                    
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -560,8 +560,8 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "5":
-                case "71":
+                case 5:
+                case 71:
                 
                     console.log("Entro a id 5")
                     
@@ -589,12 +589,12 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "12":
-                case "133":
-                case "134":
-                case "137":
-                case "51":
-                case "35": 
+                case 12:
+                case 133:
+                case 134:
+                case 137:
+                case 51:
+                case 35: 
                     let swC = 0;
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -636,7 +636,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "253":
+                case 253:
                     let swEn = 0
                     
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -681,7 +681,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "35":
+                case 35:
                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -716,7 +716,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "16":
+                case 16:
                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -737,7 +737,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "78":
+                case 78:
                     
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -759,9 +759,9 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
 
-                case "3":// Solidos
-                case "4":// Solidos
-                case "112":// Solidos
+                case 3:// Solidos
+                case 4:// Solidos
+                case 112:// Solidos
                     console.log("entro a caso 15");
                    
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -784,13 +784,13 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 //Campo
-                case "26"://Gasto
-                case "2": //Materia flotante
-                case "14": //ph
-                case "110": //ph
-                case "97": //Temperatura
-                case "67"://Conductividad
-                case "68":
+                case 26://Gasto
+                case 2: //Materia flotante
+                case 14: //ph
+                case 110: //ph
+                case 97: //Temperatura
+                case 67://Conductividad
+                case 68:
                     console.log("entro a caso 7");
                     
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -804,7 +804,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
-                    if (response.codigoModel.Id_parametro == 26) { // Gasto
+                    if (parseInt(response.codigoModel.Id_parametro) == 26) { // Gasto
                         aux = 0;
                         cont = 0;
                         $.each(response.model, function (key, item) {
@@ -813,9 +813,11 @@ function getDetalleAnalisis(idCodigo) {
                             if (parseInt(response.solModel.Id_servicio) != 3) {
                                 tab += '<td>' + item.Promedio + '</td>';   
                                 aux = aux + parseFloat(item.Promedio);
+                                console.log("Entra en campo")
                             } else { 
                                 tab += '<td>' + item.Resultado + '</td>';
                                 aux = aux + parseFloat(item.Resultado);
+                                console.log("Entra en Lab")
                             }
                             tab += '</tr>';
                             cont++
@@ -1019,8 +1021,8 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "95":// Potable
-                case "116":
+                case 95:// Potable
+                case 116:
                     console.log("entro a caso 8");
                     
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -1042,13 +1044,13 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "66":
-                case "65":
-                case "98":
-                case "89":
-                case "218":
-                case "84": // Olor
-                case "86": // Sabor
+                case 66:
+                case 65:
+                case 98:
+                case 89:
+                case 218:
+                case 84: // Olor
+                case 86: // Sabor
                     console.log("entro a caso 8");
                     
                     tab += '<table id="tableResultado" class="table table-sm">';

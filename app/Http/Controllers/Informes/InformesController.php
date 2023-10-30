@@ -5374,7 +5374,7 @@ class InformesController extends Controller
                         if ($item->Resultado < $item->Limite) {
                             $resTemp = "< " . $item->Limite;
                         } else {
-                            $resTemp = $item->Resultado;
+                            $resTemp = number_format($item->Resultado,2);
                         }
                     }
                     break;

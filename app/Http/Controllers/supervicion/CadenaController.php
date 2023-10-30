@@ -383,7 +383,9 @@ class CadenaController extends Controller
             case 230:
             case 23:
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+                    ->where('Id_parametro', $codigoModel->Id_parametro)
+                    ->where('Id_control', 1)
+                    ->get();
                
                 break;
             case "15": // fosforo
@@ -534,7 +536,7 @@ class CadenaController extends Controller
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
-            case "26": //Gasto
+            case 26: //Gasto
                 if ($solModel->Id_servicio != 3) {
                     $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
                 }else{

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'informes'], function () {
     Route::get('/', [InformesController::class, 'index']); 
     Route::post('/getPuntoMuestro',[InformesController::class,'getPuntoMuestro']);
-    Route::post('/getSolParametro',[InformesController::class,'getSolParametro']);
+    Route::post('/getSolParametro',[InformesController::class,'getSolParametro']); 
     
     Route::get('exportPdfSinComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfSinComparacion']);
     Route::get('exportPdfConComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfConComparacion']);

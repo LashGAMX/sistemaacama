@@ -79,7 +79,7 @@ function getDataCaptura() {
                 tab += '</table>';
                 tabla.innerHTML = tab;
 
-                tecnica = response.tecnica;
+                // tecnica = response.tecnica;
 
                 if(response.curva == null ){
                     alert("Este lote no tiene Curva de calibración")
@@ -114,6 +114,7 @@ function getDataCaptura() {
                     idLote = dato;
                     // getLoteCapturaVol();
                     getLoteCaptura()
+                    // alert("Lote")
                   });
             }
         });
@@ -135,12 +136,12 @@ function getLoteCaptura() {
         data: {
             idLote: idLote,
             formulaTipo: $("#formulaTipo").val(), 
-            tecnica: tecnica,
             _token: $('input[name="_token"]').val() 
         },
         dataType: "json",
         success: function (response) {
-            console.log(response);
+            console.log(response)
+            // alert("Entro")
             let aux = 0
             switch (parseInt(response.detalle[0].Id_parametro)) {
                 case 215:
