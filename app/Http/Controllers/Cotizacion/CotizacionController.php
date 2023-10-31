@@ -429,7 +429,7 @@ class CotizacionController extends Controller
     {
         $cotTemp = Cotizacion::where('Id_cotizacion',$res->id)->get();
         $msg = "No se puede generar folio";
-        $aux = 100;
+        $aux = 1;
         if ($cotTemp->count()) {     
             if ($cotTemp[0]->Folio == NULL) { 
                 $temp = strtotime($res->fecha);

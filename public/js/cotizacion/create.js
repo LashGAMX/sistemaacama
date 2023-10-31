@@ -165,7 +165,7 @@ function getLocalidad()
         async: false,
         success: function (response) {
             $.each(response.model, function (key, item) {              
-              if($("#idCot") != "") 
+              if($("#idCot").val() != "") 
               {
                 if (response.cotizacionMuestreo.Localidad == item.Id_localidad) {
                   tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';

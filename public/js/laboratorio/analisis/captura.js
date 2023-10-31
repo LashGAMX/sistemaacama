@@ -3426,6 +3426,9 @@ function getLote() {
             async: false,
             success: function (response) {
                 console.log(response);
+                if (response.model.length < 1) {
+                    alert("No hay lote encontrado")
+                }
                 tab += '<table id="tabLote" class="table table-sm">'
                 tab += '    <thead>'
                 tab += '        <tr>'

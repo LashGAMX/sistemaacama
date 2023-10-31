@@ -48,13 +48,13 @@ use \Milon\Barcode\DNS2D;
 class SolicitudController extends Controller
 {
     // 
-    public function index()
+    public function index() 
     {
         if (Auth::user()->role->id == 13) {
-            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->where('Creado_por', Auth::user()->id)->get();
+            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->where('Creado_por', Auth::user()->id)->take(1000)->get();
         } else {
             // $model = Cotizacion::orderBy('Id_cotizacion','DESC')->take(200)->get();
-            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->get();
+            $model = Cotizacion::orderBy('Id_cotizacion','DESC')->take(1000)->get();
         }
         $norma = Norma::all();
         $descarga = TipoDescarga::all();
@@ -69,10 +69,20 @@ class SolicitudController extends Controller
         );
         return view('cotizacion.solicitud', $data); 
     }
-    public function buscarFecha($inicio, $fin)
+    public function buscar(Request $req)
     {
-        $model = DB::table('ViewCotizacion')->whereBetween('created_at', [$inicio, $fin])->get();
-        return view('cotizacion.solicitud', compact('model'));
+        $model1 = DB::table('ViewCotizacion')->where('Folio','LIKE',"%$req->folio%")->get();
+        if (count($model1)){
+            $model = $model1;
+        } else {
+            $model = DB::table('ViewCotizacion')->where('Folio_servicio','LIKE',"%$req->folio%")->get();
+        }
+
+        $data = array(
+            "model" => $model,
+        );
+     
+        return response()->json($data);
     }
 
     public function create($idCot)
@@ -1295,7 +1305,7 @@ class SolicitudController extends Controller
     {
         $cotTemp = Solicitud::where('Id_cotizacion',$res->id)->where('Padre',1)->get();
         $msg = "No se puede generar folio";
-        $aux = 100;
+        $aux = 1;
         if ($cotTemp->count()) {     
             if ($cotTemp[0]->Folio_servicio == NULL) { 
                 $temp = strtotime($res->fecha);

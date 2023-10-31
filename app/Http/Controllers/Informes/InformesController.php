@@ -521,25 +521,16 @@ class InformesController extends Controller
                 // $firma1 = User::find(14);
                 $firma1 = User::find(14); // Reviso
                 // $firma2 = User::find(4); // Autorizo
-<<<<<<< HEAD
                 $firma2 = User::find(12); // Autorizo
                 // $firma2 = User::find(14);
-=======
-                //$firma2 = User::find(4); // Autorizo
-                 $firma2 = User::find(12);
->>>>>>> 9d29dbe42ba3228e19201f570a2f8b7dc7f2d68f
                 break;
-
+ 
             default:
             //Residual
                 $firma1 = User::find(14); // Reviso
                 //$firma1 = User::find(14);
                 $firma2 = User::find(12); // Autorizo
-<<<<<<< HEAD
                 //$firma2 = User::find(4);
-=======
-                // $firma2 = User::find(4);
->>>>>>> 9d29dbe42ba3228e19201f570a2f8b7dc7f2d68f
                 break;
         }
         //Proceso de Reporte Informe
@@ -2011,6 +2002,7 @@ class InformesController extends Controller
                                 case 19:
                                 case 23:
                                 case 113:
+                                case 355: 
                                
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
@@ -2167,7 +2159,7 @@ class InformesController extends Controller
                         $aux = "N/A";
                     }
                     break;
-                default:
+                default: 
 
                     break;
             }

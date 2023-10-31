@@ -89,7 +89,7 @@ function setActCC()
             dataType: "json",
             async: false,
             success: function (response) {
-                console.log(response);
+                console.log(response); 
                 alert(response.msg)
                 tableCodigos(dataPunto) 
             }
@@ -213,6 +213,7 @@ function buscarFolio() {
     });
 }
 function tableCodigos(model) {
+    console.log("Buscando codigos")
     let tabla = document.getElementById('divCodigos');
     let tab = '';
     tab += '<table id="codigos" class="table table-sm">';
@@ -224,6 +225,7 @@ function tableCodigos(model) {
     tab += '    </thead>';
     tab += '    <tbody>';
     $.each(model, function (key, item) {
+        console.log("ID_sol: "+item.Id_solicitud)
         $.ajax({
             type: "POST",
             url: base_url + '/admin/ingresar/getCodigoRecepcion',
@@ -233,6 +235,7 @@ function tableCodigos(model) {
             dataType: "json",
             async: false,
             success: function (response) {
+                console.log("Conslta de codigo")
                 console.log(response)
                 let tempSw = ""
                 $.each(response.model, function (key, item2) {
@@ -283,6 +286,7 @@ function tablePuntos(id) {
         success: function (response) {
             dataPunto = response.model
             console.log(response);
+            tableCodigos(dataPunto) 
             let tabla = document.getElementById('divPuntos');
             let tab = '';
             tab += '<table id="puntos" class="table table-sm">';
@@ -325,11 +329,10 @@ function tablePuntos(id) {
             tab += '</table>';
             tabla.innerHTML = tab;
 
-            tableCodigos(dataPunto) 
 
             $('#puntos').DataTable({
                 "ordering": false,
-                "pageLength": 500,
+                "pageLength": 500, 
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
@@ -371,6 +374,8 @@ function tablePuntos(id) {
                     });
                 }
             });
+
+            
         }
     });
 

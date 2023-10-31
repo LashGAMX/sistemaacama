@@ -94,7 +94,7 @@ class IngresarController extends Controller
                 array_push($cloruro, $campoModel[0]->Cloruros);  
             } else {
                 array_push($cloruro, '');
-            }
+            } 
         }
         $data = array(
             'cloruro' => $cloruro,
@@ -105,9 +105,10 @@ class IngresarController extends Controller
     }
     public function getCodigoRecepcion(Request $res)
     {
-        $model = DB::table('viewcodigoparametro')->where('Id_solicitud', $res->idSol)->get();
+        $model = DB::table('ViewCodigoRecepcion')->where('Id_solicitud', $res->idSol)->get();
         $data = array(
-            'model' => $model,
+            'model' => $model, 
+            'idSol' => $res->idSol,
         );
         return response()->json($data);
     }

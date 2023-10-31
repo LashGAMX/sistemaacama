@@ -3,36 +3,44 @@
     @stop
 @section('content') 
  
- 
     <div class="container-fluid">
-        <p>Solicitud</p>
         <input type="text" hidden id="rol" value="{{Auth::user()->role->id}}">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
                     <!-- Parte de Encabezado-->
                     <div class="col-md-12">
-                           
+
+                    <div class="col-md-3">
+                        <select id="norma">
+                            <option value="0">Selecciona uno</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="folio" placeholder="Folio">
+                    </div>
+                    <div class="col-md-3">
+                        <select id="norma">
+                            <option value="0">Selecciona uno</option>
+                        </select>
                     </div>
 
-                    <div class="col-md-4 mt-2">
+                    <!-- <div class="col-md-1">
                         <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value=""> 
                     </div>
-                    <div class="col-md-4 mt-2">
+                    <div class="col-md-1">
                         <input type="date" id="fin" placeholder="Fecha fin" class="form-control" value="">
-                    </div> 
+                    </div>  -->
 
                     <div class="col-md-2 mt-2">
                         <button id="btnBuscar" class="btn btn-success btn-sm" placeholder="Buscar">Buscar</button>
+                    </div>
                     </div>
                     <!-- Fin Parte de Encabezado-->
 
                     <!--Tabla -->
                   <div class="col-md-12">
-                   <div class="table-responsive"> 
-                    <table id="tablaSolicitud" class="table">
-                        
-                        <div class="row">
+                   <div class="row">
                             <div class="col-md-1">
                                 <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
                             </div>
@@ -59,8 +67,12 @@
                                     <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
                                 @endif
                             </div>
-                        </div> 
-                        <thead class="">
+                            </div>                        
+                    </div>
+
+                     <div id="divTabla">
+                     <table id="tablaSolicitud" class="table">    
+                        <thead>
                             <tr>
                                 <th style="width: 10px">Id</th>
                                 <th>Estado</th>
@@ -125,7 +137,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                   </div>                  </div>
+                     </div>   
                     <!-- Fin de la Tabla --> 
                 </div>
             </div>

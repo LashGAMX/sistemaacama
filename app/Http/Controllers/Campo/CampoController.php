@@ -1640,16 +1640,22 @@ class CampoController extends Controller
         $factCorrec2 = array();
         $factApl2 = array();
         $aux = 0;
+        $promTemp1 = 0;
+        $promTemp2 = 0;
         foreach ($tempMuestra as $item) {
+            $promTemp1 = ($item->TemperaturaSin1 + $item->TemperaturaSin2 + $item->TemperaturaSin3) / 3;
+            $promTemp2 = ($tempAmbiente[$aux]->Temperatura1 + $tempAmbiente[$aux]->Temperatura2 + $tempAmbiente[$aux]->Temperatura3) / 3;
             $temp = array();
-            $temp = TermFactorCorreccionTemp::where('De_c', '<=', $item->Promedio)->where('A_c', '>', $item->Promedio)->where('Id_termometro', $campoGen->Id_equipo)->first();
-            array_push($factCorrec, $temp->Factor);
-            array_push($factApl, $temp->Factor_aplicado);
+            $temp = TermFactorCorreccionTemp::where('De_c', '<=', $promTemp1)->where('A_c', '>', $promTemp1)->where('Id_termometro', $campoGen->Id_equipo)->first();
+            array_push($factCorrec, @$temp->Factor);
+            array_push($factApl, @$temp->Factor_aplicado);
             $temp = array();
             $temp = TermFactorCorreccionTemp::where('De_c', '<=', $tempAmbiente[$aux]->Temperatura1)->where('A_c', '>', $tempAmbiente[$aux]->Temperatura1)->where('Id_termometro', $campoGen->Id_equipo2)->first();
-            array_push($factCorrec2, $temp->Factor);
-            array_push($factApl2, $temp->Factor_aplicado);
+            array_push($factCorrec2, @$temp->Factor);
+            array_push($factApl2, @$temp->Factor_aplicado);
             $aux++;
+            $promTemp1 = 0;
+            $promTemp2 = 0;
         }
 
 

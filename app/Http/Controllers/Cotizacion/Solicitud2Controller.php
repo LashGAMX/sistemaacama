@@ -45,7 +45,7 @@ class SolicitudController extends Controller
     public function index()
     {
         // $model = DB::table('ViewSolicitud')->get();
-        $model = DB::table('ViewCotizacion')->orderby('Id_cotizacion', 'DESC')->get();
+        $model = DB::table('ViewCotizacion')->orderby('Id_cotizacion', 'DESC')->take(100)->get();
         return view('cotizacion.solicitud', compact('model'));
     }
     public function buscarFecha($inicio, $fin)

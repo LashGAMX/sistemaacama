@@ -370,21 +370,36 @@
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     {{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
-                                    @php
-                                    echo number_format((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 +
-                                    @$item->TemperaturaSin3) / 3, 1, ".", ".");
-                                    @endphp
+                                    @if ($item->Activo != 0)
+                                        @php
+                                        echo number_format((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 + @$item->TemperaturaSin3) / 3, 1, ".", ".");
+                                        @endphp
+                                    @else
+                                        ----
+                                    @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{@$factCorrec[$aux]}}
+                                    @if ($item->Activo != 0)
+                                        {{@$factCorrec[$aux]}}
+                                    @else
+                                        ----
+                                    @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{@$factApl[$aux]}}
+                                    @if ($item->Activo != 0)
+                                        {{@$factApl[$aux]}}
+                                    @else
+                                        ----
+                                    @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    @php
-                                    echo number_format(@$item->Promedio, 1, ".", ".");
-                                    @endphp
+                                    @if ($item->Activo != 0)
+                                        @php
+                                        echo number_format(@$item->Promedio, 1, ".", ".");
+                                        @endphp
+                                    @else
+                                        ----
+                                    @endif
                                 </td>
                                 @php
                                 $aux++;
@@ -404,7 +419,7 @@
 
                     <table autosize="1" style="width: 95%" cellpadding="2" cellspacing="0" border-color="#000000">
                         <thead>
-                            <tr>
+                            <tr> 
                                 <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">°C</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de
@@ -456,7 +471,7 @@
                                     {{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
                                     @php
-                                    echo number_format(@$item->TemperaturaSin1, 1, ".", ".");
+                                        echo number_format(@$item->TemperaturaSin1, 1, ".", ".");
                                     @endphp
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
