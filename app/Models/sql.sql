@@ -1,4 +1,3 @@
--- SQLBook: Code
 
 CREATE VIEW ViewIntermediarios as SELECT
 	inter.Id_intermediario,
@@ -533,6 +532,11 @@ INNER JOIN users as us
 ON cod.Analizo = us.id
 INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud;
+
+CREATE VIEW ViewCodigoRecepcion AS 
+SELECT cod.* , pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codigo_parametro as cod
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro;
 
 /* ViewCodigoParametroSol */
 CREATE VIEW ViewCodigoParametroSol as SELECT cod.*,sol.Folio_servicio,pa.Parametro,pa.Unidad FROM codigo_parametro as cod

@@ -46,7 +46,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::get('create',[SolicitudController::class,'createOrden']);
     Route::get('updateOrden/{id}',[SolicitudController::class,'updateOrden']);
     Route::post('getDataUpdate',[SolicitudController::class,'getDataUpdate']);
-    Route::post('buscar',[SolicitudController::class,'buscar']);
+    Route::post('buscar',[SolicitudController::class,'buscar']);  
 
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
     Route::post('getDataCotizacion',[SolicitudController::class,'getDataCotizacion']);

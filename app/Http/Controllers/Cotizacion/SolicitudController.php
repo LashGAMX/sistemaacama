@@ -71,12 +71,28 @@ class SolicitudController extends Controller
     }
     public function buscar(Request $req)
     {
-        $model1 = DB::table('ViewCotizacion')->where('Folio','LIKE',"%$req->folio%")->get();
-        if (count($model1)){
-            $model = $model1;
+        if ($req->folio == "" && $req->norma == ""){
+            //busqueda por nombre
+            $model = DB::table('ViewCotizacion')->where('Nombre','LIKE',"%$req->nombre%")->get();
+        } else if ($req->nombre == "" && $req->norma == "") {
+            //busqueda por folio
+            $model1 = DB::table('ViewCotizacion')->where('Folio','LIKE',"%$req->folio%")->get();
+            if (count($model1)){
+                $model = $model1;
+            } else {
+                $model = DB::table('ViewCotizacion')->where('Folio_servicio','LIKE',"%$req->folio%")->get();
+            }
+        } else if ($req->folio == "" && $req->nombre == "") {
+            //busqueda por norma
+            $model = DB::table('ViewCotizacion')->where('Norma','LIKE',"%$req->norma%")->get();
         } else {
-            $model = DB::table('ViewCotizacion')->where('Folio_servicio','LIKE',"%$req->folio%")->get();
+            //busqueda con los 3
+            $model = DB::table('ViewCotizacion')->where('Nombre','LIKE',"%$req->nombre%")
+            ->where('Folio_servicio','LIKE',"%$req->folio%")
+            ->where('Norma','LIKE',"%$req->norma%")
+            ->get();
         }
+       
 
         $data = array(
             "model" => $model,

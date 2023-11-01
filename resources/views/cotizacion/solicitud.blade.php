@@ -9,21 +9,25 @@
             <div class="col-md-12">
                 <div class="row">
                     <!-- Parte de Encabezado-->
-                    <div class="col-md-12">
-
-                    <div class="col-md-3">
-                        <select id="norma">
-                            <option value="0">Selecciona uno</option>
-                        </select>
+                   
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="text" id="cliente" placeholder="Nombre Cliente">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="folio" placeholder="Folio">
+                        </div>
+                        <div class="col-md-3">
+                        <input type="text" id="norma" placeholder="Norma">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-success" id="btnBuscar">Buscar</button>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <input type="text" id="folio" placeholder="Folio">
-                    </div>
-                    <div class="col-md-3">
-                        <select id="norma">
-                            <option value="0">Selecciona uno</option>
-                        </select>
-                    </div>
+                </div>
+                
+                    
 
                     <!-- <div class="col-md-1">
                         <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value=""> 
@@ -32,10 +36,8 @@
                         <input type="date" id="fin" placeholder="Fecha fin" class="form-control" value="">
                     </div>  -->
 
-                    <div class="col-md-2 mt-2">
-                        <button id="btnBuscar" class="btn btn-success btn-sm" placeholder="Buscar">Buscar</button>
-                    </div>
-                    </div>
+                   
+               
                     <!-- Fin Parte de Encabezado-->
 
                     <!--Tabla -->
@@ -62,11 +64,11 @@
                                 <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                             </div>
 
-                            <div class="col-md-1">
+                            <!-- <div class="col-md-1">
                                 @if (Auth::user()->role->id != 13)
                                     <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
                                 @endif
-                            </div>
+                            </div> -->
                             </div>                        
                     </div>
 

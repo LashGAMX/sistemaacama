@@ -12,6 +12,7 @@ use App\Models\CampoGenerales;
 use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
 use App\Models\CampoTempCalidad;
+use App\Models\CodigoParametros;
 use App\Models\Color;
 use App\Models\ComplementoCampo;
 use App\Models\ConductividadCalidad;
@@ -1804,50 +1805,99 @@ class CampoController extends Controller
         $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSolicitud)->get();
         $puntoMuestreo = SolicitudPuntos::where('Id_solPadre',$idSolicitud)->get();
 
+        $areaModel = AreaLab::all();
+
         $area = array();
         $tempArea = array();
         $totalArea = array();
         $volumentEnva = array();
         $sw = false;
         $aux = 0;
-        foreach ($areaParam as $item) {
+
+        foreach ($areaModel as $item) {
             $sw = false;
-            $aux = 0;
+            $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_analisis',$item->Id_area)->get();
             for ($i = 0; $i < sizeof($tempArea); $i++) {
                 if ($item->Id_area == $tempArea[$i]) {
                     $sw = true;
                 }
             }
-            if ($sw != true) {
-
-                switch ($item->Id_areaAnalisis) {
-                    case 3:
-                    case 6:
-                    case 13: 
-                    case 12:
-                        switch ($item->Id_parametro) {
-                            case 16:
-                            case 81:
-                                $aux = $puntoMuestreo->count(); 
+            foreach($auxEnv as $item2)
+            {
+                $pa = DB::table('solicitud_parametros')->where('Id_subnorma',$item2->Id_parametro)->where('Id_solicitud',$idSolicitud)->get();
+                if ($pa->count()) {
+                    if ($sw != true) { 
+                        switch ($item2->Id_area) {
+                            case 3: 
+                            case 6:
+                            case 13: 
+                            case 12:
+                                switch ($item->Id_parametro) { 
+                                    case 16:
+                                    case 81:
+                                        $aux = $puntoMuestreo->count(); 
+                                        break;
+                                    
+                                    default:
+                                        $aux = $model->Num_tomas * $puntoMuestreo->count();
+                                        break;
+                                }
                                 break;
                             
-                            default:
-                                $aux = $model->Num_tomas * $puntoMuestreo->count();
+                            default: 
+                            $aux = $puntoMuestreo->count(); 
                                 break;
                         }
-                        break;
-                    
-                    default: 
-                    $aux = $puntoMuestreo->count(); 
-                        break;
-                }
+        
+                        array_push($volumentEnva, $item2->Nombre ." ". $item2->Volumen ." ".$item2->Unidad);
+                        array_push($totalArea, $aux);
+                        array_push($tempArea, $item2->Id_area);
 
-                array_push($volumentEnva, $item->Nombre ." ". $item->Volumen ." ".$item->UniEnv);
-                array_push($totalArea, $aux);
-                array_push($tempArea, $item->Id_area);
-                array_push($area, $item->Area);
+
+                        array_push($area, $item2->Area);
+                    }
+                }
             }
         }
+
+        // foreach ($areaParam as $item) {
+        //     $sw = false;
+        //     $aux = 0;
+        //     for ($i = 0; $i < sizeof($tempArea); $i++) {
+        //         if ($item->Id_area == $tempArea[$i]) {
+        //             $sw = true;
+        //         }
+        //     }
+        //     if ($sw != true) {
+
+        //         switch ($item->Id_areaAnalisis) {
+        //             case 3:
+        //             case 6:
+        //             case 13: 
+        //             case 12:
+        //                 switch ($item->Id_parametro) {
+        //                     case 16:
+        //                     case 81:
+        //                         $aux = $puntoMuestreo->count(); 
+        //                         break;
+                            
+        //                     default:
+        //                         $aux = $model->Num_tomas * $puntoMuestreo->count();
+        //                         break;
+        //                 }
+        //                 break;
+                    
+        //             default: 
+        //             $aux = $puntoMuestreo->count(); 
+        //                 break;
+        //         }
+
+        //         array_push($volumentEnva, $item->Nombre ." ". $item->Volumen ." ".$item->UniEnv);
+        //         array_push($totalArea, $aux);
+        //         array_push($tempArea, $item->Id_area);
+        //         array_push($area, $item->Area);
+        //     }
+        // }
 
 
 

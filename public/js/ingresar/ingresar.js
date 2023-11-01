@@ -11,7 +11,7 @@ $(document).ready(function () {
         "scrollY": 400,
         "scrollCollapse": true
     });
-    $('#puntos').DataTable({
+    $('#puntos').DataTable({ 
         "ordering": false,
         "pageLength": 500,
         "language": {
