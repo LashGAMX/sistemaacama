@@ -1,3 +1,4 @@
+-- SQLBook: Code
 
 CREATE VIEW ViewIntermediarios as SELECT
 	inter.Id_intermediario,
@@ -445,7 +446,7 @@ ON en.Id_unidad = uni.Id_unidad;
 /* Lista ViewEnvaseParametro */ 
 
 CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,lab.Reportes,lab.deleted_at as stdArea ,pa.Parametro,pa.Rama,pa.Tipo_formula,en.Nombre,
-en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,lab.Id_area 
+en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,pa.Id_unidad as UniPar ,lab.Id_area 
 FROM envase_parametro as env
 INNER JOIN areas_lab as lab
 ON env.Id_analisis = lab.Id_area

@@ -5,7 +5,7 @@
  
     <div class="container-fluid">
         <input type="text" hidden id="rol" value="{{Auth::user()->role->id}}">
-        <div class="row">
+        <div class="row" style="margin-bottom: -30px">
             <div class="col-md-12">
                 <div class="row">
                     <!-- Parte de Encabezado-->
@@ -13,13 +13,13 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <input type="text" id="cliente" placeholder="Nombre Cliente">
+                            <input type="text" class="form-control" id="cliente" placeholder="Nombre Cliente">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" id="folio" placeholder="Folio">
+                            <input type="text" class="form-control" id="folio" placeholder="Folio">
                         </div>
                         <div class="col-md-3">
-                        <input type="text" id="norma" placeholder="Norma">
+                        <input type="text" class="form-control" id="norma" placeholder="Norma">
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-success" id="btnBuscar">Buscar</button>
@@ -28,19 +28,6 @@
                 </div>
                 
                     
-
-                    <!-- <div class="col-md-1">
-                        <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value=""> 
-                    </div>
-                    <div class="col-md-1">
-                        <input type="date" id="fin" placeholder="Fecha fin" class="form-control" value="">
-                    </div>  -->
-
-                   
-               
-                    <!-- Fin Parte de Encabezado-->
-
-                    <!--Tabla -->
                   <div class="col-md-12">
                    <div class="row">
                             <div class="col-md-1">
@@ -151,7 +138,7 @@
     </div>
 @endsection 
     @section('javascript')
-        <script src="{{ asset('public/js/cotizacion/solicitud.js')}}?v=1.0.1"></script>        
+        <script src="{{ asset('public/js/cotizacion/solicitud.js')}}?v=1.0.2"></script>        
     @stop
 
 
