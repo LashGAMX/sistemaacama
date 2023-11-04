@@ -66,6 +66,7 @@ $(document).ready(function () {
 });
 
 function getParametros() {
+    console.log("Click en Punto de muestreo")
     let color = "";
     let tabla = document.getElementById('divTableParametros');
     let tab = '';

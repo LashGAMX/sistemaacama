@@ -12,7 +12,7 @@
 
     <div class="container-fluid h-100">         
 
-        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v2.0.1.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="http://sistemasofia.ddns.net:85/sofia/public/storage/Recursos/MuestreoApp_v2.0.2.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
         
     </div>   
 

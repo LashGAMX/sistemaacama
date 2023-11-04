@@ -98,8 +98,8 @@ class CampoAppController extends Controller
         return response()->json($data);
     } 
     public function version(request $request) {
-        $version = "2.0.1";
-        $name = "MuestreoApp_v2.0.1.apk";
+        $version = "2.0.2";
+        $name = "MuestreoApp_v2.0.2.apk";
         $data = array(
             'version' => $version,
             'name' => $name,

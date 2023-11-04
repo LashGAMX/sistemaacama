@@ -1790,8 +1790,8 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
 
         //Recupera los parámetros de la solicitud
-        $parametros = SolicitudParametro::where('Id_solicitud', $idSolicitud)->get();
-
+        // $parametros = SolicitudParametro::where('Id_solicitud', $idSolicitud)->get();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$idSolicitud)->get();
 
         $complementoCampoTipo1 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 1)->get();
         $complementoCampoTipo2 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 2)->get();
@@ -1814,46 +1814,46 @@ class CampoController extends Controller
         $sw = false;
         $aux = 0;
      
-        $areaModel = AreaLab::all();
-        foreach ($areaModel as $item) {
-            $sw = false; 
-            $aux = 0;
-
-            for ($i = 0; $i < sizeof($tempArea); $i++) {
-                if ($item->Id_area == $tempArea[$i]) {
-                    $sw = true;
-                }
-            }
-            
-            $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item->Parametro)->where('stdArea', '=', NULL)->get();
+        foreach ($parametros as $item) {
+            $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item->Id_parametro)->where('stdArea', '=', NULL)->get();
             if ($auxEnv->count()) {
-                switch ($auxEnv[0]->Id_area) {
-                    case 3:
-                    case 6:
-                    case 13: 
-                    case 12:
-                        switch ($item->Parametro) {
-                            case 16:
-                            case 81:
-                                $aux = $puntoMuestreo->count(); 
-                                break;
-                            
-                            default:
-                                $aux = $model->Num_tomas * $puntoMuestreo->count();
-                                break;
-                        }
-                        break;
-                    
-                    default: 
-                        $aux = $puntoMuestreo->count(); 
-                        break;
+                $sw = false;
+                $aux = 0;
+                for ($i = 0; $i < sizeof($tempArea); $i++) {
+                    if ($auxEnv[0]->Id_area == $tempArea[$i]) {
+                        $sw = true;
+                    }
                 }
+                if ($sw != true) {
+                    switch ($item->Id_area) {
+                        case 3:
+                        case 6:
+                        case 13: 
+                         case 12:
+                            switch ($item->Id_parametro) {
+                                case 16:
+                                case 81:
+                                    $aux = $puntoMuestreo->count(); 
+                                    break;
+                                
+                                default:
+                                    $aux = $model->Num_tomas * $puntoMuestreo->count();
+                                    break;
+                            }
+                            break;
+                    
+                        default: 
+                        $aux = $puntoMuestreo->count(); 
+                            break;
+                    }
+        
                     array_push($volumentEnva, $auxEnv[0]->Nombre ." ". $auxEnv[0]->Volumen ." ".$auxEnv[0]->Unidad);
                     array_push($totalArea, $aux);
                     array_push($tempArea, $auxEnv[0]->Id_area);
                     array_push($area, $auxEnv[0]->Area);
+                        
+                }
             }
-
         }
 
         // foreach ($areaParam as $item) {
