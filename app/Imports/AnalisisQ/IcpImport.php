@@ -18,11 +18,12 @@ class IcpImport implements ToCollection
     public function collection(Collection $rows) 
     {
         $id = TempIcp::orderBy('Id','DESC')->first();
+        $model = DB::table('lote_detalle_icp')->where('Id_lote',$id->Temp)->delete();
         foreach ($rows as $row) {
 
             $elementoTemp = explode(' ', $row[24]);
             // $idParametro = $this->getIdElemento($elementoTemp[0]);
-            $codTemp =  DB::table('ViewCodigoParametro')->where('Parametro','LIKE','%('.$elementoTemp[0].')%')->where('Codigo',$row[9])->get();
+            $codTemp =  DB::table('viewcodigorecepcion')->where('Parametro','LIKE','%('.$elementoTemp[0].')%')->where('Codigo',$row[9])->get();
             if ($codTemp->count()) {
                 LoteDetalleIcp::create([
                     'Id_lote' => $id->Temp,

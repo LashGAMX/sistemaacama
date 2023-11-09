@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div id="divLote">
-                        <table class="table" id=""> 
+                        <table class="table" id="tablaLote"> 
                             <thead>
                               <tr>
                                 <th>Folio</th>
@@ -190,7 +190,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.0.7"></script>
+  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.0.9"></script>
   @stop
 
 @endsection    

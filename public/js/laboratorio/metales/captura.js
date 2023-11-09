@@ -114,7 +114,7 @@ function getDataCaptura() {
                     idLote = dato;
                     // getLoteCapturaVol();
                     getLoteCaptura()
-                    // alert("Lote")
+                    console.log("Lote")
                   });
             }
         });

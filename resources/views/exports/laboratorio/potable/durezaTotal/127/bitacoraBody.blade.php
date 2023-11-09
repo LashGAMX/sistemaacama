@@ -27,9 +27,9 @@
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
                     <th class="tableCabecera anchoColumna">Vol. de la Muestra(ml)</th>
-                    <th class="tableCabecera anchoColumna">Lectura 1</th>
-                    <th class="tableCabecera anchoColumna">Lectura 2</th>
-                    <th class="tableCabecera anchoColumna">Lectura 3</th>
+                    <th class="tableCabecera anchoColumna">Titulación 1</th>
+                    <th class="tableCabecera anchoColumna">Titulación 2</th>
+                    <th class="tableCabecera anchoColumna">Titulación 3</th>
                     <th class="tableCabecera anchoColumna">Promedio</th>
                     <th class="tableCabecera anchoColumna">DUREZA TOTAL(DT) (como CaCO3) mg/L</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>

@@ -11,7 +11,7 @@
                                 @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
                                     < {{@$promGra[0]->Limite}}
                                 @else
-                                    {{round(@$promGra[0]->Resultado2,2)}}
+                                    {{number_format(@$promGra[0]->Resultado2, 2, ".", "")}}
                                 @endif
                             </td>
                             @endif
@@ -30,7 +30,7 @@
                                 @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
                                     < {{@$promGra[0]->Limite}}
                                 @else
-                                    {{round(@$promGra[0]->Resultado2,2)}}
+                                    {{number_format(@$promGra[0]->Resultado2, 2, ".","")}}
                                 @endif
                             </td>
                             @endif
@@ -61,7 +61,7 @@
                             @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
                                 < {{@$promGra[0]->Limite}}
                             @else
-                                {{round(@$promGra[0]->Resultado2,2)}}
+                                {{number_format(@$promGra[0]->Resultado2, 2, ".","")}}
                             @endif
                         </td>
                         @endif

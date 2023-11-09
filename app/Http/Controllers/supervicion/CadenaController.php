@@ -54,7 +54,7 @@ class CadenaController extends Controller
     }
     public function getParametroCadena(Request $res)
     {
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $res->idPunto)->where('Num_muestra', 1)->get();
+        $model = DB::table('ViewCodigoRecepcion')->where('Id_solicitud', $res->idPunto)->where('Num_muestra', 1)->get();
         $data = array(
             'model' => $model,
         );

@@ -71,9 +71,21 @@ $(document).ready(function () {
               table += '<tr>';
               table += '    <td>'+item.Id_cotizacion+'</td>';
               table += '    <td>'+item.Estado+'</td>';
-              table += '    <td>'+item.Folio_servicio+'</td>';
-              table += '    <td>'+item.Folio+'</td>';
-              table += '    <td>'+item.Fecha_muestreo+'</td>';
+              if(item.Folio_servicio == null || item.Folio_servicio == ""){
+                table += '    <td></td>';
+              } else {
+                table += '    <td>'+item.Folio_servicio+'</td>';
+              }
+              if(item.Folio == null || item.Folio == ""){
+                table += '    <td></td>';
+              } else {
+                table += '    <td>'+item.Folio+'</td>';
+              }
+              if(item.Fecha_muestreo == null || item.Fecha_muestreo == ""){
+                table += '    <td></td>';
+              } else {
+                table += '    <td>'+item.Fecha_muestreo+'</td>';
+              }
               table += '    <td>'+item.Nombre+'</td>';
               table += '    <td>'+item.Clave_norma+'</td>';
               table += '    <td>'+item.Descarga+'</td>';
@@ -114,7 +126,10 @@ $(document).ready(function () {
                     $("#btnEdit").prop('disabled', false);
                 }
             } );
-
+            $('#tablaSolicitud tr').on('click', function(){
+                let dato = $(this).find('td:first').html();
+                idCot = dato;
+              });
             }
         });
     });

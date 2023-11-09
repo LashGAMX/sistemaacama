@@ -293,7 +293,7 @@
 {{-- Fin modal Detalle Lote --}}
 
 <!-- Modal -->
-<div class="modal fade" id="modalDetalleLote" tabindex="-1" aria-labelledby="modalDetalleLoteLabel" aria-hidden="true">
+<div class="modal fade" id="modalDetalleLote"  aria-labelledby="modalDetalleLoteLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" style="width: 80%">
     <div class="modal-content">
       <div class="modal-header">
@@ -327,6 +327,10 @@
           <li class="nav-item" role="presentation">
             <a class="nav-link" id="dbo-tab" data-toggle="tab" href="#dbo" role="tab" aria-controls="dbo"
               aria-selected="false">DBO</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabAlcalinidad-tab" data-toggle="tab" data-target="#tabAlcalinidad" type="button" role="tab"
+              aria-controls="tabAlcalinidad" aria-selected="false">Datos Alcalinidad</button>
           </li>
 
 
@@ -965,6 +969,117 @@
             </div>
           </div>
           {{-- DBO FIN --}}
+
+          
+          <div class="tab-pane fade" id="tabAlcalinidad" role="tabpanel" aria-labelledby="tabAlcalinidad-tab">
+            <div class="row"> 
+                <div class="col-md-6" >
+                  <!-- <button id="btnSetNormalidadAlc" class="btn-success"><i class="fas fa-save"></i> Crear</button> -->
+                  <button id="btnSetNormalidadAlc" class="btn-info"><i class="fas fa-square-root-alt"></i> Ejecutar</button>
+                  <table class="table" id="tableValAlcalinidad">
+                      <tbody>
+                        <tr>
+                        <td>ID</td>
+                        <td><input type="text" id="idNormalidadAlc"></td>
+                        </tr>
+                        <tr>
+                          <td>Formula</td>
+                          <td>NORMALIDAD ACIDO</td>
+                        </tr>
+                        <tr>
+                          <td>Exp</td>
+                          <td>((A)(D*H)*I+(B))</td>
+                        </tr>
+                        <tr>
+                          <td>Resultado</td>
+                          <td><input type="text" id="resValAlc" style="width: 50px"></td>
+                        </tr>
+                        <tr>
+                          <td># Dec</td>
+                          <td>3</td>
+                        </tr>
+                        <tr>
+                          <td>Fecha Ini</td>
+                          <td><input type="date" id="fecIniAlc"></td>
+                        </tr>
+                        <tr>
+                          <td>Fecha Fin</td>
+                          <td><input type="date" id="fecFinAlc"></td>
+                        </tr> 
+                      </tbody>
+                  </table>
+                  <!-- <table class="table" id="tableValAlcalinidadHist">
+                    <tbody>
+                      <tr>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+                <div class="col-md-6">
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Variable</th>
+                          <th>Descripcion</th>
+                          <th>Valor</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>A</td>
+                          <td>Gramos de carbonato 1</td>
+                          <td><input type="text" id="granoCarbon1" style="width: 50px" value="0.0265"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>B</td>
+                          <td>Gramos de carbonato 2</td>
+                          <td><input type="text" id="granoCarbon2" style="width: 50px" value="0.0265"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>C</td>
+                          <td>Gramos de carbonato 3</td>
+                          <td><input type="text" id="granoCarbon3" style="width: 50px" value="0.0265"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>D</td>
+                          <td>mL Titulados de H2</td>
+                          <td><input type="text" id="tituladodeH1" style="width: 50px"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>E</td>
+                          <td>mL Titulados de H2</td>
+                          <td><input type="text" id="tituladodeH2" style="width: 50px"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>G</td>
+                          <td>mL Titulados de H2</td>
+                          <td><input type="text" id="tituladodeH3" style="width: 50px"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>H</td>
+                          <td>Gramos equivalente</td>
+                          <td><input type="text" id="equivalenteAlc" style="width: 50px" value="53"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>I</td>
+                          <td>Factor de conversion</td>
+                          <td><input type="text" id="factConversionAlc" style="width: 50px" value="1000"></td>
+                          <td>C</td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
 
 
           <div class="tab-pane fade" id="tabPlantillas" role="tabpanel" aria-labelledby="tabPlantillas-tab">
@@ -1956,6 +2071,170 @@
   </div>
 </div>
 {{--* Fin Modal Nitrogeno --}}
+
+{{--* Inicio Modal Alcalinidad --}}
+<div class="modal fade" id="modalCapturaAlcalinidadVol" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Alcalinida</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionAlcalinidadVol"
+                placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionAlcalinidadVol')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+              Ejecutar</button>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="resultadoAlcalinidad" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                  <th>Valor2</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td>Mililitros Titulados Muestra</td>
+                  <td><input type="text" id="tituladoAlc1Vol" value="0"></td>
+                  <td><input type="text" id="tituladoAlc2Vol" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>E</td>
+                  <td>Ph Muestra</td>
+                  <td><input type="text" id="phMuestraAlc1Vol" value="0"></td>
+                  <td><input type="text" id="phMuestraAlc2Vol" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td>Volumen Total de muestra</td>
+                  <td><input type="text" id="volMuestraAlc1Vol" value="0"></td>
+                  <td><input type="text" id="volMuestraAlc2Vol" value="0"></td>
+                  <td>V</td>
+                </tr>
+
+                <tr>
+                  <td>B</td>
+                  <td>Normalidad aido sulfúrico</td>
+                  <td><input type="text" id="normalidadAlc1Vol" value="2"></td>
+                  <td><input type="text" id="normalidadAlc2Vol" value="2"></td>
+                  <td>F</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td>Factor de conversión</td>
+                  <td><input type="text" id="conversionAlc1Vol" value="50000"></td>
+                  <td><input type="text" id="conversionAlc2Vol" value="50000"></td>
+                  <td>C</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{{--* Fin Modal Alcalinidad --}}
+
+{{--* Inicio Modal Alcalinidad Total--}}
+<div class="modal fade" id="modalCapturaAlcalinidadToVol" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Alcalinida Total</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionAlcalinidadToVol"
+                placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionAlcalinidadToVol')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+              Ejecutar</button>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="resultadoAlcalinidadTo" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td>Alc. A la Fenoftaleina</td>
+                  <td><input type="text" id="resFeno" value="0" ></td>
+                  <td>F</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td>Alc. A la Anaranjado</td>
+                  <td><input type="text" id="resAnaranjado" value="0" ></td>
+                  <td>F</td>
+                </tr>
+         
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{{--* Fin Modal Alcalinidad Total --}}
 
 {{--* Inicio Modal Nitrogeno Equipo --}}
 <div class="modal fade" id="modalCapturaNitrogenoEVol" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -4030,7 +4309,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.20"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.23"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

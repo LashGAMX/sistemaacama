@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LoteDetalleAlcalinidad extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory,SoftDeletes; 
     protected $table = 'lote_detalle_alcalinidad';
     protected $primaryKey = 'Id_detalle';
     public $timestamps = true;
@@ -18,16 +18,14 @@ class LoteDetalleAlcalinidad extends Model
         'Id_codigo',
         'Id_parametro',
         'Id_control',
-        'Tipo',
-        'Tecnica',
         'Titulados',
+        'Ph_muestra',
+        'Vol_muestra',
         'Normalidad',
-        'Factor',
-        'Volumen',
-        'Ph',
+        'Factor_conversion',
         'Resultado',
         'Observacion',
-        'Liberado',
+        'Liberado', 
         'Analizo',
     ];
 }

@@ -165,12 +165,12 @@
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Párametro</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Párametro</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Párametro</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita" style="font-size: 9px">Párametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita" style="font-size: 9PX; width: 25px">Resultado</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita" style="font-size: 9px">Párametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita" style="font-size: 9PX; width: 25px">Resultado</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita" style="font-size: 9px">Párametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita" style="font-size: 9PX; width: 25px">Resultado</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -180,13 +180,12 @@
                         @for ($i = 0; $i < $temp; $i++)
                             <tr>
                                 {{-- <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i]->Id_parametro}}{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + $temp]->Id_parametro}}{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + $temp]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + ($temp  * 2)]->Id_parametro}}{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + ($temp * 2)]}}</td> --}}
-
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">{{@$paramResultado[$i + $temp]->Id_parametro}}{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">{{@$paramResultado[$i + ($temp  * 2)]->Id_parametro}}{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td> --}}
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">
                                     @if (@$paramResultado[$i]->Id_area == 12 || @$paramResultado[$i]->Id_area == 6 || @$paramResultado[$i]->Id_area == 13 || @$paramResultado[$i]->Id_area == 3 ) 
                                         @switch(@$paramResultado[$i]->Id_parametro)
                                             @case(5)
@@ -200,8 +199,8 @@
                                         {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
                                     @endif 
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">
                                     @if (@$paramResultado[$i + $temp]->Id_area == 12 || @$paramResultado[$i + $temp]->Id_area == 6 || @$paramResultado[$i + $temp]->Id_area == 13 || @$paramResultado[$i + $temp]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + $temp]->Id_parametro)
                                         @case(5)
@@ -215,8 +214,8 @@
                                         {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + $temp]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">
                                     @if (@$paramResultado[$i + ($temp * 2)]->Id_area == 12 || @$paramResultado[$i + ($temp * 2)]->Id_area == 6 || @$paramResultado[$i + ($temp * 2)]->Id_area == 13 || @$paramResultado[$i + ($temp * 2)]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + ($temp * 2)]->Id_parametro)
                                         @case(5)
@@ -230,7 +229,7 @@
                                         {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + ($temp * 2)]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td>
                             </tr>
                         @endfor
                     </tbody> 

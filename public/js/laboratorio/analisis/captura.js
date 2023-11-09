@@ -60,6 +60,9 @@ $(document).ready(function () {
     $('#btnGuardarVal').click(function () {
         setValoracion();
     });
+    $('#btnSetNormalidadAlc').click(function () {
+        setNormalidadAlc();
+    });
 
     $('#btnGuardarTipoDqo').click(function () {
         $.ajax({
@@ -182,6 +185,7 @@ var idTecnica = 0
 var numColonia = 0
 //todo funciones
 function getStdMenu() {
+    console.log("getStdMenu")
     $("#tabGa-tab").hide()
     $("#tabVol-tab").hide()
     $("#dqo-tab").hide()
@@ -190,6 +194,7 @@ function getStdMenu() {
     $("#secctionNitrogeno").hide()
     $("#coliformes-tab").hide()
     $("#dbo-tab").hide()
+    $("#tabAlcalinidad-tab").hide()
 
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
@@ -208,17 +213,12 @@ function getStdMenu() {
                 case 64:
                 case 119:
                 case 218:
-                    $("#secctionCloro").show();
+                    $("#secctionCloro").show(); 
                     break;
-                // case 28: //Alcalinidad
-                // case 29:
-                //     $("#secctionAlcalinidad").show();
-                //     break;
                 case 6: // DQO
                 case 161:
                     $("#secctionDqo").show();
                     break;
-                case 28:
                 case 11: //Nitrogeno Total
                 case 9: //Nitrogeno Amoniacal
                 case 108:
@@ -227,6 +227,15 @@ function getStdMenu() {
                     break;
                 case 103: //Dureza total
                     $("#secctionDureza").show();
+                    break;
+                case 28: // Alcalinidad
+                case 29:
+                case 30:
+                    console.log("Entro alcalinidad")
+                    $("#tabVol-tab").hide()
+                    $("#dqo-tab").hide()
+                    $("#tabAlcalinidad-tab").show()
+               
                     break;
                 default:
                     break;
@@ -256,6 +265,42 @@ function getStdMenu() {
         default:
             break;
     }
+}
+function setNormalidadAlc()
+{
+    if ($("#fecIniAlc").val() != "" && $("#fecIniAlc").val() != "") {
+        $.ajax({
+            type: 'POST',
+            url: base_url + "/admin/laboratorio/analisis/setNormalidadAlc",
+            data: {
+                idLote: idLote,
+                idNormalidad: $("idNormalidadAlc").val(),
+                resultado: $("#resValAlc").val(),
+                fechaIni: $("#fecIniAlc").val(),
+                fechaFin: $("#fecFinAlc").val(),
+                granoCarbon1: $("#granoCarbon1").val(),
+                granoCarbon2: $("#granoCarbon2").val(),
+                granoCarbon3: $("#granoCarbon3").val(),
+                tituladodeH1: $("#tituladodeH1").val(),
+                tituladodeH2: $("#tituladodeH2").val(),
+                tituladodeH3: $("#tituladodeH3").val(),
+                equivalenteAlc: $("#equivalenteAlc").val(),
+                factConversionAlc: $("#factConversionAlc").val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                alert("Datos creados correctamente")
+                $("#resValAlc").val(response.model[0].Resultado)
+                $("#idNormalidadAlc").val(response.model[0].Id_valoracion)
+            }
+        }); 
+    } else {
+        alert("No puedes ejecutar sin el rango de fechas")   
+    }
+
 }
 function getDetalleEcoli(idMuestra,colonia,indice){
     numColonia = colonia;
@@ -966,6 +1011,22 @@ function getDetalleLote(id, parametro) {
                 case 5:
 
                     break;
+                case 14:
+                    if (response.model != null) {
+                        $("#idNormalidadAlc").val(response.model.Id_valoracion)
+                        $("#resValAlc").val(response.model.Resultado)
+                        $("#fecIniAlc").val(response.model.Fecha_inicio)
+                        $("#fecFinAlc").val(response.model.Fecha_fin)
+                        $("#granoCarbon1").val(response.model.Granos_carbon1)
+                        $("#granoCarbon2").val(response.model.Granos_carbon2)
+                        $("#granoCarbon3").val(response.model.Granos_carbon3)
+                        $("#tituladodeH1").val(response.model.Titulado1)
+                        $("#tituladodeH2").val(response.model.Titulado2)
+                        $("#tituladodeH3").val(response.model.Titulado3)
+                        $("#equivalenteAlc").val(response.model.Granos_equivalente)
+                        $("#factConversionAlc").val(response.model.Factor_conversion)
+                    } 
+                    break;
                 case 13://G&A
                     $('#tempGA1').val(response.model.Calentamiento_temp1);
                     $('#entradaGA1').val(response.model.Calentamiento_entrada1);
@@ -1391,6 +1452,47 @@ function setDetalleMuestra() {
                         success: function (response) {
                             console.log(response);
                             $("#resultadoNitrogenoEVol").val(response.model.Resultado.toFixed(2));
+                        }
+                    });
+                    break;
+                case 28:
+                case 29:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                        data: {
+                            idLote: idLote,
+                            idMuestra: idMuestra,
+                            A: $("#tituladoAlc1Vol").val(),
+                            E: $("#phMuestraAlc1Vol").val(),
+                            D: $("#volMuestraAlc1Vol").val(),
+                            B: $("#normalidadAlc1Vol").val(),
+                            C: $("#conversionAlc1Vol").val(),
+                            Resultado: $("#resultadoAlcalinidad").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoAlcalinidad").val(response.model.Resultado)
+                        }
+                    });
+                    break;
+                case 30:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                        data: {
+                            idLote: idLote,
+                            idMuestra: idMuestra,
+                            A: $("#resFeno").val(), 
+                            B: $("#resAnaranjado").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoAlcalinidadTo").val(response.model.Resultado)
                         }
                     });
                     break;
@@ -2476,6 +2578,21 @@ function getDetalleMuestra(id) {
                                 $("#molaridadNitro1Vol").val(response.valoracion.Resultado);
                             }
                             break;
+                        case 28:
+                        case 29:                            
+                                $("#tituladoAlc1Vol").val(response.model.Titulados);
+                                $("#phMuestraAlc1Vol").val(response.model.Ph_muestra);
+                                $("#volMuestraAlc1Vol").val(response.model.Vol_muestra);
+                                $("#normalidadAlc1Vol").val(response.valoracion.Resultado);
+                                $("#conversionAlc1Vol").val(response.model.Factor_conversion);
+                                $("#observacionAlcalinidadVol").val(response.model.Observacion);
+                            break;
+                        case 30:
+                            $("#observacionAlcalinidadToVol").val(response.model.Observacion);
+                            $("#resultadoAlcalinidadTo").val(response.model.Resultado);
+                            $("#resFeno").val(response.dif1.Resultado);
+                            $("#resAnaranjado").val(response.dif2.Resultado);
+                        break;
                         default: // Default Directos
                             // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
                             break;
@@ -3071,8 +3188,14 @@ function getCapturaLote() {
                             case 287:
                             case 10:
                             case 11:
-                            case 28: // Alcalinidad
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaNitrogenoVol">Capturar</button>';
+                                break;
+                            case 28: // Alcalinidad
+                            case 29:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaAlcalinidadVol">Capturar</button>';
+                                break;
+                            case 30:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaAlcalinidadToVol">Capturar</button>';
                                 break;
                             case 108:// Nitrogeno Amon
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaNitrogenoEVol">Capturar</button>';
@@ -3321,7 +3444,7 @@ function getMuestraSinAsignar() {
             tab += '    <tbody>'
             for (let i = 0; i < response.model.length; i++) {
                 tab += '<tr>'
-                tab += '<td><input type="checkbox" value="' + response.model[i].Id_codigo + '" name="stdCkAsignar"></td>'
+                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar"></td>'
                 tab += '<td>' + response.folio[i] + '</td>'
                 tab += '<td>' + response.norma[i] + '</td>'
                 tab += '<td>' + response.punto[i] + '</td>'
@@ -3346,7 +3469,8 @@ function getMuestraSinAsignar() {
                 },
                 dom: '<"toolbar">frtip',
             });
-            $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-info"><i class="fas fa-paper-plane"></i></button>');
+            
+           $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-info"><i class="fas fa-paper-plane"></i></button>');
         }
     });
 }

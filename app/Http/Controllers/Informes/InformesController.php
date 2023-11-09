@@ -2002,7 +2002,9 @@ class InformesController extends Controller
                                 case 19:
                                 case 23:
                                 case 113:
-                                case 355: 
+                                case 355:
+                                case 96: //Saam
+                                case 114: //saam
                                
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
@@ -2553,7 +2555,7 @@ class InformesController extends Controller
                     $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                     $limP = number_format((($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2)), 2, ".", "");
                     break;
-                case 64:
+                //case 64:
                 case 358:
                     $aux64 = 0;
                     switch (@$item->Resultado2) {

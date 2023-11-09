@@ -616,7 +616,7 @@ class MetalesController extends Controller
         $model = LoteDetalle::find($request->idMuestra);
         $model->Liberado = 1; 
         $model->Analizo = Auth::user()->id;
-        if ($model->Vol_disolucion != null) {
+        if (strval($model->Vol_disolucion) != null) {
             $sw = true;
             $model->save();
         }
@@ -649,7 +649,7 @@ class MetalesController extends Controller
             $model = LoteDetalle::find($item->Id_detalle);
             $model->Liberado = 1;
             $model->Analizo = Auth::user()->id;
-            if ($model->Vol_disolucion != NULL) {
+            if (strval($model->Vol_disolucion) != NULL) {
                 $sw = true;
                 $model->save(); 
             }   
@@ -1711,7 +1711,10 @@ class MetalesController extends Controller
     }
     public function importCvs(Request $res)
     {
-        $model = DB::table('lote_detalle_icp')->where('Id_lote',$res->idLote)->delete();
+        // $model = DB::table('lote_detalle_icp')->where('Id_lote',$res->idLote)->get();
+        // if ($model->count()) {
+        //     $model = DB::table('lote_detalle_icp')->where('Id_lote',$res->idLote)->delete();
+        // }
         TempIcp::create([
             'Temp' => $res->idLote,
         ]);
