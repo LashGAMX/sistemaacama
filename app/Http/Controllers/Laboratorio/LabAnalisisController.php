@@ -1718,7 +1718,7 @@ class LabAnalisisController extends Controller
                     switch ($lote[0]->Id_tecnica) {
                         case 33: // CLORO RESIDUAL LIBRE
                         case 64:
-
+                            
                             break;
                         case 28: //Alcalinidad
                         case 29:
@@ -1773,6 +1773,11 @@ class LabAnalisisController extends Controller
 
                             break;
                         case 103: //Dureza
+                        case 77:
+                        case 251:
+                        case 252:
+                            $model = ValoracionDureza::where('Id_lote',$res->id)->first();
+                            break;
 
                         default:
                             break;

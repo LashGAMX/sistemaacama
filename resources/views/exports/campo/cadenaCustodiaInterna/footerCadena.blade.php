@@ -182,7 +182,7 @@
                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                     @endphp
 
-                    <td class="justifyCenter anchoColumna111"><img style="width: 5%; height: 5%;" src="{{$qr_code}}" alt="barcode" /> <br> {{@$model->Folio_servicio}}</td>
+                    <td class="justifyCenter anchoColumna111"><img style="width: 6%; height: 6%;" src="{{$qr_code}}" alt="barcode" /> <br> {{@$model->Folio_servicio}}</td>
                 </tr>
             </table>
         </div>

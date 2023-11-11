@@ -219,8 +219,7 @@ class VolController extends Controller
                 }
                 break;
             case 4:
-                // Nitrogeno
-                # code...
+                // Dureza
                 $valoracionModel = ValoracionDureza::where('Id_lote', $request->idLote)->get();
                 if ($valoracionModel->count()) {
                     $model = ValoracionDureza::where('Id_lote', $request->idLote)->first();
@@ -228,10 +227,25 @@ class VolController extends Controller
                     $model->Id_parametro = $request->idParametro;
                     $model->Id_parametro = $request->idParametro;
                     $model->Blanco = $request->blanco;
-                    $model->Disolucion1 = $request->titulado1;
-                    $model->Disolucion2 = $request->titulado2;
-                    $model->Disolucion3 = $request->titulado3;
-                    $model->Solucion = $request->solucion;
+                    
+                    $model->Disolucion1Sec1 = $request->titulado1Sec1;
+                    $model->Disolucion2Sec1 = $request->titulado2Sec1;
+                    $model->Disolucion3Sec1 = $request->titulado3Sec1;
+                    $model->SolucionSec1 = $request->solucionSec1;
+                    $model->ResultadoSec1 = $request->resultadoSec1;
+
+                    $model->Disolucion1Sec2 = $request->titulado1Sec2;
+                    $model->Disolucion2Sec2 = $request->titulado2Sec2;
+                    $model->Disolucion3Sec2 = $request->titulado3Sec2;
+                    $model->SolucionSec2 = $request->solucionSec2;
+                    $model->ResultadoSec2 = $request->resultadoSec2;
+
+                    $model->Disolucion1Sec3 = $request->titulado1Sec3;
+                    $model->Disolucion2Sec3 = $request->titulado2Sec3;
+                    $model->Disolucion3Sec3 = $request->titulado3Sec3;
+                    $model->SolucionSec3 = $request->solucionSec3;
+                    $model->ResultadoSec3 = $request->resultadoSec3;
+
                     $model->Resultado = $request->resultado;
                     $model->save();
                 } else {
@@ -239,10 +253,25 @@ class VolController extends Controller
                         'Id_lote' => $request->idLote,
                         'Id_parametro' => $request->idParametro,
                         'Blanco' => $request->blanco,
-                        'Disolucion1' => $request->titulado1,
-                        'Disolucion2' => $request->titulado2,
-                        'Disolucion3' => $request->titulado3,
-                        'Solucion' => $request->solucion,
+                        
+                        'Disolucion1Sec1' => $request->titulado1Sec1,
+                        'Disolucion2Sec1' => $request->titulado2Sec1,
+                        'Disolucion3Sec1' => $request->titulado3Sec1,
+                        'SolucionSec1' => $request->solucionSec1,
+                        'ResultadoSec1' => $request->resultadoSec1,
+
+                        'Disolucion1Sec2' => $request->titulado1Sec3,
+                        'Disolucion2Sec2' => $request->titulado2Sec3,
+                        'Disolucion3Sec2' => $request->titulado3Sec3,
+                        'SolucionSec2' => $request->solucionSec3,
+                        'ResultadoSec2' => $request->resultadoSec3,
+
+                        'Disolucion1Sec3' => $request->titulado1Sec3,
+                        'Disolucion2Sec3' => $request->titulado2Sec3,
+                        'Disolucion3Sec3' => $request->titulado3Sec3,
+                        'SolucionSec3' => $request->solucionSec3,
+                        'ResultadoSec3' => $request->resultadoSec3,
+
                         'Resultado' => $request->resultado,
                     ]);
                 }

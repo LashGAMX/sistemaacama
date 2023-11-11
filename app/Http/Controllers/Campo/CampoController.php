@@ -1478,8 +1478,8 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.hojaCampo', $data);
         $mpdf->CSSselectMedia = 'mpdf';
-        // $htmlFooter = view('exports.campo.hojaCampoFooter');
-        // $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $htmlFooter = view('exports.campo.hojaCampoFooter');
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }

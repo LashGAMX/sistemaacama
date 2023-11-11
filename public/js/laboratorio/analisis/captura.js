@@ -195,13 +195,16 @@ function getStdMenu() {
     $("#coliformes-tab").hide()
     $("#dbo-tab").hide()
     $("#tabAlcalinidad-tab").hide()
+    $(".durSec1").hide()
+    $(".durSec2").hide()
+    $(".durSec3").hide()
 
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
         case 5:
 
             break;
-        case 13://G&A
+        case 13://G&A 
             $("#tabGa-tab").show()
             break;
         case 14://Vol
@@ -225,8 +228,18 @@ function getStdMenu() {
                 case 10: //Nitrogeno Organico
                     $("#secctionNitrogeno").show();
                     break;
-                case 103: //Dureza total
+                case 77: // Dureza
+                case 252:
+                    $(".durSec1").show()
+                    $(".durSec2").hide()
+                    $(".durSec3").hide()
                     $("#secctionDureza").show();
+                    break;
+                case 103: //Dureza
+                case 251:
+                    $(".durSec1").show()
+                    $(".durSec2").show()
+                    $(".durSec3").show()
                     break;
                 case 28: // Alcalinidad
                 case 29:
@@ -526,11 +539,11 @@ function setFormulaValoracion() {
     let gramos = 0;
     let factorN = 0;
     let pm = 0;
-    switch ($("#parametro").val()) {
-        case '33': // CLORO RESIDUAL LIBRE
-        case '64':
-        case '218':
-        case '119':
+    switch (parseFloat($("#parametro").val())) {
+        case 33: // CLORO RESIDUAL LIBRE
+        case 64:
+        case 218:
+        case 119:
             $("#blancoResClo").val($("#blancoCloro").val())
             titulado1 = $("#tituladoClo1").val();
             titulado2 = $("#tituladoClo2").val();
@@ -541,8 +554,8 @@ function setFormulaValoracion() {
             res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
             $("#normalidadResCloro").val(res.toFixed(4));
             break;
-        case '28':
-        case '29': // Alcalinidad
+        case 28:
+        case 29: // Alcalinidad
             $("#blancoResAlc").val($("#blancoValAlc").val())
             titulado1 = $("#gmCarbonato1Alc").val();
             titulado2 = $("#gmCarbonato2Alc").val();
@@ -558,8 +571,8 @@ function setFormulaValoracion() {
             res = (parseFloat(prom) / form1) * parseFloat(fac);
             $("#molaridadResAlc").val(res.toFixed(3));
             break;
-        case '6': // DQO
-        case '161': // DQO
+        case 6: // DQO
+        case 161: // DQO
             $("#blancoResD").val($("#blancoValD").val())
             titulado1 = $("#titulado1D").val();
             titulado2 = $("#titulado2D").val();
@@ -573,7 +586,7 @@ function setFormulaValoracion() {
             $("#molaridadResD").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '11': // Nitrogeno Total
+        case 11: // Nitrogeno Total
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -587,8 +600,8 @@ function setFormulaValoracion() {
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '9':
-        case '108': // Nitrogeno amonicacal
+        case 9:
+        case 108: // Nitrogeno amonicacal
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -602,7 +615,7 @@ function setFormulaValoracion() {
             $("#molaridadResN").val(res.toFixed(3));
             console.log(res)
             break;
-        case '10': // Nitrogeno Organico
+        case 10: // Nitrogeno Organico
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -616,26 +629,30 @@ function setFormulaValoracion() {
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '103':
+        case 103:
+        case 77:
+        case 251:
+        case 252:
             $("#blancoResDur").val($("#blancoDureza").val())
-            titulado1 = parseFloat($("#edtaDur1").val())
-            titulado2 = parseFloat($("#edtaDur2").val())
-            titulado3 = parseFloat($("#edtaDur3").val())
-            solucion = parseFloat($("#tituladoDur").val())
+            titulado1 = parseFloat($("#edtaDur1Sec1").val())
+            titulado2 = parseFloat($("#edtaDur2Sec1").val())
+            titulado3 = parseFloat($("#edtaDur3Sec1").val())
+            solucion = parseFloat($("#tituladoDurSec1").val())
             prom = (titulado1 + titulado2 + titulado3) / 3
             res = solucion / (prom - parseFloat($("#blancoResDur").val()))
             $("#normalidadResDur").val(res.toFixed(3))
+            $("#resDurezaSec1").val(res.toFixed(3))
             break;
         default:
             break;
     }
 }
 function setValoracion() {
-    switch ($("#parametro").val()) {
-        case '295': // CLORO RESIDUAL LIBRE
-        case '64':
-        case '218':
-        case '119':
+    switch (parseInt($("#parametro").val())) {
+        case 295: // CLORO RESIDUAL LIBRE
+        case 64:
+        case 218:
+        case 119:
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -659,8 +676,8 @@ function setValoracion() {
                 }
             });
             break;
-        case '6': // DQO
-        case '161':
+        case 6: // DQO
+        case 161:
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -685,7 +702,7 @@ function setValoracion() {
                 }
             });
             break;
-        case '11': // NITROGENO TOTAL
+        case 11: // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -710,7 +727,7 @@ function setValoracion() {
                 }
             });
             break;
-        case '10': // NITROGENO TOTAL
+        case 10: // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -735,7 +752,7 @@ function setValoracion() {
                 }
             });
             break;
-        case '9': // NITROGENO TOTAL
+        case 9: // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -760,8 +777,8 @@ function setValoracion() {
                 }
             });
             break;
-        case '108': // NITROGENO amoniacal
-        case '28':
+        case 108: // NITROGENO amoniacal
+        case 28:
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -786,31 +803,49 @@ function setValoracion() {
                 }
             });
             break;
-        case '103': // Dureza total
+        case 103: // Dureza total
+        case 77:
+        case 251:
+        case 252:
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
                 data: {
                     caso: 4,
-                    idParametro: $("#tipoFormula").val(),
+                    idParametro: $("#parametro").val(),
                     blanco: $("#blancoResDur").val(),
                     idLote: idLote,
-                    solucion: $("#tituladoDur").val(),
-                    titulado1: $("#edtaDur1").val(),
-                    titulado2: $("#edtaDur1").val(),
-                    titulado3: $("#edtaDur1").val(),
-                    resultado: $("#molaridadResN").val(),
+                    solucionSec1: $("#tituladoDurSec1").val(),
+                    titulado1Sec1: $("#edtaDur1Sec1").val(),
+                    titulado2Sec1: $("#edtaDur2Sec1").val(),
+                    titulado3Sec1: $("#edtaDur3Sec1").val(),
+                    resultadoSec1: $("#resDurezaSec1").val(),
+                    
+                    solucionSec3: $("#tituladoDurSec2").val(),
+                    titulado1Sec3: $("#edtaDur1Sec2").val(),
+                    titulado2Sec3: $("#edtaDur2Sec2").val(),
+                    titulado3Sec3: $("#edtaDur3Sec2").val(),
+                    resultadoSec3: $("#resDurezaSec2").val(),
+
+                    solucionSec3: $("#tituladoDurSec3").val(),
+                    titulado1Sec3: $("#edtaDur1Sec3").val(),
+                    titulado2Sec3: $("#edtaDur2Sec3").val(),
+                    titulado3Sec3: $("#edtaDur3Sec3").val(),
+                    resultadoSec3: $("#resDurezaSec3").val(),
+
+                    resultado: $("#normalidadResDur").val(),
                     _token: $('input[name="_token"]').val(),
                 },
                 dataType: "json",
                 async: false,
                 success: function (response) {
                     console.log(response);
+                    alert("Datos guardados")
                 }
             });
             break;
-        case '28': // ALCALINIDAD
-        case '29':
+        case 28: // ALCALINIDAD
+        case 29:
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -1026,6 +1061,40 @@ function getDetalleLote(id, parametro) {
                         $("#equivalenteAlc").val(response.model.Granos_equivalente)
                         $("#factConversionAlc").val(response.model.Factor_conversion)
                     } 
+                    break;
+                case 8:
+                    switch (parseInt($("#parametro").val())) {
+                        case 77:
+                        case 103:
+                        case 251:
+                        case 252:
+
+                            $("#tituladoDurSec1").val(response.model.SolucionSec1)
+                            $("#edtaDur1Sec1").val(response.model.Disolucion1Sec1)
+                            $("#edtaDur2Sec1").val(response.model.Disolucion2Sec1)
+                            $("#edtaDur3Sec1").val(response.model.Disolucion3Sec1)
+                            $("#resDurezaSec1").val(response.model.ResultadoSec1)
+
+                            $("#tituladoDurSec2").val(response.model.SolucionSec2)
+                            $("#edtaDur1Sec2").val(response.model.Disolucion1Sec2)
+                            $("#edtaDur2Sec2").val(response.model.Disolucion2Sec2)
+                            $("#edtaDur3Sec2").val(response.model.Disolucion3Sec2)
+                            $("#resDurezaSec2").val(response.model.ResultadoSec2)
+
+                            $("#tituladoDurSec3").val(response.model.SolucionSec3)
+                            $("#edtaDur1Sec3").val(response.model.Disolucion1Sec3)
+                            $("#edtaDur2Sec3").val(response.model.Disolucion2Sec3)
+                            $("#edtaDur3Sec3").val(response.model.Disolucion3Sec3)
+                            $("#resDurezaSec3").val(response.model.ResultadoSec3)
+
+                            $("#blancoDureza").val(response.model.Blanco)
+                            $("#blancoResDur").val(response.model.Blanco)
+                            $("#normalidadResDur").val(response.model.Resultado)
+
+                            return 
+                        default:
+                            return
+                    }
                     break;
                 case 13://G&A
                     $('#tempGA1').val(response.model.Calentamiento_temp1);
@@ -3241,6 +3310,7 @@ function getCapturaLote() {
                     case 8://Potable
                         switch (parseInt(item.Id_parametro)) {
                             case 77://Dureza
+                            case 252:
                             case 251:
                             case 103:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDureza">Capturar</button>';

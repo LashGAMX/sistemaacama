@@ -17,7 +17,7 @@
                     <div class="fontNormal fontCalibri justifyCenter fontSize13">
                     {{$reportesCadena->Encabezado}}
                     </div>
-                    <div class="fontNormal fontCalibri">
+                    <div class="fontNormal fontCalibri"  style="font-size: 9px">
                         1.-{{$reportesCadena->Seccion1}}
                     </div>
                     <div class="fontCalibri">
@@ -45,7 +45,7 @@
                             <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">ÁREA</td>
                             <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">NOMBRE DEL
                                 RESPONSABLE</td>
-                            <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">RECIPIENTES
+                            <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125" style="width: 25px">RECIPIENTES
                                 RECIBIDOS</td>
                             <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">FECHA DE SALIDA DEL
                                 REFRIGERADOR P/ANALISIS</td>
@@ -70,7 +70,7 @@
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}}</td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8"> {{$responsable[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$numRecipientes[$i]}}</td>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
+                                <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if (@$fechasSalidas[$i] != "")
                                         {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
 
@@ -96,7 +96,7 @@
                                       @endif
                                   @endif
                                 </td>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">
+                                <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita">
                                     @if ($stdArea[$i] == 1)
                                       --------------- 
                                     @else
@@ -124,7 +124,7 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
+                                <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if (@$fechasSalidas[$i] != "")
                                         @switch($model->Id_norma)
                                             @case(1)
@@ -157,10 +157,12 @@
             </div>
 
             <br>
-            <div class="col-12">
+            <div class="col-12" style="font-size: 9px">
+               
                 2. {{$reportesCadena->Seccion2}}
+  
             </div> 
-            <br>
+           
             <div id="contenedorTabla" >
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
                     <thead>
@@ -180,12 +182,12 @@
                         @for ($i = 0; $i < $temp; $i++)
                             <tr>
                                 {{-- <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i]->Id_parametro}}{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">{{@$paramResultado[$i + $temp]->Id_parametro}}{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">{{@$paramResultado[$i + ($temp  * 2)]->Id_parametro}}{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td> --}}
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 10PX; width: 25px">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri ">{{@$paramResultado[$i + $temp]->Id_parametro}}{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 10PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri ">{{@$paramResultado[$i + ($temp  * 2)]->Id_parametro}}{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 10PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td> --}}
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri ">
                                     @if (@$paramResultado[$i]->Id_area == 12 || @$paramResultado[$i]->Id_area == 6 || @$paramResultado[$i]->Id_area == 13 || @$paramResultado[$i]->Id_area == 3 ) 
                                         @switch(@$paramResultado[$i]->Id_parametro)
                                             @case(5)
@@ -199,8 +201,8 @@
                                         {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
                                     @endif 
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 10PX; width: 25px">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri ">
                                     @if (@$paramResultado[$i + $temp]->Id_area == 12 || @$paramResultado[$i + $temp]->Id_area == 6 || @$paramResultado[$i + $temp]->Id_area == 13 || @$paramResultado[$i + $temp]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + $temp]->Id_parametro)
                                         @case(5)
@@ -214,8 +216,8 @@
                                         {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita">
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 10PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri ">
                                     @if (@$paramResultado[$i + ($temp * 2)]->Id_area == 12 || @$paramResultado[$i + ($temp * 2)]->Id_area == 6 || @$paramResultado[$i + ($temp * 2)]->Id_area == 13 || @$paramResultado[$i + ($temp * 2)]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + ($temp * 2)]->Id_parametro)
                                         @case(5)
@@ -229,7 +231,7 @@
                                         {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri negrita"style="font-size: 10PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 10PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td>
                             </tr>
                         @endfor
                     </tbody> 

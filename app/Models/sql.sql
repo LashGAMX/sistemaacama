@@ -3,7 +3,7 @@
 CREATE VIEW ViewIntermediarios as SELECT
 	inter.Id_intermediario,
 	inter.Id_cliente,
-	cli.Nombres,
+	cli.Nombres, 
     cli.A_paterno,
     cli.A_materno,
     cli.RFC,
@@ -309,11 +309,22 @@ ON lo.Id_tecnica = pa.Id_parametro;
 
 
 /* Lista ViewDetalleLote */ 
-CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Id_tecnica,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
-FROM lote_detalle as lote
+-- CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Id_tecnica,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
+-- FROM lote_detalle as lote
+-- INNER JOIN ViewSolicitud2 as sol
+-- ON lote.Id_analisis = sol.Id_solicitud
+-- INNER JOIN ViewParametros as pa
+-- ON lote.Id_parametro = pa.Id_parametro
+-- INNER JOIN control_calidad as control
+-- ON lote.Id_control = control.Id_control
+-- INNER JOIN area_analisis as ar
+-- ON pa.Id_area = ar.Id_area_analisis;
+
+CREATE VIEW ViewLoteDetalle as  SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Id_tecnica ,ar.Area_analisis, control.Control 
+FROM lote_detalle as lote 
 INNER JOIN ViewSolicitud2 as sol
 ON lote.Id_analisis = sol.Id_solicitud
-INNER JOIN ViewParametros as pa
+INNER JOIN parametros as pa
 ON lote.Id_parametro = pa.Id_parametro
 INNER JOIN control_calidad as control
 ON lote.Id_control = control.Id_control
@@ -499,6 +510,19 @@ ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo;
 
+/* Lista ViewLoteDetalleAlcalinidad */
+CREATE VIEW ViewLoteDetalleAlcalinidad as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,
+param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra 
+FROM lote_detalle_alcalinidad as col
+INNER JOIN ViewSolicitud2 as sol
+ON col.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON col.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON col.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON col.Id_codigo = cod.Id_codigo;
+
 
 /* Lista ViewPuntoMuestreoGen */ 
 CREATE VIEW ViewPuntoMuestreoGen as SELECT pu.Id_punto as Id_puntoSol,pu.Id_solPadre,pu.Id_solicitud,pu.Id_muestreo,gen.Id_sucursal,gen.Punto_muestreo 
@@ -533,6 +557,13 @@ INNER JOIN users as us
 ON cod.Analizo = us.id
 INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud;
+
+CREATE VIEW ViewCodigoPendientes AS 
+SELECT cod.*, proce.Id_solicitud as Solicitud, proce.Hora_entrada, proce.Hora_recepcion, proce.Empresa, pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codigo_parametro as cod
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro
+INNER JOIN proceso_analisis as proce
+ON cod.Id_solicitud = proce.Id_solicitud;
 
 CREATE VIEW ViewCodigoRecepcion AS 
 SELECT cod.* , pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codigo_parametro as cod

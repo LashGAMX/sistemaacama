@@ -483,7 +483,7 @@
                 <!-- Inicio Dureza -->
                 <!-- ***************************** -->
                 <div class="row" id="secctionDureza" hidden>
-                  <div class="col-md-7">
+                  <div class="col-md-6">
                     <table class="table" id="">
                       <thead>
                         <tr>
@@ -507,9 +507,9 @@
                           <td>3</td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> 
                   </div>
-                  <div class="col-md-5">
+                  <div class="col-md-6">
                     <table class="table" id="tableDurezaBlanco" hidden>
                       <thead>
                         <tr>
@@ -536,28 +536,94 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr class="bg-success durSec1">
                           <td>A</td>
                           <td>mg CaCO3 EN LA SOLUCION TITULADOS</td>
-                          <td><input type="number" id="tituladoDur"></td>
+                          <td><input type="number" id="tituladoDurSec1"></td>
                           <td>C</td>
                         </tr>
-                        <tr>
+                        <tr class="bg-success durSec1">
                           <td>B</td>
                           <td>mL DE LA DISOLUCION DE EDTA</td>
-                          <td><input type="number" id="edtaDur1"></td>
+                          <td><input type="number" id="edtaDur1Sec1"></td>
                           <td>V</td>
                         </tr>
-                        <tr>
+                        <tr class="bg-success durSec1">
                           <td>C</td>
                           <td>mL DE LA DISOLUCION DE EDTA</td>
-                          <td><input type="number" id="edtaDur2"></td>
+                          <td><input type="number" id="edtaDur2Sec1"></td>
                           <td>V</td>
                         </tr>
-                        <tr>
+                        <tr class="bg-success durSec1">
                           <td>D</td>
                           <td>mL DE LA DISOLUCION DE EDTA</td>
-                          <td><input type="number" id="edtaDur3"></td>
+                          <td><input type="number" id="edtaDur3Sec1"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-success durSec1">
+                          <td>R</td>
+                          <td>Factor Real de dureza 1</td>
+                          <td><input type="number" id="resDurezaSec1"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-primary durSec2">
+                          <td>A</td>
+                          <td>mg CaCO3 EN LA SOLUCION TITULADOS</td>
+                          <td><input type="number" id="tituladoDurSec2"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr class="bg-primary durSec2">
+                          <td>B</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur1Sec2"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-primary durSec2">
+                          <td>C</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur2Sec2"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-primary durSec2">
+                          <td>D</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur3Sec2"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-primary durSec2">
+                          <td>R</td>
+                          <td>Factor Real de dureza 2</td>
+                          <td><input type="number" id="tituladoDurSec2"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-info durSec3">
+                          <td>A</td>
+                          <td>mg CaCO3 EN LA SOLUCION TITULADOS</td>
+                          <td><input type="number" id="tituladoDurSec3"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr class="bg-info durSec3">
+                          <td>B</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur1Sec3"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-info durSec3">
+                          <td>C</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur2Sec3"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-info durSec3">
+                          <td>D</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur3Sec3"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr class="bg-info durSec3">
+                          <td>R</td>
+                          <td>Factor Real de dureza 3</td>
+                          <td><input type="number" id="tituladoDurSec3"></td>
                           <td>V</td>
                         </tr>
                       </tbody>

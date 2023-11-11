@@ -401,7 +401,7 @@ class CampoAppController extends Controller
         $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
         $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
         $explode =  explode(" ", $jsonDatosCompuestos[0]["Cloruros"]);
-        $clorurosJson = $jsonDatosCompuestos[0]["Cloruros"];
+        //$clorurosJson = $jsonDatosCompuestos[0]["Cloruros"];
         if ($explode[0] == "<"){
             $cloruros = 499;
         } else if ($explode[0] == ">"){
