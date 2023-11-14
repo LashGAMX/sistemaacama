@@ -305,6 +305,7 @@ class CampoController extends Controller
         //Solicitudes generadas (para actualizar el nombre del punto de muestreo en Campo Captura)
         $punto = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $punto->Punto_muestreo = $request->puntoMuestreo;
+        $punto->Estado = 2;
         $punto->save();
 
         $puntoSol = SolicitudPuntos::where('Id_solicitud', $request->idSolicitud)->first();

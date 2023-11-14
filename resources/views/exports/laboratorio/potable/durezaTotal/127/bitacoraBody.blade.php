@@ -41,11 +41,11 @@
                 @foreach ($model as $item)
                     <tr>
                         <td class="tableContent">{{ $item->Codigo }}</td>
-                        <td class="tableContent">{{ $item->Vol_muestra }}</td>
-                        <td class="tableContent">{{number_format($item->Lectura1,2)}}</td>
-                        <td class="tableContent">{{number_format($item->Lectura2,2)}}</td>
-                        <td class="tableContent">{{number_format($item->Lectura3,2)}}</td>
-                        <td class="tableContent">{{number_format($item->Edta,2)}}</td>
+                        <td class="tableContent">{{ $item->Vol_muestraVal1 }}</td>
+                        <td class="tableContent">{{number_format($item->ResultadoVal1,2)}}</td>
+                        <td class="tableContent">{{number_format($item->ResultadoVal2,2)}}</td>
+                        <td class="tableContent">{{number_format($item->ResultadoVal3,2)}}</td>
+                        <td class="tableContent">{{number_format($item->EdtaVal1,2)}}</td>
                         <td class="tableContent">
                             @if ($item->Resultado > $item->Limite)
                                 {{number_format($item->Resultado,2)}}

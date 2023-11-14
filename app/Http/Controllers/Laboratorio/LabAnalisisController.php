@@ -35,6 +35,7 @@ use App\Models\Parametro;
 use App\Models\PlantillaBitacora;
 use App\Models\ProcesoAnalisis;
 use App\Models\SembradoFq;
+use App\Models\Solicitud;
 use App\Models\SolicitudPuntos;
 use App\Models\User;
 use App\Models\ValoracionAlcalinidad;
@@ -356,6 +357,12 @@ class LabAnalisisController extends Controller
                                 'Id_analisis' => $model->Id_solicitud,
                                 'Id_codigo' => $model->Id_codigo,
                                 'Id_parametro' => $model->Id_parametro,
+                                'Factor_conversionVal1' => 1000,
+                                'Factor_conversionVal2' => 1000,
+                                'Factor_conversionVal3' => 1000,
+                                'Vol_muestraVal1' => 50,
+                                'Vol_muestraVal2' => 50,
+                                'Vol_muestraVal3' => 50,
                                 'Id_control' => 1,
                                 'Analizo' => 1,
                                 'Liberado' => 0,
@@ -566,7 +573,7 @@ class LabAnalisisController extends Controller
                         case 77: //Dureza
                         case 103:
                         case 251:
-                        case 252:
+                        case 252: 
                             // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                             $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
                             break;
@@ -783,13 +790,29 @@ class LabAnalisisController extends Controller
                         case 77: //Dureza 
                         case 103:
                         case 251:
-                            $model = LoteDetalleDureza::where("Id_detalle", $res->id)->first();
-                            $valoracion = ValoracionDureza::where('Id_lote', $model->Id_lote)->first();
+                            $model2 = LoteDetalleDureza::where("Id_detalle", $res->id)->first();
+                            $valoracion = ValoracionDureza::where('Id_lote', $model2->Id_lote)->first();
                             break;
                         case 252:
-                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_detalle', $res->id)->first();
-                            $d1 = DB::table('ViewLoteDetalleDureza')->where('Codigo', $model->Folio_servicio)->where('Id_parametro', 251)->first();
-                            $d2 = DB::table('ViewLoteDetalleDureza')->where('Codigo', $model->Folio_servicio)->where('Id_parametro', 77)->first();
+                            
+                            $model2 = LoteDetalleDureza::where("Id_detalle", $res->id)->first();
+                            $solModel = Solicitud::where('Id_solicitud',$model2->Id_analisis)->first();
+                            switch ($solModel->Id_norma) {
+                                case 5:
+                                case 30:
+                                    $d1 = LoteDetalleDureza::where('Id_analisis',$model2->Id_analisis)
+                                        ->where('Id_control',$model2->Id_control)->where('Id_parametro',251)->first();
+                                    $d2 = LoteDetalleDureza::where('Id_analisis',$model2->Id_analisis)
+                                        ->where('Id_control',$model2->Id_control)->where('Id_parametro',103)->first();       
+                                    break;
+                                default:
+                                    $d1 = LoteDetalleDureza::where('Id_analisis',$model2->Id_analisis)
+                                        ->where('Id_control',$model2->Id_control)->where('Id_parametro',251)->first();
+                                    $d2 = LoteDetalleDureza::where('Id_analisis',$model2->Id_analisis)
+                                        ->where('Id_control',$model2->Id_control)->where('Id_parametro',77)->first();
+                                    break;
+                            }
+                            
                             break;
                         default:
                             # code...
@@ -1559,6 +1582,67 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
+                case 8:
+                    switch ($lote[0]->Id_tecnica) {
+                        case 77:
+                        case 251:
+
+                            $resultado = (($res->edta1 * $res->conversion1 * $res->real1) / $res->vol1);
+                            $model = LoteDetalleDureza::find($res->idMuestra);
+                            $model->EdtaVal1 = $res->edta1;
+                            $model->Ph_muestraVal1 = $res->ph1; 
+                            $model->Vol_muestraVal1 = $res->vol1;
+                            $model->Factor_realVal1 = $res->real1;
+                            $model->Factor_conversionVal1 = $res->conversion1;
+                            $model->ResultadoVal1 = $resultado; 
+                            $model->Resultado = $resultado;
+                            $model->save();
+                            break;
+                        case 103:
+                            $resultado1 = (($res->edta1 * $res->conversion1 * $res->real1) / $res->vol1);
+                            $resultado2 = (($res->edta2 * $res->conversion2 * $res->real2) / $res->vol2);
+                            $resultado3 = (($res->edta3 * $res->conversion3 * $res->real3) / $res->vol3);
+                            $resultado = ($resultado1 + $resultado2 + $resultado3) / 3;
+                            
+                            $model = LoteDetalleDureza::find($res->idMuestra);
+                            $model->EdtaVal1 = $res->edta1;
+                            $model->Ph_muestraVal1 = $res->ph1; 
+                            $model->Vol_muestraVal1 = $res->vol1;
+                            $model->Factor_realVal1 = $res->real1;
+                            $model->Factor_conversionVal1 = $res->conversion1;
+                            $model->ResultadoVal1 = $resultado1; 
+
+                            $model->EdtaVal2 = $res->edta2;
+                            $model->Ph_muestraVal2 = $res->ph2; 
+                            $model->Vol_muestraVal2 = $res->vol2;
+                            $model->Factor_realVal2 = $res->real2;
+                            $model->Factor_conversionVal2 = $res->conversion2;
+                            $model->ResultadoVal2 = $resultado2; 
+
+                            $model->EdtaVal3 = $res->edta3;
+                            $model->Ph_muestraVal3 = $res->ph3; 
+                            $model->Vol_muestraVal3 = $res->vol3;
+                            $model->Factor_realVal3 = $res->real3;
+                            $model->Factor_conversionVal3 = $res->conversion3;
+                            $model->ResultadoVal3 = $resultado3; 
+                            
+
+                            $model->Resultado = $resultado;
+                            $model->save();
+                            break;
+                        case 252:
+                            $resultado = $res->durezaT - $res->durezaC; 
+                            $model = LoteDetalleDureza::find($res->idMuestra);
+                            $model->Lectura1 = $res->durezaT;
+                            $model->Lectura2 = $res->durezaC; 
+                            $model->Resultado = $resultado;
+                            $model->save();
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                    break;
                 case 6: //Mb
                 case 12:
                 case 3:
@@ -1695,6 +1779,7 @@ class LabAnalisisController extends Controller
     {
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->get();
         $model = array();
+        $aux = array();
 
         $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
         if ($plantilla->count()) {
@@ -1726,6 +1811,7 @@ class LabAnalisisController extends Controller
                             $model = ValoracionAlcalinidad::whereDate('Fecha_inicio','<=',$lote->Fecha)
                             ->whereDate('Fecha_fin','>=',$lote->Fecha)
                             ->where('Id_parametro',$lote->Id_tecnica)->first();
+                            // $aux = ValoracionAlcalinidad::where('Id_parametro',$lote->Id_tecnica)->orderBy('')
                             break;
                         case 6: // DQO
                         case 161:
@@ -4186,7 +4272,7 @@ class LabAnalisisController extends Controller
                     'format' => 'letter',
                     'margin_left' => 10,
                     'margin_right' => 10,
-                    'margin_top' => 31,
+                    'margin_top' => 40,
                     'margin_bottom' => 45,
                     'defaultheaderfontstyle' => ['normal'],
                     'defaultheaderline' => '0'
@@ -4202,16 +4288,28 @@ class LabAnalisisController extends Controller
                 switch ($lote->Id_tecnica) {
                     case 77: //Dureza
                     case 251:
-                    case 252:
                         $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $id)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
                         if ($plantilla->count()) {
                         } else {
                             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
                         }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        $comprobacion = LoteDetalleDureza::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
                         $data = array(
                             'lote' => $lote,
                             'model' => $model,
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
                         );
 
 

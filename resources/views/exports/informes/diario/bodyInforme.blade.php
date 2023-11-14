@@ -155,6 +155,13 @@
                         @endswitch
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="fontBold"> 
+                            @if (@$solModel->Atencion == null)
+                                
+                            @else
+                                Atención a: {{@$solModel->Atencion}}
+                            @endif
+                        </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -230,16 +230,17 @@ function getStdMenu() {
                     break;
                 case 77: // Dureza
                 case 252:
+                case 251:
                     $(".durSec1").show()
                     $(".durSec2").hide()
                     $(".durSec3").hide()
                     $("#secctionDureza").show();
                     break;
                 case 103: //Dureza
-                case 251:
                     $(".durSec1").show()
                     $(".durSec2").show()
                     $(".durSec3").show()
+                    $("#secctionDureza").show();
                     break;
                 case 28: // Alcalinidad
                 case 29:
@@ -629,10 +630,8 @@ function setFormulaValoracion() {
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
-        case 103:
         case 77:
         case 251:
-        case 252:
             $("#blancoResDur").val($("#blancoDureza").val())
             titulado1 = parseFloat($("#edtaDur1Sec1").val())
             titulado2 = parseFloat($("#edtaDur2Sec1").val())
@@ -642,6 +641,40 @@ function setFormulaValoracion() {
             res = solucion / (prom - parseFloat($("#blancoResDur").val()))
             $("#normalidadResDur").val(res.toFixed(3))
             $("#resDurezaSec1").val(res.toFixed(3))
+            break;
+        case 103:
+            let res1 = 0.0
+            let solucion1 = 0.0
+            let prom1 = 0.0
+
+            let res2 = 0.0
+            let solucion2 = 0.0
+            let prom2 = 0.0
+
+            let res3 = 0.0
+            let solucion3 = 0.0
+            let prom3 = 0.0
+            
+            $("#blancoResDur").val($("#blancoDureza").val())
+            solucion1 = parseFloat($("#tituladoDurSec1").val())
+            prom1 = ((parseFloat($("#edtaDur1Sec1").val()) + parseFloat($("#edtaDur2Sec1").val()) + parseFloat($("#edtaDur3Sec1").val()) ) / 3)
+            res1 = solucion1 / (prom1 - parseFloat($("#blancoResDur").val()))
+
+            solucion2 = parseFloat($("#tituladoDurSec2").val())
+            prom2 = ((parseFloat($("#edtaDur1Sec2").val()) + parseFloat($("#edtaDur2Sec2").val()) + parseFloat($("#edtaDur3Sec2").val()) ) / 3)
+            res2 = solucion2 / (prom2 - parseFloat($("#blancoResDur").val()))
+
+            solucion3 = parseFloat($("#tituladoDurSec3").val())
+            prom3 = ((parseFloat($("#edtaDur1Sec3").val()) + parseFloat($("#edtaDur2Sec3").val()) + parseFloat($("#edtaDur3Sec3").val()) ) / 3)
+            res3 = solucion3 / (prom3 - parseFloat($("#blancoResDur").val()))
+
+            res = (res1 + res2 + res3) / 3
+
+            $("#resDurezaSec1").val(res1.toFixed(3))
+            $("#resDurezaSec2").val(res2.toFixed(3))
+            $("#resDurezaSec3").val(res3.toFixed(3))
+
+            $("#normalidadResDur").val(res.toFixed(3))
             break;
         default:
             break;
@@ -821,11 +854,11 @@ function setValoracion() {
                     titulado3Sec1: $("#edtaDur3Sec1").val(),
                     resultadoSec1: $("#resDurezaSec1").val(),
                     
-                    solucionSec3: $("#tituladoDurSec2").val(),
-                    titulado1Sec3: $("#edtaDur1Sec2").val(),
-                    titulado2Sec3: $("#edtaDur2Sec2").val(),
-                    titulado3Sec3: $("#edtaDur3Sec2").val(),
-                    resultadoSec3: $("#resDurezaSec2").val(),
+                    solucionSec2: $("#tituladoDurSec2").val(),
+                    titulado1Sec2: $("#edtaDur1Sec2").val(),
+                    titulado2Sec2: $("#edtaDur2Sec2").val(),
+                    titulado3Sec2: $("#edtaDur3Sec2").val(),
+                    resultadoSec2: $("#resDurezaSec2").val(),
 
                     solucionSec3: $("#tituladoDurSec3").val(),
                     titulado1Sec3: $("#edtaDur1Sec3").val(),
@@ -1091,9 +1124,9 @@ function getDetalleLote(id, parametro) {
                             $("#blancoResDur").val(response.model.Blanco)
                             $("#normalidadResDur").val(response.model.Resultado)
 
-                            return 
+                            break; 
                         default:
-                            return
+                            break;
                     }
                     break;
                 case 13://G&A
@@ -1130,7 +1163,7 @@ function getDetalleLote(id, parametro) {
                 default:
                     break;
             }
-
+            console.log("creado plantilla")
             $("#tituloBit").val(response.plantilla[0].Titulo)
             $("#revBit").val(response.plantilla[0].Rev)
             summer.innerHTML = '<div id="summernote">' + response.plantilla[0].Texto + '</div>';
@@ -1743,33 +1776,55 @@ function setDetalleMuestra() {
                 case 251:
                     $.ajax({
                         type: "POST",
-                        url: base_url + "/admin/laboratorio/potable/operacion",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
-                            sw: sw,
-                            idDetalle: idMuestra,
-                            id: $("#parametro").val(),
-                            fecha: $("#fechaLote").val(),
-                            edta: $("#edta1Dureza").val(),
-                            ph: $("#ph1Dureza").val(),
-                            vol: $("#vol1Dureza").val(),
-                            real: $("#real1Dureza").val(),
-                            conversion: $("#conversion1Dureza").val(),
+                            idLote: idLote,
+                            idMuestra: idMuestra,                            
+                            edta1: $("#edta1Dureza").val(),
+                            ph1: $("#ph1Dureza").val(),
+                            vol1: $("#vol1Dureza").val(),
+                            real1: $("#real1Dureza").val(),
+                            conversion1: $("#conversion1Dureza").val(),
+
+                            edta1: $("#edta1Dureza").val(),
+                            ph1: $("#ph1Dureza").val(),
+                            vol1: $("#vol1Dureza").val(),
+                            real1: $("#real1Dureza").val(),
+                            conversion1: $("#conversion1Dureza").val(),
+
+                            edta2: $("#edta2Dureza").val(),
+                            ph2: $("#ph2Dureza").val(),
+                            vol2: $("#vol2Dureza").val(),
+                            real2: $("#real2Dureza").val(),
+                            conversion2: $("#conversion2Dureza").val(),
+                            
+                            edta3: $("#edta3Dureza").val(),
+                            ph3: $("#ph3Dureza").val(),
+                            vol3: $("#vol3Dureza").val(),
+                            real3: $("#real3Dureza").val(),
+                            conversion3: $("#conversion3Dureza").val(),
+
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
-                            $("#resultadoDureza").val(response.resultado)
+                            
+                            $("#resInd1Dureza").val(response.model.ResultadoVal1)
+                            $("#resInd2Dureza").val(response.model.ResultadoVal2)
+                            $("#resInd3Dureza").val(response.model.ResultadoVal3)
+
+                            $("#resultadoDureza").val(response.model.Resultado)
                         }
                     });
                     break;
                 case 252:
                     $.ajax({
                         type: "POST",
-                        url: base_url + "/admin/laboratorio/potable/operacion",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
-                            sw: sw,
-                            idDetalle: idMuestra,
+                            idLote: idLote,
+                            idMuestra: idMuestra,                            
                             id: $("#parametro").val(),
                             fecha: $("#fechaLote").val(),
                             durezaT: $("#durezaTDurezaDif").val(),
@@ -1779,7 +1834,7 @@ function setDetalleMuestra() {
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
-                            $("#resultadoDurezaDif").val(response.resultado)
+                            $("#resultadoDurezaDif").val(response.model.Resultado)
                         }
                     });
 
@@ -2734,21 +2789,75 @@ function getDetalleMuestra(id) {
                     }
                     break;
                 case 8: //Potable
-                    switch (parseInt(response.model.Id_parametro)) {
+                console.log("Entro a obtener datos Potable")
+                    switch (parseInt(response.lote[0].Id_tecnica)) {
                         case 77: //Dureza
-                        case 103:
                         case 251:
-                            $("#edta1Dureza").val(response.model.Edta);
-                            $("#ph1Dureza").val(response.model.Ph_muestra);
-                            $("#vol1Dureza").val(response.model.Vol_muestra);
+
+                        $(".durSec2").hide()
+
+                        $("#edta1Dureza").val(response.model2.EdtaVal1);
+                        $("#ph1Dureza").val(response.model2.Ph_muestraVal1);
+                        $("#vol1Dureza").val(response.model2.Vol_muestraVal1);
+                        $("#real1Dureza").val(response.valoracion.Resultado);
+                        $("#conversion1Dureza").val(response.model2.Factor_conversionVal1);
+                        $("#resInd1Dureza").val(response.model2.ResultadoVal1);
+
+                        
+
+                        $("#resultadoDureza").val(response.model2.Resultado);
+                        break;
+                        case 103:
+
+                        $("#edta1Dureza").val();
+                        $("#ph1Dureza").val();
+                        $("#vol1Dureza").val();
+                        $("#real1Dureza").val();
+                        $("#conversion1Dureza").val();
+                        $("#resInd1Dureza").val();
+                        $("#edta2Dureza").val();
+                        $("#ph2Dureza").val();
+                        $("#vol2Dureza").val();
+                        $("#real2Dureza").val()  
+                        $("#conversion2Dureza").val();
+                        $("#resInd2Dureza").val();
+                        $("#edta3Dureza").val();
+                        $("#ph3Dureza").val();
+                        $("#vol3Dureza").val();
+                        $("#real3Dureza").val();
+                        $("#conversion3Dureza").val();
+                        $("#resInd3Dureza").val();
+                        $("#resultadoDureza").val();
+
+                            $(".durSec2").show()
+                            console.log("Entro a obtener datos dureza")
+                            $("#edta1Dureza").val(response.model2.EdtaVal1);
+                            $("#ph1Dureza").val(response.model2.Ph_muestraVal1);
+                            $("#vol1Dureza").val(response.model2.Vol_muestraVal1);
                             $("#real1Dureza").val(response.valoracion.Resultado);
-                            $("#conversion1Dureza").val(response.model.Factor_conversion);
-                            $("#resultadoDureza").val(response.model.Resultado);
+                            $("#conversion1Dureza").val(response.model2.Factor_conversionVal1);
+                            $("#resInd1Dureza").val(response.model2.ResultadoVal1);
+
+                            $("#edta2Dureza").val(response.model2.EdtaVal2);
+                            $("#ph2Dureza").val(response.model2.Ph_muestraVal2);
+                            $("#vol2Dureza").val(response.model2.Vol_muestraVal2);
+                            $("#real2Dureza").val(response.valoracion.Resultado); 
+                            $("#conversion2Dureza").val(response.model2.Factor_conversionVal2);
+                            $("#resInd2Dureza").val(response.model2.ResultadoVal2);
+ 
+                            $("#edta3Dureza").val(response.model2.EdtaVal3);
+                            $("#ph3Dureza").val(response.model2.Ph_muestraVal3);
+                            $("#vol3Dureza").val(response.model2.Vol_muestraVal3);
+                            $("#real3Dureza").val(response.valoracion.Resultado);
+                            $("#conversion3Dureza").val(response.model2.Factor_conversionVal3);
+                            $("#resInd3Dureza").val(response.model2.ResultadoVal3);
+
+                            $("#resultadoDureza").val(response.model2.Resultado);
                             break;
                         case 252:
-                            $("#resultadoDurezaDif").val(response.model.Resultado);
-                            $("#durezaTDurezaDif").val(response.d1.Resultado);
-                            $("#durezaCDurezaDif").val(response.d2.Resultado);
+                            $("#resultadoDurezaDif").val(response.model2.Resultado);
+                            $("#durezaTDurezaDif").val(response.d2.Resultado); 
+                            $("#durezaCDurezaDif").val(response.d1.Resultado);
                             break;
                         default:
 
@@ -3310,7 +3419,6 @@ function getCapturaLote() {
                     case 8://Potable
                         switch (parseInt(item.Id_parametro)) {
                             case 77://Dureza
-                            case 252:
                             case 251:
                             case 103:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDureza">Capturar</button>';

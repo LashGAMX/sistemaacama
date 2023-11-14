@@ -264,7 +264,7 @@ class VolController extends Controller
                         'Disolucion2Sec2' => $request->titulado2Sec3,
                         'Disolucion3Sec2' => $request->titulado3Sec3,
                         'SolucionSec2' => $request->solucionSec3,
-                        'ResultadoSec2' => $request->resultadoSec3,
+                        'ResultadoSec2' => $request->resultadoSec2,
 
                         'Disolucion1Sec3' => $request->titulado1Sec3,
                         'Disolucion2Sec3' => $request->titulado2Sec3,

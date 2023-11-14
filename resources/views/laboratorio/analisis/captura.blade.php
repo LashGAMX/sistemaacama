@@ -569,31 +569,31 @@
                         <tr class="bg-primary durSec2">
                           <td>A</td>
                           <td>mg CaCO3 EN LA SOLUCION TITULADOS</td>
-                          <td><input type="number" id="tituladoDurSec2"></td>
+                          <td><input type="number" id="tituladoDurSec2" style="color: black"></td>
                           <td>C</td>
                         </tr>
                         <tr class="bg-primary durSec2">
                           <td>B</td>
                           <td>mL DE LA DISOLUCION DE EDTA</td>
-                          <td><input type="number" id="edtaDur1Sec2"></td>
+                          <td><input type="number" id="edtaDur1Sec2" style="color: black"></td>
                           <td>V</td>
                         </tr>
                         <tr class="bg-primary durSec2">
                           <td>C</td>
                           <td>mL DE LA DISOLUCION DE EDTA</td>
-                          <td><input type="number" id="edtaDur2Sec2"></td>
+                          <td><input type="number" id="edtaDur2Sec2" style="color: black"></td>
                           <td>V</td>
                         </tr>
                         <tr class="bg-primary durSec2">
                           <td>D</td>
                           <td>mL DE LA DISOLUCION DE EDTA</td>
-                          <td><input type="number" id="edtaDur3Sec2"></td>
+                          <td><input type="number" id="edtaDur3Sec2" style="color: black"></td>
                           <td>V</td>
                         </tr>
                         <tr class="bg-primary durSec2">
                           <td>R</td>
                           <td>Factor Real de dureza 2</td>
-                          <td><input type="number" id="tituladoDurSec2"></td>
+                          <td><input type="number" id="resDurezaSec2" style="color: black"></td>
                           <td>V</td>
                         </tr>
                         <tr class="bg-info durSec3">
@@ -623,7 +623,7 @@
                         <tr class="bg-info durSec3">
                           <td>R</td>
                           <td>Factor Real de dureza 3</td>
-                          <td><input type="number" id="tituladoDurSec3"></td>
+                          <td><input type="number" id="resDurezaSec3"></td>
                           <td>V</td>
                         </tr>
                       </tbody>
@@ -3258,7 +3258,8 @@
                   <th>Parametro</th>
                   <th>Descripción</th>
                   <th>Valor1</th>
-                  <th>Valor2</th>
+                  <th class="durSec2">Valor2</th>
+                  <th class="durSec2">Valor3</th>
                   <th>Tipo</th>
                 </tr>
               </thead>
@@ -3268,14 +3269,16 @@
                   <td>A</td>
                   <td>Mililitros titulados de EDTA</td>
                   <td><input type="text" id="edta1Dureza" value="0"></td>
-                  <td><input type="text" id="edta2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="edta2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="edta3Dureza" value="0"></td>
                   <td>V</td>
                 </tr>
                 <tr>
                   <td>C</td>
                   <td>pH de la muestra</td>
                   <td><input type="text" id="ph1Dureza" value="0"></td>
-                  <td><input type="text" id="ph2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="ph2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="ph2Dureza" value="0"></td>
                   <td>V</td>
 
                 </tr>
@@ -3283,23 +3286,34 @@
                   <td>D</td>
                   <td>Volmuen total de muestra (mL)</td>
                   <td><input type="text" id="vol1Dureza" value="0"></td>
-                  <td><input type="text" id="vol2Dureza" value="0"></td>
+                  <td><input type="text" class="durSec2" id="vol2Dureza" value="0"></td>
+                  <td><input type="text" class="durSec2" id="vol3Dureza" value="0"></td>
                   <td>V</td>
 
                 </tr>
                 <tr>
-                  <td>RE</td>
+                  <td>F</td>
                   <td>Factor real Dureza</td>
                   <td><input type="text" id="real1Dureza" value="0"></td>
-                  <td><input type="text" id="real2Dureza" value="0"></td>
+                  <td><input type="text" class="durSec2" id="real2Dureza" value="0"></td>
+                  <td><input type="text" class="durSec2" id="real3Dureza" value="0"></td>
                   <td>F</td>
                 </tr>
-                <tr>
+                <tr> 
                   <td>B</td>
                   <td>Factor de conversión mg/L</td>
                   <td><input type="text" id="conversion1Dureza" value="0"></td>
-                  <td><input type="text" id="conversion2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="conversion2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="conversion3Dureza" value="0"></td>
                   <td>C</td>
+                </tr>
+                <tr>
+                  <td>R</td>
+                  <td>Resultado Ind.</td>
+                  <td><input type="text" id="resInd1Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="resInd2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="resInd3Dureza" value="0"></td>
+                  <td>V</td>
                 </tr>
               </tbody>
             </table>
@@ -3458,7 +3472,7 @@
                   <td>Dureza Magnesio</td>
                   <td>DT - DC</td>
                   <td><input type="number" id="durezaTDurezaDif" placeholder="Sin resultado"> - <input type="number"
-                      id="durezaC" placeholder="Sin resultado"></td>
+                      id="durezaCDurezaDif" placeholder="Sin resultado"></td>
                   <td>Diferencia</td>
                 </tr>
               </tbody>
