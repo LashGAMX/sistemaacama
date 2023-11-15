@@ -638,9 +638,9 @@ function setFormulaValoracion() {
             titulado3 = parseFloat($("#edtaDur3Sec1").val())
             solucion = parseFloat($("#tituladoDurSec1").val())
             prom = (titulado1 + titulado2 + titulado3) / 3
-            res = solucion / (prom - parseFloat($("#blancoResDur").val()))
-            $("#normalidadResDur").val(res.toFixed(3))
-            $("#resDurezaSec1").val(res.toFixed(3))
+            res = solucion / (prom.toFixed(4) - parseFloat($("#blancoResDur").val()))
+            $("#normalidadResDur").val(res.toFixed(2))
+            $("#resDurezaSec1").val(res.toFixed(2))
             break;
         case 103:
             let res1 = 0.0
@@ -658,23 +658,23 @@ function setFormulaValoracion() {
             $("#blancoResDur").val($("#blancoDureza").val())
             solucion1 = parseFloat($("#tituladoDurSec1").val())
             prom1 = ((parseFloat($("#edtaDur1Sec1").val()) + parseFloat($("#edtaDur2Sec1").val()) + parseFloat($("#edtaDur3Sec1").val()) ) / 3)
-            res1 = solucion1 / (prom1 - parseFloat($("#blancoResDur").val()))
+            res1 = solucion1 / (prom1.toFixed(4) - parseFloat($("#blancoResDur").val()))
 
             solucion2 = parseFloat($("#tituladoDurSec2").val())
             prom2 = ((parseFloat($("#edtaDur1Sec2").val()) + parseFloat($("#edtaDur2Sec2").val()) + parseFloat($("#edtaDur3Sec2").val()) ) / 3)
-            res2 = solucion2 / (prom2 - parseFloat($("#blancoResDur").val()))
+            res2 = solucion2 / (prom2.toFixed(4) - parseFloat($("#blancoResDur").val()))
 
             solucion3 = parseFloat($("#tituladoDurSec3").val())
             prom3 = ((parseFloat($("#edtaDur1Sec3").val()) + parseFloat($("#edtaDur2Sec3").val()) + parseFloat($("#edtaDur3Sec3").val()) ) / 3)
-            res3 = solucion3 / (prom3 - parseFloat($("#blancoResDur").val()))
+            res3 = solucion3 / (prom3.toFixed(4) - parseFloat($("#blancoResDur").val()))
 
             res = (res1 + res2 + res3) / 3
 
-            $("#resDurezaSec1").val(res1.toFixed(3))
-            $("#resDurezaSec2").val(res2.toFixed(3))
-            $("#resDurezaSec3").val(res3.toFixed(3))
+            $("#resDurezaSec1").val(res1.toFixed(2))
+            $("#resDurezaSec2").val(res2.toFixed(2))
+            $("#resDurezaSec3").val(res3.toFixed(2))
 
-            $("#normalidadResDur").val(res.toFixed(3))
+            $("#normalidadResDur").val(res.toFixed(2))
             break;
         default:
             break;
@@ -1102,7 +1102,8 @@ function getDetalleLote(id, parametro) {
                         case 251:
                         case 252:
 
-                            $("#tituladoDurSec1").val(response.model.SolucionSec1)
+                            if (response.model != null) {
+                                $("#tituladoDurSec1").val(response.model.SolucionSec1)
                             $("#edtaDur1Sec1").val(response.model.Disolucion1Sec1)
                             $("#edtaDur2Sec1").val(response.model.Disolucion2Sec1)
                             $("#edtaDur3Sec1").val(response.model.Disolucion3Sec1)
@@ -1123,6 +1124,7 @@ function getDetalleLote(id, parametro) {
                             $("#blancoDureza").val(response.model.Blanco)
                             $("#blancoResDur").val(response.model.Blanco)
                             $("#normalidadResDur").val(response.model.Resultado)
+                            } 
 
                             break; 
                         default:
@@ -2780,6 +2782,17 @@ function getDetalleMuestra(id) {
                             $("#lecturaTresTurb1DirectoTur").val(response.model.Lectura3);
                             $("#promedioTurb1DirectoTur").val(response.model.Promedio);
                             $("#resultadoDirectoTur").val(response.model.Resultado);
+                            break;
+                        case 130:
+                        case 261:
+                            if (response.model.Resultado != null) {
+                                $("#resultadoDirectoDef").val(response.model.Resultado)    
+                                $("#resDirectoDef").val(response.model.Lectura1)    
+                            } else {
+                                $("#resultadoDirectoDef").val("")     
+                                $("#resDirectoDef").val(response.model2.Resultado)    
+                            }
+                            
                             break;
                         default: // Default Directos
                             $("#observacionDirectoDef").val(response.model.Observacion);

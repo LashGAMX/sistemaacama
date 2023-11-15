@@ -286,13 +286,30 @@ class SolicitudController extends Controller
     }
     public function getPuntoMuestro(Request $res)
     {
-        if ($res->siralab == "true") {
-            $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
+        $sw = false;
+        $model = "";
+        if($res->folio == ""){
+            if ($res->siralab == "true") {
+                $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
+            } else {
+                $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
+            }
         } else {
-            $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
+            $solicitud = Solicitud::where("Folio_servicio","LIKE","%{$res->folio}%")->get();
+            if ($solicitud->count() > 1){
+                $sw = true;
+            } else {
+                if ($res->siralab == "true") {
+                    $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
+                } else {
+                    $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
+                }
+            }
         }
+        
         $data = array(
             'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }

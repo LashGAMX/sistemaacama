@@ -98,11 +98,12 @@ class CampoAppController extends Controller
         return response()->json($data);
     } 
     public function version(request $request) {
-        $version = "2.0.2";
-        $name = "MuestreoApp_v2.0.2.apk";
+        $version = "2.0.3";
+        $name = "MuestreoApp_v2.0.3.apk";
+        $url = "http://sistemasofia.ddns.net:85/sofia/public/storage/Recursos/MuestreoApp_v2.0.3.apk";
         $data = array(
             'version' => $version,
-            'name' => $name,
+            'name' => $name,    
         ); 
         return response()->json($data);
     }
@@ -388,8 +389,7 @@ class CampoAppController extends Controller
         $contratamiento = ConTratamiento::where('Tratamiento', $conTratamiento)->first();
         $tipoTratamiento = $jsonDatosCompuestos[0]["Tipo_tratamiento"];
         $tipoTratamientoFinal = TipoTratamiento::where('Tratamiento', $tipoTratamiento)->first();
-        $phMuestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];
-        
+        $phMuestraComp = $jsonDatosCompuestos[0]["Ph_muestraComp"];  
         $campoCompuesto = CampoCompuesto::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoCompuesto->Metodo_aforo = $aforoFinal->Id_aforo;
         $campoCompuesto->Con_tratamiento = $contratamiento->Id_tratamiento;
@@ -399,15 +399,19 @@ class CampoAppController extends Controller
         $campoCompuesto->Obser_solicitud = $jsonDatosCompuestos[0]["Obser_solicitud"];
         $campoCompuesto->Ph_muestraComp = $phMuestraComp;
         $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
-        $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Volumen_calculado"];
+        $volumen = $jsonDatosCompuestos[0]["Volumen_calculado"];
+        if ($volumen == null || $volumen == "") {
+           // $campoCompuesto->Volumen_calculado = 0;
+        } else {
+            $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Temp_muestraComp"];
+        }
         $explode =  explode(" ", $jsonDatosCompuestos[0]["Cloruros"]);
         //$clorurosJson = $jsonDatosCompuestos[0]["Cloruros"];
         if ($explode[0] == "<"){
             $cloruros = 499;
         } else if ($explode[0] == ">"){
             $cloruros = 1500;
-        }
-        else {
+        } else {
             $cloruros = $explode[1];
         }
         $campoCompuesto->Cloruros = $cloruros;
@@ -468,7 +472,6 @@ class CampoAppController extends Controller
             'response' => true,
              'solModel' => $solModel->Id_solicitud,
              'punto' => $puntoModel->Id_muestreo,
-          
         );
         return response()->json($data);
     }

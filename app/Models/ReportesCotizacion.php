@@ -22,5 +22,8 @@ class ReportesCotizacion extends Model
         'Despedida',
         'Titulo_responsable',
         'Id_responsable',
+        'Num_rev',
+        'Fecha_inicio',
+        'Fecha_fin',
     ];
 }

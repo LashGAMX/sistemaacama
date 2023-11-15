@@ -27,10 +27,11 @@
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
                     <th class="tableCabecera anchoColumna">Vol. de la Muestra(ml)</th>
+                    <th class="tableCabecera anchoColumna">pH</th>
                     <th class="tableCabecera anchoColumna">Titulación 1</th>
                     <th class="tableCabecera anchoColumna">Titulación 2</th>
                     <th class="tableCabecera anchoColumna">Titulación 3</th>
-                    <th class="tableCabecera anchoColumna">Promedio</th>
+                    <th class="tableCabecera anchoColumna">Prom. Titulación</th>
                     <th class="tableCabecera anchoColumna">DUREZA TOTAL(DT) (como CaCO3) mg/L</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="tableCabecera anchoColumna"></th> 
@@ -42,10 +43,11 @@
                     <tr>
                         <td class="tableContent">{{ $item->Codigo }}</td>
                         <td class="tableContent">{{ $item->Vol_muestraVal1 }}</td>
-                        <td class="tableContent">{{number_format($item->ResultadoVal1,2)}}</td>
-                        <td class="tableContent">{{number_format($item->ResultadoVal2,2)}}</td>
-                        <td class="tableContent">{{number_format($item->ResultadoVal3,2)}}</td>
+                        <td class="tableContent">{{number_format(($item->Ph_muestraVal1 + $item->Ph_muestraVal2 + $item->Ph_muestraVal3) / 3,1) }}</td>
                         <td class="tableContent">{{number_format($item->EdtaVal1,2)}}</td>
+                        <td class="tableContent">{{number_format($item->EdtaVal2,2)}}</td>
+                        <td class="tableContent">{{number_format($item->EdtaVal3,2)}}</td>
+                        <td class="tableContent">{{number_format(($item->EdtaVal1 +$item->EdtaVal2 +$item->EdtaVal3) / 3,2)}}</td>
                         <td class="tableContent">
                             @if ($item->Resultado > $item->Limite)
                                 {{number_format($item->Resultado,2)}}

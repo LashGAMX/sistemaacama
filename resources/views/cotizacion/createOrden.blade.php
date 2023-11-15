@@ -418,6 +418,6 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.6"></script>
+<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.7"></script>
 <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 @stop

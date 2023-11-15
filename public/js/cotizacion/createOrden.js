@@ -431,21 +431,26 @@ function getPuntoMuestro() {
     data: {
       siralab: siralab.checked,
       idSuc: $("#sucursal").val(),
+      folio:$("#folio").val(),
       _token: $('input[name="_token"]').val(),
     },
     dataType: 'json',
     async: false,
     success: function (response) {
       console.log(response);
-      $.each(response.model, function (key, item) {
-        if (siralab.checked == true) {
-          punto.push(item.Punto + " " + item.Anexo + " " + item.Agua);
-          puntoId.push(item.Id_punto);
-        } else {
-          punto.push(item.Punto_muestreo);
-          puntoId.push(item.Id_punto);
-        }
-      });
+      if(response.sw == true) { //validacion cuadno se crea una solicitud y se intenta agregar más puntos de muestreo.
+        alert('No puedes agregar más puntos de muestreo una vez generada la Solicitud');
+      } else {
+        $.each(response.model, function (key, item) {
+          if (siralab.checked == true) {
+            punto.push(item.Punto + " " + item.Anexo + " " + item.Agua);
+            puntoId.push(item.Id_punto);
+          } else {
+            punto.push(item.Punto_muestreo);
+            puntoId.push(item.Id_punto);
+          }
+        });
+      }
     }
   });
   let element = [

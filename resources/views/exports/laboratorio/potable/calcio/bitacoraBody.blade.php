@@ -27,19 +27,8 @@
             <thead> 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
-                    <th class="tableCabecera anchoColumna">pH</th>
-                    <th class="tableCabecera anchoColumna">Vol. de la Muestra(ml)</th>
-                    <th class="tableCabecera anchoColumna">Vol. Titulante</th>
-                    @switch($lote->Id_tecnica)
-                        @case(77)
-                            <th class="tableCabecera anchoColumna">DUREZA TOTAL(DT) (como CaCO3) mg/L</th>
-                            @break
-                        @case(251)
-                            <th class="tableCabecera anchoColumna">DUREZA CALCIO(DC) (como CaCO3) mg/L</th>
-                            @break
-                        @default
-                            
-                    @endswitch
+                    <th class="tableCabecera anchoColumna">Dureza de Calcio</th>
+                    <th class="tableCabecera anchoColumna">Calcio (Ca)</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th> 
                     <th class="anchoColumna"></th>
@@ -49,9 +38,8 @@
                 @foreach ($model as $item)
                     <tr>
                         <td class="tableContent">{{ $item->Codigo }}</td>
-                        <td class="tableContent">{{ $item->Ph_muestraVal1 }}</td>
-                        <td class="tableContent">{{ $item->Vol_muestraVal1 }}</td>
-                        <td class="tableContent">{{ $item->EdtaVal1 }}</td>
+                        <td class="tableContent">{{ $item->Lectura1 }}</td>
+                        <td class="tableContent">{{ $item->Resultado }}</td>
                         <td class="tableContent">
                             @if ($item->Resultado > $item->Limite)
                                 {{$item->Resultado}}

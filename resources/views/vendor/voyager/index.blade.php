@@ -13,8 +13,8 @@
                         {{-- <li class="list-group-item list-group-item-warning"></li> --}}
                         {{-- <li class="list-group-item list-group-item-success"></li> --}}
                         {{-- <li class="list-group-item list-group-item-warning"></li> --}}
-                        {{-- <li class="list-group-item list-group-item-success">Sección de</li> --}}
-                        <li class="list-group-item list-group-item-danger">Parametros de dureza temporalmente deshabilitados</li>
+                        {{-- <li class="list-group-item list-group-item-success">Sección de</li> --}} 
+                        <li class="list-group-item list-group-item-danger">El servidor se reiniciara hoy 15-11-2023, a las 10:00 AM , estara deshabilitado 5 min.</li>
                     </ul>
                 </div>
             </div>

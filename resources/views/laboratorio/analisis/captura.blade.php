@@ -3278,7 +3278,7 @@
                   <td>pH de la muestra</td>
                   <td><input type="text" id="ph1Dureza" value="0"></td>
                   <td><input class="durSec2" type="text" id="ph2Dureza" value="0"></td>
-                  <td><input class="durSec2" type="text" id="ph2Dureza" value="0"></td>
+                  <td><input class="durSec2" type="text" id="ph3Dureza" value="0"></td>
                   <td>V</td>
 
                 </tr>
@@ -4389,7 +4389,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.0.23"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.1.2"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>
