@@ -327,7 +327,7 @@
                 <tr>
                     <td class="fontNormal fontCalibri fontSize10 justificadorLeft">
                         @php
-                            echo $reportesInformes->Simbologia;
+                            echo $impresion->Simbologia;
                         @endphp
                     </td>
                 </tr>
@@ -343,7 +343,7 @@
 
         <div class="col-md-12 fontNormal fontCalibri fontSize9">
            @php
-               echo $reportesInformes->Texto;
+               echo $impresion->Texto;
            @endphp
         </div>
 

@@ -42,11 +42,7 @@
                         <td class="tableContent">{{ $item->Lectura1 }}</td>
                         <td class="tableContent">{{ $item->Lectura2 }}</td>
                         <td class="tableContent">
-                            @if ($item->Resultado != null)
-                                {{$item->Resultado}}
-                            @else
-                                
-                            @endif
+                            {{$item->Resultado}}
                         </td>
                         <td class="tableContent">{{ $item->Observacion }}</td> 
                         @if ($item->Liberado != NULL)

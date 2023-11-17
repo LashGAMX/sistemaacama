@@ -6,22 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ReporteInformeMensual extends Model
+class ImpresionInforme extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'reportes_informes_mensual';
+    protected $table = 'impresion_informe';
     protected $primaryKey = 'Id_reporte';
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_solicitud',
+        'Id_solicitud2', 
         'Encabezado',
-        'Nota',
-        'Id_reviso',
-        'Id_autorizo',
-        'Responsable',
+        'Simbologia',
+        'Texto',
+        'texto_firma_cliente', 
+        'Despedida',
+        'Titulo_responsable',
+        'Id_responsable',
         'Num_rev',
         'Fecha_inicio',
         'Fecha_fin',
+        'Version',
+        'Fecha_impresion'
     ];
 }

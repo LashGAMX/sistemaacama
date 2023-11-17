@@ -1439,7 +1439,6 @@ class LabAnalisisController extends Controller
                                 $res2 = $res1 / $res->volumen;
                                 $resultado = $res2 * $res->factor;
 
-
                                 $model = LoteDetalleSolidos::find($res->idMuestra);
                                 $model->Crisol = $res->crisol;
                                 $model->Masa1 = $res->masa1;

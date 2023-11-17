@@ -5,7 +5,7 @@
 
 
 <div class="container-fluid">
-    <p>Cotización 💰</p>
+    <p>Cotización 💰 </p>
     <div class="row">
         <div class="col-md-12">
             <div class="row">

@@ -146,6 +146,7 @@ class InformesController extends Controller
         @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
 
         $relacion = InformesRelacion::where('Id_solicitud', $idPunto)->get();
+        // $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
 
 
         $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
@@ -626,23 +627,24 @@ class InformesController extends Controller
         }
 
         $aux = true;
-        foreach ($model as $item) {
-            if ($aux == true) {
-                if ($item->Siralab == 1) {
-                    $model2 = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $idPunto)->get();
-                    if ($item->Id_solicitud == $model2[0]->Id_solicitud) {
-                        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
-                        $aux = false;
-                    }
-                } else {
-                    $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $idPunto)->get();
-                    if ($model2[0]->Id_solicitud == $item->Id_solicitud) {
-                        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
-                        $aux = false;
-                    }
-                }
-            }
-        }
+        // foreach ($model as $item) {
+        //     if ($aux == true) {
+        //         if ($item->Siralab == 1) {
+        //             $model2 = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $idPunto)->get();
+        //             if ($item->Id_solicitud == $model2[0]->Id_solicitud) {
+        //                 $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
+        //                 $aux = false;
+        //             }
+        //         } else {
+        //             $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $idPunto)->get();
+        //             if ($model2[0]->Id_solicitud == $item->Id_solicitud) {
+        //                 $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
+        //                 $aux = false;
+        //             }
+        //         }
+        //     }
+        // }
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->first();
         $idSol = $solModel->Id_solicitud;
         $compuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         //Formatea la fecha; Por adaptar para el informe sin comparacion
@@ -667,7 +669,7 @@ class InformesController extends Controller
         //Recupera la temperatura compuesta
         $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         //Recupera la obs de campo
-        $obsCampo = $temperaturaC->Observaciones;
+        $obsCampo = @$temperaturaC->Observaciones; 
         $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
         $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();

@@ -60,6 +60,7 @@ class Cotizacion extends Model
         'Hijo',
         'Id_reporte',
         'Tipo',
+        'Fecha_impresion',
     ];
 
 }

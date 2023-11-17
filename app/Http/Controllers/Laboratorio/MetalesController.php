@@ -1308,48 +1308,53 @@ class MetalesController extends Controller
 
         for ($i=0; $i <  sizeof($res->ids); $i++) { 
             $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
-            $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
-            ->where('Id_tecnica',$parametro->Id_parametro)->get();
-            $msg = "Entro a for";
-            switch ($parametro->Id_parametro) {
-                case 232:
-                    $conversion = 1;
-                    break;
-                
-                default:
-                    $conversion = 1000;
-                    break;
-            }
-            if ($lote->count()) {
-                $msg = "Entro a if";
-                $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
-                if($detalle->count()){}
-                else{
-                    LoteDetalle::create([
-                        'Id_lote' => $lote[0]->Id_lote,
-                        'Id_analisis' => $parametro->Id_solicitud,
-                        'Id_codigo' => $res->ids[$i],
-                        'Id_parametro' => $parametro->Id_parametro,
-                        'Id_control' => 1,
-                        'Factor_dilucion' => 1,
-                        'Factor_conversion' => $conversion,
-                        'Liberado' => 0,
-                        'Analisis' => 1,
-                        
-                    ]);
-                    $solModel = CodigoParametros::find($res->ids[$i]);
-                    $solModel->Asignado = 1;
-                    $solModel->save();
-
-                    $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
-            
-                    $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
-                    $loteModel->Asignado = $detModel->count();
-                    $loteModel->Liberado = 0;
-                    $loteModel->save();
-                    $sw = true;
+            $proceso = ProcesoAnalisis::where('Id_solicitud',$parametro->Id_solicitud)->first();
+            $fechaRecep = new Carbon($proceso->Hora_recepcion);
+            // $today = $fecha->toDateString();
+           if ($fechaRecep->toDateString() >= $res->fechaLote) {
+                $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
+                ->where('Id_tecnica',$parametro->Id_parametro)->get();
+                $msg = "Entro a for";
+                switch ($parametro->Id_parametro) {
+                    case 232:
+                        $conversion = 1;
+                        break;
+                    
+                    default:
+                        $conversion = 1000;
+                        break;
                 }
-            }
+                if ($lote->count()) {
+                    $msg = "Entro a if";
+                    $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
+                    if($detalle->count()){}
+                    else{
+                        LoteDetalle::create([
+                            'Id_lote' => $lote[0]->Id_lote,
+                            'Id_analisis' => $parametro->Id_solicitud,
+                            'Id_codigo' => $res->ids[$i],
+                            'Id_parametro' => $parametro->Id_parametro,
+                            'Id_control' => 1,
+                            'Factor_dilucion' => 1,
+                            'Factor_conversion' => $conversion,
+                            'Liberado' => 0,
+                            'Analisis' => 1,
+                            
+                        ]);
+                        $solModel = CodigoParametros::find($res->ids[$i]);
+                        $solModel->Asignado = 1;
+                        $solModel->save();
+
+                        $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
+                
+                        $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
+                        $loteModel->Asignado = $detModel->count();
+                        $loteModel->Liberado = 0;
+                        $loteModel->save();
+                        $sw = true;
+                    }
+                }
+           }
         } 
 
         $data = array(
@@ -1616,8 +1621,8 @@ class MetalesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 45,
-            'margin_bottom' => 45,
+            'margin_top' => 47,
+            'margin_bottom' => 50,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);

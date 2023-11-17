@@ -47,7 +47,14 @@
                 @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">
+                        
+                        @if ($item->Control != "Resultado")
                         {{@$item->Folio_servicio}}
+                        {{@$item->Control}}
+                        @else
+                        {{@$item->Folio_servicio}}  
+                        @endif
+                        
                     </td>
                     <td class="tableContent">{{@$item->Crisol}}</td>
                     <td class="tableContent">{{@$item->Vol_muestra}}</td>

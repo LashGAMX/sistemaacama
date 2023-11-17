@@ -397,8 +397,18 @@ class CampoAppController extends Controller
         $campoCompuesto->Proce_muestreo = $jsonDatosCompuestos[0]["Proc_muestreo"];
         $campoCompuesto->Observaciones = $jsonDatosCompuestos[0]["Observaciones"];
         $campoCompuesto->Obser_solicitud = $jsonDatosCompuestos[0]["Obser_solicitud"];
-        $campoCompuesto->Ph_muestraComp = $phMuestraComp;
-        $campoCompuesto->Temp_muestraComp = $jsonDatosCompuestos[0]["Temp_muestraComp"];
+        if ($phMuestraComp == NULL || $phMuestraComp == ""){
+            //No hace nada
+        } else {
+            $campoCompuesto->Ph_muestraComp = $phMuestraComp;
+        }
+        $temCompuesto = $jsonDatosCompuestos[0]["Temp_muestraComp"];
+        if ($temCompuesto == NULL || $temCompuesto == ""){
+            //no hace nada
+        } else {
+            $campoCompuesto->Temp_muestraComp = $temCompuesto;
+        }
+        
         $volumen = $jsonDatosCompuestos[0]["Volumen_calculado"];
         if ($volumen == null || $volumen == "") {
            // $campoCompuesto->Volumen_calculado = 0;

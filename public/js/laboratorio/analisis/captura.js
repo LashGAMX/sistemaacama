@@ -1382,7 +1382,7 @@ function setDetalleMuestra() {
                         }
                     });
                     break;
-                default: // Default
+                default: // Default solidos (4)
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
@@ -1412,9 +1412,9 @@ function setDetalleMuestra() {
                                 $("#pcm21Solidos").val(response.model.Peso_constante2);
                                 $("#pc1Solidos").val(response.model.Peso_muestra1);
                                 $("#pc21Solidos").val(response.model.Peso_muestra2);
-                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(4));
+                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(2));
                             } else {
-                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(4));
+                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(2));
                             }
                         }
                     });
@@ -2549,11 +2549,36 @@ function getDetalleMuestra(id) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Peso 2'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Peso 6'
 
-                        document.getElementById('pscmS1').innerHTML = 'Peso constante c/muestra 2 A'
-                        document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 6 A'
-                        document.getElementById('pcS1').innerHTML = 'Peso constante 2 B'
-                        document.getElementById('pcS2').innerHTML = 'Peso constante 6 B'
-                    } else {
+                        document.getElementById('pscmS1').innerHTML = 'Peso constante c/muestra 1'
+                        document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
+                        document.getElementById('pcS1').innerHTML = 'Peso constante 1'
+                        document.getElementById('pcS2').innerHTML = 'Peso constante 2'
+                    } else if (response.model.Id_parametro == 90) {
+                        document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 1'
+                        document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 3'
+
+                        document.getElementById('pscmS1').innerHTML = 'Peso constante c/muestra 1'
+                        document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
+                        document.getElementById('pcS1').innerHTML = 'Peso constante 1'
+                        document.getElementById('pcS2').innerHTML = 'Peso constante 2'
+                    } else if (response.model.Id_parametro == 46) {
+                        document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 7'
+                        document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 6'
+
+                        document.getElementById('pscmS1').innerHTML = 'Peso constante c/muestra 1'
+                        document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
+                        document.getElementById('pcS1').innerHTML = 'Peso constante 1'
+                        document.getElementById('pcS2').innerHTML = 'Peso constante 2'
+                    } else if (response.model.Id_parametro == 48) {
+                        document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 4'
+                        document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 3'
+
+                        document.getElementById('pscmS1').innerHTML = 'Peso constante c/muestra 1'
+                        document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
+                        document.getElementById('pcS1').innerHTML = 'Peso constante 1'
+                        document.getElementById('pcS2').innerHTML = 'Peso constante 2'
+                    } 
+                    else {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa B'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa A'
                     }
@@ -3528,7 +3553,8 @@ function getCapturaLote() {
                 tab += '<td><input disabled style="width: 150px" value="' + item.Codigo + '"></td>';
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
                 if (item.Resultado != null) {
-                    tab += '<td><input disabled style="width: 100px" value="' + item.Resultado + '"></td>';
+                    let formated = number_format(parseFloat(item.Resultado), 2)
+                    tab += '<td><input disabled style="width: 100px" value="' + formated + '"></td>';
                 } else {
                     tab += '<td><input disabled style="width: 80px" value=""></td>';
                 }
@@ -3573,6 +3599,29 @@ function getCapturaLote() {
 
         }
     });
+}
+function number_format (number, decimals, dec_point, thousands_sep) {
+    // Strip all characters but numerical ones.
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
 }
 function setMuestraLote() {
     let muestra = document.getElementsByName("stdCkAsignar")

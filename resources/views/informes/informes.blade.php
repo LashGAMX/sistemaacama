@@ -29,7 +29,7 @@
                         <!-- Primera sección de tablas -->
                         <div class="col-md-4">
                             <div style="width: 100%; overflow:scroll">
-                                <table id="tableServicios" class="table" style="width: 100%; font-size: 10px">
+                                <table id="tableServicios" class="table" style="width: 100%; font-size: 10px;">
                                     <thead>
                                         <tr>
                                             <th>Id</th>

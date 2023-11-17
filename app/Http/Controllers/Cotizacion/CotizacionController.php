@@ -19,6 +19,7 @@ use App\Models\CotizacionParametros;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\Frecuencia001;
+use App\Models\ImpresionCotizacion;
 use App\Models\InformesRelacion;
 use App\Models\NormaParametros;
 use App\Models\ParametroNorma;
@@ -27,6 +28,8 @@ use App\Models\PrecioPaquete;
 use App\Models\SeguimientoAnalsis;
 use App\Models\TipoMuestraCot;
 use App\Models\PromedioCot;
+use App\Models\ReportesCotizacion;
+use App\Models\ReportesInformes;
 use App\Models\Sucursal;
 use App\Models\SucursalContactos;
 use App\Models\TipoDescarga;
@@ -46,6 +49,7 @@ class CotizacionController extends Controller
     public function index()
     {
         //Vista Cotización
+       
         // $model = DB::table('ViewCotizacionList')->orderBy('Id_cotizacion', 'DESC')->get();
         $model = Cotizacion::orderBy('Id_cotizacion','DESC')->where('Tipo','!=',1)->get();
         $norma = Norma::all();
@@ -224,6 +228,9 @@ class CotizacionController extends Controller
     }
     public function setCotizacion(Request $res)
     {
+        date_default_timezone_set('America/Mexico_City');
+ 
+        $fecha_actual = date("Y-m-d");
 
         $model = Cotizacion::where('Id_cotizacion',$res->id)->get();
         $precio = 0;
@@ -366,6 +373,7 @@ class CotizacionController extends Controller
                 'Num_servicios' => 1,
                 'Precio_analisis' => $precioAnalisis,
                 'Tipo' => 0,
+                'Fecha_impresion' => $fecha_actual,
                 'Creado_por' => Auth::user()->id,
                 'Actualizado_por' => Auth::user()->id,
             ]);
@@ -789,8 +797,35 @@ class CotizacionController extends Controller
         $model = Cotizacion::where('Id_cotizacion', $idCot)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $puntos = CotizacionPunto::where('Id_cotizacion', $idCot)->get();
-        $relacion = InformesRelacion::where('Id_cotizacion', $model->Id_cotizacion)->get();
-        $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();       
+        // $relacion = InformesRelacion::where('Id_cotizacion', $model->Id_cotizacion)->get();
+
+        $impresion = ImpresionCotizacion::where('Id_cotizacion',$idCot)->get();
+        // $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();       
+        
+        if ($impresion->count()) {
+            
+        }else{
+            $reporteCotizacion = ReportesCotizacion::whereDate('Fecha_inicio','<=',$model->Fecha_impresion)->whereDate('Fecha_fin','>=',$model->Fecha_impresion)->get();
+            if ($reporteCotizacion->count()) {
+                ImpresionCotizacion::create([
+                    'Id_cotizacion' => $idCot,
+                    'Encabezado' => $reporteCotizacion[0]->Encabezado,
+                    'Simbologia' => $reporteCotizacion[0]->Simbologia,
+                    'Texto' => $reporteCotizacion[0]->Texto,
+                    'texto_firma_cliente' => $reporteCotizacion[0]->texto_firma_cliente,
+                    'Despedida' => $reporteCotizacion[0]->Despedida,
+                    'Titulo_responsable' => $reporteCotizacion[0]->Titulo_responsable,
+                    'Id_responsable' => $reporteCotizacion[0]->Id_responsable,
+                    'Num_rev' => $reporteCotizacion[0]->Num_rev,
+                    'Fecha_inicio' => $reporteCotizacion[0]->Fecha_inicio,
+                    'Fecha_fin' => $reporteCotizacion[0]->Fecha_fin,
+                    'Version' => 1,
+                    'Fecha_impresion' => $model->Fecha_impresion,
+                ]);
+            }
+ 
+            $impresion = ImpresionCotizacion::where('Id_cotizacion',$idCot)->get();
+        }
     
 
         $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
@@ -814,10 +849,24 @@ class CotizacionController extends Controller
             array(0, 0),
         );
 
-        $firma = User::find(24); // Firma maribel
+        $firma = User::find($impresion[0]->Id_responsable); // Firma maribel
+
+        $data = array(
+            'numServicios' => $numServicios,
+            'model' => $model,
+            'tipo' => $tipo,
+            'servicio' => $servicio,
+            'parametros' => $parametros,
+            'parametrosExtra' => $parametrosExtra,
+            'norma' => $norma,
+            'puntos' => $puntos,
+            'analisisDesc' => $analisisDesc,
+            'firma' => $firma,
+            'impresion' => $impresion[0],
+        );
+
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('numServicios','model','tipo' ,'servicio' 
-        ,'parametros', 'parametrosExtra', 'norma', 'puntos',  'analisisDesc',  'firma','reportesInformes'));
+        $html = view('exports.cotizacion.cotizacion', $data);
         $mpdf->CSSselectMedia = 'mpdf';
 
         $mpdf->WriteHTML($html);

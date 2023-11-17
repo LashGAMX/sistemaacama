@@ -139,7 +139,7 @@
         <div class="subContenedor5">            
             <span class="verifEspectro">CURVA DE CALIBRACIÓN</span>
             <br>
-            <span class="elementosCurvaCalib">Ver. {{@$detalle->Bitacora}} Bit. Folio: {{@$detalle->Folio}}. (Bitacora para la preparación de estándares y curvas de calibración)</span>
+            <span class="elementosCurvaCalib">Ver. {{@$detalle->Bitacora}}  Folio: {{@$detalle->Folio}}. (Bitacora para la preparación de estándares y curvas de calibración)</span>
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
@@ -359,7 +359,7 @@
                             @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
                                 {{@$item->Folio_servicio}}                            
                             @else
-                                {{@$item->Control}}    
+                                {{@$item->Control}}
                             @endif 
                         </td>
                         <td id="tableContent">{{@$item->Vol_muestra}}</td>
@@ -380,7 +380,7 @@
                         <td id="tableContent">
                             @php
                                 $res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
-                                echo $res;
+                                echo number_format($res,3);
                             @endphp
                         </td>
                         <td id="tableContent">{{@$item->Factor_dilucion}}</td>
