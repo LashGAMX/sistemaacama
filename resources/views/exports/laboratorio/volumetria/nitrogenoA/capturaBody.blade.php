@@ -65,7 +65,7 @@
                                     <{{@$loteDetalle[$i]->Limite}} 
                                 @endif
                             @else
-                                ------ 
+                                ------1 
                             @endif
                         </td> 
 

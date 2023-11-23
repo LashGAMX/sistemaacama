@@ -16,18 +16,14 @@ class ImpresionInforme extends Model
 
     protected $fillable = [
         'Id_solicitud',
-        'Id_solicitud2', 
         'Encabezado',
-        'Simbologia',
-        'Texto',
-        'texto_firma_cliente', 
-        'Despedida',
-        'Titulo_responsable',
-        'Id_responsable',
-        'Num_rev',
+        'Nota',
+        'Id_analizo',
+        'Id_reviso',
         'Fecha_inicio',
         'Fecha_fin',
-        'Version',
-        'Fecha_impresion'
+        'Clave', 
+        'Num_rev',
+        'Obs_impresion',
     ];
 }

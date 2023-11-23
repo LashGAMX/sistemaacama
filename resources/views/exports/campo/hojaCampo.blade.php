@@ -211,6 +211,7 @@
                                             @case(4)
                                             @case(27)
                                             @case(9)
+                                            @case(21)
                                                 {{number_format(@$phMuestra[$i]->Promedio, 2, ".", ",")}}
                                                 @break
                                             

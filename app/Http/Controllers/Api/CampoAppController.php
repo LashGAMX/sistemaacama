@@ -413,7 +413,7 @@ class CampoAppController extends Controller
         if ($volumen == null || $volumen == "") {
            // $campoCompuesto->Volumen_calculado = 0;
         } else {
-            $campoCompuesto->Volumen_calculado = $jsonDatosCompuestos[0]["Temp_muestraComp"];
+            $campoCompuesto->Volumen_calculado = $volumen;
         }
         $explode =  explode(" ", $jsonDatosCompuestos[0]["Cloruros"]);
         //$clorurosJson = $jsonDatosCompuestos[0]["Cloruros"];

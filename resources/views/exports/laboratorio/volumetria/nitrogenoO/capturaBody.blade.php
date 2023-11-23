@@ -51,19 +51,36 @@
                                 {{@$loteDetalle[$i]->Control}}
                             @endif 
                         </td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
+                        <td class="tableContent">
+                        @if (@$loteDetalle[$i]->Titulado_blanco != "")
+                        {{@$loteDetalle[$i]->Titulado_blanco}}
+                        @else
+                            ------
+                        @endif 
+                        </td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
+                        <td class="tableContent">
+                        @if (@$loteDetalle[$i]->Titulado_muestra != "")
+                            {{@$loteDetalle[$i]->Titulado_muestra}}
+                        @else
+                            ------
+                        @endif 
+                        </td>
                         <!-- <td class="tableContent">{{@$loteDetalle[$i]->Resultado}}</td> -->
                         <td class="tableContent">
-                            @if (@$loteDetalle[$i]->Resultado != NULL)
+                        @if (@$loteDetalle[$i]->Resultado != NULL)
                             @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
                                 {{number_format(@$loteDetalle[$i]->Resultado, 2, ".", ".")}}
                             @else
                                 <{{@$loteDetalle[$i]->Limite}}
                             @endif
                         @else
-                            ------
+                           @if (@$loteDetalle[$i]->Titulado_muestra == "")
+                                ------
+                               
+                           @else
+                           <{{@$loteDetalle[$i]->Limite}}
+                           @endif
                         @endif
                     </td>
             

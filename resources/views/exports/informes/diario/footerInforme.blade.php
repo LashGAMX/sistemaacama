@@ -3,9 +3,9 @@
         <thead>
 
             <tr>
-                <td style="text-align: right;"><span class="revisiones">{{$reportesInformes->Clave}}</span> 
+                <td style="text-align: right;"><span class="revisiones">{{@$impresion[0]->Clave}}</span> 
                 <br> 
-                <span class="revisiones">Revisión {{$reportesInformes->Num_rev}}</span></td>
+                <span class="revisiones">Revisión {{@$impresion[0]->Num_rev}}</span></td>
             </tr>
         </thead>                        
     </table>  

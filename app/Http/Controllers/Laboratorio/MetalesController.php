@@ -43,6 +43,7 @@ use App\Models\Tecnica;
 use App\Models\TempIcp;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpParser\Node\Expr\Cast\Array_;
 
@@ -1104,7 +1105,7 @@ class MetalesController extends Controller
         $model = array();
         switch ($res->sw) {
             case 1:
-                $codigo = DB::table('ViewCodigoParametro')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->get();
+                $codigo = DB::table('ViewCodigoPendientes')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->get();
                 foreach ($codigo as $item) {
                     $temp = array();
                     array_push($temp,$item->Id_codigo);
@@ -1117,7 +1118,7 @@ class MetalesController extends Controller
                         $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$item->Id_solicitud)->first();
                         array_push($temp,$punto->Punto_muestreo);
                     }
-                    array_push($temp,$item->Norma);
+                    array_push($temp,"");
                     array_push($temp,$item->Parametro);
                     $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
                     if($lote->count())
@@ -1135,13 +1136,13 @@ class MetalesController extends Controller
                 }
                 break;
             case 2:
-                $codigo2 = DB::table('ViewCodigoParametro')->where('Id_area', 2) 
+                $codigo2 = DB::table('ViewCodigoPendientes')->where('Id_area', 2) 
                 ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
                 //->where('Id_tipo_formula',$res->tipo)
                 //->where('Id_tecnica',$res->tecnia)
-                ->where('Id_norma',$res->norma)
+                // ->where('Id_norma',$res->norma)
                 ->get();
-                $codigo = DB::table('ViewCodigoParametro')
+                $codigo = DB::table('ViewCodigoPendientes')
                 ->where(function($query) {
                     $query->where('Id_area',2); 
                         //   ->orWhere('Id_area',17);
@@ -1161,9 +1162,9 @@ class MetalesController extends Controller
                 ->when($res->tecnica != 0, function($query) use ($res) {
                     $query->where('Id_tecnica',$res->tecnia);
                 })
-                ->when($res->norma != 0, function($query) use ($res) {
-                    $query->where('Id_norma',$res->norma);
-                })
+                // ->when($res->norma != 0, function($query) use ($res) {
+                //     $query->where('Id_norma',$res->norma);
+                // })
                 
                 ->where('Asignado',0)
                 ->get();
@@ -1176,7 +1177,7 @@ class MetalesController extends Controller
                     $punto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
                     array_push($temp,@$punto->Punto);
 
-                    array_push($temp,$item->Norma);
+                    array_push($temp,"");
                     array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
                     $lote = LoteAnalisis::where('Fecha',$res->fechaLote)->get();
                     $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
@@ -1309,52 +1310,54 @@ class MetalesController extends Controller
         for ($i=0; $i <  sizeof($res->ids); $i++) { 
             $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
             $proceso = ProcesoAnalisis::where('Id_solicitud',$parametro->Id_solicitud)->first();
-            $fechaRecep = new Carbon($proceso->Hora_recepcion);
+            $fechaRecep = new DateTime($proceso->Hora_recepcion);
+            $fechaLote = new DateTime($res->fechaLote);
             // $today = $fecha->toDateString();
-           if ($fechaRecep->toDateString() >= $res->fechaLote) {
-                $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
-                ->where('Id_tecnica',$parametro->Id_parametro)->get();
-                $msg = "Entro a for";
-                switch ($parametro->Id_parametro) {
-                    case 232:
-                        $conversion = 1;
-                        break;
+        //    if ($fechaRecep >= $fechaLote) {
+              
+        //    }
+        $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
+        ->where('Id_tecnica',$parametro->Id_parametro)->get();
+        $msg = "Entro a for";
+        switch ($parametro->Id_parametro) {
+            case 232:
+                $conversion = 1;
+                break;
+            
+            default:
+                $conversion = 1000;
+                break;
+        }
+        if ($lote->count()) {
+            $msg = "Entro a if";
+            $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
+            if($detalle->count()){}
+            else{
+                LoteDetalle::create([
+                    'Id_lote' => $lote[0]->Id_lote,
+                    'Id_analisis' => $parametro->Id_solicitud,
+                    'Id_codigo' => $res->ids[$i],
+                    'Id_parametro' => $parametro->Id_parametro,
+                    'Id_control' => 1,
+                    'Factor_dilucion' => 1,
+                    'Factor_conversion' => $conversion,
+                    'Liberado' => 0,
+                    'Analisis' => 1,
                     
-                    default:
-                        $conversion = 1000;
-                        break;
-                }
-                if ($lote->count()) {
-                    $msg = "Entro a if";
-                    $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
-                    if($detalle->count()){}
-                    else{
-                        LoteDetalle::create([
-                            'Id_lote' => $lote[0]->Id_lote,
-                            'Id_analisis' => $parametro->Id_solicitud,
-                            'Id_codigo' => $res->ids[$i],
-                            'Id_parametro' => $parametro->Id_parametro,
-                            'Id_control' => 1,
-                            'Factor_dilucion' => 1,
-                            'Factor_conversion' => $conversion,
-                            'Liberado' => 0,
-                            'Analisis' => 1,
-                            
-                        ]);
-                        $solModel = CodigoParametros::find($res->ids[$i]);
-                        $solModel->Asignado = 1;
-                        $solModel->save();
+                ]);
+                $solModel = CodigoParametros::find($res->ids[$i]);
+                $solModel->Asignado = 1;
+                $solModel->save();
 
-                        $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
-                
-                        $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
-                        $loteModel->Asignado = $detModel->count();
-                        $loteModel->Liberado = 0;
-                        $loteModel->save();
-                        $sw = true;
-                    }
-                }
-           }
+                $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
+        
+                $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
+                $loteModel->Asignado = $detModel->count();
+                $loteModel->Liberado = 0;
+                $loteModel->save();
+                $sw = true;
+            }
+        }
         } 
 
         $data = array(

@@ -14,6 +14,7 @@ use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\GastoMuestra;
+use App\Models\ImpresionInforme;
 use App\Models\InformesRelacion;
 use App\Models\Limite001;
 use App\Models\Limite002;
@@ -145,11 +146,37 @@ class InformesController extends Controller
         @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
 
-        $relacion = InformesRelacion::where('Id_solicitud', $idPunto)->get();
         // $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+        $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+        if ($impresion->count()) {
+            // var_dump($impresion);
+        }else{
+            // $horaImpresion = ProcesoAnalisis::where('Id_solicitud',$idPunto)->first();
+            // // echo $horaImpresion->Hora_recepcion."<br>";
+            // $fecha = \Carbon\Carbon::parse(@$model->Fecha_muestreo)->addDays(0)->format('Y-m-d');
+            // echo $fecha."<br>";
+            $reporteInforme = ReportesInformes::where('Fecha_inicio','<=',@$model[0]->Fecha_muestreo)->where('Fecha_fin','>=',@$model[0]->Fecha_muestreo)->get();
+            if ($reporteInforme->count()) {
+                ImpresionInforme::create([
+                    'Id_solicitud' => $idPunto,
+                    'Encabezado' => $reporteInforme[0]->Encabezado,
+                    'Nota' => $reporteInforme[0]->Nota,
+                    'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                    'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                    'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                    'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                    'Num_rev' => $reporteInforme[0]->Num_rev,
+                    'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                    'Clave' => $reporteInforme[0]->Clave,
+                ]);
+            }
+            // var_dump($reporteInforme);
+ 
+            $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+        }
+    
 
-
-        $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
+        // $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
         $aux = true;
 
         $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->first();
@@ -550,6 +577,7 @@ class InformesController extends Controller
 
 
         $data = array(
+            'impresion' => $impresion,
             'tituloConsecion' => $tituloConsecion,
             'numTomas' => @$numTomas,
             'tipoReporte2' => $tipoReporte2,
@@ -592,10 +620,10 @@ class InformesController extends Controller
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlInforme);
-        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->CSSselectMedia = 'mpdf'; 
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
     }
-
+ 
     public function exportPdfInformeCampo($idSol, $idPunto)
     {
         $today = carbon::now()->toDateString();
@@ -5235,6 +5263,7 @@ class InformesController extends Controller
                                     case 9:
                                     case 10:
                                     case 11:
+                                    case 108:
                                         $modelDet = DB::table('lote_detalle_nitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                         break;
                                     default:
@@ -5307,6 +5336,8 @@ class InformesController extends Controller
                                         $modelDet = DB::table('lote_detalle_directos')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                         break;
                                     case 103:
+                                    case 77:
+                                    case 251:
                                         $modelDet = DB::table('lote_detalle_dureza')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                         echo "Entro dure";
                                         break;

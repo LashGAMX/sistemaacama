@@ -66,6 +66,14 @@
                 @endforeach
             </tbody>
         </table>
+        
+        <br>
+
+        <div id="contenidoCurva">
+        @php
+             echo @$procedimiento[1];
+        @endphp
+    </div>
 
         
 </body>

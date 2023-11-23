@@ -2280,6 +2280,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleCloro::find($item->Id_detalle);
                                 $model->Liberado = 1;
+                                $model->Liberado = Auth::user()->id;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -2323,6 +2324,7 @@ class LabAnalisisController extends Controller
                             break;
                         case 28://Alcalinidad
                         case 29:
+                        case 30:
                             $muestras = LoteDetalleAlcalinidad::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleAlcalinidad::find($item->Id_detalle);
@@ -2371,6 +2373,7 @@ class LabAnalisisController extends Controller
                     foreach ($muestras as $item) {
                         $model = LoteDetalleDirectos::find($item->Id_detalle);
                         $model->Liberado = 1;
+                        $model->Analizo = Auth::user()->id;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
                             $model->save();
@@ -2403,6 +2406,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleColiformes::find($item->Id_detalle);
                                 $model->Liberado = 1;
+                                $model->Analizo = Auth::user()->id;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -2423,6 +2427,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleEnterococos::find($item->Id_detalle);
                                 $model->Liberado = 1;
+                                $model->Analizo = Auth::user()->id;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -2444,6 +2449,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleDbo::find($item->Id_detalle);
                                 $model->Liberado = 1;
+                                $model->Analizo = Auth::user()->id;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -2464,6 +2470,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleHH::find($item->Id_detalle);
                                 $model->Liberado = 1;
+                                $model->Analizo = Auth::user()->id;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -2744,6 +2751,7 @@ class LabAnalisisController extends Controller
                         break;
                     case 28://Alcalinidad
                     case 29:
+                    case 30:
                         $model = LoteDetalleAlcalinidad::find($res->idMuestra);
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
@@ -2940,7 +2948,7 @@ class LabAnalisisController extends Controller
 
                         if ($model->Id_control == 1) {
                             $modelCod = CodigoParametros::find($model->Id_codigo);
-                            $modelCod->Resultado = $model->Resultado;
+                            $modelCod->Resultado = $model->Resultado; 
                             $modelCod->Resultado2 = $model->Resultado;
                             $modelCod->Analizo = Auth::user()->id;
                             $modelCod->save();
@@ -2955,6 +2963,7 @@ class LabAnalisisController extends Controller
             case 19: //directos
                 $model = LoteDetalleDirectos::find($res->idMuestra);
                 $model->Liberado = 1;
+                $model->Analizo = Auth::user()->id;
                 if (strval($model->Resultado) != null) {
                     $sw = true;
                     $model->save();
@@ -3052,6 +3061,7 @@ class LabAnalisisController extends Controller
                         break;
                     case 28://Alcalinidad
                     case 29:
+                    case 30:
                         $model = LoteDetalleAlcalinidad::where('Id_detalle', $res->idMuestra)->first();
                         $model->Observacion = $res->observacion;
                         $model->save();
@@ -3828,11 +3838,13 @@ class LabAnalisisController extends Controller
                             'analizo' => $analizo,
                             'reviso' => $reviso,
                         );
-                        $htmlCaptura = view('exports.laboratorio.volumetria.cloro.capturaBody', $data);
-                        $htmlHeader = view('exports.laboratorio.volumetria.cloro.capturaHeader', $data);
+                        
 
+                        $htmlFooter = view('exports.laboratorio.volumetria.cloro.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.volumetria.cloro.capturaHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                        $mpdf->SetHTMLFooter("", 'O', 'E');
+                        $htmlCaptura = view('exports.laboratorio.volumetria.cloro.capturaBody', $data);
                         $mpdf->WriteHTML($htmlCaptura);
                         $mpdf->CSSselectMedia = 'mpdf';
                         break;

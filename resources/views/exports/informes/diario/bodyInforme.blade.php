@@ -14,7 +14,7 @@
 <body>
     <p id='header1'> 
         {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
-        {{$reportesInformes->Encabezado}}
+        {{$impresion[0]->Encabezado}}
         <br> MUESTRA
         @if (@$solModel->Id_muestra == 1 || @$solModel->Id_muestra == 0)
         INSTANTANEA
@@ -408,10 +408,10 @@
                     <tbody>           
                             <tr>
                                 <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px;width: 80%;" >
-                                    {{-- @php
-                                        echo $reportesInformes->Nota;
-                                    @endphp --}}
-                                    @switch($solModel->Id_norma)
+                                    @php
+                                        echo $impresion[0]->Nota;
+                                    @endphp
+                                    <!-- @switch($solModel->Id_norma)
                                         @case(5)
                                         @case(30)
                                                 @if ($solModel->Id_servicio != 3)
@@ -445,9 +445,9 @@
 
                                         @default
                                         @php
-                                            echo $reportesInformes->Nota;
+                                            echo $impresion[0]->Nota;
                                         @endphp
-                                    @endswitch
+                                    @endswitch -->
                                 </td>
                                 <td style="width: 15%">
                                     @php
