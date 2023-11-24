@@ -88,7 +88,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        @if ($loteDetalle[$i]->Resultado != null)
+                        @if ($loteDetalle[$i]->Resultado != NULL || $loteDetalle[$i]->Resultado == "0")
                             @if (@$loteDetalle[$i]->Limite > @$loteDetalle[$i]->Resultado)
                                 < {{@$loteDetalle[$i]->Limite}}
                             @else

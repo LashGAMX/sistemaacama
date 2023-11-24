@@ -1152,7 +1152,7 @@ class LabAnalisisController extends Controller
                         case 105: //Fluoruros (potable)
                         case 121:
                             $x = ($res->X + $res->Y + $res->Z) / 3;
-                            $d =  50 / $res->E;
+                            $d =  60 / $res->E;
                             $xround = round($x, 3);
                             $resultado = (($xround - $res->CB) / $res->CM) * $d;
 
@@ -4082,6 +4082,41 @@ class LabAnalisisController extends Controller
                 );
                 $mpdf->showWatermarkImage = true;
                 switch ($lote->Id_tecnica) {
+                    case 2:
+                        $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        //Comprobación de bitacora analizada
+                        $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            $analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 17)->first();
+
+                        $data = array(
+                            'lote' => $lote,
+                            'model' => $model,
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
+                        );
+
+                        $htmlHeader = view('exports.laboratorio.directos.materia_flotante.bitacoraHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.directos.materia_flotante.bitacoraBody', $data);
+                        $htmlFooter = view('exports.laboratorio.directos.materia_flotante.bitacoraFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
                     case 14: // PH
                         // case 110:
                         $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();

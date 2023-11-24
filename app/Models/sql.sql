@@ -559,7 +559,8 @@ INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud;
 
 CREATE VIEW ViewCodigoPendientes AS 
-SELECT cod.*, proce.Id_solicitud as Solicitud, proce.Hora_entrada, proce.Hora_recepcion, proce.Empresa, pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codigo_parametro as cod
+SELECT cod.*, proce.Id_solicitud as Solicitud, proce.Hora_entrada, proce.Hora_recepcion, 
+proce.Empresa, pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad,pa.Id_area,pa.Id_tipo_formula FROM codigo_parametro as cod
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro
 INNER JOIN proceso_analisis as proce

@@ -5158,7 +5158,9 @@ class InformesController extends Controller
         $stdArea = array();
         $firmas = array();
         $idParametro = array();
+        $contAux = 0;
         foreach ($areaParam as $item) {
+            $contAux = 0;
             $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
             $sw = false;
             // echo "<br> ".$item->Id_parametro;
@@ -5176,9 +5178,42 @@ class InformesController extends Controller
                         if (@$item->Id_area == 12 || @$item->Id_area == 6 || @$item->Id_area == 13 || @$item->Id_area == 3) {
                             if (@$item->Id_parametro != 16) {
                                 if ($model->Id_servicio != 3) {
-                                    array_push($numRecipientes, $phMuestra->count());
+                                    switch ($auxEnv[0]->Id_area) {
+                                        // case 45:
+                                        //     $tempParam = SolicitudParametro::where('Id_solicitud', $idSol)->where('Id_subnorma','!=',64)->get();
+                                        //     foreach ($tempParam as $itemAux) {
+                                        //         $tempEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$itemAux->Id_subnorma)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+                                        //         if ($tempEnv->count()) {
+                                        //             if ($tempEnv[0]->Id_area == $auxEnv[0]->Id_area) {
+                                        //                 $contAux++;
+                                        //             }
+                                        //         }
+                                        //     }
+                                        //     array_push($numRecipientes, ($phMuestra->count() * $contAux ));
+                                        //     break;
+                                        default:
+                                            array_push($numRecipientes, $phMuestra->count());
+                                            break;
+                                    }
+
                                 } else {
-                                    array_push($numRecipientes, $model->Num_tomas);
+                                    switch ($auxEnv[0]->Id_area) {
+                                        // case 45:
+                                        //     $tempParam = SolicitudParametro::where('Id_solicitud', $idSol)->where('Id_subnorma','!=',64)->get();
+                                        //     foreach ($tempParam as $itemAux) {
+                                        //         $tempEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$itemAux->Id_subnorma)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+                                        //         if ($tempEnv->count()) {
+                                        //             if ($tempEnv[0]->Id_area == $auxEnv[0]->Id_area) {
+                                        //                 $contAux++;
+                                        //             }
+                                        //         }
+                                        //     }
+                                        //     array_push($numRecipientes, ($model->Num_tomas * $contAux));
+                                        //     break;
+                                        default:
+                                            array_push($numRecipientes, $model->Num_tomas);
+                                            break;
+                                    }
                                 }
                             }else{
                                 array_push($numRecipientes, 1);    

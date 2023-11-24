@@ -353,6 +353,61 @@
             </thead>
     
             <tbody>
+                <!-- Contorles -->
+            @foreach ($controles as $item)
+                    <tr>
+                        <td id="tableContent">
+                            @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                                {{@$item->Folio_servicio}}                            
+                            @else
+                                {{@$item->Control}}
+                            @endif 
+                        </td>
+                        <td id="tableContent">{{@$item->Vol_muestra}}</td>
+                        <td id="tableContent">< 2</td>
+                        <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
+                        <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
+                        <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
+                        <td id="tableContent">                            
+                            @php
+                                echo number_format(@$item->Abs_promedio, 3, ".", ".");                                
+                            @endphp
+                        </td>
+                        <td id="tableContent">
+                            @php
+                                echo number_format(@$item->Abs_promedio, 3, ".", ".");                                
+                            @endphp
+                        </td>
+                        <td id="tableContent">
+                            @php
+                                $res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
+                                echo number_format($res,3);
+                            @endphp
+                        </td>
+                        <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                        <td id="tableContent">
+                            @if (@$item->Vol_disolucion != NULL || @$item->Vol_disolucion == "0")
+                                @if ($res < $item->Limite)
+                                    < {{$item->Limite}}                                
+                                @else
+                                    {{number_format(@$item->Vol_disolucion,3)}}
+                                @endif
+                            @else
+                                -------
+                            @endif
+                        </td> 
+                        <td id="tableContent">{{@$item->Observacion}}</td>                         
+                        <td id="tableContent">
+                            @if (@$item->Liberado == 1)
+                                Liberado
+                            @elseif(@$item->Liberado == 0)
+                                No liberado
+                            @endif
+                        </td>
+                        <td id="tableContent">{{@$item->Control}}</td>
+                    </tr>
+                @endforeach    
+                <!-- Resultados -->
                 @foreach ($model as $item)
                     <tr>
                         <td id="tableContent">
@@ -364,9 +419,9 @@
                         </td>
                         <td id="tableContent">{{@$item->Vol_muestra}}</td>
                         <td id="tableContent">< 2</td>
-                        <td id="tableContent">{{@$item->Abs1}}</td>
-                        <td id="tableContent">{{@$item->Abs2}}</td>
-                        <td id="tableContent">{{@$item->Abs3}}</td>
+                        <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
+                        <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
+                        <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
                         <td id="tableContent">                            
                             @php
                                 echo number_format(@$item->Abs_promedio, 3, ".", ".");                                

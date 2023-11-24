@@ -166,6 +166,11 @@ function sendMuestrasLote()
         success: function (response) {            
             console.log(response);
             getMuestras(2)
+            if (response.sw == false) {
+                alert("Hay muestras que no coinciden con la fecha de recepcion")
+            } else {
+                alert("Muestras Asignadas correctamente")
+            }
         }
     });
 }

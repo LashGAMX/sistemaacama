@@ -63,8 +63,14 @@
                                 @switch($solModel->Id_norma)
                                     @case(30)
                                     @case(7)
-                                    @case(9)
                                         {{@$horaMuestreo}}
+                                        @break
+                                        @case(9)
+                                    @if ($solModel->Num_tomas > 1)
+                                        COMPUESTA
+                                    @else
+                                        {{@$horaMuestreo}}
+                                    @endif
                                         @break
                                     @default
                                     @if ($solModel->Num_tomas > 1)
