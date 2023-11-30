@@ -107,6 +107,7 @@
                                                 @switch($model->Id_norma)
                                                 @case(1)
                                                 @case(27)  
+                                                @case(33) 
                                                     {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
                                                     @break
                                                 @case(5)
@@ -129,6 +130,7 @@
                                         @switch($model->Id_norma)
                                             @case(1)
                                             @case(27)  
+                                            @case(33)  
                                                 {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}  
                                                 @break
                                             @case(5)

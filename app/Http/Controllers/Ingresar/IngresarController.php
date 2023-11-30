@@ -377,18 +377,49 @@ class IngresarController extends Controller
                             }
                             break;
                         case 6: // DQO
-                            CodigoParametros::create([
-                                'Id_solicitud' => $item->Id_solicitud,
-                                'Id_parametro' => $item2->Id_subnorma,
-                                'Codigo' => $item->Folio_servicio,
-                                'Num_muestra' => 1,
-                                'Asignado' => 0,
-                                'Analizo' => 1,
-                                'Reporte' => 1,
-                                'Cadena' => 1,
-                                'Cancelado' => 0,
-                            ]);
                          
+                            if ($model[0]->Id_norma == "27") {
+                                if($item->Siralab == 0){
+                                    if ($res->cloruros < 1000 ) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $item->Id_solicitud,
+                                            'Id_parametro' => $item2->Id_subnorma,
+                                            'Codigo' => $item->Folio_servicio,
+                                            'Num_muestra' => 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                            'Reporte' => 1,
+                                            'Cadena' => 1,
+                                            'Cancelado' => 0,
+                                        ]);
+                                    }
+                                }else{
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio,
+                                        'Num_muestra' => 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => 1,
+                                        'Cadena' => 1,
+                                        'Cancelado' => 0,
+                                    ]);
+                                }
+                            }else{
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+
                             break;
                         case 152: // COT
                             if ($model[0]->Id_norma == "27") {

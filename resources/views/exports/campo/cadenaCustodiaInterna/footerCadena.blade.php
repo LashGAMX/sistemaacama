@@ -100,6 +100,7 @@
 
                     @break
                     @case(27)
+                    @case(33)
                         @if (@$promGra->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
                         <td class="fontCalibri anchoColumna111 fontSize8">

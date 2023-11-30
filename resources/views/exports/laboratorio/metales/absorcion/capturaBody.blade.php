@@ -17,18 +17,33 @@
         @endphp
     </div>    
 
-    <div class="contenedorPrincipal">                                        
+    <div class="contenedorPrincipal">   
+ 
+        @switch($solModel->Id_norma)
+            @case(7)
+            <div class="subContenedor">
+                <span class="cabeceraStdMuestra">FECHA DE PREPARACION DE LA MUESTRA: </span>                    
+                <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
+            </div>
 
-        <div class="subContenedor">
-            <span class="cabeceraStdMuestra">FECHA DE DIGESTIÓN: </span>                    
-            <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
-        </div>
+            <div class="subContenedor">
+                <span class="cabeceraStdMuestra">HORA DE PREPARACIÓN DE LA MUESTRA: </span>
+                <span class="bodyStdMuestra">{{@$hora}}</span>
+            </div>
+                @break
+            @default
+            <div class="subContenedor">
+              <span class="cabeceraStdMuestra">FECHA DE DIGESTIÓN: </span>                    
+             <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
+            </div>
 
-        <div class="subContenedor">
-            <span class="cabeceraStdMuestra">HORA DE DIGESTIÓN: </span>
-            <span class="bodyStdMuestra">{{@$hora}}</span>
-        </div>
+            <div class="subContenedor">
+                <span class="cabeceraStdMuestra">HORA DE DIGESTIÓN: </span>
+                <span class="bodyStdMuestra">{{@$hora}}</span>
+            </div>
 
+        @endswitch
+       
         <div class="subContenedor2">            
             <span class="elementos"> ESPECTROFOTÓMETRO DE ABSORCIÓN ATÓMICA <span><br></span> PERKIN ELMER MODELO: </span>
             <span class="subElementos">@if (@$detalle->Equipo != "")
@@ -68,6 +83,132 @@
             <span class="subElementos">@if (@$detalle->Energia != "") {{@$detalle->Energia}} @else N/A @endif</span>
         </div>
     </div>
+
+    @switch($solModel->Id_norma)
+            @case(7)
+            <div class="contenedorTerciario">                        
+             <div class="subContenedor3">            
+                <span class="verifEspectro"> VERIFICACIÓN DE BLANCO: </span>            
+                <span class="subElementos">@if (@$detalle->Verificacion_blanco != "") {{@$detalle->Verificacion_blanco}} @else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">As. Teorica: </span>
+                    <span class="subElementos">@if (@$detalle->Abs_teoricoB != "") {{@$detalle->Abs_teoricoB}} @else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 1: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs1B != ""){{@$detalle->Abs1B}}@else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 2: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs2B != ""){{@$detalle->Abs2B}}@else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 3: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs3B != ""){{@$detalle->Abs3B}}@else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 4: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs4B != ""){{@$detalle->Abs4B}}@else N/A @endif</span>
+                </div>
+                
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 5: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs5B != ""){{@$detalle->Abs5B}}@else N/A @endif</span>
+                </div>
+                
+                <div class="subContenedor3">
+                    <span class="elementos">Abs Prom: </span>                    
+                    <span class="subElementos">@if (@$detalle->PromedioB != ""){{@$detalle->PromedioB}}@else N/A @endif</span>
+                </div>
+                <div class="subContenedor3">
+                    <span class="elementos">Masa caracteristica: </span>                    
+                    <span class="subElementos">@if (@$detalle->MasaE != ""){{@$detalle->MasaE}}@else N/A @endif</span>
+                </div>
+                <div class="subContenedor3">
+                    <span class="elementos">Conclusion: </span>                    
+                    <span class="subElementos">@if (@$detalle->ConclusionB != ""){{@$detalle->ConclusionB}}@else N/A @endif</span>
+                </div>
+            </div>
+
+                @break
+            @default
+            @switch(@$lote->Id_tecnica)
+             @case(192)
+             @case(204)
+             @case(190)
+             @case(196)
+             @case(191)
+             @case(194)
+             @case(189)
+             @case(188)
+             @case(219)
+             @case(195)
+             @case(230)
+             @case(215)
+             <div class="contenedorTerciario">                        
+             <div class="subContenedor3">            
+                <span class="verifEspectro"> VERIFICACIÓN DE <span><br></span> BLANCO</span>            
+                <span class="subElementos">@if (@$detalle->Verificacion_blanco != "") {{@$detalle->Verificacion_blanco}} @else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">As. Teorica: </span>
+                    <span class="subElementos">@if (@$detalle->Abs_teoricoB != "") {{@$detalle->Abs_teoricoB}} @else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 1: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs1B != ""){{@$detalle->Abs1B}}@else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 2: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs2B != ""){{@$detalle->Abs2B}}@else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 3: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs3B != ""){{@$detalle->Abs3B}}@else N/A @endif</span>
+                </div>
+
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 4: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs4B != ""){{@$detalle->Abs4B}}@else N/A @endif</span>
+                </div>
+                
+                <div class="subContenedor3">
+                    <span class="elementos">Abs 5: </span>                    
+                    <span class="subElementos">@if (@$detalle->Abs5B != ""){{@$detalle->Abs5B}}@else N/A @endif</span>
+                </div>
+                
+                <div class="subContenedor3">
+                    <span class="elementos">Abs Prom: </span>                    
+                    <span class="subElementos">@if (@$detalle->PromedioB != ""){{@$detalle->PromedioB}}@else N/A @endif</span>
+                </div>
+                <div class="subContenedor3">
+                    <span class="elementos">Masa caracteristica: </span>                    
+                    <span class="subElementos">@if (@$detalle->MasaE != ""){{@$detalle->MasaE}}@else N/A @endif</span>
+                </div>
+                <div class="subContenedor3">
+                    <span class="elementos">Conclusion: </span>                    
+                    <span class="subElementos">@if (@$detalle->ConclusionB != ""){{@$detalle->ConclusionB}}@else N/A @endif</span>
+                </div>
+            </div>
+
+                @break
+      
+            @default
+                
+        @endswitch
+
+        @endswitch
+ 
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
@@ -132,6 +273,9 @@
         <div class="subContenedor4">
             <span class="elementos">ABS 5: @if (@$detalle->Abs5E != "") {{@$detalle->Abs5E}} @else N/A @endif</span>
         </div>
+        <div class="subContenedor4">
+            <span class="elementos">CONCLUSION: @if (@$detalle->ConclusionE != "") {{@$detalle->ConclusionE}} @else N/A @endif</span>
+        </div>
     </div>
 
     
@@ -144,6 +288,15 @@
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
                 @switch(@$lote->Id_tecnica)
+                    @case(215)
+                    @case(192)
+                    @case(204)
+                    @case(190)
+                    @case(196)
+                    @case(188)
+                    @case(219)
+                    @case(195)
+                    @case(230)
                     @case(215)
                         <tr>
                             <th id="tableCabecera">&nbsp;</th>
@@ -317,38 +470,91 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
                 <tr>
-                    @if (@$tecnicaUsada->Id_tecnica == 22)
-                        <td id="tableCabecera">No. de muestra &nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>                        
-                        <td id="tableCabecera">&nbsp;[μg/L] Obtenida&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;F.C.&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
-                        <td id="tableCabecera"></td>
-                        <td id="tableCabecera"></td>    
-                    @else
-                        <td id="tableCabecera">No. de muestra &nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
-                        <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
-                        <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
-                        <td id="tableCabecera"></td>
-                        <td id="tableCabecera"></td>
-                    @endif                                        
+                    @switch(@$lote->Id_tecnica)
+                        @case(22)
+                            <td id="tableCabecera">No. de muestra &nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>                        
+                            <td id="tableCabecera">&nbsp;[μg/L] Obtenida&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.C.&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                            <td id="tableCabecera"></td>
+                            <td id="tableCabecera"></td>    
+                            @break
+    
+                        @case(215)
+                        @case(192)
+                        @case(204)
+                        @case(190)
+                        @case(196)
+                        @case(188)
+                        @case(219)
+                        @case(195)
+                        @case(230)
+                        @case(215)
+                            <td id="tableCabecera">No. de muestra &nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Vol Final (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;[μg/L] Obtenida&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.C.&nbsp;&nbsp;</td>
+                            <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
+                            <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                            <td id="tableCabecera"></td>
+                            <td id="tableCabecera"></td>
+                         @break
+                        @case(191)
+                        @case(194)
+                        @case(189)
+                              <td id="tableCabecera">No. de muestra &nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Vol Final (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.C.&nbsp;&nbsp;</td>
+                            <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
+                            <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                            <td id="tableCabecera"></td>
+                            <td id="tableCabecera"></td>
+                            @break
+                        @default
+                            <td id="tableCabecera">No. de muestra &nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                            <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
+                            <td id="tableCabecera">&nbsp;[Mg/L] Reportada&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                            <td id="tableCabecera"></td>
+                            <td id="tableCabecera"></td>
+                    @endswitch
+                                                
                 </tr>
             </thead>
     
@@ -364,27 +570,81 @@
                             @endif 
                         </td>
                         <td id="tableContent">{{@$item->Vol_muestra}}</td>
+                        @switch(@$lote->Id_tecnica)
+                            @case(192)
+                            @case(190)
+                            @case(204)
+                            @case(196)
+                            @case(191)
+                            @case(194)
+                            @case(189)
+                            @case(188)
+                            @case(219)
+                            @case(195)
+                            @case(230)
+                            @case(215)
+                                <td id="tableContent">{{@$item->Vol_final}}</td>
+                                @break
+                            @default
+                                
+                        @endswitch
                         <td id="tableContent">< 2</td>
-                        <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
-                        <td id="tableContent">                            
-                            @php
-                                echo number_format(@$item->Abs_promedio, 3, ".", ".");                                
-                            @endphp
-                        </td>
-                        <td id="tableContent">
-                            @php
-                                echo number_format(@$item->Abs_promedio, 3, ".", ".");                                
-                            @endphp
-                        </td>
+                            @switch($tecnica->Id_tecnica)
+                                @case(192)
+                                @case(190)
+                                @case(204)
+                                @case(196)
+                                @case(188)
+                                @case(219)
+                                @case(195)
+                                @case(230)
+                                @case(215)
+                                    <td id="tableContent">{{number_format(@$item->Abs1,4)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs2,4)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs3,4)}}</td>
+                                    <td id="tableContent">
+                                        {{number_format((@$item->Abs_promedio / @$item->Factor_conversion), 4, ".", ".")}}
+                                    </td>
+                                    <td id="tableContent">
+                                        {{number_format((@$item->Abs_promedio / @$item->Factor_conversion), 4, ".", ".")}}
+                                    </td>
+                                    @break
+                                @default
+                                    <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
+                                    <td id="tableContent">
+                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                    </td>
+                                    <td id="tableContent">
+                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                    </td>
+                            @endswitch
                         <td id="tableContent">
                             @php
                                 $res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
                                 echo number_format($res,3);
                             @endphp
                         </td>
-                        <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                        @switch(@$lote->Id_tecnica)
+                        @case(192)
+                        @case(190)
+                        @case(204)
+                        @case(196)
+                        @case(191)
+                        @case(194)
+                        @case(189)
+                        @case(188)
+                        @case(219)
+                        @case(195)
+                        @case(230)
+                        @case(215)
+                            <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                            <td id="tableContent">{{@$item->Factor_conversion}}</td>
+                                @break
+                            @default
+                            <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                        @endswitch
                         <td id="tableContent">
                             @if (@$item->Vol_disolucion != NULL || @$item->Vol_disolucion == "0")
                                 @if ($res < $item->Limite)
@@ -418,29 +678,84 @@
                             @endif 
                         </td>
                         <td id="tableContent">{{@$item->Vol_muestra}}</td>
+                        @switch(@$lote->Id_tecnica)
+                        @case(192)
+                        @case(190)
+                        @case(204)
+                        @case(196)
+                        @case(191)
+                        @case(194)
+                        @case(189)
+                        @case(188)
+                        @case(219)
+                        @case(195)
+                        @case(230)
+                        @case(215)
+                                <td id="tableContent">{{@$item->Vol_final}}</td>
+                                @break
+                            @default
+                                
+                        @endswitch
                         <td id="tableContent">< 2</td>
-                        <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
-                        <td id="tableContent">                            
-                            @php
-                                echo number_format(@$item->Abs_promedio, 3, ".", ".");                                
-                            @endphp
-                        </td>
-                        <td id="tableContent">
-                            @php
-                                echo number_format(@$item->Abs_promedio, 3, ".", ".");                                
-                            @endphp
-                        </td>
+                        <td id="tableContent">< 2</td>
+                            @switch($tecnica->Id_tecnica)
+                                @case(192)
+                                @case(190)
+                                @case(204)
+                                @case(196)
+                                @case(188)
+                                @case(219)
+                                @case(195)
+                                @case(230)
+                                @case(215)
+                                    <td id="tableContent">{{number_format(@$item->Abs1,4)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs2,4)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs3,4)}}</td>
+                                    <td id="tableContent">
+                                        {{number_format((@$item->Abs_promedio / @$item->Factor_conversion), 4, ".", ".")}}
+                                    </td>
+                                    <td id="tableContent">
+                                        {{number_format((@$item->Abs_promedio / @$item->Factor_conversion), 4, ".", ".")}}
+                                    </td>
+                                    @break
+                                @default
+                                    <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
+                                    <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
+                                    <td id="tableContent">
+                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                    </td>
+                                    <td id="tableContent">
+                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                    </td>
+                            @endswitch
                         <td id="tableContent">
                             @php
                                 $res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
                                 echo number_format($res,3);
                             @endphp
                         </td>
-                        <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                        @switch(@$lote->Id_tecnica)
+                            @case(192)
+                            @case(190)
+                            @case(204)
+                            @case(196)
+                            @case(191)
+                            @case(194)
+                            @case(189)
+                            @case(188)
+                            @case(219)
+                            @case(195)
+                            @case(230)
+                            @case(215)
+                                <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                                <td id="tableContent">{{@$item->Factor_conversion}}</td>
+                                @break
+                            @default
+                            <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                        @endswitch
                         <td id="tableContent">
-                            @if (@$item->Vol_disolucion != null)
+                            @if (@$item->Vol_disolucion != null || @$item->Vol_disolucion == 0)
                                 @if ($res < $item->Limite)
                                     < {{$item->Limite}}                                
                                 @else

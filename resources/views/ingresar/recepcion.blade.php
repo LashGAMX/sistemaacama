@@ -16,6 +16,7 @@
                         <input type="text" style="width: 70%" placeholder="Ingresa un folio" id="folioSol" autofocus> 
                         <button onclick="buscarFolio()" class="btn-success"><i class="fas fa-search"></i> Buscar</button>
                         <div id="stdMuestra"></div>
+                        <div id="stdMuestraSiralab"></div>
                     </div>
                     <input type="text" id="idSol" hidden>
                     <div class="form-group">

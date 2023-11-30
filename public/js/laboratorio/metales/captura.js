@@ -8,6 +8,21 @@ $(document).ready(function () {
     $('.select2').select2();
     
 });
+document.addEventListener("keydown", function(event) {
+    if (event.altKey && event.code === "KeyR")
+    {
+        operacion();
+    }
+    if (event.altKey && event.code === "KeyB"){
+        getDataCaptura()
+    }
+    if (event.altKey && event.code === "KeyL"){
+        liberarMuestraMetal()
+    }
+    if (event.altKey && event.code === "KeyT"){
+        liberarTodo()
+    }
+});
 
 $("#formulaTipo").click(function () {
     $("#resDato").val("");
@@ -87,6 +102,7 @@ function getDataCaptura() {
             type: "POST",
             url: base_url + "/admin/laboratorio/"+area+"/getCapturaLote",
             data: {
+                folio: $("#folio").val(),
                 formulaTipo: $("#formulaTipo").val(), 
                 fechaAnalisis: $("#fechaAnalisis").val(),
                 _token: $('input[name="_token"]').val()
@@ -114,7 +130,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button> <button class="btn-info" onclick="setTituloBit('+item.Id_lote+')"><i class="fas fa-file-pen"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -171,6 +187,7 @@ function getLoteCaptura() {
 
     let status = "";
     let hg = "hidden"
+    let volF = "hidden"
 
     $.ajax({
         type: "POST",
@@ -190,17 +207,18 @@ function getLoteCaptura() {
                 case 195:
                 case 230:
                 case 188:
-                case 189:
-                case 196:
-                case 190:
-                case 194:
-                case 192:
-                case 191:
-                case 204:
                 case 219:
                     hg = ""    
                     break;
-            
+                case 192:
+                case 204:
+                case 190:
+                case 196:
+                case 191:
+                case 194:
+                case 189:
+                    volF = ""
+                    break;
                 default:
                     break;
             }
@@ -212,6 +230,7 @@ function getLoteCaptura() {
             tab += '          <th>Cliente</th>';
             //tab2 += '          <th>PuntoMuestreo</th>';
             tab += '          <th>Vol. Muestra E</th>';
+            tab += '          <th '+volF+'>Vol Final</th>';
             tab += '          <th '+hg+'>Vol. D</th>';
             tab += '          <th>Abs1</th>';
             tab += '          <th>Abs2</th>';
@@ -254,17 +273,12 @@ function getLoteCaptura() {
                 case 17:
                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="100"></td>';
                     break;
-                case 188:
-                case 219:
-                case 215:  
-                case 195: 
-                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="80"></td>';
-                break;
                 default:
-                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="50"></td>';
+                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" ></td>';
                     break;
             }
                 tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
+                tab += '<td '+volF+'><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
@@ -278,9 +292,9 @@ function getLoteCaptura() {
                     tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
                 }
                 if (item.Observacion != "") {
-                    tab += '<td><input '+status+' style="width: 150px" id="obs'+item.Id_detalle+'" value="'+item.Observacion+'"></td>';
+                    tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                 } else {
-                    tab += '<td><input '+status+' style="width: 150px" id="obs'+item.Id_detalle+'" value="'+response.obs[aux]+'"></td>';   
+                    tab += '<td><textarea '+status+' style="width: 150px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
                 }
                 tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                 tab += '</tr>';
@@ -296,6 +310,8 @@ function getLoteCaptura() {
             var t = $('#tablaControles').DataTable({
                 "ordering": false,
                 paging: false,
+                scrollCollapse: true,
+                scrollY: '380px',
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
@@ -371,6 +387,7 @@ function operacion()
             idDetalle:$("#idDetalle"+idMuestra).val(),
             volMuestra:$("#volMuestra"+idMuestra).val(),
             volDirigido:$("#volDirigido"+idMuestra).val(),
+            volFinal:$("#volFinal"+idMuestra).val(),
              x:$("#abs1"+idMuestra).val(),
              y:$("#abs2"+idMuestra).val(),
              z:$("#abs3"+idMuestra).val(),

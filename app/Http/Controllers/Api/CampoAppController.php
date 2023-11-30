@@ -155,9 +155,9 @@ class CampoAppController extends Controller
         $campoGenModel->Supervisor = $jsonGeneral[0]["Supervisor"];
         $campoGenModel->save();
       
-        $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
-        $modelPunto->Punto = $jsonPunto[0]["Punto"];
-        $modelPunto->save();
+        // $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
+        // $modelPunto->Punto = $jsonPunto[0]["Punto"];
+        // $modelPunto->save();
 
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         $phTrazable = CampoPhTrazable::where('Id_solicitud',$solModel->Id_solicitud)->get();
@@ -426,7 +426,7 @@ class CampoAppController extends Controller
         }
         $campoCompuesto->Cloruros = $cloruros;
         $campoCompuesto->save();
-       // -------------------------EVIDENCIA---------------------------------------
+    //    -------------------------EVIDENCIA---------------------------------------
 
         // for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
         //     # code...
@@ -441,7 +441,7 @@ class CampoAppController extends Controller
         //     'Id_punto' => $puntoModel->Id_muestreo,
         //     'Base64' => $jsonEviencia[0]["Codigo"],
         // ]);
-        //        // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
+        //      $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
 
         for ($i=0; $i < sizeof($jsonCanceladas); $i++) { 
             $ph = PhMuestra::where('Id_solicitud',$solModel->Id_solicitud)->where('Num_toma',$jsonCanceladas[$i]["Muestra"])->first();

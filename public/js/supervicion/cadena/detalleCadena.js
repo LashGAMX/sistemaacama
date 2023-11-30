@@ -489,8 +489,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 // case 218:
                 case 64:
-                case 358:
-                   
+                
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -501,15 +500,30 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    <tbody>';
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
-                        if ($("#idNorma").val() == "27") {
-                            tab += '<td>Cloruros Totales (Cl¯)</td>';
-                            tab += '<td>' + item.Cloruros + '</td>';
-                            resLiberado = resLiberado + parseFloat(item.Cloruros);
-                        } else {
+                        
                             tab += '<td>' + item.Parametro + '</td>';
                             tab += '<td>' + item.Resultado + '</td>';
                             resLiberado = resLiberado + parseFloat(item.Resultado);
-                        }
+                        tab += '</tr>';
+                    });
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    break;
+                case 358:
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Descripcion</th>';
+                    tab += '          <th>Valor</th>';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    $.each(response.model, function (key, item) {
+                        tab += '<tr>';
+                            tab += '<td>Cloruros Totales (Cl¯)</td>';
+                            tab += '<td>' + item.Cloruros + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Cloruros);
                         tab += '</tr>';
                     });
                     tab += '    </tbody>';

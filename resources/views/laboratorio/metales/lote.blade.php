@@ -93,7 +93,7 @@
                   </div>
                   <div class="col-md-4">
                     <label for="">Fecha de preparacion</label>
-                    <input type="date"  class="form-control form-control-sm" id="fechaPreparacion">
+                    <input type="datetime-local"  class="form-control form-control-sm" id="fechaPreparacion">
                   </div>
                   <div class="col-md-4">
                     <label>No Inventario</label> 
@@ -275,10 +275,10 @@
               <div class="col-md-12">
                 <div class="dropdown-divider"></div>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-12" hidden>
                 <h6>Estandar de verificación del instrumento</h6>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-12" hidden>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="row">

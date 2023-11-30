@@ -5585,6 +5585,7 @@ class InformesController extends Controller
                         case 2:
                         case 3:
                         case 4:
+                        case 33:
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
@@ -5627,6 +5628,7 @@ class InformesController extends Controller
                         switch ($item->Id_norma) {
                             case 1:
                             case 27:
+                            case 33:
                                 if ($puntoMuestreo->Condiciones != 1) {
                                     if ($item->Resultado2 >= 3500) {
                                         $resTemp = "> 3500";
@@ -5652,6 +5654,7 @@ class InformesController extends Controller
                         switch ($item->Id_norma) {
                             case 1:
                             case 27:
+                            case 33:
                                 switch ($item->Resultado2) {
                                     case 499:
                                         $resTemp = "< 500";

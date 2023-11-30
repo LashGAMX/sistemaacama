@@ -1093,6 +1093,8 @@ function getDetalleLote(id, parametro) {
                         $("#tituladodeH3").val(response.model.Titulado3)
                         $("#equivalenteAlc").val(response.model.Granos_equivalente)
                         $("#factConversionAlc").val(response.model.Factor_conversion)
+
+                        let summer = document.getElementById("tableValAlcalinidadHist")
                     } 
                     break;
                 case 8:

@@ -165,7 +165,9 @@ function setGenFolio() {
 var idNorma = 0
 function buscarFolio() {
     let std = document.getElementById("stdMuestra")
+    let std2 = document.getElementById("stdMuestraSiralab")
     let temp = ''
+    let temp2 = ''
     let phProm = 0
     let aux = 0
     idNorma = 0
@@ -198,7 +200,13 @@ function buscarFolio() {
                 } else {
                     temp = '<p class="text-warning">Falta ingreso</p>'
                 }
-                std.innerHTML = temp
+                if (response.cliente.Siralab == 1) {
+                    temp2 = '<p class="text-warning">Folio Siralab</p>'
+                }else{
+                    temp2 = '<p class="text-warning">Folio No Siralab</p>'
+                }
+                std.innerHTML = temp 
+                std2.innerHTML = temp2 
 
             } else {
                 $("#idSol").val("")

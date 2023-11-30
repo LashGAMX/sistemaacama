@@ -1074,13 +1074,9 @@
                         </tr> 
                       </tbody>
                   </table>
-                  <!-- <table class="table" id="tableValAlcalinidadHist">
-                    <tbody>
-                      <tr>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table> -->
+                  <div class="tableValAlcalinidadHist"></div>
+
+
                 </div>
                 <div class="col-md-6">
                   <table class="table">

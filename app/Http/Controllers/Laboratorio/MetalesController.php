@@ -498,10 +498,12 @@ class MetalesController extends Controller
     public function operacion(Request $request)
     {
         //! Cambio de busqueda de BMR de Lote a rango de fechas.
-        $fecha = new Carbon($request->fecha);
-        $today = $fecha->toDateString();
+        
 
         $detalleModel = LoteDetalle::where('Id_detalle', $request->idDetalle)->first();
+        $loteTemp = LoteAnalisis::where('Id_lote',$detalleModel->Id_lote)->first();
+        $fecha = new Carbon($loteTemp->Fecha);
+        $today = $fecha->toDateString();
         $parametroModel = Parametro::where('Id_matriz', 12)->where('Id_parametro', $detalleModel->Id_parametro)->get();
 
         //Buscar la BMR 
@@ -542,7 +544,13 @@ class MetalesController extends Controller
                 
                 switch ($parametro->Id_parametro) {
                     case 190: 
-                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volDirigido);   
+                    case 192:
+                    case 204:
+                    case 196:
+                    case 191:
+                    case 194:
+                    case 189:
+                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
                         $resultado = (($temp ) / ($request->volMuestra * $FC)); 
                         break;
                     default:
@@ -568,7 +576,9 @@ class MetalesController extends Controller
 
         $detalle = LoteDetalle::find($request->idDetalle);
         $detalle->Vol_muestra = $request->volMuestra;
-        $detalle->Abs1 = $request->x;
+        $detalle->Vol_final = $request->volFinal;
+        $detalle->Vol_dirigido = $request->volDirigido;
+        $detalle->Abs1 = $request->x; 
         $detalle->Abs2 = $request->y;
         $detalle->Abs3 = $request->z;
         $detalle->Abs_promedio = $promedio;
@@ -772,14 +782,29 @@ class MetalesController extends Controller
     }
     public function getCapturaLote(Request $request)
     {
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
-        $fecha = new Carbon($request->fechaAnalisis);
-        $today = $fecha->toDateString();
 
-        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->get();
-        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $request->fechaAnalisis)->whereDate('Fecha_fin', '>=', $request->fechaAnalisis)
-        ->where('Id_parametro', $parametro->Id_parametro)->first(); 
+        if ($request->folio != "") {
+            $tempCod = CodigoParametros::where('Codigo',$request->folio)->where('Id_parametro',$request->formulaTipo)->first();
+            $tempLote = LoteDetalle::where('Id_codigo',$tempCod->Id_codigo)->first();
+            $model = DB::table('ViewLoteAnalisis')->where('Id_lote', $tempLote->Id_lote)->get();
+
+            $fecha = new Carbon($request->fechaAnalisis); 
+            $today = $fecha->toDateString();
+
+            $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+            $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->get();
+            $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $model[0]->Fecha)->whereDate('Fecha_fin', '>=', $model[0]->Fecha)
+            ->where('Id_parametro', $parametro->Id_parametro)->first(); 
+        }else{
+            $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->whereDate('Fecha', $request->fechaAnalisis)->get();
+            $fecha = new Carbon($request->fechaAnalisis); 
+            $today = $fecha->toDateString();
+
+            $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+            $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->get();
+            $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $request->fechaAnalisis)->whereDate('Fecha_fin', '>=', $request->fechaAnalisis)
+            ->where('Id_parametro', $parametro->Id_parametro)->first(); 
+        }
 
         $data = array(
             'today'  => $today,
@@ -1302,6 +1327,7 @@ class MetalesController extends Controller
         $sw = false; 
         $msg = "";
         $conversion = 0;
+        $volMuestra = 100;
 
         for ($i=0; $i <  sizeof($res->ids); $i++) { 
             $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
@@ -1335,6 +1361,7 @@ class MetalesController extends Controller
                         'Id_parametro' => $parametro->Id_parametro,
                         'Id_control' => 1,
                         'Factor_dilucion' => 1,
+                        'Vol_muestra' => $volMuestra,
                         'Factor_conversion' => $conversion,
                         'Liberado' => 0,
                         'Analisis' => 1,
@@ -1639,12 +1666,16 @@ class MetalesController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
         $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control',1)->get();
+        $tecnica = Tecnica::where('Id_tecnica',$model[0]->Id_tecnica)->first();
+        $tipoFormula = TipoFormula::where('Id_tipo_formula',$model[0]->Id_tipo_formula)->first();
+        $solModel = Solicitud::where('Id_solicitud',$model[0]->Id_analisis)->first();
         $controles = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control','!=',1)->get();
         $plantilla = Bitacoras::where('Id_lote', $id)->get();
         if ($plantilla->count()) {
         } else {
             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
+
         $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
         $estandares = estandares::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$lote->Fecha)->whereDate('Fecha_fin','>=',$lote->Fecha)->get();
         $detalle = MetalesDetalle::where('Id_lote',$id)->first();
@@ -1655,14 +1686,26 @@ class MetalesController extends Controller
         } else {
             @$analizo = User::where('id', $model[0]->Analizo)->first();
         }
-        $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
-        $hora = $fechaHora->isoFormat('h:mm A');
-        $today = $fechaHora->toDateString();
-    
+        switch ($solModel->Id_norma) {
+            case 7:
+                $fechaHora = Carbon::parse(@$detalle->Fecha_preparacion);
+                $hora = $fechaHora->isoFormat('h:mm A');
+                $today = @$fechaHora->toDateString();        
+                break;
+            default:
+                $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
+                $hora = $fechaHora->isoFormat('h:mm A');
+                $today = $fechaHora->toDateString();    
+                break;
+        }
+ 
 
         // $reviso = User::where('id', 17)->first();
         $reviso = User::where('id', 39)->first();
         $data = array(
+            'solModel' => $solModel,
+            'tipoFormula' => $tipoFormula,
+            'tecnica' => $tecnica,
             'controles' => $controles,
             'estandares' => $estandares,
             'detalle' => $detalle,

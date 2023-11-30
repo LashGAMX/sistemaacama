@@ -3,11 +3,11 @@
 @section('content')
 
   @section('page_header')
-  <h6 class="page-title"> 
+  <!-- <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
     Captura de resultados
   </h6>
- 
+  -->
 <div class="container-fluid">
     <div class="row"> 
         <div class="col-md-3">
@@ -21,12 +21,12 @@
                   </select>
             </div>
         </div>
-        {{-- <div class="col-md-3">
+        <div class="col-md-3">
             <div class="form-group">
-                <label for="">Núm. muestra</label>
-                <input type="text" style="width: " class="form-control" id="numeroMuestra">
+                <label for="">Folio</label>
+                <input type="text" style="width: " class="form-control" id="folio" placeholder="xxx-xx/xx-x">
             </div>
-        </div> --}}
+        </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Fecha análisis</label>
@@ -214,7 +214,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.0.9"></script>
+  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.1.0"></script>
   @stop
 
 @endsection    

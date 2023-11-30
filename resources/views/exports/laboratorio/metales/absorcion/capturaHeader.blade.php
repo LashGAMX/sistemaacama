@@ -2,11 +2,11 @@
 echo $plantilla[0]->Titulo;
 @endphp
 <p id='header2'>
-    METALES TOTALES CON {{@$model[0]->Tecnica}}
+    METALES TOTALES CON {{@$tecnica->Tecnica}}
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    ELEMENTO: {{@$lote->Parametro}} ({{@$model[0]->Tipo_formula}})
+    ELEMENTO: {{@$lote->Parametro}} ({{@$tipoFormula->Tipo_formula}})
 </p> 
  
 <span id='fecha'>Fecha de análisis</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>{{@$lote->Fecha}}</span>
