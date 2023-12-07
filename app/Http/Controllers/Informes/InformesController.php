@@ -247,8 +247,10 @@ class InformesController extends Controller
         }
         $limitesN = array();
         $limitesC = array();
+        $limitesCon = array();
         $aux = 0;
         $limC = 0;
+        $auxCon = "";
         foreach ($model as $item) {
             if ($item->Resultado2 != NULL || $item->Resultado2 != "NULL") {
                 switch ($item->Id_parametro) {
@@ -507,9 +509,55 @@ class InformesController extends Controller
                     case 2:
                         $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();
                         if ($limNo->count()) {
-                            $aux = $limNo[0]->PromD;
+                            switch (@$solModel->Id_promedio) {
+                                case 1:
+                                    $aux = $limNo[0]->Instantaneo;
+                                    break;
+                                case 2:
+                                    $aux = $limNo[0]->PromM;
+                                    break;
+                                case 3:
+                                    $aux = $limNo[0]->PromD;
+                                    break;
+                                default:
+                                    $aux = $limNo[0]->PromD;       
+                                    break;
+                            }
+                            switch ($item->Id_parametro) {
+                                case 14:
+                                    $rango = explode("-", $aux);
+                                    if (@$rango[0] <= @$item->Resultado2 &&  @$rango >= @$item->Resultado2) {
+                                        $auxCon = "CUMPLE";
+                                    }else{
+                                        $auxCon = "NO CUMPLE";
+                                    }
+                                    break;
+                                case 2: 
+                                    if (@$item->Resultado2 == 1) {
+                                        $auxCon = "NO CUMPLE";
+                                    }else{
+                                        $auxCon = "CUMPLE";
+                                    }
+                                    break;
+                                default:
+                                    if ($aux != "N.N.") {
+                                        if ($aux != "N/A") {
+                                            if (@$item->Resultado2 <= $aux) {
+                                                $auxCon = "CUMPLE";
+                                            }else{
+                                                $auxCon = "NO CUMPLE";
+                                            }
+                                        }else{
+                                            $auxCon = "N/A";    
+                                        }
+                                    }else{
+                                        $auxCon = "N.N.";
+                                    }
+                                    break;
+                            }
                         } else {
                             $aux = "N/A";
+                            $auxCon = "N/A";
                         }
                         break;
                     case 30:
@@ -538,6 +586,7 @@ class InformesController extends Controller
             }
             array_push($limitesN, $aux);
             array_push($limitesC, $limC);
+            array_push($limitesCon, $auxCon);
         }
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
 
@@ -577,6 +626,7 @@ class InformesController extends Controller
 
 
         $data = array(
+            'limitesCon' => $limitesCon,
             'impresion' => $impresion,
             'tituloConsecion' => $tituloConsecion,
             'numTomas' => @$numTomas,
@@ -2718,6 +2768,7 @@ class InformesController extends Controller
                                 case 19:
                                 case 23:
                                 case 113:
+                                case 79: //Fenole
                                 case 232: //fierro total
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
@@ -5301,13 +5352,17 @@ class InformesController extends Controller
                                     case 108:
                                         $modelDet = DB::table('lote_detalle_nitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                         break;
+                                    case 28:
+                                    case 29:
+                                        $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control',1)->where('Id_parametro', $item->Id_parametro)->get();
+                                        break;
                                     default:
                                         $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
                                         break;
                                 }
                                 if ($modelDet->count()) {
                                     $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                                    $fechaTemp = $loteTemp->Fecha;
+                                    $fechaTemp = $loteTemp->Fecha; 
                                 } else {
                                     $fechaTemp = "";
                                 }

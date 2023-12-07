@@ -10,38 +10,40 @@
 <body>
 <div id="contenidoCurva">
         @php
-            echo $procedimiento[0];
+            echo $plantilla[0]->Texto;
         @endphp
     </div>
+    <br>
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="11">
+                    <th class="nombreHeader" colspan="13">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
 
-                <tr>
+                <tr>      
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">No. Capsula</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Peso cte1</th>
+                    <th class="tableCabecera anchoColumna">Peso cte 1</th>
                     <th class="tableCabecera anchoColumna">Peso cte 2</th>
-                    <th class="tableCabecera anchoColumna">Masa calcinada 1</th>
-                    <th class="tableCabecera anchoColumna">Masa calcinada 2</th>
-                    <th class="tableCabecera anchoColumna">Masa 3</th>
-                    <th class="tableCabecera anchoColumna">Masa 4</th>                    
-                    <th class="tableCabecera anchoColumna">SOLIDOS TOTALES VOLATILES (STV) mg/L</th>                    
-                    <th class="tableCabecera anchoColumna">Observaciones</th>                    
+                    <th class="tableCabecera anchoColumna">Peso A</th>
+                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 1</th>
+                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 2</th>
+                    <th class="tableCabecera anchoColumna">Peso B</th>
+                    <th class="tableCabecera anchoColumna">SOLIDOS TOTALES (ST) mg/L</th>
+                    <th class="tableCabecera anchoColumna">Observaciones</th>                                        
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
                 </tr>
             </thead>
     
             <tbody>
+            
             @foreach ($model as $item)
             <tr>
                         <td class="tableContent">
@@ -79,17 +81,9 @@
                         <td class="tableContent">{{@$item->Control}}</td>
                     </tr>   
             @endforeach
+
             </tbody>        
         </table>  
     </div>
-
-    <br>
-
-    <div id="contenidoCurva">
-        @php
-            echo $procedimiento[1];
-        @endphp
-    </div>
-    
 </body>
 </html>

@@ -275,7 +275,21 @@
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;CONCENTRACION <br> CUANTIFICADA&nbsp;&nbsp;</td>       
                     @if ($tipo == 1)
-                        <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE P.D&nbsp;&nbsp;</td>
+                            @switch(@$solModel->Id_promedio)
+                                @case(1)
+                                <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;LIMITE PERMISIBLE <br> INSTANTANEO&nbsp;&nbsp;</td>    
+                                    @break
+                                @case(2)
+                                
+                                    @break
+                                @case(3)
+                                <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;LIMITE PERMISIBLE <br> P.D&nbsp;&nbsp;</td>    
+                                @break
+                                @default
+                                    
+                            @endswitch
+
+                            <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE <br> LA CONFORMIDAD&nbsp;&nbsp;</td>    
                     @endif             
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">ANALISTA</td>
                 </tr>
@@ -315,6 +329,23 @@
                                     @endif
                                   
                                 </td>
+
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado2 != NULL)
+                                        @switch($item->Id_parametro)
+                                            @case(64)
+                                                {{"N/A"}}
+                                            @break
+                                            @default
+                                            {{ @$limitesCon[$i] }}
+                                        @endswitch
+                                    @else
+                                        -------
+                                    @endif
+                                  
+                                </td>
+
+
                             @endif
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
@@ -417,6 +448,9 @@
                                     @php
                                         echo $impresion[0]->Nota;
                                     @endphp
+                                    @if ($tipo == 1)
+                                        A SOLICITUD DEL CLIENTE SE COMPARA EL INFORME DE RESULTADOS CON LOS LIMITES PERMISIBLES DE LA NORMA
+                                    @endif
                                     <!-- @switch($solModel->Id_norma)
                                         @case(5)
                                         @case(30)
@@ -558,6 +592,8 @@
                                     $sw = false;
                                 @endphp
                             @endforeach 
+
+                      
                     </tbody>         
                 </table>  
             @else

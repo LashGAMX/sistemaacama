@@ -212,7 +212,7 @@ class IngresarController extends Controller
                                     'Analizo' => 1,
                                     'Reporte' => 1,
                                     'Cadena' => 1,
-                                    'Cancelado' => $canceladoAux[$i],
+                                    'Cancelado' => $canceladoAux[$i], 
                                 ]);
                             }
                             break;
@@ -379,8 +379,8 @@ class IngresarController extends Controller
                         case 6: // DQO
                          
                             if ($model[0]->Id_norma == "27") {
-                                if($item->Siralab == 0){
-                                    if ($res->cloruros < 1000 ) {
+                                if($item->Siralab == "0"){
+                                    if ($res->cloruros[$contP] < 1000 ) {
                                         CodigoParametros::create([
                                             'Id_solicitud' => $item->Id_solicitud,
                                             'Id_parametro' => $item2->Id_subnorma,
@@ -464,7 +464,7 @@ class IngresarController extends Controller
                                     'Cancelado' => 0,
                                 ]);
                             }
-                            break;
+                        break;
                         case 30:
                             CodigoParametros::create([
                                 'Id_solicitud' => $item->Id_solicitud,
@@ -567,7 +567,11 @@ class IngresarController extends Controller
             } else {
                 $fecha_muestreo->toDateString(@$muestra->Fecha);
             }
-
+            if ($res->historial == true) {
+                $resultadoHistorial = 1;
+            } else {
+                $resultadoHistorial = 0;
+            }
             $fecha_ingreso->toDateString($res->horaRecepcion);
             $date1 = new DateTime($res->horaRecepcion);
             $date2 = new DateTime($fecha_muestreo);
@@ -590,6 +594,7 @@ class IngresarController extends Controller
                     'Hora_entrada' => $res->horaEntrada,
                     'Liberado' => 0,
                     'Id_user_c' => Auth::user()->id,
+                    'Historial' => $resultadoHistorial,
                 ]);
                 foreach ($solModel as $item) {
                     ProcesoAnalisis::create([
@@ -603,6 +608,7 @@ class IngresarController extends Controller
                         'Hora_entrada' => $res->horaEntrada,
                         'Liberado' => 0,
                         'Id_user_c' => Auth::user()->id,
+                        'Historial' => $resultadoHistorial,
                     ]);
                 }
                 $sw = true;

@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/st/stPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimientos</p>
-
-    <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+<div id="contenidoCurva">
+        @php
+            echo $plantilla[0]->Texto;
+        @endphp
     </div>
-
-    {{-- <br>
+    <br>
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
@@ -44,39 +43,47 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < @$dataLength ; $i++)
-                    <tr>
+            
+            @foreach ($model as $item)
+            <tr>
                         <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Estandar')
+                            @if (@$item->Control == 'Estandar')
                                 ESTANDAR
-                            @elseif(@$data[$i]->Control == 'Blanco')
+                            @elseif(@$item->Control == 'Blanco')
                                 BLANCO
                             @else
-                                {{@$data[$i]->Folio_servicio}}
+                                {{@$item->Folio_servicio}}
                             @endif     
                         </td>
-                        <td class="tableContent">{{@$data[$i]->Crisol}}</td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Peso_constante1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Masa1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Peso_muestra1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Peso_muestra2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Masa2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
-                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
+                        <td class="tableContent">{{@$item->Crisol}}</td>
+                        <td class="tableContent">{{@$item->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
+                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
+                        <td class="tableContent">{{@$item->Masa1}}</td>
+                        <td class="tableContent">{{@$item->Peso_muestra1}}</td>
+                        <td class="tableContent">{{@$item->Peso_muestra2}}</td>
+                        <td class="tableContent">{{@$item->Masa2}}</td>
                         <td class="tableContent">
-                            @if (@$data[$i]->Liberado == 1)
+                            @if (@$item->Resultado < @$item->Limite)
+                                < {{@$item->Limite}}
+                            @else
+                                {{@$item->Resultado}}
+                            @endif
+                        </td>
+                        <td class="tableContent">{{@$item->Observacion}}</td>
+                        <td class="tableContent">
+                            @if (@$item->Liberado == 1)
                                 Liberado
-                            @elseif(@$data[$i]->Liberado == 0)
+                            @elseif(@$item->Liberado == 0)
                                 No liberado
                             @endif 
                         </td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>
-                    </tr>                
-                @endfor
+                        <td class="tableContent">{{@$item->Control}}</td>
+                    </tr>   
+            @endforeach
+
             </tbody>        
         </table>  
-    </div> --}}
+    </div>
 </body>
 </html>

@@ -31,14 +31,10 @@
 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">Numero <br> Capsula</th>
-                    <th class="tableCabecera anchoColumna">Vol. Muestra</th>
-                    <th class="tableCabecera anchoColumna">P. Cte. 1 sin muestra</th>
-                    <th class="tableCabecera anchoColumna">P. Cte. 2 sin muestra</th>
-                    <th class="tableCabecera anchoColumna">B</th>
-                    <th class="tableCabecera anchoColumna">Peso Cte 1 con muestra</th>
-                    <th class="tableCabecera anchoColumna">Peso Cte 2 con muestra</th>
-                    <th class="tableCabecera anchoColumna">A</th>
+                    <th class="tableCabecera anchoColumna"></th>
+                    <th class="tableCabecera anchoColumna">Valor 1</th>
+                    <th class="tableCabecera anchoColumna"></th>
+                    <th class="tableCabecera anchoColumna">Valor 2</th>
                     <th class="tableCabecera anchoColumna">SOLIDOS DISUELTOS TOTALES</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
@@ -56,13 +52,9 @@
                         {{@$item->Control}}
                     @endif 
                 </td>
-                <td class="tableContent">{{@$item->Crisol}}</td>
-                <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                <td class="tableContent">{{@$item->Peso_muestra1}}</td>
-                <td class="tableContent">{{@$item->Peso_muestra2}}</td>
+                <td class="tableContent">SOLIDOS TOTALES (ST)</td>
                 <td class="tableContent">{{@$item->Masa1}}</td>
-                <td class="tableContent">{{@$item->Peso_constante1}}</td>
-                <td class="tableContent">{{@$item->Peso_constante2}}</td>
+                <td class="tableContent">SOLIDOS SUSPENDIDOS TOTALES (SST)</td>
                 <td class="tableContent">{{@$item->Masa2}}</td>
                 <td class="tableContent">{{@$item->Resultado}}</td>
                 <td class="tableContent">{{@$item->Observacion}}</td>

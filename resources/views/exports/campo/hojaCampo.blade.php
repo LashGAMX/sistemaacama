@@ -66,14 +66,14 @@
                            {{@$puntoMuestreo->Punto}}
                         </td>
                     </tr>
-                    @if ($campoGeneral->Latitud != NULL)
+                    <!-- @if ($campoGeneral->Latitud != NULL)
                     <tr>
                         <td class="bordesTablaInfIzqDer">COORDENADAS</td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
                          Latitud: {{$campoGeneral->Latitud}}  Longitud: {{$campoGeneral->Longitud}}   Altitud: {{$campoGeneral->Altitud}}  
                         </td>
                     </tr>
-                    @endif
+                    @endif -->
                     {{-- <tr>
                         <td class="bordesTablaInfIzqDer">EQUIPOS </td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
@@ -212,6 +212,7 @@
                                             @case(27)
                                             @case(9)
                                             @case(21)
+                                            @case(33)
                                                 {{number_format(@$phMuestra[$i]->Promedio, 2, ".", ",")}}
                                                 @break
                                             

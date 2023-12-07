@@ -87,7 +87,7 @@ function getParametros() {
             tab += '          <th>Id</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Tipo formula</th>';
-            // tab += '          <th>Res. Sin. Sup</th> ';
+            tab += '          <th>Ejecutado</th> ';
             tab += '          <th>Resultado</th> ';
             // tab += '          <th>Liberado</th> '; 
             // tab += '          <th>Nombre</th> '; 
@@ -131,7 +131,7 @@ function getParametros() {
                 tab += '<td>' + item.Id_codigo + '</td>';
                 tab += '<td class="bg-' + color + '">' + item.Parametro + '</td>';
                 tab += '<td>' + item.Tipo_formula + '</td>';
-                // tab += '<td>' + item.Resultado + '</td>';
+                tab += '<td>' + item.Resultado + '</td>';
                 tab += '<td>' + item.Resultado2 + '</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';

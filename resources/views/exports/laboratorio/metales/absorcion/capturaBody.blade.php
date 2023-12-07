@@ -434,9 +434,10 @@
                                     @endphp  
                                 </td>
                             @endif
+                            
                         @endfor
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">{{@$detalle->Fecha_preparacion}}</td>
+                        <td id="tableContent">{{@$fechaHora->toDateString()}}</td>
 
                     </tr>
                     <tr>
@@ -622,8 +623,17 @@
                             @endswitch
                         <td id="tableContent">
                             @php
-                                $res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
-                                echo number_format($res,3);
+                                if (@$item->Vol_disolucion == 0)
+                                    {
+                                        @$res = 0;
+                                    echo number_format(@$res,3);
+                                    }
+                                else
+                                    {
+                                        @$res = round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3);
+                                    echo number_format(@$res,3);
+                                    }
+                                
                             @endphp
                         </td>
                         @switch(@$lote->Id_tecnica)
@@ -647,7 +657,7 @@
                         @endswitch
                         <td id="tableContent">
                             @if (@$item->Vol_disolucion != NULL || @$item->Vol_disolucion == "0")
-                                @if ($res < $item->Limite)
+                                @if (@$res < $item->Limite)
                                     < {{$item->Limite}}                                
                                 @else
                                     {{number_format(@$item->Vol_disolucion,3)}}
@@ -696,7 +706,6 @@
                             @default
                                 
                         @endswitch
-                        <td id="tableContent">< 2</td>
                         <td id="tableContent">< 2</td>
                             @switch($tecnica->Id_tecnica)
                                 @case(192)

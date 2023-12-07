@@ -282,7 +282,6 @@ function getDireccionReporte() {
         } else {
           tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>'
         }
-
       })
       sec.innerHTML = tab
 

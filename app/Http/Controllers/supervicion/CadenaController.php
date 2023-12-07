@@ -204,6 +204,8 @@ class CadenaController extends Controller
         case 14:
             switch($codigoParametro->Id_parametro){
                 case 10:
+                case 9: // N. AMONIACAL
+                case 10: //N. ORGANICO
                     $model = LoteDetalleNitrogeno::where('Id_codigo',$res->idCodigo)->get();
                     foreach ($model as $item){
                         $item->Liberado = 0;
@@ -274,6 +276,13 @@ class CadenaController extends Controller
                 case 137;
                     $model = DB::table('lote_detalle_coliformes')->where('Id_codigo', $res->idCodigo)->delete();
                     $metodo = 'simple';
+                break;
+                case 12;
+                        $model = DB::table('lote_detalle_coliformes')->where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 12)->get(); 
+                        foreach($model as $item){
+                            $codigo = DB::table('lote_detalle_coliformes')->where('Id_codigo', $item->Id_codigo)->delete();
+                        }
+                        $metodo = 'multiple';
                 break;
             }
                 

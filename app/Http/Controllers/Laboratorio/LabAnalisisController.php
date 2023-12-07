@@ -688,35 +688,43 @@ class LabAnalisisController extends Controller
                     switch ($lote[0]->Id_tecnica) {
                         case 88: // SDT 
                             $nom1 = "ST";
-                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
-                            // $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',90)->first();
+                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 90)->first();
+                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',90)->first();
                             $nom2 = "SST";
-                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
-                            // $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',4)->first();
+                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 4)->first();
+                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',4)->first();
                             break;
                         case 44: // SDV
                             $nom1 = "STV";
-                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 49)->first();
+                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 49)->first();
+                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',48)->first();
                             $nom2 = "SSV";
-                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 47)->first();
+                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 47)->first();
+                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',46)->first();
                             break;
                         case 43: // SDF
                             $nom1 = "SDT";
-                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 89)->first();
+                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 89)->first();
+                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',88)->first();
                             $nom2 = "SDV";
-                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 45)->first();
+                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 45)->first();
+                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',44)->first();
                             break;
                         case 45: // SSF
                             $nom1 = "SST";
-                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 93)->first();
+                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 93)->first();
+                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',4)->first();
                             $nom2 = "SSV";
-                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 47)->first();
+                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 47)->first();
+                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',46)->first();
                             break;
                         case 47: // STF
                             $nom1 = "ST";
-                            $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 91)->first();
+                            // $dif1 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 91)->first();
+                            $dif1 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',90)->first();
                             $nom2 = "STV";
-                            $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 49)->first();
+                            // $dif2 = CodigoParametros::where('Id_solicitud',$model->Id_analisis)->where('Id_parametro', 49)->first();
+                            $dif2 = LoteDetalleSolidos::where('Id_analisis',$model->Id_analisis)->where('Id_control',$model->Id_control)->where('Id_parametro',48)->first();
                             break;
                         case 3: // SS
                             $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 3)->first();
@@ -906,6 +914,7 @@ class LabAnalisisController extends Controller
     }
     public function setDetalleMuestra(Request $res)
     {
+        $r2 = 0;
         $std = true;
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
         if ($lote->count()) {
@@ -961,7 +970,8 @@ class LabAnalisisController extends Controller
                             $model->Ph_ini = $res->phIni;
                             $model->Ph_fin = $res->phFin;
                             $model->Promedio = $x;
-                            $model->Vol_dilucion = round($d,3);
+                            //$model->Vol_dilucion = round($d,3);
+                            $model->Vol_dilucion = $r2;
                             $model->Vol_muestra = $res->E;
                             $model->Blanco = $res->CA;
                             $model->Analizo = Auth::user()->id;
@@ -1178,7 +1188,7 @@ class LabAnalisisController extends Controller
                             $d =   100  / $res->E;
                             $res1 = round($x, 3) - ($res->CB);
                             $res2 = $res1 / $res->CM;
-                            $resultado = $res2 * round($d, 3);
+                            $resultado = round($res2,3) * round($d, 3);
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
                             $model->Resultado = $resultado;
@@ -1294,6 +1304,27 @@ class LabAnalisisController extends Controller
                                 $model->Analizo = Auth::user()->id;
                                 $model->save();
                                 break;
+                        case 80: //floruros
+                                $promedio = round(($res->X + $res->Y + $res->Z) / 3,3);
+                                $dilucion =  50 / $res->E;
+                                $resultado = (($promedio - $res->CB) / $res->CM) * $dilucion;
+        
+                                $model = LoteDetalleEspectro::find($res->idMuestra);
+                                $model->Resultado = round($resultado,3);
+                                $model->Abs1 = $res->X;
+                                $model->Abs2 = $res->Y;
+                                $model->Abs3 = $res->Z;
+                                $model->B = $res->CB;
+                                $model->M = $res->CM;
+                                $model->R = $res->CR;
+                                $model->Promedio = $promedio;
+                                $model->Vol_dilucion = $dilucion;
+                                $model->Vol_muestra = $res->E;
+                                $model->Blanco = $res->CA;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                                break;
+                                    
                         default:
                             $promedio = ($res->X + $res->Y + $res->Z) / 3;
                             $dilucion =  50 / $res->E;
@@ -1391,6 +1422,7 @@ class LabAnalisisController extends Controller
                         case 88:
                         case 44:
                         case 45:
+                        case 43:
                             $model = LoteDetalleSolidos::find($res->idMuestra);
                             $model->Resultado = $res->resultado;
                             $model->Masa1 = $res->val1;
@@ -1398,6 +1430,61 @@ class LabAnalisisController extends Controller
                             $model->Analizo = Auth::user()->id;
                             $model->save();
 
+                            break;
+                        case 48:
+                            if ($res->R != "") {
+
+                                $modelCrisol = CrisolesGA::all();
+                                //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
+                                $cont = $modelCrisol->count();
+
+                                for ($i = 0; $i < $cont; $i++) {
+                                    # code...
+                                    $id = rand(0, $modelCrisol->count());
+                                    $crisol = CrisolesGA::where('Id_crisol', $id)->first();
+                                    if ($crisol->Estado == 0) {
+                                        break;
+                                    }
+                                }
+
+
+                                $mf = ((($res->R / $res->factor) * $res->volumen) + round($crisol->Peso,4));
+                                $auxMf =  (((round($mf,4) - round($crisol->Peso,4)) / $res->volumen) * $res->factor);
+                                $resultado = $auxMf;
+
+                                $model = LoteDetalleSolidos::find($res->idMuestra);
+                                $model->Id_crisol = $crisol->Id_crisol;
+                                $model->Crisol = $crisol->Num_serie;
+                                $model->Masa1 = round($crisol->Peso,4);
+                                $model->Masa2 = round($mf,4);
+                                $model->Peso_muestra1 = round(($crisol->Peso + 0.0001),4);
+                                $model->Peso_muestra2 = round(($crisol->Peso + 0.0002),4);
+                                $model->Peso_constante1 = round(($mf + 0.0001),4);
+                                $model->Peso_constante2 = round(($mf + 0.0002),4);
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Factor_conversion = $res->factor;
+                                $model->Resultado = $resultado;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                            } else { 
+                                $res1 = $res->masa1 - $res->masa2;
+                                $res2 = $res1 / $res->volumen;
+                                $resultado = $res2 * $res->factor;
+
+                                $model = LoteDetalleSolidos::find($res->idMuestra);
+                                $model->Crisol = $res->crisol;
+                                $model->Masa1 = $res->masa1;
+                                $model->Masa2 = $res->masa2;
+                                $model->Peso_muestra1 = $res->pesoConMuestra1;
+                                $model->Peso_muestra2 = $res->pesoConMuestra2;
+                                $model->Peso_constante1 = $res->pesoC1;
+                                $model->Peso_constante2 = $res->pesoC2;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Factor_conversion = $res->factor;
+                                $model->Resultado = $resultado;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                            }
                             break;
                         default: // Default
                             if ($res->R != "") {
@@ -1434,7 +1521,7 @@ class LabAnalisisController extends Controller
                                 $model->Resultado = $resultado;
                                 $model->Analizo = Auth::user()->id;
                                 $model->save();
-                            } else {
+                            } else { 
                                 $res1 = $res->masa2 - $res->masa1;
                                 $res2 = $res1 / $res->volumen;
                                 $resultado = $res2 * $res->factor;
@@ -1807,10 +1894,14 @@ class LabAnalisisController extends Controller
                     $model = array();
                     break;
             }
+            $codigoParametro = CodigoParametros::find($res->idMuestra);
+            $codigoParametro->Resultado = $resultado;
+            $codigoParametro->save();
         }
         $data = array(
             'model' => $model,
             'std' => $std,
+            'r2' => $r2,
         );
         return response()->json($data);
     }
@@ -1842,7 +1933,7 @@ class LabAnalisisController extends Controller
                     switch ($lote[0]->Id_tecnica) {
                         case 33: // CLORO RESIDUAL LIBRE
                         case 64:
-                            
+                            $model = ValoracionCloro::where('Id_lote',$res->id)->first();
                             break;
                         case 28: //Alcalinidad
                         case 29:
@@ -1850,7 +1941,8 @@ class LabAnalisisController extends Controller
                             $model = ValoracionAlcalinidad::whereDate('Fecha_inicio','<=',$lote->Fecha)
                             ->whereDate('Fecha_fin','>=',$lote->Fecha)
                             ->where('Id_parametro',$lote->Id_tecnica)->first();
-                            // $aux = ValoracionAlcalinidad::where('Id_parametro',$lote->Id_tecnica)->orderBy('')
+
+                            $aux = ValoracionAlcalinidad::where('Id_parametro',$lote->Id_tecnica)->orderBy('Id_valoracion','DESC')->limit(2)->get();
                             break;
                         case 6: // DQO
                         case 161:
@@ -1922,9 +2014,11 @@ class LabAnalisisController extends Controller
 
        
         $data = array(
+            'aux' => $aux,
             'model' => $model,
             'plantilla' => $plantilla,
             'lote' => $lote[0],
+            
         );
         return response()->json($data);
     }
@@ -3305,6 +3399,7 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 95: // Sulfatos
+                    case 113://ion
                         $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaHeader', $data);
@@ -3320,6 +3415,24 @@ class LabAnalisisController extends Controller
                         $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaBody', $data);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                    case 80: //Floruros
+                        $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.capturaHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', $data);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                    case 95: //Sulfatos
+                        $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.capturaHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
@@ -3372,6 +3485,26 @@ class LabAnalisisController extends Controller
                         break;
                     case 222: // Boro
                     case 117:
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => 'P',
+                            'format' => 'letter',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 40,
+                            'margin_bottom' => 55,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        //Establece la marca de agua del documento PDF
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/MembreteVertical.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        );
+                
+                        $mpdf->showWatermarkImage = true;
+                        $mpdf->CSSselectMedia = 'mpdf';
                         $htmlFooter = view('exports.laboratorio.fq.espectro.boro.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.fq.espectro.boro.capturaHeader', $data);
@@ -3590,6 +3723,26 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 112:
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => 'P',
+                            'format' => 'letter',
+                            'margin_left' => 10,
+                            'margin_right' => 10,
+                            'margin_top' => 40,
+                            'margin_bottom' => 55,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        //Establece la marca de agua del documento PDF
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/MembreteVertical.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        );
+
+                        $mpdf->showWatermarkImage = true;
+                        $mpdf->CSSselectMedia = 'mpdf';
                         $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
                         $plantilla = Bitacoras::where('Id_lote', $id)->get();
                         if ($plantilla->count()) {
@@ -3615,11 +3768,11 @@ class LabAnalisisController extends Controller
                             'comprobacion' => $comprobacion,
                         );
 
-                        $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', $data);
+                        $htmlFooter = view('exports.laboratorio.fq.ga.sdt2.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                        $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', $data);
+                        $htmlHeader = view('exports.laboratorio.fq.ga.sdt2.capturaHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                        $htmlCaptura = view('exports.laboratorio.fq.ga.sdt.capturaBody', $data);
+                        $htmlCaptura = view('exports.laboratorio.fq.ga.sdt2.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
@@ -3656,6 +3809,278 @@ class LabAnalisisController extends Controller
                         $htmlCaptura = view('exports.laboratorio.fq.ga.ss.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                    case 90:
+                        $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        //Comprobación de bitacora analizada
+                        $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            $analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', 14)->first();
+                        $data = array(
+                            'lote' => $lote,
+                            'model' => $model,
+                            'plantilla' => $plantilla,
+                            'procedimiento' => $procedimiento,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                        );
+
+                        $htmlFooter = view('exports.laboratorio.fq.ga.st.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.fq.ga.st.capturaHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.fq.ga.st.capturaBody', $data);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                        case 88:
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                            } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+    
+                            $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.sdt.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                            break;
+                        case 46:
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                             } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+    
+                            $htmlFooter = view('exports.laboratorio.fq.ga.ssv.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.ssv.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.ssv.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                        case 48://STV
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                             } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+    
+                            $htmlFooter = view('exports.laboratorio.fq.ga.stv.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.stv.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.stv.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                        case 47://STF
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                             } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+    
+                            $htmlFooter = view('exports.laboratorio.fq.ga.stf.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.stf.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.stf.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                        case 44://SDV
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                             } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+    
+                            $htmlFooter = view('exports.laboratorio.fq.ga.sdv.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.sdv.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.sdv.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                        case 45://SSF
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                             } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+    
+                            $htmlFooter = view('exports.laboratorio.fq.ga.ssf.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.ssf.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.ssf.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                        case 43://SDF
+                            $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                             } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            //Comprobación de bitacora analizada
+                            $comprobacion = LoteDetalleSolidos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                $analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 14)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'procedimiento' => $procedimiento,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                            );
+     
+                            $htmlFooter = view('exports.laboratorio.fq.ga.sdf.capturaFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $htmlHeader = view('exports.laboratorio.fq.ga.sdf.capturaHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.fq.ga.sdf.capturaBody', $data);
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
                         break;
                 }
                 break;
@@ -5280,8 +5705,8 @@ class LabAnalisisController extends Controller
             $temp->Titulado3 = $res->tituladodeH3;
             $temp->Granos_equivalente = $res->equivalenteAlc;
             $temp->Factor_conversion = $res->factConversionAlc;
-            $temp->Fecha_inicio = $res->fechaIni;
-            $temp->Fecha_fin = $res->fechaFin;
+            // $temp->Fecha_inicio = $res->fechaIni;
+            // $temp->Fecha_fin = $res->fechaFin;
             $temp->Resultado = number_format($resultado,3);
             $temp->save();
         }else{

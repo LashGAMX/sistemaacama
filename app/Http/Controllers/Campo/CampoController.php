@@ -1388,6 +1388,7 @@ class CampoController extends Controller
         switch ($model->Id_norma) {
             case 1:
             case 27:
+            case 33:
                 $this->updateConductividad($id);       
                 break;
             default:

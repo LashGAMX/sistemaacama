@@ -68,9 +68,9 @@
                     <td class="tableContent">{{number_format(@$item->Abs8, 3, ".", ".")}}</td>
                     <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
                     @if ($item->Resultado < $item->Limite)
-                        <td class="tableContent">< {{number_format(@$item->Limite, 3, ".", ".")}}</td>
+                        <td class="tableContent">< {{number_format(@$item->Limite, 3, ".", "")}}</td>
                     @else
-                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
+                        <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", "")}}</td>
                     @endif
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">

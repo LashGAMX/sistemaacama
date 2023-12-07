@@ -104,6 +104,7 @@ function valSinCondiciones()
         alert("Estas segur@ de darle recepcion sin codiciones")
     } 
 }
+
 function setGenFolio() {
     let sw = true
     let conductividad = new Array()
@@ -117,6 +118,7 @@ function setGenFolio() {
             }
         }
     }
+    console.log("sw Codigo:"+sw)
     if (sw == true) {
         let puntos = document.getElementById("puntos")
         for (let i = 1; i < puntos.rows.length; i++) {
@@ -404,6 +406,7 @@ function setIngresar() {
                 ingreso: "Establecido",
                 horaRecepcion: $("#hora_recepcion1").val(),
                 horaEntrada: $("#hora_entrada").val(),
+                historial: $("#historial").prop("checked"),
             },
             dataType: "json",
             async: false,

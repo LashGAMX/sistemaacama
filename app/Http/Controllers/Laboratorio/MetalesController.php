@@ -1328,6 +1328,7 @@ class MetalesController extends Controller
         $msg = "";
         $conversion = 0;
         $volMuestra = 100;
+        $volFinal = 100;
 
         for ($i=0; $i <  sizeof($res->ids); $i++) { 
             $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
@@ -1341,12 +1342,72 @@ class MetalesController extends Controller
             ->where('Id_tecnica',$parametro->Id_parametro)->get();
             $msg = "Entro a for";
             switch ($parametro->Id_parametro) {
+                case 20:
+                case 21:
+                case 23:
+                case 18:
+                case 24:
+                case 25:
                 case 232:
+                case 187:
+                case 226:
+                case 197:
+                case 351:
+                case 41:
+                case 354:
+                case 353:
+
+                case 355:
+                case 356:
+                case 22:
+                case 352:
                     $conversion = 1;
+                    $volMuestra = 50;
                     break;
-                
+                case 216:
+                case 210:
+                case 208:
+                    $conversion = 1;
+                    $volMuestra = 45;
+                    $volFinal = 50;
+                    break;
+                case 215:
+                    $conversion = 1;
+                    $volMuestra = 45;
+                    $volFinal = 100;
+                    break;
+                case 191:
+                case 194:
+                case 189:
+                case 192:
+                case 204:
+                case 190:
+                case 196:
+                    $conversion = 1;
+                    $volMuestra = 100;
+                    $volFinal = 100;
+                break;
+                case 188:
+                case 219:
+                case 195:
+                    $conversion = 1;
+                    $volMuestra = 80;
+                    $volFinal = 100;
+                break;
+                case 230:
+                    $conversion = 1;
+                    $volMuestra = 100;
+                    $volFinal = 100;
+                    break;
+                case 215:
+                    $conversion = 1;
+                    $volMuestra = 45;
+                    $volFinal = 100;
+                    break;
                 default:
+                    $volMuestra = 100;
                     $conversion = 1000;
+                    $volFinal = 100;
                     break;
             }
             if ($lote->count()) {
@@ -1689,13 +1750,16 @@ class MetalesController extends Controller
         switch ($solModel->Id_norma) {
             case 7:
                 $fechaHora = Carbon::parse(@$detalle->Fecha_preparacion);
+                $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
                 $hora = $fechaHora->isoFormat('h:mm A');
                 $today = @$fechaHora->toDateString();        
                 break;
             default:
                 $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
+                $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
                 $hora = $fechaHora->isoFormat('h:mm A');
                 $today = $fechaHora->toDateString();    
+                
                 break;
         }
  
@@ -1703,6 +1767,7 @@ class MetalesController extends Controller
         // $reviso = User::where('id', 17)->first();
         $reviso = User::where('id', 39)->first();
         $data = array(
+            'fechaPreparacion' => $fechaPreparacion,
             'solModel' => $solModel,
             'tipoFormula' => $tipoFormula,
             'tecnica' => $tecnica,
@@ -2000,5 +2065,32 @@ class MetalesController extends Controller
             'fechaLote' => $fechaLote,
         );
         return response()->json($data);
+    }
+    public function setTituloBit(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
+        $plantilla = PlantillaBitacora::where('Id_parametro',$lote->Id_tecnica)->first();
+        $model = Bitacoras::where('Id_lote',$res->id)->first();
+        $model->Titulo = $plantilla->Titulo;
+        $model->Rev = $plantilla->Rev;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function actualizarLiberaciones()
+    {
+        
+        $loteTemp = LoteAnalisis::where('Id_area',2)->get();
+        foreach ($loteTemp as $item) {
+            $model = LoteDetalle::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->get();
+            $loteModel = LoteAnalisis::find($item->Id_lote);
+            $loteModel->Liberado = $model->count();
+            $loteModel->save();
+            echo "Id lote: ".$item->Id_lote ."<br>";
+        }
+
     }
 }

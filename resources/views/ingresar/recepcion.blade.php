@@ -61,6 +61,7 @@
                     <button id="btnIngresar" class="btn-info" ><i class="fas fa-arrow-right"></i> Ingresar</button>
                     <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Generar codigos</button>
                     <label for="">sin condiciones </label><input type="checkbox" id="condiciones" onchange="valSinCondiciones()">
+                    <label for="">Historial</label><input type="checkbox" id="historial"> 
                     @switch(Auth::user()->role->id)
                         @case(1)
                             <button id="btnActCC" class="btn-info"><i class="voyager-edit"></i> Act. C.C</button>
@@ -69,6 +70,7 @@
                             
                     @endswitch
                 </div>
+                
                 <div class="col-md-12">
                     <div class="" id=divCodigos>
                         <table id="codigos" class="table">
@@ -106,5 +108,5 @@
 
 
 @section('javascript')
-<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.8"></script>
+<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.9"></script>
 @stop

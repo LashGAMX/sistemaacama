@@ -36,6 +36,10 @@
                               <label class="form-check-label" for="defaultCheck1">Liberado</label>
                               <input class="form-check-input" id="ckLiberado" type="checkbox" value="" id="defaultCheck1">
                             </div>
+                            <div class="form-check">
+                              <label class="form-check-label" for="defaultCheck1">Historial</label>
+                              <input class="form-check-input" id="ckHistorial" type="checkbox" value="" id="defaultCheck1">
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-success" id="btnCadena">Imprimir</button>

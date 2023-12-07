@@ -51,6 +51,24 @@ $('#btnHistorial').click(function () {
     console.log("Boton de historial")
     getHistorial();
 });
+function setTituloBit(id)
+{
+    if (confirm("Estas seguro de editar el titulo")) {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/" + area + "/setTituloBit",
+            data: {
+                id: id,
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                alert("Titulo corregido")
+            }
+        });
+    }
+}
 function getHistorial(id)
 {
     console.log("Get Historial");
@@ -68,24 +86,29 @@ function getHistorial(id)
         dataType: "json",
         success: function (response) {
             console.log(response);
-            tab += '<table id="tablaLote" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Id Lote</th>';
-            tab += '          <th>Fecha Lote</th>';
-            tab += '          <th>Resultado</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            for (let i = 0; i < response.resultado.length; i++) {
-                tab += '<tr>';
-                tab += '<td>'+response.lote[i]+'</td>'
-                tab += '<td>'+response.fechaLote[i]+'</td>'
-                tab += '<td>'+response.resultado[i]+'</td>'
-                tab += '</tr>';   
+            if (response.resultado.length > 0) {
+                tab += '<table id="tablaLote" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Id Lote</th>';
+                tab += '          <th>Fecha Lote</th>';
+                tab += '          <th>Resultado</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                for (let i = 0; i < response.resultado.length; i++) {
+                    tab += '<tr>';
+                    tab += '<td>'+response.lote[i]+'</td>'
+                    tab += '<td>'+response.fechaLote[i]+'</td>'
+                    tab += '<td>'+response.resultado[i]+'</td>'
+                    tab += '</tr>';   
+                }
+                tab += '    </tbody>';
+                tab += '</table>';
+            } else {
+                tab += 'No hay historial'
             }
-            tab += '    </tbody>';
-            tab += '</table>';
+            
             tabla.innerHTML = tab;
         }
     });
@@ -130,7 +153,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button> <button class="btn-info" onclick="setTituloBit('+item.Id_lote+')"><i class="fas fa-file-pen"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button> <button class="btn-info" onclick="setTituloBit('+item.Id_lote+')"><i class="fas fa-file"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -291,10 +314,10 @@ function getLoteCaptura() {
                 } else {
                     tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
                 }
-                if (item.Observacion != "") {
-                    tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+                if (item.Observacion == "" || item.Observacion == null) {
+                    tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
                 } else {
-                    tab += '<td><textarea '+status+' style="width: 150px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+                    tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                 }
                 tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                 tab += '</tr>';
