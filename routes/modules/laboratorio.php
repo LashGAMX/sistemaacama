@@ -79,7 +79,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getLoteCapturaIcp', [MetalesController::class, 'getLoteCapturaIcp']);
         Route::post('liberarIcp', [MetalesController::class, 'liberarIcp']);
         Route::get('bitacoraIcp/{id}', [MetalesController::class, 'bitacoraIcp']);
-        //Configuracion metales
+        Route::post('getPlantilla', [MetalesController::class, 'getPlantilla']); 
+        Route::post('setPlantilla', [MetalesController::class, 'setPlantilla']); 
+        //Configuracion metales 
         Route::get('configuracionMetales', [MetalesController::class, 'configuracionMetales']);
         Route::post('getConfiguraciones', [MetalesController::class, 'getConfiguraciones']);
         Route::post('setConfiguraciones', [MetalesController::class, 'setConfiguraciones']);

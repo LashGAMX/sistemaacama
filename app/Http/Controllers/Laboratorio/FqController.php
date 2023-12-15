@@ -2481,7 +2481,7 @@ class FqController extends Controller
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    'curva' => $curva,
+                    //'curva' => $curva,
                     'procedimiento',
                     'plantilla' => $plantilla, 
                     'analizo' => $analizo,

@@ -82,15 +82,16 @@
           </button>
         </div>
         <div class="modal-body">
-            <div id="divSummer">
-                <div id="summernote">
-                 
-                </div>
+            <div class="row">
+              <div class="col-md-12">
+                  <input type="text" id="tituloBit" hidden> 
+                  <div id="divSummer"></div>
+                  <input type="text" id="revBit" hidden>
               </div>
-           
+            </div>
         </div>
         <div class="modal-footer"> 
-          <button type="button" class="btn btn-primary">Guardar</button>
+          <button type="button" id="btnSetPlantilla" class="btn btn-primary">Guardar</button>
         </div>
       </div>
     </div>

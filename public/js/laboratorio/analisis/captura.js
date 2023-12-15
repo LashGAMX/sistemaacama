@@ -63,7 +63,9 @@ $(document).ready(function () {
     $('#btnSetNormalidadAlc').click(function () {
         setNormalidadAlc();
     });
-
+    $('#btnFechaDeFGA').click(function () {
+        setFechaDefGA();
+    });
     $('#btnGuardarTipoDqo').click(function () {
         $.ajax({
             type: 'POST',
@@ -125,6 +127,7 @@ $(document).ready(function () {
                 a: $("#a").val(),
                 pag: $("#pag").val(),
                 n: $("#n").val(),
+                estandaresbit: $("#estandaresbit").val(),
                 dilucion: $("#dilucion").val(),
                 _token: $('input[name="_token"]').val()
             },
@@ -686,6 +689,7 @@ function setValoracion() {
         case 64:
         case 218:
         case 119:
+        case 33:
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/fq/guardarValidacionVol",
@@ -1205,6 +1209,16 @@ function getDetalleLote(id, parametro) {
                     $('#5entradaGA').val(response.model.Enfriado_matraces_entrada);
                     $('#5salidaGA').val(response.model.Enfriado_matraces_salida);
                     break;
+                case 6:
+                    $('#cantDilucion').val(response.model.Cant_dilucion);
+                    $('#de').val(response.model.De);
+                    $('#a').val(response.model.A);
+                    $('#pag').val(response.model.Pag);
+                    $('#n').val(response.model.N);
+                    $('#dilucion').val(response.model.Dilucion);
+                    $('#estandaresbit').val(response.model.Estandares_bit);
+
+                
                 default:
                     break;
             }
@@ -1217,6 +1231,7 @@ function getDetalleLote(id, parametro) {
                 placeholder: '',
                 tabsize: 2,
                 height: 300,
+             
             });
         }
     });
@@ -2172,6 +2187,9 @@ function setDetalleMuestra() {
                             OI: $('#oxigenoIncialB1Dbo').val(),
                             OF: $('#oxigenofinalB1Dbo').val(),
                             V: $('#volMuestraB1Dbo').val(),
+                            OIB: $('#oxigenoIncialB1').val(),
+                            OFB: $('#oxigenofinalB1').val(),
+                            VB: $('#volMuestraB1').val(),
                             S: sug,
                             _token: $('input[name="_token"]').val()
                         },
@@ -2179,9 +2197,20 @@ function setDetalleMuestra() {
                         success: function (response) {
                             console.log(response);
                             if (response.tipo == 1) {
-                                $('#resultadoDbo').val(response.res);
+                                
                             } else {
-                                $('#resDboB').val(response.res);
+                                
+                            }
+                            switch (response.tipo) {
+                                case 1:
+                                    $('#resultadoDbo').val(response.res);
+                                    break;
+                                case 2:
+                                    $('#resultadoDboBlanco').val(response.res);
+                                    break;
+                                default:
+                                    $('#resDboB').val(response.res);
+                                    break;
                             }
                         }
                     });
@@ -2361,6 +2390,8 @@ function getDetalleMuestra(id) {
                             $("#conN3").hide();
                             break;
                         case 19:
+                        case 118:
+                        case 99:
                             $("#conN1").show();
                             $("#conN2").show();
                             $("#conN3").show();
@@ -2641,6 +2672,7 @@ function getDetalleMuestra(id) {
                             $("#temperaturaLlegadaSolidosDir").val(response.model.Temp_muestraLlegada)
                             $("#temperaturaAnalizadaSolidosDir").val(response.model.Temp_muestraAnalizada)
                             $("#resultadoSolidosDir").val(response.model.Resultado)
+                            $("#folioSolidosDir").val(response.model.Codigo)
                             break;
                         case 47: // Por diferencia
                         case 44:
@@ -3365,6 +3397,31 @@ function getDetalleMuestra(id) {
         }
     });
 }
+function setFechaDefGA()
+{
+    $("#entradaGA1").val($("#fechaDefGA").val())
+    $("#salidaGA1").val($("#fechaDefGA").val())
+    $("#entradaGA2").val($("#fechaDefGA").val())
+    $("#salidaGA2").val($("#fechaDefGA").val())
+    $("#entradaGA3").val($("#fechaDefGA").val())
+    $("#salidaGA3").val($("#fechaDefGA").val())
+    $("#2entradaGA1").val($("#fechaDefGA").val())
+    $("#2salidaGA1").val($("#fechaDefGA").val())
+    $("#2pesadoGA1").val($("#fechaDefGA").val())
+    $("#2entradaGA2").val($("#fechaDefGA").val())
+    $("#2salidaGA2").val($("#fechaDefGA").val())
+    $("#2pesadoGA2").val($("#fechaDefGA").val())
+    $("#2entradaGA3").val($("#fechaDefGA").val())
+    $("#2salidaGA3").val($("#fechaDefGA").val())
+    $("#2pesadoGA3").val($("#fechaDefGA").val())
+
+    // $("#3entradaGA").val($("#fechaDefGA").val())
+    // $("#3salidaGA").val($("#fechaDefGA").val())
+    // $("#4entradaGA").val($("#fechaDefGA").val())
+    // $("#4entradaGA").val($("#fechaDefGA").val())
+    // $("#5entradaGA").val($("#fechaDefGA").val())
+    // $("#5salidaGA").val($("#fechaDefGA").val())
+}
 function getCapturaLote() {
     blanco = 0
     contador = 0
@@ -3373,6 +3430,7 @@ function getCapturaLote() {
     let tabla = document.getElementById('divCaptura');
     let tab = '';
     let clase = ''
+    let dec = 2
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/" + area + "/getCapturaLote",
@@ -3415,6 +3473,7 @@ function getCapturaLote() {
                 switch (parseInt(response.lote[0].Id_area)) {
                     case 16: // Espectrofotometria
                     case 5: // Fisicoquimicos
+                    dec = 3
                         switch (parseInt(item.Id_parametro)) {
                             case 152:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
@@ -3453,6 +3512,7 @@ function getCapturaLote() {
                             case 64:
                             case 119:
                             case 218:
+                                dec = 2
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloroVol">Capturar</button>';
                                 break;
                             case 6: // Dqo
@@ -3616,8 +3676,9 @@ function getCapturaLote() {
                 }
                 tab += '<td><input disabled style="width: 150px" value="' + item.Codigo + '"></td>';
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
+              
                 if (item.Resultado != null) {
-                    let formated = number_format(parseFloat(item.Resultado), 2)
+                    let formated = number_format(parseFloat(item.Resultado), dec)
                     tab += '<td><input disabled style="width: 100px" value="' + formated + '"></td>';
                 } else {
                     tab += '<td><input disabled style="width: 80px" value=""></td>';
@@ -3842,6 +3903,7 @@ function getLote() {
     if ($("#parametro").val() != "0") {
         let tabla = document.getElementById('divLote');
         let tab = '';
+        let  cont = 0
         $.ajax({
             type: 'POST',
             url: base_url + "/admin/laboratorio/" + area + "/getLote",
@@ -3874,7 +3936,14 @@ function getLote() {
                     tab += '<tr>'
                     tab += '<td>' + item.Id_lote + '</td>'
                     tab += '<td>' + item.Fecha + '</td>'
-                    tab += '<td>' + item.Parametro + '</td>'
+                    switch (parseInt($("#parametro").val())) {
+                        case 6:
+                            tab += '<td>' + item.Parametro + ' ('+response.aux[cont]+')</td>'
+                            break;
+                        default:
+                            tab += '<td>' + item.Parametro + '</td>'
+                            break;
+                    }
                     tab += '<td>' + item.Asignado + '</td>'
                     tab += '<td>' + item.Liberado + '</td>'
                     tab += '<td>'
@@ -3882,6 +3951,7 @@ function getLote() {
                     tab += '     <button onclick="getDetalleLote(' + item.Id_lote + ',\'' + item.Parametro + '\')" class="btn-info" id="btnEditarBitacora"><i class="voyager-edit"></i></button>'
                     tab += '</td>'
                     tab += '</tr>'
+                    cont++
                 })
                 tab += '    </tbody>'
                 tab += '</table>'

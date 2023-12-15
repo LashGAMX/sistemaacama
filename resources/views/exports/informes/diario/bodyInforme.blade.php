@@ -300,6 +300,7 @@
                 @foreach ($model as $item)
                     @if (@$item->Id_area != 9)
                         <tr> 
+                            <!-- <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">({{@$item->Id_parametro}}) {{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td> -->
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td>
                             {{-- <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup> | {{$item->Simbologia_inf}}</td> --}}
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
@@ -319,7 +320,7 @@
                                     @if (@$item->Resultado2 != NULL)
                                         @switch($item->Id_parametro)
                                             @case(64)
-                                                {{"N/A"}}
+                                            {{ @$limitesCon[$i] }}
                                             @break
                                             @default
                                             {{ @$limitesN[$i] }}
@@ -334,7 +335,7 @@
                                     @if (@$item->Resultado2 != NULL)
                                         @switch($item->Id_parametro)
                                             @case(64)
-                                                {{"N/A"}}
+                                            {{ @$limitesCon[$i] }}
                                             @break
                                             @default
                                             {{ @$limitesCon[$i] }}

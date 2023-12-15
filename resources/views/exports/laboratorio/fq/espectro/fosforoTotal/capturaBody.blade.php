@@ -105,21 +105,21 @@
                 {{-- @for ($i = 0; $i < 100 ; $i++) --}}
                     <tr>
                         <td class="tableCabecera">b = </td>
-                        <td class="tableContent">{{@$curva->B}}</td>                        
+                        <td class="tableContent">{{number_format(@$curva->B,5)}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
                         <td class="tableContent">{{@$curva->Fecha_inicio}}</td>                                                
                     </tr>
 
                     <tr>
                         <td class="tableCabecera">m = </td>
-                        <td class="tableContent">{{@$curva->M}}</td>                        
+                        <td class="tableContent">{{number_format(@$curva->M,5)}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
                         <td class="tableContent"><{{@$model[0]->Limite}}</td>
                     </tr>
 
                     <tr>
                         <td class="tableCabecera">r = </td>
-                        <td class="tableContent">{{@$curva->R}}</td>
+                        <td class="tableContent">{{number_format(@$curva->R,5)}}</td>
                     </tr>
                 {{-- @endfor --}}
             </tbody>        

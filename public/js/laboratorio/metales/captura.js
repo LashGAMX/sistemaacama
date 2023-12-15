@@ -240,6 +240,9 @@ function getLoteCaptura() {
                 case 191:
                 case 194:
                 case 189:
+                case 208:
+                case 216:
+                case 210:
                     volF = ""
                     break;
                 default:
@@ -284,22 +287,7 @@ function getLoteCaptura() {
                 }
                 tab += '<td>'+item.Empresa_suc+'</td>';
                             
-            switch (parseInt(response.detalle[0].Id_parametro)) {             
-                case 189:
-                case 196:
-                case 190:
-                case 194:
-                case 192:
-                case 191:
-                case 204:
-                case 230:
-                case 17:
-                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="100"></td>';
-                    break;
-                default:
-                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" ></td>';
-                    break;
-            }
+                tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
                 tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
                 tab += '<td '+volF+'><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';

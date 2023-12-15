@@ -133,6 +133,7 @@ class CampoAppController extends Controller
 
         $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
         $solModel->Estado = 3;
+        $solModel->Captura = "APP";
         $solModel->save();
         $puntoModel = SolicitudPuntos::where('Id_solicitud',$solModel->Id_solicitud)->first();
 

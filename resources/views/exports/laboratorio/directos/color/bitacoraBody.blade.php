@@ -12,8 +12,8 @@
 <body>
 
     <div class="procedimiento"> 
-        @php
-           echo $plantilla[0]->Texto; 
+    @php
+        echo @$procedimiento[0];
         @endphp
     </div>
     <br> 
@@ -40,10 +40,11 @@
                 @foreach ($model as $item) 
                     <tr>
                         <td class="tableContent">
-                            @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                            @if (@$item->Id_control != 1)
+                                {{@$item->Control}}
                                 {{@$item->Folio_servicio}}
                             @else
-                                {{@$item->Control}}
+                                {{@$item->Folio_servicio}}
                             @endif                                
                         </td>
                         <td class="tableContent">{{ $item->Vol_muestra }}</td>
@@ -69,5 +70,10 @@
             </tbody>
         </table>
 </body>
+<div class="procedimiento"> 
+        @php
+        echo @$procedimiento[1];
+        @endphp
+    </div>
 
 </html>

@@ -60,10 +60,40 @@ $(document).ready(function () {
             console.log("No Seleccionado");
         }
     });
+    $('#ckHistorial').click(function () {
+        if ($('#ckHistorial').prop('checked') == true) {
+            console.log("Seleccionado");
+            setHistorial()
+        } else {
+            console.log("No Seleccionado");
+            setHistorial()
+        }
+    });
     $('#btnLiberar').click(function () {
         liberarResultado();
     });
 });
+function setHistorial(){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/setHistorial",
+        data: {
+            idSol: $("#idSol").val(),
+            historial: $('#ckLiberado').prop('checked'),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+
+            if (response.sw == true) {
+                swal("Registro!", "Proceso por historial", "success");
+            } else {
+                swal("Registro!", "Proceso por historial cancelado", "success");
+            }
+        }
+    });
+}
 
 function getParametros() {
     console.log("Click en Punto de muestreo")
@@ -116,6 +146,8 @@ function getParametros() {
                     case 100:
                     case 5:
                     case 71:
+                    case 35:
+                    case 253:
                         if(item.Liberado != 1)
                         {
                             color = "danger"

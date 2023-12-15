@@ -46,10 +46,11 @@
                     <tr>
                         {{-- <td class="tableContent"><2</td> --}}
                         <td class="tableContent">
-                            @if (@$loteDetalle[$i]->Control == 'Muestra Adicionada' || @$loteDetalle[$i]->Control == 'Duplicado' || @$loteDetalle[$i]->Control == 'Resultado')
+                            @if (@$loteDetalle[$i]->Id_control != 1)
+                            {{@$loteDetalle[$i]->Control}}
                                 {{@$loteDetalle[$i]->Folio_servicio}}
                             @else
-                                {{@$loteDetalle[$i]->Control}}
+                                {{@$loteDetalle[$i]->Folio_servicio}}
                             @endif 
                         </td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
@@ -85,7 +86,7 @@
     </div> 
 
     <br>
-    
+<!--     
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="">
             <tbody>                              
@@ -132,7 +133,7 @@
                 </tr>
             </tbody>    
         </table>  
-    </div>
+    </div> -->
 
     <br>
 

@@ -726,6 +726,7 @@ function buscar() {
                 }
                 
             } else {
+                
                 if (response.sw == false) {
                     /////////////////////////////// en caso de que no se encuentre ningun registro se limpia la tabla de registros anteriores.
                 
@@ -824,6 +825,7 @@ function buscar() {
                             tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
                             tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
                             tab += '</tr>';
+                            console.log(cont);
                         }
                         cont++;
                     });

@@ -120,11 +120,22 @@
                 <td class="tableContent">
                     {{@$item->Ph_final}}
                 </td>
-                @if ($item->Resultado < $item->Limite)
-                <td class="tableContent">< {{number_format(@$model[0]->Limite, 2, ".", ".")}}</td>
-            @else
-                <td class="tableContent">{{number_format(@$item->Resultado, 2, ".", ".")}}</td>
-            @endif
+                <td class="tableContent">
+                  @if (@$item->Id_control != 5)
+                          @if ($item->Resultado < $item->Limite)
+                             < {{number_format(@$item->Limite, 2, ".", ".")}}
+                        @else
+                            {{number_format(@$item->Resultado, 2, ".", ".")}}
+                        @endif
+                    @else
+                        @if ($item->Resultado < 2)
+                             < {{number_format(2, 2, ".", ".")}}
+                        @else
+                            {{number_format(@$item->Resultado, 2, ".", ".")}}
+                        @endif
+                    @endif 
+                </td>
+              
 
             <td class="tableContent">
                     {{@$item->Observacion}}
@@ -192,17 +203,22 @@
                     <td></td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">{{$detalleLote->Pag}}</span>
+                        <span class="tableContent nombreHeaderBold">Disoluciones preparadas el día</span> <span class="tableContent">{{$detalleLote->Pag}}</span>
                     </td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">{{$detalleLote->N}}</span>
+                        <span class="tableContent nombreHeaderBold">Diluciones registrada.</span> <span class="tableContent">{{$detalleLote->N}}</span>
                     </td>                
                 </tr>                
 
                 <tr>                
                     <td>
-                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">{{$detalleLote->Dilucion}}</span>
+                        <span class="tableContent nombreHeaderBold">&nbsp;Estandares preparadas el día: </span> <span class="tableContent">{{$detalleLote->Dilucion}}</span>
+                    </td>
+                </tr>
+                <tr>                
+                    <td>
+                        <span class="tableContent nombreHeaderBold">&nbsp;Estandares registrados: </span> <span class="tableContent">{{$detalleLote->Estandares_bit}}</span>
                     </td>
                 </tr>
             </tbody>                      

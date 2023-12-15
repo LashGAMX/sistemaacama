@@ -58,12 +58,9 @@
                             <th>Norma</th>
                             <th>Estado</th>
                             <th>Captura</th>
-                            <th>Equipo</th>
-                            <th>Marca</th>
-                            <th>Modelo</th> 
-                            <th>Serie</th>
                             <th>Muestreador</th>
                             <th>Fecha creación</th>
+                            <th>Modifico</th>
                             <th>Fecha modificación</th>
                         </tr>
                     </thead>
@@ -91,13 +88,19 @@
                         @endswitch
                         <td>{{$item->Captura}}</td>
 
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td>{{$item->name}}</td>
-                        <td>{{$item->created_at}}</td>
-                        <td>{{$item->updated_at}}</td>
+                        <td>{{$item->FechaCreacion}}</td>
+                        <td>
+                            @if ($item->IdUserM != null)
+                                @php
+                                    $aux= DB::table('users')->where('id',$item->IdUserM)->first();
+                                    echo $aux->name;
+                                @endphp
+                            @else
+                                {{$item->name}}
+                            @endif
+                        </td>
+                        <td>{{$item->FechaModificacion }}</td>
                     </tr>
                      @endforeach
                     </tbody>

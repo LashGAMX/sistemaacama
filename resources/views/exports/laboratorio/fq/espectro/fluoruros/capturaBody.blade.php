@@ -53,11 +53,45 @@
                         @endif                                
                     </td>
                     <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                    <td class="tableContent">{{@$item->Abs1}}</td>
-                    <td class="tableContent">{{@$item->Abs2}}</td>
-                    <td class="tableContent">{{@$item->Abs3}}</td>
-                    <td class="tableContent">{{@$item->Promedio}}</td>
-                    <td class="tableContent">{{@$item->Limite}}</td>
+                    <td class="tableContent">
+                        @if (@$item->Abs1 ==  "")
+                            ------
+                        @else
+                        {{@$item->Abs1}}
+                        @endif</td>
+                    <td class="tableContent">
+                    @if (@$item->Abs2 ==  "")
+                            ------
+                        @else
+                        {{@$item->Abs2}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                    @if (@$item->Abs3 ==  "")
+                            ------
+                        @else
+                        {{@$item->Abs3}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                        @if (@$item->Promedio == "")
+                            ------
+                        @else
+                         {{@$item->Promedio}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                        @if (@$item->Promedio == "")
+                            ------
+                        @else
+                            @if ($item->Resultado < $item->Limite)
+                                <{{$item->Limite}}
+                            @else
+                                {{@$item->Resultado}}
+                            @endif    
+                        @endif
+                   
+                    </td>
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">
                         @if (@$item->Liberado == 1)

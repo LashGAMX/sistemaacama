@@ -17,8 +17,67 @@ $(document).ready(function () {
       $('#btnLiberar').click(function () {
         liberarIcp();
       });
+      $('#btnSetPlantilla').click(function () {
+        setPlantilla();
+      });
+      
+      
 });
-
+function setPlantilla(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/metales/setPlantilla",
+        data: {
+            id: idLote,
+            texto: $("#summernote").summernote('code'),
+            titulo: $("#tituloBit").val(),
+            rev: $("#revBit").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            alert("Plantilla modificada")
+        }
+    });
+}
+function getPlantilla(id)
+{
+    console.log("getPlantilla")
+    let summer = document.getElementById("divSummer")
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/metales/getPlantilla",
+        data: {
+            id: id,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            $("#tituloBit").val(response.plantilla[0].Titulo)
+            $("#revBit").val(response.plantilla[0].Rev)
+            summer.innerHTML = '<div id="summernote">' + response.plantilla[0].Texto + '</div>';
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 300,
+                theme:"bs4-dark",
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                  ]
+            });
+        }
+    });
+}
 $(function(){
   $("#formuploadajax").on("submit", function(e){
       e.preventDefault();
@@ -38,7 +97,7 @@ $(function(){
             getLoteCaptura()
 
           });
-  });
+  });   
 });
 
 function liberarIcp()
@@ -84,7 +143,7 @@ function createLote()
 }
 function bitacora(id)
 {
-    window.location = base_url+"/admin/laboratorio/metales/bitacoraIcp/"+id;
+    window.open(base_url + "/admin/laboratorio/metales/bitacoraIcp/" + id);
 }
 function buscarLote()
 {
@@ -116,9 +175,9 @@ function buscarLote()
                 tab += '<tr>';
                 tab += '<td>'+item.Id_lote+'</td>';
                 tab += '<td>'+item.Fecha+'</td>';
-                tab += '<td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button></td>';
+                tab += '<td><button type="button" id="btnGetPlantilla" onclick="getPlantilla('+item.Id_lote+')" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button></td>';
                 tab += '<td><button type="button" class="btn btn-info" onclick="bitacora('+item.Id_lote+')"><i class="fas fa-print"></i></button></td>';
-                tab += '</tr>';
+                tab += '</tr>'; 
             });
             tab += '    </tbody>';
             tab += '</table>';

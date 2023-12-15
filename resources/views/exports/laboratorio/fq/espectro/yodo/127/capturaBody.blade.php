@@ -8,13 +8,11 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <br>
-    @php
-        echo @$plantilla->Texto;
-    @endphp
-
-    <div id="contenidoCurva">
-        
+   
+<div id="contenidoCurva">
+        @php
+           echo $plantilla[0]->Texto; 
+        @endphp
     </div>
 
     <br>
@@ -47,20 +45,21 @@
                 @for ($i = 0; $i < @$model->count() ; $i++)
                     <tr>
                         <td class="tableContent">
-                            @if (@$model[$i]->Control == 'Muestra Adicionada' || @$model[$i]->Control == 'Duplicado' || @$model[$i]->Control == 'Resultado')
+                            @if (@$model[$i]->Id_control != 1)
+                                {{@$model[$i]->Control}}
                                 {{@$model[$i]->Folio_servicio}}
                             @else
-                                {{@$model[$i]->Control}}
+                                {{@$model[$i]->Folio_servicio}}
                             @endif 
                         </td>
                         <td class="tableContent">{{@$model[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$model[$i]->Abs1}}</td>
-                        <td class="tableContent">{{@$model[$i]->Abs2}}</td>
-                        <td class="tableContent">{{@$model[$i]->Abs3}}</td>
-                        <td class="tableContent">{{@$model[$i]->Promedio}}</td>
+                        <td class="tableContent">{{number_format(@$model[$i]->Abs1,3)}}</td>
+                        <td class="tableContent">{{number_format(@$model[$i]->Abs2,3)}}</td>
+                        <td class="tableContent">{{number_format(@$model[$i]->Abs3,3)}}</td>
+                        <td class="tableContent">{{number_format(@$model[$i]->Promedio,3)}}</td>
                         <td class="tableContent">
                             @if (@$model[$i]->Resultado > @$model[$i]->Limite)
-                                {{@$model[$i]->Resultado}}
+                                {{number_format(@$model[$i]->Resultado,3)}}
                             @else
                                 < {{@$model[$i]->Limite}}
                             @endif

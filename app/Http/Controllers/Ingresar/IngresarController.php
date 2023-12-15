@@ -246,18 +246,23 @@ class IngresarController extends Controller
                                     'Cancelado' => $canceladoAux[$i],
                                 ]);
                             }
-                            for ($i = 0; $i < $item->Num_tomas; $i++) {
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $item->Id_solicitud,
-                                    'Id_parametro' => 134,
-                                    'Codigo' => $item->Folio_servicio . "-C-" . ($i + 1) . "",
-                                    'Num_muestra' => $i + 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => 0,
-                                    'Cadena' => 0,
-                                    'Cancelado' => $canceladoAux[$i],
-                                ]);
+                            $codTemp = CodigoParametros::where('Id_parametro',134)->where('Id_solicitud',$item->Id_solicitud)->get();
+                            if ($codTemp->count()) {
+                              
+                            }else{
+                                for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => 134,
+                                        'Codigo' => $item->Folio_servicio . "-C-" . ($i + 1) . "",
+                                        'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => 0,
+                                        'Cadena' => 0,
+                                        'Cancelado' => $canceladoAux[$i],
+                                    ]);
+                                }
                             }
                             break;
                         case 35: //E.Coli
@@ -477,42 +482,62 @@ class IngresarController extends Controller
                                 'Cadena' => 1,
                                 'Cancelado' => 0,
                             ]);
-                            CodigoParametros::create([
-                                'Id_solicitud' => $item->Id_solicitud,
-                                'Id_parametro' => 28,
-                                'Codigo' => $item->Folio_servicio,
-                                'Num_muestra' => 1,
-                                'Asignado' => 0,
-                                'Analizo' => 1,
-                                'Reporte' => 1,
-                                'Cadena' => 1,
-                                'Cancelado' => 0,
-                            ]);
-                            CodigoParametros::create([
-                                'Id_solicitud' => $item->Id_solicitud,
-                                'Id_parametro' => 29,
-                                'Codigo' => $item->Folio_servicio,
-                                'Num_muestra' => 1,
-                                'Asignado' => 0,
-                                'Analizo' => 1,
-                                'Reporte' => 1,
-                                'Cadena' => 1,
-                                'Cancelado' => 0,
-                            ]);
+                            $codTemp = CodigoParametros::where('Id_parametro',28)->where('Id_solicitud',$item->Id_solicitud)->get();
+                            if ($codTemp->count()) {
+                                
+                            }else{
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => 28,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+                        
+                            $codTemp = CodigoParametros::where('Id_parametro',29)->where('Id_solicitud',$item->Id_solicitud)->get();
+                           
+                            if ($codTemp->count()) {
+                                
+                            }else{
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => 29,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
                             break;
                         default:
-                            CodigoParametros::create([
-                                'Id_solicitud' => $item->Id_solicitud,
-                                'Id_parametro' => $item2->Id_subnorma,
-                                'Codigo' => $item->Folio_servicio,
-                                'Num_muestra' => 1,
-                                'Asignado' => 0,
-                                'Analizo' => 1,
-                                'Reporte' => 1,
-                                'Cadena' => 1,
+                            
 
-                                'Cancelado' => 0,
-                            ]);
+                            $codTemp = CodigoParametros::where('Id_parametro',$item2->Id_subnorma)->where('Id_solicitud',$item->Id_solicitud)->get();
+                           
+                            if ($codTemp->count()) {
+                                
+                            }else{
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+    
+                                    'Cancelado' => 0,
+                                ]);
+                            }
                             break;
                     }
                     $cont++;
@@ -613,108 +638,7 @@ class IngresarController extends Controller
                 }
                 $sw = true;
                 $msg = "Muestra ingresada";
-                // if ($date1 >= $date2) {
-                //     $solModel = Solicitud::where('Hijo', $res->idSol)->get();
 
-                //         ProcesoAnalisis::create([
-                //             'Id_solicitud' => $res->idSol,
-                //             'Folio' => $res->folio,
-                //             'Descarga' => $res->descarga,
-                //             'Cliente' => $res->cliente,
-                //             'Empresa' => $res->empresa,
-                //             'Ingreso' => 1,
-                //             'Hora_recepcion' => $res->horaRecepcion,
-                //             'Hora_entrada' => $res->horaEntrada,
-                //             'Liberado' => 0,
-                //             'Id_user_c' => Auth::user()->id,
-                //         ]);
-                //         foreach ($solModel as $item) {
-                //             ProcesoAnalisis::create([
-                //                 'Id_solicitud' => $item->Id_solicitud,
-                //                 'Folio' => $item->Folio_servicio,
-                //                 'Descarga' => $res->descarga,
-                //                 'Cliente' => $res->cliente,
-                //                 'Empresa' => $res->empresa,
-                //                 'Ingreso' => 1,
-                //                 'Hora_recepcion' => $res->horaRecepcion,
-                //                 'Hora_entrada' => $res->horaEntrada,
-                //                 'Liberado' => 0,
-                //                 'Id_user_c' => Auth::user()->id,
-                //             ]);
-                //         }
-                //         $sw = true;
-                //         $msg = "Muestra ingresada";
-                //     // if($diff->days > 2){
-                //     //     $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
-                //     // }else{
-                //     //     $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-
-                //     //     ProcesoAnalisis::create([
-                //     //         'Id_solicitud' => $res->idSol,
-                //     //         'Folio' => $res->folio,
-                //     //         'Descarga' => $res->descarga,
-                //     //         'Cliente' => $res->cliente,
-                //     //         'Empresa' => $res->empresa,
-                //     //         'Ingreso' => 1,
-                //     //         'Hora_recepcion' => $res->horaRecepcion,
-                //     //         'Hora_entrada' => $res->horaEntrada,
-                //     //         'Liberado' => 0,
-                //     //         'Id_user_c' => Auth::user()->id,
-                //     //     ]);
-                //     //     foreach ($solModel as $item) {
-                //     //         ProcesoAnalisis::create([
-                //     //             'Id_solicitud' => $item->Id_solicitud,
-                //     //             'Folio' => $item->Folio_servicio,
-                //     //             'Descarga' => $res->descarga,
-                //     //             'Cliente' => $res->cliente,
-                //     //             'Empresa' => $res->empresa,
-                //     //             'Ingreso' => 1,
-                //     //             'Hora_recepcion' => $res->horaRecepcion,
-                //     //             'Hora_entrada' => $res->horaEntrada,
-                //     //             'Liberado' => 0,
-                //     //             'Id_user_c' => Auth::user()->id,
-                //     //         ]);
-                //     //     }
-                //     //     $sw = true;
-                //     //     $msg = "Muestra ingresada";
-
-                //     // }
-                // }else{
-                //     if ($solModel->Id_servicio == 3) {
-                //         $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-
-                //         ProcesoAnalisis::create([
-                //             'Id_solicitud' => $res->idSol,
-                //             'Folio' => $res->folio,
-                //             'Descarga' => $res->descarga,
-                //             'Cliente' => $res->cliente,
-                //             'Empresa' => $res->empresa,
-                //             'Ingreso' => 1,
-                //             'Hora_recepcion' => $res->horaRecepcion,
-                //             'Hora_entrada' => $res->horaEntrada,
-                //             'Liberado' => 0,
-                //             'Id_user_c' => Auth::user()->id,
-                //         ]);
-                //         foreach ($solModel as $item) {
-                //             ProcesoAnalisis::create([
-                //                 'Id_solicitud' => $item->Id_solicitud,
-                //                 'Folio' => $item->Folio_servicio,
-                //                 'Descarga' => $res->descarga,
-                //                 'Cliente' => $res->cliente,
-                //                 'Empresa' => $res->empresa,
-                //                 'Ingreso' => 1,
-                //                 'Hora_recepcion' => $res->horaRecepcion,
-                //                 'Hora_entrada' => $res->horaEntrada,
-                //                 'Liberado' => 0,
-                //                 'Id_user_c' => Auth::user()->id,
-                //             ]);
-                //         }
-                //         $sw = true;
-                //         $msg = "Muestra ingresada";
-                //     } else {
-                //         $msg = "Fecha invalida";
-                //     }
-                // }
             }
         } else {
             $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";

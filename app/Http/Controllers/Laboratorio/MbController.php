@@ -1199,45 +1199,72 @@ class MbController extends Controller
             case 5:
             case 71: //todo Metodo electrometrico
                 # DBO
-                if ($request->tipo == 1) {
-                    if ($request->D <= 0.1) {
-                        $E = $request->D / $request->C;
-                        $res = ($request->A - $request->B) / $E;
-                        $res = round($res,2);    
-                    }else{
-                        $E = $request->D / $request->C;
-                        $res = ($request->A - $request->B) / round($E, 3);
-                        $res = round($res,2);    
-                    }
+                $temp = LoteDetalleDbo::where('Id_detalle',$request->idDetalle)->first();
+                switch ($temp->Id_control) {
+                    case 5: 
+                        $res = $request->OIB - $request->OFB;
+                        $d = 300 / $request->VB;
+                        $res = round($res / $d,2);
+                        $model = LoteDetalleDbo::find($request->idDetalle);
+                        $model->Botella_final = $request->H;
+                        $model->Botella_od = $request->G;
+                        $model->Odf = $request->OFB;
+                        $model->Odi = $request->OIB;
+                        $model->Ph_final = $request->J;
+                        $model->Ph_inicial = $request->I;
+                        $model->Vol_muestra = $request->VB;
+                        $model->Dilucion = $request->E;
+                        $model->Vol_botella = $request->C;
+                        $model->Resultado = $res;
+                        $model->Analizo = Auth::user()->id;
+                        $model->Sugerido = $request->S;
+                        $model->save();
+                        $tipo = 2;
+                        break;
                     
-                    $model = LoteDetalleDbo::find($request->idDetalle);
-                    $model->Botella_final = $request->H;
-                    $model->Botella_od = $request->G;
-                    $model->Odf = $request->B;
-                    $model->Odi = $request->A;
-                    $model->Ph_final = $request->J;
-                    $model->Ph_inicial = $request->I;
-                    $model->Vol_muestra = $request->D;
-                    $model->Dilucion = $request->E;
-                    $model->Vol_botella = $request->C;
-                    $model->Resultado = $res;
-                    $model->Analizo = Auth::user()->id;
-                    $model->Sugerido = $request->S;
-                    $model->save();
-                    $tipo = 1;
-                } else {
-                    $res = ($request->OI - $request->OF);
-                    $model = LoteDetalleDbo::find($request->idDetalle);
-                    $model->Odf = $request->OF;
-                    $model->Odi = $request->OI;
-                    $model->Vol_muestra = $request->V;
-                    $model->Dilucion = $request->E;
-                    $model->Resultado = $res;
-                    $model->Analizo = Auth::user()->id;
-                    $model->Sugerido = $request->S;
-                    $model->save();
-                    $tipo = 2;
+                    default:
+                    if ($request->tipo == 1) {
+                        if ($request->D <= 0.1) {
+                            $E = $request->D / $request->C;
+                            $res = ($request->A - $request->B) / $E;
+                            $res = round($res,2);    
+                        }else{
+                            $E = $request->D / $request->C;
+                            $res = ($request->A - $request->B) / round($E, 3);
+                            $res = round($res,2);    
+                        }
+                        
+                        $model = LoteDetalleDbo::find($request->idDetalle);
+                        $model->Botella_final = $request->H;
+                        $model->Botella_od = $request->G;
+                        $model->Odf = $request->B;
+                        $model->Odi = $request->A;
+                        $model->Ph_final = $request->J;
+                        $model->Ph_inicial = $request->I;
+                        $model->Vol_muestra = $request->D;
+                        $model->Dilucion = $request->E;
+                        $model->Vol_botella = $request->C;
+                        $model->Resultado = $res;
+                        $model->Analizo = Auth::user()->id;
+                        $model->Sugerido = $request->S;
+                        $model->save();
+                        $tipo = 1;
+                    } else {
+                        $res = ($request->OI - $request->OF);
+                        $model = LoteDetalleDbo::find($request->idDetalle);
+                        $model->Odf = $request->OF;
+                        $model->Odi = $request->OI;
+                        $model->Vol_muestra = $request->V;
+                        $model->Dilucion = $request->E;
+                        $model->Resultado = $res;
+                        $model->Analizo = Auth::user()->id;
+                        $model->Sugerido = $request->S;
+                        $model->save();
+                        $tipo = 2;
+                    }
+                        break;
                 }
+            
 
                 break;
             case 70:
@@ -2252,6 +2279,7 @@ class MbController extends Controller
             $model->Pag = $res->pag;
             $model->N = $res->n;
             $model->Dilucion = $res->dilucion;
+            $model->Estandares_bit = $res->estandaresbit;
             $model->save();
         } else {
             $model = DqoDetalle::create([
@@ -2261,7 +2289,8 @@ class MbController extends Controller
                 'A' => $res->a,
                 'Pag' => $res->pag,
                 'N' => $res->n,
-                'Dilucion' => $res->dilucion
+                'Dilucion' => $res->dilucion,
+                'Estandares_bit' => $res->estandaresbit,
             ]);
         }
         $data = array(

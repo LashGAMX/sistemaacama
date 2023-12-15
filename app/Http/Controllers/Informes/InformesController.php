@@ -430,6 +430,7 @@ class InformesController extends Controller
                         switch ($item->Id_norma) {
                             case 1:
                             case 27:
+                            case 33:
                                 switch ($item->Resultado2) {
                                     case 499:
                                         $limC = "< 500";
@@ -1840,6 +1841,7 @@ class InformesController extends Controller
         $auxPunto = PuntoMuestreoSir::where('Id_punto',$punto->Id_muestreo)->first();
         @$tituloConsecion = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
         $rfc = RfcSucursal::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+        
         if ($solModel1->Id_norma == 27) { 
             return redirect()->to('admin/informes/exportPdfInformeMensual/001/' . $idSol1 . '/' . $idSol2 . '/' . $tipo);
         }
@@ -5620,7 +5622,32 @@ class InformesController extends Controller
                         }
     
                         break;
+                case 132:
+                        if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL){
+                            $resTemp = "-----";
+                        } else {
+                            if ($item->Resultado2 > 0) {
+                                if ($item->Resultado2 >= 8){
+                                    $resTemp = "> 8";
+                                } else {
+                                    $resTemp = $item->Resultado2;
+                                }
+                               
+                            } else {
+                                 $resTemp = "NO DETECTABLE";
+                            }
+                        }
+                        
+                    break;
+                case 32:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL){
+                        $resTemp = "-----";
+                    } else {
+                        $restTemp = $item->Resultado2;
+                    }
+                    break;
                 case 2:
+                
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
@@ -6001,6 +6028,7 @@ class InformesController extends Controller
                         $resTemp = "< " . $item->Limite;
                     }
                     break;
+                    
                 case 2:
                     if ($item->Resultado2 == 1) {
                         $resTemp = "PRESENTE";

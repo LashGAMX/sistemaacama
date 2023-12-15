@@ -283,7 +283,9 @@ class CampoController extends Controller
     }
     public function setDataGeneral(Request $request)
     {
-
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
 
         $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
         $model->Captura = "Sistema";
@@ -428,6 +430,10 @@ class CampoController extends Controller
 
     public function CancelarMuestra(Request $request)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $std = false;
         $ph = PhMuestra::where('Id_solicitud', $request->idSolicitud)->where('Num_toma', $request->muestra)->first();
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->where('Num_toma', $request->muestra)->first();
@@ -469,6 +475,10 @@ class CampoController extends Controller
     //-----------------------------Inicio de guardado independiente en Captura campo-----------------------------------
     public function GuardarPhMuestra(Request $res)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$res->id)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $tomas = PhMuestra::where('Id_solicitud', $res->id)->get();
         $cont = 0;
         foreach ($tomas as $item) {
@@ -489,6 +499,10 @@ class CampoController extends Controller
     }
     public function GuardarTempAgua(Request $request)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $model = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
             $model[$i]->Temperatura1 = $request->arrayB1[$i];
@@ -509,6 +523,12 @@ class CampoController extends Controller
     }
     public function GuardarTempAmb(Request $request)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
+        $aux = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
+        $aux->save();
         $model = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
             $model[$i]->Temperatura1 = $request->array2[$i];
@@ -524,6 +544,10 @@ class CampoController extends Controller
     }
     public function GuardarPhControlCalidad(Request $request)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $model = PhCalidadCampo::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
             $model[$i]->Ph_calidad = $request->array1[$i];
@@ -542,6 +566,10 @@ class CampoController extends Controller
     }
     public function GuardarConductividad(Request $request)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $model = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
             $model[$i]->Conductividad1 = $request->array1[$i];
@@ -559,6 +587,10 @@ class CampoController extends Controller
     }
     public function GuardarGasto(Request $request)
     {
+      $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $model = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
             $model[$i]->Gasto1 = $request->array1[$i];
@@ -576,6 +608,8 @@ class CampoController extends Controller
     }
     public function setDatosCompuestos(Request $request)
     {
+        $aux = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
+        $aux->save();
         $model = CampoCompuesto::where('Id_solicitud', $request->idSolicitud)->first();
         $model->Metodo_aforo = $request->metodoAforo;
         $model->Con_tratamiento = $request->ConTratamiento;
@@ -715,6 +749,10 @@ class CampoController extends Controller
 
     public function setDataMuestreo(Request $request)
     {
+        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
         $phModel = PhMuestra::where('Id_solicitud', $request->idSolicitud)->get();
 
         if ($phModel->count()) {
@@ -1077,6 +1115,11 @@ class CampoController extends Controller
 
     public function setDataCompuesto(Request $request)
     {
+       $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->Captura = "WEB";
+        $aux->save();
+
         $campoCompModel = CampoCompuesto::where('Id_solicitud', $request->idSolicitud)->get();
 
         if ($campoCompModel->count()) {

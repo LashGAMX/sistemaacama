@@ -16,6 +16,7 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::post('desactivarMuestra', [CadenaController::class,'desactivarMuestra']);
 
         Route::post('liberarSolicitud', [CadenaController::class,'liberarSolicitud']);
+        Route::post('setHistorial', [CadenaController::class,'setHistorial']);
     });
 });
        

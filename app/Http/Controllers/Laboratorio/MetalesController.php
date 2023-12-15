@@ -1329,6 +1329,7 @@ class MetalesController extends Controller
         $conversion = 0;
         $volMuestra = 100;
         $volFinal = 100;
+        $dilucion = 1;
 
         for ($i=0; $i <  sizeof($res->ids); $i++) { 
             $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
@@ -1370,6 +1371,7 @@ class MetalesController extends Controller
                     $conversion = 1;
                     $volMuestra = 45;
                     $volFinal = 50;
+                    $dilucion = 1.111111;
                     break;
                 case 215:
                     $conversion = 1;
@@ -1424,6 +1426,7 @@ class MetalesController extends Controller
                         'Factor_dilucion' => 1,
                         'Vol_muestra' => $volMuestra,
                         'Factor_conversion' => $conversion,
+                        'Factor_dilucion' => $dilucion,
                         'Liberado' => 0,
                         'Analisis' => 1,
                         
@@ -1712,7 +1715,7 @@ class MetalesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 47,
+            'margin_top' => 50,
             'margin_bottom' => 50,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
@@ -1928,13 +1931,13 @@ class MetalesController extends Controller
     public function bitacoraIcp($id)
     {
               //Opciones del documento PDF
-              $mpdf = new \Mpdf\Mpdf([
+              $mpdf = new \Mpdf\Mpdf([  
                 'orientation' => 'P',
                 'format' => 'letter', 
                 'margin_left' => 10,
                 'margin_right' => 10,
-                'margin_top' => 35, 
-                'margin_bottom' => 45,
+                'margin_top' => 39, 
+                'margin_bottom' => 35,
                 'defaultheaderfontstyle' => ['normal'],
                 'defaultheaderline' => '0'
             ]);
@@ -1946,20 +1949,44 @@ class MetalesController extends Controller
             );
     
             $mpdf->showWatermarkImage = true;
+
             $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
             $resultados = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',1)->get();
             $controles = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',NULL)->get();
+
+
+            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+            if ($plantilla->count()) {
+            } else {
+                $plantilla = PlantillaBitacora::where('Id_parametro', 207)->get();
+            }
+            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+            //Comprobación de bitacora analizada
+            $comprobacion = LoteDetalleIcp::where('Liberado', 0)->where('Id_lote', $id)->get();
+            if ($comprobacion->count()) {
+                $analizo = "";
+            } else {
+                @$analizo = User::where('id', $resultados[0]->Analizo)->first();
+            }
+            $reviso = User::where('id', 46)->first();
+
             $data = array(
                 'lote' => $lote,
+                'comprobacion' => $comprobacion,
+                'plantilla' => $plantilla,
                 'resultados' => $resultados,
                 'controles' => $controles,
+                'reviso' => $reviso,
+                'analizo' => $analizo,
                 // 'textoProcedimiento' => $textoProcedimiento,
             );
+            $htmlFooter = view('exports.laboratorio.metales.icp.capturaFooter', $data);
+            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
             $htmlHeader = view('exports.laboratorio.metales.icp.capturaHeader', $data);
             $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
             $htmlCaptura = view('exports.laboratorio.metales.icp.capturaBody', $data);
             $mpdf->CSSselectMedia = 'mpdf';
-            $mpdf->WriteHTML($htmlCaptura); 
+            $mpdf->WriteHTML($htmlCaptura);
             $mpdf->Output();
     }
     public function configuracionMetales()
@@ -2092,5 +2119,41 @@ class MetalesController extends Controller
             echo "Id lote: ".$item->Id_lote ."<br>";
         }
 
+    }
+    public function getPlantilla(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
+        $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaBitacora::where('Id_parametro', 207)->get();
+        }
+        $data = array(
+            'plantilla' => $plantilla,
+        );
+        return response()->json($data);
+    }
+    public function setPlantilla(Request $res)
+    { 
+        $temp = Bitacoras::where('Id_lote', $res->id)->get();
+        if ($temp->count()) {
+            $model = Bitacoras::where('Id_lote', $res->id)->first();
+            $model->Titulo = $res->titulo;
+            $model->Texto = $res->texto;
+            $model->Rev = $res->rev;
+            $model->save();
+        } else {
+            $model = Bitacoras::create([
+                'Id_lote' => $res->id,
+                'Id_parametro' => 207,
+                'Titulo' => $res->titulo,
+                'Texto' => $res->texto,
+                'Rev' => $res->rev,
+            ]);
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
 }

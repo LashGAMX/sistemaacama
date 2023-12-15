@@ -21,6 +21,7 @@ class DqoDetalle extends Model
         'Pag',
         'N',
         'Dilucion',
+        'Estandares_bit',
         'Tipo',
         'Tecnica',
         'Soluble',

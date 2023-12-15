@@ -354,6 +354,8 @@
             </div>
             <div class="row">
               <h4>1. Calentamiento de Matraces</h4>
+              <input type="datetime-local" id="fechaDefGA">
+              <button id="btnFechaDeFGA">Apl F.</button>
               <hr />
               <div class="col-md-12">
                 <table class="table">
@@ -446,7 +448,7 @@
                   <tbody>
                     <tr>
                       <td><input type="datetime-local" id="4entradaGA" /></td>
-                      <td><input type="datetime-local" id="4salidaGA" /></td>
+                      <td><input type="datetime-local" id="4entradaGA" /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -692,7 +694,7 @@
                       <tbody>
                         <tr>
                           <td>C</td>
-                          <td>mL Titulado 1</td>
+                          <td>mL Titulado 1 de Tiosulfato</td>
                           <td><input type="number" id="tituladoClo1"></td>
                         </tr>
                         <tr>
@@ -707,7 +709,7 @@
                         </tr>
                         <tr>
                           <td>A</td>
-                          <td>mL de NqCI Trazable</td>
+                          <td>mL de K2Cr2O7 Trazable</td>
                           <td><input type="number" id="trazableClo" value="10"></td>
                         </tr>
                         <tr>
@@ -1012,22 +1014,25 @@
           <div class="tab-pane fade" id="dbo" role="tabpanel" aria-labelledby="dbo-tab">
             <div class="row">
               <div class="col-md-4">
-                <label>Cantidad de dilucion: <input class="form-control" type="text" id="cantDilucion"></label>
+                <label>Cantidad de agua en litros preparada: <input class="form-control" type="text" id="cantDilucion"></label>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
+                <label for="">Tiempo de aireacion</label>
+                <br>
                 <label>De: <input class="form-control" type="time" id="de"></label>
-              </div>
-              <div class="col-md-4">
                 <label>A: <input class="form-control" type="time" id="a"></label>
               </div>
               <div class="col-md-4">
-                <label>Pag: <input class="form-control" type="text" id="pag"></label>
+                <label>Diluciones preparadas el dia: <input class="form-control" type="text" id="pag"></label>
               </div>
               <div class="col-md-4">
-                <label>N: <input class="form-control" type="text" id="n"></label>
+                <label>Diluciones registradas en bit: <input class="form-control" type="text" id="n"></label>
               </div>
               <div class="col-md-4">
-                <label>Dilución: <input class="form-control" type="text" id="dilucion"></label>
+                <label>Estandares Preparados el día: <input class="form-control" type="text" id="dilucion"></label>
+              </div>
+              <div class="col-md-4">
+                <label>Estandare registdos en bit: <input class="form-control" type="text" id="estandaresbit"></label>
               </div>
               <div class="col-md-12">
                 <button class="btn btn-successs" id="btnGuardarDqo">Guardar</button>
@@ -1796,7 +1801,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="">Captura de resultados Solidos (Diferencia)</h5>
+        <h5 class="modal-title" id="">Captura de resultados Solidos (Diferencia) - Folio de muestra: <input type="text" id="folioSolidosDir" style="border: none; color:red;" disabled></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -4097,7 +4102,7 @@
 
 {{-- Incio Moda DBo --}}
 
-<div class="modal fade" id="modalCapturaDbo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalCapturaDbo" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -4375,6 +4380,82 @@
     </div>
   </div>
 </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalCapturaDboBlanco" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Captura Dbo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="">Observación</label>
+                            <input type="text" class="form-control" id="observacionDboBlanco" placeholder="Observacion de la muestra">
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-success" type="button" onclick="setObservacion('observacionDboBlanco')"><i
+                                class="voyager-check"></i> Aplicar</button>
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <input type="text" id="resultadoDboBlanco" style="font-size: 20px;color:red;" placeholder="Resultado">
+                          </div>
+                        </div>
+                                <div class="col-md-12">
+                                    <table class="table" id="">
+                                        <thead>
+                                            <tr>
+                                                <th>Parametro</th>
+                                                <th>Descripción</th>
+                                                <th>Valor</th>
+                                                <th>Valor2</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                        <tbody>
+                                            <tr>
+                                                <td>OI</td>
+                                                <td>Oxigeno inicial</td>
+                                                <td><input type="text" id="oxigenoIncialB1" value="0"></td>
+                                                <td><input type="text" id="oxigenoIncialB2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            <tr>
+                                                <td>OF</td>
+                                                <td>Oxigeno final</td>
+                                                <td><input type="text" id="oxigenofinalB1" value="0"></td>
+                                                <td><input type="text" id="oxigenofinalB2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>Volumen de muestra</td>
+                                                <td><input type="text" id="volMuestraB1" value="0"></td>
+                                                <td><input type="text" id="volMuestraB2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                  
+            </div>
+        </div>
+    </div>
 
 {{-- Fin Moda DBo --}}
 

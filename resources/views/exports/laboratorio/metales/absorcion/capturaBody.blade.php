@@ -19,8 +19,12 @@
 
     <div class="contenedorPrincipal">   
  
-        @switch($solModel->Id_norma)
-            @case(7)
+        @switch(@$lote->Id_tecnica)
+            @case(188)
+            @case(219)
+            @case(195)
+            @case(230)
+            @case(215)
             <div class="subContenedor">
                 <span class="cabeceraStdMuestra">FECHA DE PREPARACION DE LA MUESTRA: </span>                    
                 <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
@@ -84,9 +88,23 @@
         </div>
     </div>
 
-    @switch($solModel->Id_norma)
-            @case(7)
-            <div class="contenedorTerciario">                        
+    @switch(@$lote->Id_tecnica)
+             @case(192)
+             @case(204)
+             @case(190)
+             @case(196)
+             @case(191)
+             @case(194)
+             @case(189)
+             @case(188)
+             @case(219)
+             @case(195)
+             @case(230)
+             @case(215)
+             @case(216)
+             @case(210)
+             @case(208)
+             <div class="contenedorTerciario">                        
              <div class="subContenedor3">            
                 <span class="verifEspectro"> VERIFICACIÓN DE BLANCO: </span>            
                 <span class="subElementos">@if (@$detalle->Verificacion_blanco != "") {{@$detalle->Verificacion_blanco}} @else N/A @endif</span>
@@ -135,80 +153,13 @@
                     <span class="subElementos">@if (@$detalle->ConclusionB != ""){{@$detalle->ConclusionB}}@else N/A @endif</span>
                 </div>
             </div>
+            @break
 
-                @break
-            @default
-            @switch(@$lote->Id_tecnica)
-             @case(192)
-             @case(204)
-             @case(190)
-             @case(196)
-             @case(191)
-             @case(194)
-             @case(189)
-             @case(188)
-             @case(219)
-             @case(195)
-             @case(230)
-             @case(215)
-             <div class="contenedorTerciario">                        
-             <div class="subContenedor3">            
-                <span class="verifEspectro"> VERIFICACIÓN DE <span><br></span> BLANCO</span>            
-                <span class="subElementos">@if (@$detalle->Verificacion_blanco != "") {{@$detalle->Verificacion_blanco}} @else N/A @endif</span>
-                </div>
+        
+        @default
+            
+    @endswitch
 
-                <div class="subContenedor3">
-                    <span class="elementos">As. Teorica: </span>
-                    <span class="subElementos">@if (@$detalle->Abs_teoricoB != "") {{@$detalle->Abs_teoricoB}} @else N/A @endif</span>
-                </div>
-
-                <div class="subContenedor3">
-                    <span class="elementos">Abs 1: </span>                    
-                    <span class="subElementos">@if (@$detalle->Abs1B != ""){{@$detalle->Abs1B}}@else N/A @endif</span>
-                </div>
-
-                <div class="subContenedor3">
-                    <span class="elementos">Abs 2: </span>                    
-                    <span class="subElementos">@if (@$detalle->Abs2B != ""){{@$detalle->Abs2B}}@else N/A @endif</span>
-                </div>
-
-                <div class="subContenedor3">
-                    <span class="elementos">Abs 3: </span>                    
-                    <span class="subElementos">@if (@$detalle->Abs3B != ""){{@$detalle->Abs3B}}@else N/A @endif</span>
-                </div>
-
-                <div class="subContenedor3">
-                    <span class="elementos">Abs 4: </span>                    
-                    <span class="subElementos">@if (@$detalle->Abs4B != ""){{@$detalle->Abs4B}}@else N/A @endif</span>
-                </div>
-                
-                <div class="subContenedor3">
-                    <span class="elementos">Abs 5: </span>                    
-                    <span class="subElementos">@if (@$detalle->Abs5B != ""){{@$detalle->Abs5B}}@else N/A @endif</span>
-                </div>
-                
-                <div class="subContenedor3">
-                    <span class="elementos">Abs Prom: </span>                    
-                    <span class="subElementos">@if (@$detalle->PromedioB != ""){{@$detalle->PromedioB}}@else N/A @endif</span>
-                </div>
-                <div class="subContenedor3">
-                    <span class="elementos">Masa caracteristica: </span>                    
-                    <span class="subElementos">@if (@$detalle->MasaE != ""){{@$detalle->MasaE}}@else N/A @endif</span>
-                </div>
-                <div class="subContenedor3">
-                    <span class="elementos">Conclusion: </span>                    
-                    <span class="subElementos">@if (@$detalle->ConclusionB != ""){{@$detalle->ConclusionB}}@else N/A @endif</span>
-                </div>
-            </div>
-
-                @break
-      
-            @default
-                
-        @endswitch
-
-        @endswitch
- 
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
@@ -329,11 +280,21 @@
                 <tbody>
                     <tr>       
                         <td id="tableContent">                 
-                        @if (@$tecnicaUsada->Id_tecnica == 215)
-                            CONCENTRACIÓN EN μg/L
-                        @else
-                            CONCENTRACIÓN EN mg/L
-                        @endif                        
+                        @switch(@$lote->Id_tecnica)
+                                @case(215)
+                                @case(216)
+                                @case(210)
+                                @case(208)
+                                @case(188)
+                                @case(219)
+                                @case(195)
+                                @case(230)
+                                @case(215)
+                                CONCENTRACIÓN EN μg/L 
+                                    @break
+                                @default
+                                CONCENTRACIÓN EN mg/L
+                            @endswitch
                             </td>
 
                         <td id="tableContent">                            
@@ -498,7 +459,7 @@
                         @case(219)
                         @case(195)
                         @case(230)
-                        @case(215)
+                        
                             <td id="tableCabecera">No. de muestra &nbsp;</td>
                             <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
                             <td id="tableCabecera">&nbsp;Vol Final (mL)&nbsp;&nbsp;</td>
@@ -538,6 +499,26 @@
                             <td id="tableCabecera"></td>
                             <td id="tableCabecera"></td>
                             @break
+                        @case(216)
+                        @case(210)
+                        @case(208)
+                            <td id="tableCabecera">No. de muestra &nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Vol Final (mL)&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;[μg/L] Obtenida&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                            <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
+                            <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                            <td id="tableCabecera"></td>
+                            <td id="tableCabecera"></td>
+                            @break
                         @default
                             <td id="tableCabecera">No. de muestra &nbsp;</td>
                             <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
@@ -550,7 +531,7 @@
                             <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
                             <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
                             <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
-                            <td id="tableCabecera">&nbsp;[Mg/L] Reportada&nbsp;&nbsp;</td>
+                            <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
                             <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
                             <td id="tableCabecera"></td>
                             <td id="tableCabecera"></td>
@@ -584,22 +565,23 @@
                             @case(195)
                             @case(230)
                             @case(215)
+                            @case(216)
+                            @case(210)
+                            @case(208)
                                 <td id="tableContent">{{@$item->Vol_final}}</td>
                                 @break
                             @default
                                 
                         @endswitch
                         <td id="tableContent">< 2</td>
-                            @switch($tecnica->Id_tecnica)
+                            @switch($lote->Id_tecnica)
                                 @case(192)
                                 @case(190)
                                 @case(204)
                                 @case(196)
-                                @case(188)
-                                @case(219)
-                                @case(195)
-                                @case(230)
-                                @case(215)
+                                @case(216)
+                                @case(210)
+                                @case(208)
                                     <td id="tableContent">{{number_format(@$item->Abs1,4)}}</td>
                                     <td id="tableContent">{{number_format(@$item->Abs2,4)}}</td>
                                     <td id="tableContent">{{number_format(@$item->Abs3,4)}}</td>
@@ -701,13 +683,16 @@
                         @case(195)
                         @case(230)
                         @case(215)
+                        @case(216)
+                        @case(210)
+                        @case(208)
                                 <td id="tableContent">{{@$item->Vol_final}}</td>
                                 @break
                             @default
                                 
                         @endswitch
                         <td id="tableContent">< 2</td>
-                            @switch($tecnica->Id_tecnica)
+                            @switch($lote->Id_tecnica)
                                 @case(192)
                                 @case(190)
                                 @case(204)
@@ -717,6 +702,9 @@
                                 @case(195)
                                 @case(230)
                                 @case(215)
+                                @case(216)
+                                @case(210)
+                                @case(208)
                                     <td id="tableContent">{{number_format(@$item->Abs1,4)}}</td>
                                     <td id="tableContent">{{number_format(@$item->Abs2,4)}}</td>
                                     <td id="tableContent">{{number_format(@$item->Abs3,4)}}</td>

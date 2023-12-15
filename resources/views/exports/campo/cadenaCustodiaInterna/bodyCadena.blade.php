@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <br>
+            
 
             <div class="col-md-12">
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"
@@ -158,7 +158,7 @@
                 </table>
             </div>
 
-            <br>
+            
             <div class="col-12" style="font-size: 9px">
                
                 2. {{$reportesCadena->Seccion2}}

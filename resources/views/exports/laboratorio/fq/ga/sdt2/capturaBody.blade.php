@@ -10,9 +10,10 @@
 <body>
 <div id="contenidoCurva">
         @php
-            echo $plantilla[0]->Texto;
+        echo @$procedimiento[0];
         @endphp
     </div>
+ 
     <br>
 
     <div id="contenedorTabla">
@@ -27,15 +28,15 @@
 
                 <tr>      
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">No. Capsula</th>
-                    <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Peso cte 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte 2</th>
-                    <th class="tableCabecera anchoColumna">Peso A</th>
-                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 2</th>
-                    <th class="tableCabecera anchoColumna">Peso B</th>
-                    <th class="tableCabecera anchoColumna">SOLIDOS TOTALES (ST) mg/L</th>
+                    <th class="tableCabecera anchoColumna">Numero de Capsula</th>
+                    <th class="tableCabecera anchoColumna">Vol. de muestra</th>
+                    <th class="tableCabecera anchoColumna">Peso Cte. 1 sin muestra</th>
+                    <th class="tableCabecera anchoColumna">Peso Cte. 2 sin muestra</th>
+                    <th class="tableCabecera anchoColumna">B</th>
+                    <th class="tableCabecera anchoColumna">Peso Cte 1 con muestra</th>
+                    <th class="tableCabecera anchoColumna">Peso Cte 2 con muestra</th>
+                    <th class="tableCabecera anchoColumna">A</th>
+                    <th class="tableCabecera anchoColumna">SOLIDOS DISULETOS TOTALES (SDT)</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>                                        
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -57,17 +58,17 @@
                         </td>
                         <td class="tableContent">{{@$item->Crisol}}</td>
                         <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$item->Masa1}}</td>
-                        <td class="tableContent">{{@$item->Peso_muestra1}}</td>
-                        <td class="tableContent">{{@$item->Peso_muestra2}}</td>
-                        <td class="tableContent">{{@$item->Masa2}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_muestra1,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_muestra2,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Masa1,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_constante1,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_constante2,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Masa2,4)}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado < @$item->Limite)
                                 < {{@$item->Limite}}
                             @else
-                                {{@$item->Resultado}}
+                                {{number_format(@$item->Resultado,2)}}
                             @endif
                         </td>
                         <td class="tableContent">{{@$item->Observacion}}</td>
@@ -84,6 +85,11 @@
 
             </tbody>        
         </table>  
+    </div>
+    <div id="contenidoCurva">
+        @php
+        echo @$procedimiento[1];
+        @endphp
     </div>
 </body>
 </html>

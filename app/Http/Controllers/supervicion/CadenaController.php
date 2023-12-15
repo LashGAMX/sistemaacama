@@ -22,6 +22,7 @@ use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetallePotable;
 use App\Models\LoteDetalleSolidos;
 use App\Models\PhMuestra;
+use App\Models\ProcesoAnalisis;
 use App\Models\Solicitud;
 use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
@@ -735,6 +736,27 @@ class CadenaController extends Controller
             $sw = false;
         }
         $model->save();
+
+        $data = array(
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function setHistorial(Request $res)
+    {
+        $solTemp = Solicitud::where('Id_solicitud',$res->idSol)->first();
+        $sw = true;
+        $model = ProcesoAnalisis::where('Folio','LIKE','%'.$solTemp->Folio_servicio.'%')->get();
+        foreach ($model as $item) {
+            if ($res->historial == true) {
+                $item->Historial_resultado = 1; 
+                $sw = true;
+            } else {
+                $item->Historial_resultado = 0;
+                $sw = false;
+            }
+            $item->save();   
+        }
 
         $data = array(
             'sw' => $sw,

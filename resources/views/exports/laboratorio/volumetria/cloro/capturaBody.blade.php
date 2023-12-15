@@ -126,25 +126,25 @@
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (1)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{@valoracion[0]->Ml_titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado1}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (2)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{@valoracion[0]->Ml_titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado1}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (3)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{@valoracion[0]->Ml_titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado1}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">RESULTADO NORMALIDAD REAL</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{@valoracion[0]->Resultado}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  
