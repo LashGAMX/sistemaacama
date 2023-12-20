@@ -29,16 +29,16 @@
 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Abs 1</th>
-                    <th class="tableCabecera anchoColumna">Abs 2</th>
-                    <th class="tableCabecera anchoColumna">Abs 3</th>
-                    <th class="tableCabecera anchoColumna">Abs 4</th>
-                    <th class="tableCabecera anchoColumna">Abs 5</th>
-                    <th class="tableCabecera anchoColumna">Abs 6</th>
-                    <th class="tableCabecera anchoColumna">Abs 7</th>
-                    <th class="tableCabecera anchoColumna">Abs 8</th>
-                    <th class="tableCabecera anchoColumna">Abs Promedio</th>
+                    <th class="tableCabecera anchoColumna" style="width: 30px">Volumen de <br> muestra (mL)</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 1</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 2</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 3</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 4</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 5</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 6</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 7</th>
+                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 8</th>
+                    <th class="tableCabecera anchoColumna" style="width: 50px">Abs Promedio</th>
                     <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
@@ -88,7 +88,7 @@
                     </td>
                     <td class="tableContent">{{@$item->Control}}</td>
                 </tr>
-            @endforeach
+                @endforeach
             </tbody>        
         </table>  
     </div>

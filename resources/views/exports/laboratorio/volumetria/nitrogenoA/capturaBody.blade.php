@@ -66,7 +66,7 @@
                                     <{{@$loteDetalle[$i]->Limite}} 
                                 @endif
                             @else
-                                ------1 
+                                ------
                             @endif
                         </td> 
 
@@ -113,7 +113,7 @@
 
                 <tr>
                     <td class="tableContent2">MILILITROS 2 TITULADOS DE H2SO4 2</td>
-                    <td class=""></td>
+                    <td class=""></td> 
                     <td class=""></td>
                     <td class="tableContent2">{{@$valNitrogenoA->Titulo2}}</td>
                 </tr>                

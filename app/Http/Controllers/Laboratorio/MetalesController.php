@@ -866,12 +866,15 @@ class MetalesController extends Controller
         // $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->where('Liberado',0)->get(); // Asi se hara con las otras
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
         $obs = array();
+        $punto = array();
         foreach ($detalle as $item) {
             $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_analisis)->first();
             array_push($obs,$temp->Obs_metales);
+            array_push($punto,$temp->Punto);
         }
         $data = array(
             'obs' => $obs,
+            'punto' => $punto,
             'detalle' => $detalle,
         );
         return response()->json($data);

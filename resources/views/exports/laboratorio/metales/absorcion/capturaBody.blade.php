@@ -25,6 +25,13 @@
             @case(195)
             @case(230)
             @case(215)
+            @case(192)
+            @case(204)
+            @case(190)
+            @case(196)
+            @case(191)
+            @case(194)
+            @case(189)
             <div class="subContenedor">
                 <span class="cabeceraStdMuestra">FECHA DE PREPARACION DE LA MUESTRA: </span>                    
                 <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
@@ -290,6 +297,10 @@
                                 @case(195)
                                 @case(230)
                                 @case(215)
+                                @case(192)
+                                @case(204)
+                                @case(190)
+                                @case(196)
                                 CONCENTRACIÓN EN μg/L 
                                     @break
                                 @default

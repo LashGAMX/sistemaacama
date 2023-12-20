@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\supervicion\CadenaController;
+use App\Http\Controllers\supervicion\SupervicionController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'supervicion'], function () {
@@ -17,6 +18,13 @@ Route::group(['prefix' => 'supervicion'], function () {
 
         Route::post('liberarSolicitud', [CadenaController::class,'liberarSolicitud']);
         Route::post('setHistorial', [CadenaController::class,'setHistorial']);
+    });
+    Route::group(['prefix' => 'analisis'], function () {
+        Route::get('/', [SupervicionController::class, 'analisis']);
+        Route::post('getLotes', [SupervicionController::class,'getLotes']);
+    });
+    Route::group(['prefix' => 'campo'], function () {
+ 
     });
 });
        

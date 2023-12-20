@@ -19,6 +19,8 @@ class LoteAnalisis extends Model
         'Id_tecnica',
         'Asignado',
         'Liberado',
+        'Supervisado',
+        'Id_superviso',
         'Fecha',
         'Hora',
         'Id_user_c',

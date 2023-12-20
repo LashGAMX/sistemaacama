@@ -3688,7 +3688,7 @@ function getCapturaLote() {
                 } else {
                     tab += '<td></td>';
                 }
-                tab += '<td><button class="btn-warning"><i class="fas fa-info"></i></button></td>';
+                tab += '<td><button class="btn-warning" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
                 tab += '<td hidden>'+item.Codigo+'</td>';
                 tab += '</tr>';
 
@@ -3815,7 +3815,7 @@ function getMuestraSinAsignar() {
                 tab += '<td>' + response.norma[i] + '</td>'
                 tab += '<td>' + response.punto[i] + '</td>'
                 tab += '<td>' + response.fecha[i] + '</td>'
-                tab += '<td><button id="btnInfo" class="btn-info"><i class="fas fa-info"></i></button></td>'
+                tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>'
                 tab += '</tr>'
             }
 
@@ -4042,6 +4042,51 @@ function getPendientes() {
                     "infoEmpty": "No hay datos encontrados",
                 }
             });
+        }
+    });
+}
+
+function getHistorial(id)
+{
+    console.log("Get Historial");
+    let tabla = document.getElementById('divHistorial');
+    let tab = '';
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getHistorial",
+        data: {
+            idLote: idLote,
+            idDetalle:id,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if (response.resultado.length > 0) {
+                tab += '<table id="tablaLote" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Id Lote</th>';
+                tab += '          <th>Fecha Lote</th>';
+                tab += '          <th>Resultado</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                for (let i = 0; i < response.resultado.length; i++) {
+                    tab += '<tr>';
+                    tab += '<td>'+response.lote[i]+'</td>'
+                    tab += '<td>'+response.fechaLote[i]+'</td>'
+                    tab += '<td>'+response.resultado[i]+'</td>'
+                    tab += '</tr>';   
+                }
+                tab += '    </tbody>';
+                tab += '</table>';
+            } else {
+                tab += 'No hay historial'
+            }
+            
+            tabla.innerHTML = tab;
         }
     });
 }

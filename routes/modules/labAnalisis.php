@@ -21,6 +21,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setBitacora',[LabAnalisisController::class,'setBitacora']);
         Route::post('setDetalleGrasas',[LabAnalisisController::class,'setDetalleGrasas']);
         Route::post('setNormalidadAlc',[LabAnalisisController::class,'setNormalidadAlc']);
+        Route::post('getHistorial',[LabAnalisisController::class,'getHistorial']);
 
         Route::post('setTipoDqo',[LabAnalisisController::class,'setTipoDqo']); 
         Route::post('setControlCalidad', [LabAnalisisController::class, 'setControlCalidad']);

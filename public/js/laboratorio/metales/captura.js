@@ -254,6 +254,7 @@ function getLoteCaptura() {
             // tab += '          <th><</th>';
             tab += '          <th>Muestra</th>';
             tab += '          <th>Cliente</th>';
+            tab += '          <th>Punto</th>';
             //tab2 += '          <th>PuntoMuestreo</th>';
             tab += '          <th>Vol. Muestra E</th>';
             tab += '          <th '+volF+'>Vol Final</th>';
@@ -286,7 +287,7 @@ function getLoteCaptura() {
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
                 tab += '<td>'+item.Empresa_suc+'</td>';
-                            
+                tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
                 tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
                 tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
                 tab += '<td '+volF+'><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';

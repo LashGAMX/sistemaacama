@@ -34,6 +34,10 @@
                         <label for="fechaLote">Fecha de lote</label>
                         <input type="date" class="form-control" id="fechaLote">
                     </div><br>
+                    <div class="form-group">
+                        <label for="fechaLote">Folio</label>
+                        <input type="text" class="form-control" id="folio" placeholder="xxx-xx/xx">
+                    </div><br>
                     <button class="btn-success" id="btnLiberar">Liberar</button>
                 </div>
                 <div class="col-md-2">

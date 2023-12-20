@@ -737,7 +737,7 @@ class LabAnalisisController extends Controller
                     $fecha = new Carbon($lote[0]->Fecha);
                     $today = $fecha->toDateString();
                     $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $res->id)->first();
-                    $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>', $today)
+                    $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
                         ->where('Id_parametro', $lote[0]->Id_tecnica)->first();
                     $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_codigo', $model->Id_codigo)->where('Id_control', 5)->first();
                     break;
@@ -1224,7 +1224,7 @@ class LabAnalisisController extends Controller
                         case 105: //Fluoruros (potable)
                         case 121:
                             $x = ($res->X + $res->Y + $res->Z) / 3;
-                            $d =  50 / $res->E;
+                            $d =  50 / $res->E; 
                             $xround = round($x,3);
                             $resultado = (($xround - $res->CB) / $res->CM) * round($d,3);
 
@@ -1250,10 +1250,10 @@ class LabAnalisisController extends Controller
                             $d =   100  / $res->E;
                             $res1 = round($x, 3) - ($res->CB);
                             $res2 = $res1 / $res->CM;
-                            $resultado = round($res2,3) * round($d, 3);
+                            $resultado = round($res2,4) * round($d, 3);
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
-                            $model->Resultado = $resultado;
+                            $model->Resultado = round($resultado,3);
                             $model->Abs1 = $res->X;
                             $model->Abs2 = $res->Y;
                             $model->Abs3 = $res->Z;
@@ -3495,6 +3495,26 @@ class LabAnalisisController extends Controller
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 113://ion
+                        $mpdf = new \Mpdf\Mpdf([
+                            'orientation' => 'P',
+                            'format' => 'letter',
+                            'margin_left' => 5,
+                            'margin_right' => 5,
+                            'margin_top' => 40,
+                            'margin_bottom' => 45,
+                            'defaultheaderfontstyle' => ['normal'],
+                            'defaultheaderline' => '0'
+                        ]);
+                        //Establece la marca de agua del documento PDF
+                        $mpdf->SetWatermarkImage(
+                            asset('/public/storage/MembreteVertical.png'),
+                            1,
+                            array(215, 280),
+                            array(0, 0),
+                        );
+                
+                        $mpdf->showWatermarkImage = true;
+                        $mpdf->CSSselectMedia = 'mpdf';
                         $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.capturaHeader', $data);
@@ -3698,7 +3718,7 @@ class LabAnalisisController extends Controller
                         }
                         $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                         // var_dump($procedimiento[0]);
-                        $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        $comprobacion = LoteDetalleNitrogeno::where('Liberado', 0)->where('Id_lote', $id)->get();
                         if ($comprobacion->count()) {
                             $analizo = "";
                         } else {
@@ -3712,12 +3732,12 @@ class LabAnalisisController extends Controller
                             'lote' => $lote,
                             'loteDetalle' => $loteDetalle,
                             'plantilla' => $plantilla,
-                            'valNitrogenoA' => $valNitrogenoA,
+                            'valNitrogenoA' => $valNitrogenoA, 
                             'procedimiento' => $procedimiento,
-                        );
+                        ); 
 
                         $htmlFooter = view('exports.laboratorio.volumetria.nitrogenoA.capturaFooter', $data);
-                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E'); 
                         $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody', $data);
                         $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
 
@@ -4899,6 +4919,8 @@ class LabAnalisisController extends Controller
                         break;
                     case 66:
                     case 102: // COLOR VERDADERO
+                    case 120:
+                    case 65:
                         $mpdf = new \Mpdf\Mpdf([
                             'orientation' => 'P',
                             'format' => 'letter',
@@ -6017,5 +6039,40 @@ class LabAnalisisController extends Controller
                     break;
             }
         }
+    }
+    public function getHistorial(Request $res)
+    {
+        $temp = LoteDetalle::where('Id_detalle',$res->idDetalle)->first();
+        $solicitud = Solicitud::where('Id_solicitud',$temp->Id_analisis)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud',$solicitud->Id_solicitud)->first();
+        $solModel = Solicitud::where('Id_cliente',$solicitud->Id_cliente)->where('Id_sucursal',$solicitud->Id_sucursal)
+        ->where('Id_solicitud','!=',$solicitud->Id_solicitud)->where('Padre',1)->limit(3)->orderBy('Id_solicitud','DESC')->get();
+
+        $resultado = array();
+        $lote = array();
+        $fechaLote = array();
+        foreach ($solModel as $item) {
+            $aux =SolicitudPuntos::where('Id_solPadre',$item->Id_solicitud)->get();
+            foreach ($aux as $item2) {
+                if ($punto->Id_muestreo == $item2->Id_muestreo) {
+                    $codigo = CodigoParametros::where('Id_solicitud',$item2->Id_solicitud)->where('Id_parametro',$temp->Id_parametro)->first();
+                    $loteDet = LoteDetalle::where('Id_analisis',$codigo->Id_solicitud)->where('Id_control',1)->first();
+                    $loteModel = LoteAnalisis::where('Id_lote',$loteDet->Id_lote)->first();
+                    array_push($resultado,$codigo->Resultado2);
+                    array_push($lote,$loteDet->Id_lote);
+                    array_push($fechaLote,$loteModel->Fecha);
+                    
+                }
+            }
+        }
+        
+        $data = array(
+            'solModel' => $solModel,
+            'temp' => $temp,
+            'resultado' => $resultado,
+            'lote' => $lote,
+            'fechaLote' => $fechaLote,
+        );
+        return response()->json($data);
     }
 }
