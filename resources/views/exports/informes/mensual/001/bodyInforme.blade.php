@@ -158,7 +158,7 @@
     @php
 @endphp
 <br>
-    
+     
     <div id="contenedorTabla">
         @php
             $temp = array();

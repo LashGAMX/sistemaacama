@@ -50,9 +50,18 @@
                         <td style="width: 25%" style="height: 50px;">Servicio</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
                             @if (@$cotizacion->Num_tomas == 1)
-                            {{@$cotizacion->Servicio}} {{@$cotizacion->Tipo_muestra}} 
+                            {{-- {{@$cotizacion->Servicio}} {{@$cotizacion->Tipo_muestra}}  --}}
+                                @if ($model->Id_servicio != 3)
+                                Análisis y muestreo ({{@$cotizacion->Tipo_muestra}})
+                                @else
+                                    Análisis ({{@$cotizacion->Tipo_muestra}})
+                                @endif
                             @else
-                            {{@$cotizacion->Servicio}} ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})
+                                @if ($model->Id_servicio != 3)
+                                    Análisis y muestreo ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})
+                                @else
+                                    Análisis ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})
+                                @endif
                             @endif
                         </td>
                     </tr>

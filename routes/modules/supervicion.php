@@ -22,6 +22,7 @@ Route::group(['prefix' => 'supervicion'], function () {
     Route::group(['prefix' => 'analisis'], function () {
         Route::get('/', [SupervicionController::class, 'analisis']);
         Route::post('getLotes', [SupervicionController::class,'getLotes']);
+        Route::post('supervisarBitacora', [SupervicionController::class,'supervisarBitacora']);
     });
     Route::group(['prefix' => 'campo'], function () {
  

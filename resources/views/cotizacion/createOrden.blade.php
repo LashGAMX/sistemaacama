@@ -18,6 +18,7 @@
         </li>
       </ul>
       <input type="text" class="" id="idCot" hidden value="{{@$model->Id_cotizacion}}">
+      <input type="text" class="" id="idUser" hidden value="{{Auth::user()->id}}">
       
       <div class="tab-content" id="myTabContent">
         {{-- Inicio Datos --}}
@@ -418,6 +419,6 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.7"></script>
+<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.8"></script>
 <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 @stop

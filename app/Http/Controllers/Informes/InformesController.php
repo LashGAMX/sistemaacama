@@ -146,15 +146,10 @@ class InformesController extends Controller
         @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
 
-        // $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
         $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
         if ($impresion->count()) {
-            // var_dump($impresion);
+            
         }else{
-            // $horaImpresion = ProcesoAnalisis::where('Id_solicitud',$idPunto)->first();
-            // // echo $horaImpresion->Hora_recepcion."<br>";
-            // $fecha = \Carbon\Carbon::parse(@$model->Fecha_muestreo)->addDays(0)->format('Y-m-d');
-            // echo $fecha."<br>";
             $reporteInforme = ReportesInformes::where('Fecha_inicio','<=',@$model[0]->Fecha_muestreo)->where('Fecha_fin','>=',@$model[0]->Fecha_muestreo)->get();
             if ($reporteInforme->count()) {
                 ImpresionInforme::create([
@@ -170,8 +165,6 @@ class InformesController extends Controller
                     'Clave' => $reporteInforme[0]->Clave,
                 ]);
             }
-            // var_dump($reporteInforme);
- 
             $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
         }
     
@@ -199,7 +192,8 @@ class InformesController extends Controller
             $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
             $tituloConsecion = $titTemp->Titulo;
         }
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        // $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        $model = DB::table('ViewCodigoInforme')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
         // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
         $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->get();
         $tempAmbienteProm = 0;
@@ -427,7 +421,7 @@ class InformesController extends Controller
                             break;
                    // case 64:
                     case 358:
-                        switch ($item->Id_norma) {
+                        switch ($solModel->Id_norma) {
                             case 1:
                             case 27:
                             case 33:
@@ -467,7 +461,7 @@ class InformesController extends Controller
                         }
                         break;
                     case 67: //conductividad
-                        switch ($item->Id_norma) {
+                        switch ($solModel->Id_norma) {
                             case 1:
                             case 27:
                                 if ($puntoMuestreo->Condiciones != 1) {
@@ -498,7 +492,7 @@ class InformesController extends Controller
                         }
                         break;
                 }
-                switch ($item->Id_norma) {
+                switch ($solModel->Id_norma) {
                     case 1:
                         @$limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
                         if ($limNo->count()) {
@@ -598,8 +592,8 @@ class InformesController extends Controller
                 //potable y purificada
                 // $firma1 = User::find(14);
                 $firma1 = User::find(14); // Reviso
-                // $firma2 = User::find(4); // Autorizo
-                $firma2 = User::find(12); // Autorizo
+                $firma2 = User::find(4); // Autorizo
+                // $firma2 = User::find(12); // Autorizo
                 // $firma2 = User::find(14);
                 break;
  
@@ -607,8 +601,8 @@ class InformesController extends Controller
             //Residual
                 $firma1 = User::find(14); // Reviso
                 //$firma1 = User::find(14);
-                $firma2 = User::find(12); // Autorizo
-                //$firma2 = User::find(4);
+                // $firma2 = User::find(12); // Autorizo
+                $firma2 = User::find(4);
                 break;
         }
         //Proceso de Reporte Informe
@@ -2289,19 +2283,6 @@ class InformesController extends Controller
                 $color2 = $item->Color;
             }
         }
-        // $tempAmbiente1  = TemperaturaMuestra::where('Id_solicitud', $idSol1)->where('Activo',1)->get();
-        // $tempAmbiente2  = TemperaturaMuestra::where('Id_solicitud', $idSol2)->where('Activo',1)->get();
-        // $auxTemp = 0;
-        // $tempProm1 = 0;
-        // $tempProm2 = 0;
-        // foreach ($tempAmbiente1 as $item) {
-        //     $tempProm1 += $item->Promedio;
-        //     $tempProm2 += $tempAmbiente2[$auxTemp]->Promedio;
-        //     $auxTemp++;
-        // }
-        // $tempProm1 = $tempProm1 / $auxTemp;
-        // $tempProm2 = $tempProm2 / $auxTemp;
-
         
         $auxPh = 0;
         $olor1 = false;
@@ -2503,17 +2484,9 @@ class InformesController extends Controller
 
         $punto = SolicitudPuntos::where('Id_solicitud', $idSol1)->first();
         if ($solModel1->Siralab == 1) {
-            // $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
-            // $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            // $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            // $dirTemp = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $solModel1->Id_direccion)->first();
-            // $dirReporte = @$dirTemp->Calle . ' ' . @$dirTemp->Num_exterior . ' ' . @$dirTemp->Num_interior . ' ' . @$dirTemp->NomEstado . ' ' . @$dirTemp->NomMunicipio . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Colonia . ' ' . @$dirTemp->Ciudad . ' ' . @$dirTemp->Localidad;
+            
         } else {
-            // $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
-            // $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            // $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            // $dirTemp = DireccionReporte::where('Id_direccion', $solModel1->Id_direccion)->first();
-            // $dirReporte = $dirTemp->Direccion;
+
         }
         $rfc = RfcSucursal::where('Id_sucursal', $solModel1->Id_sucursal)->first();
         $direccion1 = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
@@ -2586,7 +2559,7 @@ class InformesController extends Controller
         $numOrden1 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel1->Hijo)->first();
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
-        $firma1 = User::find(14); 
+        $firma1 = User::find(14);  
         $firma2 = User::find(4);
         $cotModel = DB::table('ViewSolicitud2')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Id_reporte2)->first();

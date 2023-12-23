@@ -574,6 +574,14 @@ SELECT cod.* , pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codi
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro;
 
+CREATE VIEW ViewCodigoInforme as 
+SELECT cod.* , pa.Parametro,pa.Id_area,pa.Tipo_formula,pa.Area_analisis,pa.Clave_metodo,pa.Unidad,pa.Limite,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia,pa.Id_simbologia_info , us.iniciales, pa.Descripcion,pa.Descripcion2,pa.Descripcion_sim
+FROM codigo_parametro as cod
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro
+INNER JOIN users as us
+ON cod.Analizo = us.id
+
 /* ViewCodigoParametroSol */
 CREATE VIEW ViewCodigoParametroSol as SELECT cod.*,sol.Folio_servicio,pa.Parametro,pa.Unidad FROM codigo_parametro as cod
 INNER JOIN ViewSolicitud2 as sol
