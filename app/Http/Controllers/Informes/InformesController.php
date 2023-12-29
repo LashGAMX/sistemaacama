@@ -591,18 +591,19 @@ class InformesController extends Controller
             case 30:
                 //potable y purificada
                 // $firma1 = User::find(14);
-                $firma1 = User::find(14); // Reviso
-                $firma2 = User::find(4); // Autorizo
-                // $firma2 = User::find(12); // Autorizo
-                // $firma2 = User::find(14);
+                // $firma1 = User::find(14); // Reviso
+                // $firma2 = User::find(4); // Autorizo
+                $firma2 = User::find(12); // Autorizo
+                $firma2 = User::find(14);
                 break;
  
             default:
             //Residual
-                $firma1 = User::find(14); // Reviso
-                //$firma1 = User::find(14);
-                // $firma2 = User::find(12); // Autorizo
-                $firma2 = User::find(4);
+                // $firma1 = User::find(14); // Reviso
+                // $firma2 = User::find(4); //Autorizo
+                $firma1 = User::find(14); //reviso
+                $firma2 = User::find(12); // Autorizo
+                
                 break;
         }
         //Proceso de Reporte Informe

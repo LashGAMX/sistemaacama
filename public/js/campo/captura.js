@@ -450,7 +450,7 @@ function valTemperaturaAmbiente(id)
 
     $.each(factorCorrecion2, function (key, item) {    
         if(l1 >= parseFloat(item.De_c) && l1 < parseFloat(item.A_c)){
-            $("#tempaSin1"+id).val((l1 + parseFloat(item.Factor_aplicado)).toFixed(0))    
+            $("#tempaSin1"+id).val((l1 + parseFloat(item.Factor_aplicado)).toFixed(1))    
             $("#tempaApl1"+id).val(parseFloat(item.Factor_aplicado))    
         }
       });
