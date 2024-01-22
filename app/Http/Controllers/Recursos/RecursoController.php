@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Recursos;
 
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
+use App\Models\LoteDetalleCloro;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDureza;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class RecursoController extends Controller
 
     public function buscarBasura(Request $req){
         $model = CodigoParametros::where('Codigo', $req->folio)->where('Id_parametro', $req->parametro)->first(); 
-        $model2 = LoteDetalleDirectos::where('Id_codigo', $model->Id_codigo)->get(); 
+        $model2 = LoteDetalleCloro::where('Id_codigo', $model->Id_codigo)->get(); 
         $data = array(
             'model' => $model,
             'model2' => $model2,
@@ -32,11 +33,26 @@ class RecursoController extends Controller
          return response()->json($data);
         $id = $model->Id_codigo; 
     }
+   
     public function tirarlabasura(Request $req) {
-        $model = DB::table("lote_detalle_directos")->where('Id_codigo', $req->id)->delete();
+        $model = DB::table("lote_detalle_cloro")->where('Id_codigo', $req->id)->get();
+        foreach ($model as $item) {
+            $model2 = DB::table("lote_detalle_cloro")->where('Id_codigo', $item->Id_codigo)->delete();
+        }
         $data = array(
             'id' => $req->id,
         );
+        return response()->json($data);
+    }
+    public function reasignar(Request $req){
+        $model = CodigoParametros::where('Id_codigo', $req->id)->first();
+        $model->Asignado = 0;
+        $model->save();
+
+        $data = array(
+            "model" => $model,
+        );
+
         return response()->json($data);
     }
 }

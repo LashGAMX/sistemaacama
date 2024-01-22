@@ -268,10 +268,14 @@ class InformesController extends Controller
                             case 2:
                             case 4:
                             case 9:
+                            case 21:
                                 $limC = number_format(@$item->Resultado2, 2, ".", "");
                                 break;
                             default:
-                                $limC = number_format(@$item->Resultado2, 1, ".", "");        
+                            
+                                $limC = number_format(@$item->Resultado2, 1, ".", "");
+                           
+                                       
                                 break;
                         }
                         break;
@@ -280,6 +284,7 @@ class InformesController extends Controller
                         $limC = number_format(@$item->Resultado2, 1, ".", "");
                         break;
                     case 26:
+                    case 39:
                         $limC = number_format(@$item->Resultado2, 2, ".", "");
                         break;
                     case 16:
@@ -591,16 +596,16 @@ class InformesController extends Controller
             case 30:
                 //potable y purificada
                 // $firma1 = User::find(14);
-                // $firma1 = User::find(14); // Reviso
-                // $firma2 = User::find(4); // Autorizo
+                 $firma1 = User::find(14); // Reviso
+                 //$firma2 = User::find(4); // Autorizo
                 $firma2 = User::find(12); // Autorizo
-                $firma2 = User::find(14);
+                //$firma2 = User::find(14);
                 break;
  
             default:
             //Residual
                 // $firma1 = User::find(14); // Reviso
-                // $firma2 = User::find(4); //Autorizo
+               // $firma2 = User::find(4); //Autorizo
                 $firma1 = User::find(14); //reviso
                 $firma2 = User::find(12); // Autorizo
                 
@@ -858,7 +863,7 @@ class InformesController extends Controller
             array_push($limitesC, $limC);
         }
         $firma1 = User::find(14);
-        $firma2 = User::find(4);
+        $firma2 = User::find(12);
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         $conducCampo = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 67)->first();
 
@@ -1892,7 +1897,7 @@ class InformesController extends Controller
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
         $firma1 = User::find(14); //! Reviso
-        $firma2 = User::find(4); //! Autorizo
+        $firma2 = User::find(12); //! Autorizo
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
@@ -2561,7 +2566,7 @@ class InformesController extends Controller
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
         $firma1 = User::find(14);  
-        $firma2 = User::find(4);
+        $firma2 = User::find(12);
         $cotModel = DB::table('ViewSolicitud2')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Id_reporte2)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
@@ -5642,6 +5647,7 @@ class InformesController extends Controller
                         case 3:
                         case 4:
                         case 33:
+                        case 21:
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
@@ -5650,12 +5656,15 @@ class InformesController extends Controller
                             }
                             break;
                         default:
+                       
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
                                 $resTemp = number_format(@$item->Resultado2, 1, ".", "");
                             }
                             break;
+                        
+                            
                     }
                     break;
                 case 64:

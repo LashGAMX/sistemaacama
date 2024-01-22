@@ -126,7 +126,7 @@
               <select class="form-control select2" id="idUsuarios">
                 <option>Selecciona un usuario</option>
                 @foreach ($usuarios as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
+                <option value="{{$item->id}}">({{$item->id}}) {{$item->name}}</option>
                 @endforeach
                 </select>
             </div>

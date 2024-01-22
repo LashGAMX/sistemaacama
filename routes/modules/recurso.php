@@ -11,3 +11,4 @@ Route::get('recursos/ingCampo/app', [AppController::class, 'index']);
 Route::get('recursos/basura', [RecursoController::class, 'basura']);
 Route::post('recursos/buscar', [RecursoController::class, 'buscarBasura']);
 Route::post('recursos/eliminar', [RecursoController::class, 'tirarlabasura']);
+Route::post('recursos/reasignar', [RecursoController::class, 'reasignar']);

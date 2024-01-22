@@ -24,6 +24,38 @@ function supervisarBitacora(id)
         } 
     }); 
 }
+function selecionarCkeck()
+{
+    allSelectCheck("ckHistorial")
+}
+function setLiberarTodo()
+{
+    let tab = document.getElementById("tabLote")
+    let ids = new Array()
+    for (let i = 1; i < tab.rows.length; i++) {
+        if(tab.rows[i].children[0].children[0].checked){
+            ids.push(tab.rows[i].children[0].children[0].value)
+        }
+    }
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/analisis/setLiberarTodo",
+        data: {
+            ids:ids,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            if (response.sw == false) {
+                alert("Error al liberar")
+            } else {
+                alert("Lotes liberadso")
+            }
+        }
+    });
+}
 function getLotes()
 {
     let table = document.getElementById("divLote")
@@ -41,6 +73,7 @@ function getLotes()
         async: false,
         success: function (response) {
             console.log(response) 
+            tab += '<button class="btn-info" onclick="selecionarCkeck()"><i class="fas fa-check-double"></i></button> <button class="btn-success" onclick="setLiberarTodo()"><i class="fas fa-share"></i></button>'
             tab += '<table id="tabLote" class="table table-sm">'
             tab += '    <thead>'
             tab += '        <tr>'
@@ -57,9 +90,9 @@ function getLotes()
             $.each(response.model, function (key, item) {
                 tab += '<tr>'
                 if (item.Supervisado == 0) {
-                    tab += '<td><input class="form-check-input" onclick="supervisarBitacora('+item.Id_lote+')" id="ckHistorial'+item.Id_lote+'" type="checkbox" ></td>'
+                    tab += '<td><input class="form-check-input" value="'+item.Id_lote+'" onclick="supervisarBitacora('+item.Id_lote+')" name="ckHistorial" id="ckHistorial'+item.Id_lote+'" type="checkbox" ></td>'
                 } else {
-                    tab += '<td><input class="form-check-input" onclick="supervisarBitacora('+item.Id_lote+')" id="ckHistorial'+item.Id_lote+'" type="checkbox" checked ></td>'
+                    tab += '<td><input class="form-check-input" value="'+item.Id_lote+'" onclick="supervisarBitacora('+item.Id_lote+')" name="ckHistorial" id="ckHistorial'+item.Id_lote+'" type="checkbox" checked ></td>'
                 }
                 tab += '<td>' + item.Id_lote + '</td>'
                 tab += '<td>' + item.Fecha + '</td>'

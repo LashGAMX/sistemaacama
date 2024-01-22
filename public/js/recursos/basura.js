@@ -29,6 +29,7 @@ function buscar() {
             tab += '          <th>ID</th>';
             tab += '          <th>Id_parametro</th> ';
             tab += '          <th>Resultado</th> ';
+            tab += '          <th>Asignado</th> ';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -37,6 +38,7 @@ function buscar() {
                 tab += '<td>' + response.model.Id_codigo + '</td>';
                 tab += '<td>' + response.model.Id_parametro + '</td>';
                 tab += '<td>'+ response.model.Resultado2 + '</td>';
+                tab += '<td>'+ response.model.Asignado + '</td>';
                 
           tab += '</table>';
           divTable.innerHTML = tab;
@@ -45,6 +47,7 @@ function buscar() {
           tab2 += '<table class="table" id="loteDetalle">';
           tab2 += '    <thead class="thead-dark">';
             tab2 += '        <tr>';
+            tab2 += '          <th>Id_lote</th> ';
             tab2 += '          <th>Id_Codigo</th> ';
             tab2+= '          <th>parametro</th> ';
             tab2 += '          <th>Liberado</th> ';
@@ -53,6 +56,7 @@ function buscar() {
             tab2 += '    <tbody>';
             $.each(response.model2, function (key, item) {
                 tab2 += '<tr>';
+                  tab2 += '<td>' + item.Id_lote + '</td>';
                   tab2 += '<td>' + item.Id_codigo + '</td>';
                   tab2 += '<td>' + item.Id_parametro + '</td>';
                   tab2 += '<td>'+ item.Liberado + '</td>';
@@ -80,6 +84,23 @@ function eliminar(){
     success: function (response) {            
       console.log(response);
       alert("Se elimino el lote: " + id)
+      buscar();
+    }
+});
+}
+function reasignar(){
+  $.ajax({
+    type: "POST",
+    url: base_url + "/admin/recursos/reasignar",
+    data: {
+        id:id,
+        _token: $('input[name="_token"]').val()
+    }, 
+    dataType: "json",
+    success: function (response) {            
+      console.log(response);
+      alert("Listo para asignar")
+      buscar();
     }
 });
 }

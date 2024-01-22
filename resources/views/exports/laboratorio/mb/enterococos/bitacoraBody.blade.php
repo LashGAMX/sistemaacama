@@ -191,8 +191,8 @@
                     <td class="contenidoBody bordesTabla">{{$item->Presuntiva16}}</td>
 
                     <td class="contenidoBody bordesTabla">{{$item->Presuntiva24}}</td>
+                    <td class="contenidoBody bordesTabla">{{$item->Presuntiva25}}</td>
                     <td class="contenidoBody bordesTabla">{{$item->Presuntiva26}}</td>
-                    <td class="contenidoBody bordesTabla">{{$item->Presuntiva27}}</td>
 
                     <td class="contenidoBody bordesTabla">{{($item->Presuntiva24 + $item->Presuntiva25 + $item->Presuntiva26)}}</td>
                     <td class="contenidoBody bordesTabla">{{$item->Confirmativa14}}</td>

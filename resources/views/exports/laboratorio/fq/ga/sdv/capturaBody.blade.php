@@ -54,7 +54,7 @@
                 <td class="tableContent">{{@$item->Masa1}}</td>
                 <td class="tableContent">SÓLIDOS SUSPENDIDOS VOLÁTILES (SSV)</td>
                 <td class="tableContent">{{@$item->Masa2}}</td>
-                <td class="tableContent">{{@$item->Resultado}}</td>
+                <td class="tableContent">{{number_format(@$item->Resultado,2)}}</td>
                 <td class="tableContent">{{@$item->Observacion}}</td>
                 <td class="tableContent">
                     @if (@$item->Liberado == 1)

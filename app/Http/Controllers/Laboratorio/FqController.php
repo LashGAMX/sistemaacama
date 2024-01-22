@@ -2178,6 +2178,7 @@ class FqController extends Controller
 
         $mf = ((($request->R / $request->factor) * $request->volumen) + $crisol->Peso);
 
+    
         $model = LoteDetalleSolidos::find($request->idMuestra);
         $model->Id_crisol = $crisol->Id_crisol;
         $model->Crisol = $crisol->Num_serie;

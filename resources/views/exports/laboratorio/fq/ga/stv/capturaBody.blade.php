@@ -30,9 +30,9 @@
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
                     <th class="tableCabecera anchoColumna">Peso cte1</th>
                     <th class="tableCabecera anchoColumna">Peso cte 2</th>
+                    <th class="tableCabecera anchoColumna">Masa 3</th>
                     <th class="tableCabecera anchoColumna">Masa calcinada 1</th>
                     <th class="tableCabecera anchoColumna">Masa calcinada 2</th>
-                    <th class="tableCabecera anchoColumna">Masa 3</th>
                     <th class="tableCabecera anchoColumna">Masa 4</th>                    
                     <th class="tableCabecera anchoColumna">SOLIDOS TOTALES VOLATILES (STV) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>                    
@@ -55,12 +55,12 @@
                         </td>
                         <td class="tableContent">{{@$item->Crisol}}</td>
                         <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$item->Masa1}}</td>
                         <td class="tableContent">{{@$item->Peso_muestra1}}</td>
                         <td class="tableContent">{{@$item->Peso_muestra2}}</td>
                         <td class="tableContent">{{@$item->Masa2}}</td>
+                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
+                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
+                        <td class="tableContent">{{@$item->Masa1}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado < @$item->Limite)
                                 < {{@$item->Limite}}

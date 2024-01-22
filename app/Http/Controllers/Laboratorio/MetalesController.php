@@ -157,7 +157,7 @@ class MetalesController extends Controller
                         $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
                         $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
                         array_push($ids,$item->Id_solicitud);
-                        array_push($folios,$solAux->Folio_servicio); 
+                        array_push($folios,@$solAux->Folio_servicio); 
                         array_push($empresas,$temp->Empresa);
                         array_push($recepciones,$temp->Hora_recepcion);
                         array_push($recepciones2,$temp->Hora_entrada);
@@ -522,6 +522,7 @@ class MetalesController extends Controller
         $FC = $request->FC;
         $suma = ($x + $y + $z);
         $promedio = round(($suma / 3),4);
+        $volFinal = 0;
         
         $resultado = "";
 
@@ -550,6 +551,7 @@ class MetalesController extends Controller
                     case 191:
                     case 194:
                     case 189:
+                        $volFinal = $request->volFinal;
                         $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
                         $resultado = (($temp ) / ($request->volMuestra * $FC)); 
                         break;
@@ -560,6 +562,16 @@ class MetalesController extends Controller
                 }
                 break;
             default:            
+                $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
+                $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                if ($fechaResidual <= $fechaLimite) {
+                    $sw = false;
+                    $promedio = round(($suma / 3),4);
+                }else{
+                    $sw = true;
+                    $promedio = round(($suma / 3),3);
+                }
+        
                 if ($parametroModel->count()) {
                     if ($detalleModel->Descripcion != "Resultado") {
                         $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
@@ -568,7 +580,7 @@ class MetalesController extends Controller
                     }
                 } else {
                         $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                }
+                } 
             break;
         }
 
@@ -576,7 +588,7 @@ class MetalesController extends Controller
 
         $detalle = LoteDetalle::find($request->idDetalle);
         $detalle->Vol_muestra = $request->volMuestra;
-        $detalle->Vol_final = $request->volFinal;
+        $detalle->Vol_final = $volFinal;
         $detalle->Vol_dirigido = $request->volDirigido;
         $detalle->Abs1 = $request->x; 
         $detalle->Abs2 = $request->y;
@@ -1340,11 +1352,123 @@ class MetalesController extends Controller
             $fechaLote = \Carbon\Carbon::parse(@$res->fechaLote)->format('Y-m-d');
             $fechaRecep = \Carbon\Carbon::parse(@$proceso->Hora_recepcion)->format('Y-m-d');
             // $today = $fecha->toDateString();
-           if ($fechaRecep <= $fechaLote) {
-            // $sw = "Es Mayor y entra";
+        //    if ($fechaLote < $fechaRecep) {
+        //     $msg = "Es Mayor y entra";
+        //     $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
+        //     ->where('Id_tecnica',$parametro->Id_parametro)->get();
+        //     // $msg = "Entro a for";
+        //     switch ($parametro->Id_parametro) {
+        //         case 20:
+        //         case 21:
+        //         case 23:
+        //         case 18:
+        //         case 24:
+        //         case 25:
+        //         case 232:
+        //         case 187:
+        //         case 226:
+        //         case 197:
+        //         case 351:
+        //         case 41:
+        //         case 354:
+        //         case 353:
+
+        //         case 355:
+        //         case 356:
+        //         case 22:
+        //         case 352:
+        //             $conversion = 1;
+        //             $volMuestra = 50;
+        //             break;
+        //         case 216:
+        //         case 210:
+        //         case 208:
+        //             $conversion = 1;
+        //             $volMuestra = 45;
+        //             $volFinal = 50;
+        //             $dilucion = 1.111111;
+        //             break;
+        //         case 215:
+        //             $conversion = 1;
+        //             $volMuestra = 45;
+        //             $volFinal = 100;
+        //             break;
+        //         case 191:
+        //         case 194:
+        //         case 189:
+        //         case 192:
+        //         case 204:
+        //         case 190:
+        //         case 196:
+        //             $conversion = 1;
+        //             $volMuestra = 100;
+        //             $volFinal = 100;
+        //         break;
+        //         case 188:
+        //         case 219:
+        //         case 195:
+        //             $conversion = 1;
+        //             $volMuestra = 80;
+        //             $volFinal = 100;
+        //         break;
+        //         case 230:
+        //             $conversion = 1;
+        //             $volMuestra = 100;
+        //             $volFinal = 100;
+        //             break;
+        //         case 215:
+        //             $conversion = 1;
+        //             $volMuestra = 45;
+        //             $volFinal = 100;
+        //             break;
+        //         default:
+        //             $volMuestra = 100;
+        //             $conversion = 1000;
+        //             $volFinal = 100;
+        //             break;
+        //     }
+        //     if ($lote->count()) {
+        //         $msg = "Entro a if";
+        //         $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
+        //         if($detalle->count()){}
+        //         else{
+        //             LoteDetalle::create([
+        //                 'Id_lote' => $lote[0]->Id_lote,
+        //                 'Id_analisis' => $parametro->Id_solicitud,
+        //                 'Id_codigo' => $res->ids[$i],
+        //                 'Id_parametro' => $parametro->Id_parametro,
+        //                 'Id_control' => 1,
+        //                 'Factor_dilucion' => 1,
+        //                 'Vol_muestra' => $volMuestra,
+        //                 'Factor_conversion' => $conversion,
+        //                 'Factor_dilucion' => $dilucion,
+        //                 'Liberado' => 0,
+        //                 'Analisis' => 1,
+                        
+        //             ]);
+        //             $solModel = CodigoParametros::find($res->ids[$i]);
+        //             $solModel->Asignado = 1;
+        //             $solModel->save();
+    
+        //             $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
+            
+        //             $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
+        //             $loteModel->Asignado = $detModel->count();
+        //             $loteModel->Liberado = 0;
+        //             $loteModel->save();
+        //             $sw = true;
+        //         }
+        //     }
+        //    }else{
+
+        //     // $sw = "Es Menor y no paso";
+        //    }
+
+        
+            $msg = "Es Mayor y entra";
             $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
             ->where('Id_tecnica',$parametro->Id_parametro)->get();
-            $msg = "Entro a for";
+            // $msg = "Entro a for";
             switch ($parametro->Id_parametro) {
                 case 20:
                 case 21:
@@ -1428,6 +1552,7 @@ class MetalesController extends Controller
                         'Id_control' => 1,
                         'Factor_dilucion' => 1,
                         'Vol_muestra' => $volMuestra,
+                        'Vol_final' => $volFinal,
                         'Factor_conversion' => $conversion,
                         'Factor_dilucion' => $dilucion,
                         'Liberado' => 0,
@@ -1447,10 +1572,7 @@ class MetalesController extends Controller
                     $sw = true;
                 }
             }
-           }else{
-
-            // $sw = "Es Menor y no paso";
-           }
+      
        
         } 
         
@@ -1738,9 +1860,17 @@ class MetalesController extends Controller
         $solModel = Solicitud::where('Id_solicitud',$model[0]->Id_analisis)->first();
         $controles = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control','!=',1)->get();
         $plantilla = Bitacoras::where('Id_lote', $id)->get();
+        $swValResidual = false;
         if ($plantilla->count()) {
         } else {
             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+        }
+        $fechaResidual = \Carbon\Carbon::parse(@$lote->Fecha)->format('Y-m-d');
+        $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+        if ($fechaResidual <= $fechaLimite) {
+            $sw = false;
+        }else{
+            $sw = true;
         }
 
         $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
@@ -1773,6 +1903,7 @@ class MetalesController extends Controller
         // $reviso = User::where('id', 17)->first();
         $reviso = User::where('id', 39)->first();
         $data = array(
+            'sw' => $sw,
             'fechaPreparacion' => $fechaPreparacion,
             'solModel' => $solModel,
             'tipoFormula' => $tipoFormula,

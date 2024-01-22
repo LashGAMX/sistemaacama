@@ -114,7 +114,7 @@ class CotizacionController extends Controller
     }
     public function getSubNormas(Request $res)
     {
-        $model = DB::table("ViewPrecioPaq")->where('Id_norma', $res->id)->get();
+        $model = DB::table("ViewPrecioPaq")->where('Id_norma', $res->id)->where('deleted_at',null)->get();
         $data = array(
             'model' => $model,
         );

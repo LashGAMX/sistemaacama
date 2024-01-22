@@ -4,6 +4,7 @@ namespace App\Http\Controllers\supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
+use App\Models\LoteDetalle;
 use App\Models\LoteDetalleAlcalinidad;
 use App\Models\LoteDetalleCloro;
 use App\Models\LoteDetalleColiformes;
@@ -47,11 +48,26 @@ class SupervicionController extends Controller
     {
         // $model = DB::table('viewlotedetalle')->where('Id_parametro',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
         $parametro = Parametro::find($res->parametro);
-        if ($parametro->Id_area == 17) {
-            $model = DB::table('ViewLoteAnalisis')->where('Id_area',17)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+        if ($res->tipo != 0) {
+            $model = DB::table('ViewLoteAnalisis')->where('Id_tipo_formula',$res->tipo)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
         }else{
-            $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+            switch ($parametro->Id_area) {
+                case 17:
+                    $model = DB::table('ViewLoteAnalisis')->where('Id_area',17)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+                    break;
+                case 2:
+                    if ($res->tipo == 0) {
+                        $model = DB::table('ViewLoteAnalisis')->where('Id_area',2)->where('Id_tecnica',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();   
+                    }else{
+                        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo_formula',$res->tipo)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+                    }
+                    break;
+                default:
+                    $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+                    break;
+            }
         }
+        
         $data = array(
             'parametro' => $parametro,
             'model' => $model,
@@ -175,15 +191,41 @@ class SupervicionController extends Controller
             $model = LoteAnalisis::where('Id_lote',$res->id)->first();
             if ($model->Supervisado == 0) {
                 $model->Supervisado = 1;
-                $msg = "Muestra liberada";
+                $msg = "Lote supervisado";
             }else{
                 $model->Supervisado = 0;
-                $msg = "Muestra desliberada";
+                $msg = "Lote desliberada";
             }   
             $model->Id_superviso = Auth::user()->id;
             $model->save();
         }
 
+        $data = array(
+            'msg' => $msg,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function setLiberarTodo(Request $res)
+    {
+        $sw = true;
+        $msg = "Error al liberar";
+        if(sizeof($res->ids) > 0){
+            for ($i=0; $i <  sizeof($res->ids); $i++) { 
+                $model = LoteAnalisis::where('Id_lote',$res->ids[$i])->first();
+                if ($model->Supervisado == 0) {
+                    $model->Supervisado = 1;
+                    $msg = "Lote supervisado";
+                }else{
+                    $model->Supervisado = 0;
+                    $msg = "Lote desliberada";
+                }
+                    $model->Id_superviso = Auth::user()->id;
+                    $model->save();
+            }
+        }else{
+            $msg = "No hay muestra seleccionada";
+        }
         $data = array(
             'msg' => $msg,
             'sw' => $sw,

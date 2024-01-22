@@ -409,7 +409,7 @@
                             
                         @endfor
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">{{@$fechaHora->toDateString()}}</td>
+                        <td id="tableContent">{{@$fechaPreparacion->toDateString()}}</td>
 
                     </tr>
                     <tr>
@@ -608,10 +608,18 @@
                                     <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
                                     <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
                                     <td id="tableContent">
-                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @if ($sw == true)
+                                            {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @else
+                                            {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
+                                        @endif
                                     </td>
                                     <td id="tableContent">
-                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                     @if ($sw == true)
+                                            {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @else
+                                            {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
+                                        @endif
                                     </td>
                             @endswitch
                         <td id="tableContent">
@@ -731,10 +739,18 @@
                                     <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
                                     <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
                                     <td id="tableContent">
-                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @if ($sw == true)
+                                            {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @else
+                                            {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
+                                        @endif
                                     </td>
                                     <td id="tableContent">
-                                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @if ($sw == true)
+                                            {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                                        @else
+                                            {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
+                                        @endif
                                     </td>
                             @endswitch
                         <td id="tableContent">

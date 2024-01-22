@@ -660,7 +660,8 @@ class LabAnalisisController extends Controller
                             $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 253: //todo  ENTEROCOCO FECAL
-                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            // $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
                         case 71:
@@ -1549,6 +1550,76 @@ class LabAnalisisController extends Controller
                                 $model->save();
                             }
                             break;
+                        case 0: //SST (temporalmente desabilitado)
+                            if ($res->R != "") {
+
+                                $modelCrisol = CrisolesGA::all();
+                                //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
+                                $cont = $modelCrisol->count();
+
+                                for ($i = 0; $i < $cont; $i++) {
+                                    # code...
+                                    $id = rand(0, $modelCrisol->count());
+                                    $crisol = CrisolesGA::where('Id_crisol', $id)->first();
+                                    if ($crisol->Estado == 0) {
+                                        break;
+                                    }
+                                }
+
+                                $random1 = rand(1,3);
+                                switch ($random1) {
+                                    case 1:
+                                        $m1 = $crisol->Peso + 0001;
+                                        break;
+                                    case 2:
+                                        $m1 = $crisol->Peso + 0002;
+                                        break;
+                                    case 3:
+                                        $m1 = $crisol->Peso - 0001;
+                                        break;
+                                }
+                               
+
+                                $mf = ((($res->R / $res->factor) * $res->volumen) + round($m1,4));
+                                $auxMf =  (((round($mf,4) - round($m1,4)) / $res->volumen) * $res->factor);
+                                $resultado = $auxMf;
+
+                                $model = LoteDetalleSolidos::find($res->idMuestra);
+                                $model->Id_crisol = $crisol->Id_crisol;
+                                $model->Crisol = $crisol->Num_serie;
+                                $model->Masa2 = round(($mf + 0.0002),4);
+                                $model->Masa1 = round(($crisol->Peso + 0.0002),4);
+                                $model->Peso_muestra1 = round(($mf),4);
+                                $model->Peso_muestra2 = round(($mf + 0.0001),4);
+                                $model->Peso_constante1 =round($crisol->Peso,4);
+                                $model->Peso_constante2 = round(($crisol->Peso  + 0.0001),4);
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Factor_conversion = $res->factor;
+                                $model->Resultado = $resultado;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                            } else { //operacion larga
+                                $res1 = $res->masa2 - $res->masa1;
+                                $res2 = $res1 / $res->volumen;
+                                $resultado = $res2 * $res->factor;
+
+                                $model = LoteDetalleSolidos::find($res->idMuestra);
+                                $model->Crisol = $res->crisol;
+                                $model->Masa1 = $res->masa1;
+                                $model->Masa2 = $res->masa2;
+                                $model->Peso_muestra1 = $res->pesoConMuestra1;
+                                $model->Peso_muestra2 = $res->pesoConMuestra2;
+                                $model->Peso_constante1 = $res->pesoC1;
+                                $model->Peso_constante2 = $res->pesoC2;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Factor_conversion = $res->factor;
+                                $model->Resultado = $resultado;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                            }
+
+                            
+                            break;    
                         default: // Default
                             if ($res->R != "") {
 
@@ -1584,7 +1655,7 @@ class LabAnalisisController extends Controller
                                 $model->Resultado = $resultado;
                                 $model->Analizo = Auth::user()->id;
                                 $model->save();
-                            } else { 
+                            } else { //operacion larga
                                 $res1 = $res->masa2 - $res->masa1;
                                 $res2 = $res1 / $res->volumen;
                                 $resultado = $res2 * $res->factor;
@@ -1839,8 +1910,7 @@ class LabAnalisisController extends Controller
                             $resultado = round($promedio, 1);
                             $model = LoteDetalleDirectos::find($res->idMuestra);
                             $model->Resultado = $resultado;
-                            $model->Lectura1 = $res->l1;
-                            $model->Lectura2 = $res->l2;
+                            $model->Lectura1 = $res->l1;$model->Lectura2 = $res->l2;
                             $model->Lectura3 = $res->l3;
                             $model->Temperatura = $res->temp;
                             $model->Promedio = $res->promedio;
@@ -3382,9 +3452,9 @@ class LabAnalisisController extends Controller
                 if ($comprobacion->count()) {
                     $analizo = "";
                 } else {
-                    @$analizo = User::where('id', $model[0]->Analizo)->first();
+                    @$analizo = User::where('id', @$model[0]->Analizo)->first();
                 }
-                $reviso = User::where('id', 17)->first();
+                $reviso = User::where('id', @$lote->Id_superviso)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
@@ -4589,9 +4659,10 @@ class LabAnalisisController extends Controller
                         if ($comprobacion->count()) {
                             $analizo = "";
                         } else {
-                            $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
+                            $analizo = User::where('id', @$loteDetalle[0]->Analizo)->first();
                         }
                         $reviso = User::where('id', 17)->first();
+                        
                         $data = array(
                             'analizo' => $analizo,
                             'procedimiento' => $procedimiento,
@@ -5062,8 +5133,39 @@ class LabAnalisisController extends Controller
                                 'comprobacion' => $comprobacion,
                                 'procedimiento' => $procedimiento,
                             );
-    
-    
+                            $htmlHeader = view('exports.laboratorio.potable.magnesio.bitacoraHeader', $data);
+                            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                            $htmlCaptura = view('exports.laboratorio.potable.magnesio.bitacoraBody', $data);
+                            $htmlFooter = view('exports.laboratorio.potable.magnesio.bitacoraFooter', $data);
+                            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                            $mpdf->CSSselectMedia = 'mpdf';
+                            $mpdf->WriteHTML($htmlCaptura);
+                            break;
+                        case 28:
+                        case 29:
+                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
+                            $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                            if ($plantilla->count()) {
+                            } else {
+                                $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                            }
+                            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                            $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                            if ($comprobacion->count()) {
+                                $analizo = "";
+                            } else {
+                                @$analizo = User::where('id', $model[0]->Analizo)->first();
+                            }
+                            $reviso = User::where('id', 17)->first();
+                            $data = array(
+                                'lote' => $lote,
+                                'model' => $model,
+                                'plantilla' => $plantilla,
+                                'analizo' => $analizo,
+                                'reviso' => $reviso,
+                                'comprobacion' => $comprobacion,
+                                'procedimiento' => $procedimiento,
+                            );
                             $htmlHeader = view('exports.laboratorio.potable.magnesio.bitacoraHeader', $data);
                             $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                             $htmlCaptura = view('exports.laboratorio.potable.magnesio.bitacoraBody', $data);

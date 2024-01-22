@@ -57,11 +57,11 @@
                         </td>
                         <td class="tableContent">{{@$item->Crisol}}</td>
                         <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$item->Masa1}}</td>
                         <td class="tableContent">{{@$item->Peso_muestra1}}</td>
                         <td class="tableContent">{{@$item->Peso_muestra2}}</td>
+                        <td class="tableContent">{{@$item->Masa1}}</td>
+                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
+                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
                         <td class="tableContent">{{@$item->Masa2}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado < @$item->Limite)

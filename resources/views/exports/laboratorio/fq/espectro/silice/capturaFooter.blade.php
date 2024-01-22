@@ -6,15 +6,20 @@
                 <span>-------------</span><br>
                 <span class="bodyStdMuestra"> Muestras sin liberar </span>
             @else
-                <span><img style="width: auto; height: auto; max-width: 80px; max-height: 60px;" src="https://sistemaacama.com.mx/public/storage/{{@$analizo->firma}}"> <br></span>
-                <span class="bodyStdMuestra"> {{@$analizo->name}} </span>
+                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="http://sistemasofia.ddns.net:85/sofia/public/storage/{{$analizo->firma}}"> <br></span>
+                <span class="bodyStdMuestra"> {{$analizo->name}} </span>
             @endif
         </div>
 
         <div class="contenedorHijo12">
             <span class="cabeceraStdMuestra">REVISÓ <br> </span>                                    
-            <span><img style="width: auto; height: auto; max-width: 80px; max-height: 60px;" src="https://sistemaacama.com.mx/public/storage/{{@$reviso->firma}}"> <br></span>
-            <span class="bodyStdMuestra"> {{@$reviso->name}} </span>
+            @if ($lote->Supervisado == 0)
+                <span>-------------</span><br>
+                <span class="bodyStdMuestra"> Lote sin supervisar</span>
+            @else
+                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="http://sistemasofia.ddns.net:85/sofia/public/storage/{{$reviso->firma}}"> <br></span>
+                <span class="bodyStdMuestra"> {{@$reviso->name}} </span>
+            @endif
         </div>        
     </div>
 
@@ -23,4 +28,4 @@
             echo $plantilla[0]->Rev;
         @endphp
     </div>
-</footer> 
+</footer>

@@ -17,6 +17,7 @@
                         <input type="number" id="parametro" placeholder="Id Parametro">
                         <input type="button" value="Buscar" id="buscar" onclick="buscar()">
                         <input type="button" value="ELIMINAR" id="Eliniar" onclick="eliminar()">
+                        <input type="button" value="REASIGNAR" id="reasiganar" onclick="reasignar()">
                     </div>
                 </div>
             </div>
@@ -54,6 +55,6 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('/public/js/recursos/basura.js')}}?v=0.0.4"></script>
+<script src="{{asset('/public/js/recursos/basura.js')}}?v=0.0.5"></script>
 
 @stop

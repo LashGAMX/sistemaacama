@@ -19,10 +19,8 @@
     <br> 
     <div id="contenedorTabla">
 
-
-        <br>
-
-        <table autosize="1" class="tabla2" border="0">
+<br>
+        <table autosize="1" class="tabla" border="0">
             <thead>  
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
@@ -69,11 +67,14 @@
                 @endforeach
             </tbody>
         </table>
-</body>
-<div class="procedimiento"> 
+        
+        <div class="procedimiento"> 
         @php
         echo @$procedimiento[1];
         @endphp
+        
     </div>
+</body>
+
 
 </html>

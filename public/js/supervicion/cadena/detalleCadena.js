@@ -161,7 +161,7 @@ function getParametros() {
                 }
                 tab += '<tr>';
                 tab += '<td>' + item.Id_codigo + '</td>';
-                tab += '<td class="bg-' + color + '">' + item.Parametro + '</td>';
+                tab += '<td class="bg-' + color + '">('+item.Id_parametro+') ' + item.Parametro + '</td>';
                 tab += '<td>' + item.Tipo_formula + '</td>';
                 tab += '<td>' + item.Resultado + '</td>';
                 tab += '<td>' + item.Resultado2 + '</td>';

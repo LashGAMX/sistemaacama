@@ -143,10 +143,7 @@ class CurvaController extends Controller
                             'Id_parametroPadre' => $curva->Id_parametro,
                         ]);
                              
-                        // $update = $curva->replicate(); 
-                        // $update->Id_parametro = $hijos[$i]->Id_parametro;
-                        // $update->Id_parametroPadre = $request->parametro;
-                        // $update->save();
+                      
                     }
                    
         }
