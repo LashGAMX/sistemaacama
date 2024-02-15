@@ -168,7 +168,9 @@ class SolicitudController extends Controller
         $intermediario = DB::table('ViewIntermediarios')->get();
         $categorias001 = DB::table('categorias001')->get();
         $categorias0012 = DB::table('categoria001_2021')->get();
+        $parametros = DB::table('viewparametros')->get();
         $data = array(
+            'parametros' => $parametros,
             'model' => $model,
             'categorias0012' => $categorias0012,
             'tipoMuestraCot' => $tipoMuestraCot,
@@ -1412,5 +1414,35 @@ class SolicitudController extends Controller
         
   
         return redirect()->to('admin/cotizacion/solicitud');
+    }
+    public function addParametro(Request $res)
+    {
+        $msg = "";
+        $model = Solicitud::where('Id_cotizacion',$res->id)->get();
+        foreach ($model as $item) {
+            $temp = SolicitudParametro::where('Id_solicitud',$item->Id_solicitud)->where('Id_subnorma',$res->idParametro)->get();
+            $subnorma = NormaParametros::where('Id_norma', $item->Id_subnorma)->where('Id_parametro', $res->idParametro)->get();
+            $extra = 0;
+            if ($subnorma->count() > 0) {
+                $extra = 0;
+            } else {
+                $extra = 1;
+            }
+            if ($temp->count()) {
+                $msg = "Parametro eliminado | Por favor recargue la pagina para revisar los cambios";
+                DB::table('solicitud_parametros')->where('Id_solicitud', $item->Id_solicitud)->where('Id_subnorma',$res->idParametro)->delete();
+            }else{
+                $msg = "Paramaetro Agregado | Por favor recargue la pagina para revisar los cambios";
+                SolicitudParametro::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                    'Id_subnorma' => $res->idParametro,
+                    'Extra' => $extra,
+                ]);
+            }
+        }
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
     }
 }

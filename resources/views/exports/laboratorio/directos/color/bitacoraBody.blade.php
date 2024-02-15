@@ -50,7 +50,7 @@
                         <td class="tableContent">{{ $item->Color_a }}</td>
                         <td class="tableContent">{{ $item->Color_v }}</td>
                         <td class="tableContent">
-                            @if (@$item->Resultado <= @$item->Limite)
+                            @if (@$item->Resultado < @$item->Limite)
                             < {{@$item->Limite}}
                             @else
                             {{round(@$item->Resultado,2)}}

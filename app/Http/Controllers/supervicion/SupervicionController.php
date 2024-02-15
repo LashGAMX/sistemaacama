@@ -20,6 +20,10 @@ use App\Models\LoteDetalleHH;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\Parametro;
+use App\Models\ProcesoAnalisis;
+use App\Models\SolicitudesGeneradas;
+use App\Models\User;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -196,7 +200,11 @@ class SupervicionController extends Controller
                 $model->Supervisado = 0;
                 $msg = "Lote desliberada";
             }   
-            $model->Id_superviso = Auth::user()->id;
+            if ($res->user != 0) {
+                $model->Id_superviso = $res->user;   
+            }else{
+                $model->Id_superviso = Auth::user()->id;
+            }
             $model->save();
         }
 
@@ -220,8 +228,12 @@ class SupervicionController extends Controller
                     $model->Supervisado = 0;
                     $msg = "Lote desliberada";
                 }
+                if ($res->user != 0) {
+                    $model->Id_superviso = $res->user;   
+                }else{
                     $model->Id_superviso = Auth::user()->id;
-                    $model->save();
+                }
+                $model->save();
             }
         }else{
             $msg = "No hay muestra seleccionada";
@@ -229,6 +241,46 @@ class SupervicionController extends Controller
         $data = array(
             'msg' => $msg,
             'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function campo()
+    {
+        $muestreador = DB::table('users')->where('role_id',8)->orWhere('role_id',15)->get();
+        $data  = array(
+        'muestreador' => $muestreador,
+        );
+        return view('supervicion.campo.campo',$data); 
+    }
+    public function getMuestreos(Request $res)
+    {
+        if ($res->muestreador != 0) {
+            $model = DB::table('ViewSolicitudGeneradaSupervicion')->where('Id_muestreador',$res->muestreador)->where('Fecha_muestreo','LIKE','%'.$res->mes.'%')->get();
+        }else{
+            $model = DB::table('ViewSolicitudGeneradaSupervicion')->where('Fecha_muestreo','LIKE','%'.$res->mes.'%')->get();
+        }
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function supervisarBitacoraCampo(Request $res)
+    {
+        $model = SolicitudesGeneradas::where('Id_solicitud',$res->id)->first();
+        $msg = "Supervisado";
+
+        if ($res->user != 0) {
+            $model->Id_superviso = $res->user;   
+        }else{
+            $model->Id_superviso = Auth::user()->id;
+        }
+        $model->Estado = 4;
+        $model->save();
+
+        
+        $data = array(
+            'msg' => $msg,
         );
         return response()->json($data);
     }

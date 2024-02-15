@@ -66,6 +66,9 @@ $(document).ready(function () {
     $('#btnFechaDeFGA').click(function () {
         setFechaDefGA();
     });
+    $('#btnFechaDeFGA2').click(function () {
+        setFechaDefGA2();
+    });
     $('#btnGuardarTipoDqo').click(function () {
         $.ajax({
             type: 'POST',
@@ -504,23 +507,33 @@ function metodoCortoCol() {
             let c1 = 1;
             let c2 = 4;
             let c3 = 7;
+
+            let c4 = 0
+            let c5 = 3
+            let c6 = 6
             let ran1 = Math.random() * response.convinacion.Col1;
             let ran2 = Math.random() * response.convinacion.Col2;
             let ran3 = Math.random() * response.convinacion.Col3;
             for (var i = 0; i < 3; i++) {
                 $('#pre' + c1 + 'Col').val(1);
+                $('#pre1' + c4 + 'Col').val(1);
                 console.log(ran1);
                 c1++;
+                c4++
             }
             for (var i = 0; i < ran2; i++) {
                 $('#pre' + c2 + 'Col').val(1);
+                $('#pre1' + c5 + 'Col').val(1);
                 console.log(ran2);
                 c2++;
+                c5++
             }
             for (var i = 0; i < ran3; i++) {
                 $('#pre' + c3 + 'Col').val(1);
+                $('#pre1' + c6 + 'Col').val(1);
                 console.log(ran3);
                 c3++;
+                c6++
             }
 
 
@@ -1066,7 +1079,7 @@ function exportBitacora(id) {
 function getDetalleLote(id, parametro) {
     getStdMenu()
     $("#modalDetalleLote").modal("show")
-    $("#tituloLote").val(id + ' - ' + parametro)
+    
     let summer = document.getElementById("divSummer")
     let tableHist = document.getElementById("tableValAlcalinidadHist")
     let tab = ''
@@ -1229,6 +1242,8 @@ function getDetalleLote(id, parametro) {
                 default:
                     break;
             }
+            
+            $("#tituloLote").val(id + ' - ' + parametro + '| Fecha lote:'+response.lote.Fecha)
             console.log("creado plantilla")
             $("#tituloBit").val(response.plantilla[0].Titulo)
             $("#revBit").val(response.plantilla[0].Rev)
@@ -1244,6 +1259,7 @@ function getDetalleLote(id, parametro) {
     });
 }
 function setDetalleMuestra() {
+    let  resGa = 0
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
         case 5:
@@ -1395,6 +1411,7 @@ function setDetalleMuestra() {
                         $("#cGA1").val(fixc1);
                         $('#pGA').val(response.model.Matraz);
                         $('#resultadoGA').val(response.model.Resultado);
+                        resGa = response.model.Resultado
 
                         alert("Datos guardados y calculados")
                     } else {
@@ -1472,8 +1489,8 @@ function setDetalleMuestra() {
                             console.log(response);
                             if ($("#resultadoSolidos").val() != "") {
                                 $('#crisolSolidos').val(response.model.Crisol);
-                                $("#m11Solidos").val(response.model.Masa1);
-                                $("#m21Solidos").val(response.model.Masa2);
+                                $("#m11Solidos").val(response.model.Masa2);
+                                $("#m21Solidos").val(response.model.Masa1);
                                 $("#pcm11Solidos").val(response.model.Peso_muestra1);
                                 $("#pcm21Solidos").val(response.model.Peso_muestra2);
                                 $("#pc1Solidos").val(response.model.Peso_constante1);
@@ -1847,13 +1864,8 @@ function setDetalleMuestra() {
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
                             idLote: idLote,
-                            idMuestra: idMuestra,                            
-                            edta1: $("#edta1Dureza").val(),
-                            ph1: $("#ph1Dureza").val(),
-                            vol1: $("#vol1Dureza").val(),
-                            real1: $("#real1Dureza").val(),
-                            conversion1: $("#conversion1Dureza").val(),
-
+                            idMuestra: idMuestra,         
+                                               
                             edta1: $("#edta1Dureza").val(),
                             ph1: $("#ph1Dureza").val(),
                             vol1: $("#vol1Dureza").val(),
@@ -2003,6 +2015,7 @@ function setDetalleMuestra() {
                         success: function (response) {
                             console.log(response);
                             // inicio metodo corto
+                            alert("Registro calculado y guardado")
                             if (response.metodoCorto == 1) {
                                 console.log("metodo corto hecho!");
                             } else {
@@ -2358,11 +2371,17 @@ function setDetalleMuestra() {
             });
             break;
     }
-
-    getCapturaLote()
+    
+    if (parseInt(idArea) != 13) {
+        getCapturaLote()
+    } else { 
+        $("#resultadoCap".idMuestraG).val(resGa)
+    }
 
 }
+let idMuestraG = 0
 function getDetalleMuestra(id) {
+    idMuestraG = id
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleMuestra",
@@ -2706,9 +2725,33 @@ function getDetalleMuestra(id) {
                             $("#preResDifSolidosDif").val(res2.toFixed(2));
                             $("#resultadoSolidosDif").val(response.model.Resultado);
                             $("#observacionSolidosDif").val(response.model.Observacion);
+                            $("#conductividadDifSolidosDif").val(response.conductividad);
+                            break;
+                        case 48:
+                            
+                        $("#m11Solidos").val(response.model.Masa1);
+                        $("#m12Solidos").val(response.model.Masa1);
+                        $("#m21Solidos").val(response.model.Masa2);
+                        $("#m22Solidos").val(response.model.Masa2);
+                        $("#pcm11Solidos").val(response.model.Peso_constante1);
+                        $("#pcm12Solidos").val(response.model.Peso_constante1);
+                        $("#pcm21Solidos").val(response.model.Peso_constante2);
+                        $("#pcm22Solidos").val(response.model.Peso_constante2);
+                        $("#pc1Solidos").val(response.masa.Masa2);
+                        $("#pc2Solidos").val(response.masa.Masa2);
+                        $("#pc21Solidos").val(response.masa.Masa2);
+                        $("#pc22Solidos").val(response.masa.Masa2);
+                        $("#v1Solidos").val(response.model.Vol_muestra);
+                        $("#v2Solidos").val(response.model.Vol_muestra);
+                        $("#f1Solidos").val(response.model.Factor_conversion);
+                        $("#f1Solidos").val(response.model.Factor_conversion);
+
+                        $("#crisolSolidos").val(response.model.Crisol);
+                        $("#resultadoSolidos").val(response.model.Resultado);
+                        $("#observacionSolidos").val(response.model.Observacion);
                             break;
                         default: // Default
-
+                            $("#conducSolidosDef").val(response.conductividad);
                             $("#m11Solidos").val(response.model.Masa1);
                             $("#m12Solidos").val(response.model.Masa1);
                             $("#m21Solidos").val(response.model.Masa2);
@@ -2860,12 +2903,12 @@ function getDetalleMuestra(id) {
                         case 67:
                         case 110:
                             $("#observacionDirecto").val(response.model.Observacion)
-
                             $("#lecturaUno1Directo").val(response.model.Lectura1)
                             $("#lecturaDos1Directo").val(response.model.Lectura2)
                             $("#lecturaTres1Directo").val(response.model.Lectura3)
                             $("#temperatura1Directo").val(response.model.Temperatura)
                             $("#resultadoDirecto").val(response.model.Resultado)
+                            $("#phCampoCompuesto").val(response.phCampo)
                             break;
                         case 218: // Cloruros
                         case 119:
@@ -3435,13 +3478,16 @@ function setFechaDefGA()
     $("#2entradaGA3").val($("#fechaDefGA").val())
     $("#2salidaGA3").val($("#fechaDefGA").val())
     $("#2pesadoGA3").val($("#fechaDefGA").val())
-
-    // $("#3entradaGA").val($("#fechaDefGA").val())
-    // $("#3salidaGA").val($("#fechaDefGA").val())
-    // $("#4entradaGA").val($("#fechaDefGA").val())
-    // $("#4entradaGA").val($("#fechaDefGA").val())
-    // $("#5entradaGA").val($("#fechaDefGA").val())
-    // $("#5salidaGA").val($("#fechaDefGA").val())
+}
+function setFechaDefGA2()
+{
+    $("#3entradaGA").val($("#fechaDefGA2").val())
+    $("#3salidaGA").val($("#fechaDefGA2").val())
+    $("#4entradaGA").val($("#fechaDefGA2").val())
+    $("#4salidaGA").val($("#fechaDefGA2").val())
+    $("#5entradaGA").val($("#fechaDefGA2").val())
+    $("#5salidaGA").val($("#fechaDefGA2").val())
+    
 }
 function getCapturaLote() {
     blanco = 0
@@ -3703,9 +3749,9 @@ function getCapturaLote() {
               
                 if (item.Resultado != null) {
                     let formated = number_format(parseFloat(item.Resultado), dec)
-                    tab += '<td><input disabled style="width: 100px" value="' + formated + '"></td>';
+                    tab += '<td><input id="resultadoCap'+item.Id_detalle+'" disabled style="width: 100px" value="' + formated + '"></td>';
                 } else {
-                    tab += '<td><input disabled style="width: 80px" value=""></td>';
+                    tab += '<td><input id="resultadoCap'+item.Id_detalle+'" disabled style="width: 80px" value=""></td>';
                 }
                 if (item.Observacion != null) {
                     tab += '<td>' + item.Observacion + '</td>';
@@ -3820,6 +3866,8 @@ function getMuestraSinAsignar() {
             $("#fechaAnalisisAsignar").val(response.lote.Fecha)
             $("#asignadoLote").val(response.lote.Asignado)
             $("#liberadoLote").val(response.lote.Liberado)
+            $("#porAsingarLote").val(response.model.length)
+
             tab += '<table id="tabAsignar" class="table table-sm">'
             tab += '    <thead>'
             tab += '        <tr>'
@@ -3860,9 +3908,13 @@ function getMuestraSinAsignar() {
                 dom: '<"toolbar">frtip',
             });
             
-           $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-info"><i class="fas fa-paper-plane"></i></button>');
+           $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-success"><i class="fas fa-paper-plane"></i></button> <button onclick="selecionarCkeck()" class="btn-info"><i class="fas fa-check-double"></i></button>');
         }
     });
+}
+function selecionarCkeck()
+{
+    allSelectCheck("stdCkAsignar")
 }
 function setLote() {
 

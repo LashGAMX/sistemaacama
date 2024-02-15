@@ -21,7 +21,7 @@
         @endforeach
       </select>
     </div>
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
       <label for="norma">Norma</label>
       <select class="form-control select2" id="norma">
         <option value="0">Sin seleccionar</option>
@@ -29,9 +29,9 @@
           <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
         @endforeach
       </select>
-    </div>
+    </div> -->
     <div class="col-md-2">
-      <label for="tipo">Tecnica</label>
+      <label for="tecnica">Tecnica</label>
       <select class="form-control" id="tecnica">
         <option value="0">Sin seleccionar</option>
         @foreach($tecnica as $item)

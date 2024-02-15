@@ -72,13 +72,11 @@
                           <div class="col-md-2">
                             <div class="form-group">
                               <label for="exampleFormControlTextarea1">Observaciones</label>
-                              <textarea class="form-control" id="observacion" rows="3"></textarea>
+                              <textarea class="form-control" id="observacion" style="width: 300px;height: 60px"></textarea>
+                              <button class="btn btn-success" id="enviarObservacion">Aplicar</button> 
                             </div>
                           </div>
-              
-                          <div class="col-md-2">
-                            <button class="btn btn-success" id="enviarObservacion">Aplicar</button> 
-                          </div>
+            
                 </div>
                
             </div>

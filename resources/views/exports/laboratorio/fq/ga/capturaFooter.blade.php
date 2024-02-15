@@ -2,13 +2,13 @@
     <div class="contenedorPadre12">
         <div class="contenedorHijo12">            
             <span class="cabeceraStdMuestra"> ANALIZÓ <br> </span>
-            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
+            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/sofia/storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
             <span class="bodyStdMuestra"> {{$usuario->name}} </span>
         </div>
 
         <div class="contenedorHijo12">
             <span class="cabeceraStdMuestra">SUPERVISÓ <br> </span>                                    
-            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
+            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/sofia/storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
             <span class="bodyStdMuestra"> {{$usuario->name}} </span>
         </div>        
     </div>
@@ -18,4 +18,4 @@
         <span>2016-05-11</span><br>
         <span>REV.9</span>
     </div>
-</footer>
+</footer>   

@@ -109,6 +109,7 @@ class MetalesController extends Controller
         $recepciones = array();
         $recepciones2 = array();
         $aux = 0;
+        $aux2 = 0;
         switch ($res->tipo) {
             case 1:
                 $model = DB::table('ViewParametroProceso')
@@ -154,14 +155,24 @@ class MetalesController extends Controller
                     }
                     if ($aux == 0) {
                         $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
-                        $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
-                        $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
-                        array_push($ids,$item->Id_solicitud);
-                        array_push($folios,@$solAux->Folio_servicio); 
-                        array_push($empresas,$temp->Empresa);
-                        array_push($recepciones,$temp->Hora_recepcion);
-                        array_push($recepciones2,$temp->Hora_entrada);
-                    }
+                            $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+                            $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
+                        $aux2 = 0;
+                        for ($i=0; $i < sizeof($folios); $i++) { 
+                            if ($folios[$i] == @$solAux->Folio_servicio) {
+                                $aux2 = 1;
+                            }
+                        } 
+                        if ($aux2 == 0) {
+                            array_push($ids,$item->Id_solicitud);
+                            array_push($folios,@$solAux->Folio_servicio); 
+                            array_push($empresas,$temp->Empresa);
+                            array_push($recepciones,$temp->Hora_recepcion);
+                            array_push($recepciones2,$temp->Hora_entrada);
+                            }
+
+                        }
+                      
                 }
                 break;
             default:
@@ -191,14 +202,21 @@ class MetalesController extends Controller
         foreach($punto as $item)
         {
             $temp = array();
+            $tempExtra = "";
             $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+            $paramExtra = DB::table('viewsolicitudparametros')->where('Extra','!=',0)->where('Id_area',2)->where('Id_solicitud',$item->Id_solicitud)->get();
             array_push($temp,$solTemp->Folio_servicio);
             array_push($temp,$item->Punto);   
             array_push($temp,$solModel->Clave_norma); 
             array_push($temp,$item->Obs_metales);
             array_push($temp,$item->Ph_metales); 
+            array_push($temp,$item->Id_solicitud); 
+            foreach ($paramExtra as $item2) {
+                $tempExtra = $tempExtra . ", (".$item2->Id_parametro .")".$item2->Parametro;
+            }
+            array_push($temp,$tempExtra); 
 
-            array_push($model,$temp); 
+            array_push($model,$temp);  
         }
         
         $data = array(
@@ -281,7 +299,7 @@ class MetalesController extends Controller
     public function createControlCalidad(Request $request)
     {
         $muestra = LoteDetalle::where('Id_detalle', $request->idMuestra)->first();
-
+        
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
         $model->Liberado = 0;
@@ -617,8 +635,11 @@ class MetalesController extends Controller
     }
     public function enviarObservacion(Request $request)
     {       
+            
             $detalle = LoteDetalle::find($request->idMuestra);
-            $detalle->Observacion = $request->observacion;
+            if ($detalle->Liberado != 1) {
+                $detalle->Observacion = $request->observacion;   
+            }
             $detalle->save();  
       
         $data = array(
@@ -748,16 +769,16 @@ class MetalesController extends Controller
                         'Id_lote'=> $tempLote->Id_lote,
                         'Fecha_digestion' => $confModel[0]->Fecha_digestion,
                         'Longitud_onda' => $confModel[0]->Longitud_onda,
-                        'No_inventario' => $confModel[0]->No_inventario,
-                        'Corriente' => $confModel[0]->Corriente,
-                        'Gas' => $confModel[0]->Gas,
+                        'No_inventario' => $confModel[0]->No_Inventario,
+                        'Corriente' => $confModel[0]->Lampara,
+                        'Gas' => $confModel[0]->Acetileno,
                         'Flujo_gas' => $confModel[0]->Flujo_gas,
                         'No_lampara' => $confModel[0]->No_lampara,
                         'Energia' => $confModel[0]->Energia,
                         'Aire' => $confModel[0]->Aire,
                         'Equipo' => $confModel[0]->Equipo,
                         'Slit' => $confModel[0]->Slit,
-                        'Conc_std' => $confModel[0]->Conc_std,
+                        'Conc_std' => $confModel[0]->Concentracion,
                         'Oxido_nitroso' => $confModel[0]->Oxido_nitroso,
                         'Bitacora' => $confModel[0]->Bitacora,
                         'Folio' => $confModel[0]->Folio,
@@ -879,6 +900,7 @@ class MetalesController extends Controller
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
         $obs = array();
         $punto = array();
+        $temp = "";
         foreach ($detalle as $item) {
             $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_analisis)->first();
             array_push($obs,$temp->Obs_metales);
@@ -888,12 +910,14 @@ class MetalesController extends Controller
             'obs' => $obs,
             'punto' => $punto,
             'detalle' => $detalle,
+            'temp' => $temp,
         );
         return response()->json($data);
     }
     public function getDetalleLote(Request $res)
     {
         $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
+        $parametro = Parametro::where('Id_parametro',$lote->Id_tecnica)->first();
         $model = MetalesDetalle::where('Id_lote',$res->id)->get();
         $plantilla = Bitacoras::where('Id_lote', $res->id)->get(); 
         $configuracion = ConfiguracionMetales::where('Id_parametro',$lote->Id_tecnica)->first();
@@ -903,6 +927,7 @@ class MetalesController extends Controller
         }
 
         $data = array( 
+            'parametro' => $parametro,
             'plantilla' => $plantilla,
             'model' => $model,
             'configuracion' => $configuracion,
@@ -1171,16 +1196,9 @@ class MetalesController extends Controller
                 }
                 break;
             case 2:
-                // $codigo2 = DB::table('ViewCodigoPendientes')->where('Id_area', 2) 
-                // ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
-                // //->where('Id_tipo_formula',$res->tipo)
-                // //->where('Id_tecnica',$res->tecnia)
-                // // ->where('Id_norma',$res->norma)
-                // ->get();
                 $codigo = DB::table('ViewCodigoPendientes')
                 ->where(function($query) {
                     $query->where('Id_area',2); 
-                        //   ->orWhere('Id_area',17);
                 })
                 ->when($res->fechaRecepcion != '', function($query) use ($res) {
                     $query->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%');
@@ -1198,9 +1216,9 @@ class MetalesController extends Controller
                     $query->where('Id_tecnica',$res->tecnia);
                 })
                 // ->when($res->norma != 0, function($query) use ($res) {
-                //     $query->where('Id_norma',$res->norma);
+                //     $query->where('Id_norma',$res->norma); 
                 // })
-                
+                // ->where('Id_tecnica',$res->tecnia)
                 ->where('Asignado',0)
                 ->get();
                 foreach ($codigo as $item) {
@@ -1214,9 +1232,10 @@ class MetalesController extends Controller
                     array_push($temp,@$punto->Punto);
 
                     array_push($temp,$solTemp->Clave_norma);
-                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
-                    $lote = LoteAnalisis::where('Fecha',$res->fechaLote)->get();
-                    $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
+                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro . " (".$item->Tecnica.")");
+                    // $lote = LoteAnalisis::where('Fecha','LIKE','%'.$res->fechaLote.'%')->get();
+                    $lote = LoteAnalisis::whereDate('Fecha',$res->fechaLote)->where('Id_tecnica',$item->Id_parametro)->get();
+                    // $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();   
                     if($lote->count())
                     {
                         array_push($temp,$lote[0]->Id_lote);
@@ -1466,6 +1485,7 @@ class MetalesController extends Controller
 
         
             $msg = "Es Mayor y entra";
+            // $fechaLote =  \Carbon\Carbon::parse(@$res->fechaLote)->format('Y-m-d');
             $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
             ->where('Id_tecnica',$parametro->Id_parametro)->get();
             // $msg = "Entro a for";
@@ -1557,7 +1577,7 @@ class MetalesController extends Controller
                         'Factor_dilucion' => $dilucion,
                         'Liberado' => 0,
                         'Analisis' => 1,
-                        
+                         
                     ]);
                     $solModel = CodigoParametros::find($res->ids[$i]);
                     $solModel->Asignado = 1;
@@ -1577,6 +1597,8 @@ class MetalesController extends Controller
         } 
         
         $data = array(
+            'lote' => $lote,
+            'fechaLote' => $res->fechaLote,
             'parametro' => $parametro,
             'msg' => $msg,
             'sw' => $sw,
@@ -2289,5 +2311,29 @@ class MetalesController extends Controller
             'model' => $model,
         );
         return response()->json($data);
+    }
+    public function setObsIndividual(Request $res)
+    {
+        $punto = SolicitudPuntos::where('Id_solicitud',$res->idSol)->first();
+        $punto->Obs_metales = $res->obs;
+        $punto->save();
+ 
+        $data = array(
+            'model' => $punto,
+        );
+        return response()->json($data); 
+    }
+    public function listaFoliosSinRellenar()
+    {
+        $model = MetalesDetalle::where('Folio',NULL)->get();
+        echo "Lista Total: ".$model->count();
+        echo "<br>";
+        foreach ($model as $item) {
+            echo "<br>";
+            echo "Id lote: ".$item->Id_lote;
+            echo "<br>";
+            echo "----------";
+            echo "<br>";
+        }
     }
 }

@@ -93,6 +93,7 @@
         @php
              echo $procedimiento[1];
         @endphp
-    </div>
+    </div> 
+    
 </body>
 </html>

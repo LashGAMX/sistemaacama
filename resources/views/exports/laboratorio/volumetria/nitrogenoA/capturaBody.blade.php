@@ -86,54 +86,7 @@
     </div> 
 
     <br>
-<!--     
-    <div class="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="">
-            <tbody>                              
-                <tr>
-                    <td class="tableContent2">GRAMOS DE Na2CO3</td>
-                    <td class=""></td>
-                    <td class=""></td>
-                    <td class="tableContent2">{{number_format(@$valNitrogenoA->Gramos,2)}}</td>
-                </tr>
 
-                <tr>
-                    <td class="tableContent2">MILILITROS TITULADOS DEL BLANCO</td>
-                    <td class=""></td>
-                    <td class=""></td>
-                    <td class="tableContent2">{{number_format(@$valNitrogenoA->Blanco,2)}}</td>
-                </tr>
- 
-                <tr>
-                    <td class="tableContent2">MILILITROS 1 TITULADOS DE H2SO4</td>
-                    <td class=""></td>
-                    <td class=""></td>
-                    <td class="tableContent2">{{@$valNitrogenoA->Titulo1}}</td>
-                </tr>
-
-                <tr>
-                    <td class="tableContent2">MILILITROS 2 TITULADOS DE H2SO4 2</td>
-                    <td class=""></td> 
-                    <td class=""></td>
-                    <td class="tableContent2">{{@$valNitrogenoA->Titulo2}}</td>
-                </tr>                
-
-                <tr>
-                    <td class="tableContent2">MILILITROS 3 TITULADOS DE H2SO4 3</td>
-                    <td class=""></td>
-                    <td class=""></td>
-                    <td class="tableContent2">{{@$valNitrogenoA->Titulo3}}</td>
-                </tr>
-
-                <tr>
-                    <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
-                    <td class=""></td>
-                    <td class=""></td>
-                    <td class="tableContent2">{{number_format(@$valNitrogenoA->Resultado, 3, ".", ".")}}</td>
-                </tr>
-            </tbody>    
-        </table>  
-    </div> -->
 
     <br>
 

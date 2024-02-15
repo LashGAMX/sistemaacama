@@ -1743,7 +1743,7 @@ class CampoController extends Controller
         if ($solGenTemp->Id_muestreador == 15) {
             @$firmaRevisor = User::where('id', 5)->first();
         }
-        @$firmaRevisor = User::where('id', 5)->first();
+        @$firmaRevisor = User::where('id', $solGenTemp->Id_superviso)->first();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1763,6 +1763,7 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.bitacoraCampo', compact(
             'materia',
+            'solGenTemp',
             'factApl',
             'factApl2',
             'factCorrec',

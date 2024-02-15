@@ -71,12 +71,14 @@
             Dato 1
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="row" style="padding 5px;">
+            <div class="row">
               <div class="col-md-12">
                 <button class="btn btn-success" id="btnGuardarDetalle" type="button"><i class="fas fa-save"></i> Guardar</button>
               </div>
+            </div>
+            <div class="row" style="padding 5px;overflow: scroll;width:100%; height:450px;">
               <div class="col-md-12">
-                <h6>Flama/ Gnerador de hidruros/Horno de grafito/ Alimentos</h6>
+                <h6>Flama/ Generador de hidruros/Horno de grafito/ Alimentos</h6>
               </div>
               <div class="col-md-12">
                 <div class="dropdown-divider"></div>
@@ -91,9 +93,9 @@
                     <label>Longitud de onda</label> 
                     <input type="text" class="form-control form-control-sm" id="longitudOnda"> 
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4" id="divFechaPreparacion">
                     <label for="">Fecha de preparacion</label>
-                    <input type="datetime-local"  class="form-control form-control-sm" id="fechaPreparacion">
+                    <input type="date"  class="form-control form-control-sm" id="fechaPreparacion">
                   </div>
                   <div class="col-md-4">
                     <label>No Inventario</label> 
@@ -145,10 +147,10 @@
               <div class="col-md-12">
                 <div class="dropdown-divider"></div>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-12" id="divTituloBlancoCurva">
                 <h6>Blanco de curva</h6>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-12" id="divBlancoCurva">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="row">

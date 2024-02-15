@@ -291,8 +291,7 @@
               </table>
             </center>
             <br>
-            Fecha recepción: <input type="date" id="fechaAsignar"> <button class="btn-success"><i
-                class="fas fa-search"></i> Buscar</button>
+            Fecha recepción: <input type="date" id="fechaAsignar"> <button class="btn-success"><i class="fas fa-search"></i> Buscar</button>
           </div>
           <div class="col-md-12" id="devAsignarLote">
             <table class="table" id="tabAsignar">
@@ -444,6 +443,8 @@
                   </tbody>
                 </table>
                 <h4>3. Secado de Cartuchos</h4>
+                <input type="datetime-local" id="fechaDefGA2">
+                <button id="btnFechaDeFGA2">Apl F.</button>
                 <hr />
                 <table class="table">
                   <thead>
@@ -471,7 +472,7 @@
                   <tbody>
                     <tr>
                       <td><input type="datetime-local" id="4entradaGA" /></td>
-                      <td><input type="datetime-local" id="4entradaGA" /></td>
+                      <td><input type="datetime-local" id="4salidaGA" /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -1913,16 +1914,21 @@
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
               Ejecutar</button>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="resultado">Resultado</label>
               <input type="text" id="resultadoSolidosDif" style="font-size: 20px;color:red;" placeholder="Resultado">
             </div>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-3">
             <label for="preResDif">Pres resultado</label>
             <input type="text" id="preResDifSolidosDif" style="font-size: 20px;color:blue;"
               placeholder="No. Serie Crisol">
+          </div>
+          <div class="col-md-3">
+            <label for="preResDif">Conductividad</label>
+            <input type="text" id="conductividadDifSolidosDif" style="font-size: 20px;color:rgb(0, 117, 78);"
+              placeholder="conductividad">
           </div>
           <div class="col-md-12">
             <table class="table" id="">
@@ -1978,20 +1984,32 @@
                   class="voyager-check"></i> Aplicar</button>
             </div>
           </div>
-
-          <div class="col-md-2">
+          <div class="col-md-1">
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
               Ejecutar</button>
           </div>
-          <div class="col-md-5">
-            <div class="form-group">
-              <label for="resultado">Resultado</label>
-              <input type="text" id="resultadoSolidos" style="font-size: 20px;color:red;" placeholder="Resultado">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="resultado">Resultado</label>
+                  <input type="text" id="resultadoSolidos" style="font-size: 20px;color:red;" placeholder="Resultado">
+                </div>
             </div>
+
+            <div class="col-md-3">
+              <label for="crisol">Crisol</label>
+              <input type="text" id="crisolSolidos" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
+            </div>
+
+            <div class="col-md-3">
+              <label for="conductividad">Conductividad</label>
+              <input type="text" id="conducSolidosDef" style="font-size: 20px;color:rgb(0, 117, 78);"
+                placeholder="conductividad">
+            </div>
+              </div>
           </div>
-          <div class="col-md-5">
-            <input type="text" id="crisolSolidos" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
-          </div>
+          
           <div class="col-md-12">
             <table class="table" id="">
               <thead>
@@ -2765,9 +2783,14 @@
           <div class="col-md-2">
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-4">
             <div class="form-group">
               <input type="text" id="resultadoDirecto" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <input type="text" id="phCampoCompuesto" style="font-size: 20px;" placeholder="ph campo">
             </div>
           </div>
 
@@ -4514,7 +4537,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.1.9"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.2.3"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

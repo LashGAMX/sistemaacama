@@ -4,31 +4,26 @@
         <tbody>
             <tr>
                 <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{@$muestreador->name}}</td>
-                @if (@$solGenTemp->Id_muestreador == 15)
-                <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{$firmaRevisor->name}}</td>
-                @else
-                    <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL SUPERVISOR</td>
-                @endif
+                @if ($solGenTemp->Estado != 4)
+                <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL SUPERVISOR</td>      
+                        @else
+                        <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{$firmaRevisor->name}}</td>
+                        @endif
+              
                 <td class="fontNormal fontCalibri fontSize10 justificadoDer" width="33.33%">RE-12-001-25 REV. 15 26/03/2019 <br></td>
             </tr>
 
             <tr>
                 <td class="justificadorCentr">
-                    <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/{{$muestreador->firma}}">
+                    <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="http://sistemasofia.ddns.net:85/sofia/public/storage/{{$muestreador->firma}}">
                 </td>
 
                 <td class="justificadorCentr">
-                    @if (@$solGenTemp->Id_muestreador == 15)
-                        <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/{{$firmaRevisor->firma}}">
-                    @else
-                        @if ($campoGeneral->Firma_revisor == null)
+                        @if ($solGenTemp->Estado != 4)
                             ---             
                         @else
-                            <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{$campoGeneral->Firma_revisor}}">
+                        <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="http://sistemasofia.ddns.net:85/sofia/public/storage/{{$firmaRevisor->firma}}">
                         @endif
-                    @endif
-                  
-                    
                 </td>
 
                 <td>

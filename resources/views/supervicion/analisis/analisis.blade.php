@@ -29,9 +29,21 @@
                     <label for="">Mes / Año</label>
                     <input type="month" id="mes" class="form-control">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-1">
                     <br>
                     <button id="btnBuscar" class="btn btn-info">Buscar <i class="fas fa-search"></i></button>
+                </div>
+                <div class="col-md-2">
+                    <label for="user">Tipo fórmula (Metales)</label>
+                        <select class="form-control select2" id="user">
+                            <option value="0" selected >Sin seleccionar</option>
+                            <option value="1">ADMIN</option>
+                            <option value="14">GUADALUPE GARCIA PÉREZ</option>
+                            <option value="21">SOCORRO VARYNIA AVELINO LUNA</option>
+                            <option value="39">ERICK SÁNCHEZ TENORIO</option>
+                            <option value="46">YURIDIA CORONA TLAPANCAL</option>
+                            
+                        </select>
                 </div>
             </div>
         </div>

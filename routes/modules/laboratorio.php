@@ -29,6 +29,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getHistorial', [MetalesController::class, 'getHistorial']);
         Route::post('setTituloBit', [MetalesController::class, 'setTituloBit']);
         Route::get('actualizarLiberaciones', [MetalesController::class, 'actualizarLiberaciones']);
+        Route::post('setObsIndividual', [MetalesController::class, 'setObsIndividual']);
+        Route::get('listaFoliosSinRellenar', [MetalesController::class, 'listaFoliosSinRellenar']);
+        
 
         //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [MetalesController::class, 'tipoAnalisis']);

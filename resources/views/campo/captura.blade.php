@@ -143,21 +143,21 @@
                     <div class="col-md-4">
                         <div>
                             <label for="">Latitud</label>
-                            <input type="number" step="any" class="form-control" placeholder="Latitud" id="latitud"
+                            <input type="text" step="any" class="form-control" placeholder="Latitud" id="latitud"
                                 value="{{ $general->Latitud }}" onkeyup='validacionLatitud("latitud");'>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div>
                             <label for="">Longitud</label>
-                            <input type="number" step="any" class="form-control" placeholder="Longitud" id="longitud"
+                            <input type="text" step="any" class="form-control" placeholder="Longitud" id="longitud"
                                 value="{{ $general->Longitud }}" onkeyup='validacionLongitud("longitud");'>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div>
                             <label for="">Altitud</label>
-                            <input type="number" step="any" class="form-control" placeholder="Altitud" id="altitud"
+                            <input type="text" step="any" class="form-control" placeholder="Altitud" id="altitud"
                                 value="{{ $general->Altitud }}" onkeyup='validacionAltitud("altitud");'>
                         </div>
                     </div>

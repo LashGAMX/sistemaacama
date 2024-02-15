@@ -26,7 +26,9 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::post('setLiberarTodo', [SupervicionController::class,'setLiberarTodo']);
     });
     Route::group(['prefix' => 'campo'], function () {
- 
+        Route::get('/', [SupervicionController::class, 'campo']);
+        Route::post('getMuestreos', [SupervicionController::class,'getMuestreos']);
+        Route::post('supervisarBitacoraCampo', [SupervicionController::class,'supervisarBitacoraCampo']);
     });
 });
        

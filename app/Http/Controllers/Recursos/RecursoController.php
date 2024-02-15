@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Recursos;
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
 use App\Models\LoteDetalleCloro;
+use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDureza;
+use App\Models\LoteDetalleNitrogeno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -24,20 +26,20 @@ class RecursoController extends Controller
 
     public function buscarBasura(Request $req){
         $model = CodigoParametros::where('Codigo', $req->folio)->where('Id_parametro', $req->parametro)->first(); 
-        $model2 = LoteDetalleCloro::where('Id_codigo', $model->Id_codigo)->get(); 
+        $model2 = LoteDetalleNitrogeno::where('Id_codigo', $model->Id_codigo)->get(); 
         $data = array(
             'model' => $model,
             'model2' => $model2,
         );
 
          return response()->json($data);
-        $id = $model->Id_codigo; 
+       // $id = $model->Id_codigo; 
     }
    
     public function tirarlabasura(Request $req) {
-        $model = DB::table("lote_detalle_cloro")->where('Id_codigo', $req->id)->get();
+        $model = DB::table("lote_detalle_nitrogeno")->where('Id_codigo', $req->id)->get();
         foreach ($model as $item) {
-            $model2 = DB::table("lote_detalle_cloro")->where('Id_codigo', $item->Id_codigo)->delete();
+            $model2 = DB::table("lote_detalle_nitrogeno")->where('Id_codigo', $item->Id_codigo)->delete();
         }
         $data = array(
             'id' => $req->id,

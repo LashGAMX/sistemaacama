@@ -19,8 +19,8 @@
     </div> 
  
     <div style="font-size: 8px;">
-        @php
+        @php 
             echo $plantilla[0]->Rev;
         @endphp
-    </div> 
+    </div>  
 </footer>  

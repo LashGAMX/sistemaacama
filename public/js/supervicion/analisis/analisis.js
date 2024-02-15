@@ -13,6 +13,7 @@ function supervisarBitacora(id)
         url: base_url + "/admin/supervicion/analisis/supervisarBitacora",
         data: {
             id:id,
+            user:$("#user").val(),
             parametro:$("#parametro").val(),
             _token: $('input[name="_token"]').val(),
         },
@@ -42,6 +43,7 @@ function setLiberarTodo()
         url: base_url + "/admin/supervicion/analisis/setLiberarTodo",
         data: {
             ids:ids,
+            user:$("#user").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",

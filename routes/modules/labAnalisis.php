@@ -30,10 +30,16 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setObservacion', [LabAnalisisController::class, 'setObservacion']);
         Route::get('bitacora/impresion/{id}', [LabAnalisisController::class, 'exportBitacora']);
 
+        //Funciones adicionales
         Route::get('liberarMatraz', [LabAnalisisController::class, 'liberarMatraz']);
         Route::get('updateTituloBitacora/{id}', [LabAnalisisController::class, 'updateTituloBitacora']);
         Route::get('updateVolumenMetales', [LabAnalisisController::class, 'updateVolumenMetales']);
         Route::get('updateVolMuestraMetales/{id}', [LabAnalisisController::class, 'updateVolMuestraMetales']);
+        Route::get('updateContadorLotes', [LabAnalisisController::class, 'updateContadorLotes']);
+        Route::get('replicarDatosEcoli', [LabAnalisisController::class, 'replicarDatosEcoli']);
+        Route::get('updateDefaultLoteMetales', [LabAnalisisController::class, 'updateDefaultLoteMetales']);
+        Route::get('updateBitacoraFolioMetales', [LabAnalisisController::class, 'updateBitacoraFolioMetales']);
+        
         
     });
    

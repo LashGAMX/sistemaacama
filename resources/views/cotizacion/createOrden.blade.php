@@ -338,6 +338,16 @@
                   <button type="button" id="btnSetParametro" onclick="getParametrosSelected()" class="btn btn-warning"
                     data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agragar y/o
                     Eliminar</button>
+                    
+                    @switch(Auth::user()->id)
+                        @case(1)
+                        @case(36)
+                          <button type="button" class="btn btn-warning"
+                          data-toggle="modal" data-target="#modalAddParametro"><i class="fas fa-save"></i>+ Parametro</button>
+                            @break
+                        @default
+                            
+                    @endswitch
                 </div>
                 <div class="col-md-2">
                   <button type="button" id="btnCrearSolicitud"  class="btn btn-success"><i
@@ -409,6 +419,34 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalAddParametro" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 55%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Parametros</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="parametroAdd">Intermediario</label>   
+        <select id="parametroAdd" class="form-control select2" style="width: 100%"> 
+        <option value="0">Sin seleccionar</option>
+          @foreach ($parametros as $item)
+            <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnAddParametro"
+          class="btn btn-success">Agregar y/o Quitar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <style>
   .transfer-demo {
     width: 100%;
@@ -419,6 +457,6 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.8"></script>
+<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.10"></script>
 <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 @stop

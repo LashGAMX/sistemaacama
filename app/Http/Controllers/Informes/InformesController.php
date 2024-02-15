@@ -598,15 +598,15 @@ class InformesController extends Controller
                 // $firma1 = User::find(14);
                  $firma1 = User::find(14); // Reviso
                  //$firma2 = User::find(4); // Autorizo
-                $firma2 = User::find(12); // Autorizo
+                 $firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
  
             default:
             //Residual
                 // $firma1 = User::find(14); // Reviso
-               // $firma2 = User::find(4); //Autorizo
                 $firma1 = User::find(14); //reviso
+                //$firma2 = User::find(4); //Autorizo
                 $firma2 = User::find(12); // Autorizo
                 
                 break;
@@ -623,10 +623,11 @@ class InformesController extends Controller
                   */
         $folioSer = $solicitud->Folio_servicio;
         $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
-
+        $norma = Norma::where('Id_norma',$solicitud->Id_norma)->first();
 
 
         $data = array(
+            'norma' => $norma,
             'limitesCon' => $limitesCon,
             'impresion' => $impresion,
             'tituloConsecion' => $tituloConsecion,
@@ -5335,6 +5336,7 @@ class InformesController extends Controller
                                         break;
                                     case 28:
                                     case 29:
+                                    case 30:
                                         $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control',1)->where('Id_parametro', $item->Id_parametro)->get();
                                         break;
                                     default:

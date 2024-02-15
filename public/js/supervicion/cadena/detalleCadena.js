@@ -952,13 +952,14 @@ function getDetalleAnalisis(idCodigo) {
                         cont = 0;
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
-                            tab += '<td>Ph Campo - ' + (cont + 1) + '</td>';
                             if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += '<td>Ph Campo - ' + (cont + 1) + '</td>';
                                 tab += '<td>' + item.Promedio + '</td>';   
                                 aux = aux + parseFloat(item.Promedio);  
                             } else {  
-                                tab += '<td>' + item.Promedio + '</td>';
-                                aux = aux + parseFloat(item.Promedio); 
+                                tab += '<td>Ph Laboratorio</td>';
+                                tab += '<td>' + item.Resultado + '</td>';
+                                aux = aux + parseFloat(item.Resultado); 
                             }
                             tab += '<td></td>'; 
                             tab += '</tr>'; 

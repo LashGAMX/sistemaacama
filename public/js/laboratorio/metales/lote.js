@@ -138,8 +138,10 @@ var idSol = 0;
 var idLote = 0;
 function eventLote(id,parametro)
 {  
+    // $("#divFechaPreparacion").hide()
+    $("#divBlancoCurva").hide()
+    $("#divTituloBlancoCurva").hide()
     $("#modalDetalle").modal("show");
-    $("#idLote").val(""+id+" "+parametro)
     idLote = id
     let summer = document.getElementById("divSummer");
         $.ajax({
@@ -153,6 +155,7 @@ function eventLote(id,parametro)
         async: false,
         success: function (response) {            
             console.log(response);
+            $("#idLote").val(""+id+" - ("+response.parametro.Id_parametro+") "+response.parametro.Parametro)
             $("#tituloBit").val(response.plantilla[0].Titulo)
             $("#revBit").val(response.plantilla[0].Rev)
             summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
@@ -161,6 +164,19 @@ function eventLote(id,parametro)
                 tabsize: 2,
                 height: 300,         
             }); 
+
+            switch (response.parametro.Id_metodo) {
+                case 4:
+                    // $("#divFechaPreparacion").hide()
+                    $("#divBlancoCurva").hide()
+                    $("#divTituloBlancoCurva").hide()
+                    break;
+                default:
+                    // $("#divFechaPreparacion").show()
+                    $("#divBlancoCurva").show()
+                    $("#divTituloBlancoCurva").show()
+                    break;
+            }
 
             if (response.model.length > 0) {
                 let model = response.model[0]

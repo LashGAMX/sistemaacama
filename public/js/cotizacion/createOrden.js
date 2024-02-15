@@ -29,6 +29,9 @@ $(document).ready(function () {
   $('#btnFolio').click(function () {
     setGenFolio()
   });
+  $('#btnAddParametro').click(function () {
+    addParametro()
+  });
   $('#btnCrearSolicitud').click(function () {
     setCreateOrden()
   });
@@ -109,6 +112,23 @@ function disabledInput()
       $("#btnFolio").attr('disabled',true)
       break;
   }
+}
+function addParametro()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/solicitud/addParametro', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id: $("#idCot").val(),
+      idParametro: $("#parametroAdd").val(),
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      alert(response.msg)
+    }
+  });
 }
 function getDataUpdate() {
   data = new Array()
@@ -465,7 +485,7 @@ function getPuntoMuestro() {
       } else {
         $.each(response.model, function (key, item) {
           if (siralab.checked == true) {
-            punto.push(item.Punto + " " + item.Anexo + " " + item.Agua);
+            punto.push(item.Punto);
             puntoId.push(item.Id_punto);
           } else {
             punto.push(item.Punto_muestreo);

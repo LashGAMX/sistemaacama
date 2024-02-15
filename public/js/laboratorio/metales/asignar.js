@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('#btnPendiente').click(function () {
         getPendientes()
     });
-    $('.select2').select2();
+    $('.select2').select2();pero 
 });
 document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyS")
@@ -86,7 +86,6 @@ function getMuestras(sw)
         data: {
             tecnica: $("#tecnica").val(),
             tipo: $("#tipo").val(),
-            norma: $("#norma").val(),
             fechaRecepcion: $("#fechaRecepcion").val(),
             fechaLote: $("#fechaLote").val(),
             sw:sw,
@@ -103,8 +102,8 @@ function getMuestras(sw)
             tab += '          <th>Seleccionar</th>';
             tab += '          <th>Id</th>';
             tab += '          <th>Num Muestra</th>';
-            tab += '          <th>Cliente</th>';
-            tab += '          <th>Punto Muestreo</th>';
+            tab += '          <th style="width:30px">Cliente</th>';
+            tab += '          <th style="width:100px">Punto Muestreo</th>';
             tab += '          <th>Norma</th> ';
             tab += '          <th>Formula</th> ';
             tab += '          <th>Lote</th> ';
@@ -114,31 +113,60 @@ function getMuestras(sw)
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
                 tab += '<tr>'; 
-                if (model[i][6] == "") {
-                    tab += '    <td><input type="checkbox" name="std"  value="'+model[i][0]+'"></td>';
-                } else {
-                    tab += '    <td><input type="checkbox" name="std" checked value="'+model[i][0]+'"></td>';   
-                }
+                tab += '    <td><input type="checkbox" name="std"  value="'+model[i][0]+'"></td>';
+                // if (model[i][6] == "") {
+                //     tab += '    <td><input type="checkbox" name="std"  value="'+model[i][0]+'"></td>';
+                // } else {
+                //     tab += '    <td><input type="checkbox" name="std" checked value="'+model[i][0]+'"></td>';   
+                // }
                 tab += '    <td>'+model[i][0]+'</td>'
                 tab += '    <td>'+model[i][1]+'</td>'
                 tab += '    <td>'+model[i][2]+'</td>'
                 tab += '    <td>'+model[i][3]+'</td>'
                 tab += '    <td>'+model[i][4]+'</td>'
                 tab += '    <td>'+model[i][5]+'</td>'
-                if (model[i][7] == "") {
-                    tab += '    <td>N/A</td>'
-                    tab += '    <td>'+$("#fechaLote").val()+'</td>'   
-                    // tab += '    <td><input type="time" value="'+model[i][6]+'"></td>'  
-                } else {
-                    tab += '    <td>'+model[i][6]+'</td>'
-                    tab += '    <td class="text-warning">'+$("#fechaLote").val()+'</td>'
-                    // tab += '    <td><input type="time" value="'+model[i][6]+'"></td>'  
-                }
+                tab += '    <td class="text-warning">'+model[i][6]+'</td>'
+                tab += '    <td class="text-warning">'+$("#fechaLote").val()+'</td>'
                 tab += '</tr>';
             }
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+
+            $('#tablaLote thead th').each(function() {
+                var title = $('#tablaLote thead th').eq($(this).index()).text();
+                // $(this).html('&lt;input type=&quot;text&quot; placeholder=&quot;Search ' + title + '&quot; /&gt;');
+                $(this).html('<input type="text" style="width:100px" placeholder="'+title+'">');
+            });
+
+            var table =  $('#tablaLote').DataTable({ 
+                "ordering": false,
+                paging: false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                },
+                "scrollY": 300,
+                "scrollCollapse": true, 
+          
+            });
+
+           
+        // Apply the search
+        table.columns().eq(0).each(function(colIdx) {
+            $('input', table.column(colIdx).header()).on('keyup change', function() {
+                table
+                    .column(colIdx)
+                    .search(this.value)
+                    .draw();
+            });
+        
+            $('input', table.column(colIdx).header()).on('click', function(e) {
+                e.stopPropagation();
+            });
+        });
         }
     });
 }

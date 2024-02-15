@@ -6,9 +6,9 @@
                 <span>-------------</span><br>
                 <span class="bodyStdMuestra"> Muestras sin liberar </span>
             @else
-                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="http://sistemasofia.ddns.net:85/sofia/public/storage/users/May2023/ok3Qj7AymOWfWROnWn9R.png"> <br></span>
-                <!-- <span class="bodyStdMuestra"> {{$analizo->name}} </span> -->
-                <span class="bodyStdMuestra"> GUADALUPE GARCIA PÉREZ </span>
+                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="http://sistemasofia.ddns.net:85/sofia/public/storage/{{$analizo->firma}}"> <br></span>
+                <span class="bodyStdMuestra"> {{$analizo->name}} </span>
+                <!-- <span class="bodyStdMuestra"> GUADALUPE GARCIA PÉREZ </span> -->
             @endif
         </div>
 

@@ -11,7 +11,7 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });
-    getServicio(0,1)
+    // getServicio(0,1)
 
     $('#btnBuscar').click(function () {
         getServicio($("#tipoFormula").val(),2);
@@ -54,6 +54,7 @@ function getServicio(id,tipo) {
             tab += '          <th>Creación</th>';
             tab += '        </tr>';
             tab += '    </thead>';
+
             tab += '    <tbody>';
             for (let i = 0; i < response.ids.length; i++) {
                 tab += '<tr>';
@@ -65,10 +66,17 @@ function getServicio(id,tipo) {
                 tab += '</tr>';   
             }
             tab += '    </tbody>';
+   
             tab += '</table>';
             tabla.innerHTML = tab;
+            
+            $('#tablaClientes thead th').each(function() {
+                var title = $('#tablaClientes thead th').eq($(this).index()).text();
+                // $(this).html('&lt;input type=&quot;text&quot; placeholder=&quot;Search ' + title + '&quot; /&gt;');
+                $(this).html('<input type="text" style="width:100px" placeholder="'+title+'">');
+            });
 
-            var table =  $('#tablaClientes').DataTable({
+            var table =  $('#tablaClientes').DataTable({ 
                 "ordering": false,
                 paging: false,
                 "language": {
@@ -78,8 +86,33 @@ function getServicio(id,tipo) {
                     "infoEmpty": "No hay datos encontrados",
                 },
                 "scrollY": 300,
-                "scrollCollapse": true
+                "scrollCollapse": true, 
+          
             });
+
+           
+        // Apply the search
+        table.columns().eq(0).each(function(colIdx) {
+            $('input', table.column(colIdx).header()).on('keyup change', function() {
+                table
+                    .column(colIdx)
+                    .search(this.value)
+                    .draw();
+            });
+        
+            $('input', table.column(colIdx).header()).on('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+            // table.columns().eq( 0 ).each( function ( colIdx ) {
+            //     $( 'input', table.column( colIdx ).header() ).on( 'keyup change', function () {
+            //         table
+            //             .column( colIdx )
+            //             .search( this.value )
+            //             .draw();
+            //     } );
+            // } );
 
             $('#tablaClientes tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -124,6 +157,7 @@ function getPuntoAnalisis(id)
             tab += '          <th>Parametros</th>';
             tab += '          <th>Observación</th>';
             tab += '          <th>pH <2</th>';
+            tab += '          <th></th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -132,9 +166,10 @@ function getPuntoAnalisis(id)
                 tab += '<td>' + response.model[i][0] + '</td>';
                 tab += '<td>' + response.model[i][1] + '</td>';
                 tab += '<td>' + response.model[i][2] + '</td>';
-                tab += '<td></td>';
-                tab += '<td>' + response.model[i][3] + '</td>';
+                tab += '<td>'+response.model[i][6]+'</td>';
+                tab += '<td><textarea class="form-control" id="obs'+response.model[i][5]+'" rows="3">' + response.model[i][3] + '</textarea></td>';
                 tab += '<td>' + response.model[i][4] + '</td>';
+                tab += '<td><button onclick="setObsIndividual('+response.model[i][5]+')">E</button></td>';
                 tab += '</tr>';
             }
             tab += '    </tbody>';
@@ -147,7 +182,23 @@ function getPuntoAnalisis(id)
         }
     });
 }
-
+function setObsIndividual(i)
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + '/admin/laboratorio/metales/setObsIndividual',
+        data: {
+            idSol: i,
+            obs: $('#obs'+i).val(),
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            alert("Observacion aplicada")
+         
+        }
+    });
+}
 //Debe ir función AJAX
 function aplicar() {
 
