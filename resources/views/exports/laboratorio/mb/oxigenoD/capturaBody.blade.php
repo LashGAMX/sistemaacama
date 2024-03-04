@@ -11,7 +11,9 @@
     <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
+    @php
+             echo $procedimiento[0];
+        @endphp
     </div>
 
     <br>
@@ -36,15 +38,24 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
-                    <tr>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>                       
-                    </tr>                
-                {{-- @endfor --}}
+               @foreach ($model as $item)
+                   <tr>
+                        <td class="tableContent">{{$item->Codigo}}</td>
+                        <td class="tableContent">{{$item->Resultado}}</td>
+                        <td class="tableContent">{{$item->Observacion}}</td>
+                        <td class="tableContent">
+                            @if (@$item->Liberado == 1)
+                                Liberado
+                            @elseif(@$item->Liberado == 0)
+                                No liberado
+                            @endif
+                        </td>
+
+                        <td class="tableContent">
+                            {{@$item->Control}}
+                        </td>                         
+                   </tr>
+               @endforeach
             </tbody>        
         </table>  
     </div>

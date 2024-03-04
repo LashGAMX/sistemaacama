@@ -156,9 +156,10 @@ class CampoAppController extends Controller
         $campoGenModel->Supervisor = $jsonGeneral[0]["Supervisor"];
         $campoGenModel->save();
       
-        // $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
-        // $modelPunto->Punto = $jsonPunto[0]["Punto"];
-        // $modelPunto->save();
+        //guardado de Punto de muestreo
+        $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
+        $modelPunto->Punto = $jsonPunto[0]["Punto"];
+        $modelPunto->save();
 
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         $phTrazable = CampoPhTrazable::where('Id_solicitud',$solModel->Id_solicitud)->get();

@@ -22,6 +22,7 @@ class ImpresionInforme extends Model
         'Id_reviso',
         'Fecha_inicio',
         'Fecha_fin',
+        'Nota_4',
         'Clave', 
         'Num_rev',
         'Obs_impresion',

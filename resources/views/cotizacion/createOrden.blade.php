@@ -429,11 +429,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <label for="parametroAdd">Intermediario</label>   
+        <label for="parametroAdd">Parametro</label>   
         <select id="parametroAdd" class="form-control select2" style="width: 100%"> 
         <option value="0">Sin seleccionar</option>
           @foreach ($parametros as $item)
-            <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+            <option value="{{@$item->Id_parametro}}">({{@$item->Id_parametro}}) {{@$item->Parametro}} ({{@$item->Tipo_formula}})</option>
           @endforeach
         </select>
       </div>

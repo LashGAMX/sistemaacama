@@ -40,6 +40,7 @@ class Solicitud extends Model
       'Id_reporte2',
       'Padre',
       'Hijo',
+      'Nota_4',
       'Liberado',
       'Id_user_c',
       'Id_user_m'

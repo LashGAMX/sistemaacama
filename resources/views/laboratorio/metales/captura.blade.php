@@ -3,17 +3,13 @@
 @section('content')
 
   @section('page_header')
-  <!-- <h6 class="page-title"> 
-    <i class="voyager-window-list"></i>
-    Captura de resultados
-  </h6>
-  -->
+
 <div class="container-fluid">
     <div class="row"> 
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control select2" name="formulaTipo" id="formulaTipo">
+                <select class="form-control select2" name="formulaTipo" id="formulaTipo" onchange="getUltimoLote()">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $parametros)
                         <option value= "{{$parametros->Id_parametro}}">({{$parametros->Id_parametro}}){{$parametros->Parametro}} ({{$parametros->Tipo_formula}})</option>
@@ -21,13 +17,13 @@
                   </select>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
                 <label for="">Folio</label>
                 <input type="text" style="width: " class="form-control" id="folio" placeholder="xxx-xx/xx-x">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
                 <label for="">Fecha análisis</label>
                 <input type="date" class="form-control" id="fechaAnalisis">
@@ -35,6 +31,9 @@
         </div>
         <div class="col-md-3">
             <button class="btn btn-success" onclick="getDataCaptura()" id="btnBuscar">Buscar</button>
+        </div>
+        <div class="col-md-2" id="divUltimoLote">
+            
         </div>
         <div class="col-md-3">
     <input  id="idLote" hidden>   
@@ -91,20 +90,19 @@
                 <div class="col-md-1">
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button class="btn btn-primary" id="btnLiberarTodo">Liberar Todo</button>
                 </div>
-                <div class="col-md-1">
-                    {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
-                </div>
-                <div class="col-md-1">
-                    {{-- <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                          Blanco
-                        </label>
-                      </div> --}}
-                </div>
+                @switch(Auth::user()->id)
+                        @case(1)
+                        @case(21)
+                            <div class="col-md-1">
+                                <button class="btn btn-danger" id="btnEliminarControl"><i class="fas fa-trash"></i> Ctrl</button>
+                            </div>
+                            @break
+                        @default
+                    @endswitch
+               
                 <div class="col-md-2">
                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
                         id="btnGenControlInd">Generar control</button>

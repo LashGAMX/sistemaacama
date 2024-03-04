@@ -73,6 +73,11 @@
     width: 100%;
 }
 
+#bodyMargin{
+    padding-bottom: 10%;
+}
+
+
 .nombreHeader{
     font-family: Calibri;
     font-size: 12;

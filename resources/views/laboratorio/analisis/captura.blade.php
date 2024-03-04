@@ -26,14 +26,14 @@
         </div>
         <div class="col-md-6">
           <center>
-            <h4 class="text-warning">Datos lote</h4>
+          <div id="divUltimoLote"></div>
           </center>
           <div class="row">
             <div class="col-md-6">
               <label for="">Filtros de busqueda</label>
               <div class="form-group">
                 <label for="">Parametro</label>
-                <select class="form-control select2" id="parametro">
+                <select class="form-control select2" id="parametro" onchange="getUltimoLote()">
                   <option value="0">Sin seleccionar</option>
                   @foreach ($model as $item)
                   <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}}
@@ -292,6 +292,7 @@
             </center>
             <br>
             Fecha recepción: <input type="date" id="fechaAsignar"> <button class="btn-success"><i class="fas fa-search"></i> Buscar</button>
+            Muestras seleccionadas: <input type="number" id="muestrasSeleccionadas" style="width: 50px;border:none;color:red">
           </div>
           <div class="col-md-12" id="devAsignarLote">
             <table class="table" id="tabAsignar">
@@ -454,7 +455,7 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="number" id="3temperaturaGA" /></td>
+                      <td><input type="number" id="3temperaturaGA" /> °C</td>
                       <td><input type="datetime-local" id="3entradaGA" /></td>
                       <td><input type="datetime-local" id="3salidaGA" /></td>
                     </tr>
@@ -1038,7 +1039,7 @@
           <div class="tab-pane fade" id="dbo" role="tabpanel" aria-labelledby="dbo-tab">
             <div class="row">
               <div class="col-md-4">
-                <label>Cantidad de agua en litros preparada: <input class="form-control" type="text" id="cantDilucion"></label>
+                <label>Cantidad de agua en dilución en ltros preparado: <input class="form-control" type="text" id="cantDilucion"></label>
               </div>
               <div class="col-md-6">
                 <label for="">Tiempo de aireacion</label>
@@ -1053,7 +1054,7 @@
                 <label>Diluciones registradas en bit: <input class="form-control" type="text" id="n"></label>
               </div>
               <div class="col-md-4">
-                <label>Estandares Preparados el día: <input class="form-control" type="text" id="dilucion"></label>
+                <label>Estandares Preparado registrado en el folio: <input class="form-control" type="text" id="dilucion"></label>
               </div>
               <div class="col-md-4">
                 <label>Estandare registdos en bit: <input class="form-control" type="text" id="estandaresbit"></label>
@@ -3795,14 +3796,14 @@
                 <tr>
                   <td>G2</td>
                   <td>mL De muestra en tubos negativos</td>
-                  <td><input type="text" id="negativos1Col" value="0"></td>
+                  <td><input type="text" id="negativos1Col"></td>
                   <td></td>
                   <td>V</td>
                 </tr>
                 <tr>
                   <td>G1</td>
                   <td># de tubos positivos</td>
-                  <td><input type="text" id="positivos1Col" value="0"></td>
+                  <td><input type="text" id="positivos1Col"></td>
                   <td></td>
                   <td>V</td>
                 </tr>
@@ -3839,7 +3840,7 @@
                 </tr>
                 <tr>
                   <td>C1 - C9</td>
-                  <td>Prueba confirmativa 24hrs </td>
+                  <td><div id="tituloColiformes"></div> </td>
                   <td>
                     <input type="text" id="con1Col" value="0" style="width: 60px;">
                     <input type="text" id="con2Col" value="0" style="width: 60px;">
@@ -3908,10 +3909,14 @@
           <div class="col-md-2">
             <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-6">
             <div class="form-group">
               <input type="text" id="resultadoEnt" style="font-size: 20px;color:red;" placeholder="Resultado">
             </div>
+          </div>
+          <div class="col-md-2">
+            <button type="button" id="metodoCortoEnt"> <i class="voyager-window-list"></i></button>
+            <button type="button" id="btnCleanColiforme"> <i class="fas fa-eraser"></i></button>
           </div>
 
           <div class="col-md-12">
@@ -3934,10 +3939,6 @@
                     <input type="text" id="endil2Ent" value="0" style="width: 60px;">
                     <input type="text" id="endil3Ent" value="0" style="width: 60px;">
                   </td>
-                  {{-- <td>
-                    <input type="text" id="dil12" value="0" style="width: 60px;">
-                    <input type="text" id="dil22" value="0" style="width: 60px;">
-                    <input type="text" id="dil32" value="0" style="width: 60px;"> --}}
                   </td>
                   <td>V</td>
                 </tr>
@@ -3945,7 +3946,6 @@
                   <td>NMP</td>
                   <td>Indice NMP</td>
                   <td><input type="text" id="ennmp1Ent" value="0"></td>
-                  {{-- <td><input type="text" id="nmp2" value="0"></td> --}}
                   <td>V</td>
                 </tr>
                 <tr>
@@ -3974,31 +3974,31 @@
                   <td>Prueba presuntiva 24 hrs / 48 hrs</td>
                   <td>
                     <center>24 Hrs</center> <br>
-                    <input type="text" id="enPre1Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre2Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre3Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre1Ent" style="width: 60px;">
+                    <input type="text" id="enPre2Ent" style="width: 60px;">
+                    <input type="text" id="enPre3Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enPre4Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre5Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre6Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre4Ent" style="width: 60px;">
+                    <input type="text" id="enPre5Ent" style="width: 60px;">
+                    <input type="text" id="enPre6Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enPre7Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre8Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre9Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre7Ent" style="width: 60px;">
+                    <input type="text" id="enPre8Ent" style="width: 60px;">
+                    <input type="text" id="enPre9Ent" style="width: 60px;">
                   </td>
                   <td>
                     <center>48 Hrs</center> <br>
-                    <input type="text" id="enPre12Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre22Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre32Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre12Ent" style="width: 60px;">
+                    <input type="text" id="enPre22Ent" style="width: 60px;">
+                    <input type="text" id="enPre32Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enPre42Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre52Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre62Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre42Ent" style="width: 60px;">
+                    <input type="text" id="enPre52Ent" style="width: 60px;">
+                    <input type="text" id="enPre62Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enPre72Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre82Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enPre92Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enPre72Ent" style="width: 60px;">
+                    <input type="text" id="enPre82Ent" style="width: 60px;">
+                    <input type="text" id="enPre92Ent" style="width: 60px;">
                   </td>
                   <td>V</td>
                 </tr>
@@ -4007,31 +4007,31 @@
                   <td>Prueba confirmativa (1° - 24 hrs )/(2° - 48 hrs)</td>
                   <td>
                     <center>24 Hrs</center><br>
-                    <input type="text" id="enCon1Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon2Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon3Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon1Ent" style="width: 60px;">
+                    <input type="text" id="enCon2Ent" style="width: 60px;">
+                    <input type="text" id="enCon3Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enCon4Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon5Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon6Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon4Ent" style="width: 60px;">
+                    <input type="text" id="enCon5Ent" style="width: 60px;">
+                    <input type="text" id="enCon6Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enCon7Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon8Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon9Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon7Ent" style="width: 60px;">
+                    <input type="text" id="enCon8Ent" style="width: 60px;">
+                    <input type="text" id="enCon9Ent" style="width: 60px;">
                   </td>
                   <td>
                     <center>48 Hrs</center><br>
-                    <input type="text" id="enCon12Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon22Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon32Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon12Ent" style="width: 60px;">
+                    <input type="text" id="enCon22Ent" style="width: 60px;">
+                    <input type="text" id="enCon32Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enCon42Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon52Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon62Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon42Ent" style="width: 60px;">
+                    <input type="text" id="enCon52Ent" style="width: 60px;">
+                    <input type="text" id="enCon62Ent" style="width: 60px;">
                     <br>
-                    <input type="text" id="enCon72Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon82Ent" value="0" style="width: 60px;">
-                    <input type="text" id="enCon92Ent" value="0" style="width: 60px;">
+                    <input type="text" id="enCon72Ent" style="width: 60px;">
+                    <input type="text" id="enCon82Ent" style="width: 60px;">
+                    <input type="text" id="enCon92Ent" style="width: 60px;">
                   </td>
                   <td>V</td>
                 </tr>

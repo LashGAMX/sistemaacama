@@ -299,20 +299,26 @@ class MetalesController extends Controller
     public function createControlCalidad(Request $request)
     {
         $muestra = LoteDetalle::where('Id_detalle', $request->idMuestra)->first();
-        
-        $model = $muestra->replicate();
-        $model->Id_control = $request->idControl;
-        $model->Liberado = 0;
-        $model->Vol_disolucion = null;  
-        $model->save(); 
+        $temp = LoteDetalle::where('Id_codigo',$muestra->Id_codigo)->where('Id_control',$request->idControl)->get();
+        $msg = "";
+        if ($temp->count()) {
+            $msg = "Ya existe este control de calidad sobre este folio";
+        }else{
+            $model = $muestra->replicate();
+            $model->Id_control = $request->idControl;
+            $model->Liberado = 0;
+            $model->Vol_disolucion = null;  
+            $model->save(); 
 
-        $detalleModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
-        $lote = LoteAnalisis::find($request->idLote);
-        $lote->Asignado = $detalleModel->count();
-        $lote->save();
+            $detalleModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
+            $lote = LoteAnalisis::find($request->idLote);
+            $lote->Asignado = $detalleModel->count();
+            $lote->save();
+            $msg = "Control de calidad creado";
+        }
 
         $data = array(
-            'model' => $model,
+            'msg' => $msg,
         );
         return response()->json($data);
     }
@@ -337,74 +343,263 @@ class MetalesController extends Controller
     }
     public function createControlCalidadMetales(Request $res)
     {
-        $msg = "Error al crear controles";
-        $temp = LoteDetalle::where('id_Lote', $res->idLote)->where('Id_control','!=',1)->get();
-        if ($temp->count()) {
-            
-        }else{
-            $muestra = LoteDetalle::where('id_Lote', $res->idLote)->get();
+        $msg = 'Controles creados';
+        $model = LoteDetalle::where('Id_lote',$res->idLote)->where('Id_control',1)->get();
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->first();
+        $cont = 0;
+        $aux = 0;
+        $orden = 1;
+        $idDetalle = 0;
+        $sw = $model->count();
+        $comprobacion = array();
 
-            //blanco reactivo
-            $model = $muestra[0]->replicate();
-            $model->Id_control = 9;
-            $model->Liberado = 0;
-            $model->Vol_disolucion = NULL;
-            $model->save();
-
-            //Estandar
-            $model = $muestra[0]->replicate();
-            $model->Id_control = 4;
-            $model->Liberado = 0;
-            $model->Vol_disolucion = NULL;
-            $model->save();
-
-            //Estandar verificacioón
-            $model = $muestra[0]->replicate();
-            $model->Id_control = 14;
-            $model->Liberado = 0;
-            $model->Vol_disolucion = NULL;
-            $model->save();
-
-            //Muestra adicionada
-            $model = $muestra[0]->replicate();
-            $model->Id_control = 3;
-            $model->Liberado = 0;
-            $model->Vol_disolucion = NULL;
-            $model->save();
-
-            //Muestra Duplicada
-            $model = $muestra[0]->replicate();
-            $model->Id_control = 2;
-            $model->Liberado = 0;
-            $model->Vol_disolucion = NULL;
-            $model->save();
-
-            $aux = 0;
-            foreach ($muestra as $item) {
-                if ($aux == 9) {
-                    //Muestra adicionada
-                    $model = $item->replicate();
-                    $model->Id_control = 3;
-                    $model->Liberado = 0;
-                    $model->Vol_disolucion = NULL;
-                    $model->save();
-
-                    //Muestra Duplicada
-                    $model = $item->replicate();
-                    $model->Id_control = 2;
-                    $model->Liberado = 0;
-                    $model->Vol_disolucion = NULL;
-                    $model->save();
-                    $aux = 0;
+        switch ($lote->Id_tecnica) {
+            case 20:
+            case 21:
+            case 23:
+            case 18:
+            case 24:
+            case 25:
+            case 232:
+            case 187:
+            case 226:
+            case 197:
+            case 351:
+            case 41:
+            case 354:
+            case 353:
+            case 355:
+            case 356:
+            case 17:
+            case 22:
+            case 352:
+                foreach ($model as $item) {
+                    $sw--;
+                    if ($aux == 0) {
+                        //Estandar de verificacion
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',14)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 14;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        //Estandar
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',4)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 4;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        // Blanco Reactivo
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',9)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 9;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        $aux = 1;
+                    }
+                    if ($cont == 0) {
+                        $idDetalle = $item->Id_detalle;
+                    }
+                    
+                    $temp = LoteDetalle::where('Id_detalle',$item->Id_detalle)->first();
+                    $temp->Orden = $orden;
+                    $temp->save();
+                    $orden++;
+        
+                    if ($cont >= 9 || $sw == 0) {
+                        // Muestra adicionada
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',3)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 3;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                         // Muestra duplicada
+                         $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',2)->get();
+                         if ($comprobacion->count()) {
+                            $orden++;
+                         }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 2;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                         }
+                    }
+                    if ($cont == 9) {
+                        $cont = 0;
+                    }else{
+                        $cont++;
+                    }
                 }
-                $aux++;
-            }
-            $msg = "Controles creados correctamente";
+                break;
+            case 216:
+            case 210:
+            case 208:
+            case 215:
+            case 191:
+            case 194:
+            case 189:
+            case 192:
+            case 204:
+            case 190:
+            case 196:
+            case 188:
+            case 219:
+            case 195:
+            case 230:
+                foreach ($model as $item) {
+                    $sw--;
+                    if ($aux == 0) {
+                        //MC1
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',22)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 22;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        //Blanco.
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',5)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 5;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        // Estandar control
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',4)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 4;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        // Blanco reactivo
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',9)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 9;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                        $aux = 1;
+                        $idDetalle = $item->Id_detalle;
+                    }
+              
+                    $temp = LoteDetalle::where('Id_detalle',$item->Id_detalle)->first();
+                    $temp->Orden = $orden;
+                    $temp->save();
+                    $orden++;
+        
+                    if ($cont >= 9 || $sw == 0) {
+                        // Muestra duplicado
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',2)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 2;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                         // Muestra adicionada
+                         $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',3)->get();
+                         if ($comprobacion->count()) {
+                            $orden++;
+                         }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 3;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                         }
+                         // Blanco 2
+                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',15)->get();
+                        if ($comprobacion->count()) {
+                            $orden++;
+                        }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 15;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                        }
+                         // MCI2
+                         $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',23)->get();
+                         if ($comprobacion->count()) {
+                            $orden++;
+                         }else{
+                            $temp = $item->replicate();
+                            $temp->Id_control = 23;
+                            $temp->Liberado = 0;
+                            $temp->Orden = $orden;
+                            $temp->save();
+                            $orden++;
+                         }
+                    }
+                    if ($cont == 9) {
+                        $cont = 0;
+                    }else{
+                        $cont++;
+                    }
+                }
+                break;
+            default:
+                # code...
+                break;
         }
+
+
+    
         $detalleModel = LoteDetalle::where('Id_lote', $res->idLote)->get();
         $lote = LoteAnalisis::find($res->idLote);
         $lote->Asignado = $detalleModel->count();
         $lote->save();
+
 
         $data = array(
             'msg' => $msg,
@@ -519,6 +714,9 @@ class MetalesController extends Controller
         
 
         $detalleModel = LoteDetalle::where('Id_detalle', $request->idDetalle)->first();
+        $sw = false;
+        if($detalleModel->Liberado != 1){
+            $sw = true;
         $loteTemp = LoteAnalisis::where('Id_lote',$detalleModel->Id_lote)->first();
         $fecha = new Carbon($loteTemp->Fecha);
         $today = $fecha->toDateString();
@@ -541,26 +739,63 @@ class MetalesController extends Controller
         $suma = ($x + $y + $z);
         $promedio = round(($suma / 3),4);
         $volFinal = 0;
+        $resMicro = 0;
         
         $resultado = "";
-
+      
         switch ($parametro->Id_matriz) {
             case 14: // MetalPotable
-                case 8:
+            case 8:
                 switch ($parametro->Id_parametro) {
                     case  215:
-                    $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD * $request->volDirigido;   
+                    $promedio = round(($suma / 3),3);
+                    $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                    $resMicro = $temp;
+                    $temp = $temp * $FD * $request->volFinal;  
                     $resultado = ($temp ) / ($request->volMuestra * $FC);
+                        break;
+                    case 197:
+                    case 232:
+                    case 226:
+                    case 187:
+                    case 351:
+                    case 41:
+                    case 354:
+                    case 353:
+                    case 55:
+                        $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
+                        $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                        if ($fechaResidual <= $fechaLimite) {
+                            $sw = false;
+                            $promedio = round(($suma / 3),4);
+                        }else{
+                            $sw = true;
+                            $promedio = round(($suma / 3),3);
+                        }
+                
+                        if ($parametroModel->count()) {
+                            if ($detalleModel->Descripcion != "Resultado") {
+                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                                $resMicro = $resultado;
+                            } else {
+                                $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                                $resMicro = $resultado;
+                                $resultado = $resultado / $FC;
+                            }
+                        } else {
+                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
+                        } 
                         break;
                     default:
                     $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                    $resMicro = $paso1;
                     $resultado = ($paso1 * 1) / $FC;   
                         break;
                 }
                 break;
             case 13: //Metal purificado
             case 9:
-                
+                $promedio = round(($suma / 3),3);
                 switch ($parametro->Id_parametro) {
                     case 190: 
                     case 192:
@@ -571,10 +806,12 @@ class MetalesController extends Controller
                     case 189:
                         $volFinal = $request->volFinal;
                         $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
+                        $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
                         $resultado = (($temp ) / ($request->volMuestra * $FC)); 
                         break;
                     default:
-                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volDirigido);   
+                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
+                        $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
                         $resultado = ($temp ) / ($request->volMuestra * $FC); 
                         break;
                 }
@@ -593,8 +830,11 @@ class MetalesController extends Controller
                 if ($parametroModel->count()) {
                     if ($detalleModel->Descripcion != "Resultado") {
                         $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                        $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
                     } else {
-                        $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) / $FC;
+                        $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                        $resMicro =(($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                        $resultado = $resultado / $FC;
                     }
                 } else {
                         $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
@@ -604,9 +844,10 @@ class MetalesController extends Controller
 
         $resultadoRound = round($resultado, 3);
 
+       
         $detalle = LoteDetalle::find($request->idDetalle);
         $detalle->Vol_muestra = $request->volMuestra;
-        $detalle->Vol_final = $volFinal;
+        $detalle->Vol_final = $request->volFinal;
         $detalle->Vol_dirigido = $request->volDirigido;
         $detalle->Abs1 = $request->x; 
         $detalle->Abs2 = $request->y;
@@ -614,21 +855,24 @@ class MetalesController extends Controller
         $detalle->Abs_promedio = $promedio;
         $detalle->Factor_dilucion = $request->FD;
         $detalle->Factor_conversion = $request->FC;
+        $detalle->Resultado_microgramo = $resMicro;
         $detalle->Vol_disolucion = $resultadoRound;
         $detalle->Observacion = $request->obs;
         $detalle->Analizo = Auth::user()->id;
         $detalle->save();
+       }
 
         $data = array(
-            // 'temp' => $temp,
-            'parametro' =>  $parametro,
-            'idDeta' => $request->idDetalle,
-            'curva' => $curvaConstantes,
-            'promedio' => $promedio,
-            'resultado' => $resultado,
-            'resultadoRound' => $resultadoRound,
-            'FC' => $FC,
-            'obs' => $request->obs,
+            'resMicro' => $resMicro,
+            'sw' => $sw,
+            'parametro' =>  @$parametro,
+            'idDeta' => @$request->idDetalle,
+            'curva' => @$curvaConstantes,
+            'promedio' => @$promedio,
+            'resultado' => @$resultado,
+            'resultadoRound' => @$resultadoRound,
+            'FC' => @$FC,
+            'obs' => @$request->obs,
         );
 
         return response()->json($data);
@@ -780,7 +1024,7 @@ class MetalesController extends Controller
                         'Slit' => $confModel[0]->Slit,
                         'Conc_std' => $confModel[0]->Concentracion,
                         'Oxido_nitroso' => $confModel[0]->Oxido_nitroso,
-                        'Bitacora' => $confModel[0]->Bitacora,
+                        'Bitacora' => $confModel[0]->Bitacora_curva,
                         'Folio' => $confModel[0]->Folio,
                         'Valor' => $confModel[0]->Valor,
                     ]);
@@ -897,7 +1141,8 @@ class MetalesController extends Controller
     public function getLoteCaptura(Request $request)
     { 
         // $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->where('Liberado',0)->get(); // Asi se hara con las otras
-        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)
+        ->orderBy('Orden','asc')->get();
         $obs = array();
         $punto = array();
         $temp = "";
@@ -1163,6 +1408,7 @@ class MetalesController extends Controller
     {
         $temp = array();
         $model = array();
+        $codigo = array();
         switch ($res->sw) {
             case 1:
                 $codigo = DB::table('ViewCodigoPendientes')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->get();
@@ -1196,58 +1442,50 @@ class MetalesController extends Controller
                 }
                 break;
             case 2:
-                $codigo = DB::table('ViewCodigoPendientes')
-                ->where(function($query) {
-                    $query->where('Id_area',2); 
+                $codigo = DB::table('ViewCodigoInforme')
+                ->where('Id_area', 2)
+                ->where('Asignado', 0)
+                ->when($res->tipo != 0, function ($query) use ($res) {
+                    $query->where('Id_tipo_formula', $res->tipo);
                 })
-                ->when($res->fechaRecepcion != '', function($query) use ($res) {
-                    $query->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%');
-                })
-               
-                ->when($res->tipo != 0, function($query) use ($res) {
-                    $query->where('Id_tipo_formula',$res->tipo);
-                    if ($res->tipo == 22) {
-                        $query->orWhere('Id_tipo_formula',58);
-                        $query->orWhere('Id_tipo_formula',59);
-
-                    }
-                })
-                ->when($res->tecnica != 0, function($query) use ($res) {
-                    $query->where('Id_tecnica',$res->tecnia);
-                })
-                // ->when($res->norma != 0, function($query) use ($res) {
-                //     $query->where('Id_norma',$res->norma); 
-                // })
-                // ->where('Id_tecnica',$res->tecnia)
-                ->where('Asignado',0)
+                ->when($res->tecnica != 0, function ($query) use ($res) {
+                    $query->where('Id_tecnica', $res->tecnica);
+                }) 
                 ->get();
                 foreach ($codigo as $item) {
-                    $temp = array();
-                    array_push($temp,$item->Id_codigo);
-                    array_push($temp,$item->Codigo);
-                    array_push($temp,$item->Empresa);
-                    
-                    $punto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
-                    $solTemp = DB::table('ViewSolicitud2')->where('Id_solicitud',$item->Id_solicitud)->first();
-                    array_push($temp,@$punto->Punto);
-
-                    array_push($temp,$solTemp->Clave_norma);
-                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro . " (".$item->Tecnica.")");
-                    // $lote = LoteAnalisis::where('Fecha','LIKE','%'.$res->fechaLote.'%')->get();
-                    $lote = LoteAnalisis::whereDate('Fecha',$res->fechaLote)->where('Id_tecnica',$item->Id_parametro)->get();
-                    // $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();   
-                    if($lote->count())
-                    {
-                        array_push($temp,$lote[0]->Id_lote);
-                        array_push($temp,$lote[0]->Fecha);
-                        // array_push($temp,$loteDetalle->Hora);
+                    if ($res->fechaRecepcion != '') {
+                        $aux = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->whereDate('Hora_recepcion',$res->fechaRecepcion)->get();
                     }else{
-                        array_push($temp,"");
-                        array_push($temp,""); 
-                        // array_push($temp,""); 
+                        $aux = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->get();
                     }
-                    array_push($model,$temp);
+                    if ($aux->count()) {
+                        $temp = array();
+                        array_push($temp,$item->Id_codigo);
+                        array_push($temp,$item->Codigo);
+                        array_push($temp,$aux[0]->Empresa);
+                        
+                        $punto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
+                        $solTemp = DB::table('ViewSolicitud2')->where('Id_solicitud',$item->Id_solicitud)->first();
+                        array_push($temp,@$punto->Punto);
+    
+                        array_push($temp,$solTemp->Clave_norma);
+                        array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro . " (".@$item->Tecnica.")");
+                        $lote = LoteAnalisis::whereDate('Fecha',$res->fechaLote)->where('Id_tecnica',$item->Id_parametro)->get();
+                        if($lote->count())
+                        {
+                            array_push($temp,$lote[0]->Id_lote);
+                            array_push($temp,$lote[0]->Fecha);
+                            // array_push($temp,$loteDetalle->Hora);
+                        }else{
+                            array_push($temp,"");
+                            array_push($temp,""); 
+                            // array_push($temp,""); 
+                        }
+                        array_push($model,$temp);
+                    }
+              
                 }
+
                 break;
             default:
                 # code...
@@ -1515,14 +1753,14 @@ class MetalesController extends Controller
                 case 216:
                 case 210:
                 case 208:
-                    $conversion = 1;
+                    $conversion = 1000;
                     $volMuestra = 45;
                     $volFinal = 50;
                     $dilucion = 1.111111;
                     break;
                 case 215:
-                    $conversion = 1;
-                    $volMuestra = 45;
+                    $conversion = 1000;
+                    $volMuestra = 80;
                     $volFinal = 100;
                     break;
                 case 191:
@@ -1532,27 +1770,23 @@ class MetalesController extends Controller
                 case 204:
                 case 190:
                 case 196:
-                    $conversion = 1;
+                    $conversion = 10000;
                     $volMuestra = 100;
                     $volFinal = 100;
                 break;
                 case 188:
                 case 219:
                 case 195:
-                    $conversion = 1;
+                    $conversion = 1000;
                     $volMuestra = 80;
                     $volFinal = 100;
                 break;
                 case 230:
-                    $conversion = 1;
+                    $conversion = 1000;
                     $volMuestra = 100;
                     $volFinal = 100;
                     break;
-                case 215:
-                    $conversion = 1;
-                    $volMuestra = 45;
-                    $volFinal = 100;
-                    break;
+
                 default:
                     $volMuestra = 100;
                     $conversion = 1000;
@@ -1876,6 +2110,7 @@ class MetalesController extends Controller
         $mpdf->showWatermarkImage = true;
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
+        // $loteVal = LoteAnalisis::where('Id_lote', $id)->first();
         $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control',1)->get();
         $tecnica = Tecnica::where('Id_tecnica',$model[0]->Id_tecnica)->first();
         $tipoFormula = TipoFormula::where('Id_tipo_formula',$model[0]->Id_tipo_formula)->first();
@@ -1917,13 +2152,11 @@ class MetalesController extends Controller
                 $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
                 $hora = $fechaHora->isoFormat('h:mm A');
                 $today = $fechaHora->toDateString();    
-                
                 break;
         }
  
+        $reviso = User::where('id', @$lote->Id_superviso)->first();
 
-        // $reviso = User::where('id', 17)->first();
-        $reviso = User::where('id', 39)->first();
         $data = array(
             'sw' => $sw,
             'fechaPreparacion' => $fechaPreparacion,
@@ -1943,14 +2176,149 @@ class MetalesController extends Controller
             'reviso' => $reviso,
             'comprobacion' => $comprobacion,
         );
-        $htmlFooter = view('exports.laboratorio.metales.absorcion.capturaFooter', $data);
-        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-        $htmlHeader = view('exports.laboratorio.metales.absorcion.capturaHeader', $data);
-        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-        $htmlCaptura = view('exports.laboratorio.metales.absorcion.capturaBody', $data);
-        $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->WriteHTML($htmlCaptura);
-        $mpdf->Output();
+
+        switch ($lote->Id_tecnica) {
+            case 20:
+            case 21:
+            case 23:
+            case 18:
+            case 24:
+            case 25:
+            case 232:
+            case 187:
+            case 226:
+            case 197:
+            case 351:
+            case 41:
+            case 354:
+            case 353:
+            case 55:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.flamaResidual.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.flamaResidual.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.flamaResidual.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();
+                break;
+                // 051 como horno de grafito a 4 decimales
+            case 355:
+            case 356:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.hornoResidual.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.hornoResidual.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.hornoResidual.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();
+                break;
+            case 22:
+            case 17:
+            case 352:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.hg22.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.hg22.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.hg22.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();
+                break;
+            case 188:
+            case 219:
+            case 219:
+            case 195:
+            case 230:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Hidruros.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.201Hidruros.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Hidruros.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();
+                break;
+                // 201 Flama
+            case 191:
+            case 194:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Flama.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.201Flama.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Flama.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();    
+                break;
+            case 189:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Ba.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.201Ba.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Ba.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();    
+                break;
+                // Horno de grafito 201
+            case 192:
+            case 204:
+            case 190:
+            case 196:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Horno.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.201Horno.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Horno.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();    
+                break;
+            case 216:
+            case 208:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Horno.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.127Horno.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.127Horno.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();    
+                break;
+            case 210:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Cd.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.127Cd.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.127Cd.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();                    
+                break;
+            case 215:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaFooter', $data); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();    
+                break;
+            default:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.metales.absorcion.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.metales.absorcion.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->Output();
+                break;
+        }
+       
     }
 
     // todo ************************************************
@@ -2093,7 +2461,7 @@ class MetalesController extends Controller
                 'margin_left' => 10,
                 'margin_right' => 10,
                 'margin_top' => 39, 
-                'margin_bottom' => 35,
+                'margin_bottom' => 40,
                 'defaultheaderfontstyle' => ['normal'],
                 'defaultheaderline' => '0'
             ]);
@@ -2124,7 +2492,9 @@ class MetalesController extends Controller
             } else {
                 @$analizo = User::where('id', $resultados[0]->Analizo)->first();
             }
-            $reviso = User::where('id', 46)->first();
+            // $reviso = User::where('id', 46)->first();
+            $reviso = User::where('id', @$lote->Id_superviso)->first();
+
 
             $data = array(
                 'lote' => $lote,
@@ -2336,4 +2706,37 @@ class MetalesController extends Controller
             echo "<br>";
         }
     }
+    public function getUltimoLote(Request $res)
+    {
+        $model = LoteAnalisis::where('Id_tecnica',$res->id)->orderBy('Id_lote','DESC')->first();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function eliminarContro(Request $res)
+    {
+        $model = LoteDetalle::where('Id_detalle',$res->idMuestra)->first();
+        $msg = "";
+        if ($model->Id_control != 1) {
+            DB::table('lote_detalle')->where('Id_detalle', $res->idMuestra)->delete();
+            $msg = "Control eliminado";
+        }else{
+            $msg = "No se puede eliminar porque no es un control";
+        }
+
+        $contLote = LoteDetalle::where('Id_lote',$model->Id_lote)->get();
+        $contLib = LoteDetalle::where('Id_lote',$model->Id_lote)->where('Liberado',1)->get();
+        $temp = LoteAnalisis::where('Id_lote',$model->Id_lote)->first();
+        $temp->Asignado = $contLote->count();
+        $temp->Liberado = $contLib->count();
+        $temp->save();
+
+        $data = array(
+            'model' => $model,
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    
 }

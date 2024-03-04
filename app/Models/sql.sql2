@@ -568,13 +568,29 @@ pa.Id_tipo_formula,pa.Id_tecnica,pa.Tecnica FROM codigo_parametro as cod
 INNER JOIN ViewParametros as pa ON cod.Id_parametro = pa.Id_parametro 
 INNER JOIN proceso_analisis as proce ON cod.Id_solicitud = proce.Id_solicitud;
 
+CREATE VIEW ViewCodigoInformeMensual as 
+SELECT cod.* , pa.Parametro,pa.Id_area,pa.Tipo_formula,pa.Area_analisis,pa.Id_tipo_formula,pa.Id_tecnica,pa.Tecnica,pa.Clave_metodo,
+pa.Unidad,pa.Limite,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia,pa.Id_simbologia_info, pa.Descripcion,pa.Descripcion2,pa.Descripcion_sim, sol.Id_norma
+FROM codigo_parametro as cod
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro
+INNER JOIN solicitudes as sol
+ON cod.Id_solicitud = sol.Id_solicitud
+
+CREATE VIEW ViewCodigoMetales as SELECT cod.*,p.Parametro,p.Id_tipo_formula,p.Tipo_formula,
+p.Id_tecnica,p.Tecnica,p.Id_area,p.Area_analisis,pro.Cliente,pro.Empresa,pro.Hora_recepcion FROM codigo_parametro as cod
+INNER JOIN viewparametros as p
+ON cod.Id_parametro = p.Id_parametro
+INNER JOIN proceso_analisis as pro
+ON cod.Id_solicitud = pro.Id_solicitud;
+
 CREATE VIEW ViewCodigoRecepcion AS 
 SELECT cod.* , pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codigo_parametro as cod
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro;
 
 CREATE VIEW ViewCodigoInforme as 
-SELECT cod.* , pa.Parametro,pa.Id_area,pa.Tipo_formula,pa.Area_analisis,pa.Clave_metodo,pa.Unidad,pa.Limite,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia,pa.Id_simbologia_info , us.iniciales, pa.Descripcion,pa.Descripcion2,pa.Descripcion_sim
+SELECT cod.* , pa.Parametro,pa.Id_area,pa.Tipo_formula,pa.Area_analisis,pa.Id_tipo_formula,pa.Id_tecnica,pa.Tecnica,pa.Clave_metodo,pa.Unidad,pa.Limite,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia,pa.Id_simbologia_info , us.iniciales, pa.Descripcion,pa.Descripcion2,pa.Descripcion_sim
 FROM codigo_parametro as cod
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro
@@ -676,7 +692,8 @@ ON m.Id_item = it.id;
 
 /* ViewLoteDetalleDirectos */
 
-CREATE VIEW ViewLoteDetalleDirectos AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_directos as det
+CREATE VIEW ViewLoteDetalleDirectos AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra 
+FROM lote_detalle_directos as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud2 as sol

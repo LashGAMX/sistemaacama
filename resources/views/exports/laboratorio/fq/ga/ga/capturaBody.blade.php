@@ -29,8 +29,8 @@
             @foreach ($matraz as $item) 
             <tr>
                 <td class="tableContent">{{@$item->Matraz}}</td>
-                <td class="tableContent">{{@$item->Min}}</td>
-                <td class="tableContent">{{@$item->Max}}</td> 
+                <td class="tableContent">{{number_format(@$item->M_inicial1,4, ".", ".")}}</td>
+                <td class="tableContent">{{number_format(@$item->M_inicial2,4, ".", ".")}}</td> 
             </tr>
         @endforeach
         </tbody>        

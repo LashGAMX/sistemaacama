@@ -31,6 +31,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('actualizarLiberaciones', [MetalesController::class, 'actualizarLiberaciones']);
         Route::post('setObsIndividual', [MetalesController::class, 'setObsIndividual']);
         Route::get('listaFoliosSinRellenar', [MetalesController::class, 'listaFoliosSinRellenar']);
+        Route::post('getUltimoLote', [MetalesController::class, 'getUltimoLote']);
+        Route::post('eliminarContro', [MetalesController::class, 'eliminarContro']);
         
 
         //? Modulo captura de datos analisis

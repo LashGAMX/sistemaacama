@@ -19,7 +19,7 @@
         @if (@$solModel->Id_muestra == 1 || @$solModel->Id_muestra == 0)
         INSTANTANEA
         @else
-        COMPUESTA
+        COMPUESTA 
         @endif
     </p>
     <div style="width: 100%">
@@ -182,7 +182,6 @@
             </tbody>
         </table>
     </div>
-    <br>
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"
@@ -460,6 +459,9 @@
                                     @php
                                         echo $impresion[0]->Nota;
                                     @endphp
+                                    @if ($solModel->Nota_4 == 1)
+                                        4 PARAMETRO NO ACREDITADO
+                                    @endif
                                     @if ($tipo == 1)
                                         A SOLICITUD DEL CLIENTE SE COMPARA EL INFORME DE RESULTADOS CON LOS LIMITES PERMISIBLES DE LA NORMA
                                     @endif
@@ -524,7 +526,7 @@
             
             @if (@$solModel->Num_tomas > 1)
                     
-                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" style="margin-top:-70px">
+                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" >
                     <tbody>        
                         <tr><td></td></tr>
                             @foreach ($model as $item)

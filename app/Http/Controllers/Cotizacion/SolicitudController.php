@@ -143,7 +143,9 @@ class SolicitudController extends Controller
         }
         $categorias001 = DB::table('categorias001')->get();
         $categorias0012 = DB::table('categoria001_2021')->get();
+        $parametros = DB::table('viewparametros')->get();
         $data = array(
+            'parametros' => $parametros,
             'categorias0012' => $categorias0012,
             'tipoMuestraCot' => $tipoMuestraCot,
             'promedioCot' => $promedioCot,
@@ -1437,6 +1439,7 @@ class SolicitudController extends Controller
                     'Id_solicitud' => $item->Id_solicitud,
                     'Id_subnorma' => $res->idParametro,
                     'Extra' => $extra,
+                    'Reporte' => 0,
                 ]);
             }
         }

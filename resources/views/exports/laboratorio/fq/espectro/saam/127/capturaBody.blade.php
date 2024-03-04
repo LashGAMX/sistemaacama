@@ -11,7 +11,7 @@
 
     <div id="contenidoCurva">
         @php
-            echo $plantilla[0]->Texto;
+            echo @$plantilla[0]->Texto;
         @endphp
     </div>
 
@@ -87,48 +87,7 @@
         <span>RESULTADO BLANCO: 0</span>
     </div>
     
-    <div id="contenidoCurva">
-        {{-- <span id="curvaProcedimiento">Valoración / Observación</span> --}}
-        
-    </div>
-
-    <br>
-
-    <div class="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
-            <thead>
-
-                <tr>
-                    <th class="nombreHeader" colspan="4">
-                        Datos de la curva de calibración
-                    </th>                    
-                </tr>                
-                
-            </thead>
-    
-            <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
-                    <tr>
-                        <td class="tableCabecera">b = </td>
-                        <td class="tableContent">{{@$curva->B}}</td>                        
-                        <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>                                                
-                    </tr>
-
-                    <tr>
-                        <td class="tableCabecera">m = </td>
-                        <td class="tableContent">{{@$curva->M}}</td>                        
-                        <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"><{{@$model[0]->Limite}}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="tableCabecera">r = </td>
-                        <td class="tableContent">{{@$curva->R}}</td>
-                    </tr>
-                {{-- @endfor --}}
-            </tbody>        
-        </table>  
+ 
     </div>
 </body>
 </html>

@@ -29,7 +29,7 @@
         
         <div class="contenedorHijo12 bordesTablaFirmasInfDer">            
             <span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span>
-            <span class="bodyStdMuestra"> TSU. MARÍA IRENE REYES MORALES {{-- {{@$usuario->name}} --}} </span>
+            <span class="bodyStdMuestra">  Q.F.B. SANDRA ROJAS NAVARRO {{-- {{@$usuario->name}} --}} </span>
         </div>
     </div>
 

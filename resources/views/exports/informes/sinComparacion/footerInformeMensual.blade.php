@@ -56,7 +56,7 @@
                 <br>
                 <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url('public/storage/'.$firma2->firma2)}}"> <br></span>          
                 <br>
-                <span class="bodyStdMuestra fontSize5"> TSU. MARÍA IRENE REYES MORALES{{-- {{@$usuario->name}} --}} </span> <br>
+                <span class="bodyStdMuestra fontSize5"> Q.F.B. SANDRA ROJAS NAVARRO{{-- {{@$usuario->name}} --}} </span> <br>
                 <span class="cabeceraStdMuestra fontNormal fontSize5"> AUTORIZÓ SIGNATARIO</span>      
             </div>                
 

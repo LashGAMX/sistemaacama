@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/coliformes/coliformesPDF.css')}}">
     <title>Captura PDF</title>
 </head>
-<body>
+<body id="bodyMargin">
 
 <div id="contenidoCurva">
         @php
@@ -37,7 +37,7 @@
             
 
                 @if ($cont == 3)
-                    <tr>
+                    <tr class="tablaDatosSmall">
                         <td class="tableContent">{{$item->Id_codigo}}</td>
                         <td class="tableContent">{{$item->Parametro}}</td>
                         <td class="tableContent">{{$item->Cps}}</td>
@@ -83,6 +83,7 @@
                         $cont++;
                     @endphp
                 @endforeach
+                
             </tbody>        
         </table>  
     </div>

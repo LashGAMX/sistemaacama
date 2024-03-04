@@ -45,7 +45,35 @@ $(document).ready(function () {
         }
     });
 
+    $('#btnNota').on('click', function(){
+        setNota4(idSol)
+    });
+
 }); 
+ 
+function setNota4(id)
+{
+    if (id != 0) {
+        console.log("Entro al if")
+        $.ajax({
+            url: base_url + '/admin/informes/setNota4',
+            type: 'POST', //método de envio
+            data: {
+                id: id,
+                nota: $("#nota").prop("checked"),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json', 
+            async: false, 
+            success: function (response) {
+                console.log(response)
+             alert("Nota modificada")
+            }
+        });  
+       } else{
+        alert("Tienes que seleccionar un informe antes de seleccionar la nota 4")
+       }
+}
 
 
 function getPuntoMuestro(id) 

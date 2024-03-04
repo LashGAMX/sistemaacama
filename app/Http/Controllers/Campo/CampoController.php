@@ -173,18 +173,35 @@ class CampoController extends Controller
     }
     public function listaMuestreo()
     {
-        $equipo = DB::table('ViewCampoGenerales')->get();
-        // var_dump(Auth::user()); 
+        $cliente = array();
+        $fecha = array();
+        $norma = array();
+        $usuario = array();
         switch (Auth::user()->role_id) {
             case 1:
             case 15:
-                $model = DB::table('ViewSolicitudGenerada')->orderBy('Id_solicitud', 'DESC')->get();
+                $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->get();
                 break;
             default:
-                $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
                 break;
         }
-        return view('campo.listaMuestreo', compact('model', 'equipo'));
+        foreach ($model as $item) {
+            $temp = DB::table('ViewSolicitud2')->where('Id_solicitud',$item->Id_solicitud)->first();
+            array_push($cliente, @$temp->Empresa_suc);
+            array_push($fecha, @$temp->Fecha_muestreo);
+            array_push($norma, @$temp->Clave_norma);
+            $userTemp = DB::table('users')->where('id',$item->Id_muestreador)->first();
+            array_push($usuario, @$userTemp->name);
+        }
+        $data = array(
+            'usuario' => $usuario,
+            'model' => $model,
+            'fecha' => $fecha,
+            'norma' => $norma,
+            'cliente' => $cliente,
+        );
+        return view('campo.listaMuestreo',$data);
     }
     public function setObservacion(Request $res)
     {

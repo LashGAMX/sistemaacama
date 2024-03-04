@@ -13,7 +13,7 @@ class TableMatrizParametro extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 50;
+    public $perPage = 100;
     public $show = false;
     public $alert = false;
 

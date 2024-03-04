@@ -190,6 +190,14 @@ class CadenaController extends Controller
                         $codigo->save();
                     }
                 break;
+                case 12: //coliformes fecales
+                    $model = LoteDetalleColiformes::where('Id_analisis',$codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                    foreach ($model as $item){
+                        $codigo = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
+                        $codigo->Liberado = 0;
+                        $codigo->save();
+                    }
+                break;
            
            
             }

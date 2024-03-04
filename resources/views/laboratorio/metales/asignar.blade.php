@@ -1,14 +1,6 @@
 @extends('voyager::master')
 
 @section('content')
-
-  @section('page_header')
-  <h6 class="page-title"> 
-    <i class="far fa-eye"></i>
-    Asignación lote
-  </h6>
-  @stop
-
   
 <div class="container-fluid">
   <div class="row">

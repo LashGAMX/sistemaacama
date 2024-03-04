@@ -694,14 +694,14 @@ class MbController extends Controller
                     $model->Tubos_positivos = $request->G1;
 
                     $model->Confirmativa1 = $request->con1;
-                        $model->Confirmativa2 = $request->con2;
-                        $model->Confirmativa3 = $request->con3;
-                        $model->Confirmativa4 = $request->con4;
-                        $model->Confirmativa5 = $request->con5;
-                        $model->Confirmativa6 = $request->con6;
-                        $model->Confirmativa7 = $request->con7;
-                        $model->Confirmativa8 = $request->con8;
-                        $model->Confirmativa9 = $request->con9;
+                    $model->Confirmativa2 = $request->con2;
+                    $model->Confirmativa3 = $request->con3;
+                    $model->Confirmativa4 = $request->con4;
+                    $model->Confirmativa5 = $request->con5;
+                    $model->Confirmativa6 = $request->con6;
+                    $model->Confirmativa7 = $request->con7;
+                    $model->Confirmativa8 = $request->con8;
+                    $model->Confirmativa9 = $request->con9;
 
                     $model->Presuntiva1 = $request->pre1;
                     $model->Presuntiva2 = $request->pre2;

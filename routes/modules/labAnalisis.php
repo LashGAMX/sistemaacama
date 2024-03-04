@@ -22,6 +22,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setDetalleGrasas',[LabAnalisisController::class,'setDetalleGrasas']);
         Route::post('setNormalidadAlc',[LabAnalisisController::class,'setNormalidadAlc']);
         Route::post('getHistorial',[LabAnalisisController::class,'getHistorial']);
+        Route::post('metodoCortoColiformes',[LabAnalisisController::class,'metodoCortoColiformes']);
+        Route::get('pruebaValores',[LabAnalisisController::class,'pruebaValores']);
 
         Route::post('setTipoDqo',[LabAnalisisController::class,'setTipoDqo']); 
         Route::post('setControlCalidad', [LabAnalisisController::class, 'setControlCalidad']);
@@ -35,11 +37,18 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('updateTituloBitacora/{id}', [LabAnalisisController::class, 'updateTituloBitacora']);
         Route::get('updateVolumenMetales', [LabAnalisisController::class, 'updateVolumenMetales']);
         Route::get('updateVolMuestraMetales/{id}', [LabAnalisisController::class, 'updateVolMuestraMetales']);
+        Route::get('updateVolFinalMetales', [LabAnalisisController::class, 'updateVolFinalMetales']);
         Route::get('updateContadorLotes', [LabAnalisisController::class, 'updateContadorLotes']);
         Route::get('replicarDatosEcoli', [LabAnalisisController::class, 'replicarDatosEcoli']);
         Route::get('updateDefaultLoteMetales', [LabAnalisisController::class, 'updateDefaultLoteMetales']);
         Route::get('updateBitacoraFolioMetales', [LabAnalisisController::class, 'updateBitacoraFolioMetales']);
-        
+        Route::get('updateMicroGramoMetales', [LabAnalisisController::class, 'updateMicroGramoMetales']);
+        Route::post('getUltimoLote', [LabAnalisisController::class, 'getUltimoLote']);
+        Route::get('matracesDuplicados', [LabAnalisisController::class, 'matracesDuplicados']);
+        Route::get('pruebaRandom', [LabAnalisisController::class, 'pruebaRandom']);
+        Route::get('updateMatrazDuplicado', [LabAnalisisController::class, 'updateMatrazDuplicado']);
+        Route::get('updatePruebaConfirmativaCol', [LabAnalisisController::class, 'updatePruebaConfirmativaCol']);
+        Route::get('updateDetalleDbo', [LabAnalisisController::class, 'updateDetalleDbo']);
         
     });
    

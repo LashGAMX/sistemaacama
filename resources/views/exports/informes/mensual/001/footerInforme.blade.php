@@ -15,7 +15,7 @@
                             
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 10px;"> AUTORIZÓ SIGNATARIO</span> </center> -->
-                            <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> I.A MARÍA LUISA ZAYAS RAMÍREZ</span> <br>
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B. SANDRA ROJAS NAVARRO</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 10px;"> AUTORIZÓ SIGNATARIO</span> </center>
                         </td>
                     </tr> 

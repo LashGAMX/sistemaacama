@@ -92,9 +92,9 @@ function getPreReporteMensual()
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>'+item.Id_codigo+'</td>';
-                tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td>'+item.Unidad+'</td>';
-                tab += '<td>'+item.Clave_metodo+'</td>';
+                tab += '<td>'+response.parametro[cont]+'</td>';
+                tab += '<td>'+response.unidad[cont]+'</td>';
+                tab += '<td>'+response.metodo[cont]+'</td>';
                 tab += '<td>'+item.Resultado2+'</td>';
                 tab += '<td>'+response.model2[cont].Resultado2+'</td>';
                 let prom = (parseFloat(response.model2[cont].Resultado) + parseFloat(item.Resultado)) / 2

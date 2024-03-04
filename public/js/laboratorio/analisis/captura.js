@@ -24,6 +24,9 @@ $(document).ready(function () {
     $('#btnPendientes').click(function () {
         getPendientes()
     });
+    $('#btnPendientes').click(function () {
+        getPendientes()
+    });
     $('#btnBuscarLote').click(function () {
         getLote()
     });
@@ -138,6 +141,7 @@ $(document).ready(function () {
             async: false,
             success: function (response) {
                 console.log(response);
+                alert("Datos guardados")
                 // swal("Registro!", "Datos guardados correctamente!", "success");
             }
         });
@@ -146,6 +150,10 @@ $(document).ready(function () {
         metodoCortoCol();
         $('#indicador').val(1);
         console.log("metodo corto");
+    });
+    $('#metodoCortoEnt').click(function () {
+        metodoCortoEnterococos();
+        
     });
     $('#btnCleanColiforme').click(function () {
         $("#dil1Col").val("");
@@ -353,12 +361,12 @@ function getDetalleEcoli(idMuestra,colonia,indice){
 function metodoCortoCol() {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/micro/metodoCortoCol",
+        url: base_url + "/admin/laboratorio/analisis/metodoCortoColiformes",
         data: {
             idDetalle: idMuestra,
             indicador: $('#indicadorCol').val(),
             resultadoCol: $("#resultadoColCol").val(),
-            idParametro: $('#formulaTipoCol').val(),
+            idParametro: $('#parametro').val(),
 
             D1: $("#dil1Col").val(),
             D2: $('#dil2Col').val(),
@@ -367,30 +375,14 @@ function metodoCortoCol() {
             G3: $('#todos1Col').val(),
             G2: $('#negativos1Col').val(),
             G1: $('#positivos1Col').val(),
-            con3: $("#con3Col").val(),
-            con2: $("#con2Col").val(),
-            con1: $("#con1Col").val(),
-            con4: $("#con4Col").val(),
-            con5: $("#con5Col").val(),
-            con6: $("#con6Col").val(),
-            con7: $("#con7Col").val(),
-            con8: $("#con8Col").val(),
-            con9: $("#con9Col").val(),
-            pre1: $("#pre1Col").val(),
-            pre2: $("#pre2Col").val(),
-            pre3: $("#pre3Col").val(),
-            pre4: $("#pre4Col").val(),
-            pre5: $("#pre5Col").val(),
-            pre6: $("#pre6Col").val(),
-            pre7: $("#pre7Col").val(),
-            pre8: $("#pre8Col").val(),
-            pre9: $("#pre9Col").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
             // inicio metodo corto
+
+            alert(response.msg)
 
             $("#con3Col").val(0)
             $("#con2Col").val(0)
@@ -431,119 +423,70 @@ function metodoCortoCol() {
             $("#con16Col").val(0)
             $("#con17Col").val(0)
             $("#con18Col").val(0)
-
-
-            let positivos = response.positivos;
-
-            $('#nmp1Col').val(response.convinacion.Nmp);
-            $('#positivos1Col').val(positivos);
-            $('#negativos1Col').val(9 - positivos);
-            let cont1 = 1;
-            let cont2 = 4;
-            let cont3 = 7;
-            // Confirmativas
-            for (var i = 0; i < 3; i++) {
-                if ((i+1) <= parseInt(response.convinacion.Col1)) {
-                    $('#con' + cont1 + 'Col').val(1);
-                } else {
-                    $('#con' + cont1 + 'Col').val(0);
-                }
-                console.log("# c1: "+cont1);
-                cont1++;
-            }
-            for (var j = 0; j < 3; j++) {
-                if ((j+1) <= parseInt(response.convinacion.Col2)) {
-                    $('#con' + cont2 + 'Col').val(1);
-                } else {
-                    $('#con' + cont2 + 'Col').val(0);
-                }
-
-                console.log(cont2);
-                cont2++;
-            }
-            for (var k = 0; k < 3; k++) {
-                if ((k+1) <= parseInt(response.convinacion.Col3)) {
-                    $('#con' + cont3 + 'Col').val(1);
-                } else {
-                    $('#con' + cont3 + 'Col').val(0);
-                }
-                console.log(cont3);
-                cont3++;
-            }
-
-            cont1 = 10;
-            cont2 = 13;
-            cont3 = 16;
-
-            for (var i = 0; i < 3; i++) {
-                if ((i+1) <= parseInt(response.convinacion.Col1)) {
-                    $('#con' + cont1 + 'Col').val(1);
-                } else {
-                    $('#con' + cont1 + 'Col').val(0);
-                }
-                console.log("# c1: "+cont1);
-                cont1++;
-            }
-            for (var j = 0; j < 3; j++) {
-                if ((j+1) <= parseInt(response.convinacion.Col2)) {
-                    $('#con' + cont2 + 'Col').val(1);
-                } else {
-                    $('#con' + cont2 + 'Col').val(0);
-                }
-
-                console.log(cont2);
-                cont2++;
-            }
-            for (var k = 0; k < 3; k++) {
-                if ((k+1) <= parseInt(response.convinacion.Col3)) {
-                    $('#con' + cont3 + 'Col').val(1);
-                } else {
-                    $('#con' + cont3 + 'Col').val(0);
-                }
-                console.log(cont3);
-                cont3++;
-            }
-            // presuntivas
-            let c1 = 1;
-            let c2 = 4;
-            let c3 = 7;
-
-            let c4 = 0
-            let c5 = 3
-            let c6 = 6
-            let ran1 = Math.random() * response.convinacion.Col1;
-            let ran2 = Math.random() * response.convinacion.Col2;
-            let ran3 = Math.random() * response.convinacion.Col3;
-            for (var i = 0; i < 3; i++) {
-                $('#pre' + c1 + 'Col').val(1);
-                $('#pre1' + c4 + 'Col').val(1);
-                console.log(ran1);
-                c1++;
-                c4++
-            }
-            for (var i = 0; i < ran2; i++) {
-                $('#pre' + c2 + 'Col').val(1);
-                $('#pre1' + c5 + 'Col').val(1);
-                console.log(ran2);
-                c2++;
-                c5++
-            }
-            for (var i = 0; i < ran3; i++) {
-                $('#pre' + c3 + 'Col').val(1);
-                $('#pre1' + c6 + 'Col').val(1);
-                console.log(ran3);
-                c3++;
-                c6++
-            }
-
-
-            if (response.convinacion.Nmp == 0) {
-                $('#resultadoCol').val("< 3");
-            } else {
-                $('#resultadoCol').val(response.resultado);
-            }
-            $('#nmp1Col').val(response.convinacion.Nmp)
             getCapturaLote()
+            getDetalleMuestra(idMuestra)
+        }
+    });
+}
+function metodoCortoEnterococos()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/analisis/metodoCortoColiformes",
+        data: {
+            idDetalle: idMuestra,
+            resultadoCol: $("#resultadoEnt").val(),
+            idParametro: $('#parametro').val(),
+            D1: $('#endil1Ent').val(),
+            D2: $('#endil2Ent').val(),
+            D3: $('#endil3Ent').val(),
+            NMP: $('#ennmp1Ent').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            // inicio metodo corto
+
+            alert(response.msg)
+            $("#enPre1Ent").val()
+            $("#enPre2Ent").val()
+            $("#enPre3Ent").val()
+            $("#enPre4Ent").val()
+            $("#enPre5Ent").val()
+            $("#enPre6Ent").val()
+            $("#enPre7Ent").val()
+            $("#enPre8Ent").val()
+            $("#enPre9Ent").val()
+            $("#enPre12Ent").val()
+            $("#enPre22Ent").val()
+            $("#enPre32Ent").val()
+            $("#enPre42Ent").val()
+            $("#enPre52Ent").val()
+            $("#enPre62Ent").val()
+            $("#enPre72Ent").val()
+            $("#enPre82Ent").val()
+            $("#enPre92Ent").val()
+            $("#enCon1Ent").val()
+            $("#enCon2Ent").val()
+            $("#enCon3Ent").val()
+            $("#enCon4Ent").val()
+            $("#enCon5Ent").val()
+            $("#enCon6Ent").val()
+            $("#enCon7Ent").val()
+            $("#enCon8Ent").val()
+            $("#enCon9Ent").val()
+            $("#enCon12Ent").val()
+            $("#enCon22Ent").val()
+            $("#enCon32Ent").val()
+            $("#enCon42Ent").val()
+            $("#enCon52Ent").val()
+            $("#enCon62Ent").val()
+            $("#enCon72Ent").val()
+            $("#enCon82Ent").val()
+            $("#enCon92Ent").val()
+            getCapturaLote()
+            getDetalleMuestra(idMuestra)
         }
     });
 }
@@ -1223,9 +1166,20 @@ function getDetalleLote(id, parametro) {
                     $('#5salidaGA').val(response.model.Enfriado_matraces_salida);
                     break;
                 case 6:
+                case 12:
                     switch (parseInt($("#parametro").val())) {
                         case 6:
                         case 70:
+                            $('#cantDilucion').val(response.model.Cant_dilucion);
+                            $('#de').val(response.model.De);
+                            $('#a').val(response.model.A);
+                            $('#pag').val(response.model.Pag);
+                            $('#n').val(response.model.N);
+                            $('#dilucion').val(response.model.Dilucion);
+                            $('#estandaresbit').val(response.model.Estandares_bit);
+                            break;
+                        case 5:
+                        case 71:
                             $('#cantDilucion').val(response.model.Cant_dilucion);
                             $('#de').val(response.model.De);
                             $('#a').val(response.model.A);
@@ -2189,11 +2143,12 @@ function setDetalleMuestra() {
                     }
                     $.ajax({
                         type: "POST",
-                        url: base_url + "/admin/laboratorio/micro/operacion",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
                         data: {
                             tipo: 1,
+                            idLote: idLote,
                             idParametro: $("#parametro").val(),
-                            idDetalle: idMuestra,
+                            idMuestra: idMuestra,
                             Observacion: $('#observacion').val(),
                             H: $('#botellaF1Dbo').val(),
                             G: $('#od1Dbo').val(),
@@ -2204,8 +2159,8 @@ function setDetalleMuestra() {
                             D: $('#volDbo1Dbo').val(),
                             E: $('#dil1Dbo').val(),
                             C: $('#win1Dbo').val(),
-                            OI: $('#oxigenoIncialB1Dbo').val(),
-                            OF: $('#oxigenofinalB1Dbo').val(),
+                            OI: $('#oxigenoIncialB1').val(),
+                            OF: $('#oxigenofinalB1').val(),
                             V: $('#volMuestraB1Dbo').val(),
                             OIB: $('#oxigenoIncialB1').val(),
                             OFB: $('#oxigenofinalB1').val(),
@@ -2223,13 +2178,13 @@ function setDetalleMuestra() {
                             }
                             switch (response.tipo) {
                                 case 1:
-                                    $('#resultadoDbo').val(response.res);
+                                    $('#resultadoDbo').val(response.resultado);
                                     break;
                                 case 2:
-                                    $('#resultadoDboBlanco').val(response.res);
+                                    $('#resultadoDboBlanco').val(response.resultado);
                                     break;
                                 default:
-                                    $('#resDboB').val(response.res);
+                                    $('#resDboB').val(response.resultado);
                                     break;
                             }
                         }
@@ -3058,6 +3013,7 @@ function getDetalleMuestra(id) {
                         case 51: // Coliformes totales
                         case 137: 
                         console.log("Ocultando seccion")
+                        
                         $("#con10Col").attr('hidden',true)
                         $("#con11Col").attr('hidden',true)
                         $("#con12Col").attr('hidden',true)
@@ -3067,59 +3023,95 @@ function getDetalleMuestra(id) {
                         $("#con16Col").attr('hidden',true)
                         $("#con17Col").attr('hidden',true)
                         $("#con18Col").attr('hidden',true)
+                        document.getElementById('tituloColiformes').innerText = 'Prueba confirmativa 24hrs'
+                        if (parseInt(response.model.Id_parametro) == 137) {
+                            document.getElementById('tituloColiformes').innerHTML = 'Prueba confirmativa 24hrs / 48hrs'
+                        }
 
-                        if (parseInt(response.model.Id_parametro) == 35) {
-                            $("#con10Col").attr('hidden',false)
-                            $("#con11Col").attr('hidden',false)
-                            $("#con12Col").attr('hidden',false)
-                            $("#con13Col").attr('hidden',false)
-                            $("#con14Col").attr('hidden',false)
-                            $("#con15Col").attr('hidden',false)
-                            $("#con16Col").attr('hidden',false)
-                            $("#con17Col").attr('hidden',false)
-                            $("#con18Col").attr('hidden',false)  
- 
-                            $("#con10Col").val(response.model.Confirmativa1);
-                            $("#con11Col").val(response.model.Confirmativa2);
-                            $("#con12Col").val(response.model.Confirmativa3);
-                            $("#con13Col").val(response.model.Confirmativa4);
-                            $("#con14Col").val(response.model.Confirmativa5);
-                            $("#con15Col").val(response.model.Confirmativa6);
-                            $("#con16Col").val(response.model.Confirmativa7);
-                            $("#con17Col").val(response.model.Confirmativa8);
-                            $("#con18Col").val(response.model.Confirmativa9);
+                        switch (parseInt(response.model.Id_parametro) ) {
+                            case 35:
+                                $("#con10Col").attr('hidden',false)
+                                $("#con11Col").attr('hidden',false)
+                                $("#con12Col").attr('hidden',false)
+                                $("#con13Col").attr('hidden',false)
+                                $("#con14Col").attr('hidden',false)
+                                $("#con15Col").attr('hidden',false)
+                                $("#con16Col").attr('hidden',false)
+                                $("#con17Col").attr('hidden',false)
+                                $("#con18Col").attr('hidden',false)  
+     
+                                $("#con10Col").val(response.model.Confirmativa1);
+                                $("#con11Col").val(response.model.Confirmativa2);
+                                $("#con12Col").val(response.model.Confirmativa3);
+                                $("#con13Col").val(response.model.Confirmativa4);
+                                $("#con14Col").val(response.model.Confirmativa5);
+                                $("#con15Col").val(response.model.Confirmativa6);
+                                $("#con16Col").val(response.model.Confirmativa7);
+                                $("#con17Col").val(response.model.Confirmativa8);
+                                $("#con18Col").val(response.model.Confirmativa9);
+    
+                                $("#con1Col").val(response.model.Confirmativa10);
+                                $("#con2Col").val(response.model.Confirmativa11);
+                                $("#con3Col").val(response.model.Confirmativa12);
+                                $("#con4Col").val(response.model.Confirmativa13);
+                                $("#con5Col").val(response.model.Confirmativa14);
+                                $("#con6Col").val(response.model.Confirmativa15);
+                                $("#con7Col").val(response.model.Confirmativa16);
+                                $("#con8Col").val(response.model.Confirmativa17);
+                                $("#con9Col").val(response.model.Confirmativa18);
+                                break;
+                            case 137:
+                                $("#con10Col").attr('hidden',false)
+                                $("#con11Col").attr('hidden',false)
+                                $("#con12Col").attr('hidden',false)
+                                $("#con13Col").attr('hidden',false)
+                                $("#con14Col").attr('hidden',false)
+                                $("#con15Col").attr('hidden',false)
+                                $("#con16Col").attr('hidden',false)
+                                $("#con17Col").attr('hidden',false)
+                                $("#con18Col").attr('hidden',false)  
 
-                            $("#con1Col").val(response.model.Confirmativa10);
-                            $("#con2Col").val(response.model.Confirmativa11);
-                            $("#con3Col").val(response.model.Confirmativa12);
-                            $("#con4Col").val(response.model.Confirmativa13);
-                            $("#con5Col").val(response.model.Confirmativa14);
-                            $("#con6Col").val(response.model.Confirmativa15);
-                            $("#con7Col").val(response.model.Confirmativa16);
-                            $("#con8Col").val(response.model.Confirmativa17);
-                            $("#con9Col").val(response.model.Confirmativa18);
-
-                        } else{
-                            $("#con10Col").val(response.model.Confirmativa10);
-                            $("#con11Col").val(response.model.Confirmativa11);
-                            $("#con12Col").val(response.model.Confirmativa12);
-                            $("#con13Col").val(response.model.Confirmativa13);
-                            $("#con14Col").val(response.model.Confirmativa14);
-                            $("#con15Col").val(response.model.Confirmativa15);
-                            $("#con16Col").val(response.model.Confirmativa16);
-                            $("#con17Col").val(response.model.Confirmativa17);
-                            $("#con18Col").val(response.model.Confirmativa18);
-
-                            $("#con1Col").val(response.model.Confirmativa1);
-                            $("#con2Col").val(response.model.Confirmativa2);
-                            $("#con3Col").val(response.model.Confirmativa3);
-                            $("#con4Col").val(response.model.Confirmativa4);
-                            $("#con5Col").val(response.model.Confirmativa5);
-                            $("#con6Col").val(response.model.Confirmativa6);
-                            $("#con7Col").val(response.model.Confirmativa7);
-                            $("#con8Col").val(response.model.Confirmativa8);
-                            $("#con9Col").val(response.model.Confirmativa9);
-
+                                $("#con10Col").val(response.model.Confirmativa10);
+                                $("#con11Col").val(response.model.Confirmativa11);
+                                $("#con12Col").val(response.model.Confirmativa12);
+                                $("#con13Col").val(response.model.Confirmativa13);
+                                $("#con14Col").val(response.model.Confirmativa14);
+                                $("#con15Col").val(response.model.Confirmativa15);
+                                $("#con16Col").val(response.model.Confirmativa16);
+                                $("#con17Col").val(response.model.Confirmativa17);
+                                $("#con18Col").val(response.model.Confirmativa18);
+    
+                                $("#con1Col").val(response.model.Confirmativa1);
+                                $("#con2Col").val(response.model.Confirmativa2);
+                                $("#con3Col").val(response.model.Confirmativa3);
+                                $("#con4Col").val(response.model.Confirmativa4);
+                                $("#con5Col").val(response.model.Confirmativa5);
+                                $("#con6Col").val(response.model.Confirmativa6);
+                                $("#con7Col").val(response.model.Confirmativa7);
+                                $("#con8Col").val(response.model.Confirmativa8);
+                                $("#con9Col").val(response.model.Confirmativa9);
+                                break;
+                            default:
+                                $("#con10Col").val(response.model.Confirmativa10);
+                                $("#con11Col").val(response.model.Confirmativa11);
+                                $("#con12Col").val(response.model.Confirmativa12);
+                                $("#con13Col").val(response.model.Confirmativa13);
+                                $("#con14Col").val(response.model.Confirmativa14);
+                                $("#con15Col").val(response.model.Confirmativa15);
+                                $("#con16Col").val(response.model.Confirmativa16);
+                                $("#con17Col").val(response.model.Confirmativa17);
+                                $("#con18Col").val(response.model.Confirmativa18);
+    
+                                $("#con1Col").val(response.model.Confirmativa1);
+                                $("#con2Col").val(response.model.Confirmativa2);
+                                $("#con3Col").val(response.model.Confirmativa3);
+                                $("#con4Col").val(response.model.Confirmativa4);
+                                $("#con5Col").val(response.model.Confirmativa5);
+                                $("#con6Col").val(response.model.Confirmativa6);
+                                $("#con7Col").val(response.model.Confirmativa7);
+                                $("#con8Col").val(response.model.Confirmativa8);
+                                $("#con9Col").val(response.model.Confirmativa9);
+                                break;
                         }
 
                             $("#dil1Col").val(response.model.Dilucion1);
@@ -3128,7 +3120,7 @@ function getDetalleMuestra(id) {
                             $("#nmp1Col").val(response.model.Indice);
                             $("#todos1Col").val(response.model.Muestra_tubos);
                             $("#negativos1Col").val(response.model.Tubos_negativos);
-                            $("#positivo1Col").val(response.model.Tubos_positivos);
+                            $("#positivos1Col").val(response.model.Tubos_positivos);
 
                      
                             $("#pre1Col").val(response.model.Presuntiva1);
@@ -3178,13 +3170,6 @@ function getDetalleMuestra(id) {
                                     $("#con8Col").attr('hidden',false)
                                     $("#con6Col").attr('hidden',false)
                                     $("#con9Col").attr('hidden',false)
-
-                                    // $("#con13Col").attr('hidden',false)
-                                    // $("#con14Col").attr('hidden',false)
-                                    // $("#con15Col").attr('hidden',false)
-                                    // $("#con16Col").attr('hidden',false)
-                                    // $("#con17Col").attr('hidden',false)
-                                    // $("#con18Col").attr('hidden',false)
                                     break;
                                 default:
                                     $("#dil2Col").attr('hidden',true)
@@ -3882,7 +3867,7 @@ function getMuestraSinAsignar() {
             tab += '    <tbody>'
             for (let i = 0; i < response.model.length; i++) {
                 tab += '<tr>'
-                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar"></td>'
+                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>'
                 tab += '<td>' + response.folio[i] + '</td>'
                 tab += '<td>' + response.norma[i] + '</td>'
                 tab += '<td>' + response.punto[i] + '</td>'
@@ -3912,9 +3897,14 @@ function getMuestraSinAsignar() {
         }
     });
 }
+function contarCheckbox(){
+    let cantidadSeleccionados = $("input[name=stdCkAsignar]:checked").length;
+    $('#muestrasSeleccionadas').val(cantidadSeleccionados)
+}
 function selecionarCkeck()
 {
     allSelectCheck("stdCkAsignar")
+    contarCheckbox()
 }
 function setLote() {
 
@@ -4163,6 +4153,26 @@ function getHistorial(id)
             }
             
             tabla.innerHTML = tab;
+        }
+    });
+}
+
+function getUltimoLote()
+{
+    let tabla = document.getElementById('divUltimoLote');
+    let tab = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getUltimoLote",
+        data: {
+            id: $("#parametro").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            tab += 'Fec. Ult. Lote: '+response.model.Fecha
+            tabla.innerHTML = tab
         }
     });
 }

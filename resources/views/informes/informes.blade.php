@@ -90,6 +90,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2"> 
+                                    <label for="nota">Nota 4</label>
+                                    <input type="checkbox" id="nota">
+                                    <button id="btnNota" style="border: none;background: none;"><i class="text-danger voyager-exclamation"></i></button>
                                     <button class="btn btn-info" id="btnImprimir"><i class="voyager-cloud-download"></i> Descargar</button>
                                 </div>
                             </div>
@@ -137,5 +140,5 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/informes/informes.js')}}?v=1.0.1"></script>
+    <script src="{{asset('/public/js/informes/informes.js')}}?v=1.0.2"></script>
 @stop

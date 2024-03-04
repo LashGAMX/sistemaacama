@@ -366,6 +366,8 @@ class IngresarController extends Controller
                             }
                             break;
                         case 5:
+                        case 71:
+                        case 70:
                             // DBO
                             for ($i = 0; $i < 3; $i++) {
                                 CodigoParametros::create([

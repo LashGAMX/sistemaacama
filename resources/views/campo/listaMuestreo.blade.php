@@ -53,27 +53,26 @@
                             <th>Id solicitud</th>
                             <th>Solicitud</th>
                             <th>Cliente</th>
-                            {{-- <th>PM</th> --}}
                             <th>Fecha muestreo</th>
                             <th>Norma</th>
                             <th>Estado</th>
                             <th>Captura</th>
                             <th>Muestreador</th>
                             <th>Fecha creación</th>
-                            <th>Modifico</th>
-                            <th>Fecha modificación</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $cont = 0
+                        @endphp
                      @foreach ($model as $item)
                      <tr>
                         <td>{{$item->Id_solicitud}}</td>
-                        <td>{{$item->Folio_servicio}}</td>
-                        <td>{{$item->Empresa}}</td>
-                        {{-- <td>{{$item->Direccion}}</td> --}}
-                        <td>{{$item->Fecha_muestreo}}</td>
-                        <td>{{$item->Clave_norma}}</td>
-                        @switch($item->StdSol)
+                        <td>{{$item->Folio}}</td>
+                        <td>{{$cliente[$cont]}}</td>
+                        <td>{{$fecha[$cont]}}</td>
+                        <td>{{$norma[$cont]}}</td>
+                        @switch($item->Estado)
                             @case(1)
                                 <td>Asignado</td>
                                 @break
@@ -88,20 +87,12 @@
                         @endswitch
                         <td>{{$item->Captura}}</td>
 
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->FechaCreacion}}</td>
-                        <td>
-                            @if ($item->IdUserM != null)
-                                @php
-                                    $aux= DB::table('users')->where('id',$item->IdUserM)->first();
-                                    echo $aux->name;
-                                @endphp
-                            @else
-                                {{$item->name}}
-                            @endif
-                        </td>
-                        <td>{{$item->FechaModificacion }}</td>
+                        <td>{{$usuario[$cont]}}</td>
+                        <td>{{$item->created_At}}</td>
                     </tr>
+                    @php
+                        $cont++;
+                    @endphp
                      @endforeach
                     </tbody>
                 </table>
