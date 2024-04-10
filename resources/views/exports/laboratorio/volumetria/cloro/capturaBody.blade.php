@@ -132,13 +132,13 @@
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (2)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado2}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (3)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado3}}</td>
                 </tr>                
 
                 <tr>

@@ -7,6 +7,7 @@
     @stop
 
 <div class="container-fluid" >
+    
     <div class="row" style="scale: (0.5)">
         <div class="col-md-3">
             <div class="row">

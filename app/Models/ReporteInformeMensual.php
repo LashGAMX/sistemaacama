@@ -17,6 +17,7 @@ class ReporteInformeMensual extends Model
     protected $fillable = [
         'Encabezado',
         'Nota',
+        'Nota_siralab',
         'Id_reviso',
         'Id_autorizo',
         'Responsable',

@@ -48,16 +48,18 @@
                 @foreach ($model as $item)
                     <tr>
                         <td class="tableContent">
-                            @if ($item->Control == 'Muestra Adicionada' || $item->Control == 'Duplicado' || $item->Control == 'Resultado')
-                                {{$item->Folio_servicio}}
+                        @if ($item->Id_control != 1)
+                            {{@$item->Folio_servicio}}
+                            <br>
+                            {{@$item->Control}}
                             @else
-                                {{$item->Control}}
-                            @endif                                                 
+                            {{@$item->Folio_servicio}}  
+                            @endif                                              
                         </td>
                         <td class="tableContent">{{$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{$item->Abs1}}</td>
-                        <td class="tableContent">{{$item->Abs2}}</td>
-                        <td class="tableContent">{{$item->Abs3}}</td>
+                        <td class="tableContent">{{number_format($item->Abs1,3,'.','')}}</td>
+                        <td class="tableContent">{{number_format($item->Abs2,3,'.','')}}</td>
+                        <td class="tableContent">{{number_format($item->Abs3,3,'.','')}}</td>
                         <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", "")}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado != NULL)

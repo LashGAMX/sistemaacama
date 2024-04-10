@@ -801,13 +801,18 @@ class MetalesController extends Controller
                     case 192:
                     case 204:
                     case 196:
+                        $volFinal = $request->volFinal;
+                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
+                        $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                        $resultado = (($temp ) / ($request->volMuestra * $FC)); 
+                        break;
                     case 191:
                     case 194:
                     case 189:
                         $volFinal = $request->volFinal;
                         $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
                         $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                        $resultado = (($temp ) / ($request->volMuestra * $FC)); 
+                        $resultado = (($temp ) / ($request->volMuestra)); 
                         break;
                     default:
                         $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
@@ -2111,7 +2116,7 @@ class MetalesController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
         // $loteVal = LoteAnalisis::where('Id_lote', $id)->first();
-        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control',1)->get();
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->orderBy('Orden','ASC')->get();
         $tecnica = Tecnica::where('Id_tecnica',$model[0]->Id_tecnica)->first();
         $tipoFormula = TipoFormula::where('Id_tipo_formula',$model[0]->Id_tipo_formula)->first();
         $solModel = Solicitud::where('Id_solicitud',$model[0]->Id_analisis)->first();

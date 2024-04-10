@@ -587,8 +587,16 @@ function getDetalleAnalisis(idCodigo) {
                         if (item.Resultado != null) {
                             if (response.solModel.Id_servicio != "3") {
                                 if (parseInt(response.solModel.Num_tomas) > 1) {
-                                    tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
-                                    aux = aux + (response.aux[cont] * item.Resultado);
+                                    // tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
+                                    // aux = aux + (response.aux[cont] * item.Resultado);
+                                    
+                                    if (item.Resultado < item.Limite) {
+                                        tab += '<td>< ' + item.Limite + '</td>';
+                                        aux = aux + (response.aux[cont] * item.Limite)
+                                    } else {
+                                        tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
+                                        aux = aux + (response.aux[cont] * item.Resultado)
+                                    }
                                     cont++;
                                 } else {
                                     aux = parseFloat(item.Resultado)

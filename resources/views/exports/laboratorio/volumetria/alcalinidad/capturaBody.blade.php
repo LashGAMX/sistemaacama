@@ -135,25 +135,25 @@
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE H2S04 (1)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Titulado1}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE H2S04 (2)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Titulado2}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Titulado2}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE H2S04 (3)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Titulado3}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Titulado3}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">RESULTADO NORMALIDAD REAL</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Resultado}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  
@@ -163,7 +163,7 @@
 
     <div id="contenidoCurva">
         @php
-             echo $procedimiento[1];
+             echo @$procedimiento[1];
         @endphp
     </div>
 </body>

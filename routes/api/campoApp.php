@@ -12,6 +12,7 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('prueba', [CampoAppController::class,'prueba']);
 
     Route::post('guardar', [PruebaController::class,'guardar']);
+    Route::get('saludo', [PruebaController::class,'prueba']);
 
 });
      

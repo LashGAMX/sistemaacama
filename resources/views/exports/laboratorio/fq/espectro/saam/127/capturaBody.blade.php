@@ -55,9 +55,9 @@
                             @endif                                     
                         </td>
                         <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$item->Abs1}}</td>
-                        <td class="tableContent">{{@$item->Abs2}}</td>
-                        <td class="tableContent">{{@$item->Abs3}}</td>
+                        <td class="tableContent">{{number_format(@$item->Abs1, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs2, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs3, 3, ".", ".")}}</td>
                         <td class="tableContent">{{number_format(@$item->Promedio, 3, ".", ".")}}</td>
                         @if ($item->Resultado > $item->Limite)
                             <td class="tableContent">{{number_format(@$item->Resultado, 3, ".", ".")}}</td>
@@ -85,6 +85,43 @@
         <span>Absorbancia B2: 0</span> <br><br>
         <span>Absorbancia B3: 0</span> <br><br>
         <span>RESULTADO BLANCO: 0</span>
+    </div>
+
+    <div class="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
+            <thead>
+
+                <tr>
+                    <th class="nombreHeader" colspan="4">
+                        Datos de la curva de calibración
+                    </th>                    
+                </tr>                
+                
+            </thead>
+    
+            <tbody>
+          
+                    <tr>
+                        <td class="tableCabecera">b = </td>
+                        <td class="tableContent">{{@$curva->B}}</td>                        
+                        <td class="tableCabecera">Fecha de preparación: </td>
+                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>                                                
+                    </tr>
+
+                    <tr>
+                        <td class="tableCabecera">m = </td>
+                        <td class="tableContent">{{@$curva->M}}</td>                        
+                        <td class="tableCabecera">Límite de cuantificación: </td>
+                        <td class="tableContent"><{{@$model[0]->Limite}}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="tableCabecera">r = </td>
+                        <td class="tableContent">{{@$curva->R}}</td>
+                    </tr>
+             
+            </tbody>        
+        </table>  
     </div>
     
  

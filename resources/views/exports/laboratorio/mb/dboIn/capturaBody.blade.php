@@ -58,6 +58,9 @@
                     Oxigeno disuleto al 5to día del blanco con inóculo
                 </th>
                 <th class="tableCabecera anchoColumna">
+                    Fact. D. de P-Dilución
+                </th>
+                <th class="tableCabecera anchoColumna">
                     PH INICIAL
                 </th>
 
@@ -124,6 +127,9 @@
                 </td>
                 <td class="tableContent">
                     {{@$item->Oxigeno_disueltofin}}
+                </td>
+                <td class="tableContent">
+                    {{@$item->Pre_dilucion}}
                 </td>
                 <td class="tableContent">
                     {{@$item->Ph_inicial}}

@@ -13,6 +13,9 @@ class BitacoraMetales extends Model
     protected $primaryKey = 'Id_bitacora';
     public $timestamps = true;
 
+    //created_at timestamp
+    //updated_at
+    //delted_at
     protected $fillable = [
         'Id_lote', 
         'Titulo',

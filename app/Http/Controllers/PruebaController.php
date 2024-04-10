@@ -13,57 +13,63 @@ class PruebaController extends Controller
 {
     public function prueba()
     {
-        return view('prueba');
+        $data = array(
+            'response' => true,
+           // 'folio' => $request->folio,
+           // 'evidencia' => $request->patrullajeEvidencia
+        
+        );
+        return response()->json($data);
     }
     public function guardar(Request $request){
-       $jsonPatrullajeGeneral = json_decode($request->patrullajeGeneral,true);
-       $jsonPatrullajeMapa = json_decode($request->patrullajeMapa,true);
-       $jsonPatrullajeEvidencia = json_decode($request->patrullajeEvidencia,true);
+        $jsonPatrullajeGeneral = json_decode($request->patrullajeGeneral,true);
+    //    $jsonPatrullajeMapa = json_decode($request->patrullajeMapa,true);
+    //    $jsonPatrullajeEvidencia = json_decode($request->patrullajeEvidencia,true);
 
-       //$evidenciaExplode = explode()
+    //    //$evidenciaExplode = explode()
 
-        $comprobarGenerales = PruebaPatrullajeGeneral::where("Folio",$request->folio)->get();
-        if($comprobarGenerales->count()){
-            $patrullajeGeneral =  PruebaPatrullajeGeneral::Where("Id_general",$comprobarGenerales[0]->Id_general)->first();
-            $patrullajeGeneral->Fecha = $jsonPatrullajeGeneral[0]["Fecha"];
-            $patrullajeGeneral->Calle = $jsonPatrullajeGeneral[0]["Calle"];
-            $patrullajeGeneral->Colonia = $jsonPatrullajeGeneral[0]["Colonia"];
-            $patrullajeGeneral->NumExt = $jsonPatrullajeGeneral[0]["NumExt"];
-            $patrullajeGeneral->NumInt = $jsonPatrullajeGeneral[0]["NumInt"];
-            $patrullajeGeneral->Tipo = $jsonPatrullajeGeneral[0]["Tipo"];
-            $patrullajeGeneral->Zona = $jsonPatrullajeGeneral[0]["Zona"];
-            $patrullajeGeneral->Descripcion = $jsonPatrullajeGeneral[0]["Descripcion"];
-            $patrullajeGeneral->save();
-        } else {
-            $patrullajeGeneral =  PruebaPatrullajeGeneral::create([
-                'Folio' => $jsonPatrullajeGeneral[0]["Folio"],
-                'Fecha' => $jsonPatrullajeGeneral[0]["Fecha"],
-                'Calle' => $jsonPatrullajeGeneral[0]["Calle"],
-                'Colonia' => $jsonPatrullajeGeneral[0]["Colonia"],
-                'NumExt' => $jsonPatrullajeGeneral[0]["NumExt"],
-                'NumInt' => $jsonPatrullajeGeneral[0]["NumInt"],
-                'Tipo' => $jsonPatrullajeGeneral[0]["Tipo"],
-                'Zona' => $jsonPatrullajeGeneral[0]["Zona"],
-                'Descripcion' => $jsonPatrullajeGeneral[0]["Descripcion"],
-            ]);
-       }
-        // MAPA
+    //     $comprobarGenerales = PruebaPatrullajeGeneral::where("Folio",$request->folio)->get();
+    //     if($comprobarGenerales->count()){
+    //         $patrullajeGeneral =  PruebaPatrullajeGeneral::Where("Id_general",$comprobarGenerales[0]->Id_general)->first();
+    //         $patrullajeGeneral->Fecha = $jsonPatrullajeGeneral[0]["Fecha"];
+    //         $patrullajeGeneral->Calle = $jsonPatrullajeGeneral[0]["Calle"];
+    //         $patrullajeGeneral->Colonia = $jsonPatrullajeGeneral[0]["Colonia"];
+    //         $patrullajeGeneral->NumExt = $jsonPatrullajeGeneral[0]["NumExt"];
+    //         $patrullajeGeneral->NumInt = $jsonPatrullajeGeneral[0]["NumInt"];
+    //         $patrullajeGeneral->Tipo = $jsonPatrullajeGeneral[0]["Tipo"];
+    //         $patrullajeGeneral->Zona = $jsonPatrullajeGeneral[0]["Zona"];
+    //         $patrullajeGeneral->Descripcion = $jsonPatrullajeGeneral[0]["Descripcion"];
+    //         $patrullajeGeneral->save();
+    //     } else {
+    //         $patrullajeGeneral =  PruebaPatrullajeGeneral::create([
+    //             'Folio' => $jsonPatrullajeGeneral[0]["Folio"],
+    //             'Fecha' => $jsonPatrullajeGeneral[0]["Fecha"],
+    //             'Calle' => $jsonPatrullajeGeneral[0]["Calle"],
+    //             'Colonia' => $jsonPatrullajeGeneral[0]["Colonia"],
+    //             'NumExt' => $jsonPatrullajeGeneral[0]["NumExt"],
+    //             'NumInt' => $jsonPatrullajeGeneral[0]["NumInt"],
+    //             'Tipo' => $jsonPatrullajeGeneral[0]["Tipo"],
+    //             'Zona' => $jsonPatrullajeGeneral[0]["Zona"],
+    //             'Descripcion' => $jsonPatrullajeGeneral[0]["Descripcion"],
+    //         ]);
+    //    }
+    //     // MAPA
 
-        $comprobarMapa = PruebaPatrullajeMapa::where('Folio', $request->folio)->get();
+    //     $comprobarMapa = PruebaPatrullajeMapa::where('Folio', $request->folio)->get();
 
-        if($comprobarMapa->count()){
-            $patrullajeMapa = PruebaPatrullajeMapa::where("Id_mapa", $comprobarMapa[0]->Id_mapa)->first();
-            $patrullajeMapa->Latitud = $jsonPatrullajeMapa[0]["Latitud"];
-            $patrullajeMapa->Longitud = $jsonPatrullajeMapa[0]["Longitud"];
-            $patrullajeMapa->save();
+    //     if($comprobarMapa->count()){
+    //         $patrullajeMapa = PruebaPatrullajeMapa::where("Id_mapa", $comprobarMapa[0]->Id_mapa)->first();
+    //         $patrullajeMapa->Latitud = $jsonPatrullajeMapa[0]["Latitud"];
+    //         $patrullajeMapa->Longitud = $jsonPatrullajeMapa[0]["Longitud"];
+    //         $patrullajeMapa->save();
             
-         } else {
-            $patrullajeMapa = PruebaPatrullajeMapa::create([
-                'Folio' => $jsonPatrullajeMapa[0]["Folio"],
-                'Latitud' => $jsonPatrullajeMapa[0]["Latitud"],
-                'Longitud' => $jsonPatrullajeMapa[0]["Longitud"],
-            ]);
-        }
+    //      } else {
+    //         $patrullajeMapa = PruebaPatrullajeMapa::create([
+    //             'Folio' => $jsonPatrullajeMapa[0]["Folio"],
+    //             'Latitud' => $jsonPatrullajeMapa[0]["Latitud"],
+    //             'Longitud' => $jsonPatrullajeMapa[0]["Longitud"],
+    //         ]);
+    //     }
 
         //Evidencia
 
@@ -86,7 +92,7 @@ class PruebaController extends Controller
         $data = array(
             'response' => true,
            // 'folio' => $request->folio,
-            'evidencia' => $request->patrullajeEvidencia
+           // 'evidencia' => $request->patrullajeEvidencia
         
         );
         return response()->json($data);

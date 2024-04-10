@@ -1273,7 +1273,7 @@ class MbController extends Controller
                 $aux = ($request->A - $request->B);
                 $aux2 = ($request->C / $request->H) * ($request->D - $request->E);
                 $aux3 = ($request->I / $request->K);
-                $temp = (($aux - round($aux2,2)) /  round($aux3,3)) * 1;
+                $temp = (($aux - round($aux2,2)) /  round($aux3,3)) * $request->P;
                 $res = number_format($temp,3);
                  
                 $model = LoteDetalleDboIno::find($request->idDetalle);
@@ -1286,6 +1286,7 @@ class MbController extends Controller
                 $model->Vol_inoculo = $request->H;
                 $model->Vol_muestra_siembra = $request->I;
                 $model->Porcentaje_dilucion = $request->J;  
+                $model->Pre_dilucion = $request->P;  
                 $model->Vol_winker = $request->K;
                 $model->Botella_od = $request->L;
                 $model->Botella_fin = $request->M;

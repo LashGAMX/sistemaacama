@@ -98,9 +98,9 @@ class CampoAppController extends Controller
         return response()->json($data);
     } 
     public function version(request $request) {
-        $version = "2.0.3";
-        $name = "MuestreoApp_v2.0.3.apk";
-        $url = "http://sistemasofia.ddns.net:85/sofia/public/storage/Recursos/MuestreoApp_v2.0.3.apk";
+        $version = "2.0.5";
+        $name = "MuestreoApp_v2.0.5.apk";
+        $url = "http://sistemasofia.ddns.net:85/sofia/public/storage/Recursos/MuestreoApp_v2.0.5.apk";
         $data = array(
             'version' => $version,
             'name' => $name,    
@@ -157,9 +157,11 @@ class CampoAppController extends Controller
         $campoGenModel->save();
       
         //guardado de Punto de muestreo
-        $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
-        $modelPunto->Punto = $jsonPunto[0]["Punto"];
-        $modelPunto->save();
+        if($jsonPunto != ""){
+            $modelPunto = SolicitudPuntos::where('Id_solicitud', $solModel->Id_solicitud)->first();
+            $modelPunto->Punto = $jsonPunto[0]["Punto"];
+            $modelPunto->save(); 
+        }
 
         $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         $phTrazable = CampoPhTrazable::where('Id_solicitud',$solModel->Id_solicitud)->get();
@@ -423,6 +425,8 @@ class CampoAppController extends Controller
             $cloruros = 499;
         } else if ($explode[0] == ">"){
             $cloruros = 1500;
+        } else if ($explode[0] == "Seleciona"){
+            $cloruros = null;
         } else {
             $cloruros = $explode[1];
         }

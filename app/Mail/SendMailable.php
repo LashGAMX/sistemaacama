@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class SendMailable extends Mailable
 {
 
-    public $subject = 'Correo' ;
+    public $subject = 'Confirmación de Servicio' ;
     use Queueable, SerializesModels;
 
     /**

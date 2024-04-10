@@ -18,8 +18,8 @@ class Clientes extends Model
         'A_paterno',
         'A_materno',
         'RFC',
-        'Id_tipo_cliente',
-        'Id_user_c',
-        'Id_user_m'
+        'Id_tipo_cliente', //2
+        'Id_user_c', //$Auth::user()->id;
+        'Id_user_m' //$Auth::user()->id;
     ];
 }

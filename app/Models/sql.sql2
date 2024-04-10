@@ -881,6 +881,16 @@ CREATE VIEW ViewPlantillaBitacoras as SELECT bi.*,pa.Parametro FROM plantillas_b
 INNER JOIN parametros as pa
 ON bi.Id_parametro = pa.Id_parametro;
 
+CREATE VIEW ViewFoliosImpresos as SELECT pro.*,sol.Id_norma FROM proceso_analisis as pro
+INNER JOIN impresion_informe as inf
+ON pro.Id_solicitud = inf.Id_solicitud
+INNER JOIN solicitudes as sol
+ON pro.Id_solicitud = sol.Id_solicitud
+
+CREATE VIEW  ViewProcesoAnalisisNorma as SELECT pro.*,sol.Id_norma FROM proceso_analisis as pro
+INNER JOIN solicitudes as sol
+ON pro.Id_solicitud = sol.Id_solicitud
+
 
 
 -- ALTER TABLE `metales_detalle` CHANGE `RecuperacionE` `RecuperacionE` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

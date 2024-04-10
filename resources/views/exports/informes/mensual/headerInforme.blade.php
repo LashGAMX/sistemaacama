@@ -38,8 +38,8 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold soloBordeInf"> {{$punto->Punto}}</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
+                    <td class="filasIzq bordesTabla fontBold soloBordeInf" colspan="2"> {{$punto->Punto}}</td>
+                    <!-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> -->
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup">&nbsp;</td>

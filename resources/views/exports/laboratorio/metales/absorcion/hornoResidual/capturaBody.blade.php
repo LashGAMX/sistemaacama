@@ -364,52 +364,63 @@
             </thead>
     
             <tbody>
-
-        
-                @foreach ($model as $item)
-                <tr>
-                        <td id="tableContent">
-                        {{@$item->Folio_servicio}}             
-                        </td>
-                        <td id="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td id="tableContent">< 2</td>
-                        <td id="tableContent">{{number_format(@$item->Abs1,4)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs2,4)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs3,4)}}</td>
-                        <td id="tableContent">
-                            {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
-                        </td>
-                        <td id="tableContent">
-                            {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
-                        </td>
-                        <td id="tableContent">
-                            {{number_format(@$item->Resultado_microgramo, 3, ".", ".")}}
-                        </td>
-                        <td id="tableContent">{{@$item->Factor_dilucion}}</td>
-                        <td id="tableContent">{{@$item->Factor_conversion}}</td>
-                        <td id="tableContent">
-                            @if (@$item->Vol_disolucion != null || @$item->Vol_disolucion == 0)
-                                @if ($item->Vol_disolucion < $item->Limite)
-                                    < {{number_format(@$item->Limite, 3, ".", ".")}}                    
+            @foreach ($model as $item)
+               <tr>
+                    <td id="tableContent">
+                     @switch($item->Id_control)
+                            @case(9)
+                            @case(4)
+                            @case(14)
+                                {{@$item->Control}}    
+                                @break
+                            @default
+                             @if ($item->Id_control != 1)
+                                    {{@$item->Folio_servicio}} 
+                                    {{@$item->Control}}    
                                 @else
-                                    {{number_format(@$item->Vol_disolucion,3)}}
+                                    {{@$item->Folio_servicio}} 
                                 @endif
+                        @endswitch         
+                    </td>
+                    <td id="tableContent">{{@$item->Vol_muestra}}</td>
+                    <td id="tableContent">< 2</td>
+                    <td id="tableContent">{{number_format(@$item->Abs1,4)}}</td>
+                    <td id="tableContent">{{number_format(@$item->Abs2,4)}}</td>
+                    <td id="tableContent">{{number_format(@$item->Abs3,4)}}</td>
+                    <td id="tableContent">
+                        {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
+                    </td>
+                    <td id="tableContent">
+                        {{number_format(@$item->Abs_promedio, 4, ".", ".")}}
+                    </td>
+                    <td id="tableContent">
+                        {{number_format(@$item->Resultado_microgramo, 3, ".", ".")}}
+                    </td>
+                    <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                    <td id="tableContent">{{@$item->Factor_conversion}}</td>
+                    <td id="tableContent">
+                        @if (@$item->Vol_disolucion != null || @$item->Vol_disolucion == 0)
+                            @if ($item->Vol_disolucion < $item->Limite)
+                                < {{number_format(@$item->Limite, 3, ".", ".")}}                    
                             @else
-                                -------
+                                {{number_format(@$item->Vol_disolucion,3)}}
                             @endif
-                        </td> 
-                        <td id="tableContent">{{@$item->Observacion}}</td>                         
-                        <td id="tableContent">
-                            @if (@$item->Liberado == 1)
-                                Liberado
-                            @elseif(@$item->Liberado == 0)
-                                No liberado
-                            @endif
-                        </td>
-                        <td id="tableContent">{{@$item->Control}}</td>
-                    </tr>
-                @endforeach                      
-                                   
+                        @else
+                            -------
+                        @endif
+                    </td> 
+                    <td id="tableContent">{{@$item->Observacion}}</td>                         
+                    <td id="tableContent">
+                        @if (@$item->Liberado == 1)
+                            Liberado
+                        @elseif(@$item->Liberado == 0)
+                            No liberado
+                        @endif
+                    </td>
+                    <td id="tableContent">{{@$item->Control}}</td>
+                </tr>
+            @endforeach      
+      
             </tbody>        
         </table>  
     </div>    

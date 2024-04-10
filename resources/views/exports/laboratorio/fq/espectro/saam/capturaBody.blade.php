@@ -55,9 +55,9 @@
                             @endif                                
                         </td>
                         <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$item->Abs1}}</td>
-                        <td class="tableContent">{{@$item->Abs2}}</td>
-                        <td class="tableContent">{{@$item->Abs3}}</td>
+                        <td class="tableContent">{{number_format(@$item->Abs1, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs2, 3, ".", ".")}}</td>
+                    <td class="tableContent">{{number_format(@$item->Abs3, 3, ".", ".")}}</td>
                         <td class="tableContent">{{@$item->Promedio}}</td>
                         @if ($item->Resultado > $item->Limite)
                             <td class="tableContent">{{@$item->Resultado}}</td>
@@ -93,7 +93,6 @@
     </div>
 
     <br>
-
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
             <thead>
@@ -107,7 +106,7 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
+          
                     <tr>
                         <td class="tableCabecera">b = </td>
                         <td class="tableContent">{{@$curva->B}}</td>                        
@@ -126,7 +125,7 @@
                         <td class="tableCabecera">r = </td>
                         <td class="tableContent">{{@$curva->R}}</td>
                     </tr>
-                {{-- @endfor --}}
+             
             </tbody>        
         </table>  
     </div>

@@ -44,17 +44,19 @@
                 @foreach ($model as $item)
             <tr>
                 <td class="tableContent">
-                    @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado'  || @$item->Control == 'Resultado')
-                        {{@$item->Folio_servicio}}
-                    @else
-                        {{@$item->Control}}
-                    @endif 
+                @if ($item->Id_control != 1)
+                            {{@$item->Folio_servicio}}
+                            <br>
+                            {{@$item->Control}}
+                            @else
+                            {{@$item->Folio_servicio}}  
+                            @endif
                 </td>
                 <td class="tableContent">SOLIDOS DISULETOS TOTALES (SDT)</td>
-                <td class="tableContent">{{@$item->Masa1}}</td>
+                <td class="tableContent">{{number_format(@$item->Masa1,2)}}</td>
                 <td class="tableContent">SOLIDOS DISUELTOS VOLÁTILES (SDV)</td>
-                <td class="tableContent">{{@$item->Masa2}}</td>
-                <td class="tableContent">{{@$item->Resultado}}</td>
+                <td class="tableContent">{{number_format(@$item->Masa2,2)}}</td>
+                <td class="tableContent">{{number_format(@$item->Resultado,2)}}</td>
                 <td class="tableContent">{{@$item->Observacion}}</td>
                 <td class="tableContent">
                     @if (@$item->Liberado == 1)

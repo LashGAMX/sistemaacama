@@ -46,7 +46,7 @@
                         <td class="tableContent">{{$item->Abs2}}</td>
                         <td class="tableContent">{{$item->Abs3}}</td>
                         <td class="tableContent">{{$item->Abs_prom}}</td>
-                        <td class="tableContent">{{$item->Resultado}}</td>
+                        <td class="tableContent">{{number_format(@$item->Resultado,2,'.','')}}</td>
                         <td class="tableContent">{{$item->Observacion}}</td>
                         <td class="tableContent">@if ($item->Liberado == 1)
                             Liberado

@@ -16,6 +16,9 @@
               <th>ID Parametro</th>
               <th>Fecha inicio</th>
               <th>Fecha final</th>
+              <th>b</th>
+              <th>m</th>
+              <th>r</th>
             </tr>
           </thead>
           <tbody>
@@ -45,7 +48,7 @@
     <div class="row">
 
         <div class="col-md-2" >
-             <select class="form-control" id="idArea">
+             <select class="form-control select2" id="idArea">
               <option value="">Selecciona Area</option>
               @foreach ($area as $item)
                 <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
@@ -58,9 +61,11 @@
         
       </div>
         <div class="col-md-2" id="divParametro">
-          <select class="form-control" id="parametro">
+          <select class="form-control select2" id="parametro">
             <option value="">Selecciona Parametro</option>
-           
+            @foreach ($parametro as $item)
+                <option value="{{$item->Id_parametro}}">{{$item->Id_parametro}}/{{$item->Parametro}}/{{$item->Tipo_formula}}/{{$item->Area_analisis}}</option>
+              @endforeach 
           </select>
         </div>
       <div class="col-md-1">
@@ -148,7 +153,7 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/curva.js')}}?v=1.2.0"></script>
+    <script src="{{asset('/public/js/laboratorio/curva.js')}}?v=1.4.0"></script>
     <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 @stop

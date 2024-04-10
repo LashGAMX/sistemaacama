@@ -309,168 +309,59 @@
             </thead>
     
             <tbody>
-                <!-- Resultados -->
-                @foreach ($model as $item)
-                    @php
-                        $temp = DB::table('ViewLoteDetalle')->where('Id_codigo',$item->Id_codigo)->where('Id_control','!=',1)->get();
-                    @endphp
-                    @if ($temp->count())
-                       @foreach ($temp as $item2)
-                            @switch($item2->Id_control)
-                                @case(9)
-                                @case(4)
-                                @case(14)
-                                    <tr>
-                                        <td id="tableContent">
-                                            {{@$item2->Control}}      
-                                        </td>
-                                        <td id="tableContent">{{@$item2->Vol_muestra}}</td>
-                                        <td id="tableContent">< 2</td>
-                                        <td id="tableContent">{{number_format(@$item2->Abs1,3)}}</td>
-                                        <td id="tableContent">{{number_format(@$item2->Abs2,3)}}</td>
-                                        <td id="tableContent">{{number_format(@$item2->Abs3,3)}}</td>
-                                        <td id="tableContent">
-                                            {{number_format(@$item2->Abs_promedio, 3, ".", ".")}}
-                                        </td>
-                        
-                                        <td id="tableContent">
-                                            {{number_format(@$item2->Vol_disolucion, 3, ".", ".")}}
-                                        </td>
-                                        <td id="tableContent">{{@$item2->Factor_dilucion}}</td>
-                                        <td id="tableContent">
-                                            @if (@$item2->Vol_disolucion != null || @$item2->Vol_disolucion == 0)
-                                                @if (@$item2->Vol_disolucion < $item2->Limite)
-                                                    < {{$item2->Limite}}                                
-                                                @else
-                                                    {{number_format(@$item2->Vol_disolucion,3)}}
-                                                @endif
-                                            @else
-                                                -------
-                                            @endif
-                                        </td> 
-                                        <td id="tableContent">{{@$item2->Observacion}}</td>                         
-                                        <td id="tableContent">
-                                            @if (@$item2->Liberado == 1)
-                                                Liberado
-                                            @elseif(@$item2->Liberado == 0)
-                                                No liberado
-                                            @endif
-                                        </td>
-                                        <td id="tableContent">{{@$item2->Control}}</td>
-                                    </tr>
+            @foreach ($model as $item)
+                <tr>
+                    <td id="tableContent">
+                        @switch($item->Id_control)
+                            @case(9)
+                            @case(4)
+                            @case(14)
+                                {{@$item->Control}}    
                                 @break
-                                @default
-                            @endswitch
-                        @endforeach              
-                    @endif
-                @endforeach
-                <!-- Resultados -->
-                @php
-                    $cont = 0;
-                    $auxId = 0;
-                @endphp
-                @foreach ($model as $item)                    
-                    <tr>
-                        <td id="tableContent">
-                            {{@$item->Folio_servicio}}      
-                        </td>
-                        <td id="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td id="tableContent">< 2</td>
-                        <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
-                        <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
-                        <td id="tableContent">
-                            {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
-                        </td>
-                        <td id="tableContent">
-                            {{number_format(@$item->Vol_disolucion, 3, ".", ".")}}
-                        </td>
-                        <td id="tableContent">{{@$item->Factor_dilucion}}</td>
-                        <td id="tableContent">
-                            @if (@$item->Vol_disolucion != null || @$item->Vol_disolucion == 0)
-                                @if (@$item->Vol_disolucion < $item->Limite)
-                                    < {{$item->Limite}}                                
+                            @default
+                             @if ($item->Id_control != 1)
+                                    {{@$item->Folio_servicio}} 
+                                    {{@$item->Control}}    
                                 @else
-                                    {{number_format(@$item->Vol_disolucion,3)}}
+                                    {{@$item->Folio_servicio}} 
                                 @endif
+                        @endswitch
+                    </td>
+                    <td id="tableContent">{{@$item->Vol_muestra}}</td>
+                    <td id="tableContent">< 2</td>
+                    <td id="tableContent">{{number_format(@$item->Abs1,3)}}</td>
+                    <td id="tableContent">{{number_format(@$item->Abs2,3)}}</td>
+                    <td id="tableContent">{{number_format(@$item->Abs3,3)}}</td>
+                    <td id="tableContent">
+                        {{number_format(@$item->Abs_promedio, 3, ".", ".")}}
+                    </td>
+                    <td id="tableContent">
+                        {{number_format(@$item->Vol_disolucion, 3, ".", ".")}}
+                    </td>
+                    <td id="tableContent">{{@$item->Factor_dilucion}}</td>
+                    <td id="tableContent">
+                        @if (@$item->Vol_disolucion != null || @$item->Vol_disolucion == 0)
+                            @if (@$item->Vol_disolucion < $item->Limite)
+                                < {{$item->Limite}}                                
                             @else
-                                -------
+                                {{number_format(@$item->Vol_disolucion,3)}}
                             @endif
-                        </td> 
-                        <td id="tableContent">{{@$item->Observacion}}</td>                         
-                        <td id="tableContent">
-                            @if (@$item->Liberado == 1)
-                                Liberado
-                            @elseif(@$item->Liberado == 0)
-                                No liberado
+                        @else
+                            -------
+                        @endif
+                    </td> 
+                    <td id="tableContent">{{@$item->Observacion}}</td>                         
+                    <td id="tableContent">
+                        @if (@$item->Liberado == 1)
+                            Liberado
+                        @elseif(@$item->Liberado == 0)
+                            No liberado
                             @endif
-                        </td>
-                        <td id="tableContent">{{@$item->Control}}</td>
-                    </tr>  
-                    @php
-                        $temp = DB::table('ViewLoteDetalle')->where('Id_codigo',$item->Id_codigo)->where('Id_control','!=',1)->get();
-                        if($temp->count()){
-                            $auxId = $item->Id_codigo;
-                        }
-                        $cont++;
-                    @endphp
-                    @if ($cont == 9)
-                        @php
-                            $temp = DB::table('ViewLoteDetalle')->where('Id_codigo',$auxId)->where('Id_control','!=',1)->get();        
-                            $auxId = 0;
-                            $cont = 0;
-                        @endphp
-                        @foreach ($temp as $item2)
-                            @switch($item2->Id_control)
-                                @case(3)
-                                @case(2)
-                                    <tr>
-                                        <td id="tableContent">
-                                            {{@$item2->Folio_servicio}}      
-                                            <br>
-                                            {{@$item2->Control}}      
-                                        </td>
-                                        <td id="tableContent">{{@$item2->Vol_muestra}}</td>
-                                        <td id="tableContent">< 2</td>
-                                        <td id="tableContent">{{number_format(@$item2->Abs1,3)}}</td>
-                                        <td id="tableContent">{{number_format(@$item2->Abs2,3)}}</td>
-                                        <td id="tableContent">{{number_format(@$item2->Abs3,3)}}</td>
-                                        <td id="tableContent">
-                                            {{number_format(@$item2->Abs_promedio, 3, ".", ".")}}
-                                        </td>
-                                        <td id="tableContent">
-                                            {{number_format(@$item2->Vol_disolucion, 3, ".", ".")}}
-                                        </td>
-                                        <td id="tableContent">{{@$item2->Factor_dilucion}}</td>
-                                        <td id="tableContent">
-                                            @if (@$item2->Vol_disolucion != null || @$item2->Vol_disolucion == 0)
-                                                @if (@$item2->Vol_disolucion < $item2->Limite)
-                                                    < {{$item2->Limite}}                                
-                                                @else
-                                                    {{number_format(@$item2->Vol_disolucion,3)}}
-                                                @endif
-                                            @else
-                                                -------
-                                            @endif
-                                        </td> 
-                                        <td id="tableContent">{{@$item2->Observacion}}</td>                         
-                                        <td id="tableContent">
-                                            @if (@$item2->Liberado == 1)
-                                                Liberado
-                                            @elseif(@$item2->Liberado == 0)
-                                                No liberado
-                                            @endif
-                                        </td>
-                                        <td id="tableContent">{{@$item2->Control}}</td>
-                                    </tr>     
-                                @break
-                                @default
-                            @endswitch
-                        @endforeach     
-                       
-                    @endif
-                @endforeach           
-                                          
+                    </td>
+                    <td id="tableContent">{{@$item->Control}}</td>
+                </tr>  
+            @endforeach
+                                      
             </tbody>        
         </table>  
     </div>    

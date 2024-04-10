@@ -16,10 +16,7 @@
         echo @$procedimiento[0];
         @endphp
     </div>
-    <br> 
     <div id="contenedorTabla">
-
-<br>
         <table autosize="1" class="tabla" border="0">
             <thead>  
                 <tr>

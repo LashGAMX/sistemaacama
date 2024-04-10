@@ -31,6 +31,7 @@
                     <th class="tableCabecera anchoColumna">Turb 2</th>
                     <th class="tableCabecera anchoColumna">Turb 3</th>
                     <th class="tableCabecera anchoColumna">Promedio de lecturas</th>
+                    <th class="tableCabecera anchoColumna">F.D</th>
                     <th class="tableCabecera anchoColumna">turbiedad UTN</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="tableCabecera anchoColumna"></th>
@@ -53,6 +54,7 @@
                         <td class="tableContent">{{ $item->Lectura2 }}</td>
                         <td class="tableContent">{{ $item->Lectura3 }}</td>
                         <td class="tableContent">{{ round($item->Promedio,2) }}</td>
+                        <td class="tableContent">{{ $item->Factor_dilucion }}</td>
                         @php
                             $resultado = "";
                             if($item->Resultado <= $item->Limite){

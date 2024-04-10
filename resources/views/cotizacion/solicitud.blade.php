@@ -50,6 +50,9 @@
                             <div class="col-md-2">
                                 <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                             </div>
+                            <!-- <div class="col-md-2">
+                                <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
+                            </div> -->
 
                             <!-- <div class="col-md-1">
                                 @if (Auth::user()->role->id != 13)

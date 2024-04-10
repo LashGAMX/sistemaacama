@@ -29,7 +29,7 @@ class CurvaController extends Controller
     {
         $idUser = Auth::user()->id;
         $area = AreaAnalisis::where('Id_area_analisis', 2)->orWhere('Id_area_analisis', 16)->get();
-        $parametro = Parametro::all();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', $idUser)->where('Curva', 1)->get();
 
 
         $model = "";
@@ -106,7 +106,7 @@ class CurvaController extends Controller
         return response()->json($data);
     }
     public function tablaVigencias(Request $request){
-        $model = CurvaConstantes::where('Id_parametro', $request->parametro)->limit(3)->get(); 
+        $model = CurvaConstantes::where('Id_parametro', $request->parametro)->orderBy('Id_curvaConst', 'desc')->limit(3)->get(); 
 
         $data  = array(
             'model' => $model,

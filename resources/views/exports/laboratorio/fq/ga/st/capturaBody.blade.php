@@ -29,11 +29,11 @@
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">No. Capsula</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Peso cte 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte 2</th>
+                    <th class="tableCabecera anchoColumna">Masa cte 1</th>
+                    <th class="tableCabecera anchoColumna">Masa cte 2</th>
                     <th class="tableCabecera anchoColumna">Masa 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 2</th>
+                    <th class="tableCabecera anchoColumna">Masa cte c/muestra 1</th>
+                    <th class="tableCabecera anchoColumna">Masa cte c/muestra 2</th>
                     <th class="tableCabecera anchoColumna">Masa 3</th>
                     <th class="tableCabecera anchoColumna">SOLIDOS TOTALES (ST) mg/L</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>                                        
@@ -47,27 +47,28 @@
             @foreach ($model as $item)
             <tr>
                         <td class="tableContent">
-                            @if (@$item->Control == 'Estandar')
-                                ESTANDAR
-                            @elseif(@$item->Control == 'Blanco')
-                                BLANCO
+                          
+                            @if ($item->Id_control != 1)
+                            {{@$item->Folio_servicio}}
+                            {{@$item->Control}}
                             @else
-                                {{@$item->Folio_servicio}}
-                            @endif     
+                            {{@$item->Folio_servicio}}  
+                            @endif
+                           
                         </td>
                         <td class="tableContent">{{@$item->Crisol}}</td>
                         <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$item->Peso_muestra1}}</td>
-                        <td class="tableContent">{{@$item->Peso_muestra2}}</td>
-                        <td class="tableContent">{{@$item->Masa1}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante1}}</td>
-                        <td class="tableContent">{{@$item->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$item->Masa2}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_muestra1,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_muestra2,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Masa1,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_constante1,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Peso_constante2,4)}}</td>
+                        <td class="tableContent">{{number_format(@$item->Masa2,4)}}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado < @$item->Limite)
                                 < {{@$item->Limite}}
                             @else
-                                {{@$item->Resultado}}
+                                {{number_format(@$item->Resultado,2)}}
                             @endif
                         </td>
                         <td class="tableContent">{{@$item->Observacion}}</td>
@@ -88,7 +89,7 @@
 
     <div id="contenidoCurva">
         @php
-            echo $procedimiento[1];
+            echo @$procedimiento[1];
         @endphp
     </div>
 </body>

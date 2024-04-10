@@ -51,9 +51,9 @@
                             @endif 
                         </td>
                         <td class="tableContent">{{@$model[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$model[$i]->Abs1}}</td>
-                        <td class="tableContent">{{@$model[$i]->Abs2}}</td>
-                        <td class="tableContent">{{@$model[$i]->Abs3}}</td>
+                        <td class="tableContent">{{number_format(@$item->Abs1, 3, ".", ".")}}</td>
+                        <td class="tableContent">{{number_format(@$item->Abs2, 3, ".", ".")}}</td>
+                        <td class="tableContent">{{number_format(@$item->Abs3, 3, ".", ".")}}</td>
                         <td class="tableContent">{{@$model[$i]->Promedio}}</td>
                         <td class="tableContent">
                             @if (@$model[$i]->Resultado > @$model[$i]->Limite)

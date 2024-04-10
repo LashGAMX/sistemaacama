@@ -89,7 +89,12 @@
                                     @endif
                                 @endswitch
                             @else
-                                INSTANTANEA  
+                                 @if ($solModel->Num_tomas > 1)
+                                        COMPUESTA
+                                    @else
+                                     INSTANTANEA
+                                    @endif
+                                  
                             @endif
                         </span>
                     </td>
@@ -386,17 +391,23 @@
                                             OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
                                             @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
                                             Y COLOR DE LA MUESTRA {{$color}} ,
-                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA 
+                                                @if (@$campoCompuesto->Proce_muestreo == 27)
+                                                    PEA-10-002-01
+                                                @else
+                                                    NMX-AA-003-1980 
+                                                @endif
+                                                Y DE ACUERDO A PROCEDIMIENTO PE-10-002-{{$campoCompuesto->Proce_muestreo}} <br>
                                                 {{@$obsCampo}}
                                                 @break
                                             @case(5) 
-                                            @case(7) 
+                                            @case(7)  
                                             @case(30)
                                                 @if ($solModel->Id_servicio != 3)
                                                     OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
                                                     @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
                                                     Y COLOR DE LA MUESTRA {{$color}} ,
-                                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN EL PROCEDIMIENTO INTERNO PEA-10-002-01 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-27 <br>
+                                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN EL PROCEDIMIENTO INTERNO PEA-10-002-01 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-{{@$campoCompuesto->Proce_muestreo}} <br>
                                                     {{@$obsCampo}}
                                                 @else
                                                     OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ
@@ -406,7 +417,14 @@
                                             OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
                                             @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
                                             Y COLOR DE LA MUESTRA {{$color}} ,
-                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA 
+                                                @if (@$campoCompuesto->Proce_muestreo == 27)
+                                                    PEA-10-002-01
+                                                @else
+                                                    NMX-AA-003-1980  
+                                                @endif
+
+                                                Y DE ACUERDO A PROCEDIMIENTO PE-10-002-{{@$campoCompuesto->Proce_muestreo}} <br>
                                                 {{@$obsCampo}}
                                         @endswitch
                                     @else 
@@ -458,6 +476,9 @@
                                 <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px;width: 80%;" >
                                     @php
                                         echo $impresion[0]->Nota;
+                                    @endphp
+                                    @php
+                                        echo @$impresion[0]->Nota_siralab;
                                     @endphp
                                     @if ($solModel->Nota_4 == 1)
                                         4 PARAMETRO NO ACREDITADO

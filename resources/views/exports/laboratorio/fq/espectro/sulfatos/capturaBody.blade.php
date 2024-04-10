@@ -14,35 +14,25 @@
             echo $plantilla[0]->Texto;
         @endphp
     </div>
-
-    <br>
-
     <div class="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos">
+        <table autosize="1" class="table " id="tablaDatos">
             <thead>
-
                 <tr>
-                    <th class="nombreHeader" colspan="15">
-                        Resultado de las muestras
-                    </th>                    
-                </tr>                
-
-                <tr>
-                    <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna" style="width: 30px">Volumen de <br> muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 1</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 2</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 3</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 4</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 5</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 6</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 7</th>
-                    <th class="tableCabecera anchoColumna" style="width: 40px">Abs 8</th>
-                    <th class="tableCabecera anchoColumna" style="width: 50px">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
-                    <th class="tableCabecera anchoColumna">Observaciones</th>
-                    <th class="anchoColumna"></th>
-                    <th class="anchoColumna"></th>
+                    <th class="tableCabecera anchoColumna"style=" font-size:10px;" >No. de muestra</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 30px">Volumen de <br> muestra (mL)</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 1</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 2</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 3</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 4</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 5</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 6</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 7</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 45px">Abs 8</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 50px">Abs Promedio</th>
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;">SULFATOS (SO4) mg/L</th>                    
+                    <th class="tableCabecera anchoColumna" style="font-size:10px;width: 50px">Observaciones</th>
+                    <th style="width: 50px" class="anchoColumna"></th>
+                    <th style="width: 50px" class="anchoColumna"></th>
                 </tr>
             </thead>
     
@@ -50,24 +40,24 @@
 
                 @foreach ($model as $item)
                 <tr>
-                    <td class="tableContent">
+                    <td class="tableContent" style="font-size:10px">
                         @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
                             {{@$item->Folio_servicio}}
                         @else
                             {{@$item->Control}}
                         @endif                                
                     </td>
-                    <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs1,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs2,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs3,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs4,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs5,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs6,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs7,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Abs8,3)}}</td>
-                    <td class="tableContent">{{number_format(@$item->Promedio,3)}}</td>
-                    <td class="tableContent">
+                    <td class="tableContent" style="font-size:10px">{{@$item->Vol_muestra}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs1,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs2,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs3,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs4,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs5,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs6,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs7,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Abs8,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">{{number_format(@$item->Promedio,3)}}</td>
+                    <td class="tableContent" style="font-size:10px">
                        @if ($item->Resultado != null)
                         @if ($item->Resultado < $item->Limite)
                                 < {{number_format(@$item->Limite, 3, ".", "")}}
@@ -78,29 +68,20 @@
                            -------
                        @endif
                         </td>
-                    <td class="tableContent">{{@$item->Observacion}}</td>
-                    <td class="tableContent">
+                    <td class="tableContent" style="font-size:10px">{{@$item->Observacion}}</td>
+                    <td class="tableContent" style="font-size:10px">
                         @if (@$item->Liberado == 1)
                             Liberado
                         @elseif(@$item->Liberado == 0)
                             No liberado
                         @endif     
                     </td>
-                    <td class="tableContent">{{@$item->Control}}</td>
+                    <td class="tableContent" style="font-size:10px">{{@$item->Control}}</td>
                 </tr>
                 @endforeach
             </tbody>        
         </table>  
     </div>
-{{-- 
-    <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br>
-        <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
-        <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
-        <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
-    </div> --}}
-
-    <br>
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración / Observación</span>

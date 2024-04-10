@@ -29,7 +29,7 @@ $(document).ready(function () {
         }
     });
     $('#btnIngresar').click(function () {
-        if (confirm("Esta segur@ de darle ingrseo a la muestra?")) {
+        if (confirm("Esta segur@ de darle ingreso a la muestra?")) {
             setIngresar()
         }
     });

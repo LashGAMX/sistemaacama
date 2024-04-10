@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
+use App\Http\Livewire\Historial\Campo;
 use App\Models\CampoCompuesto;
 use App\Models\CampoGenerales;
 use App\Models\CodigoParametros;
@@ -560,6 +561,10 @@ class IngresarController extends Controller
         $puntoModel = SolicitudPuntos::where('Id_solPadre', $res->idSol)->get();
         $sw = true;
         $msg = "";
+        //cambio de hora de recepción
+        $addMinute = "";
+        $now = "";
+        $timeProce = "";
         foreach ($puntoModel as $item) {
             $codigoParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($codigoParametro->count()) {
@@ -592,7 +597,31 @@ class IngresarController extends Controller
             $valProce = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->get();
 
             if ($valProce->count()) {
-                $msg = "Esta muestra ya fue ingresada";
+                // aqui se crea la condición para la "ventana" de 10 min despues de ingresar la muestra
+                $now = Carbon::now();
+                $timeProce = $valProce[0]->created_at;
+                $addMinute = $timeProce->addMinute(15);
+
+                //ProcesoAnalisis::where('Id_solicitud', $res->idSol)->WhereDate('created_at', '<=', $addMinute->toDateTimeString())->get();
+                if ($addMinute >= $now) {
+                  
+                        $valProce[0]->Hora_recepcion = $res->horaRecepcion;
+                        // $valProce->Hora_entrada = $res->horaEntrada;
+                         $valProce[0]->save();
+         
+                         $solModel = Solicitud::where('Hijo', $res->idSol)->get();
+         
+                         foreach ($solModel as $itme){
+                             $upd = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
+                             $upd->Hora_recepcion = $res->horaRecepcion;
+                             //$upd->Hora_entrada = $res->horaEntrada;
+                             $upd->save();
+                         }
+                         $msg = "Esta muestra ha sido actializada";
+                } else {
+                    $msg = "Esta muestra ya fue ingresada hace mas de 10min";
+                }
+               // $msg = "Esta muestra ya fue ingresada hace mas de 10min";
             } else {
                 $solModel = Solicitud::where('Hijo', $res->idSol)->get();
 
@@ -636,6 +665,9 @@ class IngresarController extends Controller
             'sw' => $sw,
             'msg' => $msg,
             'puntoModel' => $puntoModel,
+            'now' => $now->toDayDateTimeString(),
+            'timeProceso' => $valProce[0]->created_at,
+            'addMinute' => $addMinute,
         );
         return response()->json($data);
     }

@@ -24,11 +24,19 @@
             <tr>
                 <th class="tableCabecera anchoColumna">No. De muestra</th>
                 <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                <th class="tableCabecera anchoColumna">Lectura 1</th>
-                <th class="tableCabecera anchoColumna">Lectura 2</th>
-                <th class="tableCabecera anchoColumna">Lectura 3</th>
-                <th class="tableCabecera anchoColumna">Lectura Prom.</th>
-                <th class="tableCabecera anchoColumna">CLORO mg/L</th>
+                <th class="tableCabecera anchoColumna">Volumen titulante</th>
+                <th class="tableCabecera anchoColumna">
+                    @switch($model[0]->Id_parametro)
+                        @case(28)
+                            Alcalinidad a la fenolftaleina mg/L
+                            @break
+                        @case(29)
+                            Alcalinidad a la anaranjado mg/L
+                            @break
+                        @default
+                            
+                    @endswitch
+                </th>
                 <th class="tableCabecera anchoColumna">Observaciones</th>
                 <th class="tableCabecera anchoColumna"></th>
                 <th class="tableCabecera anchoColumna"></th>
@@ -39,11 +47,18 @@
             @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">{{ $item->Codigo }}</td>
-                    <td class="tableContent">{{ $item->Vol_muestra }}</td> 
-                    <td class="tableContent">{{ $item->Lectura1 }}</td>
-                    <td class="tableContent">{{ $item->Lectura2 }}</td>
-                    <td class="tableContent">{{ $item->Lectura3 }}</td>
-                    <td class="tableContent">{{ round($item->Promedio,2) }}</td>
+                    <td class="tableContent">100</td> 
+                    <td class="tableContent">
+                        @php
+                            if(@$item->Resultado <= @$item->Limite){
+                                echo "0.".@$item->Resultado;
+                            }else{
+                                @$ultimoDigito = $item->Resultado % 10;
+                                @$primerDigito = floor($item->Resultado / (10 ** (strlen($item->Resultado) - 1)));
+                                echo $primerDigito.".".$ultimoDigito;
+                            }
+                        @endphp
+                    </td> 
                     <td class="tableContent">
                         @if (@$item->Resultado <= @$item->Limite)
                         < {{@$item->Limite}}

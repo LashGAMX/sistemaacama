@@ -66,6 +66,9 @@ $(document).ready(function () {
     $('#btnSetNormalidadAlc').click(function () {
         setNormalidadAlc();
     });
+    $('#btnSetNormalidadAci').click(function () {
+        setNormalidadAci();
+    });
     $('#btnFechaDeFGA').click(function () {
         setFechaDefGA();
     });
@@ -209,6 +212,7 @@ function getStdMenu() {
     $("#coliformes-tab").hide()
     $("#dbo-tab").hide()
     $("#tabAlcalinidad-tab").hide()
+    $("#tabAcidez-tab").hide()
     $(".durSec1").hide()
     $(".durSec2").hide()
     $(".durSec3").hide()
@@ -227,9 +231,15 @@ function getStdMenu() {
             $("#dqo-tab").show()
             switch (parseInt($("#parametro").val())) {
                 case 33: // CLORO RESIDUAL LIBRE
-                case 64:
                 case 119:
                 case 218:
+                    document.getElementById('divTitulo1Cloros').innerHTML = 'mL Titulado 1 de Tiosulfato'
+                    document.getElementById('divTituloTrazableCloros').innerHTML = 'mL de K2Cr2O7 Trazable'
+                    $("#secctionCloro").show(); 
+                    break;
+                case 64:
+                    document.getElementById('divTitulo1Cloros').innerHTML = 'Nitrato de plata'
+                    document.getElementById('divTituloTrazableCloros').innerHTML = 'mL de Cloruro de sodio'
                     $("#secctionCloro").show(); 
                     break;
                 case 6: // DQO
@@ -263,7 +273,12 @@ function getStdMenu() {
                     $("#tabVol-tab").hide()
                     $("#dqo-tab").hide()
                     $("#tabAlcalinidad-tab").show()
-               
+                    break;
+                case 27: 
+                console.log("Entro Acidez")
+                    $("#tabVol-tab").hide()
+                    $("#dqo-tab").hide()
+                    $("#tabAcidez-tab").show()
                     break;
                 default:
                     break;
@@ -329,6 +344,40 @@ function setNormalidadAlc()
         alert("No puedes ejecutar sin el rango de fechas")   
     }
 
+}
+function setNormalidadAci(){
+    if ($("#fecIniAci").val() != "" && $("#fecFinAci").val() != "") {
+        $.ajax({
+            type: 'POST',
+            url: base_url + "/admin/laboratorio/analisis/setNormalidadAlc",
+            data: {
+                idLote: idLote,
+                idNormalidad: $("idNormalidadAci").val(),
+                resultado: $("#resValAci").val(),
+                fechaIni: $("#fecIniAci").val(),
+                fechaFin: $("#fecFinAci").val(),
+                granoCarbon1: $("#granoBifAci1").val(),
+                granoCarbon2: $("#granoBifAci2").val(),
+                granoCarbon3: $("#granoBifAci3").val(),
+                tituladodeH1: $("#tituladoAci1").val(),
+                tituladodeH2: $("#tituladoAci2").val(),
+                tituladodeH3: $("#tituladoAci3").val(),
+                equivalenteAlc: $("#equivalenteAci").val(),
+                factConversionAlc: $("#factConversionAci").val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                alert("Datos creados correctamente")
+                $("#resValAci").val(response.model[0].Resultado)
+                $("#idNormalidadAci").val(response.model[0].Id_valoracion)
+            }
+        }); 
+    } else {
+        alert("No puedes ejecutar sin el rango de fechas")   
+    }
 }
 function getDetalleEcoli(idMuestra,colonia,indice){
     numColonia = colonia;
@@ -613,8 +662,9 @@ function setFormulaValoracion() {
             let res3 = 0.0
             let solucion3 = 0.0
             let prom3 = 0.0
-            
-            $("#blancoResDur").val($("#blancoDureza").val())
+            let promBlanco = 0
+            promBlanco = (parseFloat($("#blancoDureza").val()) + parseFloat($("#blancoDureza2").val()) + parseFloat($("#blancoDureza3").val())) / 3
+            $("#blancoResDur").val(promBlanco)
             solucion1 = parseFloat($("#tituladoDurSec1").val())
             prom1 = ((parseFloat($("#edtaDur1Sec1").val()) + parseFloat($("#edtaDur2Sec1").val()) + parseFloat($("#edtaDur3Sec1").val()) ) / 3)
             res1 = solucion1 / (prom1.toFixed(4) - parseFloat($("#blancoResDur").val()))
@@ -666,6 +716,7 @@ function setValoracion() {
                 async: false,
                 success: function (response) {
                     console.log(response);
+                    alert("Datos guardados")
                 }
             });
             break;
@@ -807,6 +858,9 @@ function setValoracion() {
                     caso: 4,
                     idParametro: $("#parametro").val(),
                     blanco: $("#blancoResDur").val(),
+                    blanco1: $("#blancoDureza").val(),
+                    blanco2: $("#blancoDureza2").val(),
+                    blanco3: $("#blancoDureza3").val(),
                     idLote: idLote,
                     solucionSec1: $("#tituladoDurSec1").val(),
                     titulado1Sec1: $("#edtaDur1Sec1").val(),
@@ -1026,6 +1080,8 @@ function getDetalleLote(id, parametro) {
     let summer = document.getElementById("divSummer")
     let tableHist = document.getElementById("tableValAlcalinidadHist")
     let tab = ''
+    let tableHistAci = document.getElementById("tableValAlcalinidadHist")
+    let tabAci = ''
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleLote",
@@ -1093,6 +1149,46 @@ function getDetalleLote(id, parametro) {
                                 tab += '    </table>';
                                 tableHist.innerHTML = tab
                             } 
+                            break;
+                        case 27:
+                            if (response.model != null) {
+                                $("#idNormalidadAci").val(response.model.Id_valoracion)
+                                $("#resValAci").val(response.model.Resultado)
+                                $("#fecIniAci").val(response.model.Fecha_inicio)
+                                $("#fecFinAci").val(response.model.Fecha_fin)
+                                $("#granoBifAci1").val(response.model.Granos_carbon1)
+                                $("#granoBifAci2").val(response.model.Granos_carbon2)
+                                $("#granoBifAci3").val(response.model.Granos_carbon3)
+                                $("#tituladoAci1").val(response.model.Titulado1)
+                                $("#tituladoAci2").val(response.model.Titulado2)
+                                $("#tituladoAci3").val(response.model.Titulado3)
+                                $("#equivalenteAci").val(response.model.Granos_equivalente)
+                                $("#factConversionAci").val(response.model.Factor_conversion)
+        
+                                
+                                tabAci += '<h6>Historial</h6><table id="tabCaptura" class="table table-sm">';
+                                tabAci += '    <thead>';
+                                tabAci += '        <tr>';
+                                tabAci += '          <th>ID</th>';
+                                tabAci += '          <th>Fecha Ini</th>';
+                                tabAci += '          <th>Fecha Fin</th>';
+                                tabAci += '          <th>Resultado</th>';
+                                tabAci += '        </tr>';
+                                tabAci += '    </thead>';
+                                tabAci += '    <tbody>';
+                                $.each(response.aux, function (key, item) {
+                                    tabAci += '<tr>';
+                                    tabAci += '<td>'+item.Id_valoracion+'</td>';
+                                    tabAci += '<td>'+item.Fecha_inicio+'</td>';
+                                    tabAci += '<td>'+item.Fecha_fin+'</td>';
+                                    tabAci += '<td>'+item.Resultado+'</td>';
+                                    tabAci += '</tr>';
+                                })
+                                tabAci += '    </tbody>';
+                                tabAci += '    </table>';
+                                tableHistAci.innerHTML = tabAci
+                            } 
+                            break;
                         default:
                             break;
                     }
@@ -1106,7 +1202,7 @@ function getDetalleLote(id, parametro) {
                         case 252:
 
                             if (response.model != null) {
-                                $("#tituladoDurSec1").val(response.model.SolucionSec1)
+                            $("#tituladoDurSec1").val(response.model.SolucionSec1)
                             $("#edtaDur1Sec1").val(response.model.Disolucion1Sec1)
                             $("#edtaDur2Sec1").val(response.model.Disolucion2Sec1)
                             $("#edtaDur3Sec1").val(response.model.Disolucion3Sec1)
@@ -1124,7 +1220,9 @@ function getDetalleLote(id, parametro) {
                             $("#edtaDur3Sec3").val(response.model.Disolucion3Sec3)
                             $("#resDurezaSec3").val(response.model.ResultadoSec3)
 
-                            $("#blancoDureza").val(response.model.Blanco)
+                            $("#blancoDureza").val(response.model.Blanco1)
+                            $("#blancoDureza2").val(response.model.Blanco2)
+                            $("#blancoDureza3").val(response.model.Blanco3)
                             $("#blancoResDur").val(response.model.Blanco)
                             $("#normalidadResDur").val(response.model.Resultado)
                             } 
@@ -1244,8 +1342,8 @@ function setDetalleMuestra() {
                             if (response.idControl == 5) {
                                 $("#resultadoCOT").val(response.model.Resultado);
                             } else {
-                                $("#abs1COT").val(response.model.Promedio.toFixed(3));
-                                $("#abs2COT").val(response.model.Promedio.toFixed(3));
+                                $("#abs1COT").val(parseFloat(response.model.Promedio).toFixed(3));
+                                $("#abs2COT").val(parseFloat(response.model.Promedio).toFixed(3));
                                 $("#resultadoCOT").val(response.model.Resultado.toFixed(3));
                                 $("#fDilucion1COT").val(response.model.Vol_dilucion.toFixed(3));
                                 $("#fDilucion2COT").val(response.model.Vol_dilucion.toFixed(3));
@@ -1387,6 +1485,7 @@ function setDetalleMuestra() {
                             inmhoff: $("#inmhoffSolidosDir").val(),
                             temperaturaLlegada: $("#temperaturaLlegadaSolidosDir").val(),
                             temperaturaAnalizada: $("#temperaturaAnalizadaSolidosDir").val(),
+                            obs: $("#observacionSolidosDir").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
@@ -1410,6 +1509,7 @@ function setDetalleMuestra() {
                             resultado: $("#preResDifSolidosDif").val(),
                             val1: $("#val11SolidosDif").val(),
                             val2: $("#val21SolidosDif").val(),
+                            obs: $("#observacionSolidosDif").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
@@ -1436,23 +1536,12 @@ function setDetalleMuestra() {
                             pesoC2: $("#pc21Solidos").val(),
                             volumen: $("#v1Solidos").val(),
                             factor: $("#f1Solidos").val(),
+                            obs: $("#observacionSolidos").val(),
                             _token: $('input[name="_token"]').val()
                         },
                         dataType: "json",
                         success: function (response) {
-                            console.log(response);
-                            if ($("#resultadoSolidos").val() != "") {
-                                $('#crisolSolidos').val(response.model.Crisol);
-                                $("#m11Solidos").val(response.model.Masa2);
-                                $("#m21Solidos").val(response.model.Masa1);
-                                $("#pcm11Solidos").val(response.model.Peso_muestra1);
-                                $("#pcm21Solidos").val(response.model.Peso_muestra2);
-                                $("#pc1Solidos").val(response.model.Peso_constante1);
-                                $("#pc21Solidos").val(response.model.Peso_constante2);
-                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(2));
-                            } else {
-                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(2));
-                            }
+                            getDetalleMuestra(idMuestra)
                         }
                     });
                     break;
@@ -1511,7 +1600,7 @@ function setDetalleMuestra() {
                             success: function (response) {
                                 console.log(response);
                                 alert("Datos guardados")
-                                $("#resultadoDqoVol").val(response.model.Resultado.toFixed(2));
+                                $("#resultadoDqoVol").val(number_format(response.model.Resultado.toFixed(2),2,'.',''));
                             }
                         });
                     } else {
@@ -1598,6 +1687,7 @@ function setDetalleMuestra() {
                     break;
                 case 28:
                 case 29:
+                case 27:
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
@@ -1702,9 +1792,10 @@ function setDetalleMuestra() {
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
+                            alert("datos guardados")
+                            $("#dilucionCloro1DirectoClo").val(response.model.Factor_dilucion)
                             $("#promedioCloro1DirectoClo").val(response.model.Resultado)
                             $("#resultadoDirectoClo").val(response.model.Resultado)
-
                         }
 
                     });
@@ -1760,7 +1851,6 @@ function setDetalleMuestra() {
 
                     });
                     break;
-                case 58://turbiedad
                 case 89:
                 case 98:
                 case 115:
@@ -1781,7 +1871,8 @@ function setDetalleMuestra() {
                         success: function (response) {
                             console.log(response);
                             $("#promedioTurb1DirectoTur").val(response.model.Promedio)
-                            $("#resultadoDirectoTur").val(response.model.Resultado)
+                            $("#resultadoDirectoTur").val(number_format(parseFloat(response.model.Resultado),3,'.',''))
+                            $("#dilusionTurb1DirectoTur").val(response.model.Factor_dilucion)
                         }
 
                     });
@@ -2216,6 +2307,7 @@ function setDetalleMuestra() {
                             M: $('#noBotellaFin1Dbo').val(),
                             N: $('#phInicialIno1Dbo').val(),
                             O: $('#phFinIno1Dbo').val(),
+                            P: $('#preIno1Dbo').val(),
                             S: sug2,
                             _token: $('input[name="_token"]').val()
                         },
@@ -2407,9 +2499,9 @@ function getDetalleMuestra(id) {
                             $("#rCOT2").val(response.curva.R);
                             $("#volMuestra1COT").val(response.model.Vol_muestra);
                             $("#volMuestra2COT").val(response.model.Vol_muestra);
-                            $("#abs11COT").val(response.model.Abs1);
-                            $("#abs21COT").val(response.model.Abs2);
-                            $("#abs31COT").val(response.model.Abs3);
+                            $("#abs11COT").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs21COT").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs31COT").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
                             $("#resultadoCOT").val(response.model.Resultado);
                             break;
                         case 113:
@@ -2429,12 +2521,15 @@ function getDetalleMuestra(id) {
                             $("#fDilucion2SulfatosF").val(response.model.Vol_dilucion);
                             $("#volMuestra1SulfatosF").val(response.model.Vol_muestra);
                             $("#volMuestra2SulfatosF").val(response.model.Vol_muestra);
-                            $("#abs11SulfatosF").val(response.model.Abs1);
-                            $("#abs12SulfatosF").val(response.model.Abs1);
-                            $("#abs21SulfatosF").val(response.model.Abs2);
-                            $("#abs22SulfatosF").val(response.model.Abs2);
-                            $("#abs31SulfatosF").val(response.model.Abs3);
-                            $("#abs32SulfatosF").val(response.model.Abs3);
+    
+                            $("#abs11SulfatosF").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs12SulfatosF").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs21SulfatosF").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs22SulfatosF").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs31SulfatosF").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+                            $("#abs32SulfatosF").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+                            
+
                             $("#abs41SulfatosF").val(response.model.Abs4);
                             $("#abs42SulfatosF").val(response.model.Abs4);
                             $("#abs51SulfatosF").val(response.model.Abs5);
@@ -2480,9 +2575,10 @@ function getDetalleMuestra(id) {
                             $("#fDilucion2").val(response.model.Vol_dilucion);
                             $("#volMuestraEspectro1").val(response.model.Vol_muestra);
                             $("#volMuestraEspectro2").val(response.model.Vol_muestra);
-                            $("#abs1Espectro1").val(response.model.Abs1);
-                            $("#abs2Espectro1").val(response.model.Abs2);
-                            $("#abs3Espectro1").val(response.model.Abs3);
+                            $("#abs1Espectro1").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs2Espectro1").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs3Espectro1").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+
                             $("#abs1Espectro2").val(response.model.Abs4);
                             $("#abs2Espectro2").val(response.model.Abs5);
                             $("#abs3Espectro2").val(response.model.Abs6);
@@ -2521,12 +2617,14 @@ function getDetalleMuestra(id) {
                             $("#fDilucion2").val(response.model.Vol_dilucion);
                             $("#volMuestraEspectro1").val(response.model.Vol_muestra);
                             $("#volMuestraEspectro2").val(response.model.Vol_muestra);
-                            $("#abs1Espectro1").val(response.model.Abs1);
-                            $("#abs2Espectro1").val(response.model.Abs2);
-                            $("#abs3Espectro1").val(response.model.Abs3);
-                            $("#abs1Espectro2").val(response.model.Abs1);
-                            $("#abs2Espectro2").val(response.model.Abs2);
-                            $("#abs3Espectro2").val(response.model.Abs3);
+
+                            $("#abs1Espectro1").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs2Espectro1").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs3Espectro1").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+                            $("#abs1Espectro2").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs2Espectro2").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs3Espectro2").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+                            
                             $("#resultadoEspectro").val(parseFloat(response.model.Resultado).toFixed(3));
                             break;
                         default:
@@ -2562,12 +2660,13 @@ function getDetalleMuestra(id) {
                             $("#fDilucion2").val(response.model.Vol_dilucion);
                             $("#volMuestraEspectro1").val(response.model.Vol_muestra);
                             $("#volMuestraEspectro2").val(response.model.Vol_muestra);
-                            $("#abs1Espectro1").val(response.model.Abs1);
-                            $("#abs2Espectro1").val(response.model.Abs2);
-                            $("#abs3Espectro1").val(response.model.Abs3);
-                            $("#abs1Espectro2").val(response.model.Abs1);
-                            $("#abs2Espectro2").val(response.model.Abs2);
-                            $("#abs3Espectro2").val(response.model.Abs3);
+                            $("#abs1Espectro1").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs2Espectro1").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs3Espectro1").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+                            $("#abs1Espectro2").val(number_format(parseFloat(response.model.Abs1),3,'.',''));
+                            $("#abs2Espectro2").val(number_format(parseFloat(response.model.Abs2),3,'.',''));
+                            $("#abs3Espectro2").val(number_format(parseFloat(response.model.Abs3),3,'.',''));
+
                             $("#resultadoEspectro").val(parseFloat(response.model.Resultado).toFixed(3));
                             break;
                     }
@@ -2601,6 +2700,7 @@ function getDetalleMuestra(id) {
                     $("#eGA2").val(response.model.F_conversion);
                     break;
                 case 15://Solidos
+                    $("#muestraCapturaSolidos").val(response.model.Codigo)
                     if (response.model.Id_parametro == 4) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 2'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 6'
@@ -2609,6 +2709,7 @@ function getDetalleMuestra(id) {
                         document.getElementById('pscmS2').innerHTML = 'Masa constante c/muestra 2'
                         document.getElementById('pcS1').innerHTML = 'Masa constante 1'
                         document.getElementById('pcS2').innerHTML = 'Masa constante 2'
+                        document.getElementById('tituloCrisol').innerHTML = 'Crisol'
                     } else if (response.model.Id_parametro == 90) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 1'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 3'
@@ -2617,17 +2718,15 @@ function getDetalleMuestra(id) {
                         document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
                         document.getElementById('pcS1').innerHTML = 'Peso constante 1'
                         document.getElementById('pcS2').innerHTML = 'Peso constante 2'
+                        document.getElementById('tituloCrisol').innerHTML = 'Capsula'
                     } else if (response.model.Id_parametro == 46) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 7'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 6'
-
-                        // document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 6'
-                        // document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 7'
-
-                        document.getElementById('pscmS1').innerHTML = 'Masa constante Calcinado 1'
-                        document.getElementById('pscmS2').innerHTML = 'Masa constante Calcinado 2'
-                        document.getElementById('pcS1').innerHTML = 'Masa constante  c/muestra 1'
-                        document.getElementById('pcS2').innerHTML = 'Masa constante  c/muestra 2'
+                        document.getElementById('pscmS1').innerHTML = 'Masa constante  c/muestra 1'
+                        document.getElementById('pscmS2').innerHTML = 'Masa constante  c/muestra 2'
+                        document.getElementById('pcS1').innerHTML = 'Masa constante Calcinado 1'
+                        document.getElementById('pcS2').innerHTML = 'Masa constante Calcinado 2'
+                        document.getElementById('tituloCrisol').innerHTML = 'Crisol'
                     } else if (response.model.Id_parametro == 48) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 4'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 3'
@@ -2636,6 +2735,7 @@ function getDetalleMuestra(id) {
                         document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
                         document.getElementById('pcS1').innerHTML = 'Peso constante Calcinado 1'
                         document.getElementById('pcS2').innerHTML = 'Peso constante Calcinado 2'
+                        document.getElementById('tituloCrisol').innerHTML = 'Capsula'
                     } else if (response.model.Id_parametro == 112) {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Peso B'
                         document.getElementById('titulomasa2Solidos').innerHTML = 'Peso A'
@@ -2644,6 +2744,7 @@ function getDetalleMuestra(id) {
                         document.getElementById('pscmS2').innerHTML = 'Peso constante c/muestra 2'
                         document.getElementById('pcS1').innerHTML = 'Peso constante 1'
                         document.getElementById('pcS2').innerHTML = 'Peso constante 2'
+                        document.getElementById('tituloCrisol').innerHTML = 'Crisol'
                     } 
                     else {
                         document.getElementById('titulomasa1Solidos').innerHTML = 'Masa B'
@@ -2682,43 +2783,66 @@ function getDetalleMuestra(id) {
                             $("#observacionSolidosDif").val(response.model.Observacion);
                             $("#conductividadDifSolidosDif").val(response.conductividad);
                             break;
-                        case 48:
-                            
-                        $("#m11Solidos").val(response.model.Masa1);
-                        $("#m12Solidos").val(response.model.Masa1);
-                        $("#m21Solidos").val(response.model.Masa2);
-                        $("#m22Solidos").val(response.model.Masa2);
-                        $("#pcm11Solidos").val(response.model.Peso_constante1);
-                        $("#pcm12Solidos").val(response.model.Peso_constante1);
-                        $("#pcm21Solidos").val(response.model.Peso_constante2);
-                        $("#pcm22Solidos").val(response.model.Peso_constante2);
-                        $("#pc1Solidos").val(response.masa.Masa2);
-                        $("#pc2Solidos").val(response.masa.Masa2);
-                        $("#pc21Solidos").val(response.masa.Masa2);
-                        $("#pc22Solidos").val(response.masa.Masa2);
-                        $("#v1Solidos").val(response.model.Vol_muestra);
-                        $("#v2Solidos").val(response.model.Vol_muestra);
-                        $("#f1Solidos").val(response.model.Factor_conversion);
-                        $("#f1Solidos").val(response.model.Factor_conversion);
+                        case 46:
+                            $("#conducSolidosDef").val(response.conductividad);
+                            $("#m11Solidos").val(number_format(parseFloat(response.model.Masa1),4));
+                            $("#m12Solidos").val(number_format(parseFloat(response.model.Masa1),4));
+                            $("#m21Solidos").val(number_format(parseFloat(response.dif1.Masa2),4));
+                            $("#m22Solidos").val(number_format(parseFloat(response.dif1.Masa2),4));
+                            $("#pcm11Solidos").val(number_format(parseFloat(response.dif1.Peso_constante1),4));
+                            $("#pcm12Solidos").val(number_format(parseFloat(response.dif1.Peso_constante1),4));
+                            $("#pcm21Solidos").val(number_format(parseFloat(response.dif1.Peso_constante2),4));
+                            $("#pcm22Solidos").val(number_format(parseFloat(response.dif1.Peso_constante2),4));
+                            $("#pc1Solidos").val(number_format(parseFloat(response.model.Peso_muestra1),4));
+                            $("#pc2Solidos").val(number_format(parseFloat(response.model.Peso_muestra1),4));
+                            $("#pc21Solidos").val(number_format(parseFloat(response.model.Peso_muestra2),4));
+                            $("#pc22Solidos").val(number_format(parseFloat(response.model.Peso_muestra2),4));
+                            $("#v1Solidos").val(response.dif1.Vol_muestra);
+                            $("#v2Solidos").val(response.dif1.Vol_muestra);
+                            $("#f1Solidos").val(response.model.Factor_conversion);
+                            $("#f1Solidos").val(response.model.Factor_conversion);
 
-                        $("#crisolSolidos").val(response.model.Crisol);
-                        $("#resultadoSolidos").val(response.model.Resultado);
-                        $("#observacionSolidos").val(response.model.Observacion);
+                            $("#crisolSolidos").val(response.dif1.Crisol);
+                            $("#resultadoSolidos").val(response.model.Resultado);
+                            $("#observacionSolidos").val(response.model.Observacion);
+                            break;
+                        case 48:
+                            $("#conducSolidosDef").val(response.conductividad);
+                            $("#m11Solidos").val(number_format(parseFloat(response.model.Masa1),4));
+                            $("#m12Solidos").val(number_format(parseFloat(response.model.Masa1),4));
+                            $("#m21Solidos").val(number_format(parseFloat(response.dif1.Masa2),4));
+                            $("#m22Solidos").val(number_format(parseFloat(response.dif1.Masa2),4));
+                            $("#pcm11Solidos").val(number_format(parseFloat(response.dif1.Peso_constante1),4));
+                            $("#pcm12Solidos").val(number_format(parseFloat(response.dif1.Peso_constante1),4));
+                            $("#pcm21Solidos").val(number_format(parseFloat(response.dif1.Peso_constante2),4));
+                            $("#pcm22Solidos").val(number_format(parseFloat(response.dif1.Peso_constante2),4));
+                            $("#pc1Solidos").val(number_format(parseFloat(response.model.Peso_muestra1),4));
+                            $("#pc2Solidos").val(number_format(parseFloat(response.model.Peso_muestra1),4));
+                            $("#pc21Solidos").val(number_format(parseFloat(response.model.Peso_muestra2),4));
+                            $("#pc22Solidos").val(number_format(parseFloat(response.model.Peso_muestra2),4));
+                            $("#v1Solidos").val(response.dif1.Vol_muestra);
+                            $("#v2Solidos").val(response.dif1.Vol_muestra);
+                            $("#f1Solidos").val(response.model.Factor_conversion);
+                            $("#f1Solidos").val(response.model.Factor_conversion);
+
+                            $("#crisolSolidos").val(response.dif1.Crisol);
+                            $("#resultadoSolidos").val(response.model.Resultado);
+                            $("#observacionSolidos").val(response.model.Observacion);
                             break;
                         default: // Default
                             $("#conducSolidosDef").val(response.conductividad);
-                            $("#m11Solidos").val(response.model.Masa1);
-                            $("#m12Solidos").val(response.model.Masa1);
-                            $("#m21Solidos").val(response.model.Masa2);
-                            $("#m22Solidos").val(response.model.Masa2);
-                            $("#pcm11Solidos").val(response.model.Peso_constante1);
-                            $("#pcm12Solidos").val(response.model.Peso_constante1);
-                            $("#pcm21Solidos").val(response.model.Peso_constante2);
-                            $("#pcm22Solidos").val(response.model.Peso_constante2);
-                            $("#pc1Solidos").val(response.model.Peso_muestra1);
-                            $("#pc2Solidos").val(response.model.Peso_muestra1);
-                            $("#pc21Solidos").val(response.model.Peso_muestra2);
-                            $("#pc22Solidos").val(response.model.Peso_muestra2);
+                            $("#m11Solidos").val(number_format(parseFloat(response.model.Masa1),4));
+                            $("#m12Solidos").val(number_format(parseFloat(response.model.Masa1),4));
+                            $("#m21Solidos").val(number_format(parseFloat(response.model.Masa2),4));
+                            $("#m22Solidos").val(number_format(parseFloat(response.model.Masa2),4));
+                            $("#pcm11Solidos").val(number_format(parseFloat(response.model.Peso_constante1),4));
+                            $("#pcm12Solidos").val(number_format(parseFloat(response.model.Peso_constante1),4));
+                            $("#pcm21Solidos").val(number_format(parseFloat(response.model.Peso_constante2),4));
+                            $("#pcm22Solidos").val(number_format(parseFloat(response.model.Peso_constante2),4));
+                            $("#pc1Solidos").val(number_format(parseFloat(response.model.Peso_muestra1),4));
+                            $("#pc2Solidos").val(number_format(parseFloat(response.model.Peso_muestra1),4));
+                            $("#pc21Solidos").val(number_format(parseFloat(response.model.Peso_muestra2),4));
+                            $("#pc22Solidos").val(number_format(parseFloat(response.model.Peso_muestra2),4));
                             $("#v1Solidos").val(response.model.Vol_muestra);
                             $("#v2Solidos").val(response.model.Vol_muestra);
                             $("#f1Solidos").val(response.model.Factor_conversion);
@@ -2775,17 +2899,24 @@ function getDetalleMuestra(id) {
                                 $("#abs12").val(response.model.Abs1);
                                 $("#abs22").val(response.model.Abs2);
                                 $("#abs32").val(response.model.Abs3);
-                                $("#resultado").val(response.model.Resultado);
+                                $("#resultadoDqoVol").val(number_format(response.model.Resultado.toFixed(2),2,'.',''));
 
                                 console.log("Tubo sellado");
                             } else {
+                                $("#tituladoDqo1DqoVol").val('');
+                                $("#MolaridadDqo1DqoVol").val('');
+                                $("#blancoDqo1DqoVol").val('');
+                                $("#factorDqo1DqoVol").val('');
+                                $("#volDqo1DqoVol").val('');
+                                $("#resultadoDqoVol").val('');
+                                $("#observacionDqoVol").val('');
                                 if (response.model.Resultado != null) {
                                     $("#tituladoDqo1DqoVol").val(response.model.Titulo_muestra);
                                     $("#MolaridadDqo1DqoVol").val(response.valoracion.Resultado);
                                     $("#blancoDqo1DqoVol").val(response.valoracion.Blanco);
                                     $("#factorDqo1DqoVol").val(response.model.Equivalencia);
                                     $("#volDqo1DqoVol").val(response.model.Vol_muestra);
-                                    $("#resultadoDqoVol").val(response.model.Resultado);
+                                    $("#resultadoDqoVol").val(number_format(response.model.Resultado.toFixed(2),2,'.',''));
                                     $("#observacionDqoVol").val(response.model.Observacion);
 
 
@@ -2832,13 +2963,29 @@ function getDetalleMuestra(id) {
                             }
                             break;
                         case 28:
-                        case 29:                            
+                        case 29:      
+                            document.getElementById('tituloModalAlcalinidad').innerHTML = 'Captura de resultados Alcalinida'
+                            document.getElementById('tituloNormalidadModal').innerHTML = 'Normalidad aido sulfúrico'
+
                                 $("#tituladoAlc1Vol").val(response.model.Titulados);
                                 $("#phMuestraAlc1Vol").val(response.model.Ph_muestra);
                                 $("#volMuestraAlc1Vol").val(response.model.Vol_muestra);
                                 $("#normalidadAlc1Vol").val(response.valoracion.Resultado);
                                 $("#conversionAlc1Vol").val(response.model.Factor_conversion);
                                 $("#observacionAlcalinidadVol").val(response.model.Observacion);
+                                $("#resultadoAlcalinidad").val(response.model.Resultado);
+                            break;
+                        case 27:
+                            document.getElementById('tituloModalAlcalinidad').innerHTML = 'Captura de resultados Acidez'
+                            document.getElementById('tituloNormalidadModal').innerHTML = 'Normalidad NaOH '
+
+                            $("#tituladoAlc1Vol").val(response.model.Titulados);
+                            $("#phMuestraAlc1Vol").val(response.model.Ph_muestra);
+                            $("#volMuestraAlc1Vol").val(response.model.Vol_muestra);
+                            $("#normalidadAlc1Vol").val(response.valoracion.Resultado);
+                            $("#conversionAlc1Vol").val(response.model.Factor_conversion);
+                            $("#observacionAlcalinidadVol").val(response.model.Observacion);
+                            $("#resultadoAlcalinidad").val(response.model.Resultado);
                             break;
                         case 30:
                             $("#observacionAlcalinidadToVol").val(response.model.Observacion);
@@ -3377,6 +3524,7 @@ function getDetalleMuestra(id) {
                             $('#noBotellaFin1Dbo').val(response.model.Botella_fin)
                             $('#phInicialIno1Dbo').val(response.model.Ph_inicial)
                             $('#phFinIno1Dbo').val(response.model.Ph_final)
+                            $('#preIno1Dbo').val(response.model.Pre_dilucion)
 
                             if (response.model.Sugerido == 1) {
                                 document.getElementById("sugeridoDboIno").checked = true;
@@ -3528,6 +3676,7 @@ function getCapturaLote() {
                     dec = 3
                         switch (parseInt(item.Id_parametro)) {
                             case 152:
+                                status = "";
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
                                 break;
                             case 113:
@@ -3585,6 +3734,7 @@ function getCapturaLote() {
                                 break;
                             case 28: // Alcalinidad
                             case 29:
+                            case 27:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaAlcalinidadVol">Capturar</button>';
                                 break;
                             case 30:
@@ -3620,11 +3770,22 @@ function getCapturaLote() {
                             case 120:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColor">Capturar</button>';
                                 break;
-                            case 58://turbiedad
                             case 89:
                             case 98:
                             case 115:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoTur">Capturar</button>';
+                                break;
+                            case 238:
+                            case 360:
+                            case 241:
+                            case 53:
+                            case 163:
+                                dec = 3
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
+                                break;
+                            case 131:
+                                dec = 4
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
                                 break;
                             default: // Default Directos
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
@@ -3721,7 +3882,11 @@ function getCapturaLote() {
                         }
                         break;
                     default:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
+                        switch (parseInt(item.Id_parametro)) {
+                            default:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
+                                break;
+                        }
                         break;
                 }
                 if (item.Id_control != 1) {

@@ -18,7 +18,7 @@
 
                         @if (@$promGas->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">{{number_format(@$promGas[0]->Resultado2, 2,'.','')}}</td>
                         @endif
 
                         </td>
@@ -37,7 +37,7 @@
 
                         @if (@$promGas->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                            <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas[0]->Resultado2, 2)}}</td>
+                            <td class="fontCalibri anchoColumna111 fontSize8">{{number_format(@$promGas[0]->Resultado2, 2,'.','')}}</td>
                         @endif
                         @if (@$promCol->count())
                             <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
@@ -75,12 +75,12 @@
                                 {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
                             @endif
                         </td>
-                    @endif
+                         @endif
                     @if (@$promCol2->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES TOTAL NMP/100mL</td>
                         <td class="fontCalibri anchoColumna111 fontSize8">
                             @if (@$promCol2[0]->Resultado2 <= @$promCol2[0]->Limite)
-                                < {{@$prpromCol2mCol[0]->Limite}}
+                                < {{@$promCol2[0]->Limite}}
                             @else
                                 {{number_format(@$promCol2[0]->Resultado2, 2, ".", "")}}
                             @endif
@@ -94,9 +94,9 @@
                             @else
                                 {{round(@$promGas[0]->Resultado2,2)}}
                             @endif --}}
-                            {{round(@$promGas[0]->Resultado2,2)}}
+                            {{number_format(@$promGas[0]->Resultado2, 2,'.','')}}
                         </td>
-                    @endif
+                         @endif
 
                     @break
                     @case(27)
@@ -107,7 +107,7 @@
                             @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
                                 < {{@$promGra[0]->Limite}}
                             @else
-                                {{round(@$promGra[0]->Resultado2,2)}}
+                                {{number_format(@$promGra[0]->Resultado2,2,'.','')}}
                             @endif
                         </td>
                         @endif
@@ -138,7 +138,7 @@
                                 @if (@$promEco[0]->Resultado2 < @$promEco[0]->Limite)
                                     < {{@$promEco[0]->Limite}}
                                 @else
-                                    {{round(@$promEco[0]->Resultado2,2)}}
+                                    {{number_format(@$promEco[0]->Resultado2, 2, ".", "")}}
                                 @endif
                             </td>
                         @endif
@@ -148,7 +148,7 @@
                                 @if (@$promEnt[0]->Resultado2 < @$promEnt[0]->Limite)
                                     < {{@$promEnt[0]->Limite}}
                                 @else
-                                    {{round(@$promEnt[0]->Resultado2,2)}}
+                                    {{number_format(@$promEnt[0]->Resultado2, 2, ".", "")}}
                                 @endif
                             </td>
                         @endif
@@ -160,14 +160,36 @@
                                 @else
                                     {{round(@$promGas[0]->Resultado2,2)}}
                                 @endif --}}
-                                {{round(@$promGas[0]->Resultado2,2)}}
+                         
+                                {{number_format(@$promGas[0]->Resultado2, 2, ".", "")}}
                             </td>
                         @endif
 
             
                     @break
-                    
                         @default        
+                        @if (@$model->Num_tomas > 1)
+                            @if (@$promEco->count())
+                                <td class="fontCalibri anchoColumna111 fontSize8">Escherichia coli NMP/100mL</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">
+                                    @if (@$promEco[0]->Resultado2 < @$promEco[0]->Limite)
+                                        < {{@$promEco[0]->Limite}}
+                                    @else
+                                        {{number_format(@$promEco[0]->Resultado2, 2, ".", "")}}
+                                    @endif
+                                </td>
+                            @endif
+                            @if (@$promEnt->count())
+                                <td class="fontCalibri anchoColumna111 fontSize8">	Enterococos Fecales NMP/100mL</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">
+                                    @if (@$promEnt[0]->Resultado2 < @$promEnt[0]->Limite)
+                                        < {{@$promEnt[0]->Limite}}
+                                    @else
+                                        {{number_format(@$promEnt[0]->Resultado2, 2, ".", "")}}
+                                    @endif
+                                </td>
+                            @endif
+                         @endif
                     @endswitch
                         <td class="fontCalibri anchoColumna111 justifyCenter"><span
                             class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span

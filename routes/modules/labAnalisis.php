@@ -32,7 +32,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setObservacion', [LabAnalisisController::class, 'setObservacion']);
         Route::get('bitacora/impresion/{id}', [LabAnalisisController::class, 'exportBitacora']);
 
-        //Funciones adicionales
+        //Funciones adicionales 
         Route::get('liberarMatraz', [LabAnalisisController::class, 'liberarMatraz']);
         Route::get('updateTituloBitacora/{id}', [LabAnalisisController::class, 'updateTituloBitacora']);
         Route::get('updateVolumenMetales', [LabAnalisisController::class, 'updateVolumenMetales']);
@@ -45,10 +45,14 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('updateMicroGramoMetales', [LabAnalisisController::class, 'updateMicroGramoMetales']);
         Route::post('getUltimoLote', [LabAnalisisController::class, 'getUltimoLote']);
         Route::get('matracesDuplicados', [LabAnalisisController::class, 'matracesDuplicados']);
+        Route::get('crisolDuplicado/{id}', [LabAnalisisController::class, 'crisolDuplicado']);
         Route::get('pruebaRandom', [LabAnalisisController::class, 'pruebaRandom']);
         Route::get('updateMatrazDuplicado', [LabAnalisisController::class, 'updateMatrazDuplicado']);
         Route::get('updatePruebaConfirmativaCol', [LabAnalisisController::class, 'updatePruebaConfirmativaCol']);
         Route::get('updateDetalleDbo', [LabAnalisisController::class, 'updateDetalleDbo']);
+        Route::get('updateCrisolDupl♂icado/{id}', [LabAnalisisController::class, 'updateCrisolDuplicado']);
+        Route::get('updateCrisolDuplicado2', [LabAnalisisController::class, 'updateCrisolDuplicado2']);
+        Route::get('regresarMuestrasDbo/{id}', [LabAnalisisController::class, 'regresarMuestrasDbo']);
         
     });
    

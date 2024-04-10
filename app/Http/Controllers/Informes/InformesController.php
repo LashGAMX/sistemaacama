@@ -153,18 +153,35 @@ class InformesController extends Controller
         }else{
             $reporteInforme = ReportesInformes::where('Fecha_inicio','<=',@$model[0]->Fecha_muestreo)->where('Fecha_fin','>=',@$model[0]->Fecha_muestreo)->get();
             if ($reporteInforme->count()) {
-                ImpresionInforme::create([
-                    'Id_solicitud' => $idPunto,
-                    'Encabezado' => $reporteInforme[0]->Encabezado,
-                    'Nota' => $reporteInforme[0]->Nota,
-                    'Id_analizo' => $reporteInforme[0]->Id_analizo,
-                    'Id_reviso' => $reporteInforme[0]->Id_reviso,
-                    'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
-                    'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
-                    'Num_rev' => $reporteInforme[0]->Num_rev,
-                    'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
-                    'Clave' => $reporteInforme[0]->Clave,
-                ]);
+                if ($model[0]->Siralab == 1) {
+                    ImpresionInforme::create([
+                        'Id_solicitud' => $idPunto,
+                        'Encabezado' => $reporteInforme[0]->Encabezado,
+                        'Nota' => $reporteInforme[0]->Nota,
+                        'Nota_siralab' >= $reporteInforme[0]->Nota_siralab,
+                        'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                        'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                        'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                        'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                        'Num_rev' => $reporteInforme[0]->Num_rev,
+                        'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                        'Clave' => $reporteInforme[0]->Clave,
+                    ]);
+                }else{
+                    ImpresionInforme::create([
+                        'Id_solicitud' => $idPunto,
+                        'Encabezado' => $reporteInforme[0]->Encabezado,
+                        'Nota' => $reporteInforme[0]->Nota,
+                        'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                        'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                        'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                        'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                        'Num_rev' => $reporteInforme[0]->Num_rev,
+                        'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                        'Clave' => $reporteInforme[0]->Clave,
+                    ]);
+                }
+                
             }
             $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
         }
@@ -270,6 +287,7 @@ class InformesController extends Controller
                             case 4:
                             case 9:
                             case 21:
+                            case 20:
                                 $limC = number_format(@$item->Resultado2, 2, ".", "");
                                 break;
                             default:
@@ -304,7 +322,6 @@ class InformesController extends Controller
                    // case 67:
                     case 68:
                     case 57:
-                    case 271:
                         $limC = $item->Resultado2;
                         break;
 
@@ -369,12 +386,20 @@ class InformesController extends Controller
                     case 65:
                     case 66:
                     case 102:
+                    // case 58:
                         if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
                             $limC = number_format(@$item->Resultado2, 1, ".", "");
                         }
                         break;
+                    case 58:
+                    case 271:
+                        $limC = $item->Resultado2;
+                        break;
+                    // case 271:
+                    //     $limC = number_format(@$item->Resultado2, 1, ".", "");
+                    //     break;
                     case 5:
                     case 11:
                     case 6:
@@ -605,24 +630,32 @@ class InformesController extends Controller
         }
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
 
+        //Id Firmas
+        //ID 4 Luisita
+        //ID 12 Sandy
+        //Id 14 Lupita
+        //Id 35 Agueda
+        //id 31 elsa
         switch ($solModel->Id_norma) {
             case 5:
             case 7:
             case 30:
                 //potable y purificada
-                // $firma1 = User::find(14);
-                 $firma1 = User::find(14); // Reviso
-                 //$firma2 = User::find(4); // Autorizo
+                 //$firma1 = User::find(14) ;
+                 $firma1 = User::find(14);
+                //  $firma1 = User::find(12); // Reviso
+                 //$firma2 = User::find(35); // Autorizo
                  $firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
  
             default:
-            //Residual
-                // $firma1 = User::find(14); // Reviso
-                $firma1 = User::find(14); //reviso
-                //$firma2 = User::find(4); //Autorizo
-                $firma2 = User::find(12); // Autorizo
+                //$firma1 = User::find(12); // Reviso
+                 //$firma1 = User::find(14); //reviso
+                 $firma1 = User::find(14); //reviso
+                // $firma2 = User::find(35); //Autorizo
+                //$firma2 = User::find(35); //Autorizo
+                 $firma2 = User::find(12); // Autorizo
                 
                 break;
         }
@@ -2096,7 +2129,7 @@ class InformesController extends Controller
                                 case 355:
                                 case 96: //Saam
                                 case 114: //saam
-                               
+                                case 232:
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
@@ -2756,6 +2789,7 @@ class InformesController extends Controller
                                 case 113:
                                 case 79: //Fenole
                                 case 232: //fierro total
+                                case 114:
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
@@ -5208,6 +5242,9 @@ class InformesController extends Controller
                         if ($auxEnv[0]->Id_area == $tempArea[$i]) {
                             $sw = true;
                         }
+                        if ($item->Id_parametro == 11) {
+                            $sw = false;
+                        }
                     }
                     if ($sw != true) {
                         // $auxArea = DB::table('areas_lab')->where('Parametro', $auxEnv->Id_parametro)->first();
@@ -5387,6 +5424,8 @@ class InformesController extends Controller
                                     case 5: // DBO
                                     case 71:
                                         $modelDet = DB::table('lote_detalle_dbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
+                                        break;
+                                    case 11:
                                         break;
                                     default:
                                         $modelDet = DB::table('lote_detalle_espectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Id_parametro)->get();
@@ -5569,7 +5608,7 @@ class InformesController extends Controller
                   
                     break;
                 case 133:
-                   
+                case 58:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     }else{
@@ -5583,6 +5622,7 @@ class InformesController extends Controller
                     }
                     break;
                 case 22:
+                case 20: //cobre total
                 case 7:
                 case 8:
                 case 23: //niquel
@@ -5689,6 +5729,7 @@ class InformesController extends Controller
                     }
                     break;
                 case 64:
+        
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
@@ -5697,6 +5738,13 @@ class InformesController extends Controller
                         } else {
                             $resTemp = number_format($item->Resultado2,2); 
                         }
+                    }
+                    break;
+                case 271:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        $resTemp = number_format($item->Resultado2,1); 
                     }
                     break;
                 case 97:

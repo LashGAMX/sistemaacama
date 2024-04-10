@@ -57,27 +57,27 @@
                         @if (@$item->Abs1 ==  "")
                             ------
                         @else
-                        {{@$item->Abs1}}
+                        {{number_format(@$item->Abs1,3,'.','')}}
                         @endif</td>
                     <td class="tableContent">
                     @if (@$item->Abs2 ==  "")
                             ------
                         @else
-                        {{@$item->Abs2}}
+                        {{number_format(@$item->Abs2,3,'.','')}}
                         @endif
                     </td>
                     <td class="tableContent">
                     @if (@$item->Abs3 ==  "")
                             ------
                         @else
-                        {{@$item->Abs3}}
+                        {{number_format(@$item->Abs3,3,'.','')}}
                         @endif
                     </td>
                     <td class="tableContent">
                         @if (@$item->Promedio == "")
                             ------
                         @else
-                         {{@$item->Promedio}}
+                         {{number_format(@$item->Promedio,3,'.','')}}
                         @endif
                     </td>
                     <td class="tableContent">
@@ -87,7 +87,7 @@
                             @if ($item->Resultado < $item->Limite)
                                 <{{$item->Limite}}
                             @else
-                                {{@$item->Resultado}}
+                                {{number_format(@$item->Resultado,3,'.','')}}
                             @endif    
                         @endif
                    

@@ -17,6 +17,7 @@ class ReportesInformes extends Model
     protected $fillable = [
         'Encabezado',
         'Nota',
+        'Nota_siralab',
         'Id_analizo',
         'Id_reviso',
         'Fecha_inicio',

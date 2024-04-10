@@ -10,9 +10,10 @@ use App\Http\Controllers\Pruebas\PruebaController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Informes\InformesController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
-
+use App\Mail\ConfirmacionMailable;
 
 /* 
 |--------------------------------------------------------------------------
@@ -46,4 +47,15 @@ Route::group(['prefix' => 'clientes'], function () {
 Route::group(['prefix' => 'admin'], function (){
     //? Cliente seguimiento
     Route::get('seguimiento',[SeguimientoController::class,'index']);
+    // Ordenamiento
+    Route::get('ordenJson',[HomeController::class,'ordenJson']);
+    
+   
+});
+
+
+Route::get('/email', function (){
+    //return new ConfirmacionMailable();
+    Mail::to('isaacyannis@gmail.com')->send(new ConfirmacionMailable);
+    return 'Email enviado';
 });

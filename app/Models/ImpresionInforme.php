@@ -18,6 +18,7 @@ class ImpresionInforme extends Model
         'Id_solicitud',
         'Encabezado',
         'Nota',
+        'Nota_siralab',
         'Id_analizo',
         'Id_reviso',
         'Fecha_inicio',

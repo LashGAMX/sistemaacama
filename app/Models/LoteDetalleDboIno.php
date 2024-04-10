@@ -28,6 +28,7 @@ class LoteDetalleDboIno extends Model
         'Vol_inoculo',
         'Vol_muestra_siembra',
         'Porcentaje_dilucion',
+        'Pre_dilucion',
         'Vol_winker',
         'Botella_od',
         'Botella_fin',

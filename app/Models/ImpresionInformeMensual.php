@@ -20,6 +20,7 @@ class ImpresionInformeMensual extends Model
         'Encabezado',
         'Simbologia',
         'Texto',
+        'Nota_siralab',
         'texto_firma_cliente', 
         'Despedida',
         'Titulo_responsable',

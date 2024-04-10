@@ -1,7 +1,7 @@
 var idUser = $("#idUser").val();
 var idBMR = 0;
 $(document).ready(function () {
-    getParametro();
+   // getParametro();
 
     tabla = $("#tableStd").DataTable({
         "responsive": true,
@@ -49,7 +49,7 @@ $(document).ready(function () {
     
     $("#idArea").on("change", function () {
         console.log('getParametro')
-        getParametro();
+       // getParametro();
     });
 
     $("#idAreaModal").on("change", function () {
@@ -130,7 +130,7 @@ function getParametro() {
         async: false,
         success: function (response) {
             console.log(response);
-            tab += '<select class="form-control" id="parametro">';
+            tab += '<select class="form-control select2" id="parametro">';
             tab += '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
                 tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+' / '+item.Area_analisis+' ('+item.Id_area+')</option>';
@@ -483,6 +483,9 @@ function tablaVigencias(){
                 tab += '          <th>ID Parametro</th>';
                 tab += '          <th>Fecha inicio</th> ';
                 tab += '          <th>Fecha fin</th> ';
+                tab += '          <th>b</th> ';
+                tab += '          <th>m</th> ';
+                tab += '          <th>r</th> ';
                 tab += '        </tr>';
                 tab += '    </thead>';
                 tab += '    <tbody>';
@@ -491,6 +494,9 @@ function tablaVigencias(){
                     tab += '<td>' + items.Id_parametro + '</td>';
                     tab += '<td>' + items.Fecha_inicio + '</td>';
                     tab += '<td>' + items.Fecha_fin + '</td>';
+                    tab += '<td>' + items.B + '</td>';
+                    tab += '<td>' + items.M + '</td>';
+                    tab += '<td>' + items.R + '</td>';
                     tab += '</tr>'; 
                 });
                     tab += '    </tbody>';

@@ -79,11 +79,12 @@ class CampoController extends Controller
 
     public function asignar()
     {
+        
         if (Auth::user()->role->id == 13) { 
             $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(300)->get();
         } else {
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(300)->get();
         }
 
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
@@ -180,10 +181,10 @@ class CampoController extends Controller
         switch (Auth::user()->role_id) {
             case 1:
             case 15:
-                $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->get();
+                $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
                 break;
             default:
-                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('500')->get();
                 break;
         }
         foreach ($model as $item) {

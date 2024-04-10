@@ -69,4 +69,9 @@ class HomeController extends Controller
             }
         }
     }
+
+    public function ordenJson()
+    {
+     return view('home.ordenJson');
+    }
 }

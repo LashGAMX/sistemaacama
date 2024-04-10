@@ -16,7 +16,7 @@
 
     <div class="container-fluid h-100">         
 
-        <a href="http://sistemasofia.ddns.net:85/sofia/public/storage/Recursos/MuestreoApp_v2.0.3.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="http://sistemasofia.ddns.net:85/sofia/public/storage/Recursos/MuestreoApp_v2.0.4.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
         
     </div>   
 

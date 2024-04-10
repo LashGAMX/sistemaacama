@@ -934,7 +934,7 @@
                             <button type="button" id="btnGuardarTodo" class="btn btn-success"><i class="fas fa-save"></i>Guardar</button> &nbsp;
                             <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i class="fas fa-arrow-up"></i>Subir</button>
                     </div>
-
+                                
 
                 </div>
                 <div class="tab-pane fade" id="datosCompuestos" role="tabpanel" aria-labelledby="datosCompuestos-tab">
@@ -952,7 +952,7 @@
                                 </table>
                             </div>
                             <div class="col-md-12">
-                                <p>Tipo descarga: RESIDUAL</p>
+                                <p>Tipo descarga: </p>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">

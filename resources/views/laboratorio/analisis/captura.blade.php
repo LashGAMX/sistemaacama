@@ -355,6 +355,11 @@
             <button class="nav-link" id="tabAlcalinidad-tab" data-toggle="tab" data-target="#tabAlcalinidad" type="button" role="tab"
               aria-controls="tabAlcalinidad" aria-selected="false">Datos Alcalinidad</button>
           </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabAcidez-tab" data-toggle="tab" data-target="#tabAcidez" type="button" role="tab"
+              aria-controls="tabAcidez" aria-selected="false">Datos Acidez</button>
+          </li>
+
 
 
           <li class="nav-item" role="presentation">
@@ -502,7 +507,7 @@
             <div class="row">
               <div class="col-md-12">
                 <button id="btnGuardarVal" class="btn btn-success">Guardar</button>
-                <button id="btnEjecutarVal" class="btn btn-success">Ejcutar</button>
+                <button id="btnEjecutarVal" class="btn btn-success">Ejecutar</button>
                 <button id="btnLimpiarVal" class="btn btn-success">Limpiar</button>
               </div>
               <div class="col-md-12">
@@ -547,9 +552,19 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>B</td>
-                          <td>Blanco</td>
+                          <td>B1</td>
+                          <td>Blanco 1</td>
                           <td><input type="text" id="blancoDureza"></td>
+                        </tr>
+                        <tr class="durSec3">
+                          <td>B2</td>
+                          <td>Blanco 2</td>
+                          <td><input type="text" id="blancoDureza2"></td>
+                        </tr>
+                        <tr class="durSec3">
+                          <td>B3</td>
+                          <td>Blanco 3</td>
+                          <td><input type="text" id="blancoDureza3"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -719,7 +734,11 @@
                       <tbody>
                         <tr>
                           <td>C</td>
-                          <td>mL Titulado 1 de Tiosulfato</td>
+                          <td>
+                            <div id="divTitulo1Cloros">mL Titulado 1 de Tiosulfato</div>
+                            
+
+                          </td>
                           <td><input type="number" id="tituladoClo1"></td>
                         </tr>
                         <tr>
@@ -734,13 +753,17 @@
                         </tr>
                         <tr>
                           <td>A</td>
-                          <td>mL de K2Cr2O7 Trazable</td>
+                          <td>
+                            
+                            <div id="divTituloTrazableCloros">mL de K2Cr2O7 Trazable</div>
+                            
+                          </td>
                           <td><input type="number" id="trazableClo" value="10"></td>
                         </tr>
                         <tr>
                           <td>B</td>
                           <td>Normalidad teorica</td>
-                          <td><input type="number" id="normalidadClo" value="0.014"></td>
+                          <td><input type="number" id="normalidadClo" value="0.01"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -994,14 +1017,14 @@
             </div>
 
             <hr>
-
+<!-- 
             <h4>Ebullición</h4>
             <label>Lote ID: <input type="text" id="ebullicion_loteId"></label> <br>
             <label>Inicio: <input type="time" id="ebullicion_inicio"></label>
             <label>Fin: <input type="time" id="ebullicion_fin"></label><br><br>
 
             <p>Bureta utilizada para titulación</p>
-            <label>INVLAB: <input type="text" id="ebullicion_invlab"></label> <br>
+            <label>INVLAB: <input type="text" id="ebullicion_invlab"></label> <br> -->
           </div>
 
           {{-- COLIFORMES --}}
@@ -1173,6 +1196,111 @@
             </div>
           </div>
 
+          <div class="tab-pane fade" id="tabAcidez" role="tabpanel" aria-labelledby="tabAcidez-tab">
+            <div class="row"> 
+                <div class="col-md-6" >
+                  <!-- <button id="btnSetNormalidadAlc" class="btn-success"><i class="fas fa-save"></i> Crear</button> -->
+                  <button id="btnSetNormalidadAci" class="btn-info"><i class="fas fa-square-root-alt"></i> Ejecutar</button>
+                  <table class="table" id="tableAcidez">
+                      <tbody>
+                        <tr>
+                        <td>ID</td>
+                        <td><input type="text" id="idNormalidadAci"></td>
+                        </tr>
+                        <tr>
+                          <td>Formula</td>
+                          <td>NORMALIDAD HIDRÓXIDO DE SODIO</td>
+                        </tr>
+                        <tr>
+                          <td>Exp</td>
+                          <td>((A)(D*H)*I+(B))</td>
+                        </tr>
+                        <tr>
+                          <td>Resultado</td>
+                          <td><input type="text" id="resValAci" style="width: 50px"></td>
+                        </tr>
+                        <tr>
+                          <td># Dec</td>
+                          <td>3</td>
+                        </tr>
+                        <tr>
+                          <td>Fecha Ini</td>
+                          <td><input type="date" id="fecIniAci"></td>
+                        </tr>
+                        <tr>
+                          <td>Fecha Fin</td>
+                          <td><input type="date" id="fecFinAci"></td>
+                        </tr> 
+                      </tbody>
+                  </table>
+                  <div id="tableValAcidezHist"></div>
+
+
+                </div>
+                <div class="col-md-6">
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Variable</th>
+                          <th>Descripcion</th>
+                          <th>Valor</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>A</td>
+                          <td>Gramos del biftalato de potasio 1</td>
+                          <td><input type="text" id="granoBifAci1" style="width: 50px" value="0.102"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>B</td>
+                          <td>Gramos del biftalato de potasio 2</td>
+                          <td><input type="text" id="granoBifAci2" style="width: 50px" value="0.102"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>C</td>
+                          <td>Gramos del biftalato de potasio 3</td>
+                          <td><input type="text" id="granoBifAci3" style="width: 50px" value="0.102"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>D</td>
+                          <td>mL De NaOH Utilizados (1)</td>
+                          <td><input type="text" id="tituladoAci1" style="width: 50px"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>E</td>
+                          <td>mL De NaOH Utilizados (2)</td>
+                          <td><input type="text" id="tituladoAci2" style="width: 50px"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>G</td>
+                          <td>mL De NaOH Utilizados (3)</td>
+                          <td><input type="text" id="tituladoAci3" style="width: 50px"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>H</td>
+                          <td>Gramos equivalente</td>
+                          <td><input type="text" id="equivalenteAci" style="width: 50px" value="53"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>I</td>
+                          <td>Factor de conversion</td>
+                          <td><input type="text" id="factConversionAci" style="width: 50px" value="1000"></td>
+                          <td>C</td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
 
           <div class="tab-pane fade" id="tabPlantillas" role="tabpanel" aria-labelledby="tabPlantillas-tab">
             <div class="row">
@@ -1968,7 +2096,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="">Captura de resultados Solidos</h5>
+        <h5 class="modal-title" id="">Captura de resultados Solidos | # Muestra: <input type="text" id="muestraCapturaSolidos" style="width: 200px;border: none"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -1999,7 +2127,7 @@
             </div>
 
             <div class="col-md-3">
-              <label for="crisol">Crisol</label>
+              <div id="tituloCrisol">Crisol</div>
               <input type="text" id="crisolSolidos" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
             </div>
 
@@ -2187,7 +2315,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="">Captura de resultados Alcalinida</h5>
+        <h5 class="modal-title" id=""><div id="tituloModalAlcalinidad">Captura de resultados Alcalinida</div></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -2252,7 +2380,7 @@
 
                 <tr>
                   <td>B</td>
-                  <td>Normalidad aido sulfúrico</td>
+                  <td><div id="tituloNormalidadModal">Normalidad aido sulfúrico</div></td>
                   <td><input type="text" id="normalidadAlc1Vol" value="2"></td>
                   <td><input type="text" id="normalidadAlc2Vol" value="2"></td>
                   <td>F</td>
@@ -4363,7 +4491,7 @@
                 </tr>
                 <tr>
                   <td>H</td>
-                  <td>Vol del inoculo en inoculo</td>
+                  <td>Vol del inoculo en el Blanco</td>
                   <td><input type="text" id="volIno1Dbo" value="0"></td>
                   <td><input type="text" id="volIno2Dbo" value="0"></td>
                   <th>V</th>
@@ -4383,8 +4511,15 @@
                   <th>V</th>
                 </tr>
                 <tr>
+                  <td>P</td>
+                  <td>Fact. D. de P-Dilución</td>
+                  <td><input type="text" id="preIno1Dbo"></td>
+                  <td><input type="text" id="preIno2Dbo"></td>
+                  <th>V</th>
+                </tr>
+                <tr>
                   <td>K</td>
-                  <td>Vol botella Winker</td>
+                  <td>Vol botella Winker</td> 
                   <td><input type="text" id="volWinkerIno1Dbo" value="0"></td>
                   <td><input type="text" id="volWinkerIno2Dbo" value="0"></td>
                   <th>V</th>
@@ -4537,7 +4672,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.2.3"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.2.4"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

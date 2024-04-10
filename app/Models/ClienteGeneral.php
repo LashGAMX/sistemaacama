@@ -16,13 +16,13 @@ class ClienteGeneral extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_cliente',
-        'Nombre', 
-        'Empresa',
+        'Id_cliente', //id creado antes $variable->Id_cliente;
+        // 'Nombre', //Mismo de antes
+        'Empresa', // Mismo de antes
         'Alias',
         'Id_intermediario',
         'Id_cliente_siralab',
-        'Id_user_c',
-        'Id_user_m',
+        'Id_user_c', //$Auth::user()->id;
+        'Id_user_m', //$Auth::user()->id;
     ];
 }

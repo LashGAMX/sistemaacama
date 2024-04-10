@@ -23,6 +23,7 @@
         <thead> 
             <tr>
                 <th class="tableCabecera anchoColumna">No. De muestra</th>
+                <th class="tableCabecera anchoColumna">Vol. de muestra</th>
                 <th class="tableCabecera anchoColumna">Lectura 1</th>
                 <th class="tableCabecera anchoColumna">Lectura 2</th>
                 <th class="tableCabecera anchoColumna">Lectura 3</th>
@@ -37,6 +38,7 @@
             @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">{{ $item->Codigo }}</td>
+                    <td class="tableContent">{{ $item->Vol_muestra }}</td>
                     <td class="tableContent">{{ $item->Lectura1 }}</td>
                     <td class="tableContent">{{ $item->Lectura2 }}</td>
                     <td class="tableContent">{{ $item->Lectura3 }}</td>
