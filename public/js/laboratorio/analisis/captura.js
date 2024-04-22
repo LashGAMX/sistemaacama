@@ -1418,9 +1418,9 @@ function setDetalleMuestra() {
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
-                            $("#absPromEspectro1").val(response.model.Promedio.toFixed(3));
-                            $("#absPromEspectro2").val(response.model.Promedio.toFixed(3));
-                            $("#resultadoEspectro").val(response.model.Resultado.toFixed(3));
+                            $("#absPromEspectro1").val(parseFloat(response.model.Promedio.toFixed(3)));
+                            $("#absPromEspectro2").val(parseFloat(response.model.Promedio.toFixed(3)));
+                            $("#resultadoEspectro").val(parseFloat(response.model.Resultado.toFixed(3)));
                             $("#fDilucionEspectro1").val(parseFloat(response.model.Vol_dilucion).toFixed(3));
                             $("#fDilucionEspectro2").val(parseFloat(response.model.Vol_dilucion).toFixed(3));
 
@@ -2080,6 +2080,8 @@ function setDetalleMuestra() {
                 case 133:
                 case 132:
                 case 134:
+
+                    
                     let presuntiva1 = $("#pres124ColAli").val();
                     let presuntiva2 = $("#pres148ColAli").val();
                     let confir1 = $("#confir124ColAli").val();
@@ -3354,6 +3356,7 @@ function getDetalleMuestra(id) {
                         case 133:
                         case 132:
                         case 134:
+
                                 $("#pres124ColAli").val(response.model.Presuntiva1)
                                 $("#pres148ColAli").val(response.model.Presuntiva2)
                                 $("#confir124ColAli").val(response.model.Confirmativa1)
@@ -3779,7 +3782,7 @@ function getCapturaLote() {
                             case 360:
                             case 241:
                             case 53:
-                            case 163:
+                            case 266:
                                 dec = 3
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
                                 break;

@@ -42,6 +42,8 @@ class Solicitud extends Model
       'Hijo',
       'Nota_4',
       'Liberado',
+      'Cancelado',
+      'Obs_cancelado',
       'Id_user_c',
       'Id_user_m'
     ];

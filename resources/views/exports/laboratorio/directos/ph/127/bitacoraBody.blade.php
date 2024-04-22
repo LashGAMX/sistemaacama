@@ -13,7 +13,7 @@
 
     <div class="procedimiento">
         @php
-                 echo $plantilla[0]->Texto; 
+                 echo $procedimiento[0];
         @endphp
     </div>
     <br>
@@ -58,6 +58,12 @@
         </table>
 
         <p style="font-size: 8px">Cálculos: <br>Las lecturas se obtienen directamente de los equipos sacando un promedio de pH. </p>
+
+        <div class="procedimiento">
+            @php
+                    echo $procedimiento[1];
+            @endphp
+        </div>
 </body>
 
 </html>

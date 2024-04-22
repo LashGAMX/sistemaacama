@@ -644,8 +644,8 @@ class InformesController extends Controller
                  //$firma1 = User::find(14) ;
                  $firma1 = User::find(14);
                 //  $firma1 = User::find(12); // Reviso
-                 //$firma2 = User::find(35); // Autorizo
-                 $firma2 = User::find(12); // Autorizo
+                 $firma2 = User::find(4); // Autorizo
+                 //$firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
  
@@ -654,8 +654,8 @@ class InformesController extends Controller
                  //$firma1 = User::find(14); //reviso
                  $firma1 = User::find(14); //reviso
                 // $firma2 = User::find(35); //Autorizo
-                //$firma2 = User::find(35); //Autorizo
-                 $firma2 = User::find(12); // Autorizo
+                $firma2 = User::find(4); //Autorizo
+                 //$firma2 = User::find(12); // Autorizo
                 
                 break;
         }
@@ -912,7 +912,7 @@ class InformesController extends Controller
             array_push($limitesC, $limC);
         }
         $firma1 = User::find(14);
-        $firma2 = User::find(12);
+        $firma2 = User::find(4);
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         $conducCampo = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 67)->first();
 
@@ -1939,7 +1939,7 @@ class InformesController extends Controller
         $numOrden2 =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel2->Hijo)->first();
         // $firma1 = User::find(14);
         $firma1 = User::find(14); //! Reviso
-        $firma2 = User::find(12); //! Autorizo
+        $firma2 = User::find(4); //! Autorizo
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();

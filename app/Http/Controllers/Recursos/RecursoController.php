@@ -59,4 +59,5 @@ class RecursoController extends Controller
 
         return response()->json($data);
     }
+
 }

@@ -18,8 +18,9 @@ document.addEventListener("keydown", function(event) {
     }
     if (event.altKey && event.code === "KeyL"){
         liberarMuestraMetal()
+        // liberarTodo()
     }
-    if (event.altKey && event.code === "KeyT"){
+    if (event.altKey && event.code === "KeyK"){
         liberarTodo()
     }
 });

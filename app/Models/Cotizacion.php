@@ -60,6 +60,7 @@ class Cotizacion extends Model
         'Hijo',
         'Id_reporte',
         'Tipo',
+        'Cancelado',
         'Fecha_impresion',
     ];
 

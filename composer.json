@@ -21,6 +21,7 @@
         "mediconesystems/livewire-datatables": "^0.9.4",
         "milon/barcode": "^8.0",
         "mpdf/mpdf": "^8.0",
+        "phpmailer/phpmailer": "^6.9",
         "tcg/voyager": "^1.5"
     }, 
     "require-dev": {

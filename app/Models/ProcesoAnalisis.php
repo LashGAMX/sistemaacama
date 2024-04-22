@@ -29,6 +29,7 @@ class ProcesoAnalisis extends Model
         'Hora_recepcion',
         'Hora_entrada',
         'Liberado',
+        'Cancelado',
         'Id_user_c',
         'Id_user_m'
     ];

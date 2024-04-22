@@ -48,7 +48,7 @@ $(document).ready(function () {
             async: false,
             success: function (response) { 
             console.log(response);
-
+            let estado = ''
             table += ' <table class="table table-sm" id="tablaSolicitud">';
             table += '    <thead class="thead-dark">';
             table += '        <tr>';
@@ -68,31 +68,35 @@ $(document).ready(function () {
             table += '    </thead>';
             table += '    <tbody>';
             $.each(response.model, function (key, item) {
+                estado = ''
+                if (parseInt(item.Cancelado) == 1) {
+                    estado = "bg-danger"
+                }
               table += '<tr>';
-              table += '    <td>'+item.Id_cotizacion+'</td>';
-              table += '    <td>'+item.Estado+'</td>';
+              table += '    <td class="'+estado+'">'+item.Id_cotizacion+'</td>';
+              table += '    <td class="'+estado+'">'+item.Estado+'</td>';
               if(item.Folio_servicio == null || item.Folio_servicio == ""){
-                table += '    <td></td>';
+                table += '    <td class="'+estado+'"></td>';
               } else {
-                table += '    <td>'+item.Folio_servicio+'</td>';
+                table += '    <td class="'+estado+'">'+item.Folio_servicio+'</td>';
               }
               if(item.Folio == null || item.Folio == ""){
-                table += '    <td></td>';
+                table += '    <td class="'+estado+'"></td>';
               } else {
-                table += '    <td>'+item.Folio+'</td>';
+                table += '    <td class="'+estado+'">'+item.Folio+'</td>';
               }
               if(item.Fecha_muestreo == null || item.Fecha_muestreo == ""){
-                table += '    <td></td>';
+                table += '    <td class="'+estado+'"></td>';
               } else {
-                table += '    <td>'+item.Fecha_muestreo+'</td>';
+                table += '    <td class="'+estado+'">'+item.Fecha_muestreo+'</td>';
               }
-              table += '    <td>'+item.Nombre+'</td>';
-              table += '    <td>'+item.Clave_norma+'</td>';
-              table += '    <td>'+item.Descarga+'</td>';
-              table += '    <td>'+item.NameC+'</td>';
-              table += '    <td>'+item.created_at+'</td>';
-              table += '    <td>'+item.NameA+'</td>';
-              table += '    <td>'+item.updated_at+'</td>';
+              table += '    <td class="'+estado+'">'+item.Nombre+'</td>';
+              table += '    <td class="'+estado+'">'+item.Clave_norma+'</td>';
+              table += '    <td class="'+estado+'">'+item.Descarga+'</td>';
+              table += '    <td class="'+estado+'">'+item.NameC+'</td>';
+              table += '    <td class="'+estado+'">'+item.created_at+'</td>';
+              table += '    <td class="'+estado+'">'+item.NameA+'</td>';
+              table += '    <td class="'+estado+'">'+item.updated_at+'</td>';
               table += '</tr>';
               //cont++
             });
@@ -150,6 +154,10 @@ $(document).ready(function () {
         // alert(idCot);
         window.location = base_url+"/admin/cotizacion/solicitud/createSinCot";
     });
+    $('#btnCancelar').click( function () {
+        // alert(idCot);
+        cancelarOrden()
+    });
 
     $('#btnEdit').click( function () {        
         if (idCot > 0) {
@@ -194,3 +202,27 @@ $(document).ready(function () {
 
     });
 });
+
+function cancelarOrden(){
+
+    let confirmObs = prompt("Estas segur@ de cancelar esta orden de servicio?","Por favor escriba el motivo de la cancelacion")
+    if (confirmObs == null || confirmObs == "") {
+        alert("Es obligatorio escribir el motivo de la cancelacion")
+    }else{
+        $.ajax({
+            url: base_url + '/admin/cotizacion/solicitud/cancelarOrden', //archivo que recibe la peticion
+            type: 'POST', //método de envio
+            data: {
+              id: idCot,
+              obs: confirmObs,
+              _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+              alert(response.msg)
+            }
+        });
+    }
+
+}

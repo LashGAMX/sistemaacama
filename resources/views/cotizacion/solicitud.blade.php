@@ -50,7 +50,18 @@
                             <div class="col-md-2">
                                 <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                             </div>
-                            <!-- <div class="col-md-2">
+                               
+                            @switch(Auth::user()->id)
+                                @case(1)
+                                @case(36)
+                                    <div class="col-md-2">
+                                        <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
+                                    </div>
+                                    @break
+                                @default
+                                    
+                            @endswitch
+                    <!-- <div class="col-md-2">
                                 <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
                             </div> -->
 
@@ -82,49 +93,56 @@
                         </thead>
                         <tbody>
                             @foreach ($model as $item)
+                            @php
+                                if($item->Cancelado == 1){
+                                    $class = "bg-danger";
+                                }else{
+                                    $class = "";
+                                }
+                            @endphp
                             <tr>
-                                <td>{{$item->Id_cotizacion}}</td>
-                                <td>
+                                <td class="{{$class}}">{{$item->Id_cotizacion}}</td>
+                                <td class="{{$class}}">
                                     @foreach ($estado as $item2)
                                         @if ($item->Estado_cotizacion == $item2->Id_estado)
                                             {{$item2->Estado}}       
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{$item->Folio_servicio}}</td>
-                                <td>{{$item->Folio}}</td>
-                                <td>{{$item->Fecha_muestreo}}</td>
-                                <td>{{$item->Nombre}}</td>
-                                <td>
+                                <td class="{{$class}}">{{$item->Folio_servicio}}</td>
+                                <td class="{{$class}}">{{$item->Folio}}</td>
+                                <td class="{{$class}}">{{$item->Fecha_muestreo}}</td>
+                                <td class="{{$class}}">{{$item->Nombre}}</td>
+                                <td class="{{$class}}">
                                     @foreach ($norma as $item2)
                                         @if ($item->Id_norma == $item2->Id_norma)
                                             {{$item2->Clave_norma}}       
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>
+                                <td class="{{$class}}">
                                     @foreach ($descarga as $item2)
                                         @if ($item->Tipo_descarga == $item2->Id_tipo)
                                             {{$item2->Descarga}}       
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>
+                                <td class="{{$class}}">
                                     @foreach ($usuario as $item2)
                                         @if ($item->Creado_por == $item2->id)
                                             {{$item2->name}}       
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{$item->created_at}}</td>
-                                <td>
+                                <td class="{{$class}}">{{$item->created_at}}</td>
+                                <td class="{{$class}}">
                                     @foreach ($usuario as $item2)
                                         @if ($item->Actualizado_por == $item2->id)
                                             {{$item2->name}}       
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{$item->updated_at}}</td>
+                                <td class="{{$class}}">{{$item->updated_at}}</td>
                             </tr>
                             @endforeach
                         </tbody>

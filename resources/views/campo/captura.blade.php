@@ -40,6 +40,11 @@
                             <hr>
                         </div>
                         <div class="col-md-2">
+                        <button type="button" id="btnCancelar" class="btn btn-danger btnSubir"><i class="fas fa-times"></i>
+                        CANCELAR</button>
+                    </form>
+                        </div>
+                        <div class="col-md-2">
                             <p>Id Solicitud: {{ $model->Id_solicitud }}</p>
                             <input type="text" id="idSolicitud" value="{{ $model->Id_solicitud }}" hidden>
                         </div>

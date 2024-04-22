@@ -483,6 +483,7 @@ class LabAnalisisController extends Controller
                         case 35:
                         case 51: // Coliformes totales
                         case 137:
+                        case 350:
                             $temp = LoteDetalleColiformes::create([
                                 'Id_lote' => $res->idLote,
                                 'Id_analisis' => $model->Id_solicitud,
@@ -637,8 +638,8 @@ class LabAnalisisController extends Controller
                     $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $res->idLote)->get();
                     break;
                 case 13: // G&A
-                    $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                    // $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
+                    // $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                    $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
                     break;
                 case 15: // Solidos
                      $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->get();
@@ -1456,7 +1457,7 @@ class LabAnalisisController extends Controller
                             $model->B = $res->CB;
                             $model->M = $res->CM;
                             $model->R = $res->CR;
-                            $model->Promedio = $x;
+                            $model->Promedio = round($x,3);
                             $model->Vol_dilucion = $d;
                             $model->Vol_muestra = $res->E;
                             $model->Blanco = $res->CA;

@@ -145,6 +145,7 @@ function getParametros() {
                     case 97: //Températura 
                     case 100:
                     case 5:
+                    case 70:
                     case 71:
                     case 35:
                     case 253:
@@ -564,7 +565,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 case 13:// Graasas & Aceites
                     console.log("entro a caso 13");
-                   
+                    let swG = 0;
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
@@ -610,12 +611,18 @@ function getDetalleAnalisis(idCodigo) {
                         }
                         tab += '</tr>';
                     });
-                    resLiberado = (aux).toFixed(2);   
+                    console.log(aux)
+                    if (aux.toFixed(2) <= 10) {
+                        aux = 9.9
+                    }
+                    resLiberado = (aux).toFixed(2);  
+                    
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
                 case 5:
+                case 70:
                 case 71:
                 
                     console.log("Entro a id 5")

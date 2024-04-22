@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Mail\MailController;
 use App\Http\Controllers\Recursos\RecursoController;
 use App\Http\Controllers\Recursos\CampoController;
 use App\Http\Controllers\Recursos\AppController;
@@ -12,3 +13,6 @@ Route::get('recursos/basura', [RecursoController::class, 'basura']);
 Route::post('recursos/buscar', [RecursoController::class, 'buscarBasura']);
 Route::post('recursos/eliminar', [RecursoController::class, 'tirarlabasura']);
 Route::post('recursos/reasignar', [RecursoController::class, 'reasignar']);
+
+Route::get('sendmail', [MailController::class, 'mail']);
+Route::get('viewmail', [MailController::class, 'viewmail']);

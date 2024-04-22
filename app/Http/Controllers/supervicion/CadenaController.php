@@ -44,14 +44,14 @@ class CadenaController extends Controller
         $swSir = false;
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $id)->first();
         $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario', $model->Id_intermediario)->first();
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$id)->first();
         if ($model->Siralab == 1) {
-         
             $swSir = true;
         } else {
          
         }
         $puntos = SolicitudPuntos::where('Id_solPadre', $id)->get();
-        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos','swSir', 'intermediario'));
+        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos','swSir', 'intermediario','proceso'));
     }
     public function getParametroCadena(Request $res)
     {
@@ -500,6 +500,12 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                $name = "LoteDetalleDbo";
+                break;
+            case 70:
+                $model = DB::table('viewlotedetalledboino')->where('Id_analisis', $codigoModel->Id_solicitud)
+                ->where('Id_control', 1)
+                ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 $name = "LoteDetalleDbo";
                 break;
             case 12:

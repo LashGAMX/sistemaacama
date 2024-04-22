@@ -18,9 +18,27 @@ use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\Frecuencia001;
 use App\Models\Intermediario;
+use App\Models\LoteAnalisis;
+use App\Models\LoteDetalleAlcalinidad;
+use App\Models\LoteDetalleCloro;
+use App\Models\LoteDetalleColiformes;
+use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleDboIno;
+use App\Models\LoteDetalleDirectos;
+use App\Models\LoteDetalleDqo;
+use App\Models\LoteDetalleDureza;
+use App\Models\LoteDetalleEcoli;
+use App\Models\LoteDetalleEnterococos;
+use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleHH;
+use App\Models\LoteDetalleNitrogeno;
+use App\Models\LoteDetallePotable;
+use App\Models\LoteDetalleSolidos;
 use App\Models\Norma;
 use App\Models\NormaParametros;
 use App\Models\PhMuestra;
+use App\Models\ProcesoAnalisis;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
@@ -36,6 +54,7 @@ use App\Models\PromedioCot;
 use App\Models\SucursalContactos;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1444,6 +1463,298 @@ class SolicitudController extends Controller
             }
         }
         $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function cancelarOrden(Request $res){
+        //Globales
+        $msg = '';
+        $sw = true;
+        //Buscar ordenes a cancelar
+        $solicitud = Solicitud::where('Id_cotizacion',$res->id)->get();
+        //Verificar muestras en lotes
+        $solMuestra = Solicitud::where('Id_cotizacion',$res->id)->where('Padre',0)->get();
+        foreach ($solMuestra as $item) {
+            $codigoMuestra = DB::table('viewcodigoinforme')->where('Id_solicitud',$item->Id_solicitud)->get();   
+            foreach ($codigoMuestra as $item2) {
+                switch ($item2->Id_area) {
+                    case 16: // Espectrofotometria
+                    case 5: // Fisicoquimicos
+                        $model = LoteDetalleEspectro::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                        $aux = LoteDetalleEspectro::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                        $aux2 = LoteDetalleEspectro::where('Id_lote',$model[0]->Id_lote)->get();
+                        break;
+                    case 13: // G&A
+                        $model = LoteDetalleGA::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                        $aux = LoteDetalleGA::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                        $aux2 = LoteDetalleGA::where('Id_lote',$model[0]->Id_lote)->get();
+                        break;
+                    case 15: // Solidos
+                        $model = LoteDetalleSolidos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                        $aux = LoteDetalleSolidos::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                        $aux2 = LoteDetalleSolidos::where('Id_lote',$model[0]->Id_lote)->get();
+                        break;
+                    case 14: //Volumetria
+                        switch ($item2->Id_parametro) {
+                            case 6: // Dqo
+                            case 161:
+                                $model = LoteDetalleDqo::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleDqo::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleDqo::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 33: // Cloro
+                            case 64:
+                            case 119:
+                            case 218:
+                                $model = LoteDetalleCloro::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleCloro::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleCloro::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 9: // Nitrogeno
+                            case 10:
+                            case 11:
+                            case 287:
+                            case 83:
+                            case 108:
+                                $model = LoteDetalleNitrogeno::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleNitrogeno::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleNitrogeno::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 28://Alcalinidad
+                            case 29:
+                            case 30:
+                            case 27:
+                                $model = LoteDetalleAlcalinidad::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleAlcalinidad::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleAlcalinidad::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            default:
+                            $model = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                            $aux = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                            $aux2 = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                        }
+                        break;
+                    case 7: // Campo
+                    case 19: //Directos
+                        $model = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                        $aux = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                        $aux2 = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->get();
+                        break;
+                    case 8: //Potable
+                        switch ($item2->Id_parametro) {
+                            case 77: //Dureza
+                            case 103:
+                            case 251:
+                            case 252: 
+                                $model = LoteDetalleDureza::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleDureza::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleDureza::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            default:
+                                $model = LoteDetallePotable::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetallePotable::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetallePotable::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                        }
+                        break;
+                    case 6: // Mb
+                    case 12:
+                    case 3:
+                        switch ($item2->Id_parametro) {
+                            case 135: // Coliformes fecales
+                            case 132:
+                            case 133:
+                            case 12:
+                            case 134: // E COLI
+                            case 35:
+                            case 51: // Coliformes totales
+                            case 137:
+                                $model = LoteDetalleColiformes::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleColiformes::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleColiformes::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 253: //todo  ENTEROCOCO FECAL
+                                $model = LoteDetalleEnterococos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleEnterococos::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleEnterococos::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
+                            case 71:
+                                $model = LoteDetalleDbo::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleDbo::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleDbo::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 70:
+                                $model = LoteDetalleDboIno::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleDboIno::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleDboIno::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 16: //todo Huevos de Helminto 
+                                $model = LoteDetalleHH::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleHH::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleHH::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            case 78:                                
+                                $model = LoteDetalleEcoli::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleEcoli::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleEcoli::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                            default:
+                                $model = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                                $aux = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                                $aux2 = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->get();
+                                break;
+                        }
+                        break;
+                    default:
+                    $model = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->get();
+                    $aux = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->where('Liberado',1)->get();
+                    $aux2 = LoteDetalleDirectos::where('Id_lote',$model[0]->Id_lote)->get();
+                        break;
+                }
+                $lote = LoteAnalisis::where('Id_lote',$model[0]->Id_lote)->first();
+                $lote->Asignado = $aux2->count();
+                $lote->Liberado = $aux->count();
+                $lote->count();
+                if ($model->count() > 1) {
+                    $msg = 'Hay muestras con controles de calidad,  por favor verifique las muestras antes de cancelar';
+                    $sw = false;
+                }
+            }
+        }
+        //Si todo ok! borrar codigos y cancelar muestras,
+        if ($sw == true) {
+            $msg = 'Muestra cancelada correctamente';
+            $cotizacion = Cotizacion::where('Id_cotizacion',$res->id)->first();
+            $cotizacion->Cancelado = 1;
+            $cotizacion->save();
+            foreach ($solicitud as $item) {
+                $temp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+                $temp->Cancelado = 1;
+                $temp->Obs_cancelado = $res->obs;
+                $temp->save();
+                try {
+                    $temp2 = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+                    $temp2->Cancelado = 1;
+                    $temp2->save();
+                } catch (Exception $e) {
+                    echo 'Excepción capturada: ' . $e->getMessage() . "\n";
+                }
+          
+            }
+            $solMuestra = Solicitud::where('Id_cotizacion',$res->id)->where('Padre',0)->get();
+            foreach ($solMuestra as $item) {
+                $codigoMuestra = DB::table('viewcodigoinforme')->where('Id_solicitud',$item->Id_solicitud)->get();   
+                foreach ($codigoMuestra as $item2) {
+                    switch ($item2->Id_area) {
+                        case 16: // Espectrofotometria
+                        case 5: // Fisicoquimicos
+                            DB::table('lote_detalle_espectro')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            break;
+                        case 13: // G&A
+                            DB::table('lote_detalle_ga')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            break;
+                        case 15: // Solidos
+                            DB::table('lote_detalle_solidos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            break;
+                        case 14: //Volumetria
+                            switch ($item2->Id_parametro) {
+                                case 6: // Dqo
+                                case 161:
+                                    DB::table('lote_detalle_dqo')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 33: // Cloro
+                                case 64:
+                                case 119:
+                                case 218:
+                                    DB::table('lote_detalle_cloro')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 9: // Nitrogeno
+                                case 10:
+                                case 11:
+                                case 287:
+                                case 83:
+                                case 108:
+                                    DB::table('lote_detalle_nitrogeno')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 28://Alcalinidad
+                                case 29:
+                                case 30:
+                                case 27:
+                                    DB::table('lote_detalle_alcalinidad')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                default:
+                                    DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                            }
+                            break;
+                        case 7: // Campo
+                        case 19: //Directos
+                            DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            break;
+                        case 8: //Potable
+                            switch ($item2->Id_parametro) {
+                                case 77: //Dureza
+                                case 103:
+                                case 251:
+                                case 252: 
+                                    DB::table('lote_detalle_dureza')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                default:
+                                    DB::table('lote_detalle_potable')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                            }
+                            break;
+                        case 6: // Mb
+                        case 12:
+                        case 3:
+                            switch ($item2->Id_parametro) {
+                                case 135: // Coliformes fecales
+                                case 132:
+                                case 133:
+                                case 12:
+                                case 134: // E COLI
+                                case 35:
+                                case 51: // Coliformes totales
+                                case 137:
+                                    DB::table('lote_detalle_coliformes')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 253: //todo  ENTEROCOCO FECAL
+                                    DB::table('lote_detalle_enterococos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
+                                case 71:
+                                    DB::table('lote_detalle_dbo')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 70:
+                                    DB::table('lote_detalle_dboino')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 16: //todo Huevos de Helminto 
+                                    DB::table('lote_detalle_hh')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                case 78:                                
+                                    DB::table('lote_detalle_ecoli')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                                default:
+                                    DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    break;
+                            }
+                            break;
+                        default:
+                            DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            break;
+                    }
+                }
+                if ($codigoMuestra->count()) {
+                    DB::table('codigo_parametro')->where('Id_solicitud',$codigoMuestra->Id_solicitud)->delete();
+                }
+            }
+
+        }
+        $data = array(
+            'sw' => $sw,
             'msg' => $msg,
         );
         return response()->json($data);

@@ -795,7 +795,7 @@ class MetalesController extends Controller
                 break;
             case 13: //Metal purificado
             case 9:
-                $promedio = round(($suma / 3),3);
+                $promedio = round(($suma / 3),4);
                 switch ($parametro->Id_parametro) {
                     case 190: 
                     case 192:
