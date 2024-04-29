@@ -331,12 +331,18 @@
                         <td class="bordesTabla justifyCenter" style="width: 50%">
                        
                             @if ($procesoAnalisis->count())
-                                <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
+                                @if (@$solGen->Cancelado == 0)
+                                    <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
+                                @endif
                             @else
                                 
                             @endif
                         </td>
-                      <td class="bordesTabla justifyCenter" style="width: 50%"><img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"></td>                      
+                      <td class="bordesTabla justifyCenter" style="width: 50%">
+                        @if (@$solGen->Cancelado == 0)
+                            <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}">
+                        @endif
+                        </td>                      
                     </tr>
                     <tr>
                         <td class="bordesTablaInfIzqDer justifyCenter" style="width: 50%">RECEPCION EN EL LABORATORIO</td>

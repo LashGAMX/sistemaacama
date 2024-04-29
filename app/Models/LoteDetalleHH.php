@@ -28,6 +28,7 @@ class LoteDetalleHH extends Model
         'Resultado',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo'
     ];
 }

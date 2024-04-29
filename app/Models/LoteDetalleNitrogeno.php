@@ -28,6 +28,7 @@ class LoteDetalleNitrogeno extends Model
         'Resultado',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 }

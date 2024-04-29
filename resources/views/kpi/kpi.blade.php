@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="">Indicador</label>
                         <select id="selIndicador" class="form-control">
@@ -14,7 +14,9 @@
                             <option value="1">Solicitudes generadas</option>
                             <option value="2">Orden de servicio en proceso</option>
                             <option value="3">Cotizaciones creadas</option>
-                    
+                            <option value="4">Recepción de muestras</option>
+                            <option value="5">Informes impresos</option>
+                            <option value="6">Creado vs impreso</option>
                         </select>
                     </div>
                 </div>
@@ -26,10 +28,10 @@
                     <label for="">Fecha fin</label>
                     <input type="date" id="fechaFin" class="form-control">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label for="">Norma</label>
-                    <select id="norma" class="form-control select2">
-                    <option value="0">Sin seleccionar</option>
+                    <select id="norma" name="norma[]" multiple="multiple" class="form-control select2">
+                    <option value="0" selected>Sin seleccionar</option>
                         @foreach ($norma as $item)
                             <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
                         @endforeach
@@ -42,9 +44,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div id="divIndicador">
                 <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div id="divExtra">
+
             </div>
         </div>
     </div>

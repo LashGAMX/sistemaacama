@@ -32,6 +32,7 @@ class LoteDetalleGA extends Model
         'Resultado',
         'Observacion', 
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 }

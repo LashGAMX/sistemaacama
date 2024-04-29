@@ -51,6 +51,7 @@ use App\Models\TipoDescarga;
 use App\Models\TipoServicios;
 use App\Models\TipoMuestraCot;
 use App\Models\PromedioCot;
+use App\Models\SolicitudesGeneradas;
 use App\Models\SucursalContactos;
 use App\Models\User;
 use Carbon\Carbon;
@@ -1636,6 +1637,13 @@ class SolicitudController extends Controller
                 $temp->Obs_cancelado = $res->obs;
                 $temp->save();
                 try {
+                    $tempSol = SolicitudesGeneradas::where('Id_solicitud',$item->Id_solicitud)->first();
+                    $tempSol->Cancelado = 1;
+                    $tempSol->save();
+                } catch (Exception $e) {
+                    echo 'Excepción capturada: ' . $e->getMessage() . "\n";
+                }
+                try {
                     $temp2 = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
                     $temp2->Cancelado = 1;
                     $temp2->save();
@@ -1651,25 +1659,34 @@ class SolicitudController extends Controller
                     switch ($item2->Id_area) {
                         case 16: // Espectrofotometria
                         case 5: // Fisicoquimicos
-                            DB::table('lote_detalle_espectro')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
-                            break;
+                            $temp = LoteDetalleEspectro::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                            $temp->Cancelado = 1;
+                            $temp->save();
                         case 13: // G&A
-                            DB::table('lote_detalle_ga')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            $temp = LoteDetalleGA::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                            $temp->Cancelado = 1;
+                            $temp->save();
                             break;
                         case 15: // Solidos
-                            DB::table('lote_detalle_solidos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            $temp = LoteDetalleSolidos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                            $temp->Cancelado = 1;
+                            $temp->save();
                             break;
                         case 14: //Volumetria
                             switch ($item2->Id_parametro) {
                                 case 6: // Dqo
                                 case 161:
-                                    DB::table('lote_detalle_dqo')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleDqo::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 33: // Cloro
                                 case 64:
                                 case 119:
                                 case 218:
-                                    DB::table('lote_detalle_cloro')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleCloro::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 9: // Nitrogeno
                                 case 10:
@@ -1677,22 +1694,30 @@ class SolicitudController extends Controller
                                 case 287:
                                 case 83:
                                 case 108:
-                                    DB::table('lote_detalle_nitrogeno')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleNitrogeno::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 28://Alcalinidad
                                 case 29:
                                 case 30:
                                 case 27:
-                                    DB::table('lote_detalle_alcalinidad')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleAlcalinidad::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 default:
-                                    DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                             }
                             break;
                         case 7: // Campo
                         case 19: //Directos
-                            DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            $temp = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                            $temp->Cancelado = 1;
+                            $temp->save();
                             break;
                         case 8: //Potable
                             switch ($item2->Id_parametro) {
@@ -1700,10 +1725,14 @@ class SolicitudController extends Controller
                                 case 103:
                                 case 251:
                                 case 252: 
-                                    DB::table('lote_detalle_dureza')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleDureza::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 default:
-                                    DB::table('lote_detalle_potable')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetallePotable::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                             }
                             break;
@@ -1719,31 +1748,47 @@ class SolicitudController extends Controller
                                 case 35:
                                 case 51: // Coliformes totales
                                 case 137:
-                                    DB::table('lote_detalle_coliformes')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleColiformes::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 253: //todo  ENTEROCOCO FECAL
-                                    DB::table('lote_detalle_enterococos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleEnterococos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
                                 case 71:
-                                    DB::table('lote_detalle_dbo')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleDbo::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 70:
-                                    DB::table('lote_detalle_dboino')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleDboIno::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                                 case 16: //todo Huevos de Helminto 
-                                    DB::table('lote_detalle_hh')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleHH::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
-                                case 78:                                
-                                    DB::table('lote_detalle_ecoli')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                case 78:                               
+                                    $temp = LoteDetalleEcoli::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save(); 
                                     break;
                                 default:
-                                    DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                                    $temp = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                                    $temp->Cancelado = 1;
+                                    $temp->save();
                                     break;
                             }
                             break;
                         default:
-                            DB::table('lote_detalle_directos')->where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->delete();
+                            $temp = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
+                            $temp->Cancelado = 1;
+                            $temp->save();
                             break;
                     }
                 }

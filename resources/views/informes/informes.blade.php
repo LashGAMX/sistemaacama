@@ -48,15 +48,15 @@
                                     @foreach ($model as $item)
                                         <tr onclick="getPuntoMuestro({{$item->Id_solicitud}})">
                                             <td>{{$item->Id_solicitud}}</td>
-                                            <td>{{$item->Folio_servicio}}</td>
-                                            <td>{{$item->Empresa_suc}}</td>
+                                            <td>{{$item->Folio}}</td>
+                                            <td>{{$item->Empresa}}</td>
                                             <td>{{$item->Clave_norma}}</td>
                                             <td>{{$item->Servicio}}</td>
                                             {{-- <td></td> --}}
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{$item->Observacion}}</td>
+                                            <td>{{$item->Obs_proceso}}</td>
 
                                         </tr>
                                     @endforeach

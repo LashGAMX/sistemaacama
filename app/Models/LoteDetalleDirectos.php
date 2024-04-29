@@ -33,6 +33,7 @@ class LoteDetalleDirectos extends Model
         'Resultado',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ]; 
 }

@@ -21,6 +21,7 @@ use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\Parametro;
 use App\Models\ProcesoAnalisis;
+use App\Models\Solicitud;
 use App\Models\SolicitudesGeneradas;
 use App\Models\User;
 use App\Models\Users;
@@ -279,6 +280,60 @@ class SupervicionController extends Controller
         $model->save();
 
         
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function setSupervicion(Request $res)
+    {
+        $msg = '';
+        $std = 0;
+        $solModel = Solicitud::where('Hijo',$res->idSol)->get();
+        if ($res->std == "true") {
+            $std = 1;
+            $msg = "Folio supervisado";
+        }else{
+            $msg = "folio sin supervicion";
+        }
+
+        $temp = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
+        $temp->Supervicion = $std;
+        $temp->save();
+
+        foreach ($solModel as $item) {
+            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp->Supervicion = $std;
+            $temp->save();
+        }
+
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function setLiberar(Request $res)
+    {
+        $msg = '';
+        $std = 0;
+        $solModel = Solicitud::where('Hijo',$res->idSol)->get();
+        if ($res->std == "true") {
+            $std = 1;
+            $msg = "Folio supervisado";
+        }else{
+            $msg = "folio sin supervicion";
+        }
+
+        $temp = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
+        $temp->Liberado = $std;
+        $temp->save();
+
+        foreach ($solModel as $item) {
+            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp->Liberado = $std;
+            $temp->save();
+        }
+
         $data = array(
             'msg' => $msg,
         );

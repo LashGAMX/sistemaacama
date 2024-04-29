@@ -26,6 +26,7 @@ class LoteDetalleIcp extends Model
         'Fecha',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo'
     ];
 }

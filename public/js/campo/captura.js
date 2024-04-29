@@ -14,6 +14,9 @@ $(document).ready(function () {
             scrollTop: '0px'
         }, 300);
     });
+    $("#btnCancelarPunto").click(function () {
+        CancelarPunto()
+    });
     $("#btnGuardarTodo").click(function () {
         guardarPhMuestra()
         GuardarConductividad()
@@ -1487,6 +1490,29 @@ function CancelarMuestra(){
             console.log(response);
             muestraCancelada($("#selectCancelMuestra").val(),response.std)
             alert("Muestra cancelada");
+        }
+        
+    });
+}
+function CancelarPunto(){
+    $.ajax({
+        url: base_url + "/admin/campo/captura/CancelarPunto", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            muestra: $("#selectCancelMuestra").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true){
+                alert("Punto cancelada");
+            } else {
+                alert("Error al cancelar. Es posible que ya existan Parametros para este punto!");
+            }
+           
         }
         
     });

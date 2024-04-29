@@ -13,7 +13,7 @@
 </head> 
 <body>
     <p id='header1'> 
-        {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
+        
         {{$impresion[0]->Encabezado}}
         <br> MUESTRA
         @if (@$solModel->Id_muestra == 1 || @$solModel->Id_muestra == 0)
@@ -118,6 +118,10 @@
                                 @case(13271)
                                     10/04/2024
                                     @break
+                                    @case(14361)
+                                    25/04/2024
+                                    @break
+
                                 @default
                                     @switch($solModel->Id_norma)
                                         @case(1)
@@ -163,6 +167,9 @@
                         @switch($solicitud->Id_solicitud)
                                 @case(13271)
                                     10/04/2024
+                                    @break
+                                    @case(14361)
+                                    25/04/2024
                                     @break
                                 @default
                                     @switch($solModel->Id_norma)
@@ -225,7 +232,7 @@
                             BIENES NACIONALES.
                             @break
                             @case(27)
-                            DE ACUERDO A LAS NOM-001-SERMARNAT-2021       
+                            DE ACUERDO A LA NOM-001-SEMARNAT-2021       
                             @if (@$solModel->Id_muestra == 1)
                             INSTANTANEA
                             @else
@@ -500,43 +507,7 @@
                                     @if ($tipo == 1)
                                         A SOLICITUD DEL CLIENTE SE COMPARA EL INFORME DE RESULTADOS CON LOS LIMITES PERMISIBLES DE LA NORMA
                                     @endif
-                                    <!-- @switch($solModel->Id_norma)
-                                        @case(5)
-                                        @case(30)
-                                                @if ($solModel->Id_servicio != 3)
-                                                    <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
-                                                    <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
-                                                    <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
-                                                    <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
-                                                    <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
-                                                    <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p>
-                                                    <p>N.A INTERPRETAR COMO NO APLICA.</p>
-                                                    <p>N.N INTERPRETAR COMO NO NORMADO.</p>           
-                                                    <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
-                                                    <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
-                                                    <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
-                                                    {{-- <p>4 PARÁMETRO NO ACREDITADO </p> --}}
-                                                @else
-                                                    <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
-                                                    <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
-                                                    <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
-                                                    <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
-                                                    <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
-                                                    {{-- <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p> --}}
-                                                    <p>N.A INTERPRETAR COMO NO APLICA.</p>
-                                                    <p>N.N INTERPRETAR COMO NO NORMADO.</p>
-                                                    <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
-                                                    <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
-                                                    <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
-                                                    <p> </p>
-                                                @endif
-                                            @break
-
-                                        @default
-                                        @php
-                                            echo $impresion[0]->Nota;
-                                        @endphp
-                                    @endswitch -->
+                                   
                                 </td>
                                 <td style="width: 15%">
                                     @php

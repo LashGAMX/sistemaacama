@@ -32,6 +32,7 @@ class LoteDetalleDbo extends Model
         'Observacion',
         'Sugerido',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 }

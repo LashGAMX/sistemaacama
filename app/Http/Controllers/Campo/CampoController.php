@@ -490,6 +490,31 @@ class CampoController extends Controller
 
         return response()->json($data);
     }
+    public function CancelarPunto(Request $request){
+        $sw = false;
+        $model = null;
+        $parametro = CodigoParametros::where('Id_solicitud', $request->idSolicitud)->get();
+        if($parametro->count()){
+            $model = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->firt();
+            $model->Cancelado = 1;
+            $model->save();
+
+            $model2 = Solicitud::where('Id_solicitud',$request->idSolicitud)->firt();
+            $model2->Cancelado = 1;
+            $model2->save();
+        }
+        if($model!=null){
+            $sw = true;
+        } else {
+            $sw = false;
+        }
+        
+        $data = array(
+            'sw' => $sw,
+        );
+        return response()->json($data);
+
+    }
     //-----------------------------Inicio de guardado independiente en Captura campo-----------------------------------
     public function GuardarPhMuestra(Request $res)
     {
@@ -1498,6 +1523,7 @@ class CampoController extends Controller
         } else {
             $firmaRecepcion = "";
         }
+        
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',

@@ -54,7 +54,8 @@ class InformesController extends Controller
     public function index()
     {
         $tipoReporte = TipoReporte::all();
-        $model = DB::table('ViewSolicitud2')->orderBy('Id_solicitud', 'desc')->where('Padre', 1)->get();
+        // $model = DB::table('ViewSolicitud2')->orderBy('Id_solicitud', 'desc')->where('Padre', 1)->get();
+        $model = DB::table('ViewProcesoAnalisis')->where('Liberado',1)->where('Cancelado',0)->where('Padre',1)->orderBy("Id_procAnalisis","desc")->get();
         return view('informes.informes', compact('tipoReporte', 'model'));
     }
     public function getPuntoMuestro(Request $request)
@@ -143,6 +144,7 @@ class InformesController extends Controller
             'defaultheaderline' => '0'
         ]);
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
+
         $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
@@ -158,7 +160,7 @@ class InformesController extends Controller
                         'Id_solicitud' => $idPunto,
                         'Encabezado' => $reporteInforme[0]->Encabezado,
                         'Nota' => $reporteInforme[0]->Nota,
-                        'Nota_siralab' >= $reporteInforme[0]->Nota_siralab,
+                        'Nota_siralab' => $reporteInforme[0]->Nota_siralab,
                         'Id_analizo' => $reporteInforme[0]->Id_analizo,
                         'Id_reviso' => $reporteInforme[0]->Id_reviso,
                         'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
@@ -192,6 +194,9 @@ class InformesController extends Controller
 
         $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->first();
         $idSol = $idPunto;
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
+        $proceso->Impresion_informe = 1;
+        $proceso->save();
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
         //Recupera los datos de la temperatura de la muestra compuesta
@@ -5211,6 +5216,9 @@ class InformesController extends Controller
         );
 
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol)->first();
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
+        $proceso->Impresion_cadena = 1;
+        $proceso->save();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $areaParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSol)->where('Id_parametro','!=',64)->get();

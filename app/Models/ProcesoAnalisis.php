@@ -22,6 +22,7 @@ class ProcesoAnalisis extends Model
         'Proceso',
         'Supervicion',
         'Impresion_cadena',
+        'Impresion_informe',
         'Entrega_resultado',
         'Historial_resultado',
         'Reporte',
@@ -30,6 +31,7 @@ class ProcesoAnalisis extends Model
         'Hora_entrada',
         'Liberado',
         'Cancelado',
+        'Obs_proceso',
         'Id_user_c',
         'Id_user_m'
     ];

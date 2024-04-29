@@ -53,12 +53,10 @@ $(document).ready(function () {
         }
     });
     $('#ckLiberado').click(function () {
-        if ($('#ckLiberado').prop('checked') == true) {
-            console.log("Seleccionado");
-            liberarSolicitud()
-        } else {
-            console.log("No Seleccionado");
-        }
+        setLiberar()
+    });
+    $('#ckSupervisado').click(function () {
+        setSupervicion();
     });
     $('#ckHistorial').click(function () {
         if ($('#ckHistorial').prop('checked') == true) {
@@ -73,6 +71,38 @@ $(document).ready(function () {
         liberarResultado();
     });
 });
+function setSupervicion(){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/setSupervicion",
+        data: {
+            idSol: $("#idSol").val(),
+            std: $('#ckSupervisado').prop('checked'),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            alert(response.msg)
+        }
+    });
+}
+function setLiberar(){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/setLiberar",
+        data: {
+            idSol: $("#idSol").val(),
+            std: $('#ckLiberado').prop('checked'),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            alert(response.msg)
+        }
+    });
+}
 function setHistorial(){
     $.ajax({
         type: 'POST',

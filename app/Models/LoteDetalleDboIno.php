@@ -38,6 +38,7 @@ class LoteDetalleDboIno extends Model
         'Observacion',
         'Sugerido',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 }

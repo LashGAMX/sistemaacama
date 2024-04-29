@@ -57,6 +57,7 @@ class LoteDetalleColiformes extends Model
         'Resultado',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo'
     ];
 }

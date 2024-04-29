@@ -3,23 +3,136 @@
 namespace App\Http\Controllers\kpi;
 
 use App\Http\Controllers\Controller;
+use App\Models\CodigoParametros;
 use App\Models\Cotizacion;
+use App\Models\ImpresionInforme;
 use App\Models\Norma;
 use App\Models\ProcesoAnalisis;
 use App\Models\Solicitud;
+use App\Models\SolicitudesGeneradas;
+use App\Models\SolicitudPuntos;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class KpiController extends Controller
 {
-    //
+    //Vistas
     public function index(){
         $norma = Norma::all();
         $data = array(
             'norma' => $norma,
         );
         return view('kpi.kpi',$data);
+    }
+    public function laboratorio(){
+        $model = DB::table('ViewProcesoAnalisis')->where('Liberado',0)->where('Cancelado',0)->where('Padre',1)->orderBy("Hora_recepcion","asc")->get();
+        $subModel = DB::table('ViewProcesoAnalisis')->where('Liberado',0)->where('Cancelado',0)->where('Padre',0)->get();
+        $diasFolio = array(0,0,0,0,0,0,0);
+        foreach ($model as $item) {
+            $fechaHoraActual = Carbon::now(); // Obtiene la fecha y hora actual
+            $fechaHoraActual->setTimezone('America/Mexico_City'); // Establece la zona horaria
+            $fecha1 = Carbon::parse($fechaHoraActual);
+            switch ($item->Id_norma) {
+                // 11dias
+                case 1:
+                case 2:
+                    $fecha2 = Carbon::parse($item->Hora_recepcion)->addDays(11);
+                    break;
+                 //14dias
+                case 5:
+                case 30:
+                    $fecha2 = Carbon::parse($item->Hora_recepcion)->addDays(14);
+                // 11 dias
+                default:
+                    $fecha2 = Carbon::parse($item->Hora_recepcion)->addDays(11);
+                   
+                    break;
+            }
+            
+
+            // Calcula la diferencia en días
+            $diferenciaDias = $fecha1->diffInDays($fecha2);
+
+            // echo "<br> ".$diferenciaDias;
+
+            // Calcula la diferencia en días
+            $diferenciaDias = $fecha1->diffInDays($fecha2);
+
+            if ($fecha1->greaterThan($fecha2)) {
+                switch ($diferenciaDias) {
+                    case 0:
+                        $diasFolio[0] = $diasFolio[0] + 1;
+                        break;
+                    case 1:
+                        $diasFolio[1] = $diasFolio[1] + 1;
+                        break;
+                    case 2:
+                        $diasFolio[2] = $diasFolio[2] + 1;
+                        break;
+                    case 3:
+                        $diasFolio[3] = $diasFolio[3] + 1;
+                        break;
+                    case 4:
+                        $diasFolio[5] = $diasFolio[5] + 1;
+                        break;
+                    case 5:
+                        $diasFolio[5] = $diasFolio[5] + 1;
+                        break;
+                    default:
+                       if ($diferenciaDias >= 5 ) {
+                          $diasFolio[5] = $diasFolio[5] + 1;
+                       }
+                       if ($diferenciaDias < 0 ) {
+                            $diasFolio[6] = $diasFolio[6] + 1;
+                       }
+                        break;
+                }
+            } elseif ($fecha1->lessThan($fecha2)) {
+                $diasFolio[6] = $diasFolio[6] + 1;
+            } else {
+                $diasFolio[6] = $diasFolio[6] + 1;
+            }
+
+    
+        }
+        $data = array(
+            'diasFolio' => $diasFolio,
+            'subModel' => $subModel,
+            'model' => $model,
+        );
+        return view('kpi.laboratorio',$data);
+    }
+    public function seguimientoFolio(){
+        return view('kpi.seguimientoFolio');
+    }
+    //funciones
+    public function getSeguimiento(Request $res)
+    {
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud',$res->id)->first();
+        $proceso = DB::table('ViewProcesoAnalisis')->where('Id_solicitud',$res->id)->first();
+        $campo = SolicitudesGeneradas::where('Id_solicitud',$res->id)->first();
+        $informe = ImpresionInforme::where('Id_solicitud',$res->id)->get();
+        $codigo = DB::table('ViewCodigoRecepcion')->where('Id_solicitud',$res->id)->get();
+        $data = array(
+            'codigo' => $codigo,
+            'proceso' => $proceso,
+            'campo' => $campo,
+            'informe' => $informe,
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getbuscarFolio(Request $res)
+    {
+        $model = Solicitud::where('Folio_servicio','LIKE','%'.$res->folio.'%')->where('Padre',1)->first();
+        $puntos = SolicitudPuntos::where('Id_solPadre',$model->Id_solicitud)->get();
+        $data = array(
+            'puntos' => $puntos,
+            'model' => $model,
+        );
+        return response()->json($data);
     }
     public function getMuestrasPendientes(Request $res)
     {
@@ -71,23 +184,48 @@ class KpiController extends Controller
         $registrosPorMes = Solicitud::where('Padre', 1)
         ->whereDate('Fecha_muestreo', '>=', $res->fechaInicio)
         ->whereDate('Fecha_muestreo', '<=', $res->fechaFin)
-        ->when($res->norma != 0, function ($query) use ($res) {
-            $query->where('Id_norma', $res->norma);
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
         })
         ->selectRaw('MONTH(Fecha_muestreo) as mes, YEAR(Fecha_muestreo) as anio, COUNT(*) as total, DATE_FORMAT(Fecha_muestreo, "%M %Y") as mes_anio')
         ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',0)
         ->get();
 
-        $registrosPorMesHijo = Solicitud::where('Padre',0)
+        $canceladoGen = Solicitud::where('Padre', 1)
         ->whereDate('Fecha_muestreo', '>=', $res->fechaInicio)
         ->whereDate('Fecha_muestreo', '<=', $res->fechaFin)
-        ->when($res->norma != 0, function ($query) use ($res) {
-            $query->where('Id_norma', $res->norma);
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
         })
         ->selectRaw('MONTH(Fecha_muestreo) as mes, YEAR(Fecha_muestreo) as anio, COUNT(*) as total, DATE_FORMAT(Fecha_muestreo, "%M %Y") as mes_anio')
         ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',1)
+        ->get();
+
+
+        $registrosPorMesHijo = Solicitud::where('Padre', 0)
+        ->whereDate('Fecha_muestreo', '>=', $res->fechaInicio)
+        ->whereDate('Fecha_muestreo', '<=', $res->fechaFin)
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
+        })
+        ->selectRaw('MONTH(Fecha_muestreo) as mes, YEAR(Fecha_muestreo) as anio, COUNT(*) as total, DATE_FORMAT(Fecha_muestreo, "%M %Y") as mes_anio')
+        ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',0)
         ->get();
     
+        
+        $canceladoHijo = Solicitud::where('Padre', 0)
+        ->whereDate('Fecha_muestreo', '>=', $res->fechaInicio)
+        ->whereDate('Fecha_muestreo', '<=', $res->fechaFin)
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
+        })
+        ->selectRaw('MONTH(Fecha_muestreo) as mes, YEAR(Fecha_muestreo) as anio, COUNT(*) as total, DATE_FORMAT(Fecha_muestreo, "%M %Y") as mes_anio')
+        ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',1)
+        ->get();
 
         foreach ($registrosPorMes as $registro) {
             array_push($mes,$registro->mes_anio);
@@ -101,6 +239,8 @@ class KpiController extends Controller
 
 
         $data = array(
+            'canceladoHijo' => $canceladoHijo,
+            'canceladoGen' => $canceladoGen,
             'registrosPorMesHijo'=> $registrosPorMesHijo,
             'registrosPorMes' => $registrosPorMes,
             'mes' => $mes,
@@ -119,8 +259,8 @@ class KpiController extends Controller
 
         $registrosPorMes = Cotizacion::whereDate('created_at', '>=', $res->fechaInicio)
         ->whereDate('created_at', '<=', $res->fechaFin)
-        ->when($res->norma != 0, function ($query) use ($res) {
-            $query->where('Id_norma', $res->norma);
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
         })
         ->selectRaw('MONTH(created_at) as mes, YEAR(created_at) as anio, COUNT(*) as total, DATE_FORMAT(created_at, "%M %Y") as mes_anio')
         ->groupBy('mes', 'anio', 'mes_anio')
@@ -151,20 +291,42 @@ class KpiController extends Controller
 
         $registrosPendientes = DB::table('ViewProcesoAnalisisNorma')->whereDate('Hora_recepcion', '>=', $res->fechaInicio)
         ->whereDate('Hora_recepcion', '<=', $res->fechaFin)
-        ->when($res->norma != 0, function ($query) use ($res) {
-            $query->where('Id_norma', $res->norma);
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
         })
         ->selectRaw('MONTH(Hora_recepcion) as mes, YEAR(Hora_recepcion) as anio, COUNT(*) as total, DATE_FORMAT(Hora_recepcion, "%M %Y") as mes_anio')
         ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',0)
+        ->get();
+
+        $canceladosPendiente = DB::table('ViewProcesoAnalisisNorma')->whereDate('Hora_recepcion', '>=', $res->fechaInicio)
+        ->whereDate('Hora_recepcion', '<=', $res->fechaFin)
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
+        })
+        ->selectRaw('MONTH(Hora_recepcion) as mes, YEAR(Hora_recepcion) as anio, COUNT(*) as total, DATE_FORMAT(Hora_recepcion, "%M %Y") as mes_anio')
+        ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',1)
         ->get();
 
         $registrosImpresos = DB::table('ViewFoliosImpresos')->whereDate('Hora_recepcion', '>=', $res->fechaInicio)
         ->whereDate('Hora_recepcion', '<=', $res->fechaFin)
-        ->when($res->norma != 0, function ($query) use ($res) {
-            $query->where('Id_norma', $res->norma);
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
         })
         ->selectRaw('MONTH(Hora_recepcion) as mes, YEAR(Hora_recepcion) as anio, COUNT(*) as total, DATE_FORMAT(Hora_recepcion, "%M %Y") as mes_anio')
         ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',0)
+        ->get();
+
+        $canceladoImpreso = DB::table('ViewFoliosImpresos')->whereDate('Hora_recepcion', '>=', $res->fechaInicio)
+        ->whereDate('Hora_recepcion', '<=', $res->fechaFin)
+        ->when($res->norma[0] != 0, function ($query) use ($res) {
+            $query->whereIn('Id_norma', $res->norma);
+        })
+        ->selectRaw('MONTH(Hora_recepcion) as mes, YEAR(Hora_recepcion) as anio, COUNT(*) as total, DATE_FORMAT(Hora_recepcion, "%M %Y") as mes_anio')
+        ->groupBy('mes', 'anio', 'mes_anio')
+        ->where('Cancelado',1)
         ->get();
 
         // $aux  = 0;
@@ -174,21 +336,13 @@ class KpiController extends Controller
             array_push($totalPendiente,$registrosPendientes[$i]->total);
             array_push($totalImpreso,$registrosImpresos[$i]->total);
         }
-        // foreach ($registrosPendientes as $registro) {
-        //     array_push($mes,$registro->mes_anio);
-        //     array_push($totalPendiente,$registro->total);
-        //     array_push($totalImpreso,$registrosImpresos[$this->$aux]->total);
-        //     $aux++;
-        // }
-        // foreach ($registrosImpresos as $registro) {
-        //     array_push($totalImpreso,$registro->total);
-
-        // }
-
+  
 
    
 
         $data = array(
+            'canceladoImpreso' => $canceladoImpreso,
+            'canceladosPendiente' => $canceladosPendiente,
             'registrosPendientes' => $registrosPendientes,
             'registrosImpresos' => $registrosImpresos,
             'mes' => $mes,

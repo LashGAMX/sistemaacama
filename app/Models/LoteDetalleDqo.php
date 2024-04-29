@@ -35,6 +35,7 @@ class LoteDetalleDqo extends Model
         'Factor_dilucion',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 }

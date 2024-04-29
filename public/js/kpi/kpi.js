@@ -26,7 +26,7 @@ function cotizacionesGeneradas() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/kpi/solicitudesGeneradas",
+        url: base_url + "/admin/kpi/cotizacionesGeneradas",
         data: {
             fechaInicio: $("#fechaInicio").val(),
             fechaFin: $("#fechaFin").val(),
@@ -43,7 +43,7 @@ function cotizacionesGeneradas() {
                 labels: labels,
                 datasets: [
                     {
-                        label: "Cotizaciones generadas",
+                        label: "Cotizaciones generadas | "+response.totalInd,
                         data: response.totalInd,
                         borderColor: "rgb(255, 99, 132)",
                         backgroundColor: "rgba(255, 99, 132, 0.2)",
@@ -51,7 +51,7 @@ function cotizacionesGeneradas() {
                 ],
             };
             const config = {
-                type: "line",
+                type: "bar",
                 data: data,
                 options: {
                     responsive: true,
@@ -74,6 +74,8 @@ function solicitudesGeneradas() {
     document.getElementById("divIndicador").innerHTML =
         '<div style="width: 100%; height: 500px"><canvas id="myChart"></canvas></div>';
     const ctx = document.getElementById("myChart");
+    let extra = document.getElementById("divExtra")
+    let tabExtra = '';
 
     $.ajax({
         type: "POST",
@@ -94,13 +96,13 @@ function solicitudesGeneradas() {
                 labels: labels,
                 datasets: [
                     {
-                        label: "Folio Padre",
+                        label: "Folio Padre | "+response.totalInd,
                         data: response.totalInd,
                         borderColor: "rgb(255, 99, 132)",
                         backgroundColor: "rgba(255, 99, 132, 0.2)",
                     },
                     {
-                        label: "Folio Hijo",
+                        label: "Folio Hijo | "+response.totalIndHijo,
                         data: response.totalIndHijo,
                         borderColor: "rgb(255, 159, 64)",
                         backgroundColor: "rgba(255, 159, 64, 0.2)",
@@ -108,7 +110,7 @@ function solicitudesGeneradas() {
                 ],
             };
             const config = {
-                type: "line",
+                type: "bar",
                 data: data,
                 options: {
                     responsive: true,
@@ -124,6 +126,12 @@ function solicitudesGeneradas() {
                 },
             };
             new Chart(ctx, config);
+            tabExtra += `
+            <span>Cancelados</span><br>
+            <span>Padre : ${response.canceladoGen.length}</span><br>
+            <span>Hijo : ${response.canceladoHijo.length}</span>
+            `
+        extra.innerHTML = tabExtra
         },
     });
 }
@@ -131,7 +139,8 @@ function ordenServicioProceso() {
     document.getElementById("divIndicador").innerHTML =
         '<div style="width: 100%; height: 500px"><canvas id="myChart"></canvas></div>';
     const ctx = document.getElementById("myChart");
-
+    let extra = document.getElementById("divExtra")
+    let tabExtra = '';
     $.ajax({
         type: "POST",
         url: base_url + "/admin/kpi/ordenServicioProceso",
@@ -151,13 +160,13 @@ function ordenServicioProceso() {
                 labels: labels,
                 datasets: [
                     {
-                        label: "En proceso",
+                        label: "En proceso | "+response.totalPendiente,
                         data: response.totalPendiente,
                         borderColor: "rgb(255, 99, 132)",
                         backgroundColor: "rgba(255, 99, 132, 0.2)",
                     },
                     {
-                        label: "Impresos",
+                        label: "Impresos | "+response.totalImpreso,
                         data: response.totalImpreso,
                         borderColor: "rgb(255, 159, 64)",
                         backgroundColor: "rgba(255, 159, 64, 0.2)",
@@ -165,7 +174,7 @@ function ordenServicioProceso() {
                 ],
             };
             const config = {
-                type: "line",
+                type: "bar",
                 data: data,
                 options: {
                     responsive: true,
@@ -181,6 +190,12 @@ function ordenServicioProceso() {
                 },
             };
             new Chart(ctx, config);
+            tabExtra += `
+            <span>Cancelados</span><br>
+            <span>En proceso : ${response.canceladosPendiente.length}</span><br>
+            <span>Impreso : ${response.canceladoImpreso.length}</span>
+            `
+        extra.innerHTML = tabExtra
         },
     });
 }

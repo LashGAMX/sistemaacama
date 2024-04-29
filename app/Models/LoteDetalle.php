@@ -39,6 +39,7 @@ class LoteDetalle extends Model
         'Orden',
         'Fecha',
         'Liberado',
+        'Cancelado',
         'Analizo',
         'Id_user_c',
         'Id_user_m',

@@ -40,7 +40,7 @@
                             <hr>
                         </div>
                         <div class="col-md-2">
-                        <button type="button" id="btnCancelar" class="btn btn-danger btnSubir"><i class="fas fa-times"></i>
+                        <button type="button" id="btnCancelarPunto" class="btn btn-danger btnSubir"><i class="fas fa-times"></i>
                         CANCELAR</button>
                     </form>
                         </div>
@@ -1328,5 +1328,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.5"></script>
+<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.6"></script>
 @stop

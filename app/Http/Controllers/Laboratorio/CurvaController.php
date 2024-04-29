@@ -296,9 +296,9 @@ class CurvaController extends Controller
 
 
         $const = CurvaConstantes::find($curvaModel->Id_curvaConst);
-        $const->B = $request->b;
-        $const->M = $request->m;
-        $const->R = $request->r;
+        $const->B = number_format($request->b,5,'.','');
+        $const->M = number_format($request->m,5,'.','');
+        $const->R = number_format($request->r,5,'.','');
         $const->save();
 
 

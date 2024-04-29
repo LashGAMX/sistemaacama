@@ -36,6 +36,7 @@ Route::group(['prefix' => 'campo'], function () {
    
         Route::post('SetDatosCompuestos', [CampoController::class, 'SetDatosCompuestos']);
         Route::post('CancelarMuestra', [CampoController::class, 'CancelarMuestra']);
+        Route::post('CancelarPunto', [CampoController::class, 'CancelarPunto']);
 
         Route::post('setEvidencia', [CampoController::class, 'setEvidencia']);
         Route::post('setEvidenciaFirma', [CampoController::class, 'setEvidenciaFirma']);

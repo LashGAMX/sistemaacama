@@ -44,6 +44,7 @@ class LoteDetalleDureza extends Model
         'ResultadoVal3',
         'Observacion',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 }

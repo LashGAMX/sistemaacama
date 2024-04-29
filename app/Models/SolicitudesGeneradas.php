@@ -26,6 +26,7 @@ class SolicitudesGeneradas extends Model
       'Nombres',
       'Observacion',
       'Estado',
+      'Cancelado',
       'Id_superviso', 
       'Id_user_c',
       'Id_user_m'

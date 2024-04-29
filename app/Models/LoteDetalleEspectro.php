@@ -45,6 +45,7 @@ class LoteDetalleEspectro extends Model
         'Vol_destilacion',
         'Vol_muestra',
         'Liberado',
+        'Cancelado',
         'Analizo',
     ];
 
