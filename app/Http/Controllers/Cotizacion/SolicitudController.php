@@ -314,7 +314,8 @@ class SolicitudController extends Controller
         $model = "";
         if($res->folio == ""){
             if ($res->siralab == "true") {
-                $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
+                // $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->where('deleted_at','!=',NULL)->get();
+                $model = PuntoMuestreoSir::where('Id_sucursal', $res->idSuc)->get();
             } else {
                 $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
             }
@@ -324,7 +325,7 @@ class SolicitudController extends Controller
                 $sw = true;
             } else {
                 if ($res->siralab == "true") {
-                    $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
+                    $model = PuntoMuestreoSir::where('Id_sucursal', $res->idSuc)->get();
                 } else {
                     $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
                 }
@@ -332,6 +333,8 @@ class SolicitudController extends Controller
         }
         
         $data = array(
+            'suc' => $res->idSuc,
+            'siralab' => $res->siralab,
             'model' => $model,
             'sw' => $sw,
         );

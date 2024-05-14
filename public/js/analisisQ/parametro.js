@@ -32,6 +32,9 @@ $(document).ready(function()
         $("#simbologia").val(0)
         $("#simbologiaInf").val(0)
         $("#CurvaPadre").val(0)
+        $("#dias_analisis").val(0)
+
+
 
     });
     $("#btnEditar").click(function()
@@ -67,6 +70,7 @@ function getParametros(){
           tab += '          <th>C. Metodo</th>';
           tab += '          <th>Norma</th>';
           tab += '          <th>Limite</th>';
+          tab += '          <th>Dias analisis</th>';
           tab += '          <th>Opc</th>';
           tab += '        </tr>';
           tab += '    </thead>';
@@ -82,6 +86,7 @@ function getParametros(){
             tab += '    <td>'+item.Clave_metodo+'</td>';
             tab += '    <td>'+response.norma[cont]+'</td>';
             tab += '    <td>'+item.Limite+'</td>';
+            tab += '    <td>'+item.Dias_analisis+'</td>';
             tab += '    <td><button class="btn btn-warning" data-toggle="modal" id="btnEditar" data-target="#modalParametro" onclick="getNormasParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
             tab += '</tr>';
             cont++;
@@ -134,6 +139,11 @@ function getNormasParametro(id){
       $("#simbologia").val(""),
       $("#simbologiaInf").val(""),
       $("#CurvaPadre").val(""),
+          
+      $("#dias_analisis").val("");
+      $("#usuarioDef").val("");
+    
+
 
       console.log(response);
       let temp = new Array();
@@ -159,6 +169,9 @@ function getNormasParametro(id){
       $("#simbologia").val(response.model.Id_simbologia);
       $("#simbologiaInf").val(response.model.Id_simbologia_info);
       $("#CurvaPadre").val(response.model.Padre);
+      $("#usuarioDef").val(response.model.Usuario_default);
+      
+
     } 
 })
 }
@@ -184,6 +197,9 @@ function getNormasParametro(id){
       simbologia:$("#simbologia").val(),
       simbologiaInf:$("#simbologiaInf").val(),
       padre:$("#CurvaPadre").val(),
+      dias_analisis: $("#dias_analisis").val(), 
+      usuarioDef: $("#usuarioDef").val(), 
+
         _token: $('input[name="_token"]').val(),
       },
     dataType: 'json', 
@@ -216,6 +232,8 @@ function getNormasParametro(id){
       simbologia:$("#simbologia").val(),
       simbologiaInf:$("#simbologiaInf").val(),
       padre:$("#CurvaPadre").val(),
+      dias_analisis:$("#dias_analisis").val(),
+
         _token: $('input[name="_token"]').val(),
       },
     dataType: 'json', 

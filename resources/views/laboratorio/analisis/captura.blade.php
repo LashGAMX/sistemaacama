@@ -68,6 +68,17 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p>Cloruros: <span id="clorurosParametro"></span></p>
+            </div>
+            <div class="col-md-3">
+              <p>Conductividad: <span id="conductividadParametro"></span></p>
+            </div>
+            <div class="col-md-3">
+              <p>pH: <span id="phParametro"></span></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4655,6 +4666,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">

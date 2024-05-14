@@ -9,6 +9,7 @@ use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
 use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDureza;
+use App\Models\LoteDetalleEnterococos;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleNitrogeno;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class RecursoController extends Controller
 
     public function buscarBasura(Request $req){
         $model = CodigoParametros::where('Codigo', $req->folio)->where('Id_parametro', $req->parametro)->first(); 
-        $model2 = LoteDetalleDbo::where('Id_codigo', $model->Id_codigo)->get(); 
+        $model2 = LoteDetalleEnterococos::where('Id_codigo', $model->Id_codigo)->get(); 
         $data = array(
             'model' => $model,
             'model2' => $model2,
@@ -39,9 +40,9 @@ class RecursoController extends Controller
     }
    
     public function tirarlabasura(Request $req) {
-        $model = DB::table("lote_detalle_dbo")->where('Id_codigo', $req->id)->get();
+        $model = DB::table("lote_detalle_enterococos")->where('Id_codigo', $req->id)->get();
         foreach ($model as $item) {
-            $model2 = DB::table("lote_detalle_dbo")->where('Id_codigo', $item->Id_codigo)->delete();
+            $model2 = DB::table("lote_detalle_enterococos")->where('Id_codigo', $item->Id_codigo)->delete();
         }
         $data = array(
             'id' => $req->id,

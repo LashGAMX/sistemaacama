@@ -13,11 +13,14 @@ class Capsulas extends Model
     protected $primaryKey = 'Id_capsula'; 
     public $timestamps = true;
 
-    protected $fillable = [
+    protected $fillable = 
+    [
         'Num_serie',
         'Peso',
         'Min',
         'Max',
-        'Estado'  
+        'Id_112',
+        'Estado',
     ];  
+
 }

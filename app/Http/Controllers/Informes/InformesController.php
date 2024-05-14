@@ -55,7 +55,7 @@ class InformesController extends Controller
     {
         $tipoReporte = TipoReporte::all();
         // $model = DB::table('ViewSolicitud2')->orderBy('Id_solicitud', 'desc')->where('Padre', 1)->get();
-        $model = DB::table('ViewProcesoAnalisis')->where('Liberado',1)->where('Cancelado',0)->where('Padre',1)->orderBy("Id_procAnalisis","desc")->get();
+        $model = DB::table('ViewProcesoAnalisis')->where('Cancelado',0)->where('Padre',1)->orderBy("Id_procAnalisis","desc")->get();
         return view('informes.informes', compact('tipoReporte', 'model'));
     }
     public function getPuntoMuestro(Request $request)
@@ -194,9 +194,18 @@ class InformesController extends Controller
 
         $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->first();
         $idSol = $idPunto;
+
         $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
         $proceso->Impresion_informe = 1;
         $proceso->save();
+
+        $aux = DB::table('viewprocesoanalisis')->where('Hijo',$solModel->Hijo)->where('Impresion_informe',0)->get();
+        if ($aux->count() == 0) {
+            $proceso = ProcesoAnalisis::where('Id_solicitud',$solModel->Hijo)->first();
+            $proceso->Impresion_informe = 1;
+            $proceso->save();
+        }
+
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
         //Recupera los datos de la temperatura de la muestra compuesta
@@ -647,9 +656,9 @@ class InformesController extends Controller
             case 30:
                 //potable y purificada
                  //$firma1 = User::find(14) ;
-                 $firma1 = User::find(14);
+                 $firma1 = User::find(12);
                 //  $firma1 = User::find(12); // Reviso
-                 $firma2 = User::find(4); // Autorizo
+                 $firma2 = User::find(14); // Autorizo
                  //$firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
@@ -659,7 +668,7 @@ class InformesController extends Controller
                  //$firma1 = User::find(14); //reviso
                  $firma1 = User::find(14); //reviso
                 // $firma2 = User::find(35); //Autorizo
-                $firma2 = User::find(4); //Autorizo
+                $firma2 = User::find(12); //Autorizo
                  //$firma2 = User::find(12); // Autorizo
                 
                 break;
@@ -2387,10 +2396,15 @@ class InformesController extends Controller
         $folioEncript1 =  openssl_encrypt($folioSer1, $method, $clave, false, $iv);
         $folioSer2 = $solModel1->Id_solicitud;
         $folioEncript2 =  openssl_encrypt($folioSer1, $method, $clave, false, $iv);
-
+        
+        $notaSiralab = array();
+        if ($solModel1->Siralab == 1) {
+            $notaSiralab = ImpresionInforme::where('Id_solicitud',$solModel1->Id_solicitud)->first();
+        }
 
 
         $data = array(
+            'notaSiralab' => $notaSiralab,
             'folioEncript1' => $folioEncript1,
             'folioEncript2' => $folioEncript2,
             'campoCompuesto1' => $campoCompuesto1,
@@ -2945,10 +2959,14 @@ class InformesController extends Controller
         $folioEncript1 =  openssl_encrypt($folioSer1, $method, $clave, false, $iv);
         $folioSer2 = $solModel1->Id_solicitud;
         $folioEncript2 =  openssl_encrypt($folioSer2, $method, $clave, false, $iv);
-
+        $notaSiralab = array();
+        if ($solModel1->Siralab == 1) {
+            $notaSiralab = ImpresionInforme::where('Id_solicitud',$idSol1)->first();
+        }
 
 
         $data = array(
+            'notaSiralab' => $notaSiralab,
             'folioEncript1' => $folioEncript1,
             'folioEncript2' => $folioEncript2,
              'olor1' => $olor1,
@@ -5249,14 +5267,35 @@ class InformesController extends Controller
                     for ($i = 0; $i < sizeof($tempArea); $i++) {
                         if ($auxEnv[0]->Id_area == $tempArea[$i]) {
                             $sw = true;
-                        }
-                        if ($item->Id_parametro == 11) {
+                        }else{
                             $sw = false;
+                        }
+                        switch ($item->Id_parametro) {
+                            case 11:
+                                $sw = false;
+                                break;
+                            
+                            default:
+                                # code...
+                                break;
                         }
                     }
                     if ($sw != true) {
                         // $auxArea = DB::table('areas_lab')->where('Parametro', $auxEnv->Id_parametro)->first();
-                        $user = DB::table('users')->where('id', $auxEnv[0]->Id_responsable)->first();
+                        switch ($auxEnv[0]->Id_responsable) {
+                            case 21:
+                                $user = DB::table('users')->where('id', 46)->first();
+                                break;
+                            case 23:
+                                $user = DB::table('users')->where('id', 44)->first();
+                                break;
+                            case 19;
+                                $user = DB::table('users')->where('id', 52)->first();
+                                break;
+                            default:
+                                $user = DB::table('users')->where('id', $auxEnv[0]->Id_responsable)->first();
+                                break;
+                        }
                         if (@$item->Id_area == 12 || @$item->Id_area == 6 || @$item->Id_area == 13 || @$item->Id_area == 3) {
                             if (@$item->Id_parametro != 16) {
                                 if ($model->Id_servicio != 3) {
@@ -5888,7 +5927,7 @@ class InformesController extends Controller
             'numRecipientes' => $numRecipientes,
             'responsable' => $responsable,
             'area' => $area,
-            'phMuestra' => $phMuestra,
+            'phMue6stra' => $phMuestra,
             'areaParam' => $areaParam,
             'norma' => $norma,
             'model' => $model,

@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Config;
 
 use App\Models\MatrazGA;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
+
 
 
 class MatrizGA extends Component
@@ -12,10 +14,13 @@ class MatrizGA extends Component
   public $idUser;
   public $show = false;
   public $alert = false;
+  public $alert2= false;
+  public $alert3= false;
   public $search = '';
 
   // Variables form
   public $idMat;
+  public $delete=false;
   public $serie;
   public $peso;
   public $min;
@@ -47,6 +52,16 @@ class MatrizGA extends Component
   }
   public function store()
   {
+    if($this->delete==true)
+    {
+      $model=MatrazGA::where('Id_matraz',$this->idMat)->delete();
+      $this->alert2=true;
+    }else{
+      if($this->delete==false){
+$model=MatrazGA::withTrashed()->find($this->idMat)->restore();
+$this->alert3=true;
+      }
+    
       //$this->historial();
       $model = MatrazGA::find($this->idMat);
       $model->Num_serie = $this->serie;
@@ -56,14 +71,25 @@ class MatrizGA extends Component
       $model->save();
       $this->alert = true;
   }
+}
   public function setData($idMat,$serie,$peso,$min,$max)
   {
-      $this->alert = false;
-      $this->idMat = $idMat;
-      $this->serie = $serie;
-      $this->peso = $peso;
-      $this->min = $min;
-      $this->max = $max;
+    $model = MatrazGA::withTrashed()->where('Id_matraz', $idMat)->first();
+    
+    if ($model) {
+        $this->idMat = $idMat;
+        $this->serie = $serie;
+        $this->peso = $peso;
+        $this->min = $min;
+        $this->max = $max;
+
+        // Verifica si el modelo está eliminado o no
+        if ($model->trashed()) {
+            $this->delete = true;
+        } else {
+            $this->delete = false;
+        }
+    } 
   }
 //   Public function historial()
 //   {

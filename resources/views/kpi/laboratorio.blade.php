@@ -12,7 +12,7 @@
                 <div class="col-md-3">
                     <h3>Total en lab: {{$subModel->count()}}</h3>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <span>Adelantados: {{@$diasFolio[6]}}</span>
                     <br>
                     <span>0 Dias: {{$diasFolio[0]}}</span>
@@ -21,12 +21,16 @@
                     <br>
                     <span>2 Dia: {{$diasFolio[2]}}</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <span>3 Dia: {{$diasFolio[3]}}</span>
                     <br>
                     <span>4 Dia: {{$diasFolio[4]}}</span>
                     <br>
                     <span>> 5 Dia: {{$diasFolio[5]}}</span>
+                </div>
+                <div class="col-md-2">
+                    <h4>Total al dia: {{$diasFolio[0] + $diasFolio[1] + $diasFolio[2] + $diasFolio[3] + $diasFolio[4] + $diasFolio[5]}}</h4>
+                    <h4>Total Siralab: {{$siralab->count()}}</h4>
                 </div>
             </div>
         </div>

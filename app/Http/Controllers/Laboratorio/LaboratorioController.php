@@ -11,6 +11,7 @@ use App\Models\ObservacionMuestra;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
+use App\Models\CodigoParametros;
 use App\Models\Reportes;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
@@ -267,4 +268,5 @@ class LaboratorioController extends Controller
         
         $mpdf->Output();
     }
+ 
 }

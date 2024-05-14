@@ -388,5 +388,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
     //? PDF
     Route::get('captura/exportPdfCaptura/{idLote}', [LaboratorioController::class, 'exportPdfCaptura']);
     /*Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');*/
+
+  
+
 });
 

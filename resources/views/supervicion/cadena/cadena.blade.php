@@ -23,10 +23,8 @@
                         <th>Cliente</th>
                         <th>Norma</th> 
                         <th>Estado</th>
-                        <th>Con recepción</th>
                         <th>Fecha creación</th>
                         <th>Creado Por</th>
-                        <th>Actualizado por</th>
                         <th>Fecha Actualizacion</th>
                     </tr>
                 </thead>
@@ -36,14 +34,12 @@
                             <td>{{$item->Id_solicitud}}</td>
                             <td>{{$item->Folio_servicio}}</td>
                             <td>{{$item->Fecha_muestreo}}</td>
-                            <td></td>
+                            <td>{{$item->Fecha_recepcion}}</td>
                             <td>{{$item->Empresa_suc}}</td>
                             <td>{{$item->Nor_sub}}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$item->Estado}}</td>
                             <td>{{$item->created_at}}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$item->Id_user_c}}</td>
                             <td>{{$item->updated_at}}</td>
                         </tr>
                     @endforeach
@@ -54,6 +50,9 @@
 </div> 
 
 @endsection
+
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/cadena.js') }}?v=0.0.2"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script src="{{ asset('public/js/supervicion/cadena/cadena.js') }}?v=0.0.3"></script>
 @stop

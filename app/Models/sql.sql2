@@ -46,7 +46,7 @@ ON inter.Id_cliente = cli2.Id_cliente;
 
 /* Vista Lista parametros */
 CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
-param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Limite,param.Id_tecnica,tec.Tecnica,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,param.Curva,
+param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Limite,param.Dias_analisis,param.Id_tecnica,tec.Tecnica,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,param.Curva,param.Usuario_default,
 sim.Simbologia,inf.Simbologia as Simbologia_inf, inf.Id_simbologia_info,inf.Descripcion as Descripcion2,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
 INNER JOIN sucursales as lab
@@ -71,6 +71,7 @@ INNER JOIN simbologia_informe as inf
 ON param.Id_simbologia_info = inf.Id_simbologia_info
 INNER JOIN tecnicas as tec
 ON param.Id_tecnica = tec.Id_tecnica;
+
 /* Vista Lista norma-parametros */
 CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz,p.Id_simbologia,sim.Simbologia,sim.Descripcion,n.Reporte 
 FROM norma_parametros as n
@@ -213,6 +214,50 @@ ON nor.Id_norma = sol.Id_norma
 INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma;
 
+
+CREATE [OR REPLACE] VIEW ViewSolicitud3 as SELECT 
+sol.*, pro.Hora_recepcion as Fecha_recepcion, inter.Nombres,inter.A_paterno,gen.Empresa,suc.Empresa as Empresa_suc,suc.Estado,ser.Servicio,ser.Descripcion,
+des.Descarga,nor.Norma,nor.Clave_norma,sub.Norma as Nor_sub,sub.Clave
+FROM solicitudes  as sol
+INNER JOIN ViewIntermediarios as inter
+ON inter.Id_intermediario = sol.Id_intermediario
+INNER JOIN ViewGenerales as gen
+ON gen.Id_cliente = sol.Id_cliente
+INNER JOIN sucursales_cliente as suc
+ON suc.Id_sucursal = sol.Id_sucursal
+INNER JOIN tipo_servicios as ser
+ON sol.Id_servicio = ser.Id_tipo
+INNER JOIN tipo_descargas as des
+ON des.Id_tipo = sol.Id_descarga
+INNER JOIN normas as nor
+ON nor.Id_norma = sol.Id_norma
+INNER JOIN sub_normas as sub
+ON sub.Id_subnorma = sol.Id_subnorma
+INNER JOIN proceso_analisis as pro
+ON pro.Id_solicitud  = sol.Id_solicitud;
+
+CREATE OR REPLACE VIEW ViewSolicitud4 as SELECT 
+sol.Id_solicitud, sol.Folio_servicio, sol.Fecha_muestreo, pro.Hora_recepcion as Fecha_recepcion, suc.Empresa as Empresa_suc, sol.Id_intermediario, sub.Norma as Nor_sub, 
+suc.Estado, sol.Padre, sol.created_at, sol.updated_at, creador.name as Id_user_c
+FROM solicitudes  as sol
+INNER JOIN ViewIntermediarios as inter
+ON inter.Id_intermediario = sol.Id_intermediario
+INNER JOIN ViewGenerales as gen
+ON gen.Id_cliente = sol.Id_cliente
+INNER JOIN sucursales_cliente as suc
+ON suc.Id_sucursal = sol.Id_sucursal
+INNER JOIN tipo_servicios as ser
+ON sol.Id_servicio = ser.Id_tipo
+INNER JOIN tipo_descargas as des
+ON des.Id_tipo = sol.Id_descarga
+INNER JOIN normas as nor
+ON nor.Id_norma = sol.Id_norma
+INNER JOIN sub_normas as sub
+ON sub.Id_subnorma = sol.Id_subnorma
+INNER JOIN proceso_analisis as pro
+ON pro.Id_solicitud  = sol.Id_solicitud
+INNER JOIN users as creador
+ON creador.id = pro.Id_user_c;
 
 
 /* Lista Solicitud parametros */
@@ -537,15 +582,15 @@ ON pu.Id_muestreo = gen.Id_punto;
 
 /*Lista ViewCodigoParametro */
 
--- CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area,pa.Limite FROM codigo_parametro as cod
--- INNER JOIN solicitudes as sol
--- ON cod.Id_solicitud = sol.Id_solicitud
--- INNER JOIN sub_normas as sub
--- ON sol.Id_subnorma = sub.Id_subnorma
--- INNER JOIN ViewParametros as pa
--- ON cod.Id_parametro = pa.Id_parametro
--- INNER JOIN users as us
--- ON cod.Analizo = us.id
+CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area,pa.Limite FROM codigo_parametro as cod
+INNER JOIN solicitudes as sol
+ON cod.Id_solicitud = sol.Id_solicitud
+INNER JOIN sub_normas as sub
+ON sol.Id_subnorma = sub.Id_subnorma
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro
+INNER JOIN users as us
+ON cod.Analizo = us.id
 
 CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sol.Siralab,sub.Id_subnorma,sub.Id_norma,sub.Norma,
 sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, 
@@ -754,9 +799,10 @@ INNER JOIN incidencias_prioridad as pri ON inci.Id_prioridad = pri.Id_prioridad;
 
 /* ViewProcesoAnalisis */
 
-CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Clave_norma,sol.Servicio,sol.Id_norma,sol.Padre,sol.Hijo FROM proceso_analisis as pr
+CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Clave_norma,sol.Servicio,sol.Id_norma,sol.Padre,sol.Hijo,sol.Siralab FROM proceso_analisis as pr
 INNER JOIN ViewSolicitud2 as sol
 ON pr.Id_solicitud = sol.Id_solicitud;
+
 
 
 /* ViewSucursalesCliente */

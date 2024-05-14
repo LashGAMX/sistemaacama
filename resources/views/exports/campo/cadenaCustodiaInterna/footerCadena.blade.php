@@ -194,9 +194,12 @@
                         <td class="fontCalibri anchoColumna111 justifyCenter"><span
                             class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span
                             class="fontSize8">{{$reportesCadena->Titulo_responsable}} {{$reportesCadena->Nombre_responsable}}</span> &nbsp;&nbsp; </td>
-                    <td class="justifyCenter anchoColumna111"><img
+                    <td class="justifyCenter anchoColumna111">
+                        <img
                             style="width: auto; height: auto; max-width: 60px; max-height: 40px;"
-                            src="{{url('public/storage/'.@$firmaRes->firma)}}"></td>
+                            src="{{url('public/storage/'.@$firmaRes->firma)}}">
+                        
+                        </td>
                     @php
                     /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
                     "C39");*/

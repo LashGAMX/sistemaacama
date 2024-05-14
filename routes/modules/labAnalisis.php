@@ -53,6 +53,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('updateCrisolDupl♂icado/{id}', [LabAnalisisController::class, 'updateCrisolDuplicado']);
         Route::get('updateCrisolDuplicado2', [LabAnalisisController::class, 'updateCrisolDuplicado2']);
         Route::get('regresarMuestrasDbo/{id}', [LabAnalisisController::class, 'regresarMuestrasDbo']);
+        Route::post('getDetalleElegido', [LabAnalisisController::class, 'getDetalleElegido']);
         
     });
    

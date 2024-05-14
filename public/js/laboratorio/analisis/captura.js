@@ -3935,10 +3935,15 @@ function getCapturaLote() {
             $('#tabCaptura tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
+                    $("#clorurosParametro").html('');
+                    $("#conductividadParametro").html('');
+                    $("#phParametro").html('');
                 }
                 else {
                     t2.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
+                    let folioElegido = $(this).find('td:first')[0].parentElement.children[1].firstElementChild.getAttribute("value");
+                    getDetalleElegido(folioElegido);
                 }
             });
             $('#tabCaptura tr').on('click', function () {
@@ -4011,44 +4016,52 @@ function getMuestraSinAsignar() {
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
-        async: false,
         success: function (response) {
-            console.log(response)
-            $("#tipoFormulaAsignar").val(response.lote.Tipo_formula)
-            $("#parametroAsignar").val(response.lote.Parametro)
-            $("#fechaAnalisisAsignar").val(response.lote.Fecha)
-            $("#asignadoLote").val(response.lote.Asignado)
-            $("#liberadoLote").val(response.lote.Liberado)
-            $("#porAsingarLote").val(response.model.length)
-
-            tab += '<table id="tabAsignar" class="table table-sm">'
-            tab += '    <thead>'
-            tab += '        <tr>'
-            tab += '          <th>Opc</th>'
-            tab += '          <th># Muestra</th> '
-            tab += '          <th>Norma</th> '
-            tab += '          <th>Punto muestreo</th> '
-            tab += '          <th>Fecha recepción</th> '
-            tab += '          <th>Info</th> '
-            tab += '        </tr>'
-            tab += '    </thead>'
-            tab += '    <tbody>'
-            for (let i = 0; i < response.model.length; i++) {
-                tab += '<tr>'
-                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>'
-                tab += '<td>' + response.folio[i] + '</td>'
-                tab += '<td>' + response.norma[i] + '</td>'
-                tab += '<td>' + response.punto[i] + '</td>'
-                tab += '<td>' + response.fecha[i] + '</td>'
-                tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>'
-                tab += '</tr>'
+            console.log(response);
+            if (response.model.length === 0) {
+                tabla.innerHTML = '<p>No se encontraron datos.</p>';
+                return;
             }
 
-            tab += '    </tbody>'
-            tab += '</table>'
+            $("#tipoFormulaAsignar").val(response.lote.Tipo_formula);
+            $("#parametroAsignar").val(response.lote.Parametro);
+            $("#fechaAnalisisAsignar").val(response.lote.Fecha);
+            $("#asignadoLote").val(response.lote.Asignado);
+            $("#liberadoLote").val(response.lote.Liberado);
+            $("#porAsingarLote").val(response.model.length);
+
+            tab += '<table id="tabAsignar" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th># Muestra</th> ';
+            tab += '          <th>Norma</th> ';
+            tab += '          <th>Punto muestreo</th> ';
+            tab += '          <th>Fecha recepción</th> ';
+           // tab += '          <th>Cod</th> ';
+            //tab += '          <th>Historial</th> ';
+            tab += '          <th>Info</th> ';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            for (let i = 0; i < response.model.length; i++) {
+                tab += '<tr>';
+                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>';
+                let estiloHistorial = response.model[i].Historial == 1 ? 'background-color: #e5e5ff;' : '';
+                tab += '<td style="' + estiloHistorial + '">' + response.folio[i] + '</td>';
+                tab += '<td style="' + estiloHistorial + '">' + response.norma[i] + '</td>';
+                tab += '<td style="' + estiloHistorial + '">' + response.punto[i] + '</td>';
+                tab += '<td style="' + estiloHistorial + '">' + response.fecha[i] + '</td>';
+                //tab += '<td style="' + estiloHistorial + '">' + response.idCodigo[i] + '</td>';
+              //  tab += '<td style="' + estiloHistorial + '">' + response.model[i].Historial +  '</td>';
+                tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>';
+                tab += '</tr>';
+            }
+            tab += '    </tbody>';
+            tab += '</table>';
             tabla.innerHTML = tab;
 
-            //Inicializacion de tabla
+            // Inicializacion de tabla
             tableLote = $('#tabAsignar').DataTable({
                 "ordering": false,
                 paging: false,
@@ -4060,11 +4073,17 @@ function getMuestraSinAsignar() {
                 },
                 dom: '<"toolbar">frtip',
             });
-            
-           $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-success"><i class="fas fa-paper-plane"></i></button> <button onclick="selecionarCkeck()" class="btn-info"><i class="fas fa-check-double"></i></button>');
+
+            $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-success"><i class="fas fa-paper-plane"></i></button> <button onclick="selecionarCkeck()" class="btn-info"><i class="fas fa-check-double"></i></button>');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            tabla.innerHTML = '<p>Ocurrió un error al cargar los datos.</p>';
         }
     });
 }
+
+
 function contarCheckbox(){
     let cantidadSeleccionados = $("input[name=stdCkAsignar]:checked").length;
     $('#muestrasSeleccionadas').val(cantidadSeleccionados)
@@ -4210,7 +4229,9 @@ function getLote() {
                         $(this).addClass('selected');
                         idLote = $(this).children(':first').html();
                         getCapturaLote()
-
+                        $("#clorurosParametro").html('');
+                        $("#conductividadParametro").html('');
+                        $("#phParametro").html('');
                     }
                 });
                 $('#tabLote tbody').on('dblclick', 'tr', function () {
@@ -4343,4 +4364,39 @@ function getUltimoLote()
             tabla.innerHTML = tab
         }
     });
+}
+
+function getDetalleElegido(folio){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/analisis/getDetalleElegido",
+        data: {
+            folio: folio,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            const elegidoCloruro = response.cloruros;
+            const elegidoConductividad = response.conductividad;
+            const elegidoPh = response.ph;
+            if(elegidoCloruro[0] != null && elegidoCloruro[0].Resultado2 != null){
+                $("#clorurosParametro").html(elegidoCloruro[0]);
+            }
+            else{
+                $("#clorurosParametro").html('N.A');
+            }
+            if(elegidoConductividad[0] != null && elegidoConductividad[0].Resultado2 != null){
+                $("#conductividadParametro").html(elegidoConductividad[0].Resultado2);
+            }
+            else{
+                $("#conductividadParametro").html('N.A');
+            }
+            if(elegidoPh[0] != 'undefined' && elegidoPh[0].Resultado2 != null){
+                $("#phParametro").html(elegidoPh[0].Resultado2);
+            }
+            else{
+                $("#phParametro").html('N.A');
+            }
+        }
+    })
 }

@@ -15,7 +15,7 @@
       <a class="nav-link active" id="Tipo-tab" data-toggle="tab" href="#Tipo" role="tab" aria-controls="Tipo" aria-selected="true">Tipo fórmula </a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="matriz-tab" data-toggle="tab" href="#matriz" role="tab" aria-controls="matriz" aria-selected="false">Matriz</a>
+      <a class="nav-link" id="matriz-tab" data-toggle="tab" href="#matriz" role="tab" aria-controls="matriz" aria-selected="false">Matraz</a>
     </li>
     <li class="nav-item" role="menu">
       <a class="nav-link" id="rama-tab" data-toggle="tab" href="#rama" role="tab" aria-controls="rama" aria-selected="false">Rama</a>
@@ -36,7 +36,7 @@
       <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false">Procedimiento</a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="matrizGA-tab" data-toggle="tab" href="#matrizGA" role="tab" aria-controls="matrizGA" aria-selected="false">Matriz GA</a>
+      <a class="nav-link" id="matrizGA-tab" data-toggle="tab" href="#matrizGA" role="tab" aria-controls="matrizGA" aria-selected="false">Matraz GA</a>
     </li>
     <li class="nav-item" role="menu">
       <a class="nav-link" id="crisolGA-tab" data-toggle="tab" href="#crisolGA" role="tab" aria-controls="crisolGA" aria-selected="false">Crisol GA</a>

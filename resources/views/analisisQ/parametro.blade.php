@@ -20,6 +20,7 @@
                 <th>C. Metodo</th>
                 <th>Norma</th>
                 <th>Limite</th>
+                <th>Dias Analisis</th>
                 <th>Opc</th>
               </tr>
             </table>
@@ -193,6 +194,24 @@
                   </select> 
                   </div>
             </div>
+            <div class="col-md-3" >
+                <div class="form-group">
+                    <label for="dias_analisis">Días de análisis</label>
+                    <input type="number" class="form-control" placeholder="Días de análisis" id="dias_analisis"  />
+                </div>
+            </div>
+            <div class="col-md-6" >
+                <div class="form-group">
+                <label for="">Usuario default</label>
+                    <select class="form-control" style="width: 250px" id="usuarioDef">
+                      <option value="0">Sin seleccionar</option>
+                    @foreach ($usuarios as $item)
+                        <option value="{{$item->id}}">({{$item->id}}) {{$item->name}}</option>
+                    @endforeach
+                  </select> 
+                </div>
+            </div>
+
           </div>
       </div>
       <div class="modal-footer">
@@ -207,7 +226,7 @@
 
   @stop
   @section('javascript')
-  <script src="{{asset('/public/js/analisisQ/parametro.js')}}?v=0.2.1"></script>
-@stop  
+   <script src="{{asset('/public/js/analisisQ/parametro.js')}}?v=0.2.2"></script>
+  @stop  
 @endsection
  

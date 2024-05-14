@@ -73,6 +73,12 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
+                        
+                        <label for="">Existencia </label>
+                        <input type="checkbox" wire:model='delete'  {{ $delete ? 'checked' : '' }} > 
+                       
+                    </div> 
+                    <div class="col-md-12">
                         <label for="">N° Serie</label>
                         <input type="text" wire:model='serie' class="form-control" placeholder="Num Serie" required>
                     </div>
@@ -81,12 +87,7 @@
                         <input type="text" wire:model='peso' class="form-control" placeholder="Peso" required>
                     </div>
                 
-                    {{-- <div class="col-md-12">
-                        <input type="text" wire:model="nota" hidden>
-                        <label for="">Nota</label>
-                        <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required> 
-                        @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
-                      </div> --}}
+                    
                 </div>
             </div>
             <div class="modal-footer">
@@ -102,6 +103,18 @@
     @if ($alert == true)
         <script>
             swal("Registro!","Registros guardado correctamente","success");
+            $('#modalCrisol').modal('hide');
+        </script>
+    @endif
+    @if ($alert2 == true)
+        <script>
+            swal("Registro!","Este Crisol Ha dejado de existir ","success");
+            $('#modalCrisol').modal('hide');
+        </script>
+    @endif
+    @if ($alert3 == true)
+        <script>
+            swal("Registro!","Este Crisol Esta de Nuevo Disponoble","success");
             $('#modalCrisol').modal('hide');
         </script>
     @endif

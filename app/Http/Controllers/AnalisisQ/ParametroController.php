@@ -19,15 +19,17 @@ use App\Models\Sucursal;
 use App\Models\Tecnica;
 use App\Models\TipoFormula;
 use App\Models\Unidad;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 
 class ParametroController extends Controller
 {
-    //
+    // Método para cargar la vista de parámetros con los datos necesarios
     public function index()
     {
+        // Se obtienen los datos necesarios para cargar la vista
         $laboratorios = Sucursal::all();
         $unidades = Unidad::all();
         $tipos = TipoFormula::all();
@@ -41,9 +43,12 @@ class ParametroController extends Controller
         $simbologias = SimbologiaParametros::all();
         $simbologiasInf = SimbologiaInforme::all();
         $parametroPadre = Parametro::where('Curva', 1)->get();
+        $usuarios = User::all();
 
 
+        // Se agregan los datos al array de datos
         $data = array(
+            'usuarios' => $usuarios,
             'laboratorios' => $laboratorios,
             'unidades' => $unidades,
             'tipos' => $tipos,
@@ -57,15 +62,21 @@ class ParametroController extends Controller
             'simbologias' => $simbologias,
             'simbologiasInf' => $simbologiasInf,
             'parametroPadre' => $parametroPadre,
+
         );
+
+        // Se retorna la vista con los datos
         return view('analisisQ.parametro', $data);
     }
+
+    // Método para obtener los parámetros y sus normas
     public function getParametros(Request $res)
     {
+        // Se obtienen los parámetros
         $model = DB::table('ViewParametros')->get();
         $norma = array();
 
-
+        // Se recorren los parámetros para obtener sus normas
         foreach ($model as $item) {
             $temp = "";
             $mod = DB::table('ViewParametroNorma')->where('Id_parametro', $item->Id_parametro)->get();
@@ -74,18 +85,27 @@ class ParametroController extends Controller
             }
             array_push($norma, $temp);
         }
+
+        // Se agregan los datos al array de respuesta
         $data = array(
             'model' => $model,
             'norma' => $norma,
         );
+
+        // Se retorna la respuesta en formato JSON
         return response()->json($data);
     }
+
+    // Método para crear un nuevo parámetro
     public function setParametros(Request $res)
     {
+        // Se verifica si el parámetro es una curva
         $curva = 0;
-        if($res->curva == "true"){
+        if ($res->curva == "true") {
             $curva = 1;
         }
+
+        // Se crea el nuevo parámetro con los datos recibidos
         $model = Parametro::create([
             'Id_laboratorio' => $res->sucursal,
             'Id_tipo_formula' => $res->tipo,
@@ -103,38 +123,60 @@ class ParametroController extends Controller
             'Id_user_m' => Auth::user()->id,
             'Curva' => $curva,
             'Padre' => $res->padre,
+            'Dias_analisis' => $res->dias_analisis, 
+            'Usuario_default' => $res->usuarioDef,
         ]);
-        
-        $model = DB::table('parametros_normas')->where('Id_parametro',$res->id)->delete();
 
-        for ($i=0; $i < sizeof($res->norma); $i++) { 
+        // Se eliminan las normas asociadas al parámetro
+        $model = DB::table('parametros_normas')->where('Id_parametro', $res->id)->delete();
+
+        // Se agregan las nuevas normas asociadas al parámetro
+        for ($i = 0; $i < sizeof($res->norma); $i++) {
             $model = ParametroNorma::create([
                 'Id_norma' => $res->norma[$i],
                 'Id_parametro' => $res->id,
             ]);
         }
+
+        // Se agregan los datos al array de respuesta
         $data = array(
             'model' => $model,
         );
+
+        // Se retorna la respuesta en formato JSON
         return response()->json($data);
     }
+
+    // Método para obtener los datos de un parámetro específico
     public function getDatoParametro(Request $res)
     {
-        $model = DB::table('ViewParametros')->where('Id_parametro',$res->id)->first();
+        // Se obtienen los datos del parámetro y sus normas
+        $model = DB::table('ViewParametros')->where('Id_parametro', $res->id)->first();
         $norma = DB::table('ViewParametroNorma')->where('Id_parametro', $res->id)->get();
-        $data = array( 
+
+        // Se agregan los datos al array de respuesta
+        $data = array(
             'model' => $model,
             'norma' => $norma,
         );
+
+        // Se retorna la respuesta en formato JSON
         return response()->json($data);
     }
+
+    // Método para actualizar un parámetro existente
     public function updateParametro(Request $res)
     {
+        // Se verifica si el parámetro es una curva
         $curva = 0;
-        if($res->curva == "true"){
+        if ($res->curva == "true") {
             $curva = 1;
         }
+
+        // Se restaura el parámetro si estaba eliminado
         Parametro::withTrashed()->find($res->id)->restore();
+
+        // Se actualiza el parámetro con los datos recibidos
         $model = Parametro::find($res->id);
         $model->Id_laboratorio = $res->sucursal;
         $model->Id_tipo_formula = $res->tipo;
@@ -152,19 +194,29 @@ class ParametroController extends Controller
         $model->Id_user_m = Auth::user()->id;
         $model->Curva = $curva;
         $model->Padre = $res->padre;
+        $model->Dias_analisis = $res->dias_analisis;
+        $model->Usuario_default = $res->usuarioDef;
+
+        // Se guarda el modelo actualizado
         $model->save();
 
-        $model = DB::table('parametros_normas')->where('Id_parametro',$res->id)->delete();
+        // Se eliminan las normas asociadas al parámetro
+        $model = DB::table('parametros_normas')->where('Id_parametro', $res->id)->delete();
 
-        for ($i=0; $i < sizeof($res->norma); $i++) { 
+        // Se agregan las nuevas normas asociadas al parámetro
+        for ($i = 0; $i < sizeof($res->norma); $i++) {
             $model = ParametroNorma::create([
                 'Id_norma' => $res->norma[$i],
                 'Id_parametro' => $res->id,
             ]);
         }
+
+        // Se agregan los datos al array de respuesta
         $data = array(
             'model' => $model,
         );
+
+        // Se retorna la respuesta en formato JSON
         return response()->json($data);
     }
 }

@@ -117,11 +117,13 @@
                             @switch($solicitud->Id_solicitud)
                                 @case(13271)
                                     10/04/2024
-                                    @break
-                                    @case(14361)
+                                @break
+                                @case(14361)
                                     25/04/2024
-                                    @break
-
+                                @break
+                                @case(14449)
+                                    29/04/2024
+                                @break
                                 @default
                                     @switch($solModel->Id_norma)
                                         @case(1)
@@ -167,10 +169,13 @@
                         @switch($solicitud->Id_solicitud)
                                 @case(13271)
                                     10/04/2024
-                                    @break
-                                    @case(14361)
+                                @break
+                                @case(14361)
                                     25/04/2024
-                                    @break
+                                @break
+                                @case(14449)
+                                    29/04/2024
+                                @break
                                 @default
                                     @switch($solModel->Id_norma)
                                         @case(1)
@@ -498,9 +503,11 @@
                                     @php
                                         echo $impresion[0]->Nota;
                                     @endphp
-                                    @php
-                                        echo @$impresion[0]->Nota_siralab;
-                                    @endphp
+                                    @if (@$solModel->Id_norma == 27)
+                                        @php
+                                            echo @$impresion[0]->Nota_siralab;
+                                        @endphp
+                                    @endif
                                     @if ($solModel->Nota_4 == 1)
                                         4 PARAMETRO NO ACREDITADO
                                     @endif

@@ -35,5 +35,7 @@ class Parametro extends Model
         'Padre',
         'Id_user_c',
         'Id_user_m',
+        'Dias_analisis',
+        'Usuario_default'
     ];
 }

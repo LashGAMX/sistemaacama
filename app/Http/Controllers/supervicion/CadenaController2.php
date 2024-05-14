@@ -31,15 +31,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class CadenaController extends Controller
+class CadenaController2 extends Controller
 {
     //cadena  
-    public function cadenaCustodia()
+    public function cadenaCustodia2()
     {
         $model = DB::table('ViewSolicitud4')->orderby('Id_solicitud', 'desc')->where('Padre', 1)->get();
         return view('supervicion.cadena.cadena', compact('model'));
     }
-    public function detalleCadena($id)
+    public function detalleCadena2($id)
     {
         $swSir = false;
         $model = DB::table('ViewSolicitud3')->where('Id_solicitud', $id)->first();
@@ -53,16 +53,14 @@ class CadenaController extends Controller
         $puntos = SolicitudPuntos::where('Id_solPadre', $id)->get();
         return view('supervicion.cadena.detalleCadena', compact('model', 'puntos','swSir', 'intermediario','proceso'));
     }
-    public function getParametroCadena(Request $res)
+    public function getParametroCadena2(Request $res)
     {
         $model = DB::table('ViewCodigoRecepcion')->where('Id_solicitud', $res->idPunto)->where('Num_muestra', 1)->get();
         $data = array(
             'model' => $model,
         );
-        return response()->json($data);
+        return response()->json($data);    
     }
-  
-
     public function liberarMuestra(Request $res)
     {
         $sw = true;
@@ -76,9 +74,7 @@ class CadenaController extends Controller
                     $aux[$i]->save();
                 }
                 break;
-            
-            default:
-        
+                default:
                 break;
         }
 
@@ -762,23 +758,6 @@ class CadenaController extends Controller
     {
         $solTemp = Solicitud::where('Id_solicitud',$res->idSol)->first();
         $sw = true;
-        $model = CodigoParametros ::where('Codigo','LIKE','%'.$solTemp->Folio_servicio.'%')->get();
-        foreach ($model as $item) {
-            if ($res->historial == true) {
-                $item->Historial = 1; 
-                $sw = true;
-            } else {
-                $item->Historial = 0;
-                $sw = false;
-            }
-            $item->save();   
-        }
-
-        $data = array(
-            'sw' => $sw,
-        );
-    
-
         $model = ProcesoAnalisis::where('Folio','LIKE','%'.$solTemp->Folio_servicio.'%')->get();
         foreach ($model as $item) {
             if ($res->historial == true) {
@@ -796,8 +775,6 @@ class CadenaController extends Controller
         );
         return response()->json($data);
     }
-  
-   
     // public function setRegresarMuestra(Request $res)
     // {
     //     $aux = 0;
@@ -1114,20 +1091,4 @@ class CadenaController extends Controller
     //     );
     //     return response()->json($data);
     // }
-    public function actualizarHistorial(Request $request)
-    {
-        $idSol = $request->input('idSol');
-        $historialValor = $request->input('historialValor');
-
-        // Encuentra todos los registros que corresponden a la solicitud
-        $parametros = CodigoParametros::where('Id_solicitud', $idSol)->get();
-        
-        // Actualiza el campo Historial según el valor recibido
-        foreach ($parametros as $parametro) {
-            $parametro->Historial = $historialValor;
-            $parametro->save();
-        }
-
-        return response()->json(['success' => true]);
-    }
 }

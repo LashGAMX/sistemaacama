@@ -2128,7 +2128,7 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleAlcalinidad::find($res->idMuestra);
                             $model->Titulados = $res->A; 
                             $model->Normalidad = $res->B; 
-                            $model->Resultado = number_format($resultado,2);
+                            $model->Resultado = number_format($resultado,2,'.','');
                             $model->analizo = Auth::user()->id;
                             $model->save();
                             break;
@@ -2149,8 +2149,8 @@ class LabAnalisisController extends Controller
                             $model->Vol_muestraVal1 = $res->vol1;
                             $model->Factor_realVal1 = $res->real1;
                             $model->Factor_conversionVal1 = $res->conversion1;
-                            $model->ResultadoVal1 = number_format($resultado,2);
-                            $model->Resultado = number_format($resultado,2);
+                            $model->ResultadoVal1 = number_format($resultado,2,'.','');
+                            $model->Resultado = number_format($resultado,2,'.','');
                             $model->save();
                             break;
                         case 103:
@@ -2191,7 +2191,7 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleDureza::find($res->idMuestra);
                             $model->Lectura1 = $res->durezaT;
                             $model->Lectura2 = $res->durezaC; 
-                            $model->Resultado = number_format($resultado,2);
+                            $model->Resultado = number_format($resultado,2,'.','');
                             $model->save();
                             break;
                         default:
@@ -2407,9 +2407,11 @@ class LabAnalisisController extends Controller
                     $model = array();
                     break;
             }
-            $codigoParametro = CodigoParametros::find($model->Id_codigo);
-            $codigoParametro->Resultado = @$resultado;
-            $codigoParametro->save();
+            if ($model->Id_control == 1) {
+                $codigoParametro = CodigoParametros::find($model->Id_codigo);
+                $codigoParametro->Resultado = @$resultado;
+                $codigoParametro->save();   
+            }
         }
         $data = array(
             'tipo' => $tipo,
@@ -2814,6 +2816,11 @@ class LabAnalisisController extends Controller
     {
         $sw = false;
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
+        $aux = Parametro::where('Id_parametro',$lote[0]->Id_tecnica)->first();
+        $idLibero = Auth::user()->id;
+        if ($aux->Usuario_default != 0) {
+            $idLibero = $aux->Usuario_default;
+        }
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
@@ -2835,7 +2842,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -2850,7 +2857,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
 
                             $modelMatraz = MatrazGA::find($model->Id_matraz);
@@ -2861,7 +2868,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                     }
@@ -2874,14 +2881,14 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();   
                         }
                         if ($item->Id_control == 1) {
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                     }
@@ -2903,7 +2910,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -2927,7 +2934,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -2953,7 +2960,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -2976,7 +2983,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -2996,7 +3003,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3021,7 +3028,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                     }
@@ -3045,7 +3052,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleColiformes::find($item->Id_detalle);
                                 $model->Liberado = 1;
-                                $model->Analizo = Auth::user()->id;
+                                $model->Analizo = $idLibero;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -3054,7 +3061,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3066,7 +3073,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleEnterococos::find($item->Id_detalle);
                                 $model->Liberado = 1;
-                                $model->Analizo = Auth::user()->id;
+                                $model->Analizo = $idLibero;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -3075,7 +3082,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3088,7 +3095,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleDbo::find($item->Id_detalle);
                                 $model->Liberado = 1;
-                                $model->Analizo = Auth::user()->id;
+                                $model->Analizo = $idLibero;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -3097,7 +3104,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3109,7 +3116,7 @@ class LabAnalisisController extends Controller
                             foreach ($muestras as $item) {
                                 $model = LoteDetalleHH::find($item->Id_detalle);
                                 $model->Liberado = 1;
-                                $model->Analizo = Auth::user()->id;
+                                $model->Analizo = $idLibero;
                                 if (strval($model->Resultado) != null) {
                                     $sw = true;
                                     $model->save();
@@ -3118,7 +3125,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3138,7 +3145,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3158,7 +3165,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3186,7 +3193,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3208,7 +3215,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Analizo = Auth::user()->id;
+                                    $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
                             }
@@ -3255,6 +3262,11 @@ class LabAnalisisController extends Controller
     public function setLiberar(Request $res)
     {
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
+        $aux = Parametro::where('Id_parametro',$lote[0]->Id_tecnica)->first();
+        $idLibero = Auth::user()->id;
+        if ($aux->Usuario_default != 0) {
+            $idLibero = $aux->Usuario_default;
+        }
         switch ($lote[0]->Id_area) {
             case 16: // Espectrofotometria
             case 5: // Fisicoquimicos
@@ -3267,7 +3279,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
                         }
 
@@ -3275,7 +3287,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3288,7 +3300,7 @@ class LabAnalisisController extends Controller
                 $model->Liberado = 1;
                 if (strval($model->Resultado) != null) {
                     $sw = true;
-                    $model->Analizo = Auth::user()->id;
+                    $model->Analizo = $idLibero;
                     $model->save();
                 }
                 $modelMatraz = MatrazGA::find($model->Id_matraz);
@@ -3299,7 +3311,7 @@ class LabAnalisisController extends Controller
                     $modelCod = CodigoParametros::find($model->Id_codigo);
                     $modelCod->Resultado = $model->Resultado;
                     $modelCod->Resultado2 = $model->Resultado;
-                    $modelCod->Analizo = Auth::user()->id;
+                    $modelCod->Analizo = $idLibero;
                     $modelCod->save();
                 }
                 $model = LoteDetalleGA::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -3309,7 +3321,7 @@ class LabAnalisisController extends Controller
                 $model->Liberado = 1;
                 if (strval($model->Resultado) != null) {
                     $sw = true;
-                    $model->Analizo = Auth::user()->id;
+                    $model->Analizo = $idLibero;
                     $model->save();
                 }
 
@@ -3317,7 +3329,7 @@ class LabAnalisisController extends Controller
                     $modelCod = CodigoParametros::find($model->Id_codigo);
                     $modelCod->Resultado = $model->Resultado;
                     $modelCod->Resultado2 = $model->Resultado;
-                    $modelCod->Analizo = Auth::user()->id;
+                    $modelCod->Analizo = $idLibero;
                     $modelCod->save();
                 }
 
@@ -3331,7 +3343,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
                         }
 
@@ -3339,7 +3351,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                         $model = LoteDetalleDqo::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -3351,7 +3363,7 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
                         }
 
@@ -3359,7 +3371,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3375,14 +3387,14 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
                         }
                         if ($model->Id_control == 1) {
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3396,14 +3408,14 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
                         }
                         if ($model->Id_control == 1) {
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3414,14 +3426,14 @@ class LabAnalisisController extends Controller
                         $model->Liberado = 1;
                         if (strval($model->Resultado) != null) {
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
                         }
                         if ($model->Id_control == 1) {
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                         $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -3441,14 +3453,14 @@ class LabAnalisisController extends Controller
                             // }
 
                             $sw = true;
-                            $model->Analizo = Auth::user()->id;
+                            $model->Analizo = $idLibero;
                             $model->save();
             
                             if ($model->Id_control == 1) {
                                 $modelCod = CodigoParametros::find($model->Id_codigo);
                                 $modelCod->Resultado = $model->Resultado; 
                                 $modelCod->Resultado2 = $model->Resultado;
-                                $modelCod->Analizo = Auth::user()->id;
+                                $modelCod->Analizo = $idLibero;
                                 $modelCod->save();
                             }
             
@@ -3483,7 +3495,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3501,7 +3513,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                         $model = LoteDetalleEnterococos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -3519,7 +3531,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3537,7 +3549,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3555,7 +3567,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado;
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
                         $model = LoteDetalleEcoli::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -3565,7 +3577,7 @@ class LabAnalisisController extends Controller
                             $model->Liberado = 1;
                             if (strval($model->Resultado) != null) {
                                 $sw = true;
-                                $model->Analizo = Auth::user()->id;
+                                $model->Analizo = $idLibero;
                                 $model->save();
                             }
             
@@ -3573,7 +3585,7 @@ class LabAnalisisController extends Controller
                                 $modelCod = CodigoParametros::find($model->Id_codigo);
                                 $modelCod->Resultado = $model->Resultado;
                                 $modelCod->Resultado2 = $model->Resultado;
-                                $modelCod->Analizo = Auth::user()->id;
+                                $modelCod->Analizo = $idLibero;
                                 $modelCod->save();
                             }
                             $model = LoteDetalleDboIno::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -3590,7 +3602,7 @@ class LabAnalisisController extends Controller
                             $modelCod = CodigoParametros::find($model->Id_codigo);
                             $modelCod->Resultado = $model->Resultado; 
                             $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->Analizo = $idLibero;
                             $modelCod->save();
                         }
 
@@ -3638,7 +3650,7 @@ class LabAnalisisController extends Controller
                     $modelCod = CodigoParametros::find($model->Id_codigo);
                     $modelCod->Resultado = $model->Resultado;
                     $modelCod->Resultado2 = $model->Resultado;
-                    $modelCod->Analizo = Auth::user()->id;
+                    $modelCod->Analizo = $idLibero;
                     $modelCod->save();
                 }
 
@@ -8072,5 +8084,48 @@ class LabAnalisisController extends Controller
     public function pruebaValores()
     {
      
+    }
+    public function getDetalleElegido(Request $res){
+        $data = array();
+        $modelCloruros = CodigoParametros::where('Codigo', $res->folio)
+        ->where(function ($query){
+            $query->where('Id_parametro', '=', 64);
+            $query->orWhere('Id_parametro', '=', 368);
+        })
+        ->select('Resultado2')
+        ->get();
+        if(!empty($modelCloruros)){
+            $data["cloruros"] = $modelCloruros;
+        }
+        else{
+            $data["cloruros"] = "NULL";
+        }
+
+        $modelConductividad = CodigoParametros::where('Codigo', $res->folio)
+        ->where('Id_parametro', '=', 67)
+        ->select('Resultado2')
+        ->get();
+        if(!empty($modelConductividad)){
+            $data["conductividad"] = $modelConductividad;
+        }
+        else{
+            $data["conductividad"] = "NULL";
+        }
+
+        $modelPh = CodigoParametros::where('Codigo', $res->folio)
+        ->where(function ($query){
+            $query->where('Id_parametro', '=', 110);
+            $query->orWhere('Id_parametro', '=', 14);
+        })
+        ->select('Resultado2')
+        ->get();
+        if(!empty($modelPh)){
+            $data["ph"] = $modelPh;
+        }
+        else{
+            $data["ph"] = "NULL";
+        }
+
+        return response()->json($data);
     }
 }

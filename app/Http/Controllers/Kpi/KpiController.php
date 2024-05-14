@@ -27,8 +27,9 @@ class KpiController extends Controller
         return view('kpi.kpi',$data);
     }
     public function laboratorio(){
-        $model = DB::table('ViewProcesoAnalisis')->where('Liberado',0)->where('Cancelado',0)->where('Padre',1)->orderBy("Hora_recepcion","asc")->get();
-        $subModel = DB::table('ViewProcesoAnalisis')->where('Liberado',0)->where('Cancelado',0)->where('Padre',0)->get();
+        $model = DB::table('ViewProcesoAnalisis')->where('Impresion_informe',0)->where('Cancelado',0)->where('Padre',1)->orderBy("Hora_entrada","asc")->get();
+        $subModel = DB::table('ViewProcesoAnalisis')->where('Impresion_informe',0)->where('Cancelado',0)->where('Padre',0)->get();
+        $siralab = DB::table('ViewProcesoAnalisis')->where('Impresion_informe',1)->whereDate('Hora_entrada', '<=', "2024-04-01")->whereDate('Hora_entrada', '>=', "2024-06-01")->where('Cancelado',0)->where('Siralab',1)->where('Padre',0)->get();
         $diasFolio = array(0,0,0,0,0,0,0);
         foreach ($model as $item) {
             $fechaHoraActual = Carbon::now(); // Obtiene la fecha y hora actual
@@ -38,15 +39,15 @@ class KpiController extends Controller
                 // 11dias
                 case 1:
                 case 2:
-                    $fecha2 = Carbon::parse($item->Hora_recepcion)->addDays(11);
+                    $fecha2 = Carbon::parse($item->Hora_entrada)->addDays(11);
                     break;
                  //14dias
                 case 5:
                 case 30:
-                    $fecha2 = Carbon::parse($item->Hora_recepcion)->addDays(14);
+                    $fecha2 = Carbon::parse($item->Hora_entrada)->addDays(14);
                 // 11 dias
                 default:
-                    $fecha2 = Carbon::parse($item->Hora_recepcion)->addDays(11);
+                    $fecha2 = Carbon::parse($item->Hora_entrada)->addDays(11);
                    
                     break;
             }
@@ -98,6 +99,7 @@ class KpiController extends Controller
     
         }
         $data = array(
+            'siralab'=> $siralab,
             'diasFolio' => $diasFolio,
             'subModel' => $subModel,
             'model' => $model,

@@ -5,7 +5,7 @@ var idPunto;
 var detPa;
 $(document).ready(function () {
 
-    let tablePunto = $('#tablePuntos').DataTable({
+    let tablePunto = $('#tablePuntos2').DataTable({
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -21,7 +21,7 @@ $(document).ready(function () {
         window.open("/sofia/admin/informes/cadena/pdf/"+idPunto)
     });
 
-    $('#tablePuntos tbody').on('click', 'tr', function () { 
+    $('#tablePuntos2 tbody').on('click', 'tr', function () { 
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         }
@@ -30,11 +30,11 @@ $(document).ready(function () {
             $(this).addClass('selected');
             let dato = $(this).find('td:first').html();
             idPunto = dato;
-            getParametros();
+            getParametros2();
         }
     });
 
-    $('#tableParametros').DataTable({
+    $('#tableParametros2').DataTable({
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -62,7 +62,6 @@ $(document).ready(function () {
         var historialValor = $(this).is(':checked') ? 1 : 0; //verifica si esta activado o desactivado 
     
         setHistorial(historialValor);
-        setHistorial_parametro(historialValor);
     });
     $('#btnLiberar').click(function () {
         liberarResultado();
@@ -100,14 +99,14 @@ function setLiberar(){
         }
     });
 }
-function setHistorial(historialValor) {
+//Historial de  Proceso Analisis 
+function setHistorial(historialValor){
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/supervicion/cadena/setHistorial",
         data: {
             idSol: $("#idSol").val(),
-            historial: historialValor,
-        
+            historial: historialValor, 
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -115,10 +114,6 @@ function setHistorial(historialValor) {
         success: function (response) {
             if (response.sw == true) {
                 swal("Registro!", "Proceso por historial", "success");
-
-                $('#tableParametros tbody tr').each(function () {
-                    $(this).find('td:eq(5)').text(historialValor);
-                });
             } else {
                 swal("Registro!", "Proceso por historial cancelado", "success");
             }
@@ -127,16 +122,11 @@ function setHistorial(historialValor) {
 }
 
 
-
-
-function getParametros() {
+function getParametros2() {
     console.log("Click en Punto de muestreo");
     let color = "";
-    let tabla = document.getElementById('divTableParametros');
+    let tabla = document.getElementById('divtableParametros2');
     let tab = '';
-    
-
-    
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/supervicion/cadena/getParametroCadena",
@@ -148,7 +138,7 @@ function getParametros() {
         dataType: "json",
         async: false,
         success: function (response) {
-            tab += '<table id="tableParametros" class="table table-sm">';
+            tab += '<table id="tableParametros2" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Id</th>';
@@ -156,9 +146,7 @@ function getParametros() {
             tab += '          <th>Tipo formula</th>';
             tab += '          <th>Ejecutado</th> ';
             tab += '          <th>Resultado</th> ';
-            //tab += '          <th>His</th> ';
-            // tab += '          <th>Liberado</th> '; 
-            // tab += '          <th>Nombre</th> '; 
+            tab += '          <th>Histrial</th> ';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -176,43 +164,43 @@ function getParametros() {
                     case 12: //Coliformes
                     case 137:
                     case 51:
-                    case 134: 
+                    case 134:
                     case 132:
                     case 67: //conductividad
                     case 2: //Materia Floatante
                     case 97: //Températura 
-                    case 100:
                     case 5:
                     case 70:
                     case 71:
                     case 35:
                     case 253:
-                        if(item.Liberado != 1)
-                        {
+                        if (item.Liberado != 1) {
                             color = "danger"
-                        }else{
+                        } else {
                             color = "success";
                         }
                         break;
-                
+
                     default:
                         break;
                 }
                 tab += '<tr>';
                 tab += '<td>' + item.Id_codigo + '</td>';
-                tab += '<td class="bg-' + color + '">('+item.Id_parametro+') ' + item.Parametro + '</td>';
+                tab += '<td class="bg-' + color + '">(' + item.Id_parametro + ') ' + item.Parametro + '</td>';
                 tab += '<td>' + item.Tipo_formula + '</td>';
                 tab += '<td>' + item.Resultado + '</td>';
                 tab += '<td>' + item.Resultado2 + '</td>';
-                //tab += '<td>' + item.Historial + '</td>';
-                // tab += '<td>'+item.Resultado+'</td>';
-                // tab += '<td>'+item.Resultado+'</td>';
+                tab += '<td><div class="form-check"><input class="form-check-input" id="ckHistorial_Parametro' + item.Id_codigo + '" type="checkbox" value="" id="defaultCheck1"';
+                if (item.Historial == 1) {
+                    tab += ' checked';
+                }
+                tab += '></div></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
-            let tableParametro = $('#tableParametros').DataTable({
+            let tableParametro = $('#tableParametros2').DataTable({
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
@@ -221,28 +209,33 @@ function getParametros() {
                     "infoEmpty": "No hay datos encontrados",
                 },
                 "scrollY": "300px",
-                "scrollCollapse":true,
-                "paging": false,
-               
+                "scrollCollapse": true,
+                "paging": false
             });
-            $('#tableParametros tbody').on('click', 'tr', function () {
+            $('#tableParametros2 tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
-                }
-                else 
-                {
+                } else {
                     tableParametro.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                     getDetalleAnalisis(idCodigo);
                 }
             });
-            $('#tableParametros tr').on('click', function () {
+
+            $('#tableParametros2 tr').on('click', function () {
                 let dato = $(this).find('td:first').html();
                 idCodigo = dato;
             });
+            $('#tableParametros2').on('change', 'input[type="checkbox"]', function() {
+                let idCodigo = $(this).closest('tr').find('td:first').text();
+                let isChecked = $(this).prop('checked');
+                setHistorial_pa(idCodigo, isChecked);
+            });
+
         }
     });
 }
+
 
 function regresarMuestra () {
     $.ajax({
@@ -307,7 +300,7 @@ var resLiberado = 0;
 var idCod = idCodigo;
 var name = ""
 function getDetalleAnalisis(idCodigo) {
-    let tabla = document.getElementById('divTabDescripcion');
+    let tabla = document.getElementById('divTabDescripcion2');
     let tab = '';
     let aux = 0;
     let cont = 0;
@@ -1248,7 +1241,7 @@ function liberarResultado() {
         },
         dataType: "json",
         success: function (response) {
-            var table = $('#tableParametros').DataTable();
+            var table = $('#tableParametros2').DataTable();
             table.rows().every(function () {
                 var rowData = this.data();
                 var rowId = rowData[0];
@@ -1276,9 +1269,11 @@ function liberarSolicitud() {
         dataType: "json",
         async: false,
         success: function (response) {
-            if (response.sw == true) {
+            if (response.sw == true) 
+                {
                 swal("Registro!", "Solicitud liberada", "success");
-            } else {
+            } else 
+            {
                 swal("Registro!", "Liberacion modificada", "success");
             }
         }

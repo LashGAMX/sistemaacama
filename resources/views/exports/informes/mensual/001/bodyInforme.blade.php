@@ -148,7 +148,9 @@
 
                             @php
                                 echo $reportesInformes->Nota;
+                                echo @$notaSiralab->Nota_siralab;
                             @endphp
+                            <br>
                         </td>
                     </tr>
    

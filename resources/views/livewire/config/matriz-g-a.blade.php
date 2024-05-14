@@ -72,6 +72,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                
+                <div class="col-md-12">
+                <label for="">Existencia {{$delete}} </label>
+                    <input wire:model='delete' type="checkbox"  {{ $delete ? 'checked' : '' }}> 
+                </div> 
+                    
                     <div class="col-md-12">
                         <label for="">N° Serie</label>
                         <input type="text" wire:model='serie' class="form-control" placeholder="Num Serie" required>
@@ -81,12 +87,7 @@
                         <input type="text" wire:model='peso' class="form-control" placeholder="Peso" required>
                     </div>
                 
-                    {{-- <div class="col-md-12">
-                        <input type="text" wire:model="nota" hidden>
-                        <label for="">Nota</label>
-                        <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required> 
-                        @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
-                      </div> --}}
+                     
                 </div>
             </div>
             <div class="modal-footer">
@@ -103,6 +104,18 @@
         <script>
             swal("Registro!","Registros guardado correctamente","success");
             $('#modalMatraz').modal('hide');
+        </script>
+    @endif
+    @if ($alert2 == true)
+        <script>
+            swal("Registro!","Este Matraz Ha dejado de existir ","success");
+            $('#modalCrisol').modal('hide');
+        </script>
+    @endif
+    @if ($alert3 == true)
+        <script>
+            swal("Registro!","Este Matraz Esta de Nuevo Disponoble","success");
+            $('#modalCrisol').modal('hide');
         </script>
     @endif
 

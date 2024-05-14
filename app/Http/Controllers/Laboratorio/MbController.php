@@ -1274,7 +1274,7 @@ class MbController extends Controller
                 $aux2 = ($request->C / $request->H) * ($request->D - $request->E);
                 $aux3 = ($request->I / $request->K);
                 $temp = (($aux - round($aux2,2)) /  round($aux3,3)) * $request->P;
-                $res = number_format($temp,3);
+                $res = number_format($temp,3,'.','');
                  
                 $model = LoteDetalleDboIno::find($request->idDetalle);
                 $model->Oxigeno_inicial = $request->A;

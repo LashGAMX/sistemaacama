@@ -34,6 +34,8 @@
                         <td>Peso</td>
                         <td>Min</td>
                         <td>Max</td>
+                        <td>ID 112</td>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +50,7 @@
                             <td>{{$item->Peso}}</td> 
                             <td>{{$item->Min}}</td>
                             <td>{{$item->Max}}</td>
+                            <td>{{$item->Id_112}}</td>
                             <td><button class="btn btn-warning"
                                 wire:click="setData('{{$item->Id_capsula}}','{{$item->Num_serie}}','{{$item->Peso}}','{{$item->Min}}','{{$item->Max}}')"
                                 data-toggle="modal" data-target="#modalCapsulas"> <i class="voyager-edit"></i> Editar</button></td>
@@ -71,22 +74,27 @@
               </button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                        <label for="">   Existencia </label>
+                        <input wire:model="delete" type="checkbox" {{ $delete ? 'checked' : '' }}>
+                    </div> 
                     <div class="col-md-12">
-                        <label for="">N° Serie</label>
-                        <input type="text" wire:model='serie' class="form-control" placeholder="Num Serie" required>
+                        <label for="">ID122</label>
+                        <input wire:model='id112' type="checkbox" {{ $id112 ? 'checked' : '' }}>
+                    </div> 
+                      
+
+                    <div class="col-md-12"> 
+                     <label for="">N° Serie</label>
+                     <input type="text" wire:model='serie' class="form-control" placeholder="Num Serie" required>
                     </div>
                     <div class="col-md-12">
                         <label for="">Peso</label>
                         <input type="text" wire:model='peso' class="form-control" placeholder="Peso" required>
                     </div>
                 
-                    {{-- <div class="col-md-12">
-                        <input type="text" wire:model="nota" hidden>
-                        <label for="">Nota</label>
-                        <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required> 
-                        @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
-                      </div> --}}
+                  
                 </div>
             </div>
             <div class="modal-footer">
@@ -97,14 +105,23 @@
           </div>
         </div>
       </div>
-      
-
     @if ($alert == true)
         <script>
             swal("Registro!","Registros guardado correctamente","success");
             $('#modalCapsulas').modal('hide');
         </script>
     @endif
-
+    
+    @if ($alert2 == true)
+        <script>
+            swal("Registro!","Esta Capsula Ha dejado de  existir ","success");
+            $('#modalCapsulas').modal('hide');
+        </script>
+    @endif
+    @if ($alert3 == true)
+        <script>
+            swal("Registro!","Esta Capsula Esta Disponible de Nuevo ","success");
+            $('#modalCapsulas').modal('hide');
+        </script>
+    @endif
 </div>
-

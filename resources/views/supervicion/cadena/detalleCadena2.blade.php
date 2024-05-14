@@ -6,7 +6,7 @@
 
 <h6 class="page-title">
     <i class="fa fa-truck-pickup"></i>
-    Cadena de custodia
+    Cadena 
 </h6>
 @stop
 <input type="text" id="idSol" value="{{$model->Id_solicitud}}" hidden>
@@ -61,7 +61,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <table id="tablePuntos" class="display compact cell-border " style="width:100%">
+                            <table id="tablePuntos2" class="display compact cell-border " style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -80,8 +80,8 @@
                         </div>
                         <div class="col-md-6">
                             
-                           <div id="divTableParametros">
-                            <table id="tableParametros" class="display compact cell-border" style="width:100%">
+                           <div id="divTableParametros2">
+                            <table id="tableParametros2" class="display compact cell-border" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Parametro</th>
@@ -98,7 +98,7 @@
                            </div>
                         </div>
                         <div class="col-md-3">
-                            <button id="btnLiberar" class="btn-success"><i class="fas fa-square-root-alt" data-toggle="tooltip" data-placement="top" title="Liberar"></i></button>
+                            <button id="btnLiberar2" class="btn-success"><i class="fas fa-square-root-alt" data-toggle="tooltip" data-placement="top" title="Liberar"></i></button>
                             @switch(Auth::user()->role->id)
                             @case(1)
                                 <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip" data-placement="top" title="Regresar Resultado"><i class="voyager-double-left"></i></button>
@@ -112,11 +112,11 @@
                                 <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
                             @endif                           
                             @endswitch
-                            <div id="divTabDescripcion">
+                            <div id="divTabDescripcion2">
                                 <table id="tableResultado" class="display compact cell-border" style="width:100%">
                                     <thead>
                                         <tr>                                     
-                                         <th>Descripcion</th>
+                                         <th>Descripci</th>
                                          <th>Valor</th>
                                         </tr>
                                     </thead>
@@ -142,6 +142,6 @@
 
 @endsection
     @section('javascript')
-    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.1"></script>
+    <script src="{{ asset('public/js/supervicion/cadena/detallecadena2.js') }}?v=1.1.1"></script>
 @stop
 

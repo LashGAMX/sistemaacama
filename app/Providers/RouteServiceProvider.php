@@ -118,9 +118,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('admin')
                 ->group(base_path('routes/modules/seguimiento.php'));
             Route::middleware('web', 'auth')
-            ->namespace($this->namespace)
-            ->prefix('admin')
-            ->group(base_path('routes/modules/kpi.php'));
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/kpi.php'));
 
         });
     }

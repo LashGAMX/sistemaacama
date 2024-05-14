@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Config;
 
 use App\Models\CrisolesGA;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class CrisolGA extends Component
 {
@@ -11,10 +12,13 @@ class CrisolGA extends Component
   public $idUser;
   public $show = false;
   public $alert = false;
+  public $alert2=false;
+  public $alert3=false;
   public $search = '';
 
   // Variables form
   public $idCris;
+  public $delete= false;
   public $serie;
   public $peso;
   public $min; 
@@ -47,6 +51,14 @@ class CrisolGA extends Component
   }
   public function store()
   {
+    if($this->delete == true){
+        $model = CrisolesGA::where('Id_crisol', $this->idCris)->delete();
+        $this->alert2 = true;
+      }else{
+        if ($this->delete ==  false){
+          $model = CrisolesGA::withTrashed()->find($this->idCris)->restore();
+          $this->alert3 = true; 
+        }
       //$this->historial();
       $model = CrisolesGA::find($this->idCris);
       $model->Num_serie = $this->serie;
@@ -55,15 +67,26 @@ class CrisolGA extends Component
       $model->Max = ($this->peso + 0.0001);
       $model->save();
       $this->alert = true;
+    }
   }
   public function setData($idCris,$serie,$peso,$min,$max)
   { 
-      $this->alert = false;
-      $this->idCris = $idCris;
-      $this->serie = $serie;
-      $this->peso = $peso;
-      $this->min = $min;
-      $this->max = $max;
+    $model = CrisolesGA::withTrashed()->where('Id_crisol', $idCris)->first();
+    
+    if ($model) {
+        $this->idCris = $idCris;
+        $this->serie = $serie;
+        $this->peso = $peso;
+        $this->min = $min;
+        $this->max = $max;
+
+        // Verifica si el modelo está eliminado o no
+        if ($model->trashed()) {
+            $this->delete = true;
+        } else {
+            $this->delete = false;
+        }
+    } 
   }
 //   Public function historial()
 //   {
