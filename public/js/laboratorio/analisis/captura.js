@@ -3911,7 +3911,7 @@ function getCapturaLote() {
                 } else {
                     tab += '<td></td>';
                 }
-                tab += '<td><button class="btn-warning" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
+                tab += '<td><button class="btn-warning" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
                 tab += '<td hidden>'+item.Codigo+'</td>';
                 tab += '</tr>';
 
@@ -4016,52 +4016,48 @@ function getMuestraSinAsignar() {
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
+        async: false,
         success: function (response) {
-            console.log(response);
-            if (response.model.length === 0) {
-                tabla.innerHTML = '<p>No se encontraron datos.</p>';
-                return;
-            }
+            console.log(response)
+            let estiloH  = ""
+            $("#tipoFormulaAsignar").val(response.lote.Tipo_formula)
+            $("#parametroAsignar").val(response.lote.Parametro)
+            $("#fechaAnalisisAsignar").val(response.lote.Fecha)
+            $("#asignadoLote").val(response.lote.Asignado)
+            $("#liberadoLote").val(response.lote.Liberado)
+            $("#porAsingarLote").val(response.model.length)
 
-            $("#tipoFormulaAsignar").val(response.lote.Tipo_formula);
-            $("#parametroAsignar").val(response.lote.Parametro);
-            $("#fechaAnalisisAsignar").val(response.lote.Fecha);
-            $("#asignadoLote").val(response.lote.Asignado);
-            $("#liberadoLote").val(response.lote.Liberado);
-            $("#porAsingarLote").val(response.model.length);
-
-            tab += '<table id="tabAsignar" class="table table-sm">';
-            tab += '    <thead>';
-            tab += '        <tr>';
-            tab += '          <th>Opc</th>';
-            tab += '          <th># Muestra</th> ';
-            tab += '          <th>Norma</th> ';
-            tab += '          <th>Punto muestreo</th> ';
-            tab += '          <th>Fecha recepción</th> ';
-           // tab += '          <th>Cod</th> ';
-            //tab += '          <th>Historial</th> ';
-            tab += '          <th>Info</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
+            tab += '<table id="tabAsignar" class="table table-sm">'
+            tab += '    <thead>'
+            tab += '        <tr>'
+            tab += '          <th>Opc</th>'
+            tab += '          <th># Muestra</th> '
+            tab += '          <th>Norma</th> '
+            tab += '          <th>Punto muestreo</th> '
+            tab += '          <th>Fecha recepción</th> '
+            tab += '          <th>Info</th> '
+            tab += '        </tr>'
+            tab += '    </thead>'
+            tab += '    <tbody>'
             for (let i = 0; i < response.model.length; i++) {
-                tab += '<tr>';
-                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>';
-                let estiloHistorial = response.model[i].Historial == 1 ? 'background-color: #e5e5ff;' : '';
-                tab += '<td style="' + estiloHistorial + '">' + response.folio[i] + '</td>';
-                tab += '<td style="' + estiloHistorial + '">' + response.norma[i] + '</td>';
-                tab += '<td style="' + estiloHistorial + '">' + response.punto[i] + '</td>';
-                tab += '<td style="' + estiloHistorial + '">' + response.fecha[i] + '</td>';
-                //tab += '<td style="' + estiloHistorial + '">' + response.idCodigo[i] + '</td>';
-              //  tab += '<td style="' + estiloHistorial + '">' + response.model[i].Historial +  '</td>';
-                tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>';
-                tab += '</tr>';
+                estiloH = response.historial == 1 ? 'background-color:#e5e5ff;' : ''
+
+                tab += '<tr>'
+                tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>'
+                tab += '<td style="' + estiloH + '">' + response.folio[i] + '</td>'
+                tab += '<td style="' + estiloH + '">' + response.norma[i] + '</td>'
+                tab += '<td style="' + estiloH + '">' + response.punto[i] + '</td>'
+                tab += '<td style="' + estiloH + '">' + response.fecha[i] + '</td>'
+                tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>'
+                tab += '</tr>'
+                estiloH = ""
             }
-            tab += '    </tbody>';
-            tab += '</table>';
+
+            tab += '    </tbody>'
+            tab += '</table>'
             tabla.innerHTML = tab;
 
-            // Inicializacion de tabla
+            //Inicializacion de tabla
             tableLote = $('#tabAsignar').DataTable({
                 "ordering": false,
                 paging: false,
@@ -4073,12 +4069,16 @@ function getMuestraSinAsignar() {
                 },
                 dom: '<"toolbar">frtip',
             });
+            $(document).on('click', '#btn-Info', function() {
+                let folio = $(this).data('folio');
+                console.log("Folio seleccionado:", folio);
+                // getHistorial_pa(folio);
+                $('#modalAsignar').modal('hide');
+                $('#modalHistorial_lote').modal('show');
+            });
+        
 
-            $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-success"><i class="fas fa-paper-plane"></i></button> <button onclick="selecionarCkeck()" class="btn-info"><i class="fas fa-check-double"></i></button>');
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            tabla.innerHTML = '<p>Ocurrió un error al cargar los datos.</p>';
+           $('div.toolbar').html('<button onclick="setMuestraLote()" id="btnAsignarMuestra" class="btn-success"><i class="fas fa-paper-plane"></i></button> <button onclick="selecionarCkeck()" class="btn-info"><i class="fas fa-check-double"></i></button>');
         }
     });
 }
@@ -4273,15 +4273,18 @@ function getPendientes() {
             tab += '          <th>Parametro</th>';
             tab += '          <th>Fecha recepción</th>';
             tab += '          <th>Empresa</th>';
+         
+
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
+                estilohistorial =   model[i][4] == 1 ? 'background-color:#e5e5ff;' : ''
                 tab += '<tr>';
-                tab += '<td>' + model[i][0] + '</td>';
-                tab += '<td>' + model[i][1] + '</td>';
-                tab += '<td>' + model[i][2] + '</td>';
-                tab += '<td>' + model[i][3] + '</td>';
+                tab += '<td style="' + estilohistorial + '">' + model[i][0] + '</td>';
+                tab += '<td style="' + estilohistorial + '">' + model[i][1] + '</td>';
+                tab += '<td style="' + estilohistorial + '">' + model[i][2] + '</td>';
+                tab += '<td style="' + estilohistorial + '">' + model[i][3] + '</td>';
                 tab += '</tr>';
             }
             tab += '    </tbody>';
@@ -4312,7 +4315,7 @@ function getHistorial(id)
         url: base_url + "/admin/laboratorio/" + area + "/getHistorial",
         data: {
             idLote: idLote,
-            idDetalle:id,
+            idCodigo:id,
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -4324,6 +4327,8 @@ function getHistorial(id)
                 tab += '        <tr>';
                 tab += '          <th>Id Lote</th>';
                 tab += '          <th>Fecha Lote</th>';
+                tab += '          <th>Codigo</th> ';
+                tab += '          <th>Parametro</th> ';
                 tab += '          <th>Resultado</th> ';
                 tab += '        </tr>';
                 tab += '    </thead>';
@@ -4332,7 +4337,10 @@ function getHistorial(id)
                     tab += '<tr>';
                     tab += '<td>'+response.lote[i]+'</td>'
                     tab += '<td>'+response.fechaLote[i]+'</td>'
+                    tab += '<td>'+response.Codigo[i]+'</td>'
+                    tab += '<td>'+response.parametro[i]+'</td>'
                     tab += '<td>'+response.resultado[i]+'</td>'
+    
                     tab += '</tr>';   
                 }
                 tab += '    </tbody>';

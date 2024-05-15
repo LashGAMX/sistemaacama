@@ -1257,6 +1257,7 @@ function liberarResultado() {
                     this.cell(this.index(), 4).data(response.resLiberado);
                     $(this.node()).find('td:eq(4)').text(resLiberado); //cambia el resultado sin recargar 
                     $(this.node()).find('td:eq(1)').removeClass('bg-warning').addClass('bg-success');
+                    $(this.node()).find('td:eq(1)').addClass('bg-success');
                     return false; 
                 }
             });

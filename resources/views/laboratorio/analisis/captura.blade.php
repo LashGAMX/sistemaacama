@@ -222,7 +222,53 @@
   </div>
 </div>
 
-{{-- Fin modal historial --}}
+<!-- Modal historial-->
+<div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-height: 200%;"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Historial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="tablaLote" class="table table-lg">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Id lote</td>
+                                    <td>Fecha lote</td>
+                                    <td>Codigo</td>
+                                    <td>Parametro</td>
+                                    <td>Resultado</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive"> 
+                        <table id="divtable2" class="table table-lg">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <td>Id_codigo</td>
+                                    <td>Codigo</td>
+                                    <td>Parametro</td>
+                                    <td>Resultado</td>
+                                    <td>Resultado 2</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+              
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
    <!-- Modal historial-->
    <div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -237,7 +283,55 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div id="divHistorial">
+                                        <table id="tablaLote" class="table table-sm">
+                                          <thead class="thead-dark">
+                                        <tr>
+                                          <td>Id lote</td>
+                                          <td>Fecha lote </td>
+                                          <td>Codigo</td>
+                                          <td>Parametro</td>
+                                          <td>Resultado</td>
+                                        </tr>
+                                          </thead>
+                                        </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                      <table id="divtable2" class="table table-sm">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <td>Id_codigo</td>
+                                          <td>Codigo</td>
+                                          <td>Parametro</td>
+                                          <td>Resultado</td>
+                                          <td>Resultado 2</td>
+                                        </tr>
+                                        
+                                      </thead>
+                                      </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+ <!-- Modal historial por lote -->
+ <div class="modal fade" id="modalHistoriallote" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg"  >
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="">Historial Por Lotes</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> 
+                            </div>
+                            <div class="modal-body">
+                            <p>Folio: <span id="folioEnModal"></span></p>
+  
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divHistoriallote">
  
                                         </div>
                                     </div>
@@ -246,8 +340,6 @@
                     </div>
                 </div>
             </div>
-
-
 
 {{-- Inicio modal Asignar Lote --}}
 <div class="modal fade" id="modalAsignar" aria-labelledby="exampleModalLabel" aria-hidden="true">
