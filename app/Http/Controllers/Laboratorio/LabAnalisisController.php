@@ -87,7 +87,10 @@ class LabAnalisisController extends Controller
                     array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro);
                     array_push($temp, $item->Hora_recepcion);
                     array_push($temp, $item->Empresa);
+                    array_push($temp, $item->Historial);
+
                     array_push($model, $temp);
+                  
                     break;
                 }
             }
@@ -220,10 +223,11 @@ class LabAnalisisController extends Controller
         $punto = array();
         $fecha = array();
         $idCodigo = array();
+        $historial = array();
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->idLote)->first();
         if ($res->fecha != "") {
         } else {
-            $model = DB::table('codigo_parametro')->where('Asignado','!=' ,1)->where('Id_parametro', $res->idParametro)->where('Cancelado','!=',1)->get();
+            $model = DB::table('codigo_parametro')->where('Asignado','!=' ,1)->where('Id_parametro', $lote->Id_tecnica)->where('Cancelado','!=',1)->get();
             for ($i = 0; $i < $model->count(); $i++) {
                 $puntoModel = SolicitudPuntos::where('Id_solicitud', $model[$i]->Id_solicitud)->first();   
                 $normaModel = DB::table('ViewSolicitud2')->where('Id_solicitud',$model[$i]->Id_solicitud)->first();
@@ -234,6 +238,7 @@ class LabAnalisisController extends Controller
                     array_push($norma, @$normaModel->Clave_norma);
                     array_push($punto, @$puntoModel->Punto);
                     array_push($fecha, $proceso[0]->Hora_recepcion);    
+                    array_push($historial,@$model[$i]->Historial);
                 }
                 
             }
@@ -247,9 +252,23 @@ class LabAnalisisController extends Controller
             'fecha' => $fecha,
             'punto' => $punto,
             'lote' => $lote,
+            'historial' => $historial,
         );
         return response()->json($data);
     }
+    // public function getHistorialParametro(Request $res)
+    // {
+    //     $folio = $res->input('folio');
+    //     $codigoParametro=CodigoParametros :: where('Codigo',$folio)->first();
+    //    if($codigoParametro)
+    //    {
+    //     $historial=$codigoParametro ->loteDetalles()->orderBy('Fecha','desc')->take(3)->get();//muestra los tres ultimos regsitros 
+    //     return response()->json($historial);
+    //    }else {
+    //     return response()->json(['error'=>'No se Encontro regsitros para el Historial']);
+    //    }
+    // }
+
     public function setMuestraLote(Request $res)
     {
         // $lote = DB::table('ViewLoteAnalisis')->where('Id_lote',$res->idLote)->first();
@@ -6847,163 +6866,12 @@ class LabAnalisisController extends Controller
     }
     public function getHistorial(Request $res)
     {
-    
-        $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
-        $aux = array();
-        $indice = array();
-        $valores = array();
-        $resultado = array();
-
-        $fechaLote = array();
-        if ($lote->count()) {
-            switch ($lote[0]->Id_area) {
-                case 16: // Espectrofotometria
-                case 5: // Fisicoquimicos
-                    $temp = LoteDetalleEspectro::where('Id_detalle',$res->idDetalle)->first();
-                    $solicitud = Solicitud::where('Id_solicitud',$temp->Id_analisis)->first();
-                    $punto = SolicitudPuntos::where('Id_solicitud',$solicitud->Id_solicitud)->first();
-                    $solModel = Solicitud::where('Id_cliente',$solicitud->Id_cliente)->where('Id_sucursal',$solicitud->Id_sucursal)
-                    ->where('Id_solicitud','!=',$solicitud->Id_solicitud)->where('Padre',1)->limit(3)->orderBy('Id_solicitud','DESC')->get();
-                    
-                    foreach ($solModel as $item) {
-                        $aux =SolicitudPuntos::where('Id_solPadre',$item->Id_solicitud)->get();
-                        foreach ($aux as $item2) {
-                            if ($punto->Id_muestreo == $item2->Id_muestreo) {
-                                $codigo = CodigoParametros::where('Id_solicitud',$item2->Id_solicitud)->where('Id_parametro',$temp->Id_parametro)->first();
-                                $loteDet = LoteDetalleEspectro::where('Id_analisis',$codigo->Id_solicitud)->where('Id_control',1)->first();
-                                $loteModel = LoteAnalisis::where('Id_lote',$loteDet->Id_lote)->first();
-                                array_push($resultado,$codigo->Resultado2);
-                                array_push($lote,$loteDet->Id_lote);
-                                array_push($fechaLote,$loteModel->Fecha);
-                                
-                            }
-                        }
-                    }
-                    
-            
-                    break;
-                case 13: // G&A
-                    $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                    // $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
-                    break;
-                case 15: // Solidos
-                     $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->get();
-                    // $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                    break;
-                case 14: //Volumetria
-                    switch ($lote[0]->Id_tecnica) {
-                        case 6: // Dqo
-                        case 161:
-                            $aux = DqoDetalle::where('Id_lote', $res->idLote)->first();
-                            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                        case 33: // Cloro
-                        case 64:
-                        case 119:
-                        case 218:
-                            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                        case 9: // Nitrogeno
-                        case 10:
-                        case 11:
-                        case 287:
-                        case 83:
-                        case 108:
-                            $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            // $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->get();
-                            break;
-                        case 28://Alcalinidad
-                        case 29:
-                        case 30:
-                            $model = DB::table('ViewLoteDetalleAlcalinidad')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                        default:
-                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                    }
-                    break;
-                case 7: // Campo
-                case 19: //Directos
-                    // $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->get();
-                    break;
-                case 8: //Potable
-                    switch ($lote[0]->Id_tecnica) {
-                        case 77: //Dureza
-                        case 103:
-                        case 251:
-                        case 252: 
-                            // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
-                            break;
-                        default:
-                            $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                    }
-                    break;
-                case 6: // Mb
-                case 12:
-                case 3:
-                    switch ($lote[0]->Id_tecnica) {
-                        case 135: // Coliformes fecales
-                        case 132:
-                        case 133:
-                        case 12:
-                        case 134: // E COLI
-                        case 35:
-                        case 51: // Coliformes totales
-                        case 137:
-                            // $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $res->idLote)->get();
-                            break;
-                        case 253: //todo  ENTEROCOCO FECAL
-                            $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                        case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
-                        case 71:
-                            $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                        case 70:
-                            $model = DB::table('ViewLoteDetalleDboIno')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                        case 16: //todo Huevos de Helminto 
-                            // $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $res->idLote)->get();
-                            break;
-                        case 78:
-                            $detalle = array();
-                            $model = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $res->idLote)->get();
-                            foreach ($model as $item) { 
-                                $ecoli = CodigoParametros::where('Id_codigo', $item->Id_codigo)->first();            
-                                   // $coliformes = CodigoParametros::where('Id_solicitud', $ecoli->Id_solicitud)->where('Num_muestra', $ecoli->Num_muestra)->where('Id_parametro', 134)->first();                
-                                    $detalleColiformes = LoteDetalleColiformes::where('Id_parametro', 134)->where('Id_analisis', $item->Id_analisis)->first();
-                                    if ($detalleColiformes != null) {
-                                        if ($detalleColiformes->Indice == 0) {
-                                            array_push($indice,1);
-                                        }else {
-                                            array_push($indice, $detalleColiformes->Indice);
-                                        } 
-                                    }else {
-                                        array_push($indice,1);
-                                    }
-                                
-                            } 
-                           
-                            break;
-                        default:
-                            $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                            break;
-                    }
-                    break;
-                default:
-                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
-                    break;
-            }
-        } else {
-            $model = array();
-        }
+        $codigo = CodigoParametros::where('Id_codigo',$res->idCodigo)->first();
+        $solicitud = Solicitud::where('Id_solicitud',$codigo->Id_solicitud)->first();
         
+        $histSol = Solicitud::where('Padre',0)->where('Id_sucursal',$solicitud->Id_sucursal)->get();
         $data = array(
+            
             
         );
         return response()->json($data);
