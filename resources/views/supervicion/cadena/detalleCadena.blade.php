@@ -21,6 +21,7 @@
                             <h6>Solicitud ID: <strong>{{$model->Id_solicitud}}</strong></h6>
                             <h6>Servicio: <strong>{{$model->Servicio}}</strong></h6>
                             <h6>Tipo descarga: <strong>{{$model->Descarga}}</strong></h6>
+                            <h6>Folio: <strong>{{$model->Folio_servicio}}</strong></h6>
                         </div>
                         <div class="col-md-2">
                             <h6>Norma: <strong>{{$model->Clave}}</strong></h6>
