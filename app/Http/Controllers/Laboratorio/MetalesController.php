@@ -1090,7 +1090,7 @@ class MetalesController extends Controller
 
         $data = array(
             'today'  => $today,
-            'lote' => $model,
+            'lote' => $model, 
             'curva' => $curva,
             'estandares' => $estandares,
         );
