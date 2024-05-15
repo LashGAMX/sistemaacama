@@ -5264,16 +5264,15 @@ class InformesController extends Controller
             $valParametro = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', $item->Id_parametro)->where('Cancelado',0)->get();
             if ($auxEnv->count()) {
                 if ($valParametro->count()) {
+                    $sw = false;
                     for ($i = 0; $i < sizeof($tempArea); $i++) {
                         if ($auxEnv[0]->Id_area == $tempArea[$i]) {
                             $sw = true;
-                        }else{
-                            $sw = false;
                         }
                         switch ($item->Id_parametro) {
                             case 11:
-                                $sw = false;
-                                break;
+                                $sw = true; 
+                                break; 
                             
                             default:
                                 # code...

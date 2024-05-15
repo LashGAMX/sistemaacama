@@ -59,15 +59,15 @@
                         </tr>
                     </thead>
                     @php
-                        $tempArea = array();
+                        $tempArea = array(); 
                         $temp = 0;
                         $sw = false
                     @endphp
                     <tbody>
                         @for ($i = 0; $i < sizeof($area); $i++)    
                             <tr>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} {{$idParametro[$i]}}</td>
-                                <!-- <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$area[$i]}}</td> -->
+                                <!-- <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} {{@$stdArea[$i]}}</td> -->
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$area[$i]}}</td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px"> {{$responsable[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">{{$numRecipientes[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
