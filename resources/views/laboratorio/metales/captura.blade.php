@@ -210,7 +210,11 @@
   @stop
 
   @section('javascript')
+<<<<<<< HEAD
   <script src="{{asset('public/js/laboratorio/metales/captura.js')}}?v=1.1.7"></script>
+=======
+  <script src="{{asset('public/js/laboratorio/metales/captura.jsx')}}?v=1.1.6"></script>
+>>>>>>> f4369e0359f0949f9f16f23d3e68484d7aedbf9f
   @stop
 
 @endsection    
