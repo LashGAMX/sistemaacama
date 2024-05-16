@@ -244,7 +244,15 @@ function getDataCaptura() {
 }
 var numMuestras = new Array();
 function getLoteCaptura() {
+<<<<<<< HEAD
     // console.log("getLoteCaptura") 
+=======
+<<<<<<< HEAD:public/js/laboratorio/metales/captura.js
+    alert("getLoteCaptura")
+=======
+    // console.log("getLoteCaptura")
+>>>>>>> f4369e0359f0949f9f16f23d3e68484d7aedbf9f:public/js/laboratorio/metales/captura.jsx
+>>>>>>> 7cb1ac4bb8edf59220e5ad1ceee14b6fca79e30a
     numMuestras = new Array();
     idMuestra = 0;
     let tabla = document.getElementById('divTablaControles');
