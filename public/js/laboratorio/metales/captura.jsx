@@ -61,7 +61,7 @@ function eliminarControl()
         $.ajax({
             type: "POST",
             url: base_url + "/admin/laboratorio/" + area + "/eliminarContro",
-            data: {
+            data: { 
                 idMuestra: idMuestra,
                 _token: $('input[name="_token"]').val()
             },
@@ -237,36 +237,38 @@ function getDataCaptura() {
                     idLote = dato;
                     // getLoteCapturaVol();
                     getLoteCaptura()
-                    console.log("Lote")
+                    // console.log("Lote")
                   });
             }
         });
 }
 var numMuestras = new Array();
 function getLoteCaptura() {
+    // console.log("getLoteCaptura")
     numMuestras = new Array();
     idMuestra = 0;
     let tabla = document.getElementById('divTablaControles');
     let tab = '';
     let cont = 1;
-
+ 
     let status = "";
     let hg = "hidden"
     let volF = "hidden"
 
-    $.ajax({
+
+    $.ajax({ 
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getLoteCaptura",
+        url: base_url + "/admin/laboratorio/"+area+"/getLoteCaptura",
         data: {
             idLote: idLote,
             formulaTipo: $("#formulaTipo").val(), 
-            _token: $('input[name="_token"]').val() 
+            _token: $('input[name="_token"]').val()
         },
         dataType: "json",
-        success: function (response) {
-            console.log(response)
-            // alert("Entro")
-            let aux = 0
+        success: function (response) {            
+            console.log(response);
+
+                       let aux = 0
             
             switch (parseInt(response.detalle[0].Id_parametro)) {
                 //NMX  FLAMA
@@ -891,9 +893,649 @@ function getLoteCaptura() {
                 // console.log(idMuestra);
             });
 
-
         }
-    }); 
+    });
+
+    // $.ajax({
+    //     type: "POST",
+    //     url: base_url + "/admin/laboratorio/" + area + "/getLoteCaptura",
+    //     data: {
+    //         idLote: idLote,
+    //         formulaTipo: $("#formulaTipo").val(), 
+    //         _token: $('input[name="_token"]').val() 
+    //     },
+    //     dataType: "json",
+    //     success: function (response) {
+    //         console.log("Entra en ruta getLoteCaptura")
+    //         console.log(response)
+    //         let aux = 0
+            
+    //         switch (parseInt(response.detalle[0].Id_parametro)) {
+    //             //NMX  FLAMA
+    //             case 20: 
+    //             case 21:
+    //             case 23:
+    //             case 18:
+    //             case 24:
+    //             case 25:
+    //             case 232:
+    //             case 187:
+    //             case 226:
+    //             case 197:
+    //             case 351:
+    //             case 41:
+    //             case 354:
+    //             case 353:
+    //             case 55:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //                 // 051 HORNO DE GRAMIFOTO
+    //             case 355:
+    //             case 356:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Factor conversion G</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+                        
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //                 // Hidruros
+    //             case 17:
+    //             case 22:
+    //             case 352:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //             //Horno de grafito 127
+    //             case 216:
+    //             case 210:
+    //             case 208:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Vol Final</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Factor conversion G</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //                 // 201 Flama
+    //             case 191:
+    //             case 194:
+    //             case 189:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Vol Final</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //                 // 201 Horno de grafito
+    //             case 192:
+    //             case 204:
+    //             case 190:
+    //             case 196:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Vol Final</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Factor conversion G</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+                        
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //                 // 201 Hidrudos
+    //             case 188:
+    //             case 219:
+    //             case 195:
+    //             case 230:
+    //             case 215:
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th>Vol. Final</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Factor conversion G</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+                        
+    //                     tab += '<td><input '+status+'  style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //             default:
+    //                 switch (parseInt(response.detalle[0].Id_parametro)) {
+    //                     case 215:
+    //                     case 195:
+    //                     case 230:
+    //                     case 188:
+    //                     case 219:
+    //                         hg = ""    
+    //                         break;
+    //                     case 192:
+    //                     case 204:
+    //                     case 190:
+    //                     case 196:
+    //                     case 191:
+    //                     case 194:
+    //                     case 189:
+    //                     case 208:
+    //                     case 216:
+    //                     case 210:
+    //                         volF = ""
+    //                         break;
+    //                     default:
+    //                         break;
+    //                 }
+    //                 tab += '<table id="tablaControles" class="table display compact">';
+    //                 tab += '    <thead>';
+    //                 tab += '        <tr>';
+    //                 // tab += '          <th><</th>';
+    //                 tab += '          <th>Muestra</th>';
+    //                 tab += '          <th>Cliente</th>';
+    //                 tab += '          <th>Punto</th>';
+    //                 //tab2 += '          <th>PuntoMuestreo</th>';
+    //                 tab += '          <th>Vol. Muestra E</th>';
+    //                 tab += '          <th '+volF+'>Vol Final</th>';
+    //                 tab += '          <th '+hg+'>Vol. D</th>';
+    //                 tab += '          <th>Abs1</th>';
+    //                 tab += '          <th>Abs2</th>';
+    //                 tab += '          <th>Abs3</th>';
+    //                 tab += '          <th>Absorbancia Prom.</th>';
+    //                 tab += '          <th>Factor dilución D</th>';
+    //                 tab += '          <th>Factor conversion G</th>';
+    //                 tab += '          <th>Resultado</th>';
+    //                 tab += '          <th>Observacion</th>';
+    //                 tab += '          <th>*</th>';
+    //                 tab += '        </tr>'
+    //                 tab += '    </thead>';
+    //                 tab += '    <tbody>';
+    //                 $.each(response.detalle, function (key, item) {
+    //                     tab += '<tr>';
+    //                     if (parseInt(item.Liberado) == 0) {
+    //                         status = "";
+    //                     } else { 
+    //                         status = "disabled";
+    //                     }
+                        
+    //                     tab += '<td><input style="width: 80px" hidden id="idDetalle'+item.Id_detalle+'" value="'+item.Id_detalle+'">'+item.Folio_servicio;
+    //                     if (item.Id_control != 1) 
+    //                     {
+    //                         tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+    //                     }else{
+    //                         tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+    //                     }
+    //                     tab += '<td>'+item.Empresa_suc+'</td>';
+    //                     tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
+    //                     tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
+    //                     // tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
+    //                     tab += '<td '+volF+'><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+                        
+    //                     tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
+    //                     if (item.Vol_disolucion != null) {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';   
+    //                     } else {
+    //                         tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value=""></td>';
+    //                     }
+    //                     if (item.Observacion == "" || item.Observacion == null) {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="" > '+response.obs[aux]+'</textarea></td>';   
+    //                     } else {
+    //                         tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
+    //                     }
+    //                     tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+    //                     tab += '</tr>';
+    //                     numMuestras.push(item.Id_detalle);
+    //                     cont++; 
+    //                     aux++ 
+                 
+    //                 }); 
+    //                 tab += '    </tbody>';
+    //                 tab += '</table>';
+    //                 tabla.innerHTML = tab;
+    //                 break;
+    //         }
+
+
+
+    //         var t = $('#tablaControles').DataTable({
+    //             "ordering": false,
+    //             paging: false,
+    //             scrollCollapse: true,
+    //             scrollY: '380px',
+    //             "language": {
+    //                 "lengthMenu": "# _MENU_ por pagina",
+    //                 "zeroRecords": "No hay datos encontrados",
+    //                 "info": "Pagina _PAGE_ de _PAGES_",
+    //                 "infoEmpty": "No hay datos encontrados",
+    //             }
+    //         });
+
+
+    //         $('#tablaControles tbody').on('click', 'tr', function () {
+    //             if ($(this).hasClass('selected')) {
+    //                 $(this).removeClass('selected');
+    //             }
+    //             else {
+    //                 t.$('tr.selected').removeClass('selected');
+    //                 $(this).addClass('selected');
+    //             }
+    //         });
+    //         $('#tablaControles tr').on('click', function () {
+    //             let dato = $(this).find('td:first');
+    //             idMuestra = dato[0].firstElementChild.value;
+    //             // console.log(idMuestra);
+    //         });
+
+
+    //     }
+    // }); 
 }
 
 
