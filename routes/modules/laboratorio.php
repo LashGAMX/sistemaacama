@@ -3,7 +3,7 @@
 use App\Http\Controllers\Laboratorio\LaboratorioController;
 use App\Http\Controllers\Laboratorio\CurvaController;
 use App\Http\Controllers\Laboratorio\FqController;
-use App\Http\Controllers\Laboratorio\MbController;
+use App\Http\Controllers\Laboratorio\MbController; 
 use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
 use App\Http\Controllers\Laboratorio\VolController;

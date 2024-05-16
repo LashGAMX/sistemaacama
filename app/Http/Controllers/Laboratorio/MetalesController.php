@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Laboratorio;
 
-use App\Http\Controllers\Config\ConfiguracionesController;
+use App\Http\Controllers\Config\ConfiguracionesController; 
 use App\Http\Controllers\Controller;
 use App\Imports\AnalisisQ\IcpImport;
 use Illuminate\Http\Request;
