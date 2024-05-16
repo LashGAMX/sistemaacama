@@ -244,6 +244,7 @@ function getDataCaptura() {
 }
 var numMuestras = new Array();
 function getLoteCaptura() {
+    alert("getLoteCaptura")
     numMuestras = new Array();
     idMuestra = 0;
     let tabla = document.getElementById('divTablaControles');
