@@ -181,10 +181,12 @@ class CampoController extends Controller
         switch (Auth::user()->role_id) {
             case 1:
             case 15:
-                $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
+                // $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
+                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
                 break;
             default:
-                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('500')->get();
+                // $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('500')->get();
+                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
                 break;
         }
         foreach ($model as $item) {
@@ -2154,6 +2156,15 @@ class CampoController extends Controller
             'model' => $model,
         );
         return response()->json($data);
+    }
+    public function updatePhTrazableCaptura()
+    {
+        $model = Solicitud::where('Padre',0)->whereDate('Fecha_muestreo', '<=', '2024-03-01')->whereDate('Fecha_muestreo', '>=', '2024-05-17')->where('Id_servicio','!=',3)->get();
+
+        foreach ($model as $item) {
+            echo "<br>";
+            echo " ".$item->Id_solicitud."- Fecha: ".$item->Fecha_muestreo;
+        }
     }
 
 
