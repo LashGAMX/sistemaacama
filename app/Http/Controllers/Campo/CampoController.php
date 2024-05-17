@@ -182,7 +182,7 @@ class CampoController extends Controller
             case 1:
             case 15:
                 // $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
-                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->get();
                 break;
             default:
                 // $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('500')->get();
