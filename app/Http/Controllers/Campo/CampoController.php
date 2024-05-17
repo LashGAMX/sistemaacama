@@ -366,11 +366,11 @@ class CampoController extends Controller
         $phTrazable->save();
 
         //PhCalidad
-
+        $phCalidadTemp = PHCalidad::where('Ph_calidad',$request->phCalidad1)->first();
         $phCalidadMode = CampoPhCalidad::where('Id_solicitud', $request->idSolicitud)->get();
         $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
         $phCalidad->Id_solicitud = $request->idSolicitud;
-        $phCalidad->Id_phCalidad = $request->phTrazable1;
+        $phCalidad->Id_phCalidad = $phCalidadTemp->Id_ph;
         $phCalidad->Lectura1 = $request->phC11;
         $phCalidad->Lectura2 = $request->phC21;
         $phCalidad->Lectura3 = $request->phC31;
@@ -383,9 +383,11 @@ class CampoController extends Controller
 
         $phCalidad->save();
 
+        $phCalidadTemp = PHCalidad::where('Ph_calidad',$request->phCalidad2)->first();
+
         $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
         $phCalidad->Id_solicitud = $request->idSolicitud;
-        $phCalidad->Id_phCalidad = $request->phTrazable2;
+        $phCalidad->Id_phCalidad = $phCalidadTemp->Id_ph;
         $phCalidad->Lectura1 = $request->phC12;
         $phCalidad->Lectura2 = $request->phC22;
         $phCalidad->Lectura3 = $request->phC23;
@@ -1509,11 +1511,11 @@ class CampoController extends Controller
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $id)->get();
         $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $id)->get();
         $conMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
-        $muestreador = Usuario::where('id', $solGen->Id_muestreador)->first();
+        $muestreador = Usuario::where('id', @$solGen->Id_muestreador)->first();
         $swMateria = SolicitudParametro::where('Id_solicitud', $id)->where('Id_subnorma', 2)->get();
         $recepcion = SeguimientoAnalisis::where('Id_servicio', $id)->first();
 
-        $firmaRes = DB::table('users')->where('id', $solGen->Id_muestreador)->first();
+        $firmaRes = DB::table('users')->where('id', @$solGen->Id_muestreador)->first();
 
 
         $areaModel = AreaLab::all();
