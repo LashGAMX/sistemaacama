@@ -69,10 +69,10 @@
                         @if (@$promCol->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                         <td class="fontCalibri anchoColumna111 fontSize8">
-                            @if (@$promCol[0]->Resultado2 <= @$promCol[0]->Limite)
-                                < {{@$promCol[0]->Limite}}
-                            @else
+                            @if (@$promCol[0]->Resultado2 >= @$promCol[0]->Limite)
                                 {{number_format(@$promCol[0]->Resultado2, 2, ".", "")}}
+                            @else
+                                < {{@$promCol[0]->Limite}}
                             @endif
                         </td>
                          @endif
