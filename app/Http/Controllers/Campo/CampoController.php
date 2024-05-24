@@ -82,9 +82,9 @@ class CampoController extends Controller
         
         if (Auth::user()->role->id == 13) { 
             $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(300)->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(800)->get();
         } else {
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(300)->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(800)->get();
         }
 
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
