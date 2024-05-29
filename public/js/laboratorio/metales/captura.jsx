@@ -1543,7 +1543,8 @@ function getLoteCaptura() {
 
 //Función imprimir PDF
 function imprimir(idLote){        
-    window.open(base_url + "/admin/laboratorio/metales/exportPdfCaptura/"+idLote);
+    window.o
+    (base_url + "/admin/laboratorio/metales/exportPdfCaptura/"+idLote);
     //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
 }
 
@@ -1554,7 +1555,7 @@ function enviarObservacion(){
         url: base_url + "/admin/laboratorio/metales/enviarObservacion",
         data: {
             // fecha:$("#fechaAnalisis").val(),
-            // idParametro:$("#formulaTipo").val(),
+            idParametro:$("#formulaTipo").val(),
             // idlote:idLote,
             idMuestra:$("#idDetalle"+idMuestra).val(),
             // ph:$("#ph").val(),

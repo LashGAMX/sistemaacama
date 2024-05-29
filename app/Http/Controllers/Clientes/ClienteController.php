@@ -8,6 +8,7 @@ use App\Models\SucursalContactos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class ClienteController extends Controller
 {
     
@@ -20,6 +21,7 @@ class ClienteController extends Controller
         $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
         return view('clientes.cliente_detalle',compact('cliente'));
     }
+
     public function details($id,$idSuc)
     {
         $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
@@ -50,6 +52,7 @@ class ClienteController extends Controller
         );
         return response()->json($data);
     }
+ 
     public function setDatosGenerales(Request $res)
     {
         $model = SucursalContactos::create([
@@ -67,6 +70,7 @@ class ClienteController extends Controller
         );
         return response()->json($data);
     }
+
     public function getContactoGeneral(Request $res)
     {
         $model = SucursalContactos::find($res->id);

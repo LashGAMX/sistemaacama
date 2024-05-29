@@ -30,6 +30,7 @@
                 <th>Área</th>
                 <th>Creación</th>
                 <th>Modificación</th>
+                <th>Orden</th>
                 <th>Acción</th>
             </tr>
         </thead>
@@ -42,6 +43,7 @@
           <td>{{$item->Area_analisis}}</td>          
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
+          <td>{{$item->Orden}}</td>
           <td>
             <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_area_analisis}}','{{$item->Area_analisis}}')"  data-toggle="modal" data-target="#modalArea"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
@@ -80,6 +82,12 @@
                   <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required> 
                   @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
+                <div class="col-md-12">
+                  <input type="text" wire:model="orden" hidden>
+                  <label for=""><Orden</label>
+                  <input type="number" wire:model='orden' class="form-control" placeholder="orden" required> 
+                  @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -98,7 +106,5 @@
   $('#modalArea').modal('hide')
 </script>
 @endif
-
-    
-  </div>
+</div>
    

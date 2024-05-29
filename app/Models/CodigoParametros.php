@@ -15,11 +15,11 @@ class CodigoParametros extends Model
 
     protected $fillable = [
         'Id_solicitud', 
-        'Id_parametro',
-        'Codigo',
+        'Id_parametro', 
+        'Codigo',       
         'Num_muestra',
         'Resultado',
-        'Resultado2',
+        'Resultado2',  
         'Id_lote',
         'Asignado',
         'Analizo',

@@ -13,7 +13,7 @@ class Solicitud extends Model
     protected $table = 'solicitudes';
     protected $primaryKey = 'Id_solicitud';
     public $timestamps = true;
-
+    
     protected $fillable = [
       'Id_cotizacion',
       'Folio',

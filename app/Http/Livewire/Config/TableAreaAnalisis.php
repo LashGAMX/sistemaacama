@@ -21,6 +21,8 @@ class TableAreaAnalisis extends Component
     public $area;
     public $idArea;
     public $nota;
+    public $orden;
+
 
     protected $rules = [ 
         'area' => 'required',
@@ -29,9 +31,9 @@ class TableAreaAnalisis extends Component
         'area.required' => 'El nombre es un dato requerido',
     ];
 
-    public function render()
+    public function render() //realiza la consulta con Live Ware
     {
-        $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")
+        $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")->orderByRaw('CASE WHEN Orden IS NOT NULL THEN 0 ELSE 1 END, Orden ASC')
         ->paginate($this->perPage);
         return view('livewire.config.table-area-analisis',compact('model'));
     }
@@ -43,6 +45,7 @@ class TableAreaAnalisis extends Component
             'Area_analisis' => $this->area,
             'Id_user_c' => $this->idUser, 
             'Id_user_m' => $this->idUser,
+            'Orden' => $this->orden,
         ]);
         $this->idArea = $model->Id_area_analisis;
         $this->nota = "Creación de registro";

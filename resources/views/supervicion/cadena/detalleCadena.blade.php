@@ -21,7 +21,6 @@
                             <h6>Solicitud ID: <strong>{{$model->Id_solicitud}}</strong></h6>
                             <h6>Servicio: <strong>{{$model->Servicio}}</strong></h6>
                             <h6>Tipo descarga: <strong>{{$model->Descarga}}</strong></h6>
-                            <h6>Folio: <strong>{{$model->Folio_servicio}}</strong></h6>
                         </div>
                         <div class="col-md-2">
                             <h6>Norma: <strong>{{$model->Clave}}</strong></h6>
@@ -29,9 +28,14 @@
                             <h6>Intermediario: <strong>{{@$intermediario->Nombres}}</strong></h6>
                         </div>
                         <div class="col-md-2">
+                            <h6>Folio: <strong>{{$model->Folio_servicio}}</strong></h6>
+                            <h6>Estado: <strong>Reporte</strong></h6>
+                            <h6>Dirección: <strong>{{$direccion->Direccion}}</strong></h6>
+                        </div>
+                        <div class="col-md-2">
                             <h6>Fecha muestro: <strong>{{$model->Fecha_muestreo}}</strong></h6>
                             <h6>Fecha recepcion: <strong>{{$model->Fecha_recepcion}}</strong></h6>
-                            <h6>Estado: <strong>Reporte</strong></h6>
+                            <h6>Fecha emisión: <input type="date" id="fechaEmision" value="{{$proceso->Emision_informe}}"> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>
                         </div>
                         <div class="col-md-2">
                             <div class="form-check">
@@ -140,6 +144,51 @@
         </div> 
     </div>
 </div>
+
+<!-- Modal historial-->
+<div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-height: 200%;"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Historial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>Lista parametros </span>
+                        <div id="divTablaHist">
+                          <table id="tablaLoteModal" class="table table-sm">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th>Id lote</th>
+                                      <th>Fecha lote</th>
+                                      <th>Codigo</th>
+                                      <th>Parametro</th>
+                                      <th>Resultado</th>
+                                      <th>His</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                      <td>Id lote</td>
+                                      <td>Fecha lote</td>
+                                      <td>Codigo</td>
+                                      <td>Parametro</td>
+                                      <td>Resultado</td>
+                                      <td>Historial</td>
+                              </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+     
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
     @section('javascript')

@@ -20,7 +20,9 @@ $(document).ready(function () {
     $('#btnCadena').click(function () {
         window.open("/sofia/admin/informes/cadena/pdf/"+idPunto)
     });
-
+    $('#btnSetEmision').click(function () {
+        setEmision()
+    });
     $('#tablePuntos tbody').on('click', 'tr', function () { 
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -62,12 +64,28 @@ $(document).ready(function () {
         var historialValor = $(this).is(':checked') ? 1 : 0; //verifica si esta activado o desactivado 
     
         setHistorial(historialValor);
-        setHistorial_parametro(historialValor);
+    
     });
     $('#btnLiberar').click(function () {
         liberarResultado();
     });
 });
+function setEmision(){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/setEmision",
+        data: {
+            idSol: $("#idSol").val(),
+            fecha: $("#fechaEmision").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            alert(response.msg)
+        }
+    });
+}
 function setSupervicion(){
     $.ajax({
         type: 'POST',
@@ -118,6 +136,7 @@ function setHistorial(historialValor) {
 
                 $('#tableParametros tbody tr').each(function () {
                     $(this).find('td:eq(5)').text(historialValor);
+
                 });
             } else {
                 swal("Registro!", "Proceso por historial cancelado", "success");
@@ -132,6 +151,7 @@ function setHistorial(historialValor) {
 function getParametros() {
     console.log("Click en Punto de muestreo");
     let color = "";
+    let AP= "";
     let tabla = document.getElementById('divTableParametros');
     let tab = '';
     
@@ -156,7 +176,7 @@ function getParametros() {
             tab += '          <th>Tipo formula</th>';
             tab += '          <th>Ejecutado</th> ';
             tab += '          <th>Resultado</th> ';
-            //tab += '          <th>His</th> ';
+           tab += '          <th></th> ';
             // tab += '          <th>Liberado</th> '; 
             // tab += '          <th>Nombre</th> '; 
             tab += '        </tr>';
@@ -198,13 +218,20 @@ function getParametros() {
                     default:
                         break;
                 }
+               if( item.Cadena == 0)
+                    {
+                        AP="primary";
+                    }          else 
+                    {
+                        AP=""
+                    }   
                 tab += '<tr>';
                 tab += '<td>' + item.Id_codigo + '</td>';
                 tab += '<td class="bg-' + color + '">('+item.Id_parametro+') ' + item.Parametro + '</td>';
-                tab += '<td>' + item.Tipo_formula + '</td>';
-                tab += '<td>' + item.Resultado + '</td>';
-                tab += '<td>' + item.Resultado2 + '</td>';
-                //tab += '<td>' + item.Historial + '</td>';
+                tab += '<td class="bg-' + AP + '">' + item.Tipo_formula + '</td>';
+                tab += '<td class="bg-' + AP + '">' + item.Resultado + '</td>';
+                tab += '<td class="bg-' + AP + '">' + item.Resultado2 + '</td>';
+                tab += '<td><button class="btn-warning" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 tab += '</tr>';
@@ -283,7 +310,7 @@ function reasignarMuestra () {
         }
     });
 }
-function desactivarMuestra () {
+function desactivarMuestra() {
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/supervicion/cadena/desactivarMuestra",
@@ -295,13 +322,23 @@ function desactivarMuestra () {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response)
-          
-                alert("Muestra desactivada");
-          
+            var table = $('#tableParametros').DataTable();
+            table.rows().every(function () {
+                var rowData = this.data();
+                var rowId = rowData[0];
+
+                if (rowId == idCodigo) {
+            alert("Muestra desactivada");
+            $(this.node()).find('td:eq(2)').addClass('bg-primary');
+            $(this.node()).find('td:eq(3)').addClass('bg-primary');
+            $(this.node()).find('td:eq(4)').addClass('bg-primary');
+            
+        }
+    });
         }
     });
 }
+
 
 var resLiberado = 0;
 var idCod = idCodigo;
@@ -1256,8 +1293,9 @@ function liberarResultado() {
                 if (rowId == idCodigo) {
                     this.cell(this.index(), 4).data(response.resLiberado);
                     $(this.node()).find('td:eq(4)').text(resLiberado); //cambia el resultado sin recargar 
-                    $(this.node()).find('td:eq(1)').removeClass('bg-warning').addClass('bg-success');
-                    $(this.node()).find('td:eq(1)').addClass('bg-success');
+                    $(this.node()).find('td:eq(1)')
+        .removeClass('bg-warning')
+                    .addClass('bg-success');
                     return false; 
                 }
             });
@@ -1282,6 +1320,75 @@ function liberarSolicitud() {
             } else {
                 swal("Registro!", "Liberacion modificada", "success");
             }
+        }
+    });
+}
+
+function getHistorial(id)
+{
+    console.log("Get Historial");
+    let tabla1 = document.getElementById('divTablaHist');
+    let tab1 = ''
+
+  
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/supervicion/cadena/getHistorial",
+        data: {
+            idCodigo:id,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            tab1 += `
+                <table id="tablaLoteModal" class="table table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id lote</th>
+                            <th>Fecha lote</th>
+                            <th>Codigo</th>
+                            <th>Parametro</th>
+                            <th>Resultado</th>
+                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                            ${
+                               $.map(response.idsLotes, function (item,index){
+                                let    estilo =   parseInt(response.historialHist[index]) == 1 ? 'background-color:#e5e5ff;' : ''
+                                    return `
+                                 
+                                    
+                                        <tr>
+                                            <td>${item}</td>
+                                            <td style ="${estilo}">${response.fechaLote[index]}</td>
+                                            <td style ="${estilo}">${response.Codigohist[index]}</td>
+                                            <td style ="${estilo}"">${response.parametrohist[index]}</td>
+                                            <td style ="${estilo}">${response.resultadoHist[index]}</td>
+                                            
+                                        </tr>
+                                    `
+                               }).join('') 
+                            }
+                    </tbody>
+                 </table>
+            `
+
+            tabla1.innerHTML = tab1
+
+            
+            var t2 = $('#tablaCodigosHistorial').DataTable({
+                "ordering": false,
+                paging: false,
+                scrollY: '300px',
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
         }
     });
 }

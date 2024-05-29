@@ -4,19 +4,26 @@ namespace App\Http\Controllers\Clientes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Clientes;
+use App\Models\SucursalCliente;
 use App\Models\ClienteGeneral;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ClientesController extends Controller
 {
+    public $perPage = 500;
+    public $idCliente;
+    public $Search = '';
+
+
     public function getClientesGen(){
         $clienteGen = DB::table('Viewgenerales')->get();
         $data = array(
             'clienteGen' => $clienteGen
         );
-        return response()->json($data);;
+        return response()->json($data);
     }
 
     public function setClientesGen(Request $res){
@@ -81,9 +88,24 @@ class ClientesController extends Controller
     public function clientesGenDetalle($id){
         $clienteGen = DB::table('Viewgenerales')->where('Id_cliente', $id)->first();
         return view('clientes.clientesGenDetalle',compact('clienteGen'));
+        
     }
 
     public function clientesGen(){
         return view('clientes.clientesgen');
     }
+  
+    public function TablaSucursal()
+    {
+        $model = SucursalCliente::withTrashed()->where('Id_cliente', $this->idCliente)->orderBy('Id_sucursal', 'desc')->paginate($this->perPage);
+        $datos=array(
+            'model' =>$model,
+            
+        );
+
+       return response()->json($datos);
+    }
+    
+    
+
 }

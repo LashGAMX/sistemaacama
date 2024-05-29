@@ -45,7 +45,7 @@ INNER JOIN clientes as cli2
 ON inter.Id_cliente = cli2.Id_cliente;
 
 /* Vista Lista parametros */
-CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
+CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis,area.Orden,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
 param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Limite,param.Dias_analisis,param.Id_tecnica,tec.Tecnica,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,param.Curva,param.Usuario_default,
 sim.Simbologia,inf.Simbologia as Simbologia_inf, inf.Id_simbologia_info,inf.Descripcion as Descripcion2,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
@@ -358,16 +358,17 @@ ON lo.Id_tecnica = pa.Id_parametro;
 
 
 /* Lista ViewDetalleLote */ 
--- CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,pa.Limite,pa.Id_tecnica,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
--- FROM lote_detalle as lote
--- INNER JOIN ViewSolicitud2 as sol
--- ON lote.Id_analisis = sol.Id_solicitud
--- INNER JOIN ViewParametros as pa
--- ON lote.Id_parametro = pa.Id_parametro
--- INNER JOIN control_calidad as control
--- ON lote.Id_control = control.Id_control
--- INNER JOIN area_analisis as ar
--- ON pa.Id_area = ar.Id_area_analisis;
+CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,
+pa.Limite,pa.Id_tecnica,pa.Tecnica,pa.Tipo_formula, ar.Area_analisis, control.Control 
+FROM lote_detalle as lote
+INNER JOIN ViewSolicitud2 as sol
+ON lote.Id_analisis = sol.Id_solicitud
+INNER JOIN ViewParametros as pa
+ON lote.Id_parametro = pa.Id_parametro
+INNER JOIN control_calidad as control
+ON lote.Id_control = control.Id_control
+INNER JOIN area_analisis as ar
+ON pa.Id_area = ar.Id_area_analisis;
 
 CREATE VIEW ViewLoteDetalle as  SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,
 pa.Parametro,pa.Limite,pa.Id_tecnica,pa.Id_tipo_formula ,ar.Area_analisis, control.Control 
@@ -389,7 +390,7 @@ INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis;
 
 /* Lista  ViewLoteDetalleEspectro */
-CREATE VIEW ViewLoteDetalleEspectro AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_espectro as det
+CREATE VIEW ViewLoteDetalleEspectro AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra,cod.Historial FROM lote_detalle_espectro as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud2 as sol
@@ -454,7 +455,7 @@ ON col.Id_codigo = cod.Id_codigo;
 /* Lista ViewLoteDetalleEcoli */ 
 
 CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,
-control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_ecoli as col
+control.Descripcion,cod.Codigo,cod.Num_muestra,cod.Historial FROM lote_detalle_ecoli as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -466,7 +467,7 @@ ON col.Id_codigo = cod.Id_codigo;
 
 /* Lista ViewLoteDetalleEnterococos */
 CREATE VIEW ViewLoteDetalleEnterococos as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,
-param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_enterococos as col
+param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra,cod.Historial FROM lote_detalle_enterococos as col
 INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -582,7 +583,9 @@ ON pu.Id_muestreo = gen.Id_punto;
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area,pa.Limite FROM codigo_parametro as cod
+CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,
+sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad,
+ pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area,pa.Limite FROM codigo_parametro as cod
 INNER JOIN solicitudes as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN sub_normas as sub
@@ -610,7 +613,7 @@ ON sol.Id_solicitud = pro.Id_solicitud;
 
 CREATE VIEW ViewCodigoPendientes AS 
 SELECT cod.*, proce.Id_solicitud as Solicitud, proce.Hora_entrada, 
-proce.Hora_recepcion, proce.Empresa, pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad,pa.Id_area,
+proce.Hora_recepcion, proce.Empresa, pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad,pa.Id_area,pa.Dias_analisis,
 pa.Id_tipo_formula,pa.Id_tecnica,pa.Tecnica FROM codigo_parametro as cod 
 INNER JOIN ViewParametros as pa ON cod.Id_parametro = pa.Id_parametro 
 INNER JOIN proceso_analisis as proce ON cod.Id_solicitud = proce.Id_solicitud;
@@ -632,7 +635,7 @@ INNER JOIN proceso_analisis as pro
 ON cod.Id_solicitud = pro.Id_solicitud;
 
 CREATE VIEW ViewCodigoRecepcion AS 
-SELECT cod.* , pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Unidad FROM codigo_parametro as cod
+SELECT cod.* , pa.Parametro,pa.Tipo_formula,pa.Area_analisis,pa.Orden,pa.Unidad FROM codigo_parametro as cod
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro;
 
@@ -753,7 +756,7 @@ INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo;
 /* ViewLoteDetalleDureza */
 
-CREATE VIEW ViewLoteDetalleDureza AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_dureza as det
+CREATE VIEW ViewLoteDetalleDureza AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra,cod.Historial FROM lote_detalle_dureza as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud2 as sol
@@ -764,6 +767,7 @@ INNER JOIN control_calidad as con
 ON det.Id_control = con.Id_control
 INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo;
+
 
 /* ViewLoteDetallePotable */
 

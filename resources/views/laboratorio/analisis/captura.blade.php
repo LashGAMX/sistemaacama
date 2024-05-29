@@ -119,9 +119,8 @@
     </div>
   </div>
 </div>
-
-
 {{-- Inicio modal pendientes --}}
+
 <div class="modal fade" id="modalPendientes" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -235,39 +234,54 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="tablaLote" class="table table-lg">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Id lote</td>
-                                    <td>Fecha lote</td>
-                                    <td>Codigo</td>
-                                    <td>Parametro</td>
-                                    <td>Resultado</td>
-                                </tr>
-                            </thead>
+                        <span>Lista parametros </span>
+                        <div id="divTablaHist">
+                          <table id="tablaLoteModal" class="table table-sm">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th>Id lote</th>
+                                      <th>Fecha lote</th>
+                                      <th>Codigo</th>
+                                      <th>Parametro</th>
+                                      <th>Resultado</th>
+                                      <th>His</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                      <td>Id lote</td>
+                                      <td>Fecha lote</td>
+                                      <td>Codigo</td>
+                                      <td>Parametro</td>
+                                      <td>Resultado</td>
+                                      <td>Historial</td>
+                              </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="table-responsive"> 
-                        <table id="divtable2" class="table table-lg">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <td>Id_codigo</td>
-                                    <td>Codigo</td>
-                                    <td>Parametro</td>
-                                    <td>Resultado</td>
-                                    <td>Resultado 2</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-              
+                <div class="row">
+                  <div class="col-md-12">
+                    <div id="divTablaCodigos">
+                      <table id="tablaModal2" class="table table-lg">
+                          <thead class="thead-dark">
+                              <tr>
+                                  <th>Id_codigo</th>
+                                  <th>Codigo</th>
+                                  <th>Parametro</th>
+                                  <th>Resultado</th>
+                                  <th>Resultado 2</th>
+                              </tr>
+                          </thead>
+                      
+                      </table>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
    <!-- Modal historial-->
@@ -327,7 +341,7 @@
                                 </button> 
                             </div>
                             <div class="modal-body">
-                            <p>Folio: <span id="folioEnModal"></span></p>
+                           
   
                                 <div class="row">
                                     <div class="col-md-12">
@@ -4776,7 +4790,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=1.2.4"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.2.5"></script>
 <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
 <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>
