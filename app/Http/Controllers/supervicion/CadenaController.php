@@ -476,6 +476,7 @@ class CadenaController extends Controller
             case 64:
                 $model = DB::table('ViewLoteDetalleCloro')
                 ->where('Id_analisis', $codigoModel->Id_solicitud)
+                ->where('Id_parametro',64)
                 ->where('Id_control', 1)
                 ->get();
                 break;

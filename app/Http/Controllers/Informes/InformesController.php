@@ -2144,6 +2144,7 @@ class InformesController extends Controller
                                 case 96: //Saam
                                 case 114: //saam
                                 case 232:
+                                case 351:
                                     if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
                                     {
                                         $limP = ($item->Resultado2 + $model2[$cont]->Resultado2) / 2;
