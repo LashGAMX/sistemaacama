@@ -4026,6 +4026,7 @@ function getMuestraSinAsignar() {
         success: function (response) {
             console.log(response)
             let estiloH  = ""
+            let mensaje = ''
 
             $("#tipoFormulaAsignar").val(response.lote.Tipo_formula)
             $("#parametroAsignar").val(response.lote.Parametro)
@@ -4079,6 +4080,7 @@ function getMuestraSinAsignar() {
                         mensaje = 'Fuera de Tiempo('+diasD+')';
                     }else{
                         color ='';
+                        
                     }
                 } else {
                     color= '';
@@ -4309,7 +4311,7 @@ function getPendientes() {
         dataType: "json",
         async: false,
         success: function (response) {
-       
+            let mensaje = ''
             console.log(response);
             model = response.model
             tab += '<table class="table table-sm" style="font-size:10px" id="tablePendientes">';
