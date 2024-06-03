@@ -183,28 +183,66 @@
             </div>
 
 
-             <!-- Modal Control Calidad-->
-             <div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="">Historial</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div id="divHistorial">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+             <!-- Modal historial-->
+<div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-height: 200%;"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Historial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>Lista parametros </span>
+                        <div id="divTablaHist">
+                          <table id="tablaLoteModal" class="table table-sm">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th>Id lote</th>
+                                      <th>Fecha lote</th>
+                                      <th>Codigo</th>
+                                      <th>Parametro</th>
+                                      <th>Resultado</th>
+                                      <th>His</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                      <td>Id lote</td>
+                                      <td>Fecha lote</td>
+                                      <td>Codigo</td>
+                                      <td>Parametro</td>
+                                      <td>Resultado</td>
+                                      <td>Historial</td>
+                              </tbody>
+                        </table>
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div id="divTablaCodigos">
+                      <table id="tablaModal2" class="table table-lg">
+                          <thead class="thead-dark">
+                              <tr>
+                                  <th>Id_codigo</th>
+                                  <th>Codigo</th>
+                                  <th>Parametro</th>
+                                  <th>Resultado</th>
+                                  <th>Resultado 2</th>
+                              </tr>
+                          </thead>
+                      
+                      </table>
+                      </div>
+                  </div>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
              
 </div>
   @stop

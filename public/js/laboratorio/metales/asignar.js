@@ -28,8 +28,7 @@ document.addEventListener("keydown", function(event) {
         sendMuestrasLote()
     }
 });
-function getPendientes()
-{ 
+function getPendientes() {
     let tabla = document.getElementById('divPendientes');
     let tab = '';
     $.ajax({
@@ -38,26 +37,63 @@ function getPendientes()
         data: {
             _token: $('input[name="_token"]').val(),
         },
+
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {
+       
             console.log(response);
             model = response.model
-            tab += '<table id="tablePendientes" class="table table-sm" style="font-size:10px">';
+            tab += '<table class="table table-sm" style="font-size:10px" id="tablePendientes">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Folio</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Fecha recepción</th>';
+            tab += '          <th>Empresa</th>'
+            tab += '          <th>Dias Analisis</th>'
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
+               
+                fechaRecepcion = new Date(model[i][2]); 
+                
+                Hoy = new Date(model[i][5]);
+                    
+                diasAnalisis = model[i][6];
+                diasDiferencia = Math.ceil(( Hoy - fechaRecepcion) / (1000 * 60 * 60 * 24)); 
+
+                estilohistorial= model[i][4] == 1 ? 'background-color:#e5e5ff;' : '';
+
+                if (parseInt(diasAnalisis) !== 0 && diasAnalisis !== null) 
+                {
+         
+                    if (diasDiferencia < diasAnalisis) {
+                       
+                        color = 'bg-success';
+                        mensaje = 'Faltan Días('+((diasDiferencia-diasAnalisis)*(-1))+')';
+
+                    }else if(diasDiferencia === 1)
+                    {
+                        color = 'bg-warning';
+                        mensaje = 'En Tiempo('+diasDiferencia+')';
+
+                    }else if(diasAnalisis < diasDiferencia)
+                    {
+                        color = 'bg-danger';
+                        mensaje = 'Fuera de Tiempo('+diasDiferencia+')';
+                    }
+                }
+                console.log(color)
+
                 tab += '<tr>';
-                tab += '<td>'+model[i][0]+'</td>';
-                tab += '<td>'+model[i][1]+'</td>';
-                tab += '<td>'+model[i][2]+'</td>';
-                tab += '</tr>';   
+                tab += '<td style="' + estilohistorial + '">' + model[i][0] + '</td>';//Folio
+                tab += '<td style="' + estilohistorial + '">' + model[i][1] + '</td>';//parametro
+                tab += '<td style="' + estilohistorial + '">' + model[i][2] + '</td>';//fecha recepcion
+                tab += '<td style="' + estilohistorial + '">' + model[i][3] + '</td>';// empresa
+                tab += '<td class="' + color + '">' + mensaje + '</td>'
+                tab += '</tr>';
             }
             tab += '    </tbody>';
             tab += '</table>';

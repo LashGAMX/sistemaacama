@@ -1388,9 +1388,11 @@ class MetalesController extends Controller
     }
     public function getPendientes(Request $res)
     {
+        $fechaHoy = Carbon::now()->toDateString();
+
         $model = array();
         $temp = array();
-        $codigo = DB::table('ViewCodigoParametro')->where('Asignado', 0)->get();
+        $codigo = DB::table('ViewCodigoPendientes')->where('Asignado', 0)->where('Cancelado','!=',1)->whereYear('Hora_recepcion',now()->year)->get();
         $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
         foreach ($codigo as $item) {
@@ -1401,6 +1403,10 @@ class MetalesController extends Controller
                     array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro);
                     array_push($temp, $item->Hora_recepcion);
                     array_push($model, $temp);
+                    array_push($temp, $item->Empresa);
+                    array_push($temp, $item->Historial);
+                    array_push($temp, $fechaHoy); 
+                    array_push($temp,$item->Dias_analisis); 
                     break;
                 }
             }
@@ -2590,38 +2596,72 @@ class MetalesController extends Controller
 
         return response()->json($data);
     }
+    
     public function getHistorial(Request $res)
     {
-        $temp = LoteDetalle::where('Id_detalle',$res->idDetalle)->first();
-        $solicitud = Solicitud::where('Id_solicitud',$temp->Id_analisis)->first();
-        $punto = SolicitudPuntos::where('Id_solicitud',$solicitud->Id_solicitud)->first();
-        $solModel = Solicitud::where('Id_cliente',$solicitud->Id_cliente)->where('Id_sucursal',$solicitud->Id_sucursal)
-        ->where('Id_solicitud','!=',$solicitud->Id_solicitud)->where('Padre',1)->limit(3)->orderBy('Id_solicitud','DESC')->get();
-
-        $resultado = array();
-        $lote = array();
+        $idHistorial = array();
+        $idsLotes = array();
         $fechaLote = array();
-        foreach ($solModel as $item) {
-            $aux =SolicitudPuntos::where('Id_solPadre',$item->Id_solicitud)->get();
-            foreach ($aux as $item2) {
-                if ($punto->Id_muestreo == $item2->Id_muestreo) {
-                    $codigo = CodigoParametros::where('Id_solicitud',$item2->Id_solicitud)->where('Id_parametro',$temp->Id_parametro)->first();
-                    $loteDet = LoteDetalle::where('Id_analisis',$codigo->Id_solicitud)->where('Id_control',1)->first();
-                    $loteModel = LoteAnalisis::where('Id_lote',$loteDet->Id_lote)->first();
-                    array_push($resultado,$codigo->Resultado2);
-                    array_push($lote,$loteDet->Id_lote);
-                    array_push($fechaLote,$loteModel->Fecha);
-                    
+        $Codigohist = array();
+        $parametrohist = array();
+        $resultadoHist = array();
+        $historialHist = array();
+     
+        $sw = 0;
+
+        $codigo = CodigoParametros::where('Id_codigo',$res->idCodigo)->first();
+        $solicitud = Solicitud::where('Id_solicitud',$codigo->Id_solicitud)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud',$codigo->Id_solicitud)->first();
+
+        $histSol = Solicitud::where('Padre',0)->where('Id_sucursal',$solicitud->Id_sucursal)->orderBy('Id_solicitud','DESC')->get();
+        try { 
+            foreach ($histSol as $item) 
+            {
+                $histPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->where('Id_muestreo',$punto->Id_muestreo)->get();
+                if ($histPunto->count()) {
+                    $res = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Liberado',1)->get();
+                    if ($res->count()) {
+                        array_push($idHistorial,$item->Id_solicitud);
+                        $sw++;
+                    }
+                }
+                if ($sw == 3) {
+                    break;
                 }
             }
+            for ($i=0; $i < sizeof($histPunto); $i++) { 
+                $temp = DB::table('viewcodigoparametro')->where('Id_solicitud',$histPunto[$i]->Id_solicitud)->where('Id_parametro',$codigo->Id_parametro)->first();
+                $tempLote = LoteAnalisis::where('Id_lote',@$temp->Id_lote)->first();
+                 
+                array_push($idsLotes,$tempLote->Id_lote);
+                array_push($fechaLote,@$tempLote->Fecha);
+                array_push($parametrohist,@$temp->Parametro. "(".@$temp->Tipo_formula.")");
+                array_push($Codigohist,@$temp->Codigo);
+                array_push($resultadoHist,@$temp->Resultado2);
+                array_push($historialHist,@$temp->Historial);
+           
+
+            }
+        } catch (\Throwable $th) {
+            $idsLotes = array();
+            $fechaLote = array();
+            $Codigohist = array();
+            $parametrohist = array();
+            $resultadoHist = array();
+            $historialHist=array();
+         
         }
+
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$codigo->Id_solicitud)->get();
         
         $data = array(
-            'solModel' => $solModel,
-            'temp' => $temp,
-            'resultado' => $resultado,
-            'lote' => $lote,
+            'idsLotes' => $idsLotes,
             'fechaLote' => $fechaLote,
+            'Codigohist' => $Codigohist,
+            'resultadoHist' => $resultadoHist,
+            'parametrohist' => $parametrohist,
+            'historialHist' => $historialHist,
+            'model' => $model,
         );
         return response()->json($data);
     }
