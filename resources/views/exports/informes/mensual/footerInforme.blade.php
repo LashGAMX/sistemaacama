@@ -74,8 +74,8 @@
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>        
                         <td>
                             
-                           <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">BIOL. GUADALUPE GARCÍA PÉREZ</span> <br>
-                           <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br> -->
+                           {{-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">BIOL. GUADALUPE GARCÍA PÉREZ</span> <br> --}}
+                           <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br>
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br>   -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br> -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br>  -->

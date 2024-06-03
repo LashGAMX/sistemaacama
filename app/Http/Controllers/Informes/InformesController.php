@@ -658,7 +658,7 @@ class InformesController extends Controller
                  //$firma1 = User::find(14) ;
                  $firma1 = User::find(12);
                 //  $firma1 = User::find(12); // Reviso
-                 $firma2 = User::find(14); // Autorizo
+                 $firma2 = User::find(4); // Autorizo
                  //$firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
@@ -666,7 +666,7 @@ class InformesController extends Controller
             default:
                 //$firma1 = User::find(12); // Reviso
                  //$firma1 = User::find(14); //reviso
-                 $firma1 = User::find(14); //reviso
+                 $firma1 = User::find(4); //reviso
                 // $firma2 = User::find(35); //Autorizo
                 $firma2 = User::find(12); //Autorizo
                  //$firma2 = User::find(12); // Autorizo

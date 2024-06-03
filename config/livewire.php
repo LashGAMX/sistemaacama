@@ -54,11 +54,7 @@ return [
     |
     */
 
-<<<<<<< HEAD
     'asset_url' => "http://51.51.51.2:85/sofia/public", 
-=======
-    'asset_url' => "http://sistemasofia.ddns.net:85/sofiadev/public", 
->>>>>>> f54c8b73b7b4a6b2142117021cc24dd75a8d9832
 
     /*
     |--------------------------------------------------------------------------
