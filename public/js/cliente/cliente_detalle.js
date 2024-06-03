@@ -5,7 +5,8 @@ $(document).ready(function (){
     //     datosGenerales();
     // });
 
-    getDatosGenerales()
+ 
+    datosGenerales()
 
 });
 
@@ -39,7 +40,7 @@ function getDatosGenerales(){
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + '/admin/clientes/getDatosGenerales', //archivo que recibe la peticion
+        url: base_url + '/admin/clientes/getDatosGenerales', 
         data: {
             id:$("#idUser").val(),
             _token: $('input[name="_token"]').val(),
@@ -49,7 +50,7 @@ function getDatosGenerales(){
         success: function (response) {            
             console.log(response);
             model = response.model
-            tab += '<table class="table table-sm" style="font-size:10px">';
+            tab += '<table id="tablaDatosGenerales" class="table table-sm" style="font-size:10px">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>#</th>';
@@ -78,3 +79,40 @@ function getDatosGenerales(){
         }
     });
 }
+
+/*function TablaSucursal(){
+    tabla=document.getElementById('SucurcalCliente');
+    tab ='';
+    $.ajax({
+      type: 'POST',
+      url: base_url +'/admin/Clientes/TablaSucursal',
+      datos:{
+
+      },
+      dataType: "json",
+      ansync:false,
+      success:function(response){
+        listaclientes=response.model;
+        tab += '<table id="TablaScursal" class="table table-sm">';
+        tab += '<thead class="thead-dark">';
+        tab +=   '<tr>';
+        tab +=      ' <th>Id</th>';
+        tab +=      ' <th>Nombre</th>';
+        tab +=      ' <th>Estado</th>';
+        tab +=      '  <th>Tipo Cliente</th> ';
+        tab +=      ' <th>Acción</th> ';
+        tab +=   '</tr> ';
+        tab += '</thead> ';
+        tab += '      <tbody> ';
+       listaclientes.forEach(element => {
+        if(element.Id_)
+       })
+        tab +=          '<tr>';
+
+        tab +=          '</tr> ';
+        tab += '      </tbody> ';
+
+      }
+
+    });
+}*/

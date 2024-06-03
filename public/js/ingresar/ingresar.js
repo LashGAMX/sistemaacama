@@ -38,8 +38,27 @@ $(document).ready(function () {
             setActCC()
         }
     });
+    $('#btnSetEmision').click(function () {
+        setEmision()
+    });
 
 });
+function setEmision(){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/ingresar/setEmision",
+        data: {
+            idSol: $("#idSol").val(),
+            fecha: $("#fechaEmision").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            alert(response.msg)
+        }
+    });
+}
 function setActCC()
 {
     let sw = true
@@ -190,7 +209,9 @@ function buscarFolio() {
                 $("#descarga").val(response.cliente.Descarga);
                 $("#cliente").val(response.cliente.Nombres);
                 $("#empresa").val(response.cliente.Empresa);
-
+                if (response.proceso.length > 0) {
+                    $("#fechaEmision").val(response.proceso[0].Emision_informe);   
+                }
 
                 tablePuntos(response.cliente.Id_solicitud)
                 

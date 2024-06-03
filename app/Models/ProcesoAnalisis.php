@@ -29,6 +29,7 @@ class ProcesoAnalisis extends Model
         'ClienteG',
         'Hora_recepcion',
         'Hora_entrada',
+        'Emision_informe',
         'Liberado',
         'Cancelado',
         'Obs_proceso',

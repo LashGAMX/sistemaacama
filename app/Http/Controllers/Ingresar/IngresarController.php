@@ -595,7 +595,7 @@ class IngresarController extends Controller
             $date2 = new DateTime($fecha_muestreo);
             $diff = $date1->diff($date2);
             $valProce = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->get();
-
+            
             if ($valProce->count()) {
                 // aqui se crea la condición para la "ventana" de 10 min despues de ingresar la muestra
                 $now = Carbon::now();
@@ -604,6 +604,19 @@ class IngresarController extends Controller
 
                 //ProcesoAnalisis::where('Id_solicitud', $res->idSol)->WhereDate('created_at', '<=', $addMinute->toDateTimeString())->get();
                 if ($addMinute >= $now) {
+                    switch ($solModel->Id_norma) {
+                        case 1:
+                        case 27:
+                            $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(11)->format('Y-m-d');
+                            break;
+                        case 5:
+                        case 30:
+                            $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(14)->format('Y-m-d');
+                            break;
+                        default:
+                            $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(11)->format('Y-m-d');
+                            break;
+                    }
                   
                         $valProce[0]->Hora_recepcion = $res->horaRecepcion;
                         // $valProce->Hora_entrada = $res->horaEntrada;
@@ -614,7 +627,7 @@ class IngresarController extends Controller
                          foreach ($solModel as $itme){
                              $upd = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
                              $upd->Hora_recepcion = $res->horaRecepcion;
-                             //$upd->Hora_entrada = $res->horaEntrada;
+                             $upd->Emision_informe = @$fechaEmision;
                              $upd->save();
                          }
                          $msg = "Esta muestra ha sido actializada";
@@ -623,6 +636,19 @@ class IngresarController extends Controller
                 }
                // $msg = "Esta muestra ya fue ingresada hace mas de 10min";
             } else {
+                switch ($solModel->Id_norma) {
+                    case 1:
+                    case 27:
+                        $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(11)->format('Y-m-d');
+                        break;
+                    case 5:
+                    case 30:
+                        $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(14)->format('Y-m-d');
+                        break;
+                    default:
+                        $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(11)->format('Y-m-d');
+                        break;
+                }
                 $solModel = Solicitud::where('Hijo', $res->idSol)->get();
 
                 ProcesoAnalisis::create([
@@ -634,6 +660,7 @@ class IngresarController extends Controller
                     'Ingreso' => 1,
                     'Hora_recepcion' => $res->horaRecepcion,
                     'Hora_entrada' => $res->horaEntrada,
+                    'Emision_informe' => @$fechaEmision,
                     'Liberado' => 0,
                     'Id_user_c' => Auth::user()->id,
                     'Historial' => $resultadoHistorial,
@@ -648,6 +675,7 @@ class IngresarController extends Controller
                         'Ingreso' => 1,
                         'Hora_recepcion' => $res->horaRecepcion,
                         'Hora_entrada' => $res->horaEntrada,
+                        'Emision_informe' => @$fechaEmision,
                         'Liberado' => 0,
                         'Id_user_c' => Auth::user()->id,
                         'Historial' => $resultadoHistorial,
@@ -661,6 +689,7 @@ class IngresarController extends Controller
             $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";
         }
         $data = array(
+            'fechaEmision' => $fechaEmision,
             'model' => $model,
             'sw' => $sw,
             'msg' => $msg,
@@ -692,6 +721,29 @@ class IngresarController extends Controller
         return response()->json(compact('estado'));
     }
 
+    public function setEmision(Request $res)
+    {
+        $msg = "";
+        try {
+            $model = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
+            $model->Emision_informe = $res->fecha;
+            $model->save();
+            $solModel = Solicitud::where('Hijo',$res->idSol)->get();
+            foreach ($solModel as $item) {
+                $model = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+                $model->Emision_informe = $res->fecha;
+                $model->save();
+            }
+            $msg = "Fecha modificada correctamente";
+        } catch (\Throwable $th) {
+            $msg = $th;
+        }
+
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
 
     //----------------------------------MÓDULO GENERAR-------------------------------------
     public function genera2()

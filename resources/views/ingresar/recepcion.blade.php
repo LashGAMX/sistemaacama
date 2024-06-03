@@ -66,9 +66,16 @@
                     @switch(Auth::user()->role->id)
                         @case(1)
                             <button id="btnActCC" class="btn-info"><i class="voyager-edit"></i> Act. C.C</button>
+                            <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>
                             @break
                         @default
-                            
+                            @switch(Auth::user()->id)
+                                @case(65)
+                                <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>      
+                                    @break
+                                @default
+                                    
+                            @endswitch
                     @endswitch
                 </div>
                 

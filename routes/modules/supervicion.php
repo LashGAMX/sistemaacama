@@ -6,9 +6,10 @@ use App\Http\Controllers\supervicion\CadenaController2;
 use App\Http\Controllers\supervicion\SupervicionController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'supervicion'], function () {
-    Route::group(['prefix' => 'cadena'], function () {
+        Route::group(['prefix' => 'supervicion'], function () {
+        Route::group(['prefix' => 'cadena'], function () {
         Route::get('cadenaCustodia', [CadenaController::class, 'cadenaCustodia']);
+       // Route::get('cadenaCustodia', [CadenaController::class, 'cadenaCustodia2']);//ruta de prueba
         Route::get('detalleCadena/{id}', [CadenaController::class, 'detalleCadena']);
         Route::post('getParametroCadena', [CadenaController::class,'getParametroCadena']);
 
@@ -29,6 +30,8 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::post('setSupervicion', [SupervicionController::class,'setSupervicion']);
         Route::post('setLiberar', [SupervicionController::class,'setLiberar']);
         Route::post('setHistorial', [CadenaController::class,'setHistorial']);
+        Route::post('setEmision', [CadenaController::class,'setEmision']);
+        Route::post('getHistorial', [CadenaController::class,'getHistorial']);
     });
     Route::group(['prefix' => 'analisis'], function () {
         Route::get('/', [SupervicionController::class, 'analisis']);

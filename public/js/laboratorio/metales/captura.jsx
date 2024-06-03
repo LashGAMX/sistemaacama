@@ -114,44 +114,108 @@ function setTituloBit(id)
 function getHistorial(id)
 {
     console.log("Get Historial");
-    let tabla = document.getElementById('divHistorial');
-    let tab = '';
+    let tabla1 = document.getElementById('divTablaHist');
+    let tabla2 = document.getElementById('divTablaCodigos');
+    let tab1 = ''
+    let tab2 = ''
 
+  
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getHistorial",
         data: {
             idLote: idLote,
-            idDetalle:id,
+            idCodigo:id,
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            if (response.resultado.length > 0) {
-                tab += '<table id="tablaLote" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Id Lote</th>';
-                tab += '          <th>Fecha Lote</th>';
-                tab += '          <th>Resultado</th> ';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                for (let i = 0; i < response.resultado.length; i++) {
-                    tab += '<tr>';
-                    tab += '<td>'+response.lote[i]+'</td>'
-                    tab += '<td>'+response.fechaLote[i]+'</td>'
-                    tab += '<td>'+response.resultado[i]+'</td>'
-                    tab += '</tr>';   
-                }
-                tab += '    </tbody>';
-                tab += '</table>';
-            } else {
-                tab += 'No hay historial'
-            }
+            tab1 += `
+                <table id="tablaLoteModal" class="table table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id lote</th>
+                            <th>Fecha lote</th>
+                            <th>Codigo</th>
+                            <th>Parametro</th>
+                            <th>Resultado</th>
+                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                            ${
+                               $.map(response.idsLotes, function (item,index){
+                                let    estilo =   parseInt(response.historialHist[index]) == 1 ? 'background-color:#e5e5ff;' : ''
+                                    return `
+                                 
+                                    
+                                        <tr>
+                                            <td>${item}</td>
+                                            <td style ="${estilo}">${response.fechaLote[index]}</td>
+                                            <td style ="${estilo}">${response.Codigohist[index]}</td>
+                                            <td style ="${estilo}"">${response.parametrohist[index]}</td>
+                                            <td style ="${estilo}">${response.resultadoHist[index]}</td>
+                                            
+                                        </tr>
+                                    `
+                               }).join('') 
+                            }
+                    </tbody>
+                 </table>
+            `
+
+            tab2 = `
+                    <table id="tablaCodigosHistorial" class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Id_codigo</th>
+                                <th>Codigo</th>
+                                <th>Parametro</th>
+                                <th>Resultado Ejec.</th>
+                                <th>Resultado Lib.</th>
+                                <th>Analizo</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${
+                                $.map(response.model, function (item){
+                                    let estilo2 = item.Liberado == 1 ? 'bg-success' : '';
+                                    return `
+                                        <tr>
+                                        
+                                            <td class="${estilo2}">${item.Id_codigo}</td>
+                                            <td class="${estilo2}">${item.Codigo}</td>
+                                            <td class="${estilo2}">${item.Parametro} (${item.Tipo_formula})</td>
+                                            <td class="${estilo2}">${item.Resultado != null ? item.Resultado : ''}</td>
+                                            <td class="${estilo2}">${item.Resultado2 != null ? item.Resultado2 : ''}</td>
+                                            <td class="${estilo2}">${item.Analizo != 1 ? item.name : ''}</td>
+                                            
+                                        </tr>
+                                    `;
+                                }).join('') 
+                            }
+                        </tbody>
+
+                    </table>
+                 `
+
+            tabla1.innerHTML = tab1
+            tabla2.innerHTML= tab2
+
             
-            tabla.innerHTML = tab;
+            var t2 = $('#tablaCodigosHistorial').DataTable({
+                "ordering": false,
+                paging: false,
+                scrollY: '300px',
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
         }
     });
 }
@@ -1543,7 +1607,8 @@ function getLoteCaptura() {
 
 //Función imprimir PDF
 function imprimir(idLote){        
-    window.open(base_url + "/admin/laboratorio/metales/exportPdfCaptura/"+idLote);
+    window.o
+    (base_url + "/admin/laboratorio/metales/exportPdfCaptura/"+idLote);
     //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
 }
 
@@ -1554,7 +1619,7 @@ function enviarObservacion(){
         url: base_url + "/admin/laboratorio/metales/enviarObservacion",
         data: {
             // fecha:$("#fechaAnalisis").val(),
-            // idParametro:$("#formulaTipo").val(),
+            idParametro:$("#formulaTipo").val(),
             // idlote:idLote,
             idMuestra:$("#idDetalle"+idMuestra).val(),
             // ph:$("#ph").val(),

@@ -4040,17 +4040,16 @@ function getMuestraSinAsignar() {
             tab += '    </thead>'
             tab += '    <tbody>'
             for (let i = 0; i < response.model.length; i++) {
-                estiloH = response.historial[i] ==  1 ? 'background-color:#e5e5ff;' : ''
+                estiloH = response.historial == 1 ? 'background-color:#e5e5ff;' : ''
+
                 tab += '<tr>'
                 tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>'
                 tab += '<td style="' + estiloH + '">' + response.folio[i] + '</td>'
                 tab += '<td style="' + estiloH + '">' + response.norma[i] + '</td>'
                 tab += '<td style="' + estiloH + '">' + response.punto[i] + '</td>'
                 tab += '<td style="' + estiloH + '">' + response.fecha[i] + '</td>'
-                
                 tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>'
                 tab += '</tr>'
-                
                 estiloH = ""
             }
 

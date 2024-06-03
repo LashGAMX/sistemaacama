@@ -3,7 +3,7 @@
 use App\Http\Controllers\Campo\CampoController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'campo'], function () {
+Route::group(['prefix' => 'campo'], function () { 
     Route::get('asignar', [CampoController::class, 'asignar']);
     Route::get('capturar', [CampoController::class, 'listaMuestreo']);
     Route::get('captura/{id}', [CampoController::class, 'captura']);
@@ -16,7 +16,7 @@ Route::group(['prefix' => 'campo'], function () {
 
     Route::post('asignar/getFolio', [CampoController::class, 'getFolio']);
     Route::post('asignar/buesquedaFecha', [CampoController::class, 'buesquedaFecha']);
-
+    Route::get('updatePhTrazableCaptura', [CampoController::class,'updatePhTrazableCaptura']);
     Route::group(['prefix' => 'captura'], function () {
         Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
         Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);

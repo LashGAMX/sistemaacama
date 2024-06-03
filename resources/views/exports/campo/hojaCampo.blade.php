@@ -308,7 +308,9 @@
                         <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>    
                     </tr>
                     <tr>
-                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> <br></td>
+                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">
+                            <br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> 
+                            <br></td>
                         <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">
                             @if (@$campoGeneral->Supervisor == null)
                                 ------

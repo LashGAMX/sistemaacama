@@ -114,30 +114,23 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold">
-                            @switch($solicitud->Id_solicitud)
-                                @case(13271)
-                                    10/04/2024
-                                @break
-                                @case(14361)
-                                    25/04/2024
-                                @break
-                                @case(14449)
-                                    29/04/2024
-                                @break
-                                @default
-                                    @switch($solModel->Id_norma)
-                                        @case(1)
-                                        @case(27)  
+                            @if ($modelProcesoAnalisis->Emision_informe == NULL)
+                                 @switch($solModel->Id_norma)
+                                    @case(1)
+                                    @case(27)  
                                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
-                                            @break
-                                        @case(5)
-                                        @case(30)  
+                                        @break
+                                    @case(5)
+                                    @case(30)  
                                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(14)->format('d/m/Y')}}
                                             @break
                                         @default
                                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
-                                    @endswitch
-                            @endswitch
+                                @endswitch
+                            @else
+                             {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Emision_informe)->format('d/m/Y')}}
+                            @endif
+                           
                            
                         </span>
                     </td>
@@ -166,30 +159,22 @@
                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}
                         A 
 
-                        @switch($solicitud->Id_solicitud)
-                                @case(13271)
-                                    10/04/2024
-                                @break
-                                @case(14361)
-                                    25/04/2024
-                                @break
-                                @case(14449)
-                                    29/04/2024
-                                @break
-                                @default
-                                    @switch($solModel->Id_norma)
-                                        @case(1)
-                                        @case(27)  
+                        @if ($modelProcesoAnalisis->Emision_informe == NULL)
+                                 @switch($solModel->Id_norma)
+                                    @case(1)
+                                    @case(27)  
                                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
-                                            @break
-                                        @case(5)
-                                        @case(30)  
+                                        @break
+                                    @case(5)
+                                    @case(30)  
                                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(14)->format('d/m/Y')}}
                                             @break
                                         @default
                                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
-                                    @endswitch
-                            @endswitch
+                                @endswitch
+                            @else
+                             {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Emision_informe)->format('d/m/Y')}}
+                            @endif
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold"> 

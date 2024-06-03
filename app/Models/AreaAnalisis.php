@@ -17,5 +17,6 @@ class AreaAnalisis extends Model
         'Area_analisis',
         'Id_user_c',
         'Id_user_m',
+        'Orden'
     ];
 }

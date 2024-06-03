@@ -1024,9 +1024,11 @@ function setLiberar() {
                 getLote();
                 getCapturaLote();
                 alert("Muestra liberada")
+                return false;
             } else {
                 alert("La muestra no se pudo liberar");
             }
+           
         }
     });
 }
@@ -3634,6 +3636,7 @@ function getCapturaLote() {
     let tab = '';
     let clase = ''
     let dec = 2
+    let estiloH = ''
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/" + area + "/getCapturaLote",
@@ -3659,6 +3662,7 @@ function getCapturaLote() {
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
+                
                 if (item.Liberado != 1) {
                     status = "";
                     color = "success";
@@ -3673,6 +3677,8 @@ function getCapturaLote() {
                     blanco = item.Resultado
                 }
 
+                estiloH = parseInt(item.Historial) == 1 ? 'background-color:#e5e5ff;' : ''
+                console.log(estiloH) 
                 switch (parseInt(response.lote[0].Id_area)) {
                     case 16: // Espectrofotometria
                     case 5: // Fisicoquimicos
@@ -3897,21 +3903,21 @@ function getCapturaLote() {
                 } else {
                     tab += '<br> <small class="text-info">' + item.Control + '</small></td>';
                 }
-                tab += '<td><input disabled style="width: 150px" value="' + item.Codigo + '"></td>';
-                tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
+                tab += '<td style="'+estiloH+'"><input disabled style="width: 150px;" value="' + item.Codigo + '"></td>';
+                tab += '<td style="'+estiloH+'"><input disabled style="width: 200px;" value="' + item.Clave_norma + '"></td>';
               
                 if (item.Resultado != null) {
                     let formated = number_format(parseFloat(item.Resultado), dec)
-                    tab += '<td><input id="resultadoCap'+item.Id_detalle+'" disabled style="width: 100px" value="' + formated + '"></td>';
+                    tab += '<td style="'+estiloH+'"><input id="resultadoCap'+item.Id_detalle+'" disabled style="width: 100px;" value="' + formated + '"></td>';
                 } else {
-                    tab += '<td><input id="resultadoCap'+item.Id_detalle+'" disabled style="width: 80px" value=""></td>';
+                    tab += '<td style="'+estiloH+'"><input id="resultadoCap'+item.Id_detalle+'" disabled style="width: 80px;" value=""></td>';
                 }
                 if (item.Observacion != null) {
-                    tab += '<td>' + item.Observacion + '</td>';
+                    tab += '<td style="'+estiloH+'">' + item.Observacion + '</td>';
                 } else {
-                    tab += '<td></td>';
+                    tab += '<td style="'+estiloH+'"></td>';
                 }
-                tab += '<td><button class="btn-warning" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
+                tab += '<td style="'+estiloH+'"><button class="btn-warning" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
                 tab += '<td hidden>'+item.Codigo+'</td>';
                 tab += '</tr>';
 
@@ -4020,6 +4026,7 @@ function getMuestraSinAsignar() {
         success: function (response) {
             console.log(response)
             let estiloH  = ""
+
             $("#tipoFormulaAsignar").val(response.lote.Tipo_formula)
             $("#parametroAsignar").val(response.lote.Parametro)
             $("#fechaAnalisisAsignar").val(response.lote.Fecha)
@@ -4030,28 +4037,67 @@ function getMuestraSinAsignar() {
             tab += '<table id="tabAsignar" class="table table-sm">'
             tab += '    <thead>'
             tab += '        <tr>'
-            tab += '          <th>Opc</th>'
+            tab += '          <th>Op</th>'
             tab += '          <th># Muestra</th> '
             tab += '          <th>Norma</th> '
             tab += '          <th>Punto muestreo</th> '
             tab += '          <th>Fecha recepción</th> '
-            tab += '          <th>Info</th> '
+           // tab += '          <th>Fecha Hoy</th> '
+            //tab += '          <th>Diferencia</th> '
+            tab += '          <th>Dias Analisis</th> '
+           // tab += '          <th>Info</th> '
             tab += '        </tr>'
             tab += '    </thead>'
             tab += '    <tbody>'
             for (let i = 0; i < response.model.length; i++) {
-                estiloH = response.historial[i] ==  1 ? 'background-color:#e5e5ff;' : ''
+                
+                hoy= new Date(response.fechahoy[i]);
+                fechaRep = new Date(response.fecha[i]);
+                diasA= response.diasanalisis[i];
+                diasD= Math.ceil(( hoy - fechaRep) / (1000 * 60 * 60 * 24)); 
+
+
+                estiloH = response.historial[i] == 1 ? 'background-color:#e5e5ff;' : '' 
+
+                if (parseInt(diasA) != 0  && diasA != null) 
+                {
+                    color='';
+                    mensaje="Sin Configurar";
+                    
+                    if (diasD < diasA) 
+                    {
+                        color = 'bg-success';
+                        mensaje = 'Faltan Días('+((diasD-diasA)*(-1))+')';      
+
+                    }else if(diasD === 1)
+                    {
+                        color = 'bg-warning';
+                        mensaje = 'En Tiempo('+diasD+')';
+                    }else if(diasA < diasD)
+                    {
+                        color = 'bg-danger';
+                        mensaje = 'Fuera de Tiempo('+diasD+')';
+                    }else{
+                        color ='';
+                    }
+                } else {
+                    color= '';
+                }
+                console.log(color)
+
                 tab += '<tr>'
                 tab += '<td><input type="checkbox" value="' + response.idCodigo[i] + '" name="stdCkAsignar" onclick="contarCheckbox()"></td>'
                 tab += '<td style="' + estiloH + '">' + response.folio[i] + '</td>'
                 tab += '<td style="' + estiloH + '">' + response.norma[i] + '</td>'
                 tab += '<td style="' + estiloH + '">' + response.punto[i] + '</td>'
                 tab += '<td style="' + estiloH + '">' + response.fecha[i] + '</td>'
-                
-                tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>'
+                //tab += '<td style="' + estiloH + '">' + response.fechahoy[i] + '</td>'
+                //tab += '<td style="' + estiloH + '">' + diasD + '</td>'
+                tab += '<td class="' + color + '">' + mensaje + '</td>'
+                //tab += '<td><button id="btnInfo" class="btn-info" ><i class="fas fa-info"></i></button></td>'
                 tab += '</tr>'
                 
-                estiloH = ""
+          
             }
 
             tab += '    </tbody>'
@@ -4071,11 +4117,9 @@ function getMuestraSinAsignar() {
                 dom: '<"toolbar">frtip',
             });
             $(document).on('click', '#btn-Info', function() {
-                let folio = $(this).data('folio');
-                console.log("Folio seleccionado:", folio);
-                // getHistorial_pa(folio);
+               
                 $('#modalAsignar').modal('hide');
-                $('#modalHistorial_lote').modal('show');
+                $('#modalHistorial').modal('show');
             });
         
 
@@ -4265,6 +4309,7 @@ function getPendientes() {
         dataType: "json",
         async: false,
         success: function (response) {
+       
             console.log(response);
             model = response.model
             tab += '<table class="table table-sm" style="font-size:10px" id="tablePendientes">';
@@ -4273,19 +4318,49 @@ function getPendientes() {
             tab += '          <th>Folio</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Fecha recepción</th>';
-            tab += '          <th>Empresa</th>';
-         
-
+            tab += '          <th>Empresa</th>'
+            tab += '          <th>Dias Analisis</th>'
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
-                estilohistorial =   model[i][4] == 1 ? 'background-color:#e5e5ff;' : ''
+               
+                fechaRecepcion = new Date(model[i][2]); 
+                
+                Hoy = new Date(model[i][5]);
+                    
+                diasAnalisis = model[i][6];
+                diasDiferencia = Math.ceil(( Hoy - fechaRecepcion) / (1000 * 60 * 60 * 24)); 
+
+                estilohistorial= model[i][4] == 1 ? 'background-color:#e5e5ff;' : '';
+
+                if (parseInt(diasAnalisis) !== 0 && diasAnalisis !== null) 
+                {
+         
+                    if (diasDiferencia < diasAnalisis) {
+                       
+                        color = 'bg-success';
+                        mensaje = 'Faltan Días('+((diasDiferencia-diasAnalisis)*(-1))+')';
+
+                    }else if(diasDiferencia === 1)
+                    {
+                        color = 'bg-warning';
+                        mensaje = 'En Tiempo('+diasDiferencia+')';
+
+                    }else if(diasAnalisis < diasDiferencia)
+                    {
+                        color = 'bg-danger';
+                        mensaje = 'Fuera de Tiempo('+diasDiferencia+')';
+                    }
+                }
+                console.log(color)
+
                 tab += '<tr>';
-                tab += '<td style="' + estilohistorial + '">' + model[i][0] + '</td>';
-                tab += '<td style="' + estilohistorial + '">' + model[i][1] + '</td>';
-                tab += '<td style="' + estilohistorial + '">' + model[i][2] + '</td>';
-                tab += '<td style="' + estilohistorial + '">' + model[i][3] + '</td>';
+                tab += '<td style="' + estilohistorial + '">' + model[i][0] + '</td>';//Folio
+                tab += '<td style="' + estilohistorial + '">' + model[i][1] + '</td>';//parametro
+                tab += '<td style="' + estilohistorial + '">' + model[i][2] + '</td>';//fecha recepcion
+                tab += '<td style="' + estilohistorial + '">' + model[i][3] + '</td>';// empresa
+                tab += '<td class="' + color + '">' + mensaje + '</td>'
                 tab += '</tr>';
             }
             tab += '    </tbody>';
@@ -4309,7 +4384,7 @@ function getHistorial(id)
 {
     console.log("Get Historial");
     let tabla1 = document.getElementById('divTablaHist');
-    let tabla2 = docuem.getElementById('divTablaCodigos');
+    let tabla2 = document.getElementById('divTablaCodigos');
     let tab1 = ''
     let tab2 = ''
 
@@ -4325,7 +4400,6 @@ function getHistorial(id)
         dataType: "json",
         success: function (response) {
             console.log(response);
-           
             tab1 += `
                 <table id="tablaLoteModal" class="table table-sm">
                     <thead class="thead-dark">
@@ -4335,13 +4409,82 @@ function getHistorial(id)
                             <th>Codigo</th>
                             <th>Parametro</th>
                             <th>Resultado</th>
+                    
                         </tr>
                     </thead>
                     <tbody>
-                         
+                            ${
+                               $.map(response.idsLotes, function (item,index){
+                                let    estilo =   parseInt(response.historialHist[index]) == 1 ? 'background-color:#e5e5ff;' : ''
+                                    return `
+                                 
+                                    
+                                        <tr>
+                                            <td>${item}</td>
+                                            <td style ="${estilo}">${response.fechaLote[index]}</td>
+                                            <td style ="${estilo}">${response.Codigohist[index]}</td>
+                                            <td style ="${estilo}"">${response.parametrohist[index]}</td>
+                                            <td style ="${estilo}">${response.resultadoHist[index]}</td>
+                                            
+                                        </tr>
+                                    `
+                               }).join('') 
+                            }
                     </tbody>
                  </table>
             `
+
+            tab2 = `
+                    <table id="tablaCodigosHistorial" class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Id_codigo</th>
+                                <th>Codigo</th>
+                                <th>Parametro</th>
+                                <th>Resultado Ejec.</th>
+                                <th>Resultado Lib.</th>
+                                <th>Analizo</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${
+                                $.map(response.model, function (item){
+                                    let estilo2 = item.Liberado == 1 ? 'bg-success' : '';
+                                    return `
+                                        <tr>
+                                        
+                                            <td class="${estilo2}">${item.Id_codigo}</td>
+                                            <td class="${estilo2}">${item.Codigo}</td>
+                                            <td class="${estilo2}">${item.Parametro} (${item.Tipo_formula})</td>
+                                            <td class="${estilo2}">${item.Resultado != null ? item.Resultado : ''}</td>
+                                            <td class="${estilo2}">${item.Resultado2 != null ? item.Resultado2 : ''}</td>
+                                            <td class="${estilo2}">${item.Analizo != 1 ? item.name : ''}</td>
+                                            
+                                        </tr>
+                                    `;
+                                }).join('') 
+                            }
+                        </tbody>
+
+                    </table>
+                 `
+
+            tabla1.innerHTML = tab1
+            tabla2.innerHTML= tab2
+
+            
+            var t2 = $('#tablaCodigosHistorial').DataTable({
+                "ordering": false,
+                paging: false,
+                scrollY: '300px',
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
         }
     });
 }

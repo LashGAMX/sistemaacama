@@ -13,6 +13,7 @@
 <div class="container-fluid"> 
     <div class="row">
         <div class="col-md-12">
+
             <table id="tableCadena" class="display compact cell-border" style="width:100%">
                 <thead>
                     <tr>
@@ -41,11 +42,13 @@
                             <td>{{$item->created_at}}</td>
                             <td>{{$item->Id_user_c}}</td>
                             <td>{{$item->updated_at}}</td>
+                            
                         </tr>
                     @endforeach
                 </tbody>
+               
             </table>
-        </div>
+        
     </div>
 </div> 
 

@@ -14,7 +14,7 @@ class LoteDetalle extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_lote',
+        'Id_lote', 
         'Id_analisis',
         'Id_parametro',
         'Id_codigo',
@@ -37,7 +37,7 @@ class LoteDetalle extends Model
         'Olor',
         'Color',
         'Orden',
-        'Fecha',
+        'Fecha', 
         'Liberado',
         'Cancelado',
         'Analizo',

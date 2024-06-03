@@ -16,4 +16,5 @@ Route::group(['prefix' => 'ingresar'], function () {
     Route::post('getDataPuntoMuestreo', [IngresarController::class, 'getDataPuntoMuestreo']);
     Route::post('setGenFolio', [IngresarController::class, 'setGenFolio']);
     Route::post('setActCC', [IngresarController::class, 'setActCC']);
+    Route::post('setEmision', [IngresarController::class, 'setEmision']);
 }); 
