@@ -47,13 +47,15 @@
                                 <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
                             </div>
 
-                            <div class="col-md-2">
-                                <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
-                            </div>
+                        
                                
                             @switch(Auth::user()->id)
                                 @case(1)
                                 @case(36)
+                                @case(110)
+                                    <div class="col-md-2">
+                                        <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
+                                    </div>
                                     <div class="col-md-2">
                                         <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
                                     </div>
