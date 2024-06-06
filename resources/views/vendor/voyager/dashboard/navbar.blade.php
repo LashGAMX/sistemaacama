@@ -34,10 +34,10 @@
         </div>
         <ul class="nav navbar-nav @if (__('voyager::generic.is_rtl') == 'true') navbar-left @else navbar-right @endif">
             <li style="margin-top: 5px;">
-            <a class="nav-link" href="#21" id="notificationIcon">
+            <a class="nav-link" href="#" id="notificationIcon">
           <span class="notification-icon">
             <i class="fas fa-bell"></i>
-            <span id="CountNot"></span>
+            <span style="color: red" id="CountNot"></span>
           </span>
         </a>
             </li>
@@ -97,7 +97,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="notificationList">
+      <div class="modal-body overflow-auto" id="notificationList">
 
       </div>
       <div class="modal-footer">

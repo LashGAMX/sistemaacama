@@ -7,28 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\Notificacion;
 use App\Observers\CodigoParametrosObserver;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class NotificacionController extends Controller
 {
-    public function obtenerNotificaciones()
-    {
-        $userId = Auth::id();
-        $notificaciones = Notificacion::where('Id_user', $userId)->where('Leido','=',0)->latest()->take(10)->get();
+    public function obtenerYMarcarLeidas(Request $request)
+{
+    $userId = Auth::id();
+    
+    try {
+        DB::beginTransaction();
+        
+        $notificaciones = Notificacion::where('Id_user', $userId)->where('Leido', 0)->latest()->get();
+        
+        // Marcar todas las notificaciones obtenidas como leídas
+        Notificacion::where('Id_user', $userId)->where('Leido', 0)->update(['Leido' => 1]);
+        
+        DB::commit();
+        
         return response()->json($notificaciones);
+    } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json(['error' => 'Error al obtener y marcar notificaciones como leídas'], 500);
     }
-    public function Marcarleido(Request $request)
-    {
-        $Id = $request->input('Id_notificacion');
-        try {
-            $notificacion = Notificacion::findOrFail($Id); 
-            $notificacion->Leido = 1;
-            $notificacion->save();
-            return response()->json($notificacion);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'La notificación no fue encontrada'], 404);
-        }
-    }
-
+}
     public function ContNot()
     {
         $userId = Auth::id();
@@ -40,8 +43,10 @@ class NotificacionController extends Controller
     {
         $userId = Auth::id();
         $notificaciones = Notificacion::where('Id_user', $userId)->orderBy('Id_notificacion', 'desc')->get();
-
-        return view('notificacion.VerNot', compact('notificaciones'));
+     
+        return view('notificacion.VerNot',compact('notificaciones'));
     }
+ 
+    
    
 }
