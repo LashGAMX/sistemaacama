@@ -148,7 +148,7 @@ $(document).ready( function () {
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
 
 
-<!-- <script src="{{asset('public/js/notificaciones/notificacion.js')}}"></script> -->
+<script src="{{asset('public/js/notificaciones/notificacion.js')}}"></script> 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>

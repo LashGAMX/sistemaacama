@@ -7,26 +7,23 @@ $(document).ready(function() {
 
     notificationIcon.on('click', function() {
         $.ajax({
-            url: base_url + "/admin/notificacion/obtenerNotificaciones",
+            url: base_url + "/admin/notificacion/obtenerYMarcarLeidas",
             type: 'GET',
             success: function(response) {
                 var notificacionesHtml = '';
-                var idNotificaciones = [];
                 response.forEach(function(notificacion) {
-                    notificacionesHtml += '<div class="d-flex flex-nowrap"><p>' + notificacion.Id_notificacion + '</p>'
-                    notificacionesHtml += '<p>' + notificacion.Mensaje + '</p></div>';
-                    idNotificaciones.push(notificacion.Id_notificacion); 
+                    notificacionesHtml += '<div class="overflow-auto"><p>' + notificacion.Mensaje +'</p></div>';
                 });
                 notificationList.html(notificacionesHtml);
                 modal.style.display = "block";
-               
-                MarcarLeido(idNotificaciones); 
+                modal.style.scrollMargin="auto";
             },
             error: function(xhr, status, error) {
-                console.error("Error al obtener las notificaciones:", error);
+                console.error("Error al obtener y marcar notificaciones como leídas:", error);
             }
         });
     });
+    
 
     closeButton.onclick = function() {
         modal.style.display = "none";
@@ -39,22 +36,7 @@ $(document).ready(function() {
             modal.style.display = "none";
         }
     });
-function MarcarLeido(idNotificaciones) {
-    idNotificaciones.forEach(function(idNotificacion) {
-       
-        $.ajax({
-            url: base_url + "/admin/notificacion/Marcarleido",
-            type: 'POST',
-            data: { Id_notificacion: idNotificacion },
-            success: function(response) {
-                console.log("Notificación marcada como leída:", response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error al marcar la notificación como leída:", error);
-            }
-        });
-    });
-}
+
 
     
     function ContNot() {
@@ -73,6 +55,11 @@ function MarcarLeido(idNotificaciones) {
             }
         });
     }
-
-    ContNot();
+    
+    setInterval(ContNot, 1000);
+    ContNot(); // L
 });
+
+
+
+

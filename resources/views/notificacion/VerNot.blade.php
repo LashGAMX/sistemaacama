@@ -9,12 +9,12 @@
         <h4>Tus Notificaciones</h4>
       </div>
         <div class="col-md-12" >
-             <table class="table">
+             <table id="tabla_notificaciones">
         <thead>
           <tr>
             <th>ID</th>
             <th>Mensaje</th>
-            <th>Fecha de Creación</th>
+            <th>Fecha</th>
           </tr>
         </thead>
         <tbody>
@@ -31,5 +31,22 @@
       </div>
 </div>
 @stop
-</body>
-</html>
+
+@section('javascript')
+   
+    <script>
+        $(document).ready(function() {
+            $('#tabla_notificaciones').DataTable({"ordering": false,
+              "language": 
+              {
+              "lengthMenu": "# _MENU_ por pagina",
+              "zeroRecords": "No hay datos encontrados",
+              "info": "Pagina _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay datos encontrados",
+              },
+              
+            });
+        });
+       
+    </script>
+@stop

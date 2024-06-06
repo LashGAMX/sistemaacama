@@ -33,7 +33,7 @@ class CodigoParametrosObserver
     public function updated(CodigoParametros $codigoParametros)
     {
         $parametro=Parametro::where('Id_parametro',$codigoParametros->Id_parametro)->first();
-       // $user = Users::where('id',$codigoParametros->Analizo)->first();
+        //$user = Users::where('id',$codigoParametros->Analizo)->first();
         $user = Auth::user();
         if ($codigoParametros->isDirty('Liberado') && $codigoParametros->Liberado == 0) {
             $mensaje = "{$user->name} te han Regresado el parametro {$parametro->Parametro} Con ID:({$parametro->Id_parametro}) del Folio {$codigoParametros->Codigo}";

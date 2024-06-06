@@ -129,14 +129,17 @@ function setGenFolio() {
     let conductividad = new Array()
     let cloruros = new Array();
     let aux = ""
-    if (idNorma == 27) {
-        let puntos = document.getElementById("puntos")
-        for (let i = 1; i < puntos.rows.length; i++) {
-            if (puntos.rows[i].children[2].children[0].value == "" || puntos.rows[i].children[2].children[1].value == 0) {
-                sw = false
+    if ($("#condiciones").prop("checked") == false) {
+        if (idNorma == 27) {
+            let puntos = document.getElementById("puntos")
+            for (let i = 1; i < puntos.rows.length; i++) {
+                if (puntos.rows[i].children[2].children[0].value == "" || puntos.rows[i].children[2].children[1].value == 0) {
+                    sw = false
+                }
             }
         }
     }
+    
     console.log("sw Codigo:"+sw)
     if (sw == true) {
         let puntos = document.getElementById("puntos")

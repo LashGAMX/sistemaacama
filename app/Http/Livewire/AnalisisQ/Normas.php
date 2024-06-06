@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 class Normas extends Component
 {
     use WithPagination;
-    public $perPage = 50;
+    public $perPage = 500;
     public $sw = false;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
