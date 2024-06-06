@@ -5,7 +5,11 @@
                     <tr>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>        
                         <td>
+<<<<<<< HEAD
                             {{-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. GUADALUPE GARCÍA PÉREZ</span> <br> --}}
+=======
+                            <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. GUADALUPE GARCÍA PÉREZ</span> <br> -->
+>>>>>>> 201d7c2ab4256473c8605dcf969c7a7ae4a17f98
                             <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br>
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B. SANDRA ROJAS NAVARRO</span> <br> -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br> -->

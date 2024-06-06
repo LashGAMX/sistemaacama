@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AnalisisQ;
 use App\Http\Controllers\Controller;
 use App\Models\AreaAnalisis;
 use App\Models\Laboratorio;
+use App\Models\Notificacion;
 use App\Models\MatrizParametro;
 use App\Models\MetodoPrueba;
 use App\Models\Norma;
@@ -26,6 +27,13 @@ use Illuminate\Support\Facades\DB;
 
 class ParametroController extends Controller
 {
+    //metodo de prueba 
+    public function verNotificaciones()
+    {
+        $notificaciones = Notificacion::orderBy('Id_not', 'desc')->get();
+
+        return view('notificacion.VerNot', compact('notificaciones'));
+    }
     // Método para cargar la vista de parámetros con los datos necesarios
     public function index()
     {

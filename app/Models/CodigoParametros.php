@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Users;
+
 
 class CodigoParametros extends Model
 {
@@ -32,4 +34,7 @@ class CodigoParametros extends Model
         'Id_user_m',
         'Historial',
     ];
+  
+
+  
 }

@@ -3,13 +3,15 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\CodigoParametros;
+use App\Observers\CodigoParametrosObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      *
-     * @return void
+     * @return void 
      */
     public function register()
     {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        CodigoParametros::observe(CodigoParametrosObserver::class);
+
     }
 }

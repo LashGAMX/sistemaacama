@@ -18,7 +18,7 @@ $(document).ready(function () {
         "paging": false
     });
     $('#btnCadena').click(function () {
-        window.open("/sofia/admin/informes/cadena/pdf/"+idPunto)
+        window.open("/sofiadev/admin/informes/cadena/pdf/"+idPunto)
     });
     $('#btnSetEmision').click(function () {
         setEmision()
@@ -431,6 +431,7 @@ function getDetalleAnalisis(idCodigo) {
                 case 95: // Sulfatos
                 case 87: // silice 
                 case 79:
+                case 80:
                     console.log("entro a caso 16");
                   
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -909,6 +910,7 @@ function getDetalleAnalisis(idCodigo) {
                 case 3:// Solidos
                 case 4:// Solidos
                 case 112:// Solidos
+                case 90:
                     console.log("entro a caso 15");
                    
                     tab += '<table id="tableResultado" class="table table-sm">';
