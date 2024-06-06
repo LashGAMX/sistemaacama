@@ -33,10 +33,21 @@
             @show
         </div>
         <ul class="nav navbar-nav @if (__('voyager::generic.is_rtl') == 'true') navbar-left @else navbar-right @endif">
+            <li style="margin-top: 5px;">
+            <a class="nav-link" href="#21" id="notificationIcon">
+          <span class="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span id="CountNot"></span>
+          </span>
+        </a>
+            </li>
+           
             <li class="dropdown profile">
+       
                 <a href="#" class="dropdown-toggle text-right" data-toggle="dropdown" role="button"
-                   aria-expanded="false"><img src="{{ $user_avatar }}" class="profile-img"> <span
-                            class="caret"></span></a>
+                 aria-expanded="false"><img src="{{ $user_avatar }}" class="profile-img"> <span class="caret"></span><span class="icon-bell"></span>
+                </a>
+           
                 <ul class="dropdown-menu dropdown-menu-animated">
                     <li class="profile-img">
                         <img src="{{ $user_avatar }}" class="profile-img">
@@ -45,6 +56,7 @@
                             <h6>{{ Auth::user()->email }}</h6>
                         </div>
                     </li>
+            
                     <li class="divider"></li>
                     <?php $nav_items = config('voyager.dashboard.navbar_items'); ?>
                     @if(is_array($nav_items) && !empty($nav_items))
@@ -76,3 +88,22 @@
         </ul>
     </div>
 </nav>
+<div id="notificationModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Notificaciones</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="notificationList">
+
+      </div>
+      <div class="modal-footer">
+      <a href="{{ route('verNotificaciones') }}" class="btn btn-primary">Ver Todas</a>
+      <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -34,6 +34,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('/public/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" class="">
+    
     <!-- Few Dynamic Styles -->
     <style type="text/css">
         .voyager .side-menu .navbar-header {
@@ -119,6 +120,7 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
                 <div id="voyager-notifications"></div> 
                 @yield('content')
             </div> 
+           
        
         </div>
     </div>
@@ -140,16 +142,25 @@ $(document).ready( function () {
 <script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{{-- <script src="{{url('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.1"></script>  --}}
 <script src="{{asset('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.2"></script> 
+//js para campana de notificacion 
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
 
-{{-- <script src="{{url('/assets/js/jtable/jquery.jtable.min.js')}}"></script>
-<script src="{{url('/assets/js/jtable/themes/metro/blue/jtable.min.css')}}"></script> --}}
+
+<!-- <script src="{{asset('public/js/notificaciones/notificacion.js')}}"></script> -->
+
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
-{{-- <script src="{{asset('public/js/jquery-3.5.1.min.js')}}?v=0.0.1"></script> --}}
- 
+
+<script>
+    var base_url = "{{url('')}}"; 
+</script>
+<script src="{{asset('/public/js/libs/componentes.js')}}?v=0.0.1"></script>
+<script src="{{asset('/public/js/libs/tablas.js')}}?v=0.0.1"></script>
+{{-- Time picker --}}
+<script src="{{asset('/public/assets/timepicker/wickedpicker.min.js')}}?v=0.0.1"></script>
+<link rel="stylesheet" href="{{asset('/public/assets/timepicker/wickedpicker.min.css')}}">
 
 <script>
     @if(Session::has('alerts'))
@@ -178,28 +189,8 @@ $(document).ready( function () {
     @foreach(config('voyager.additional_js') as $js)<script type="text/javascript" src="{{ asset($js) }}"></script>@endforeach
 @endif
 
-<script>
-    var base_url = "{{url('')}}"; 
-</script>
-<script src="{{asset('/public/js/libs/componentes.js')}}?v=0.0.1"></script>
-<script src="{{asset('/public/js/libs/tablas.js')}}?v=0.0.1"></script>
-{{-- Time picker --}}
-<script src="{{asset('/public/assets/timepicker/wickedpicker.min.js')}}?v=0.0.1"></script>
-<link rel="stylesheet" href="{{asset('/public/assets/timepicker/wickedpicker.min.css')}}">
 
-{{-- <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/63c8816c47425128790e7288/1gn3jj4bi';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script--> --}}
 
 </body>
+
 </html>

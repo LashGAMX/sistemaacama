@@ -9,11 +9,19 @@ use App\Http\Controllers\AnalisisQ\FormulasController;
 use App\Http\Controllers\AnalisisQ\EnvasesController;
 use App\Http\Controllers\AnalisisQ\AnalisisController;
 use App\Http\Controllers\AnalisisQ\ConcentracionController;
+use App\Http\Controllers\Notificacion\NotificacionController;
+
+
 use Illuminate\Support\Facades\Route;
  
 
  
 Route::group(['prefix' => 'analisisQ'], function () {
+ 
+    //rutas de prueba para realizar las notificaciones 
+    Route::get('/notificaciones', [NotificacionController::class, 'obtenerNotificaciones']);
+    Route::get('/contador-notificaciones', [NotificacionController::class, 'ContNot']);
+    Route::get('VerNot', [NotificacionController::class, 'obtenerNotificaciones']);
 
     Route::get('parametros', [ParametroController::class,'index']); 
     Route::post('getParametros',[ParametroController::class,'getParametros']);

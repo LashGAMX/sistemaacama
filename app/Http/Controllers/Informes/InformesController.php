@@ -220,8 +220,8 @@ class InformesController extends Controller
         $tituloConsecion = "";
         $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
         if ($solModel->Siralab == 1) {
-            $auxPunto = PuntoMuestreoSir::where('Id_punto',$puntoMuestreo->Id_muestreo)->first();
-            $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->first();
+            $auxPunto = PuntoMuestreoSir::where('Id_punto',$puntoMuestreo->Id_muestreo)->withTrashed()->first();
+            $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->withTrashed()->first();
             $tituloConsecion = $titTemp->Titulo;
         }
         // $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
@@ -484,6 +484,7 @@ class InformesController extends Controller
                             case 1:
                             case 27:
                             case 33:
+                            case 9:
                                 switch ($item->Resultado2) {
                                     case 499:
                                         $limC = "< 500";
@@ -658,7 +659,7 @@ class InformesController extends Controller
                  //$firma1 = User::find(14) ;
                  $firma1 = User::find(12);
                 //  $firma1 = User::find(12); // Reviso
-                 $firma2 = User::find(14); // Autorizo
+                 $firma2 = User::find(4); // Autorizo
                  //$firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
@@ -666,7 +667,7 @@ class InformesController extends Controller
             default:
                 //$firma1 = User::find(12); // Reviso
                  //$firma1 = User::find(14); //reviso
-                 $firma1 = User::find(14); //reviso
+                 $firma1 = User::find(4); //reviso
                 // $firma2 = User::find(35); //Autorizo
                 $firma2 = User::find(12); //Autorizo
                  //$firma2 = User::find(12); // Autorizo
@@ -5548,9 +5549,6 @@ class InformesController extends Controller
             }
         }
 
-        // var_dump($fechasSalidas);
-
-
         $paramResultado = DB::table('ViewCodigoParametro')
             ->where('Id_solicitud', $idSol)
             ->where('Id_parametro', '!=', 26)
@@ -5828,7 +5826,7 @@ class InformesController extends Controller
                         }
                     }
                     break;
-                    case 358:
+                case 358:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
@@ -5836,6 +5834,7 @@ class InformesController extends Controller
                             case 1:
                             case 27:
                             case 33:
+                            case 9:
                                 switch ($item->Resultado2) {
                                     case 499:
                                         $resTemp = "< 500";
@@ -5852,15 +5851,15 @@ class InformesController extends Controller
                                     default:
                                         $resTemp =  number_format(@$item->Resultado2, 2, ".", "");    
                                         break;
-                                }
-                                    break;
-                                default:
+                                    }
+                                break;
+                            default:
                                     if ($item->Resultado2 < $item->Limite) {
                                         $limC = "< " . $item->Limite;
                                     }else{
                                         $limC =  number_format(@$item->Resultado2, 2, ".", "");
                                     }
-                                    break;
+                                break;
                             }
                         }
                         break;

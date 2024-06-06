@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Notificacion\NotificacionController;
 use App\Http\Controllers\Beto\BetoController;
 use App\Http\Controllers\Campo\CampoController;
 use App\Http\Controllers\ClientesAcama\ClientesAcamaController;
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Informes\InformesController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Mail\ConfirmacionMailable;
+
 
 /* 
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ Route::get('/', function () {
 Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], function () { 
     Voyager::routes(); 
 }); 
 Route::group(['prefix' => 'clientes'], function () {
