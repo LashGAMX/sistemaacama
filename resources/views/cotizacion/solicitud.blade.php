@@ -52,7 +52,7 @@
                             @switch(Auth::user()->id)
                                 @case(1)
                                 @case(36)
-                                @case(110)
+                                @case(101)
                                     <div class="col-md-2">
                                         <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                                     </div>
