@@ -12,11 +12,12 @@ $(document).ready(function() {
             success: function(response) {
                 var notificacionesHtml = '';
                 response.forEach(function(notificacion) {
-                    notificacionesHtml += '<div class="overflow-auto"><p>' + notificacion.Mensaje +'</p></div>';
+                    notificacionesHtml += '<div><p>' + notificacion.Mensaje +'</p></div>';
                 });
+                
                 notificationList.html(notificacionesHtml);
-                modal.style.display = "block";
-                modal.style.scrollMargin="auto";
+                $('#notificationModal').modal('show');
+                $('.modal-body').addClass('overflow-auto');
             },
             error: function(xhr, status, error) {
                 console.error("Error al obtener y marcar notificaciones como leídas:", error);

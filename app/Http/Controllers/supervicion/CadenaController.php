@@ -109,6 +109,7 @@ class CadenaController extends Controller
             case 358:
             case 110:
             case 2:
+        
                 if ($solModel->count()) {
                     $solGen = SolicitudesGeneradas::where('Id_solicitud',$model->Id_solicitud)->first();
                     $model2 = CodigoParametros::where('Id_codigo', $res->idCod)->first();

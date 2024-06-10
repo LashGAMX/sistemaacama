@@ -183,9 +183,10 @@ function getParametros() {
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
-                if (item.Resultado2 != null) {
+                if (item.Resultado2 != null ) {
                     color = "success";
-                } else {
+                } else 
+                {
                     color = "warning"
                 }
                 switch (parseInt(item.Id_parametro)) {
@@ -1295,9 +1296,7 @@ function liberarResultado() {
                 if (rowId == idCodigo) {
                     this.cell(this.index(), 4).data(response.resLiberado);
                     $(this.node()).find('td:eq(4)').text(resLiberado); 
-                    $(this.node()).find('td:eq(1)')
-        .removeClass('bg-warning')
-                    .addClass('bg-success');
+                    $(this.node()).find('td:eq(1)').removeClass('bg-warning').addClass('bg-success');
                     return false; 
                 }
             });

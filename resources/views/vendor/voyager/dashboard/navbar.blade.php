@@ -97,13 +97,15 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body overflow-auto" id="notificationList">
-
+      <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+       
+        <div id="notificationList"></div>
       </div>
       <div class="modal-footer">
-      <a href="{{ route('verNotificaciones') }}" class="btn btn-primary">Ver Todas</a>
-      <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Cerrar</button>
+        <a href="{{ route('verNotificaciones') }}" class="btn btn-primary">Ver Todas</a>
+        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
+
