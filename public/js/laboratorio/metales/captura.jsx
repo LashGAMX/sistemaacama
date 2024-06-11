@@ -1607,8 +1607,7 @@ function getLoteCaptura() {
 
 //Función imprimir PDF
 function imprimir(idLote){        
-    window.o
-    (base_url + "/admin/laboratorio/metales/exportPdfCaptura/"+idLote);
+    window.open(base_url + "/admin/laboratorio/metales/exportPdfCaptura/"+idLote);
     //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
 }
 
