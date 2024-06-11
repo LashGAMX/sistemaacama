@@ -56,7 +56,7 @@ class TableUnidad extends Component
         ]);
         $this->idUni = $model->Id_unidad;
         $this->nota = "Creación del registro";
-        $this->historial();
+        // $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -65,7 +65,7 @@ class TableUnidad extends Component
         $model = Unidad::find($this->idUni);
         $model->Unidad = $this->name;
         $model->Descripcion = $this->description;
-        $this->historial();
+        // $this->historial();
         $model->save();
         
         $this->alert = true;
