@@ -237,8 +237,8 @@ class LabAnalisisController extends Controller
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->idLote)->whereYear('created_at', now()->year)->first();
         if ($res->fecha != "") {
         } else {
-           // $model = DB::table('codigo_parametro')->where('Asignado','!=' ,1)->where('Id_parametro', $lote->Id_tecnica)->where('Cancelado','!=',1)->get();
-            $model = DB::table('ViewCodigoParametro')->where('Asignado','!=',1)->where('Id_parametro',$lote->Id_tecnica)->where('Cancelado','!=',1)->whereYear('created_at', now()->year)->get();
+           // $model = DB::table('codigo_parametro')->where('Asignado','!=' ,1)->where('Id_parametro', $lote->Id_tecnica)->where('Cancelado','!=',1)->whereYear('created_at', now()->year)->get();
+            $model = DB::table('ViewCodigoParametro')->where('Asignado','!=',1)->where('Id_parametro',$lote->Id_tecnica)->where('Cancelado','!=',1)->get();
             for ($i = 0; $i < $model->count(); $i++) {
                 $puntoModel = SolicitudPuntos::where('Id_solicitud', $model[$i]->Id_solicitud)->first();   
                 $normaModel = DB::table('ViewSolicitud2')->where('Id_solicitud',$model[$i]->Id_solicitud)->first();
@@ -1518,26 +1518,26 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         
-                        case 87:
-                            $promedio = ($res->X + $res->Y + $res->Z) / 3;
-                            $dilucion =  50 / $res->E;
-                            $resultado = (($promedio - $res->CB) / $res->CM) * $dilucion;
+                        // case 87:
+                        //     $promedio = ($res->X + $res->Y + $res->Z) / 3;
+                        //     $dilucion =  50 / $res->E;
+                        //     $resultado = (($promedio - $res->CB) / $res->CM) * $dilucion;
 
-                            $model = LoteDetalleEspectro::find($res->idMuestra);
-                            $model->Resultado = round($resultado,3);
-                            $model->Abs1 = $res->X;
-                            $model->Abs2 = $res->Y;
-                            $model->Abs3 = $res->Z;
-                            $model->B = $res->CB;
-                            $model->M = $res->CM;
-                            $model->R = $res->CR;
-                            $model->Promedio = $promedio;
-                            $model->Vol_dilucion = $dilucion;
-                            $model->Vol_muestra = $res->E;
-                            $model->Blanco = $res->CA;
-                            $model->Analizo = Auth::user()->id;
-                            $model->save();
-                            break;
+                        //     $model = LoteDetalleEspectro::find($res->idMuestra);
+                        //     $model->Resultado = round($resultado,3);
+                        //     $model->Abs1 = $res->X;
+                        //     $model->Abs2 = $res->Y;
+                        //     $model->Abs3 = $res->Z;
+                        //     $model->B = $res->CB;
+                        //     $model->M = $res->CM;
+                        //     $model->R = $res->CR;
+                        //     $model->Promedio = $promedio;
+                        //     $model->Vol_dilucion = $dilucion;
+                        //     $model->Vol_muestra = $res->E;
+                        //     $model->Blanco = $res->CA;
+                        //     $model->Analizo = Auth::user()->id;
+                        //     $model->save();
+                        //     break;
                         case 87:
                                 $promedio = round(($res->X + $res->Y + $res->Z) / 3,3);
                                 $dilucion =  50 / $res->E;

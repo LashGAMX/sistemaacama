@@ -31,6 +31,7 @@ class LoteDetalleDbo extends Model
         'Resultado',
         'Observacion',
         'Sugerido',
+        'Sugerido_sup',
         'Liberado',
         'Cancelado',
         'Analizo',

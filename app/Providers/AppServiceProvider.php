@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\CodigoParametros;
 use App\Observers\CodigoParametrosObserver;
+use App\Models\LoteDetalleDbo;
+use App\Observers\LoteDetalleDboObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         CodigoParametros::observe(CodigoParametrosObserver::class);
+        LoteDetalleDbo::observe(LoteDetalleDboObserver::class);
 
     }
 }
