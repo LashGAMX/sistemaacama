@@ -138,7 +138,7 @@ function getNormasParametro(id){
       $("#procedimiento").val(""),
       $("#simbologia").val(""),
       $("#simbologiaInf").val(""),
-      $("#CurvaPadre").val(""),
+      $("#CurvaPadre").val(0),
           
       $("#dias_analisis").val("");
       $("#usuarioDef").val("");
@@ -168,8 +168,11 @@ function getNormasParametro(id){
       $("#procedimiento").val(response.model.Id_procedimiento);
       $("#simbologia").val(response.model.Id_simbologia);
       $("#simbologiaInf").val(response.model.Id_simbologia_info);
-      $("#CurvaPadre").val(response.model.Padre);
-      $("#usuarioDef").val(response.model.Usuario_default);
+      // $("#CurvaPadre").val(response.model.Padre);
+      $('#CurvaPadre').val(response.model.Padre).trigger('change.select2');
+      // $("#usuarioDef").val(response.model.Usuario_default);
+      $('#usuarioDef').val(response.model.Usuario_default).trigger('change.select2');
+      $("#dias_analisis").val(response.model.Dias_analisis);
       
 
     } 

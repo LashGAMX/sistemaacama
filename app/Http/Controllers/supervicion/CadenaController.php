@@ -943,4 +943,25 @@ class CadenaController extends Controller
         );
         return response()->json($data);
     }
+    public function liberarTodoCampo(){
+        $model = SolicitudesGeneradas::all(); 
+        foreach ($model as $item) {
+            switch ($item->Id_muestreador) {
+                case 15:
+                    $temp = SolicitudesGeneradas::find($item->Id_solicitudGen);
+                    $temp->Estado = 4;
+                    $temp->Id_superviso = 97;
+                    $temp->save();
+                    break;
+                
+                default:
+                    $temp = SolicitudesGeneradas::find($item->Id_solicitudGen);
+                    $temp->Estado = 4;
+                    $temp->Id_superviso = 15;
+                    $temp->save();
+                    break;
+            }
+
+        }
+    }
 }

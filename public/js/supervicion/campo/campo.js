@@ -22,7 +22,7 @@ function getMuestreos()
         async: false,
         success: function (response) {
             console.log(response) 
-            tab += '<button class="btn-info" onclick="selecionarCkeck()"><i class="fas fa-check-double"></i></button> <button class="btn-success" onclick="setLiberarTodo()"><i class="fas fa-share"></i></button>'
+            tab += '<button class="btn-info" onclick="selecionarCkeck()"><i class="fas fa-check-double"></i></button> <button class="btn-success" onclick="setLiberarTodoCampo()"><i class="fas fa-share"></i></button>'
             tab += '<table id="tabLote" class="table table-sm">'
             tab += '    <thead>'
             tab += '        <tr>'
@@ -78,4 +78,37 @@ function getBitacora(id){
 }
 function getHojaCampo(id){
     window.open(base_url + "/admin/campo/hojaCampo/" + id);
+}
+function selecionarCkeck()
+{
+    allSelectCheck("ckHistorial")
+}
+function setLiberarTodoCampo()
+{
+    let tab = document.getElementById("tabLote")
+    let ids = new Array()
+    for (let i = 1; i < tab.rows.length; i++) {
+        if(tab.rows[i].children[0].children[0].checked){
+            ids.push(tab.rows[i].children[0].children[0].value)
+        }
+    }
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/campo/setLiberarTodoCampo",
+        data: {
+            ids:ids,
+            user:$("#user").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            if (response.sw == false) {
+                alert("Error al liberar")
+            } else {
+                alert("Lotes liberadso")
+            }
+        }
+    });
 }

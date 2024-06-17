@@ -55,6 +55,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('regresarMuestrasDbo/{id}', [LabAnalisisController::class, 'regresarMuestrasDbo']);
         Route::post('getDetalleElegido', [LabAnalisisController::class, 'getDetalleElegido']);
         
+        
     });
    
 });
