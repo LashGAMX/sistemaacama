@@ -42,13 +42,24 @@
         <div class="floatLeft">
             <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <thead>                
-
-                    <tr>
-                        <td class="tableCabecera bordesTablaBody justificadoCentr fontSize9 fontCursiva fontBold" height="25">PRESERVADORES &nbsp;</td>                    
-                    </tr>
+                    @switch($model->Id_norma)
+                        @case(5)
+                        @case(30)
+                        @case(7)    
+                        <tr>
+                            <td class="tableCabecera bordesTablaBody justificadoCentr fontSize9 fontCursiva fontBold" height="25">PRESERVADORES &nbsp;</td>                    
+                        </tr>
+                            @break
+                    
+                        @default
+                            
+                    @endswitch
                 </thead>
         
                 <tbody>  
+                    <tr>
+                        <td class="tableContent bordesTablaBody fontBold justificadorIzq">REFRIGERANTE</td>
+                    </tr>
                     @for ($i = 0; $i < @$preservacionesArrayLength; $i++)
                         <tr>
                             <td class="tableContent bordesTablaBody fontBold justificadorIzq">{{@$preservacionesArray[$i]}}</td>

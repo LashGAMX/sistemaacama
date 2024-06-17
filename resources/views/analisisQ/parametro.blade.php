@@ -183,10 +183,16 @@
                     </select> 
                     </div>
               </div>
-              <div class="col-md-3"> 
+              <div class="col-md-3" >
+                <div class="form-group">
+                    <label for="dias_analisis">Días de análisis</label>
+                    <input type="number" class="form-control" placeholder="Días de análisis" id="dias_analisis"  />
+                </div>
+            </div>
+              <div class="col-md-6"> 
                 <div class="form-group">
                     <label for="">Curva Padre</label>
-                    <select class="form-control" id="CurvaPadre">
+                    <select class="form-control select2" id="CurvaPadre" style="width: 100%">
                       <option value="0">Sin seleccionar</option>
                     @foreach ($parametroPadre as $item)
                         <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}}</option>
@@ -194,12 +200,7 @@
                   </select> 
                   </div>
             </div>
-            <div class="col-md-3" >
-                <div class="form-group">
-                    <label for="dias_analisis">Días de análisis</label>
-                    <input type="number" class="form-control" placeholder="Días de análisis" id="dias_analisis"  />
-                </div>
-            </div>
+           
             <div class="col-md-6" >
                 <div class="form-group">
                 <label for="">Usuario default</label>

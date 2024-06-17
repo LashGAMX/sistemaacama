@@ -32,6 +32,7 @@
                             <option value="0" selected >Sin seleccionar</option>
                             <option value="1">ADMIN</option>
                             <option value="15">ALBERTO MÉNDEZ RAMÍREZ</option>
+                            <option value="97">	FRANCISCO JAVIER ABUNDIS HERRADA</option>
                         </select>
                 </div>
             </div>

@@ -18,7 +18,7 @@ use App\Models\LoteDetalleEcoli;
 use App\Models\LoteDetalleEnterococos;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
-use App\Models\LoteDetalleHH;
+use App\Models\LoteDetalleHH; 
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\Parametro;
@@ -218,36 +218,36 @@ class SupervicionController extends Controller
         );
         return response()->json($data);
     }
-    public function setLiberarTodo(Request $res)
-    {
-        $sw = true;
-        $msg = "Error al liberar";
-        if(sizeof($res->ids) > 0){
-            for ($i=0; $i <  sizeof($res->ids); $i++) { 
-                $model = LoteAnalisis::where('Id_lote',$res->ids[$i])->first();
-                if ($model->Supervisado == 0) {
-                    $model->Supervisado = 1;
-                    $msg = "Lote supervisado";
-                }else{
-                    $model->Supervisado = 0;
-                    $msg = "Lote desliberada";
-                }
-                if ($res->user != 0) {
-                    $model->Id_superviso = $res->user;   
-                }else{
-                    $model->Id_superviso = Auth::user()->id;
-                }
-                $model->save();
-            }
-        }else{
-            $msg = "No hay muestra seleccionada";
-        }
-        $data = array(
-            'msg' => $msg,
-            'sw' => $sw,
-        );
-        return response()->json($data);
-    }
+    // public function supervisarBitacoraCampoTodo(Request $res)
+    // {
+    //     $sw = true;
+    //     $msg = "Error al liberar";
+    //     if(sizeof($res->ids) > 0){
+    //         for ($i=0; $i <  sizeof($res->ids); $i++) { 
+    //             $model = LoteAnalisis::where('Id_lote',$res->ids[$i])->first();
+    //             if ($model->Supervisado == 0) {
+    //                 $model->Supervisado = 1;
+    //                 $msg = "Lote supervisado";
+    //             }else{
+    //                 $model->Supervisado = 0;
+    //                 $msg = "Lote desliberada";
+    //             }
+    //             if ($res->user != 0) {
+    //                 $model->Id_superviso = $res->user;   
+    //             }else{
+    //                 $model->Id_superviso = Auth::user()->id;
+    //             }
+    //             $model->save();
+    //         }
+    //     }else{
+    //         $msg = "No hay muestra seleccionada";
+    //     }
+    //     $data = array(
+    //         'msg' => $msg,
+    //         'sw' => $sw,
+    //     );
+    //     return response()->json($data);
+    // }
     public function campo()
     {
         $muestreador = DB::table('users')->where('role_id',8)->orWhere('role_id',15)->get();
@@ -285,6 +285,30 @@ class SupervicionController extends Controller
         
         $data = array(
             'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function setLiberarTodoCampo(Request $res)
+    {
+        $sw = true;
+        $msg = "Error al liberar";
+        if(sizeof($res->ids) > 0){
+            for ($i=0; $i <  sizeof($res->ids); $i++) { 
+                $model = SolicitudesGeneradas::where('Id_solicitud',$res->ids[$i])->first();
+                if ($res->user != 0) {
+                    $model->Id_superviso = $res->user;   
+                }else{
+                    $model->Id_superviso = Auth::user()->id;
+                }
+                $model->Estado = 4;
+                $model->save();
+            }
+        }else{
+            $msg = "No hay muestra seleccionada";
+        }
+        $data = array(
+            'msg' => $msg,
+            'sw' => $sw,
         );
         return response()->json($data);
     }
@@ -669,5 +693,26 @@ class SupervicionController extends Controller
             'msg' => $msg,
         );
         return response()->json($data);
+    }
+    public function liberarTodo(){
+        $model = SolicitudesGeneradas::all(); 
+        foreach ($model as $item) {
+            switch ($item->Id_muestreador) {
+                case 15:
+                    $temp = SolicitudesGeneradas::find($item->Id_solicitudGen);
+                    $temp->Estado = 4;
+                    $temp->Id_superviso = 97;
+                    $temp->save();
+                    break;
+                
+                default:
+                    $temp = SolicitudesGeneradas::find($item->Id_solicitudGen);
+                    $temp->Estado = 4;
+                    $temp->Id_superviso = 15;
+                    $temp->save();
+                    break;
+            }
+
+        }
     }
 } 
