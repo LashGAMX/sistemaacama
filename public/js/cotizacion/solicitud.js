@@ -3,6 +3,36 @@ var table;
 // var selectedRow = false;
 var idCot = 0; 
 $(document).ready(function () {
+    $(".select2").select2()
+    $('.select2Data').select2({
+            ajax: {
+                url: base_url + '/admin/cotizacion/solicitud/getClienteSol', //archivo que recibe la peticion
+                dataType: 'json',
+                delay: 250, // Retardo en milisegundos antes de enviar la solicitud
+                type: 'POST', //método de envio
+                data: function(params) {
+                    console.log(params)
+                    return {
+                        q: params.term, // Término de búsqueda ingresado por el usuario
+                        _token: $('input[name="_token"]').val(),
+                    };
+                },
+                processResults: function(data) {
+                    // Formatea los resultados para Select2 
+                    return {
+                        results: data.model.map(function(item) {
+                            return {
+                                id: item.Id_cliente,
+                                text: item.Empresa
+                            };
+                        })
+                    };
+                },
+                cache: true // Almacena en caché los resultados para evitar múltiples solicitudes
+            }
+        });
+    
+
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
         paging: false,
@@ -38,7 +68,7 @@ $(document).ready(function () {
             url: base_url + '/admin/cotizacion/solicitud/buscar', //archivo que recibe la peticion
             type: 'POST', //método de envio
             data: {
-                nombre: $('#nombre').val(),
+                nombre: $('#cliente').val(),
                 folio: $('#folio').val(),
                 norma: $('#norma').val(),
 

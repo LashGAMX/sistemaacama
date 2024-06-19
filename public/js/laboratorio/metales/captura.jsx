@@ -113,7 +113,7 @@ function setTituloBit(id)
 }
 function getHistorial(id)
 {
-    console.log("Get Historial");
+    console.log("Get Historial" + id);
     let tabla1 = document.getElementById('divTablaHist');
     let tabla2 = document.getElementById('divTablaCodigos');
     let tab1 = ''
@@ -404,7 +404,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -472,7 +472,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -538,7 +538,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -608,7 +608,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -676,7 +676,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -748,7 +748,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -821,7 +821,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
@@ -915,7 +915,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_detalle+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button></td>';
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
