@@ -3,6 +3,34 @@ var dataModel;
 var name;
 var idPunto;
 var detPa;
+$(document).on('change', '.sugeridoCheckbox', function() {
+    var Id_codigo = $(this).data('id');
+    var sugerido_sup = this.checked ? 1 : 0;
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/supervicion/cadena/sugerido",
+        data: {
+            Id_codigo: Id_codigo,
+            sugerido_sup: sugerido_sup
+        },
+        success: function(response) 
+        {
+            if (sugerido_sup === 1) {
+                alert('Has marcado este resultado para que tu analista lo libere');
+            }  else if(sugerido_sup===0) {
+                alert('Has desmarcado el resultado');
+            }
+        },
+        error: function(xhr, status, error) 
+        {
+           alert('Hubo un error al procesar la solicitud.');
+        }
+    });
+});
+
+
+
 $(document).ready(function () {
 
     let tablePunto = $('#tablePuntos').DataTable({
@@ -708,36 +736,36 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 5:
-                case 70:
-                case 71:
-                
-                    console.log("Entro a id 5")
-                    
-                    tab += '<table id="tableResultado" class="table table-sm">';
-                    tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
-                    $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        if (item.Sugerido == 1) {
-                            tab += '<td class="bg-success">';
-                            resLiberado = item.Resultado;
-                        } else {
-                            tab += '<td>';
-                        }
-                        tab += '' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</>';
-                    });
-                    tab += '    </tbody>';
-                    tab += '</table>';
-                    tabla.innerHTML = tab;
-                    break;
+                    case 5:
+                    case 70:
+                    case 71:
+                            console.log("Entro a id 5")
+                            tab += '<table id="tableResultado" class="table table-sm">';
+                            tab += '    <thead class="thead-dark">';
+                            tab += '        <tr>';
+                            tab += '          <th>Descripcion</th>';
+                            tab += '          <th>Valor</th>';
+                            tab += '          <th>Sup</th>';
+                            tab += '        </tr>';
+                            tab += '    </thead>';
+                            tab += '    <tbody>';
+                            $.each(response.model, function (key, item) {
+                                tab += '<tr>';
+                                if (item.Sugerido == 1) {
+                                    tab += '<td class="bg-success">';
+                                    resLiberado = item.Resultado;
+                                } else {
+                                    tab += '<td>';
+                                }
+                                tab += '' + item.Parametro + '</td>';
+                                tab += '<td>' + item.Resultado + '</td>';                                                  
+                                tab += '<td><input type="checkbox" class="sugeridoCheckbox" data-id="' + item.Id_codigo + '" ' + (item.Sugerido_sup === 1 ? 'checked' : '') + '></td>';    
+                             });
+                            tab += '    </tbody>';
+                            tab += '</table>';
+                          
+                            tabla.innerHTML = tab;
+                            break;
                 case 12:
                 case 133:
                 case 134:
@@ -1247,9 +1275,6 @@ function getDetalleAnalisis(idCodigo) {
                     break;
             }
             $("#resDes").val(resLiberado);
-
-
-
             let tableResultado = $('#tableResultado').DataTable({
                 "ordering": false,
                 "language": {
@@ -1275,6 +1300,9 @@ function getDetalleAnalisis(idCodigo) {
         }
     });
 }
+
+
+
 function liberarResultado() {
     $.ajax({
         type: 'POST',
@@ -1295,10 +1323,13 @@ function liberarResultado() {
 
                 if (rowId == idCodigo) {
                     this.cell(this.index(), 4).data(response.resLiberado);
+                    
                     $(this.node()).find('td:eq(4)').text(resLiberado); 
-                    $(this.node()).find('td:eq(1)').removeClass('bg-warning').addClass('bg-success');
+                    $(this.node()).find('td:eq(1)').removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success');
                     return false; 
                 }
+             
+                
             });
         }
     });

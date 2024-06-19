@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('setLiberar', [SupervicionController::class,'setLiberar']);
         Route::post('setHistorial', [CadenaController::class,'setHistorial']);
         Route::post('setEmision', [CadenaController::class,'setEmision']);
+        Route::post('sugerido', [CadenaController::class,'sugerido']);
         Route::post('getHistorial', [CadenaController::class,'getHistorial']);
         Route::get('liberarTodoCampo', [SupervicionController::class,'liberarTodoCampo']);
     });

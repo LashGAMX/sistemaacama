@@ -5,16 +5,17 @@
                     <tr>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>        
                         <td>
-                            <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. GUADALUPE GARCÍA PÉREZ</span> <br> -->
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. GUADALUPE GARCÍA PÉREZ</span> <br> 
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br> -->
-                           <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. ELSA RIVERA RIVERA</span> <br>
+                           <!--<span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. ELSA RIVERA RIVERA</span> <br>-->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br> -->
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 10px;"> REVISÓ SIGNATARIO</span></center>
                         </td>
                         <td>
+                           <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">BIOL. GUADALUPE GARCÍA PÉREZ</span> <br>-->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 10px;"> AUTORIZÓ SIGNATARIO</span> </center> -->
-                            <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B. SANDRA ROJAS NAVARRO</span> <br>
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B. SANDRA ROJAS NAVARRO</span> <br> 
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br> -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> Q.F.B ÁGUEDA RODRÍGUEZ BLANCO</span> <br> -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br> -->

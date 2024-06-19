@@ -70,7 +70,8 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('updateParametroSol',[SolicitudController::class,'updateParametroSol']);
     Route::post('setCreateOrden',[SolicitudController::class,'setCreateOrden']);
     Route::post('addParametro',[SolicitudController::class,'addParametro']);
- 
+    Route::post('getClienteSol',[SolicitudController::class,'getClienteSol']);
+
     Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
     Route::post('setGenFolioSol',[SolicitudController::class,'setGenFolioSol']);
     Route::get('duplicarSolicitud/{id}',[SolicitudController::class,'duplicarSolicitud']);
@@ -79,3 +80,4 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
 
     Route::post('cancelarOrden',[SolicitudController::class,'cancelarOrden']);
 });
+

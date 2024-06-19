@@ -91,30 +91,26 @@ class SolicitudController extends Controller
     }
     public function buscar(Request $req)
     {
-        if ($req->folio == "" && $req->norma == ""){
-            //busqueda por nombre
-            $model = DB::table('ViewCotizacion')->where('Nombre','LIKE',"%$req->nombre%")->get();
-        } else if ($req->nombre == "" && $req->norma == "") {
-            //busqueda por folio
-            $model1 = DB::table('ViewCotizacion')->where('Folio','LIKE',"%$req->folio%")->get();
-            if (count($model1)){
-                $model = $model1;
-            } else {
-                $model = DB::table('ViewCotizacion')->where('Folio_servicio','LIKE',"%$req->folio%")->get();
-            }
-        } else if ($req->folio == "" && $req->nombre == "") {
-            //busqueda por norma
-            $model = DB::table('ViewCotizacion')->where('Norma','LIKE',"%$req->norma%")->get();
-        } else {
-            //busqueda con los 3
-            $model = DB::table('ViewCotizacion')->where('Nombre','LIKE',"%$req->nombre%")
-            ->where('Folio_servicio','LIKE',"%$req->folio%")
-            ->where('Norma','LIKE',"%$req->norma%")
-            ->get();
-        }
-       
+        $model = DB::table('ViewCotizacion')
+        ->when($req->nombre != 0 && $req->nombre != 5584, function ($query) use ($req) {
+            $query->where('Id_cliente', $req->nombre);
+        })
+        ->when($req->nombre == 5584, function ($query) use ($req) {
+            $query->limit(1000);
+        })
+        ->when($req->folio, function ($query) use ($req) {
+            $query->where('Folio', 'LIKE', "%$req->folio%")
+                ->orWhere('Folio_servicio', 'LIKE', "%$req->folio%");
+        })
+        ->when($req->norma != 0 , function ($query) use ($req) {
+            $query->where('Id_norma',$req->norma);
+        })
+        ->whereNull('deleted_at')
+        ->orderBy('Id_cotizacion','DESC')
+        ->get();
 
         $data = array(
+            'res' => $req->nombre,
             "model" => $model,
         );
      
@@ -1804,6 +1800,13 @@ class SolicitudController extends Controller
         $data = array(
             'sw' => $sw,
             'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function getClienteSol(Request $res){
+        $model = DB::table('viewclientegeneral')->where('Empresa','LIKE','%'.$res->q.'%')->get();
+        $data = array(
+            'model' => $model,
         );
         return response()->json($data);
     }

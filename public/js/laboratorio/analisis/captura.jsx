@@ -3628,10 +3628,12 @@ function setFechaDefGA2()
     
 }
 function getCapturaLote() {
+        var icono;
     blanco = 0
     contador = 0
     let indice = new Array()
     let cont = 0
+
     let tabla = document.getElementById('divCaptura');
     let tab = '';
     let clase = ''
@@ -3658,6 +3660,7 @@ function getCapturaLote() {
             tab += '          <th>Observación</th>';
             tab += '          <th style="width:100px"></th>';
             tab += '          <th hidden></th>';
+            tab += '          <th></th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -3919,6 +3922,14 @@ function getCapturaLote() {
                 }
                 tab += '<td style="'+estiloH+'"><button class="btn-warning" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
                 tab += '<td hidden>'+item.Codigo+'</td>';
+                         
+                if (item.Sugerido_sup == 1) {
+                    icono = '<i class="fa fa-check " style="color:green; font-size: 20px;" aria-hidden="true"></i>';
+                } else {
+                    icono = '';
+                }
+                
+                tab += '<td style="'+estiloH+'">' + icono + '</td>';
                 tab += '</tr>';
 
             });
@@ -3956,7 +3967,6 @@ function getCapturaLote() {
                 let dato = $(this).find('td:first');
                 idMuestra = dato[0].firstElementChild.value;
             });
-
         }
     });
 }

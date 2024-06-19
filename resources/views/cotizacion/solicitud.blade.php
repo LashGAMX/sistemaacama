@@ -9,69 +9,64 @@
             <div class="col-md-12">
                 <div class="row">
                     <!-- Parte de Encabezado-->
-                   
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="cliente" placeholder="Nombre Cliente">
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="folio" placeholder="Folio">
-                        </div>
-                        <div class="col-md-3">
-                        <input type="text" class="form-control" id="norma" placeholder="Norma">
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-success" id="btnBuscar">Buscar</button>
-                        </div>
-                    </div>
-                </div>
-                
+        
                     
                   <div class="col-md-12">
+                    
                    <div class="row">
-                            <div class="col-md-1">
-                                <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
-                            </div>
-                            {{-- <div class="col-md-2">
-                                @if (Auth::user()->role->id != 13)
-                                    <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
-                                @else
-                                    <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear Orden</button>
-                                @endif
-                            </div> --}}
-                            <div class="col-md-1">
-                                <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
-                            </div>
+                        <div class="col-12">
+                            <table class="table" style="width: 100%">
+                                <tr>
+                                    <td>
+                                        <label for="">Cliente</label>
+                                        <!-- <input type="text" class="form-control" id="cliente" placeholder="Nombre Cliente"> -->
+                                        <select class="form-control select2Data" style="width: 100%" id="cliente">
+                                        <option value="0">Sin seleccionar</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <label for="Folio">Folio</label>
+                                        <input type="text" class="form-control" id="folio" placeholder="Folio">
+                                    </td>
+                                    <td>
+                                        <label for="norma">Normas</label>
+                                        <select class="form-control select2" style="width: 100%" id="norma">
+                                            <option value="0">Sin seleccionar</option>
+                                            @foreach ($norma as $item)
+                                                <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success" id="btnBuscar">Buscar</button>
+                                    </td>
+                                </tr>
+                               <tr>
+                                    <td>
+                                        <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
+                                    </td>
+                                    <td>
+                                        <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
+                                    </td>
+                                    <td>
+                                        <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
+                                    </td>
+                                    <td>
+                                        @switch(Auth::user()->id)
+                                            @case(1)
+                                            @case(36)
+                                            @case(101)
+                                                    <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
+                                                    &nbsp;
+                                                    <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
+                                                @break
+                                            @default
+                                        @endswitch
+                                    </td>
+                               </tr>
+                            </table>
+                        </div>
 
-                        
-                               
-                            @switch(Auth::user()->id)
-                                @case(1)
-                                @case(36)
-                                @case(101)
-                                    <div class="col-md-2">
-                                        <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
-                                    </div>
-                                    @break
-                                @default
-                                    
-                            @endswitch
-                    <!-- <div class="col-md-2">
-                                <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
-                            </div> -->
-
-                            <!-- <div class="col-md-1">
-                                @if (Auth::user()->role->id != 13)
-                                    <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
-                                @endif
-                            </div> -->
                             </div>                        
                     </div>
 
@@ -161,7 +156,7 @@
     </div>
 @endsection 
     @section('javascript')
-        <script src="{{ asset('public/js/cotizacion/solicitud.js')}}?v=1.0.5"></script>        
+        <script src="{{ asset('public/js/cotizacion/solicitud.js')}}?v=1.0.6"></script>        
     @stop
 
 

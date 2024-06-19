@@ -516,20 +516,18 @@ class CadenaController extends Controller
                     }
                
                 break;
-                //Mb
             case 5:
             case 71:
-                $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                    $name = "LoteDetalleDbo";
+                    break;
+            case 70:
+                    $model = DB::table('viewlotedetalledboino')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
-                $name = "LoteDetalleDbo";
-                break;
-            case 70:
-                $model = DB::table('viewlotedetalledboino')->where('Id_analisis', $codigoModel->Id_solicitud)
-                ->where('Id_control', 1)
-                ->where('Id_parametro', $codigoModel->Id_parametro)->get();
-                $name = "LoteDetalleDbo";
-                break;
+                    $name = "LoteDetalleDbo";
+                    break;
             case 12:
             case 134:
             case 133: 
@@ -716,6 +714,7 @@ class CadenaController extends Controller
             'aux' => $aux,
             'paraModel' => $paraModel,
             'codigoModel' => $codigoModel,
+        
             'model' => $model,
            
         );
@@ -835,7 +834,25 @@ class CadenaController extends Controller
 
         return response()->json(['success' => true]);
     }
+    //sirve para saber en dbo que resukta es el correcto 
+    public function sugerido(Request $request)
+{
+    $id_codigo = $request->input('Id_codigo');
+    $sugerido_sup = $request->input('sugerido_sup');
+    $registro = LoteDetalleDbo::where('Id_codigo', $id_codigo)->first();
+    
+    if ($registro) {
+        $registro->Sugerido_sup = $sugerido_sup;
+        $registro->save();
+        return response()->json(['success' => true, 'message' => 'Actualización exitosa']);
+ 
 
+    } else {
+
+        return response()->json(['success' => false, 'message' => 'No se encontró el registro']);
+    }
+}
+  
     public function setEmision(Request $res)
     {
         $msg = "";
@@ -859,6 +876,7 @@ class CadenaController extends Controller
         );
         return response()->json($data);
     }
+   
     public function getHistorial(Request $res)
     {
         $idHistorial = array();

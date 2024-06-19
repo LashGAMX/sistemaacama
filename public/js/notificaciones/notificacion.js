@@ -5,16 +5,23 @@ $(document).ready(function() {
     var notificationIcon = $("#notificationIcon");
     var notificationList = $("#notificationList");
 
+
     notificationIcon.on('click', function() {
         $.ajax({
             url: base_url + "/admin/notificacion/obtenerYMarcarLeidas",
             type: 'GET',
             success: function(response) {
                 var notificacionesHtml = '';
-                response.forEach(function(notificacion) {
-                    notificacionesHtml += '<div><p>' + notificacion.Mensaje +'</p></div>';
-                });
-                
+    
+                if (response.length === 0) {
+                    notificacionesHtml = '<div><h4 class="fs-5">Te salvaste por el momento.</h4></div>';
+                } else {
+                    response.forEach(function(notificacion) {
+                       notificacionesHtml += '<div class="modal-body"><div class="card" style="margin-top: 0px; margin-bottom: 0px;">'+ notificacion.Mensaje +'</div></div>';
+
+
+                    });
+                }
                 notificationList.html(notificacionesHtml);
                 $('#notificationModal').modal('show');
                 $('.modal-body').addClass('overflow-auto');
@@ -38,8 +45,6 @@ $(document).ready(function() {
         }
     });
 
-
-    
     function ContNot() {
         $.ajax({
             url: base_url + "/admin/notificacion/ContNot",
