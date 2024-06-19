@@ -155,7 +155,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button> 
             </div>
-            <div class="modal-body">
+            <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
                         <span>Lista parametros </span>
@@ -192,6 +192,6 @@
 
 @endsection
     @section('javascript')
-    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.1"></script>
+    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.2"></script>
 @stop
 

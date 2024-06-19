@@ -18,7 +18,7 @@ $(document).ready(function () {
         "paging": false
     });
     $('#btnCadena').click(function () {
-        window.open("/sofiadev/admin/informes/cadena/pdf/"+idPunto)
+        window.open("/sofia/admin/informes/cadena/pdf/"+idPunto)
     });
     $('#btnSetEmision').click(function () {
         setEmision()
@@ -32,7 +32,7 @@ $(document).ready(function () {
             $(this).addClass('selected');
             let dato = $(this).find('td:first').html();
             idPunto = dato;
-            getParametros();
+            getParametros(); 
         }
     });
 
