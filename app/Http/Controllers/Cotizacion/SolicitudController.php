@@ -95,6 +95,9 @@ class SolicitudController extends Controller
         ->when($req->nombre != 0 && $req->nombre != 5584, function ($query) use ($req) {
             $query->where('Id_cliente', $req->nombre);
         })
+        ->when($req->nombre == 5584, function ($query) use ($req) {
+            $query->limit(1000);
+        })
         ->when($req->folio, function ($query) use ($req) {
             $query->where('Folio', 'LIKE', "%$req->folio%")
                 ->orWhere('Folio_servicio', 'LIKE', "%$req->folio%");
@@ -103,6 +106,7 @@ class SolicitudController extends Controller
             $query->where('Id_norma',$req->norma);
         })
         ->whereNull('deleted_at')
+        ->orderBy('Id_cotizacion','DESC')
         ->get();
 
         $data = array(
