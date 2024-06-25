@@ -1788,7 +1788,7 @@ class SolicitudController extends Controller
                             $temp = LoteDetalleDirectos::where('Id_codigo',$item2->Id_codigo)->where('Id_parametro',$item2->Id_parametro)->first();
                             $temp->Cancelado = 1;
                             $temp->save();
-                            break;
+                            break; 
                     }
                 }
                 if ($codigoMuestra->count()) {

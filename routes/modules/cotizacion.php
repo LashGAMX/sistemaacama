@@ -66,7 +66,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getPuntoMuestreoSol',[SolicitudController::class,'getPuntoMuestreoSol']);
     Route::post('editPuntoMuestreo',[SolicitudController::class,'editPuntoMuestreo']);
     Route::post('deletePuntoSol',[SolicitudController::class,'deletePuntoSol']);
-    Route::post('getParametrosSelected',[SolicitudController::class,'getParametrosSelected']);
+    Route::post('getParametrosSelected',[SolicitudController::class,'getParametrosSelected']); 
     Route::post('updateParametroSol',[SolicitudController::class,'updateParametroSol']);
     Route::post('setCreateOrden',[SolicitudController::class,'setCreateOrden']);
     Route::post('addParametro',[SolicitudController::class,'addParametro']);
