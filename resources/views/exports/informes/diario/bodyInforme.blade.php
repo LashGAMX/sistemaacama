@@ -240,7 +240,7 @@
                             <br> QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS
                             RESIDUALES A LOS <br> SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.
                             @break
-                            @case(4)
+                        @case(4)
                             DE ACUERDO A NOM-003-SEMARNAT-1997 PARA MUESTRA
                             @if (@$solModel->Id_muestra == 1)
                             INSTANTANEA
@@ -250,7 +250,7 @@
                             <br> QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES <br> DE CONTAMINANTES PARA LAS AGUAS RESIDUALES
                             <br> TRATADAS QUE SE REUSEN EN SERVICIOS AL PÚBLICO
                             @break
-                            @case(5)
+                        @case(5)
                             DE ACUERDO A MODIFICACIÓN A LA NORMA OFICIAL MEXICANA NOM-127-SSA1-1994, PARA MUESTRA
                             @if (@$solModel->Id_muestra == 1)
                             INSTANTANEA
@@ -260,7 +260,7 @@
                             SALUD AMBIENTAL. AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE CALIDAD Y TRATAMIENTOS A QUE
                             DEBE <br> SOMETERSE EL AGUA PARA SU POTABILIZACION.
                             @break
-                            @case(7)
+                        @case(7)
                             DE ACUERDO A NORMA OFICIAL MEXICANA NOM-201-SSA1-2015 PARA MUESTRA
                             @if (@$solModel->Id_muestra == 1)
                             INSTANTANEA
@@ -270,7 +270,7 @@
                             PRODUCTOS Y SERVICIOS. AGUA Y HIELO PARA CONSUMO HUMANO, ENVASADOS A GRANEL. ESPECIFICACIONES
                             SANITARIAS.
                             @break
-                            @case(30)
+                        @case(30)
                             DE ACUERDO  A LA NORMA OFICIAL MEXICANA NOM-127-SSA1-2021, AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE LA CALIDAD DEL AGUA.
                             {{-- SALUD AMBIENTAL. AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE CALIDAD Y TR   ATAMIENTOS A QUE
                             DEBE <br> SOMETERSE EL AGUA PARA SU POTABILIZACION. --}}

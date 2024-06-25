@@ -12,9 +12,9 @@
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="92.9px">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq">&nbsp;
                         @if ($solModel1->Id_norma != 1)
-                            
+                       
                         @else
-                            RFC: {{@$rfc->RFC}}
+                          RFC: {{@$rfc->RFC}}
                         @endif
                     </td>                                 
                     <td class="filasIzq bordesTabla fontBold bordeFinal justificadoDer" >

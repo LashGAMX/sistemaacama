@@ -34,6 +34,8 @@ use Illuminate\Support\Facades\Route;
         Route::post('sugerido', [CadenaController::class,'sugerido']);
         Route::post('getHistorial', [CadenaController::class,'getHistorial']);
         Route::get('liberarTodoCampo', [SupervicionController::class,'liberarTodoCampo']);
+
+        Route::get('setHistorialCadena', [SupervicionController::class,'setHistorialCadena']);
     });
     Route::group(['prefix' => 'analisis'], function () {
         Route::get('/', [SupervicionController::class, 'analisis']);

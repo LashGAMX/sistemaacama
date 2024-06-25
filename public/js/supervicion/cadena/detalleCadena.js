@@ -46,7 +46,7 @@ $(document).ready(function () {
         "paging": false
     });
     $('#btnCadena').click(function () {
-        window.open("/sofia/admin/informes/cadena/pdf/"+idPunto)
+        window.open(base_url+"/admin/informes/cadena/pdf/"+idPunto)
     });
     $('#btnSetEmision').click(function () {
         setEmision()
@@ -126,6 +126,7 @@ function setSupervicion(){
         dataType: "json",
         async: false,
         success: function (response) {
+            console.log(response)
             alert(response.msg)
         }
     });

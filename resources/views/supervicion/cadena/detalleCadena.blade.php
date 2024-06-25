@@ -192,11 +192,6 @@
 
 @endsection
     @section('javascript')
-<<<<<<< HEAD
     <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.2"></script>
-=======
-
-    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.1"></script>
->>>>>>> c16e1074efb939f19276191c2b7b216119297dc8
 @stop
 
