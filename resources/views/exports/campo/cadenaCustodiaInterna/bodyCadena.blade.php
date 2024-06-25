@@ -58,65 +58,56 @@
                             <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">FIRMA</td>
                         </tr>
                     </thead>
-                    @php
-                        $tempArea = array(); 
-                        $temp = 0;
-                        $sw = false
-                    @endphp
-                    <tbody>
-                        @for ($i = 0; $i < sizeof($area); $i++)    
-                            <tr>
-                                <!-- <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} {{@$stdArea[$i]}}</td> -->
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$area[$i]}}</td>
-                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px"> {{$responsable[$i]}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">{{$numRecipientes[$i]}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
-                                    @if (@$fechasSalidas[$i] != "")
-                                        {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+                    @if ($cadenaGenerales->count())
+                        <tbody>
+                            @foreach ($cadenaGenerales as $item)
+                                 <tr>
+                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$item->Area}}</td>
+                                    <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px"> {{$item->Responsable}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">{{$item->Recipientes}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$item->Fecha_salida}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">{{$item->Fecha_entrada}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$item->Fecha_salidaEli}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$item->Fecha_emision}}</td>
+                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">
+                                        <center><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$item->Firma)}}"></center>
+                                    </td>
+                                </tr>
+                            @endforeach
+                           
+                        </tbody>
 
-                                    @else
-                                        <p style="color: red">Sin captura</p>
-                                    @endif
-                                </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">
+                    @else
+                        @php
+                            $tempArea = array(); 
+                            $temp = 0;
+                            $sw = false
+                        @endphp
+                        <tbody>
+                            @for ($i = 0; $i < sizeof($area); $i++)    
+                                <tr>
+                                    <!-- <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} {{@$stdArea[$i]}}</td> -->
+                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">{{$area[$i]}}</td>
+                                    <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px"> {{$responsable[$i]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">{{$numRecipientes[$i]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
+                                        @if (@$fechasSalidas[$i] != "")
+                                            {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
 
-                                @if ($stdArea[$i] == 1)
-                                    ---------------
-                                  @else
-                                      @if (@$fechasSalidas[$i] != "")
-                                          @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 || @$idArea[$i] == 3 ) 
-                                              ---------------
-                                          @else
-                                          {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
-                                          @endif
+                                        @else
+                                            <p style="color: red">Sin captura</p>
+                                        @endif
+                                    </td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">
 
-                                      
-                                      @else
-                                          <p style="color: red">Sin captura</p> 
-                                      @endif
-                                  @endif
-                                </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">
                                     @if ($stdArea[$i] == 1)
-                                      --------------- 
+                                        ---------------
                                     @else
                                         @if (@$fechasSalidas[$i] != "")
                                             @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 || @$idArea[$i] == 3 ) 
                                                 ---------------
                                             @else
-                                                @switch($model->Id_norma)
-                                                @case(1)
-                                                @case(27)  
-                                                @case(33) 
-                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
-                                                    @break
-                                                @case(5)
-                                                @case(30)   
-                                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(21)->format('d/m/Y')}}  
-                                                    @break
-                                                    @default
-                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
-                                                @endswitch
+                                            {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
                                             @endif
 
                                         
@@ -124,37 +115,68 @@
                                             <p style="color: red">Sin captura</p> 
                                         @endif
                                     @endif
-                                </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
-                                    @if (@$fechasSalidas[$i] != "")
-                                        @switch($model->Id_norma)
-                                            @case(1)
-                                            @case(27)  
-                                            @case(33)  
-                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}  
-                                                @break
-                                            @case(5)
-                                            @case(30)  
-                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(14)->format('d/m/Y')}}  
-                                                @break
-                                            @default
-                                            {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
-                                        @endswitch
-                                    @else
-                                        <p style="color: red">Sin captura</p>
-                                    @endif
-                                </td>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
-                                    @if (@$fechasSalidas[$i] != "")
-                                        <center><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}"></center>
-                                    @else
-                                        <p style="color: red">Sin captura</p>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endfor
-                    </tbody>
+                                    </td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px">
+                                        @if ($stdArea[$i] == 1)
+                                        --------------- 
+                                        @else
+                                            @if (@$fechasSalidas[$i] != "")
+                                                @if (@$idArea[$i] == 12 || @$idArea[$i]== 6 || @$idArea[$i] == 13 || @$idArea[$i] == 3 ) 
+                                                    ---------------
+                                                @else
+                                                    @switch($model->Id_norma)
+                                                    @case(1)
+                                                    @case(27)  
+                                                    @case(33) 
+                                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
+                                                        @break
+                                                    @case(5)
+                                                    @case(30)   
+                                                            {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(21)->format('d/m/Y')}}  
+                                                        @break
+                                                        @default
+                                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                                    @endswitch
+                                                @endif
 
+                                            
+                                            @else
+                                                <p style="color: red">Sin captura</p> 
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
+                                        @if (@$fechasSalidas[$i] != "")
+                                            @switch($model->Id_norma)
+                                                @case(1)
+                                                @case(27)  
+                                                @case(33)  
+                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}  
+                                                    @break
+                                                @case(5)
+                                                @case(30)  
+                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(14)->format('d/m/Y')}}  
+                                                    @break
+                                                @default
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                            @endswitch
+                                        @else
+                                            <p style="color: red">Sin captura</p>
+                                        @endif
+                                    </td>
+                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita" style="font-size:7px; margin:10px"> 
+                                        @if (@$fechasSalidas[$i] != "")
+                                            <center><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}"></center>
+                                        @else
+                                            <p style="color: red">Sin captura</p>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endfor
+                        </tbody>
+
+                    @endif
+                  
                 </table>
             </div>
 
@@ -166,6 +188,7 @@
             </div> 
            
             <div id="contenedorTabla" >
+                
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
                     <thead>
                         <tr>

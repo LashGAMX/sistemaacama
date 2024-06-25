@@ -320,7 +320,7 @@ class SupervicionController extends Controller
         $area = '';
         $idArea = '';
         $responsable = '';
-        $numRecipientes = '';
+        $numRecipientes = 0;
         $fechasSalidas = '';
         $stdArea = '';
         $firmas = '';
@@ -328,7 +328,7 @@ class SupervicionController extends Controller
         $contAux = 0;
         $idSol = $res->idSol;
         $tempArea = array();
-        $sw = false;
+        $sw = true;
         $user = 1;
         $fechaTemp = '';
         $solModel = Solicitud::where('Hijo',$res->idSol)->get();
@@ -338,22 +338,28 @@ class SupervicionController extends Controller
         }else{
             $msg = "folio sin supervicion";
         }
-
+        
         $temp = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
         $temp->Supervicion = $std;
         $temp->save();
 
-        foreach ($solModel as $item) {
 
-            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $idSol)->where('Id_parametro','!=',64)->where('Cancelado',0)->get();
-            $phMuestra = PhMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get(); 
+        foreach ($solModel as $item) {
+            
+            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp->Supervicion = $std;
+            $temp->save();
+
+
+            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro','!=',64)->where('Cancelado',0)->get();
+            $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get(); 
             $detalleTemp = DB::table('cadena_generales')->where('Id_solicitud',$item->Id_solicitud)->delete();
 
             foreach ($areaParam as $item2) {
                 $contAux = 0;
                 $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
                 $sw = false;
-                $valParametro = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', $item2->Id_parametro)->where('Cancelado',0)->get();
+                // $valParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', $item2->Id_parametro)->where('Cancelado',0)->get();
 
                 if ($auxEnv->count()) {
                     $sw = false;
@@ -401,7 +407,7 @@ class SupervicionController extends Controller
                                 } else {
                                     switch ($auxEnv[0]->Id_area) {
                                         default:
-                                            $numRecipientes = $solModel->Num_tomas;
+                                            $numRecipientes = $solModel[0]->Num_tomas;
                                             break;
                                     }
                                 }
@@ -414,7 +420,7 @@ class SupervicionController extends Controller
                             $numRecipientes = 1; 
                             $stdArea = 0;
                         }
-
+                        $idSol = $item->Id_solicitud;
                         switch ($item2->Id_area) {
                             case 2: // Metales
                                 $modelDet = DB::table('lote_detalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
@@ -598,42 +604,42 @@ class SupervicionController extends Controller
                                 $fechaTemp = "";
                                 break;
                         }
+                        array_push($tempArea, $auxEnv[0]->Id_area);
  
 
                         $fechaEntrada = "";
                         $fechaSalidaEli = "";
                         $fechaEmision = "";
-                        $firma = "";
+                        $firma =  $user->firma;
+                        
                         if ($stdArea == 1) {
                             $fechaEntrada = "---------------";
                             $fechaSalidaEli = "---------------";
-                            $fechaEmision = "---------------";
+                            $fechaEmision = "---------------"; 
                         }else{
                             if ($fechaTemp != "") {
                                 if ($item->Id_area == 12 || $item->Id_area == 6 || $item->Id_area == 13 || $item->Id_area == 3  ) {
                                     $fechaEntrada = "---------------";
                                     $fechaSalidaEli = "---------------";
                                     $fechaEmision = "---------------";
-                                    $firma = "Sin captura";
                                 }else{
                                     $fechaEntrada = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
                                     $fechaEmision = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
-                                    $firma =  $user->firma;
                                     switch ($item->Id_norma) {
                                         case 1:
                                         case 27:
                                         case 33:
                                             $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                            $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                             break;
                                         case 5:
                                         case 30:
                                             $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
-                                            $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
                                             break;
                                         default:
                                         $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                        $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                        // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                             break;
                                     }
                                 }
@@ -643,6 +649,29 @@ class SupervicionController extends Controller
                                 $fechaEmision =  "Sin capturar";
                             }
                         }
+                        if (\Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y') != "") {
+                            switch ($item->Id_norma) {
+                                case 1:
+                                case 27:
+                                case 33:
+                                    // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    break;
+                                case 5:
+                                case 30:
+                                    // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                    break;
+                                default:
+                                // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    break;
+                            }
+                        }else{
+                            $fechaSalidaEli = "---------------";
+                            $fechaEmision = "---------------";
+                        }
+                        
 
                         $detalle = CadenaGenerales::create([
                             'Id_solicitud' => $item->Id_solicitud,
@@ -713,6 +742,363 @@ class SupervicionController extends Controller
                     break;
             }
 
+        }
+    }
+    public function setHistorialCadena(){
+        $msg = '';
+        $std = 0;
+        //Datos generales
+        $area = '';
+        $idArea = '';
+        $responsable = '';
+        $numRecipientes = 0;
+        $fechasSalidas = '';
+        $stdArea = '';
+        $firmas = '';
+        $idParametro = '';
+        $contAux = 0;
+        $tempArea = array();
+        $sw = true;
+        $user = 1;
+        $fechaTemp = '';
+        $hisModel = ProcesoAnalisis::whereDate('Hora_recepcion','<=','2024-04-29')->orderBy('Id_solicitud','DESC')->limit(100)->get();
+        foreach ($hisModel as $item) {
+            echo "<br> Id_sol: ".$item->Id_solicitud;
+            echo "<br>-----------------------------------";
+            $idSol = $item->Id_solicitud;
+            $solModel = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+
+   
+            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro','!=',64)->where('Cancelado',0)->get();
+            $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get(); 
+            $detalleTemp = DB::table('cadena_generales')->where('Id_solicitud',$item->Id_solicitud)->delete();
+
+            foreach ($areaParam as $item2) {
+                $contAux = 0;
+                $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+                $sw = false;
+                // $valParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', $item2->Id_parametro)->where('Cancelado',0)->get();
+
+                if ($auxEnv->count()) {
+                    $sw = false;
+                    for ($i = 0; $i < sizeof($tempArea); $i++) {
+                        if ($auxEnv[0]->Id_area == $tempArea[$i]) {
+                            $sw = true;
+                        }
+                        switch ($item2->Id_parametro) {
+                            case 11:
+                                $sw = true; 
+                                break; 
+                            
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
+
+                    if ($sw != true) {
+        
+                        
+
+                        $user = DB::table('users')->where('id', $auxEnv[0]->Id_responsable)->first();
+                        if (@$item2->Id_area == 12 || @$item2->Id_area == 6 || @$item2->Id_area == 13 || @$item2->Id_area == 3) {
+                            if (@$item2->Id_parametro != 16) {
+                                if ($solModel->Id_servicio != 3) {
+                                    switch ($auxEnv[0]->Id_area) {
+     
+                                        default:
+                                            $numRecipientes = $phMuestra->count();
+                                            break;
+                                    }
+
+                                } else {
+                                    switch ($auxEnv[0]->Id_area) {
+                                        default:
+                                            $numRecipientes = $solModel->Num_tomas;
+                                            break;
+                                    }
+                                }
+                            }else{
+                                $numRecipientes = 1; 
+                            }
+    
+                            $stdArea = 1;
+                        } else {
+                            $numRecipientes = 1; 
+                            $stdArea = 0;
+                        }
+                        $idSol = $item->Id_solicitud;
+                        echo "<br> idSol Entro: ".$idSol;
+                        echo "<br> ::::::::::::::::::::::";
+                        switch ($item2->Id_area) {
+                            case 2: // Metales
+                                $modelDet = DB::table('lote_detalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = ""; 
+                                }
+                                break;
+                            case 17: // Metales ICP
+                                // $modelDet = DB::table('lote_detalle_icp')->where('Id_codigo', $model->Folio_servicio)->where('Id_control', 1)->where('Id_parametro', $item->Parametro)->get();
+                                $modelDet = DB::table('lote_detalle_icp')->where('Id_control', 1)->where('Id_codigo', $solModel->Folio_servicio)->where('Id_parametro', $item2->Id_parametro)->get();
+                                if ($modelDet->count()) {
+                                    // $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $modelDet[0]->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                                break;
+                            case 6: // MB Residual
+                            case 12: // MB Alimentos
+                            case 3:
+                                switch ($item2->Id_parametro) {
+                                    case 5: // DBO
+                                    case 71:
+                                        $modelDet = DB::table('lote_detalle_dbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 12: // Coliformes  
+                                    case 134:
+                                    case 135:
+                                    case 133:
+                                    case 35:
+                                    case 137:
+                                    case 51:
+                                        $modelDet = DB::table('lote_detalle_coliformes')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 16: // H.H
+                                        $modelDet = DB::table('lote_detalle_hh')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 78: // E.Coli
+                                        $modelDet = DB::table('lote_detalle_ecoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 253:
+                                        $modelDet = DB::table('lote_detalle_enterococos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    default:
+                                        $modelDet = DB::table('lote_detalle_ecoli')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                }
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+    
+                                break;
+    
+                            case 14: // volumetria 
+                                switch ($item2->Id_parametro) {
+                                    case 6: // DQO
+                                        $modelDet = DB::table('lote_detalle_dqo')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case "218":
+                                        $modelDet = DB::table('lote_detalle_directos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 9:
+                                    case 10:
+                                    case 11:
+                                    case 108:
+                                        $modelDet = DB::table('lote_detalle_nitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 28:
+                                    case 29:
+                                    case 30:
+                                        $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control',1)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    default:
+                                        $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                }
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha; 
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                                break;
+                            case 13: // GA
+                                $modelDet = DB::table('lote_detalle_ga')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                                break;
+                            case 15: // Solidos
+                                $modelDet = DB::table('lote_detalle_solidos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                                break;
+                            case 16: // Espectrofotonetria
+                                $modelDet = DB::table('lote_detalle_espectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+    
+                                break;
+                            case 5: // FQ
+                                switch ($item2->Id_parametro) {
+                                    case 5: // DBO
+                                    case 71:
+                                        $modelDet = DB::table('lote_detalle_dbo')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 11:
+                                        break;
+                                    default:
+                                        $modelDet = DB::table('lote_detalle_espectro')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                }
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                    
+                                break;
+                            case 8: // potable
+                                switch ($item2->Id_parametro) {
+                                    case 108: // N Amoniacal
+                                        $modelDet = DB::table('lote_detalle_nitrogeno')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 14:
+                                    case 110:
+                                    case 98:
+                                        $modelDet = DB::table('lote_detalle_directos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    case 103:
+                                    case 77:
+                                    case 251:
+                                        $modelDet = DB::table('lote_detalle_dureza')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        echo "Entro dure";
+                                        break;
+                                    case 64:
+                                    case 358:
+    
+                                        break;
+                                    default:
+                                        $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                }
+                                // var_dump($modelDet[0]->Id_lote);
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                                break;
+                            case 19:
+                            case 7:
+                                $modelDet = DB::table('lote_detalle_directos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                if ($modelDet->count()) {
+                                    $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
+                                    $fechaTemp = $loteTemp->Fecha;
+                                } else {
+                                    $fechaTemp = "";
+                                }
+                                break;
+                            default:
+                                $fechaTemp = "";
+                                break;
+                        }
+                        array_push($tempArea, $auxEnv[0]->Id_area);
+ 
+
+                        $fechaEntrada = "";
+                        $fechaSalidaEli = "";
+                        $fechaEmision = "";
+                        $firma =  $user->firma;
+                        
+                        if ($stdArea == 1) {
+                            $fechaEntrada = "---------------";
+                            $fechaSalidaEli = "---------------";
+                            $fechaEmision = "---------------"; 
+                        }else{
+                            if ($fechaTemp != "") {
+                                if ($item->Id_area == 12 || $item->Id_area == 6 || $item->Id_area == 13 || $item->Id_area == 3  ) {
+                                    $fechaEntrada = "---------------";
+                                    $fechaSalidaEli = "---------------";
+                                    $fechaEmision = "---------------";
+                                }else{
+                                    $fechaEntrada = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
+                                    switch ($item->Id_norma) {
+                                        case 1:
+                                        case 27:
+                                        case 33:
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            break;
+                                        case 5:
+                                        case 30:
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                            break;
+                                        default:
+                                        $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                        // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            break;
+                                    }
+                                }
+                            }else{
+                                $fechaEntrada =  "Sin capturar";
+                                $fechaSalidaEli =  "Sin capturar";
+                                $fechaEmision =  "Sin capturar";
+                            }
+                        }
+                        if (\Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y') != "") {
+                            switch ($solModel->Id_norma) {
+                                case 1:
+                                case 27:
+                                case 33:
+                                    // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    break;
+                                case 5:
+                                case 30:
+                                    // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                    break;
+                                default:
+                                // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    break;
+                            }
+                        }else{
+                            $fechaSalidaEli = "---------------";
+                            $fechaEmision = "---------------";
+                        }
+                        
+
+                        // $detalle = CadenaGenerales::create([
+                        //     'Id_solicitud' => $item->Id_solicitud,
+                        //     'Area' => $auxEnv[0]->Area,
+                        //     'Responsable' => $user->name,
+                        //     'Recipientes' => $numRecipientes,
+                        //     'Fecha_salida' => \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y'),
+                        //     'Fecha_entrada' => $fechaEntrada,
+                        //     'Fecha_salidaEli' => $fechaSalidaEli,
+                        //     'Fecha_emision' => $fechaEmision,
+                        //     'Firma' => $firma,
+                        // ]); 
+            
+                    }
+                }
+            }
+    
         }
     }
 } 
