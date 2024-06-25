@@ -6496,7 +6496,7 @@ class InformesController extends Controller
      
 
         foreach ($solModel as $item) {
-            
+            $tempArea = array();
 
             $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro','!=',64)->where('Cancelado',0)->get();
             $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get(); 
@@ -6506,6 +6506,7 @@ class InformesController extends Controller
            
     
             foreach ($areaParam as $item2) {
+                
                 $contAux = 0;
                 $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
                 $sw = false;

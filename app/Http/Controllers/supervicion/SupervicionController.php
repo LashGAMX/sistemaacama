@@ -345,7 +345,7 @@ class SupervicionController extends Controller
 
 
         foreach ($solModel as $item) {
-            
+            $tempArea = array();
             $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
             $temp->Supervicion = $std;
             $temp->save();
@@ -673,7 +673,7 @@ class SupervicionController extends Controller
                         }
                         
 
-                        $detalle = CadenaGenerales::create([
+                        CadenaGenerales::create([
                             'Id_solicitud' => $item->Id_solicitud,
                             'Area' => $auxEnv[0]->Area,
                             'Responsable' => $user->name,
@@ -692,6 +692,7 @@ class SupervicionController extends Controller
         }
 
         $data = array(
+            'solModel' => $solModel,
             'msg' => $msg,
         );
         return response()->json($data);
