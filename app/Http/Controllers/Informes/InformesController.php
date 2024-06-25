@@ -6530,21 +6530,35 @@ class InformesController extends Controller
                     }
 
                     if ($sw != true) {
+                        // switch ($auxEnv[0]->Id_responsable) {
+                        //     case 46:
+                        //         $user = DB::table('users')->where('id', 21)->first();
+                        //         break;
+                        //     case 44:
+                        //         $user = DB::table('users')->where('id', 23)->first();
+                        //         break;
+                        //     case 52;
+                        //         $user = DB::table('users')->where('id', 19)->first();
+                        //         break;
+                        //     default:
+                        //         $user = DB::table('users')->where('id', $auxEnv[0]->Id_responsable)->first();
+                        //         break;
+                        // }
+
                         switch ($auxEnv[0]->Id_responsable) {
-                            case 46:
-                                $user = DB::table('users')->where('id', 21)->first();
+                            case 21:
+                                $user = DB::table('users')->where('id', 46)->first();
                                 break;
-                            case 44:
-                                $user = DB::table('users')->where('id', 23)->first();
+                            case 23:
+                                $user = DB::table('users')->where('id', 44)->first();
                                 break;
-                            case 52;
-                                $user = DB::table('users')->where('id', 19)->first();
+                            case 19;
+                                $user = DB::table('users')->where('id', 52)->first();
                                 break;
                             default:
                                 $user = DB::table('users')->where('id', $auxEnv[0]->Id_responsable)->first();
                                 break;
                         }
-
                         if (@$item2->Id_area == 12 || @$item2->Id_area == 6 || @$item2->Id_area == 13 || @$item2->Id_area == 3) {
                             if (@$item2->Id_parametro != 16) {
                                 if ($solModel[0]->Id_servicio != 3) {
