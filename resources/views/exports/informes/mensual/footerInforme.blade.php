@@ -85,10 +85,10 @@
                         <td>
                             {{-- <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma2->firma)}}"> <br></span>           --}}
                             <!--<span class="bodyStdMuestra fontSize5" style="font-size: 8px;">BIOL. GUADALUPE GARCÍA PÉREZ</span> <br>-->
-                            <!--<span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br>  -->
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B SANDRA ROJAS NAVARRO</span> <br> 
                              <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br> -->
                              <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> Q.F.B ÁGUEDA RODRÍGUEZ BLANCO</span> <br> -->
-                             <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. ELSA RIVERA RIVERA</span> <br>
+                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> BIOL. ELSA RIVERA RIVERA</span> <br> -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br> -->
                             <!-- <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> I.A. MARÍA LUISA ZAYAS RAMÍREZ</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 8px;"> AUTORIZÓ SIGNATARIO</span> </center> -->

@@ -312,6 +312,36 @@ class SupervicionController extends Controller
         );
         return response()->json($data);
     }
+    public function setLiberarTodo(Request $res)
+    {
+        $sw = true;
+        $msg = "Error al liberar";
+        if(sizeof($res->ids) > 0){
+            for ($i=0; $i <  sizeof($res->ids); $i++) { 
+                $model = LoteAnalisis::where('Id_lote',$res->ids[$i])->first();
+                if ($model->Supervisado == 0) {
+                    $model->Supervisado = 1;
+                    $msg = "Lote supervisado";
+                }else{
+                    $model->Supervisado = 0;
+                    $msg = "Lote desliberada";
+                }
+                if ($res->user != 0) {
+                    $model->Id_superviso = $res->user;   
+                }else{
+                    $model->Id_superviso = Auth::user()->id;
+                }
+                $model->save();
+            }
+        }else{
+            $msg = "No hay muestra seleccionada";
+        }
+        $data = array(
+            'msg' => $msg,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
     public function setSupervicion(Request $res)
     {
         $msg = '';
