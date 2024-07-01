@@ -315,7 +315,7 @@
                                     
                             @endswitch
 
-                            <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE <br> LA CONFORMIDAD&nbsp;&nbsp;</td>    
+                            <!-- <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE <br> LA CONFORMIDAD&nbsp;&nbsp;</td>     -->
                     @endif             
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">ANALISTA</td>
                 </tr>
@@ -357,7 +357,7 @@
                                   
                                 </td>
 
-                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                <!-- <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                     @if (@$item->Resultado2 != NULL)
                                         @switch($item->Id_parametro)
                                             @case(64)
@@ -370,7 +370,7 @@
                                         -------
                                     @endif
                                   
-                                </td>
+                                </td> -->
 
 
                             @endif
