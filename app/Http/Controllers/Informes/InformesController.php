@@ -319,7 +319,7 @@ class InformesController extends Controller
                         break;
                     case 26:
                     case 39:
-                        $limC = number_format(@$item->Resultado2, 2, ".", "");
+                        @$limC = number_format(@$item->Resultado2, 2, ".", "");
                         break;
                     case 16:
                         if ($item->Resultado2 < $item->Limite) {
@@ -632,6 +632,8 @@ class InformesController extends Controller
                             $aux = "N/A";
                         }
                         break;
+                    case 365:
+                        break;
                     default:
 
                         break;
@@ -658,7 +660,7 @@ class InformesController extends Controller
             case 30:
                 //potable y purificada
                  //$firma1 = User::find(14) ;
-                 $firma1 = User::find(12);
+                 $firma1 = User::find(31);
                 //  $firma1 = User::find(12); // Reviso
                  $firma2 = User::find(14); // Autorizo
                  //$firma2 = User::find(12); // Autorizo
@@ -669,7 +671,7 @@ class InformesController extends Controller
                  //$firma1 = User::find(14); //reviso
                  $firma1 = User::find(14); //reviso
                 // $firma2 = User::find(35); //Autorizo
-                $firma2 = User::find(12); //Autorizo
+                $firma2 = User::find(31); //Autorizo
                  //$firma2 = User::find(12); // Autorizo
                 
                 break;
