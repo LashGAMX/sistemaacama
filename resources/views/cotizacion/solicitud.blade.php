@@ -56,6 +56,8 @@
                                             @case(1)
                                             @case(36)
                                             @case(101)
+                                            @case(31)
+                                            @case(65)
                                                     <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                                                     &nbsp;
                                                     <button id="btnCancelar" class="btn btn-danger"><i class="fas fa-delete"></i> Cancelar</button>
