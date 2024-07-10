@@ -1782,7 +1782,7 @@ class MetalesController extends Controller
                 case 204:
                 case 190:
                 case 196:
-                    $conversion = 10000;
+                    $conversion = 1000;
                     $volMuestra = 100;
                     $volFinal = 100;
                 break;
