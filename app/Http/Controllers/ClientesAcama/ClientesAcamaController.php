@@ -22,6 +22,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ClientesAcamaController extends Controller
 {
     //
@@ -584,4 +586,136 @@ class ClientesAcamaController extends Controller
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
     }
+
+    public function seguimientoServicio(){
+        return view('clientes.seguimientoServicio');
+    }
+
+    public function getFolioServicio(Request $res){
+        $modelFolio = DB::table('viewsolicitud2')
+        ->where('Folio_servicio', '=', $res->numero_seguimiento)
+        ->first();
+
+        if(empty($modelFolio)){
+            $data = array("error" => "No se encontró el registro");
+            return response()->json($data);
+        }
+        else{
+            $data = array(
+                "porcentaje" => "0", //Porcentaje que se va a mostrar en la barra
+                "estado_muestreo" => 1, //1 Si la barra de porcentaje va a incluir muestreo, 0 si no
+                "orden_servicio" => array
+                (
+                    "cliente" => "",
+                    "norma" => "",
+                    "servicio" => "",
+                    "siralab" => "",
+                    "folio" => ""
+                ),
+                "muestreo" => "",
+                "recepcion" => "",
+                "ingreso_lab" => "",
+                "impresion" => ""
+            );
+            if($modelFolio->Id_servicio == 3){
+                $data["estado_muestreo"] = 0;
+            }
+            $data["orden_servicio"]["cliente"] = $modelFolio->Empresa;
+            $data["orden_servicio"]["norma"] = $modelFolio->Clave_norma;
+            $data["orden_servicio"]["servicio"] = $modelFolio->Servicio;
+            if($modelFolio->Siralab == 0){
+                $data["orden_servicio"]["siralab"] = 'No';
+            }
+            else{
+                $data["orden_servicio"]["siralab"] = 'Si';
+            }
+            $data["orden_servicio"]["folio"] = $modelFolio->Folio_servicio;
+
+            if($data["estado_muestreo"] == 1){
+                $data["porcentaje"] = "21";
+                $modelSolicitudGenerada = DB::table('viewsolicitudgenerada')
+                ->where('Folio_servicio', 'LIKE', '%' . $modelFolio->Folio_servicio . '%')
+                ->get();
+
+                if(!empty($modelSolicitudGenerada)){
+                    $data["muestreo"] = "Capturando puntos de muestreo<br />";
+                    $data["porcentaje"] = "40";
+                }
+            }
+            else if($data["estado_muestreo"] == 0){
+                $data["porcentaje"] = "25";
+            }
+
+            $modelCodigoParametro = DB::table('codigo_parametro')
+            ->where('Codigo', 'LIKE', '%' . $modelFolio->Folio_servicio . '%')
+            ->get();
+
+            if(!empty($modelCodigoParametro)){
+                $data["recepcion"] = "Muestras en laboratorio";
+                if($data["estado_muestreo"] == 1){
+                    $data["muestreo"] = $data["muestreo"] . "<span class='texto-verde'>Puntos de muestreo capturados<span>";
+                    $data["porcentaje"] = "64";
+                }
+                else if($data["estado_muestreo"] == 0){
+                    $data["porcentaje"] = "50";
+                }
+            }
+
+            $modelProcesoAnalisis = DB::table('proceso_analisis')
+            ->where('Folio', 'LIKE', '%' . $modelFolio->Folio_servicio . '%')
+            ->get();
+
+            if(!empty($modelProcesoAnalisis)){
+                $data["ingreso_lab"] = "Muestras ingresadas<br />";
+                if($data["estado_muestreo"] == 1){
+                    $data["porcentaje"] = "81";
+                }
+                else if($data["estado_muestreo"] == 0){
+                    $data["porcentaje"] = "74";
+                }
+            }
+
+            $hayResultado = false;
+            $hayResultado2 = true;
+            foreach($modelCodigoParametro as $fila){
+                if($fila->Resultado != null){
+                    $hayResultado = true;
+                }
+                if($fila->Resultado2 == null){
+                    $hayResultado2 = false;
+                }
+            }
+            if($hayResultado == true){
+                $data["ingreso_lab"] = $data["ingreso_lab"] . "Analizando muestras<br />";
+                $data["porcentaje"] = "89";
+            }
+            if($hayResultado2 == true){
+                $data["ingreso_lab"] = $data["ingreso_lab"] . "<span class='texto-verde'>Muestras analizadas</span>";
+                $data["porcentaje"] = "94";
+            }
+
+            $todoLiberado = true;
+            $todoImpreso = true;
+            foreach($modelProcesoAnalisis as $fila){
+                if($fila->Liberado == 0){
+                    $todoLiberado = false;
+                }
+                if($fila->Impresion_informe == 0){
+                    $todoImpreso = false;
+                }
+            }
+            if($todoLiberado == true){
+                $data["impresion"] = "Informe pendiente para impresión<br />";
+                $data["porcentaje"] = "97";
+            }
+            if($todoImpreso == true){
+                $data["impresion"] = $data["impresion"] . "<span class='texto-verde'>Informe impreso</span>";
+                $data["porcentaje"] = "100";
+            }
+
+            return response()->json($data);
+        }
+    }
+    // 156-3/24 con muestreo
+    // 128-100/23 sin muestreo
 }

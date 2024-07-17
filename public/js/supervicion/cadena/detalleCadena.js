@@ -174,102 +174,131 @@ function setHistorial(historialValor) {
     });
 }
 
-
-
-
 function getParametros() {
-    console.log("Click en Punto de muestreo");
-    let color = "";
-    let AP= "";
-    let tabla = document.getElementById('divTableParametros');
-    let tab = '';
-    
-
-    
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/supervicion/cadena/getParametroCadena",
         data: {
-            idSol: $("#idSol").val(),
             idPunto: idPunto,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
-        async: false,
         success: function (response) {
-            tab += '<table id="tableParametros" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Id</th>';
-            tab += '          <th>Parametro</th>';
-            tab += '          <th>Tipo formula</th>';
-            tab += '          <th>Ejecutado</th> ';
-            tab += '          <th>Resultado</th> ';
-           tab += '          <th></th> ';
-            // tab += '          <th>Liberado</th> '; 
-            // tab += '          <th>Nombre</th> '; 
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
+            let tab = '<table id="tableParametros" class="table table-sm">';
+            tab += '<thead class="thead-dark">';
+            tab += '<tr>';
+            tab += '<th>Id</th>';
+            tab += '<th>Parametro</th>';
+            tab += '<th>Tipo formula</th>';
+            tab += '<th>Ejecutado</th>';
+            tab += '<th>Resultado</th>';
+            tab += '<th>his</th>';
+            tab += '<th>Limite</th>'; 
+            tab += '</tr>';
+            tab += '</thead>';
+            tab += '<tbody>';
+        
+            let countDanger = 0; // Contador para parámetros fuera de rango
+        
             $.each(response.model, function (key, item) {
-                if (item.Resultado2 != null ) {
+                let color = "";
+                let AP = "";
+        
+                if (item.Resultado2 != null) {
                     color = "success";
-                } else 
-                {
-                    color = "warning"
+                } else {
+                    color = "warning";
                 }
+        
                 switch (parseInt(item.Id_parametro)) {
-                    case 14: //Ph
+                    case 14: // Ph
                     case 100:
-                    case 26:// Gasto
-                    case 13: // GA
-                    case 12: //Coliformes
-                    case 137:
-                    case 51:
-                    case 134: 
-                    case 132:
-                    case 67: //conductividad
-                    case 2: //Materia Floatante
-                    case 97: //Températura 
-                    case 100:
-                    case 5:
-                    case 70:
-                    case 71:
-                    case 35:
+                    case 26: // Gasto
                     case 253:
-                        if(item.Liberado != 1)
-                        {
-                            color = "danger"
-                        }else{
+                        if (item.Liberado != 1) {
+                            color = "danger";
+                      
+                        } else {
                             color = "success";
                         }
                         break;
-                
                     default:
                         break;
                 }
-               if( item.Cadena == 0)
-                    {
-                        AP="primary";
-                    }          else 
-                    {
-                        AP=""
-                    }   
+        
+                if (item.Cadena == 0) {
+                    AP = "primary";
+                } else {
+                    AP = "";
+                }
+              
+        
+                let LOL = ""; 
+        
+                if (item.Limite == 'N/A' || item.Limite == null) {
+                    LOL = 'success';
+                } else if (item.Limite.includes('-')) {
+                    
+                    var limites = item.Limite.split('-');
+                    var limiteMin = parseFloat(limites[0]);
+                    var limiteMax = parseFloat(limites[1]);
+                    
+                    var resultado2 = parseFloat(item.Resultado2);
+                     if(item.resultado2 < item.Limite)
+                     {
+                        LOL = 'success';
+
+                     }
+                    if (!isNaN(resultado2) && resultado2 >= limiteMin && resultado2 <= limiteMax) {
+                        LOL = 'success';
+                    } else {
+                        LOL = 'danger';
+                        countDanger++; 
+                    }
+                } else if (parseFloat(item.Resultado2) == parseFloat(item.Limite)) {
+                    LOL = 'success';
+                } else if (parseFloat(item.Resultado2) < parseFloat(item.Limite)) {
+                    LOL = 'success';
+                } else if (parseFloat(item.Resultado2) > parseFloat(item.Limite)) {
+                    LOL = 'danger';
+                } else {
+                    LOL = 'success';
+                }
+                
+                
                 tab += '<tr>';
                 tab += '<td>' + item.Id_codigo + '</td>';
-                tab += '<td class="bg-' + color + '">('+item.Id_parametro+') ' + item.Parametro + '</td>';
+                tab += '<td class="bg-' + color + '">(' + item.Id_parametro + ') ' + item.Parametro + '</td>';
                 tab += '<td class="bg-' + AP + '">' + item.Tipo_formula + '</td>';
                 tab += '<td class="bg-' + AP + '">' + item.Resultado + '</td>';
                 tab += '<td class="bg-' + AP + '">' + item.Resultado2 + '</td>';
-                tab += '<td><button class="btn-warning" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
-                // tab += '<td>'+item.Resultado+'</td>';
-                // tab += '<td>'+item.Resultado+'</td>';
+                tab += '<td><button class="btn-warning" onclick="getHistorial(' + item.Id_codigo + ')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
+                tab += '<td class="bg-' + LOL + '">' + item.Limite + '</td>'; 
                 tab += '</tr>';
             });
-            tab += '    </tbody>';
+        
+            tab += '</tbody>';
             tab += '</table>';
-            tabla.innerHTML = tab;
-            let tableParametro = $('#tableParametros').DataTable({
+        
+            $('#divTableParametros').html(tab);
+
+            const mensaje = $('#mensaje'); // Obtener referencia al elemento #mensaje
+            let NPFR = $('#tableParametros').find('.bg-danger').length; // Obtener el número de parámetros fuera de rango
+        
+            if (NPFR === 0) {
+                mensaje.text('No Hay Parametros Fuera de Rango');
+                mensaje.css('background-color', 'green');
+            } else if (NPFR > 0) {
+                mensaje.text('Parametros Fuera de Rango:  ');
+                mensaje.css('background-color', 'red');
+        
+                const span = $('<span>').addClass('badge rounded-pill').css('background-color', 'rgb(3, 196, 245)');
+                span.text(' ' + NPFR);
+                
+                mensaje.append(span);
+            }
+        
+            $('#tableParametros').DataTable({
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
@@ -278,28 +307,17 @@ function getParametros() {
                     "infoEmpty": "No hay datos encontrados",
                 },
                 "scrollY": "300px",
-                "scrollCollapse":true,
+                "scrollCollapse": true,
                 "paging": false,
-               
             });
-            $('#tableParametros tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else 
-                {
-                    tableParametro.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                    getDetalleAnalisis(idCodigo);
-                }
-            });
-            $('#tableParametros tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
-                idCodigo = dato;
-            });
+        },
+        
+        error: function (xhr, status, error) {
+            console.error('Error en la solicitud AJAX:', status, error);
         }
     });
 }
+
 
 function regresarMuestra () {
     $.ajax({

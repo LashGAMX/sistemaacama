@@ -206,12 +206,7 @@
                         @endphp 
                         @for ($i = 0; $i < $temp; $i++)
                             <tr>
-                                {{-- <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size:8.5px">{{@$paramResultado[$i]->Id_parametro}}{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">{{@$resInfo[$i]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri " style="font-size:8.5px">{{@$paramResultado[$i + $temp]->Id_parametro}}{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri " style="font-size:8.5px">{{@$paramResultado[$i + ($temp  * 2)]->Id_parametro}}{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td> --}}
+                               
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri " style="font-size:8.5px">
                                     @if (@$paramResultado[$i]->Id_area == 12 || @$paramResultado[$i]->Id_area == 6 || @$paramResultado[$i]->Id_area == 13 || @$paramResultado[$i]->Id_area == 3 ) 
                                         @switch(@$paramResultado[$i]->Id_parametro)
@@ -223,10 +218,12 @@
                                             {{@$paramResultado[$i]->Num_muestra}} - {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
                                         @endswitch
                                     @else 
-                                        {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
+                                    {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
                                     @endif 
                                 </td>
-                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">
+                                {{@$resInfo[$i]}}
+                                </td>
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri " style="font-size:8.5px">
                                     @if (@$paramResultado[$i + $temp]->Id_area == 12 || @$paramResultado[$i + $temp]->Id_area == 6 || @$paramResultado[$i + $temp]->Id_area == 13 || @$paramResultado[$i + $temp]->Id_area == 3) 
                                         @switch(@$paramResultado[$i + $temp]->Id_parametro)
@@ -238,7 +235,7 @@
                                             {{@$paramResultado[$i + $temp]->Num_muestra}} - {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                         @endswitch
                                     @else
-                                        {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
+                                    {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">{{@$resInfo[$i + $temp]}}</td>
@@ -253,7 +250,7 @@
                                             {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} - {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                         @endswitch
                                     @else
-                                        {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
+                                    {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri "style="font-size: 8.5PX; width: 25px">{{@$resInfo[$i + ($temp * 2)]}}</td>

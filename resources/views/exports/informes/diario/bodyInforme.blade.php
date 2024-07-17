@@ -325,10 +325,236 @@
                 @php $i = 0; @endphp
                 @foreach ($model as $item)
                     @if (@$item->Id_area != 9)
+                    @switch($item->Id_parametro)
+                        @case(365)
+                            
+                            @break
+                        
+                        @case(365)
+                        @case(372)
+                        @case(370)
+                            @php
+                                $cod = DB::table('codigo_parametro')->where('Id_codigo',$item->Id_codigo)->first();
+                            @endphp
+                            <tr> 
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
+                                    {{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup>
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    {{$item->Clave_metodo}}
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado2 != NULL)
+                                        {{number_format(@$item->Resultado2,1,'.','')}}
+                                    @else
+                                        -------
+                                    @endif
+                        
+                                </td>
+                                @if ($tipo == 1)
+                                    <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                        @if (@$item->Resultado2 != NULL)
+                                            {{number_format(@$item->Resultado2,1,'.','')}}
+                                        @else
+                                            -------
+                                        @endif
+                                        
+                                    </td>
+
+                                @endif
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado2 != NULL)
+                                        {{@$item->iniciales}}
+                                    @else
+                                        -------
+                                    @endif
+                                </td>
+                            </tr>   
+                            <tr> 
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
+                                    pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color verdadero
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    NMX-AA-008-SCFI-2016
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">UpH</td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Ph_muestra != NULL)
+                                        {{number_format(@$item->Ph_muestra,1,'.','')}}
+                                    @else
+                                        -------
+                                    @endif
+                        
+                                </td>
+                                @if ($tipo == 1)
+                                    <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                        @if (@$item->Ph_muestra != NULL)
+                                            {{number_format(@$item->Ph_muestra,1,'.','')}}
+                                        @else
+                                            -------
+                                        @endif
+                                        
+                                    </td>
+
+                                @endif
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Ph_muestra != NULL)
+                                        {{@$item->iniciales}}
+                                    @else
+                                        -------
+                                    @endif
+                                </td>
+                            </tr> 
+                        @break
+                        @case(102)
+                            @php
+                                $cod = DB::table('codigo_parametro')->where('Id_codigo',$item->Id_codigo)->first();
+                            @endphp
+                            <tr> 
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
+                                    {{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup> <br> Coeficiente de absorción <br> espextral 436 nm
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    {{$item->Clave_metodo}}
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado != NULL)
+                                        {{number_format(@$item->Resultado,1,'.','')}}
+                                    @else
+                                        -------
+                                    @endif
+                        
+                                </td>
+                                @if ($tipo == 1)
+                                    <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                        @if (@$item->Resultado != NULL)
+                                            {{number_format(@$item->Resultado,1,'.','')}}
+                                        @else
+                                            -------
+                                        @endif
+                                        
+                                    </td>
+
+                                @endif
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado2 != NULL)
+                                        {{@$item->iniciales}}
+                                    @else
+                                        -------
+                                    @endif
+                                </td>
+                            </tr>   
+                            <tr> 
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
+                                    {{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup> <br> Coeficiente de absorción <br> espextral 525 nm
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    {{$item->Clave_metodo}}
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado2 != NULL)
+                                        {{number_format(@$item->Resultado2,1,'.','')}}
+                                    @else
+                                        -------
+                                    @endif
+                        
+                                </td>
+                                @if ($tipo == 1)
+                                    <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                        @if (@$item->Resultado2 != NULL)
+                                            {{number_format(@$item->Resultado2,1,'.','')}}
+                                        @else
+                                            -------
+                                        @endif
+                                        
+                                    </td>
+
+                                @endif
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado2 != NULL)
+                                        {{@$item->iniciales}}
+                                    @else
+                                        -------
+                                    @endif
+                                </td>
+                            </tr>   
+                            <tr> 
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
+                                    {{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup> <br> Coeficiente de absorción <br> espextral 620 nm
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    {{$item->Clave_metodo}}
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado_aux != NULL)
+                                        {{number_format(@$item->Resultado_aux,1,'.','')}}
+                                    @else
+                                        -------
+                                    @endif
+                        
+                                </td>
+                                @if ($tipo == 1)
+                                    <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                        @if (@$item->Resultado_aux != NULL)
+                                            {{number_format(@$item->Resultado_aux,1,'.','')}}
+                                        @else
+                                            -------
+                                        @endif
+                                        
+                                    </td>
+
+                                @endif
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Resultado_aux != NULL)
+                                        {{@$item->iniciales}}
+                                    @else
+                                        -------
+                                    @endif
+                                </td>
+                            </tr> 
+                            <tr> 
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
+                                    pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color verdadero
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    NMX-AA-008-SCFI-2016
+                                </td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">UpH</td>
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Ph_muestra != NULL)
+                                        {{number_format(@$item->Ph_muestra,1,'.','')}}
+                                    @else
+                                        -------
+                                    @endif
+                        
+                                </td>
+                                @if ($tipo == 1)
+                                    <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                        @if (@$item->Ph_muestra != NULL)
+                                            {{number_format(@$item->Ph_muestra,1,'.','')}}
+                                        @else
+                                            -------
+                                        @endif
+                                        
+                                    </td>
+
+                                @endif
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
+                                    @if (@$item->Ph_muestra != NULL)
+                                        {{@$item->iniciales}}
+                                    @else
+                                        -------
+                                    @endif
+                                </td>
+                            </tr> 
+                        @break
+                        @default
                         <tr> 
-                            <!-- <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">({{@$item->Id_parametro}}) {{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td> -->
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td>
-                            {{-- <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup> | {{$item->Simbologia_inf}}</td> --}}
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 {{$item->Clave_metodo}}
                             </td>
@@ -357,22 +583,6 @@
                                   
                                 </td>
 
-                                <!-- <td class="tableContent bordesTablaBody" style="font-size: 8px;">
-                                    @if (@$item->Resultado2 != NULL)
-                                        @switch($item->Id_parametro)
-                                            @case(64)
-                                            {{ @$limitesCon[$i] }}
-                                            @break
-                                            @default
-                                            {{ @$limitesCon[$i] }}
-                                        @endswitch
-                                    @else
-                                        -------
-                                    @endif
-                                  
-                                </td> -->
-
-
                             @endif
                             <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
@@ -382,6 +592,8 @@
                                 @endif
                             </td>
                         </tr>   
+                    @endswitch
+                        
                         @php $i++; @endphp
                     @endif
                 @endforeach

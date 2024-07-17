@@ -336,7 +336,7 @@
                 </div>
                 <div class="col-md-2">
                   <button type="button" id="btnSetParametro" onclick="getParametrosSelected()" class="btn btn-warning"
-                    data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agragar y/o
+                    data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agregar y/o
                     Eliminar</button>
                     
                     @switch(Auth::user()->id)

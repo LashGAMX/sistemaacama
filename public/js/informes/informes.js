@@ -1,6 +1,7 @@
  var idSol = 0;
 var idPunto = 0;
 $(document).ready(function () {
+    let folioSeleccionado = '';
 
     let table = $('#tableServicios').DataTable({        
         "ordering": false,
@@ -17,10 +18,14 @@ $(document).ready(function () {
     $('#tableServicios tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
+            // console.log(this.children[1].innerHTML);
+            folioSeleccionado = '';
         }
         else { 
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            folioSeleccionado = this.children[1].innerHTML;
+            // console.log(this.children[1].innerHTML);
         }
     } );
     $('#tableServicios tr').on('click', function(){
@@ -47,6 +52,14 @@ $(document).ready(function () {
 
     $('#btnNota').on('click', function(){
         setNota4(idSol)
+    });
+
+    $(document).on('change', '#puntoMuestreo', function(){
+        setTimeout(() => { 
+            // console.log(folioSeleccionado);
+            // console.log($(this).val());
+            setDatosTablaParametro(folioSeleccionado, $(this).val());
+        }, 200);
     });
 
 }); 
@@ -99,6 +112,7 @@ function getPuntoMuestro(id)
          }); 
           tab += '</select>';
           tabla.innerHTML = tab;
+          $("#puntoMuestreo").trigger('change');
         }
     });  
 }
@@ -170,4 +184,66 @@ function getSolParametro()
 
         }
     });  
+}
+
+function setDatosTablaParametro(folio, puntoMuestreo){
+    $.ajax({
+        url: base_url + '/admin/informes/getInformacionPuntosMuestreo',
+        type: 'POST',
+        data: {
+            folio: folio,
+            puntoMuestreo: puntoMuestreo,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        success: function(response){
+            const listaParametros = response.model;
+            let template = ``;
+            console.log(listaParametros);
+
+            listaParametros.forEach(element => {
+                let limiteExcedido = verificarExcedido(element.Resultado2, element.Limite_cuantificacion);
+
+                template += `
+                    <tr>
+                        <td></td>
+                        <td>${element.Parametro}</td>
+                        <td>${element.Unidad}</td>
+                        <td>${element.Resultado2}</td>
+                        ${limiteExcedido == true ? `<td style="background-color: red; color: white;">${element.Limite_cuantificacion}</td>` : `<td>${element.Limite_cuantificacion}</td>`}
+                    </tr>
+                `;
+            });
+
+            $("#datosTablaParametro").html(template);
+        }
+    });
+}
+
+function verificarExcedido(resultado, limite){
+    if(limite == 'N/A' || !limite || !resultado){
+        return false;
+    }
+    let resultadoNumerico = parseFloat(resultado);
+    if(!limite.includes("-")){
+        if(resultadoNumerico > parseFloat(limite)){
+            console.log(`resultado: ${resultadoNumerico} es mayor a ${limite}`);
+            return true;
+        }
+        else{
+            console.log(`resultado: ${resultadoNumerico} es menor a ${limite}`);
+            return false;
+        }
+    }
+    else{
+        let rango = limite.split('-');
+        if(resultadoNumerico < parseFloat(rango[0]) || resultadoNumerico > parseFloat(rango[1])){
+            console.log(`resultado: ${resultadoNumerico} es menor a ${rango[0]} o mayor a ${rango[1]}`);
+            return true;
+        }
+        else{
+            console.log(`resultado: ${resultadoNumerico} esta dentro del limite ${limite}`);
+            return false;
+        }
+    }
 }

@@ -31,6 +31,7 @@ use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Psy\Command\WhereamiCommand;
 
 class CadenaController extends Controller
 {
@@ -59,14 +60,67 @@ class CadenaController extends Controller
         $puntos = SolicitudPuntos::where('Id_solPadre', $id)->get();
         return view('supervicion.cadena.detalleCadena', compact('model', 'puntos','swSir', 'intermediario','proceso','direccion'));
     }
+    
     public function getParametroCadena(Request $res)
-    {
-        $model = DB::table('ViewCodigoRecepcion')->where('Id_solicitud', $res->idPunto)->where('Num_muestra', 1)->orderByRaw('CASE WHEN Orden IS NOT NULL THEN 0 ELSE 1 END, Orden ASC')->get();
-        $data = array(
-            'model' => $model,
-        );
+{
+    try {
+        $model = DB::table('ViewCodigoRecepcion')
+            ->where('Id_solicitud', $res->idPunto)
+            ->where('Num_muestra', 1)
+            ->orderByRaw('CASE WHEN Orden IS NOT NULL THEN 0 ELSE 1 END, Orden ASC')
+            ->get();
+
+        $models = DB::table('solicitudes')
+            ->where('Id_solicitud', '=', $res->idPunto)
+            ->whereNull('deleted_at')
+            ->first();
+
+        switch ($models->Id_norma) {
+            case 27:
+                switch ($models->Id_reporte2) {
+                    case 0:
+                        foreach ($model as $fila) {
+                            $fila->Limite = 'N/A';
+                        }
+                        break;
+                    default:
+                        foreach ($model as $fila) {
+                            $modelLim = DB::table('limite001_2021')
+                                ->where('Id_parametro', '=', $fila->Id_parametro)
+                                ->where('Id_categoria', '=', $models->Id_reporte2)
+                                ->whereNull('deleted_at')
+                                ->first();
+
+                            if (!empty($modelLim)) {
+                                if ($models->Id_muestreo == 6) {
+                                    $fila->Limite = $modelLim->Vi;
+                                } else {
+                                    $fila->Limite = $modelLim->Pd;
+                                }
+                            } else {
+                                $fila->Limite = 'N/A';
+                            }
+                        }
+                }
+                break;
+            default:
+                foreach ($model as $fila) {
+                    $fila->Limite = 'N/A';
+                }
+                break;
+        }
+
+        $data = ['model' => $model];
+
         return response()->json($data);
+    } catch (\Exception $e) {
+       
+        return response()->json(['error' => 'No carga los datos'], 500);
     }
+}
+
+    
+
 //     public function cadenaCustodia()
 //   {
 //     $model= DB :: table('ViewSolicitud4')->orderby('Id_solicitud','desc')->where('Padre',1)->get();

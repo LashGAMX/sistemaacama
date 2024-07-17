@@ -36,7 +36,14 @@
                             <h6>Fecha muestro: <strong>{{$model->Fecha_muestreo}}</strong></h6>
                             <h6>Fecha recepcion: <strong>{{$model->Fecha_recepcion}}</strong></h6>
                             <h6>Fecha emisión: <input type="date" id="fechaEmision" value="{{$proceso->Emision_informe}}"> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>
+                          
+                            <span id="mensaje" class="badge">
+                            
+                            </span>
+
+
                         </div>
+                     
                         <div class="col-md-2">
                             <div class="form-check">
                               <label class="form-check-label" for="defaultCheck1">Supervisado</label>
@@ -50,6 +57,7 @@
                               <label class="form-check-label" for="defaultCheck1">Historial</label>
                               <input class="form-check-input" id="ckHistorial" type="checkbox" value="" id="defaultCheck1" @if (@$proceso->Historial_resultado == 1) checked = "true" @endif>
                             </div>
+                            
                         </div>
                         <div class="col-md-2">
                             <button class="btn btn-success" id="btnCadena">Imprimir</button>

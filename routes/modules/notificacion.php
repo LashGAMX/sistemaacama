@@ -1,6 +1,8 @@
 <?php
 use App\Http\Controllers\Notificacion\NotificacionController;
 use App\Http\Controllers\supervicion\SupervicionController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Notificacion;
 
@@ -12,4 +14,8 @@ Route::get('verNotificaciones', [NotificacionController::class, 'verNotificacion
 //Route::post('Marcarleido',[NotificacionController::class,'Marcarleido']);
 Route::get('obtenerYMarcarLeidas', [NotificacionController::class, 'obtenerYMarcarLeidas']);
 Route::get('liberarTodo', [SupervicionController::class,'liberarTodo']);
+
+
+
+
 });

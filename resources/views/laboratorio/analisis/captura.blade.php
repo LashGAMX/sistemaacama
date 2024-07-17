@@ -4757,13 +4757,284 @@
 
 {{-- Fin Moda DBo --}}
 
+<!-- Inicio Color -->
+<div class="modal fade" id="modalCapturaColorVerdadero" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: 80%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Color</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="observacionColorDir1">Observacion 436</label>
+                  <input type="text" class="form-control" id="observacionColorDir1" placeholder="Observacion de la muestra 1">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="observacionColorDir2">Observacion 525</label>
+                  <input type="text" class="form-control" id="observacionColorDir2" placeholder="Observacion de la muestra 2">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="observacionColorDir3">Observacion 620</label>
+                  <input type="text" class="form-control" id="observacionColorDir3" placeholder="Observacion de la muestra 3">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionColorDir1','observacionColorDir2','observacionColorDir3')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input type="text" id="resultadoColor1" style="font-size: 20px;color:red;" placeholder="Resultado 436"> &nbsp;
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input type="text" id="resultadoColor2" style="font-size: 20px;color:red;" placeholder="Resultado 525"> &nbsp;
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input type="text" id="resultadoColor3" style="font-size: 20px;color:red;" placeholder="Resultado 620"> &nbsp;
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>V</td>
+                  <td>Vol muestra</td>
+                  <td><input type="text" id="volColor" ></td>
+                </tr>
+                <tr>
+                  <td>Espectral 436 nm</td>
+                  <td colspan="3">
+                    <div class="row">
+                      <div class="col-md-12">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="fdColor1">Fd</label>
+                        <br>
+                        <input type="text" id="fdColor1" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="longitud1">Longitud</label>
+                        <input type="text" id="longitud1" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="abs11Color">Abs1</label>
+                        <input type="text" id="abs11Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs2</label>
+                        <input type="text" id="abs12Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs3</label>
+                        <input type="text" id="abs13Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs Prom</label>
+                        <input type="text" id="absProm1" style="width: 120px;">
+                      </div>
+                      
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Espectral 525 nm</td>
+                  <td colspan="3">
+                    <div class="row">
+                      <div class="col-md-12">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="fdColor2">Fd</label>
+                        <br>
+                        <input type="text" id="fdColor2" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="longitud2">Longitud</label>
+                        <input type="text" id="longitud2" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="abs21Color">Abs1</label>
+                        <input type="text" id="abs21Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs2</label>
+                        <input type="text" id="abs22Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs3</label>
+                        <input type="text" id="abs23Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs Prom</label>
+                        <input type="text" id="absProm2" style="width: 120px;">
+                      </div>
+                      
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Espectral 620 nm</td>
+                  <td colspan="3">
+                    <div class="row">
+                      <div class="col-md-12">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="fdColor3">Fd</label>
+                        <br>
+                        <input type="text" id="fdColor3" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="longitud3">Longitud</label>
+                        <input type="text" id="longitud3" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="abs33Color">Abs1</label>
+                        <input type="text" id="abs31Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs2</label>
+                        <input type="text" id="abs32Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs3</label>
+                        <input type="text" id="abs33Color" style="width: 120px;">
+                      </div>
+                      <div class="col-md-2">
+                        <label for="">Abs Prom</label>
+                        <input type="text" id="absProm3" style="width: 120px;">
+                      </div>
+                      
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td>Ph color</td>
+                  <td><input type="text" id="phpColor" value="0"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+ <!-- Fin Color -->
+
+ {{--* Inicio Modal Color --}}
+<div class="modal fade" id="modalDirectoColorPh" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Directo Color</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionDirectoColorPh"
+                placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirectoColorPh')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="resultadoColorDir" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Descripcion</th>
+                  <th>Valor</th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td>A.</td>
+                  <td>Color</td>
+                  <td><input type="text" id="colorResDir"></td>
+                  <td><input type="text" id=""></td>
+                </tr>
+                <tr>
+                  <td>D.</td>
+                  <td>Volumen muestra.</td>
+                  <td><input type="text" id="volColDir"></td>
+                  <td><input type="text" id=""></td>
+
+                </tr>
+                <tr>
+                  <td>E.</td>
+                  <td>ph.</td>
+                  <td><input type="text" id="phColorDir"></td>
+                  <td><input type="text" id=""></td>
+
+                </tr>
+        
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{{--* Fin Modal Color --}}
+
 
 {{--todo Fin modal MB --}}
 {{--! FIN Modal de capturas de parametros --}}
 
    <!-- Modal Control Calidad-->
-   <div class="modal fade" id="modalHis
-   torial" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                             <div class="modal-header">

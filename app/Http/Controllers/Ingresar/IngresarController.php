@@ -247,7 +247,8 @@ class IngresarController extends Controller
                                     'Cancelado' => $canceladoAux[$i],
                                 ]);
                             }
-                            $codTemp = CodigoParametros::where('Id_parametro',134)->where('Id_solicitud',$item->Id_solicitud)->get();
+                        
+                        $codTemp = CodigoParametros::where('Id_parametro',134)->where('Id_solicitud',$item->Id_solicitud)->get();
                             if ($codTemp->count()) {
                               
                             }else{

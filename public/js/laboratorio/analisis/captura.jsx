@@ -990,7 +990,7 @@ function setBitacora() {
         }
     });
 }
-function setObservacion(id) {
+function setObservacion(id,id2 = "",id3 = "") {
 
     $.ajax({
         type: "POST",
@@ -999,6 +999,8 @@ function setObservacion(id) {
             idLote: idLote,
             idMuestra: idMuestra,
             observacion: $("#" + id).val(),
+            observacion2: $("#" + id2).val(),
+            observacion3: $("#" + id3).val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -1824,8 +1826,7 @@ function setDetalleMuestra() {
 
                     });
                     break;
-                case 102:// Color
-                case 66:
+                case 66://color
                 case 65:
                 case 120:
                     $.ajax({
@@ -1875,6 +1876,72 @@ function setDetalleMuestra() {
                             $("#promedioTurb1DirectoTur").val(response.model.Promedio)
                             $("#resultadoDirectoTur").val(number_format(parseFloat(response.model.Resultado),3,'.',''))
                             $("#dilusionTurb1DirectoTur").val(response.model.Factor_dilucion)
+                        }
+
+                    });
+                    break;
+                case 365:
+                case 372:
+                case 370:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                        data: {
+                            idLote: idLote,
+                            idMuestra: idMuestra,
+                            ph: $("#phColorDir").val(),
+                            resultado: $("#colorResDir").val(),
+                            vol: $("#volColDir").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoColorDir").val(response.model.Resultado)
+
+                        }
+
+                    });
+                    break;
+                case 102:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                        data: {
+                            idLote: idLote,
+                            idMuestra: idMuestra,
+                            ph: $("#phpColor").val(),
+                            volColor: $("#volColor").val(),
+                            fd1: $("#fdColor1").val(),
+                            longitud1: $("#longitud1").val(),
+                            abs11: $("#abs21Color").val(),
+                            abs12: $("#abs22Color").val(),
+                            abs13: $("#abs23Color").val(),
+                            fd2: $("#fdColor2").val(),
+                            longitud2: $("#longitud2").val(),
+                            abs21: $("#abs21Color").val(),
+                            abs22: $("#abs22Color").val(),
+                            abs23: $("#abs23Color").val(),
+                            fd3: $("#fdColor3").val(),
+                            longitud3: $("#longitud3").val(),
+                            abs31: $("#abs31Color").val(),
+                            abs32: $("#abs32Color").val(),
+                            abs33: $("#abs33Color").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoColor1").val(response.model.Resultado1)
+                            $("#resultadoColor2").val(response.model.Resultado2)
+                            $("#resultadoColor3").val(response.model.Resultado3)
+
+                            $("#absProm1").val(response.model.Abs_promedio1)
+                            $("#absProm2").val(response.model.Abs_promedio2)
+                            $("#absProm3").val(response.model.Abs_promedio3)
+                            $("#phpColor").val(response.model.Ph_muestra)
+                            
+
                         }
 
                     });
@@ -3035,7 +3102,6 @@ function getDetalleMuestra(id) {
                             $("#lecturaTres1TDirectoTemp").val(response.model.Lectura3)
                             $("#resultadoDirectoTemp").val(response.model.Resultado)
                             break;
-                        case 102:// Color
                         case 66:
                         case 65:
                         case 120:
@@ -3070,6 +3136,45 @@ function getDetalleMuestra(id) {
                                 $("#resultadoDirectoDef").val("")     
                                 $("#resDirectoDef").val(response.model2.Resultado)    
                             }
+                            
+                            break;
+                        case 365:
+                        case 372:
+                        case 370:
+                            $("#colorResDir").val(response.model.Resultado)
+                            $("#resultadoColorDir").val(response.model.Resultado)
+                            $("#volColDir").val(response.model.Vol_muestra)
+                            $("#phColorDir").val(response.model.Ph)
+                            break;
+                        case 102:
+                            $("#volColor").val(response.model.Vol_muestra)
+                            $("#fdColor1").val(response.model.Fd1)
+                            $("#longitud1").val(response.model.Longitud1)
+                            $("#abs1Color").val(response.model.Abs1_436)
+                            $("#abs2Color").val(response.model.Abs2_436)
+                            $("#abs3Color").val(response.model.Abs3_436)
+                            $("#fdColor2").val(response.model.Fd2)
+                            $("#longitud2").val(response.model.Longitud2)
+                            $("#abs21Color").val(response.model.Abs1_525)
+                            $("#abs22Color").val(response.model.Abs2_525)
+                            $("#abs23Color").val(response.model.Abs3_525)
+                            $("#fdColor3").val(response.model.Fd3)
+                            $("#longitud3").val(response.model.Longitud3)
+                            $("#abs31Color").val(response.model.Abs1_620)
+                            $("#abs32Color").val(response.model.Abs2_620)
+                            $("#abs33Color").val(response.model.Abs3_620)
+                            $("#resultadoColor1").val(response.model.Resultado1)
+                            $("#resultadoColor2").val(response.model.Resultado2)
+                            $("#resultadoColor3").val(response.model.Resultado3)
+
+                            $("#absProm1").val(response.model.Abs_promedio1)
+                            $("#absProm2").val(response.model.Abs_promedio2)
+                            $("#absProm3").val(response.model.Abs_promedio3)
+                            $("#phpColor").val(response.model.Ph_muestra)
+
+                            $("#observacionColorDir1").val(response.model.Observacion1)
+                            $("#observacionColorDir2").val(response.model.Observacion2)
+                            $("#observacionColorDir3").val(response.model.Observacion3)
                             
                             break;
                         default: // Default Directos
@@ -3776,8 +3881,7 @@ function getCapturaLote() {
                             case 33:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoTemp">Capturar</button>';
                                 break;
-                            case 102:// Color
-                            case 66:
+                            case 66://102
                             case 65:
                             case 120:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColor">Capturar</button>';
@@ -3798,6 +3902,14 @@ function getCapturaLote() {
                             case 131:
                                 dec = 4
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
+                                break;
+                            case 102:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaColorVerdadero">Capturar</button>';
+                                break;
+                            case 370:
+                            case 372:
+                            case 365:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColorPh">Capturar</button>';
                                 break;
                             default: // Default Directos
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';

@@ -33,6 +33,7 @@
             @show
         </div>
         <ul class="nav navbar-nav @if (__('voyager::generic.is_rtl') == 'true') navbar-left @else navbar-right @endif">
+     
             <li style="margin-top: 5px;">
             <a class="nav-link" href="#" id="notificationIcon">
           <span class="notification-icon">
@@ -108,4 +109,3 @@
     </div>
   </div>
 </div>
-

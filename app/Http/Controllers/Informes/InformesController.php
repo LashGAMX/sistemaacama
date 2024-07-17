@@ -82,6 +82,95 @@ class InformesController extends Controller
         return response()->json($data);
     }
 
+    public function getInformacionPuntosMuestreo(Request $res){
+        $modelCodigoInforme = DB::table('viewcodigoinforme')
+        // ->where('Codigo', 'LIKE', '%' . $res->folio . '%')
+        ->where('Id_solicitud', '=', $res->puntoMuestreo)
+        ->where('deleted_at', '=', NULL)
+        ->select('Id_solicitud', 'Id_parametro', 'Parametro', 'Unidad', 'Resultado', 'Resultado2')
+        ->get();
+
+        $modelSolicitud = DB::table('solicitudes')
+        ->where('Id_solicitud', '=', $res->puntoMuestreo)
+        ->where('deleted_at', '=', NULL)
+        ->first();
+
+        switch($modelSolicitud->Id_norma){
+            case 27:
+                switch($modelSolicitud->Id_reporte2){
+                    case 0:
+                        foreach($modelCodigoInforme as $fila){
+                            $fila->Limite_cuantificacion = 'N/A';
+                        }
+                        break;
+                    default:
+                        foreach($modelCodigoInforme as $fila){
+                            $modelLimites = DB::table('limite001_2021')
+                            ->where('Id_parametro', '=', $fila->Id_parametro)
+                            ->where('Id_categoria', '=', $modelSolicitud->Id_reporte2)
+                            ->where('deleted_at', '=', NULL)
+                            ->first();
+                            
+                            // $data = array("model" => $modelLimites);
+                            // return response()->json($data);
+
+                            if(!empty($modelLimites)){
+                                if($modelSolicitud->Id_muestreo == 6){
+                                    $fila->Limite_cuantificacion = $modelLimites->Vi;
+                                }
+                                else{
+                                    $fila->Limite_cuantificacion = $modelLimites->Pd;
+                                }
+                            }
+                            else{
+                                $fila->Limite_cuantificacion = 'N/A';
+                            }
+                            
+                        }
+                        break;
+                }
+                break;
+            default:
+                foreach($modelCodigoInforme as $fila){
+                    $fila->Limite_cuantificacion = 'N/A';
+                }
+                break;
+        }
+
+        $data = array("model" => $modelCodigoInforme);
+        return response()->json($data);
+
+        // foreach($modelCodigoInforme as $fila){
+        //     switch($modelSolicitud->Id_norma){
+        //         case 27:
+        //             switch($modelSolicitud->Id_reporte2){
+        //                 case 0:
+        //                     $fila->Limite_cuantificacion = 'N.A';
+        //                     break;
+        //                 default:
+        //                     $modelLimites = DB::table('limite001_2021')
+        //                     ->where('Id_parametro', '=', $fila->Id_parametro)
+        //                     ->where('Id_categoria', '=', $modelSolicitud->Id_reporte2)
+        //                     ->where('deleted_at', '=', NULL)
+        //                     ->first();
+
+        //                     if($modelSolicitud->Id_muestreo == 6){
+        //                         $fila->Limite_cuantificacion = '' . $modelLimites->Vi;
+        //                     }
+        //                     else{
+        //                         $fila->Limite_cauntificacion = '' . $modelLimites->Pd;
+        //                     }
+
+        //                     break;
+        //             }
+        //             break;
+        //         default:
+        //             $fila->Limite_cuantificacion = 'N.A';
+        //             break;
+        //     }
+        // }
+    }
+
     public function mensual()
     {
         $model = DB::table('ViewSolicitud2')->OrderBy('Id_solicitud', 'DESC')->where('Padre', 0)->get();
@@ -5563,6 +5652,7 @@ class InformesController extends Controller
         $paramResultado = DB::table('ViewCodigoParametro')
             ->where('Id_solicitud', $idSol)
             ->where('Id_parametro', '!=', 26)
+            ->where('Id_parametro','!=',103)
             ->where('Cadena', 1)
             ->where('Id_area','!=',9)
             ->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();

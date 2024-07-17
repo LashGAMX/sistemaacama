@@ -106,25 +106,18 @@
                                             <th>Parametro</th>
                                             <th>Unidad</th>
                                             <th>Resultado</th>
-                                            <th>Concentración</th>
-                                            <th>Diagnostico</th>
-                                            <th>Liberado</th>
-                                            <th>#</th>
-                                            <th># Muestra</th>
+                                            <th>Límite Pd</th>
+                                            <!-- Iniciales de quien lo analizó -->
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody id="datosTablaParametro">
+                                        <!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                                </div>
@@ -140,5 +133,5 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/informes/informes.js')}}?v=1.0.2"></script>
+    <script src="{{asset('/public/js/informes/informes.js')}}?v=1.0.3"></script>
 @stop
