@@ -652,7 +652,7 @@
                                         @endswitch
                                     @else 
                                     
-                                    <p>OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ</p>
+                                    <p>OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ. {{@$modelProcesoAnalisis->Obs_proceso}}</p>
                                     @endif
                                 </td>
                             </tr>                
