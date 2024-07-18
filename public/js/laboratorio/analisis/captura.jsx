@@ -990,8 +990,7 @@ function setBitacora() {
         }
     });
 }
-function setObservacion(id,id2 = "",id3 = "") {
-
+var setObservacion = (function (id = "",id2 = "na",id3 = "na") {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/setObservacion",
@@ -1009,7 +1008,8 @@ function setObservacion(id,id2 = "",id3 = "") {
             getCapturaLote();
         }
     });
-}
+    
+});
 function setLiberar() {
     $.ajax({
         type: "POST",
