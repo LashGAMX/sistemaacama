@@ -4,9 +4,11 @@
             <table class="table-sm" width="100%">
                 <tr>
                     @php
-                        $aux = DB::table('codigo_parametro')->where('Id_solicitud',$model->Id_solicitud)->where('Id_parametro',102)->first();
+                        $aux = DB::table('codigo_parametro')->where('Id_solicitud',$model->Id_solicitud)->where('Id_parametro',102)->get();
                     @endphp
-                    <td class="fontCalibri anchoColumna111 fontSize8">Color verdadero 436nm: {{@$aux->Resultado}} | 525nm: {{@$aux->Resultado2}} | 620nm : {{@$aux->Resultado_aux}}</td>
+                    @if ($aux->count())
+                        <td class="fontCalibri anchoColumna111 fontSize8">Color verdadero 436nm: {{@$aux->Resultado}} | 525nm: {{@$aux->Resultado2}} | 620nm : {{@$aux->Resultado_aux}}</td>
+                    @endif
                     @switch(@$norma->Id_norma)
                     @case(2)
                         @if (@$promGra->count())
