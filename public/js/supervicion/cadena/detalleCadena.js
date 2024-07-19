@@ -184,22 +184,23 @@ function getParametros() {
         },
         dataType: "json",
         success: function (response) {
-            let tab = '<table id="tableParametros" class="table table-sm">';
+            let tab = '<table id="tableParametros" class="table">';
             tab += '<thead class="thead-dark">';
             tab += '<tr>';
-            tab += '<th>Id</th>';
-            tab += '<th>Parametro</th>';
-            tab += '<th>Tipo formula</th>';
-            tab += '<th>Ejecutado</th>';
-            tab += '<th>Resultado</th>';
-            tab += '<th>his</th>';
-            tab += '<th>Limite</th>'; 
+                tab += '<th>Id</th>';
+                tab += '<th>Parametro</th>';
+                tab += '<th>Tipo formula</th>';
+                tab += '<th style="width:50px">Ejec.</th>';
+                tab += '<th style="width:50px">Res.</th>';
+                tab += '<th>his</th>';
+                tab += '<th>Limite</th>'; 
+                tab += '<th>%</th>'; 
             tab += '</tr>';
             tab += '</thead>';
             tab += '<tbody>';
         
             let countDanger = 0; // Contador para parámetros fuera de rango
-        
+            let cont = 0
             $.each(response.model, function (key, item) {
                 let color = "";
                 let AP = "";
@@ -234,7 +235,7 @@ function getParametros() {
               
         
                 let LOL = ""; 
-        
+    
                 if (item.Limite == 'N/A' || item.Limite == null) {
                     LOL = 'success';
                 } else if (item.Limite.includes('-')) {
@@ -257,11 +258,15 @@ function getParametros() {
                     }
                 } else if (parseFloat(item.Resultado2) == parseFloat(item.Limite)) {
                     LOL = 'success';
-                } else if (parseFloat(item.Resultado2) < parseFloat(item.Limite)) {
+                } else if (parseFloat(item.Resultado2) <= parseFloat(item.Limite)) {
                     LOL = 'success';
-                } else if (parseFloat(item.Resultado2) > parseFloat(item.Limite)) {
+                } else if (parseFloat(item.Resultado2) >= parseFloat(item.Limite)) {
                     LOL = 'danger';
-                } else {
+                }else if(parseFloat(item.resultado2)==null) 
+                {
+                    LOL="success"
+                }
+                else {
                     LOL = 'success';
                 }
                 
@@ -274,7 +279,9 @@ function getParametros() {
                 tab += '<td class="bg-' + AP + '">' + item.Resultado2 + '</td>';
                 tab += '<td><button class="btn-warning" onclick="getHistorial(' + item.Id_codigo + ')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
                 tab += '<td class="bg-' + LOL + '">' + item.Limite + '</td>'; 
+                tab += '<td>'+response.porcentaje[cont]+'</td>'; 
                 tab += '</tr>';
+                cont++
             });
         
             tab += '</tbody>';
@@ -282,10 +289,10 @@ function getParametros() {
         
             $('#divTableParametros').html(tab);
 
-            const mensaje = $('#mensaje'); // Obtener referencia al elemento #mensaje
-            let NPFR = $('#tableParametros').find('.bg-danger').length; // Obtener el número de parámetros fuera de rango
+            const mensaje = $('#mensaje'); 
+            let NPFR = $('#tableParametros').find('.bg-danger').length; 
         
-            if (NPFR === 0) {
+            if (NPFR == 0) {
                 mensaje.text('No Hay Parametros Fuera de Rango');
                 mensaje.css('background-color', 'green');
             } else if (NPFR > 0) {
@@ -309,6 +316,21 @@ function getParametros() {
                 "scrollY": "300px",
                 "scrollCollapse": true,
                 "paging": false,
+            });
+            $('#tableParametros tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else 
+                {
+                    tableParametro.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    getDetalleAnalisis(idCodigo);
+                }
+            });
+            $('#tableParametros tr').on('click', function () {
+                let dato = $(this).find('td:first').html();
+                idCodigo = dato;
             });
         },
         
