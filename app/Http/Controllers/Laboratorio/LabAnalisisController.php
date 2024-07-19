@@ -704,7 +704,8 @@ class LabAnalisisController extends Controller
                         case 6: // Dqo
                         case 161:
                             $aux = DqoDetalle::where('Id_lote', $res->idLote)->first();
-                            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            // $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 33: // Cloro
                         case 64:
@@ -8216,7 +8217,7 @@ class LabAnalisisController extends Controller
             $data["cloruros"] = "NULL";
         }
 
-        $modelConductividad = CodigoParametros::where('Codigo', $res->folio)
+        $modelConductividad = CodigoParametros::where('Codigo','LIKE', '%'.$res->folio.'%')
         ->where('Id_parametro', '=', 67)
         ->select('Resultado2')
         ->get();
@@ -8227,7 +8228,7 @@ class LabAnalisisController extends Controller
             $data["conductividad"] = "NULL";
         }
 
-        $modelPh = CodigoParametros::where('Codigo', $res->folio)
+        $modelPh = CodigoParametros::where('Codigo','LIKE', '%'.$res->folio.'%')
         ->where(function ($query){
             $query->where('Id_parametro', '=', 110);
             $query->orWhere('Id_parametro', '=', 14);
@@ -8239,6 +8240,125 @@ class LabAnalisisController extends Controller
         }
         else{
             $data["ph"] = "NULL";
+        }
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->first();
+        $tempMuestra = CodigoParametros::where('Codigo','LIKE','%'.$res->folio.'%')->first();
+        switch ($lote->Id_tecnica) {
+            case 6:
+            case 11:
+            case 90:
+                // $temp = CodigoParametros::where('Codigo', $res->folio)->where('Id_parametro', )->get();      
+                $data["aceptacion"] = "100%";
+                break;
+            case 5:
+            case 4:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',6)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado != null) {
+                        $aux = ($temp[0]->Resultado * 60) / 100;
+                        $data["aceptacion"] = "60% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 15:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',11)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado2 != null) {
+                        $aux = ($temp[0]->Resultado2 * 20) / 100;
+                        $data["aceptacion"] = "20% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 88:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',90)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado != null) {
+                        $aux = ($temp[0]->Resultado * 75) / 100;
+                        $data["aceptacion"] = "75% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 8:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',11)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado2 != null) {
+                        $aux = ($temp[0]->Resultado2 * 10) / 100;
+                        $data["aceptacion"] = "10% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 88:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',67)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado2 != null) {
+                        $aux = $temp[0]->Resultado2;
+                        $data["aceptacion"] = "Conductividad% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 77:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',88)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado != null) {
+                        $aux = $temp[0]->Resultado;
+                        $data["aceptacion"] = "SDT% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 46:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',4)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado != null) {
+                        $aux = $temp[0]->Resultado;
+                        $data["aceptacion"] = "SST% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            case 96:
+            case 114:
+                $temp = CodigoParametros::where('Id_solicitud',$tempMuestra->Id_solicitud)->where('Id_parametro',15)->get();
+                if ($temp->count()) {
+                    if ($temp[0]->Resultado2 != null) {
+                        $aux = ($temp[0]->Resultado2 * 33.3) / 100;
+                        $data["aceptacion"] = "33.3% | < " . $aux;
+                    }else{
+                        $data["aceptacion"] = "Aun no hay datos de comparacion";
+                    }
+                }else{
+                    $data["aceptacion"] = "No hay parametro para comparacion";
+                }
+                break;
+            default:
+                # code...
+                break;
         }
 
         return response()->json($data);

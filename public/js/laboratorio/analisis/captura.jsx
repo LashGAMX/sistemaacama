@@ -4067,11 +4067,13 @@ function getCapturaLote() {
                     $("#clorurosParametro").html('');
                     $("#conductividadParametro").html('');
                     $("#phParametro").html('');
+                    $("#aceptacion").html('');
                 }
                 else {
                     t2.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                     let folioElegido = $(this).find('td:first')[0].parentElement.children[1].firstElementChild.getAttribute("value");
+                    console.log(folioElegido)
                     getDetalleElegido(folioElegido);
                 }
             });
@@ -4639,13 +4641,17 @@ function getDetalleElegido(folio){
         url: base_url + "/admin/laboratorio/analisis/getDetalleElegido",
         data: {
             folio: folio,
+            idMuestra: idMuestra,
+            idLote: idLote,
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
+            console.log(response)
             const elegidoCloruro = response.cloruros;
             const elegidoConductividad = response.conductividad;
             const elegidoPh = response.ph;
+            $("#aceptacion").html(response.aceptacion);
             if(elegidoCloruro[0] != null && elegidoCloruro[0].Resultado2 != null){
                 $("#clorurosParametro").html(elegidoCloruro[0]);
             }
@@ -4664,6 +4670,8 @@ function getDetalleElegido(folio){
             else{
                 $("#phParametro").html('N.A');
             }
+
+            
         }
     })
 }

@@ -62,4 +62,35 @@ class RecepcionAppController extends Controller
 
         return response()->json($data);
     }
+
+    public function getInformacionFolioAgua(Request $res){
+        $data = array(
+            "mensaje" => "error",
+            "folio" => 'null',
+            "descarga" => null,
+            "cliente" => null,
+            "empresa" => null,
+            "horaRecepcion" => null,
+            "horaEntrada" => null,
+            "fechaMuestreo" => null,
+            "fechaConformacion" => null,
+            "procedencia" => null,
+        );
+
+        $modelProcesoAnalisis = DB::table('proceso_analisis')
+        ->where('Folio', '=', $res->folio)
+        ->first();
+
+        if(!empty($modelProcesoAnalisis)){
+            $data["mensaje"] = "exito";
+            $data["folio"] = $modelProcesoAnalisis->Folio;
+            $data["descarga"] = $modelProcesoAnalisis->Descarga;
+            $data["cliente"] = $modelProcesoAnalisis->Cliente;
+            $data["empresa"] = $modelProcesoAnalisis->Empresa;
+            $data["horaRecepcion"] = $modelProcesoAnalisis->Hora_recepcion;
+            $data["horaEntrada"] = $modelProcesoAnalisis->Hora_entrada;
+        }
+
+        return response()->json($data);
+    }
 }

@@ -779,8 +779,16 @@ class InformesController extends Controller
         $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
         $norma = Norma::where('Id_norma',$solicitud->Id_norma)->first();
 
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma = ''.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe.'|'.$firma1;
+        $firmaEncript =  openssl_encrypt($dataFirma, $methodFirma, $claveFirma, false, $ivFirma);
 
         $data = array(
+            'firmaEncript' => $firmaEncript,
             'norma' => $norma,
             'limitesCon' => $limitesCon,
             'impresion' => $impresion,

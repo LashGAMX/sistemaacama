@@ -236,7 +236,7 @@ function getParametros() {
         
                 let LOL = ""; 
     
-                if (item.Limite == 'N/A' || item.Limite == null) {
+                if (item.Limite == 'N/A' || item.Limite == null || item.Resultado2 ==null ) {
                     LOL = 'success';
                 } else if (item.Limite.includes('-')) {
                     
@@ -258,13 +258,10 @@ function getParametros() {
                     }
                 } else if (parseFloat(item.Resultado2) == parseFloat(item.Limite)) {
                     LOL = 'success';
-                } else if (parseFloat(item.Resultado2) <= parseFloat(item.Limite)) {
+                } else if (parseFloat(item.Resultado2) < parseFloat(item.Limite)) {
                     LOL = 'success';
-                } else if (parseFloat(item.Resultado2) >= parseFloat(item.Limite)) {
+                } else if (parseFloat(item.Resultado2) > parseFloat(item.Limite)) {
                     LOL = 'danger';
-                }else if(parseFloat(item.resultado2)==null) 
-                {
-                    LOL="success"
                 }
                 else {
                     LOL = 'success';
@@ -290,9 +287,9 @@ function getParametros() {
             $('#divTableParametros').html(tab);
 
             const mensaje = $('#mensaje'); 
-            let NPFR = $('#tableParametros').find('.bg-danger').length; 
+            let NPFR = $('#tableParametros').find('td').eq(7).find('.bg-danger').length; 
         
-            if (NPFR == 0) {
+            if (NPFR === 0) {
                 mensaje.text('No Hay Parametros Fuera de Rango');
                 mensaje.css('background-color', 'green');
             } else if (NPFR > 0) {
@@ -316,21 +313,6 @@ function getParametros() {
                 "scrollY": "300px",
                 "scrollCollapse": true,
                 "paging": false,
-            });
-            $('#tableParametros tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else 
-                {
-                    tableParametro.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                    getDetalleAnalisis(idCodigo);
-                }
-            });
-            $('#tableParametros tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
-                idCodigo = dato;
             });
         },
         

@@ -27,5 +27,7 @@ class ImpresionInforme extends Model
         'Clave', 
         'Num_rev',
         'Obs_impresion',
+        'Firma1',
+        'Firma2',
     ];
 }

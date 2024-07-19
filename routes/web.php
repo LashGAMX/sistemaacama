@@ -33,7 +33,12 @@ Route::group(['prefix' => 'clientes'], function () {
     Route::get('informe-de-resultados-acama/{id}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
     Route::get('informe-de-resultados-acama-mensual/{id}/{id2}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
     Route::get('seguimiento-servicio', [ClientesAcamaController::class, 'seguimientoServicio']);
+    Route::get('validacion-informe-diario', [ClientesAcamaController::class, 'validacionInformeDiario']);
     Route::post('getFolioServicio', [ClientesAcamaController::class, 'getFolioServicio']);
+
+
+    //Peticiones
+    Route::post('getFirmaEncriptada', [ClientesAcamaController::class, 'getFirmaEncriptada']);
 }); 
 
 Route::group(['prefix' => 'admin'], function (){

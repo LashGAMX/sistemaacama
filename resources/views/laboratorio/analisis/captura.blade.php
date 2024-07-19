@@ -78,6 +78,9 @@
             <div class="col-md-3">
               <p>pH: <span id="phParametro"></span></p>
             </div>
+            <div class="col-md-3">
+              <p>% Acep. aprox. : <span id="aceptacion"></span></p>
+            </div>
           </div>
         </div>
       </div>

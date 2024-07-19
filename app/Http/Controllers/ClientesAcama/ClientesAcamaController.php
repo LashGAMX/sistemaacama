@@ -718,4 +718,36 @@ class ClientesAcamaController extends Controller
     }
     // 156-3/24 con muestreo
     // 128-100/23 sin muestreo
+
+    public function validacionInformeDiario(){
+        // $clave  = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        // //Metodo de encriptaciÃ³n
+        // $method = 'aes-256-cbc';
+        // // Puedes generar una diferente usando la funcion $getIV()
+        // $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        // /*
+        //  Encripta el contenido de la variable, enviada como parametro.
+        //   */
+        // $folioEncript = openssl_decrypt($id, $method, $clave, false, $iv);
+
+        // echo "".$folioEncript;
+
+        return view('clientesAcama.validacionInforme');
+    }
+    public function getFirmaEncriptada(Request $res){
+    $clave  = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $method = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        /*
+         Encripta el contenido de la variable, enviada como parametro.
+          */
+        $folioEncript = openssl_decrypt($res->codigo, $method, $clave, false, $iv);
+
+        $data = array(
+            'folioEncript' => $folioEncript,
+        );
+        return response()->json($data);
+    }
 }

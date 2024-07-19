@@ -63,6 +63,7 @@ class CadenaController extends Controller
     
     public function getParametroCadena(Request $res)
 {
+    $porcentaje = array();
     try {
         $model = DB::table('ViewCodigoRecepcion')
             ->where('Id_solicitud', $res->idPunto)
@@ -110,7 +111,132 @@ class CadenaController extends Controller
                 break;
         }
 
-        $data = ['model' => $model];
+        $tempData = '';
+        foreach ($model as $item) {
+            switch ($item->Id_parametro) {
+                case 6:
+                case 11:
+                case 90:
+                    // $temp = CodigoParametros::where('Codigo', $res->folio)->where('Id_parametro', )->get();      
+                    $tempData = "100%";
+                    break;
+                case 5:
+                case 4:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',6)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado != null) {
+                            $aux = ($temp[0]->Resultado * 60) / 100;
+                            $tempData = "60% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 15:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',11)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado2 != null) {
+                            $aux = ($temp[0]->Resultado2 * 20) / 100;
+                            $tempData = "20% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 88:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',90)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado != null) {
+                            $aux = ($temp[0]->Resultado * 75) / 100;
+                            $tempData = "75% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 8:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',11)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado2 != null) {
+                            $aux = ($temp[0]->Resultado2 * 10) / 100;
+                            $tempData = "10% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 88:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',67)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado2 != null) {
+                            $aux = $temp[0]->Resultado2;
+                            $tempData = "Conductividad% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 77:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',88)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado != null) {
+                            $aux = $temp[0]->Resultado;
+                            $tempData = "SDT% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 46:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',4)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado != null) {
+                            $aux = $temp[0]->Resultado;
+                            $tempData = "SST% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                case 96:
+                case 114:
+                    $temp = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->where('Id_parametro',15)->get();
+                    if ($temp->count()) {
+                        if ($temp[0]->Resultado2 != null) {
+                            $aux = ($temp[0]->Resultado2 * 33.3) / 100;
+                            $tempData = "33.3% | < " . $aux;
+                        }else{
+                            $tempData = "Aun no hay datos de comparacion";
+                        }
+                    }else{
+                        $tempData = "No hay parametro para comparacion";
+                    }
+                    break;
+                default:
+                $tempData = "100%";
+                    break;
+            }
+            array_push($porcentaje,$tempData);
+        }
+
+        $data = [
+            'model' => $model,
+            'porcentaje' => $porcentaje,
+        ];
 
         return response()->json($data);
     } catch (\Exception $e) {
