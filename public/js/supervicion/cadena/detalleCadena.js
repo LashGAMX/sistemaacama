@@ -302,7 +302,7 @@ function getParametros() {
                 mensaje.append(span);
             }
         
-            $('#tableParametros').DataTable({
+            let tableParametro = $('#tableParametros').DataTable({
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
@@ -311,8 +311,24 @@ function getParametros() {
                     "infoEmpty": "No hay datos encontrados",
                 },
                 "scrollY": "300px",
-                "scrollCollapse": true,
+                "scrollCollapse":true,
                 "paging": false,
+               
+            });
+            $('#tableParametros tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else 
+                {
+                    tableParametro.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    getDetalleAnalisis(idCodigo);
+                }
+            });
+            $('#tableParametros tr').on('click', function () {
+                let dato = $(this).find('td:first').html();
+                idCodigo = dato;
             });
         },
         
