@@ -2427,6 +2427,9 @@ class LabAnalisisController extends Controller
                         case 66:
                         case 65:
                         case 120:
+                        case 372:
+                        case 365:
+                        case 370:
                             $resultado = 0;
                             //$factor = 0;
                             $dilusion = 50 / $res->volumen;
@@ -2456,15 +2459,6 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleDirectos::find($res->idMuestra);
                             $model->Lectura1 = $res->resultado; 
                             $model->Resultado = $resultado;
-                            $model->save();
-                            break;
-                        case 365:
-                        case 372:
-                        case 370:
-                            $model = LoteDetalleDirectos::find($res->idMuestra);
-                            $model->Vol_muestra = $res->vol; 
-                            $model->Ph = $res->ph; 
-                            $model->Resultado = $res->resultado; 
                             $model->save();
                             break;
                         case 102:
@@ -5627,6 +5621,9 @@ class LabAnalisisController extends Controller
                     case 66:
                     case 120:
                     case 65:
+                    case 372:
+                    case 365:
+                    case 370:
                         $mpdf = new \Mpdf\Mpdf([
                             'orientation' => 'P',
                             'format' => 'letter',
@@ -5873,40 +5870,40 @@ class LabAnalisisController extends Controller
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
-                    case 372:
-                    case 365:
-                    case 370:
-                        $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
-                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
-                        if ($plantilla->count()) {
-                        } else {
-                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
-                        }
-                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                        $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
-                        if ($comprobacion->count()) {
-                            $analizo = "";
-                        } else {
-                            @$analizo = User::where('id', $model[0]->Analizo)->first();
-                        }
-                        $reviso = User::where('id', @$lote->Id_superviso)->first();
-                        $data = array(
-                            'lote' => $lote,
-                            'model' => $model,
-                            'plantilla' => $plantilla,
-                            'analizo' => $analizo,
-                            'reviso' => $reviso,
-                            'comprobacion' => $comprobacion,
-                            'procedimiento' => $procedimiento,
-                        );
-                        $htmlHeader = view('exports.laboratorio.directos.colorPh.bitacoraHeader', $data);
-                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                        $htmlCaptura = view('exports.laboratorio.directos.colorPh.bitacoraBody', $data);
-                        $htmlFooter = view('exports.laboratorio.directos.colorPh.bitacoraFooter', $data);
-                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                        $mpdf->CSSselectMedia = 'mpdf';
-                        $mpdf->WriteHTML($htmlCaptura);
-                        break;
+                    // case 372:
+                    // case 365:
+                    // case 370:
+                    //     $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
+                    //     $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                    //     if ($plantilla->count()) {
+                    //     } else {
+                    //         $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                    //     }
+                    //     $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                    //     $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                    //     if ($comprobacion->count()) {
+                    //         $analizo = "";
+                    //     } else {
+                    //         @$analizo = User::where('id', $model[0]->Analizo)->first();
+                    //     }
+                    //     $reviso = User::where('id', @$lote->Id_superviso)->first();
+                    //     $data = array(
+                    //         'lote' => $lote,
+                    //         'model' => $model,
+                    //         'plantilla' => $plantilla,
+                    //         'analizo' => $analizo,
+                    //         'reviso' => $reviso,
+                    //         'comprobacion' => $comprobacion,
+                    //         'procedimiento' => $procedimiento,
+                    //     );
+                    //     $htmlHeader = view('exports.laboratorio.directos.colorPh.bitacoraHeader', $data);
+                    //     $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    //     $htmlCaptura = view('exports.laboratorio.directos.colorPh.bitacoraBody', $data);
+                    //     $htmlFooter = view('exports.laboratorio.directos.colorPh.bitacoraFooter', $data);
+                    //     $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                    //     $mpdf->CSSselectMedia = 'mpdf';
+                    //     $mpdf->WriteHTML($htmlCaptura);
+                    //     break;
                     default:
                         # code...
                         break;

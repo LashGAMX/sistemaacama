@@ -1829,6 +1829,9 @@ function setDetalleMuestra() {
                 case 66://color
                 case 65:
                 case 120:
+                 case 372:
+                case 365:
+                case 370:
                     $.ajax({
                         type: "POST",
                         url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
@@ -1880,29 +1883,7 @@ function setDetalleMuestra() {
 
                     });
                     break;
-                case 365:
-                case 372:
-                case 370:
-                    $.ajax({
-                        type: "POST",
-                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
-                        data: {
-                            idLote: idLote,
-                            idMuestra: idMuestra,
-                            ph: $("#phColorDir").val(),
-                            resultado: $("#colorResDir").val(),
-                            vol: $("#volColDir").val(),
-                            _token: $('input[name="_token"]').val()
-                        },
-                        dataType: "json",
-                        success: function (response) {
-                            console.log(response);
-                            $("#resultadoColorDir").val(response.model.Resultado)
-
-                        }
-
-                    });
-                    break;
+           
                 case 102:
                     $.ajax({
                         type: "POST",
@@ -1964,8 +1945,9 @@ function setDetalleMuestra() {
 
                     });
                     break;
-            }
-            break;
+            
+                }
+                    break;
 
         case 8: //Potable
             sw = 1
@@ -3884,6 +3866,9 @@ function getCapturaLote() {
                             case 66://102
                             case 65:
                             case 120:
+                            case 372:
+                            case 365:
+                            case 370:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColor">Capturar</button>';
                                 break;
                             case 89:
@@ -3906,11 +3891,11 @@ function getCapturaLote() {
                             case 102:
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaColorVerdadero">Capturar</button>';
                                 break;
-                            case 370:
-                            case 372:
-                            case 365:
-                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColorPh">Capturar</button>';
-                                break;
+                            // case 370:
+                            // case 372:
+                            // case 365:
+                            //     tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoColorPh">Capturar</button>';
+                            //     break;
                             default: // Default Directos
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleMuestra(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDirectoDef">Capturar</button>';
                                 break;
