@@ -71,6 +71,7 @@
                         @default
                             @switch(Auth::user()->id)
                                 @case(65)
+                                @case(101)
                                 <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>      
                                     @break
                                 @default
