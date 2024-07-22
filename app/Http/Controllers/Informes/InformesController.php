@@ -5913,7 +5913,7 @@ class InformesController extends Controller
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
                     } else {
-                        $resTemp = $item->Resultado2." | ".$item->Ph_muestra;
+                        $resTemp = $item->Resultado2." | pH: ".$item->Ph_muestra;
                     }
                     break;
                 case 67:
