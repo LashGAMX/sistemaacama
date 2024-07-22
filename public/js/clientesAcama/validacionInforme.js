@@ -8,13 +8,13 @@ $(document).ready(function () {
             url: base_url + "/clientes/getFirmaEncriptada",
             data: {
                 codigo: $("#codigo").val(),
-                _token: $('input[name="_token"]').val(),
+                "_token": $("meta[name='csrf-token']").attr("content"),
             },
             dataType: "json",
             async: false,
             success: function (response) {
                 console.log(response)
-                // contenido.innerText = response.folioEncript
+                contenido.innerText = response.folioEncript
             }
         });
     });

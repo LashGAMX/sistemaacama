@@ -22,7 +22,10 @@
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
+                    <th class="tableCabecera anchoColumna">F.D</th>
                     <th class="tableCabecera anchoColumna">pH de la muestra</th>
+                    <th class="tableCabecera anchoColumna">Color aparente</th>
+                    <th class="tableCabecera anchoColumna">Color verdadero</th>
                     <th class="tableCabecera anchoColumna">COLOR Pt/Co</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="tableCabecera anchoColumna"></th>
@@ -41,7 +44,10 @@
                             @endif                                
                         </td>
                         <td class="tableContent">{{ $item->Vol_muestra }}</td>
+                        <td class="tableContent">{{ $item->Factor_dilucion }}</td>
                         <td class="tableContent">{{ $item->Ph }}</td>
+                        <td class="tableContent">{{ $item->Color_a }}</td>
+                        <td class="tableContent">{{ $item->Color_v }}</td>
                         <td class="tableContent">
                             @if (@$item->Resultado < @$item->Limite)
                             < {{@$item->Limite}}

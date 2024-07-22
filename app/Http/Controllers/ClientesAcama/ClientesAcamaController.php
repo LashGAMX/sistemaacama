@@ -735,7 +735,7 @@ class ClientesAcamaController extends Controller
         return view('clientesAcama.validacionInforme');
     }
     public function getFirmaEncriptada(Request $res){
-    $clave  = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        $clave  = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
         //Metodo de encriptaciÃ³n
         $method = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()

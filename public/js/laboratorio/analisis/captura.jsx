@@ -1829,7 +1829,7 @@ function setDetalleMuestra() {
                 case 66://color
                 case 65:
                 case 120:
-                 case 372:
+                case 372:
                 case 365:
                 case 370:
                     $.ajax({
@@ -3087,6 +3087,9 @@ function getDetalleMuestra(id) {
                         case 66:
                         case 65:
                         case 120:
+                        case 365:
+                        case 372:
+                        case 370:
                             $("#observacionDirectoColor").val(response.model.Observacion)
                             $("#aparente1DirectoColor").val(response.model.Color_a)
                             $("#verdadero1DirectoColor").val(response.model.Color_v)
@@ -3120,14 +3123,14 @@ function getDetalleMuestra(id) {
                             }
                             
                             break;
-                        case 365:
-                        case 372:
-                        case 370:
-                            $("#colorResDir").val(response.model.Resultado)
-                            $("#resultadoColorDir").val(response.model.Resultado)
-                            $("#volColDir").val(response.model.Vol_muestra)
-                            $("#phColorDir").val(response.model.Ph)
-                            break;
+                        // case 365:
+                        // case 372:
+                        // case 370:
+                        //     $("#colorResDir").val(response.model.Resultado)
+                        //     $("#resultadoColorDir").val(response.model.Resultado)
+                        //     $("#volColDir").val(response.model.Vol_muestra)
+                        //     $("#phColorDir").val(response.model.Ph)
+                        //     break;
                         case 102:
                             $("#volColor").val(response.model.Vol_muestra)
                             $("#fdColor1").val(response.model.Fd1)

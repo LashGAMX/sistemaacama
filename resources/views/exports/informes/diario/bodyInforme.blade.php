@@ -659,9 +659,9 @@
                     </tbody>         
                 </table>  
         </div>
-        <!-- <div id="contenedorTabla">
+        <div id="contenedorTabla">
             <p style="font-size: 8px">Reviso: {{$firmaEncript}}</p>
-        </div> -->
+        </div>
         <div id="contenedorTabla">
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            

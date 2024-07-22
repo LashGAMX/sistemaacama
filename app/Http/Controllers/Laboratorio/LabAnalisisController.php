@@ -3117,26 +3117,76 @@ class LabAnalisisController extends Controller
                     break;
                 case 7: //Campo
                 case 19: //Directos
-
-                    $muestras = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
-                    foreach ($muestras as $item) {
-                        $model = LoteDetalleDirectos::find($item->Id_detalle);
-                        $model->Liberado = 1;
-                        $model->Analizo = Auth::user()->id;
-                        if (strval($model->Resultado) != null) {
-                            $sw = true;
-                            $model->save();
-                        }
-                        if ($item->Id_control == 1) {
-                            $modelCod = CodigoParametros::find($model->Id_codigo);
-                            $modelCod->Resultado = $model->Resultado;
-                            $modelCod->Resultado2 = $model->Resultado;
-                            $modelCod->Analizo = $idLibero;
-                            $modelCod->save();
-                        }
+                    switch ($lote[0]->Id_tecnica) {
+                        case 102:
+                            $model = LoteDetalleColor::find($res->idMuestra);
+                            $userReviso = 0;
+                            $model->Liberado = 1;
+    
+                            $model->Analizo = $userReviso;
+                            if (strval($model->Resultado1) != null) {
+                                $sw = true;
+                                $model->save();
+                            }
+            
+                            if ($model->Id_control == 1) {
+                                $modelCod = CodigoParametros::find($model->Id_codigo);
+                                $modelCod->Resultado = $model->Resultado1;
+                                $modelCod->Resultado2 = $model->Resultado2;
+                                $modelCod->Resultado_aux = $model->Resultado3;
+                                $modelCod->Ph_muestra = $model->Ph_muestra;
+                                $modelCod->Analizo = $userReviso;
+                                $modelCod->save();
+                            }
+                            $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                        case 372:
+                        case 365:
+                        case 370:
+                            $muestras = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleDirectos::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                $model->Analizo = Auth::user()->id;
+                                if (strval($model->Resultado) != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Ph_muestra = $model->Resultado;
+                                    $modelCod->Analizo = $idLibero;
+                                    $modelCod->save();
+                                }
+                            }
+        
+                            $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                        default:
+                            $muestras = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            foreach ($muestras as $item) {
+                                $model = LoteDetalleDirectos::find($item->Id_detalle);
+                                $model->Liberado = 1;
+                                $model->Analizo = Auth::user()->id;
+                                if (strval($model->Resultado) != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                                if ($item->Id_control == 1) {
+                                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                                    $modelCod->Resultado = $model->Resultado;
+                                    $modelCod->Resultado2 = $model->Resultado;
+                                    $modelCod->Analizo = $idLibero;
+                                    $modelCod->save();
+                                }
+                            }
+        
+                            $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
                     }
 
-                    $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                     break;
 
                 case 6: //Mb
@@ -3734,6 +3784,35 @@ class LabAnalisisController extends Controller
                             $modelCod->Resultado2 = $model->Resultado2;
                             $modelCod->Resultado_aux = $model->Resultado3;
                             $modelCod->Ph_muestra = $model->Ph_muestra;
+                            $modelCod->Analizo = $userReviso;
+                            $modelCod->save();
+                        }
+                        $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                        break;
+                    case 372:
+                    case 365:
+                    case 370:
+                        $model = LoteDetalleDirectos::find($res->idMuestra);
+                        $userReviso = 0;
+                        $model->Liberado = 1;
+        
+                        if ($model->Id_parametro == 14 || $model->Id_parametro == 110){
+                            $userReviso = 14; //Guadalupe
+                        } else {
+                            $userReviso = Auth::user()->id;
+                        }
+        
+                        $model->Analizo = $userReviso;
+                        if (strval($model->Resultado) != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+        
+                        if ($model->Id_control == 1) {
+                            $modelCod = CodigoParametros::find($model->Id_codigo);
+                            $modelCod->Resultado = $model->Resultado;
+                            $modelCod->Resultado2 = $model->Resultado;
+                            $modelCod->Ph_muestra = $model->Ph;
                             $modelCod->Analizo = $userReviso;
                             $modelCod->save();
                         }
@@ -5621,9 +5700,6 @@ class LabAnalisisController extends Controller
                     case 66:
                     case 120:
                     case 65:
-                    case 372:
-                    case 365:
-                    case 370:
                         $mpdf = new \Mpdf\Mpdf([
                             'orientation' => 'P',
                             'format' => 'letter',
@@ -5870,40 +5946,40 @@ class LabAnalisisController extends Controller
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
-                    // case 372:
-                    // case 365:
-                    // case 370:
-                    //     $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
-                    //     $plantilla = Bitacoras::where('Id_lote', $id)->get();
-                    //     if ($plantilla->count()) {
-                    //     } else {
-                    //         $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
-                    //     }
-                    //     $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-                    //     $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
-                    //     if ($comprobacion->count()) {
-                    //         $analizo = "";
-                    //     } else {
-                    //         @$analizo = User::where('id', $model[0]->Analizo)->first();
-                    //     }
-                    //     $reviso = User::where('id', @$lote->Id_superviso)->first();
-                    //     $data = array(
-                    //         'lote' => $lote,
-                    //         'model' => $model,
-                    //         'plantilla' => $plantilla,
-                    //         'analizo' => $analizo,
-                    //         'reviso' => $reviso,
-                    //         'comprobacion' => $comprobacion,
-                    //         'procedimiento' => $procedimiento,
-                    //     );
-                    //     $htmlHeader = view('exports.laboratorio.directos.colorPh.bitacoraHeader', $data);
-                    //     $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    //     $htmlCaptura = view('exports.laboratorio.directos.colorPh.bitacoraBody', $data);
-                    //     $htmlFooter = view('exports.laboratorio.directos.colorPh.bitacoraFooter', $data);
-                    //     $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                    //     $mpdf->CSSselectMedia = 'mpdf';
-                    //     $mpdf->WriteHTML($htmlCaptura);
-                    //     break;
+                    case 372:
+                    case 365:
+                    case 370:
+                        $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $id)->get();
+                        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                        if ($plantilla->count()) {
+                        } else {
+                            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                        }
+                        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                        $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $id)->get();
+                        if ($comprobacion->count()) {
+                            $analizo = "";
+                        } else {
+                            @$analizo = User::where('id', $model[0]->Analizo)->first();
+                        }
+                        $reviso = User::where('id', @$lote->Id_superviso)->first();
+                        $data = array(
+                            'lote' => $lote,
+                            'model' => $model,
+                            'plantilla' => $plantilla,
+                            'analizo' => $analizo,
+                            'reviso' => $reviso,
+                            'comprobacion' => $comprobacion,
+                            'procedimiento' => $procedimiento,
+                        );
+                        $htmlHeader = view('exports.laboratorio.directos.colorPh.bitacoraHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.directos.colorPh.bitacoraBody', $data);
+                        $htmlFooter = view('exports.laboratorio.directos.colorPh.bitacoraFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
                     default:
                         # code...
                         break;

@@ -109,8 +109,6 @@
                                             @else
                                             {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
                                             @endif
-
-                                        
                                         @else
                                             <p style="color: red">Sin captura</p> 
                                         @endif

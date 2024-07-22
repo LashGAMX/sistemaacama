@@ -262,6 +262,7 @@ function getParametros() {
                     LOL = 'success';
                 } else if (parseFloat(item.Resultado2) > parseFloat(item.Limite)) {
                     LOL = 'danger';
+                    countDanger++; 
                 }
                 else {
                     LOL = 'success';
@@ -287,17 +288,18 @@ function getParametros() {
             $('#divTableParametros').html(tab);
 
             const mensaje = $('#mensaje'); 
-            let NPFR = $('#tableParametros').find('td').eq(7).find('.bg-danger').length; 
+
+
         
-            if (NPFR === 0) {
+            if (countDanger == 0) {
                 mensaje.text('No Hay Parametros Fuera de Rango');
                 mensaje.css('background-color', 'green');
-            } else if (NPFR > 0) {
+            } else if (countDanger > 0) {
                 mensaje.text('Parametros Fuera de Rango:  ');
                 mensaje.css('background-color', 'red');
         
                 const span = $('<span>').addClass('badge rounded-pill').css('background-color', 'rgb(3, 196, 245)');
-                span.text(' ' + NPFR);
+                span.text(' ' + countDanger);
                 
                 mensaje.append(span);
             }

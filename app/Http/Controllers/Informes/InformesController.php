@@ -5909,6 +5909,13 @@ class InformesController extends Controller
                         $resTemp = round($item->Resultado2);
                     }
                     break;
+                case 365:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        $resTemp = $item->Resultado2." | ".$item->Ph_muestra;
+                    }
+                    break;
                 case 67:
                 case 110:
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
