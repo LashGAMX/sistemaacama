@@ -713,6 +713,18 @@ class InformesController extends Controller
                             $aux = "N/A";
                         }
                         break;
+                    case 7:
+                        $limNo = DB::table('limitepnorma_201')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            if ($limNo[0]->Per_max != "") {
+                                $aux = $limNo[0]->Per_max;
+                            }else{
+                                $aux = "N/A";
+                            }
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
                     case 27:
                         $limNo = DB::table('limite001_2021')->where('Id_parametro', $item->Id_parametro)->where('Id_categoria', $solicitud->Id_promedio)->get();
                         if ($limNo->count()) {
@@ -784,11 +796,16 @@ class InformesController extends Controller
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        $dataFirma = ''.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe.'|'.$firma1;
-        $firmaEncript =  openssl_encrypt($dataFirma, $methodFirma, $claveFirma, false, $ivFirma);
+        $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
+        $dataFirma2 = $firma2->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
+
+        $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+        $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
+
 
         $data = array(
-            'firmaEncript' => $firmaEncript,
+            'firmaEncript1' => $firmaEncript1,
+            'firmaEncript2' => $firmaEncript2,
             'norma' => $norma,
             'limitesCon' => $limitesCon,
             'impresion' => $impresion,

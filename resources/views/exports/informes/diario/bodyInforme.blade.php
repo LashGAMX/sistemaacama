@@ -326,10 +326,7 @@
                 @foreach ($model as $item)
                     @if (@$item->Id_area != 9)
                     @switch($item->Id_parametro)
-                        @case(365)
-                            
-                            @break
-                        
+                     
                         @case(365)
                         @case(372)
                         @case(370)
@@ -346,7 +343,11 @@
                                 <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
                                 <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                     @if (@$item->Resultado2 != NULL)
-                                        {{number_format(@$item->Resultado2,1,'.','')}}
+                                        @if ($item->Resultado2 <= $item->Limite)
+                                            < {{$item->Limite}}
+                                        @else
+                                            {{number_format(@$item->Resultado2,1,'.','')}}
+                                        @endif
                                     @else
                                         -------
                                     @endif
@@ -659,23 +660,24 @@
                     </tbody>         
                 </table>  
         </div>
-        <!-- <div id="contenedorTabla">
-            <p style="font-size: 8px">Reviso: {{$firmaEncript}}</p>
-        </div> -->
+  
         <div id="contenedorTabla">
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
-                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px;width: 50%">
                                 <br>
-                                {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40;" src="{{url('public/storage/'.$firma1->firma)}}"> <br></span></center> --}}
-                                <br>
+                                {{-- <center><p style="font-size: 8px">{{$firmaEncript1}}</p></center> --}}
                                 <br>
                                 <br>
                                 <br>
                             </td> 
-                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
-                                {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span></center> --}}
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px;width: 50%">
+                                <br>
+                                    {{-- <center><p style="font-size: 8px">{{$firmaEncript2}}</p></center> --}}
+                                <br>
+                                <br>
+                                <br>
                             </td> 
                         </tr>                
                         <tr>
