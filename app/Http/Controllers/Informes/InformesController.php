@@ -708,7 +708,11 @@ class InformesController extends Controller
                     case 30:
                         $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
                         if ($limNo->count()) {
-                            $aux = $limNo[0]->Per_max;
+                            if ( $limNo[0]->Per_min != "") {
+                                $aux = $limNo[0]->Per_min." - ".$limNo[0]->Per_max;
+                            }else{
+                                $aux = $limNo[0]->Per_max;
+                            }
                         } else {
                             $aux = "N/A";
                         }
@@ -3077,10 +3081,24 @@ class InformesController extends Controller
         $folioEncript1 =  openssl_encrypt($folioSer1, $method, $clave, false, $iv);
         $folioSer2 = $solModel1->Id_solicitud;
         $folioEncript2 =  openssl_encrypt($folioSer2, $method, $clave, false, $iv);
+
         $notaSiralab = array();
         if ($solModel1->Siralab == 1) {
             $notaSiralab = ImpresionInforme::where('Id_solicitud',$idSol1)->first();
         }
+
+        
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        // $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
+        // $dataFirma2 = $firma2->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
+
+        // $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+        // $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
+
 
 
         $data = array(
