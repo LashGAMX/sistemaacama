@@ -689,11 +689,15 @@ class IngresarController extends Controller
         } else {
             $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";
         }
+        $dif = "";
+        if (Auth::user()->id == 65) {
+            $dif = "| Te vamos a extrañar!!! 🥺";
+        }
         $data = array(
             'fechaEmision' => $fechaEmision,
             'model' => $model,
             'sw' => $sw,
-            'msg' => $msg,
+            'msg' => $msg ." ".$dif,
             'puntoModel' => $puntoModel,
             'now' => $now->toDayDateTimeString(),
             'timeProceso' => $valProce[0]->created_at,
