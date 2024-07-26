@@ -374,7 +374,7 @@
                             </tr>   
                             <tr> 
                                 <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
-                                    pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color verdadero
+                                    pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color
                                 </td>
                                 <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                     NMX-AA-008-SCFI-2016
@@ -519,7 +519,7 @@
                             </tr> 
                             <tr> 
                                 <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">
-                                    pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color verdadero
+                                    pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color
                                 </td>
                                 <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                     NMX-AA-008-SCFI-2016
