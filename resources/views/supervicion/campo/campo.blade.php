@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row"> 
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-3">
@@ -23,7 +23,7 @@
                     <input type="month" id="mes" class="form-control">
                 </div>
                 <div class="col-md-1">
-                    <br>
+                    <br> 
                     <button id="btnBuscar" class="btn btn-info">Buscar <i class="fas fa-search"></i></button>
                 </div>
                 <div class="col-md-2">
@@ -33,6 +33,8 @@
                             <option value="1">ADMIN</option>
                             <option value="15">ALBERTO MÉNDEZ RAMÍREZ</option>
                             <option value="97">	FRANCISCO JAVIER ABUNDIS HERRADA</option>
+                            <option value="91">	HUGO SANCHEZ ROMAN</option>
+                            <option value="89">	PABLO SANTIAGO ZARATE RODRIGUEZ</option>
                         </select>
                 </div>
             </div>
