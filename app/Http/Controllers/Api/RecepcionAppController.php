@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProcesoAnalisis;
 use App\Models\UsuarioApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -91,6 +92,27 @@ class RecepcionAppController extends Controller
             $data["horaEntrada"] = $modelProcesoAnalisis->Hora_entrada;
         }
 
+        return response()->json($data);
+    }
+
+    public function upHoraRecepcion(Request $res){
+        //1 Recepción - 2 Entrada
+        $data = array(
+            "estado" => "error",
+            "mensaje" => "la hora no pudo ser cambiada",
+        );
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Folio', '=', $res->folio)->first();
+        if(!empty($modelProcesoAnalisis)){
+            if($res->tipoHora == 1){
+                $modelProcesoAnalisis->Hora_recepcion = $res->hora;
+            }
+            else{
+                $modelProcesoAnalisis->Hora_entrada = $res->hora;
+            }
+            $data["estado"] = "exito";
+            $data["mensaje"] = "la hora fue cambiada";
+            $modelProcesoAnalisis->save();
+        }
         return response()->json($data);
     }
 }

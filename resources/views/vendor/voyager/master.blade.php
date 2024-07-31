@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta name="assets-path" content="{{ route('voyager.voyager_assets') }}"/>
+    <meta name="current-user-id" content="{{ auth()->user()->id }}">
+
     <!-- Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Google Fonts -->
@@ -28,12 +30,18 @@
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css"> --}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ voyager_asset('css/rtl.css') }}">
+
+
+
     @endif
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
     <link rel="stylesheet" href="{{asset('/public/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" class="">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" class=""> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     
     <!-- Few Dynamic Styles -->
     <style type="text/css">
@@ -138,17 +146,24 @@ $(document).ready( function () {
   },50);
  }) 
 })
+
 </script> --}}
+
 <script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{asset('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.2"></script> 
+
+<!-- <script src="{{asset('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.2"></script>  -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script> -->
+
 //js para campana de notificacion 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
 
 
 <script src="{{asset('public/js/notificaciones/notificacion.js')}}"></script> 
+<script src="{{asset('public/js/chat/mensaje.js')}}?v=0.0.1"></script> 
+
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -161,6 +176,8 @@ $(document).ready( function () {
 {{-- Time picker --}}
 <script src="{{asset('/public/assets/timepicker/wickedpicker.min.js')}}?v=0.0.1"></script>
 <link rel="stylesheet" href="{{asset('/public/assets/timepicker/wickedpicker.min.css')}}">
+<link rel="stylesheet" href="{{asset('/public/css/mensaje.css')}}">
+
 
 <script>
     @if(Session::has('alerts'))

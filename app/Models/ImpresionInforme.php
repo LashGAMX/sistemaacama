@@ -29,5 +29,7 @@ class ImpresionInforme extends Model
         'Obs_impresion',
         'Firma1',
         'Firma2',
+        'Folio',
+        'Num_impresion',
     ];
 }

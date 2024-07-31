@@ -63,7 +63,7 @@ $(document).ready(function() {
     }
     
     setInterval(ContNot, 1000);
-    ContNot(); // L
+    ContNot(); 
 });
 
 

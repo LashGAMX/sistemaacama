@@ -667,14 +667,14 @@
                         <tr>
                             <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px;width: 50%">
                                 <br>
-                                    <!-- <center><p style="font-size: 8px">{{$firmaEncript1}}</p></center> -->
+                                    <center><p style="font-size: 8px">&nbsp;{{$firmaEncript1}}&nbsp;</p></center>
                                 <br>
                                 <br>
                                 <br>
                             </td> 
                             <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px;width: 50%">
                                 <br>
-                                    <!-- <center><p style="font-size: 8px">{{$firmaEncript2}}</p></center> -->
+                                    <center><p style="font-size: 8px">&nbsp;{{$firmaEncript2}}&nbsp;</p></center>
                                 <br>
                                 <br>
                                 <br>
