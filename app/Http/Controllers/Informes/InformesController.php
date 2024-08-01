@@ -233,6 +233,15 @@ class InformesController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
+            //Establece la marca de agua del documento PDF
+            $mpdf->SetWatermarkImage(
+                asset('/public/storage/MembreteVertical.png'),
+                1,
+                array(215, 280),
+                array(0, 0),
+            );
+    
+        $mpdf->showWatermarkImage = true;
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
 
         $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
@@ -802,9 +811,18 @@ class InformesController extends Controller
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
         $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
         $dataFirma2 = $firma2->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
+        $tempProceso = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
 
-        $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
-        $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
+        if ($tempProceso->Supervicion != 0) {
+            $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+        }else{
+            $firmaEncript1 = "No hay firma de supervición";
+        }
+        if ($tempProceso->Firma_aut != 0) {
+            $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
+        }else{
+            $firmaEncript2 = "No hay firma autorizadas";
+        }
 
 
         $data = array(
@@ -3097,12 +3115,13 @@ class InformesController extends Controller
         }
 
         $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        // $claveFirma = 'folmenencriptABC#Lorem';
         //Metodo de encriptaciÃ³n
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        $dataFirma1 = 'Reviso: '.$firma1->name.' | Folio1: '.$proceso1->Folio.' , Folio2: '.$proceso2->Folio.'| Fecha Emision1: '.$proceso1->Emision_informe .' , Fecha Emision2: '.$proceso2->Emision_informe;
-        $dataFirma2 = 'Autorizo:  '.$firma2->name.' | Folio1: '.$proceso1->Folio.' , Folio2: '.$proceso2->Folio.'| Fecha Emision1: '.$proceso1->Emision_informe .' , Fecha Emision2: '.$proceso2->Emision_informe;
+        $dataFirma1 = 'Rev: '.$firma1->name.' | Fol1: '.$proceso1->Folio.' , Fol2: '.$proceso2->Folio.'| Fecha E1: '.$proceso1->Emision_informe .' , Fecha E2: '.$proceso2->Emision_informe;
+        $dataFirma2 = 'Aut:  '.$firma2->name.' | Fol1: '.$proceso1->Folio.' , Fol2: '.$proceso2->Folio.'| Fecha E1: '.$proceso1->Emision_informe .' , Fecha E2: '.$proceso2->Emision_informe;
 
         $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
         $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
@@ -6342,7 +6361,20 @@ class InformesController extends Controller
         );
         return response()->json($data);
     }
-
+    public function setFirmaAut(Request $res){
+        $msg = "Firma Autorizada";
+        $sol = Solicitud::where('Id_solicitud',$res->id)->first();
+        $model = ProcesoAnalisis::where('Folio','LIKE','%'.$sol->Folio_servicio.'%')->get();
+        foreach($model as $item){
+            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp->Firma_aut = 1;
+            $temp->save();
+        }
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
     public function setSupervicion($idPadre)
     {
         $msg = '';

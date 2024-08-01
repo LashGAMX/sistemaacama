@@ -1,28 +1,42 @@
 
 <footer style="padding-bottom: 30px">    
+    
     <div autosize="1" class="contenedorPadre12 borderFooter">        
-        <table autosize="1" id="tablaDatos" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;" width="100%">
-            <tbody>    
-                     <tr class="borderFooter">
-                        <td class="borderFooter" style="font-size: 10px">
-                            <br>
-                            {{$firmaEncript2}}
+        {{-- <table id="tablaDatos" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;" width="100%"> --}}
+            <table id="tablaDatos" cellpadding="0" cellspacing="0"  width="100%">
+            <tbody>        
+                    {{-- <tr class="borderFooter">
+                        <td  class="borderFooter" style="padding:2px">
+                           
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> 
+                                @php
+                                
+                                for ($i = 0; $i < strlen($firmaEncript1); $i++) {
+                                        echo $firmaEncript1[$i] . "\n";
+                                    }
+                              @endphp
+                            </span>
                             <br>
                         </td>
-                        <td class="borderFooter" style="font-size: 10px">
-                            <br>
-                            {{$firmaEncript2}}
+                        <td  class="borderFooter" style="padding:2px">
+                          
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> 
+                                @php
+                                
+                                for ($i = 0; $i < strlen($firmaEncript2); $i++) {
+                                        echo $firmaEncript2[$i] . "\n";
+                                    }
+                             @endphp
+                            </span>
                             <br>
                         </td>
-                    </tr>         
+                    </tr>  --}}
                     <tr class="borderFooter">
                         <td  class="borderFooter">
-                            <br>
                             <span class="bodyStdMuestra fontSize5" style="font-size: 10px;"> {{$firma1->name}}</span> <br> 
                             <center><span class="adaptarPcabeceraStdMuestra fontNormal fontSize5" style="font-size: 10px;"> REVISÓ SIGNATARIO</span></center>
                         </td>
                         <td  class="borderFooter">
-                            <br>
                              <span class="bodyStdMuestra fontSize5" style="font-size: 10px;">{{$firma2->name}}</span> <br>
                             <center><span class="cabeceraStdMuestra fontNormal fontSize5" style="font-size: 10px;"> AUTORIZÓ SIGNATARIO</span> </center>
                         </td>
