@@ -99,8 +99,8 @@
                                         @endif
                                     </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="font-size:7px; margin:10px">
-
-                                    @if ($stdArea[$i] == 1)
+{{-- comentario --}}
+                                    @if ($stdArea[$i] == 1) 
                                         ---------------
                                     @else
                                         @if (@$fechasSalidas[$i] != "")

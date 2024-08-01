@@ -520,10 +520,20 @@ function displayMessage(message) {
     const chatMessages = document.getElementById('chatMessages');
     const div = document.createElement('div');
 
-    const isCurrentUser = message.user.id == currentUserId; // currentUserId debe ser la ID del usuario logueado
+    const isCurrentUser = message.user.id == currentUserId; 
     div.className = isCurrentUser ? 'message-item current-user' : 'message-item';
+    const baseUrl = '/sofiadev/storage/app/public/'; 
 
-    let messageContent = `<strong style="color:#020202">${message.user.name}:</strong> ${message.message || ''}`;
+        let avatarUrl = `${baseUrl}${message.user.avatar}`;
+
+        let name = message.user.name;
+        let shortName = name.substring(0, 15);
+
+        let messageContent = `
+            <img src="${avatarUrl}" alt="${name}'s avatar" style="width: 25px; height: 25px; border-radius: 50%; margin-right: 5px;"><strong style="color:#020202">${shortName}:</strong> ${message.message || ''}`;
+
+
+    // let messageContent = `<strong style="color:#020202">${message.user.name}:</strong> ${message.message || ''}`;
     div.innerHTML = messageContent; 
 
     // Si hay un archivo adjunto en el mensaje
@@ -606,5 +616,5 @@ sendMessageForm.addEventListener('submit', function(e) {
     });
 });
 
-
 });
+

@@ -176,21 +176,31 @@
         </div>
         <!-- Formulario para enviar mensajes -->
         <form id="sendMessageForm">
-            <div class="mb-3">
+        <div class="mb-3">
             <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
-
+        </div>
+        <div class="mensaje">
+            <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
+            <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
+            <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('messageFile').click();">
+                <i class="fas fa-paperclip"></i>
+            </button>
+            <button class="btn btn-outline-secondary" type="button" id="emojiButton">
+                <i class="fas fa-smile"></i>
+            </button>
+            <button class="btn" id="enviar" type="submit">
+                <i class="fa fa-paper-plane" aria-hidden="true" style="color: azure"></i>
+            </button>
+            <!-- Emoji Picker Element -->
+            <div id="emojiPicker">
+                <select id="emojiSelect">
+                    <option value="">Selecciona un emoji</option>
+                </select>
             </div>
-    <div class="mensaje">
-        <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
-        <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
-        <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('messageFile').click();">
-            <i class="fas fa-paperclip"></i>
-        </button>
-        <button class="btn" id="enviar" type="submit">
-            <i class="fa fa-paper-plane" aria-hidden="true" style="color: azure"></i>
-        </button>
-    </div>
-</form>
+        </div>
+    </form>
+
+
 
       </div>
     </div>
@@ -265,7 +275,6 @@
   </div>
 </div>
 <script>
-   // Función para manejar la selección de archivos
 function seleccion() {
     const fileInput = document.getElementById('messageFile');
     const fileStatusMessage = document.getElementById('fileStatusMessage');
@@ -273,14 +282,13 @@ function seleccion() {
     if (fileInput.files.length > 0) {
         const fileName = fileInput.files[0].name;
         fileStatusMessage.textContent = `Archivo seleccionado: ${fileName}`;
-        fileStatusMessage.style.color = 'green';  // Color de éxito
+        fileStatusMessage.style.color = 'green';  
     } else {
         fileStatusMessage.textContent = 'No se ha seleccionado ningún archivo.';
-        fileStatusMessage.style.color = 'red';  // Color de error
+        fileStatusMessage.style.color = 'red'; 
     }
 }
 
-// Evento para manejar el envío del formulario
 document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
     event.preventDefault();  
     const fileStatusMessage = document.getElementById('fileStatusMessage');
@@ -307,5 +315,6 @@ document.getElementById('sendMessageForm').addEventListener('submit', function(e
     })
  
 });
+
 
 </script>

@@ -657,8 +657,9 @@ class InformesController extends Controller
                         if ($limNo->count()) {
                             $aux = $limNo[0]->Prom_Dmax;
                         } else {
-                            $aux = "N/A";
+                            $aux = "N/A"; 
                         }
+                        //comentarios
                         break;
                     case 2:
                         $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();

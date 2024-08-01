@@ -1,11 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}" dir="{{ __('voyager::generic.is_rtl') == 'true' ? 'rtl' : 'ltr' }}">
 <head>
     <title>@yield('page_title', setting('admin.title') . " - " . setting('admin.description'))</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta name="assets-path" content="{{ route('voyager.voyager_assets') }}"/>
     <meta name="current-user-id" content="{{ auth()->user()->id }}">
+    <script src="https://unpkg.com/emoji-picker-element@latest/dist/index.min.js"></script>
 
     <!-- Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

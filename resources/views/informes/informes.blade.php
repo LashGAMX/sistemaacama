@@ -19,9 +19,16 @@
                         <input type="month" class="form-control form-control-sm">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="nota">Firma Aut</label>
+                        <input type="checkbox" id="firmaAut">
+                        
                     </div>
                 </div>
                 <div class="col-md-12">
