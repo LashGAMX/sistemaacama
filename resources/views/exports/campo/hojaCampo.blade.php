@@ -251,7 +251,7 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                @if (@$phMuestra[$i]->Olor == "" )
                                         ---
                                     @else
                                     {{@$phMuestra[$i]->Olor}}
@@ -263,7 +263,7 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                @if (@$phMuestra[$i]->Color == "" )
                                         ---
                                     @else
                                     {{@$phMuestra[$i]->Color}}
