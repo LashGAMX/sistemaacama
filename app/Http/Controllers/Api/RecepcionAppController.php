@@ -76,6 +76,7 @@ class RecepcionAppController extends Controller
             "fechaMuestreo" => null,
             "fechaConformacion" => null,
             "procedencia" => null,
+            "puntosMuestreo" => null
         );
 
         $modelProcesoAnalisis = DB::table('proceso_analisis')
@@ -83,6 +84,10 @@ class RecepcionAppController extends Controller
         ->first();
 
         if(!empty($modelProcesoAnalisis)){
+            $modelHijosFolio = DB::Table('viewsolicitud2')
+            ->where('Hijo', '=', $modelProcesoAnalisis->Id_solicitud)
+            ->get();
+            
             $data["mensaje"] = "exito";
             $data["folio"] = $modelProcesoAnalisis->Folio;
             $data["descarga"] = $modelProcesoAnalisis->Descarga;
@@ -90,6 +95,7 @@ class RecepcionAppController extends Controller
             $data["empresa"] = $modelProcesoAnalisis->Empresa;
             $data["horaRecepcion"] = $modelProcesoAnalisis->Hora_recepcion;
             $data["horaEntrada"] = $modelProcesoAnalisis->Hora_entrada;
+            $data["puntosMuestro"] = $modelHijosFolio;
         }
 
         return response()->json($data);

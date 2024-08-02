@@ -172,33 +172,28 @@
       </div>
       <div class="modal-body">
         <div id="chatMessagesContainer">
-          <div id="chatMessages"></div>
+        <div id="chatMessages"></div>
         </div>
         <!-- Formulario para enviar mensajes -->
         <form id="sendMessageForm">
-        <div class="mb-3">
-            <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
-        </div>
-        <div class="mensaje">
-            <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
-            <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
-            <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('messageFile').click();">
-                <i class="fas fa-paperclip"></i>
-            </button>
-            <button class="btn btn-outline-secondary" type="button" id="emojiButton">
-                <i class="fas fa-smile"></i>
-            </button>
-            <button class="btn" id="enviar" type="submit">
-                <i class="fa fa-paper-plane" aria-hidden="true" style="color: azure"></i>
-            </button>
-            <!-- Emoji Picker Element -->
-            <div id="emojiPicker">
-                <select id="emojiSelect">
-                    <option value="">Selecciona un emoji</option>
-                </select>
+            <div class="mb-3">
+              <div id="emojiPicker"></div>
+              <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
             </div>
-        </div>
-    </form>
+            <div class="mensaje">
+                <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
+                <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
+                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('messageFile').click();">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" id="emojiButton">
+                    <i class="fas fa-smile"></i>
+                </button>
+                <button class="btn" id="enviar" type="submit">
+                    <i class="fa fa-paper-plane" aria-hidden="true" style="color: azure"></i>
+                </button>
+            </div>
+        </form>
 
 
 
@@ -274,6 +269,7 @@
     </div>
   </div>
 </div>
+
 <script>
 function seleccion() {
     const fileInput = document.getElementById('messageFile');
@@ -284,37 +280,119 @@ function seleccion() {
         fileStatusMessage.textContent = `Archivo seleccionado: ${fileName}`;
         fileStatusMessage.style.color = 'green';  
     } else {
-        fileStatusMessage.textContent = 'No se ha seleccionado ningún archivo.';
-        fileStatusMessage.style.color = 'red'; 
+        fileStatusMessage.textContent = '';
     }
 }
 
 document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
     event.preventDefault();  
+    
     const fileStatusMessage = document.getElementById('fileStatusMessage');
-    
-   
-    fileStatusMessage.textContent = '';
-    
-    const formData = new FormData(this);  
+    const fileInput = document.getElementById('messageFile');
 
-    fetch('/tu-endpoint', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Error en la carga del archivo');
-        }
-    })
-    .then(data => {
-        fileStatusMessage.textContent = 'Archivo cargado con éxito';
-        fileStatusMessage.style.color = 'green';
-    })
- 
+    if (fileInput.files.length > 0) {
+        fileStatusMessage.textContent = 'Archivo Enviado.';
+        fileStatusMessage.style.color = 'blue'; 
+    } else {
+        fileStatusMessage.textContent = 'No se ha seleccionado ningún archivo para enviar.';
+        fileStatusMessage.style.color = 'red';
+    }
+
 });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const emojiButton = document.getElementById('emojiButton');
+    const emojiPicker = document.getElementById('emojiPicker');
+    const messageContent = document.getElementById('messageContent');
 
+    // Lista de emojis
+    const emojis = [
+        '😀', '😁', '😂', '😃', '😄',
+        '😅', '😆', '😇', '😈', '😉',
+        '😊', '😋', '😌', '😍', '😎',
+        '😏', '😐', '😑', '😒', '😓',
+        '😔', '😕', '😖', '😗', '😘',
+        '😙', '😚', '😛', '😜', '😝',
+        '😞', '😟', '😠', '😡', '😢',
+        '😣', '😤', '😥', '😦', '😧',
+        '😨', '😩', '😪', '😫', '😬',
+        '😭', '😮', '😯', '😰', '😱',
+        '😲', '😳', '😴', '😵', '😶',
+        '😷', '🙁', '🙂', '🙃', '🙄',
+        '🤐', '🤑', '🤒', '🤓', '🤔',
+        '🤕', '🤗', '🤠', '🤢', '🤣',
+        '🤤', '🤥', '🤧', '🤨', '🤩',
+        '🤪', '🤫', '🤭', '🤮', '🤯',
+        '🥰', '🥱', '🥳', '🥴', '🥵',
+        '🥶', '🥺', '🧐', '😸', '😹',
+        '😺', '😻', '😼', '😽', '😾',
+        '😿', '🙀', '🙈', '🙉', '🙊',
+        '👿', '💀', '🤬'
+    ];
+
+    function populateEmojiGrid() {
+        emojiPicker.innerHTML = '';
+        emojiPicker.style.top = '100px'; // Ajusta la posición según tu necesidad
+        emojiPicker.style.left = '100px'; // Ajusta la posición según tu necesidad
+        emojiPicker.style.width = '200px';
+        emojiPicker.style.height = '200px';
+        emojiPicker.style.backgroundColor = '#fff';
+        emojiPicker.style.border = '1px solid #ccc';
+        emojiPicker.style.boxShadow = '0px 4px 8px rgba(0,0,0,0.2)';
+        emojiPicker.style.overflowY = 'auto';
+        emojiPicker.style.display = 'none'; // Ocultar el contenedor por defecto
+
+        const rows = Math.ceil(emojis.length / 5);
+        for (let i = 0; i < rows; i++) {
+            const row = document.createElement('div');
+            row.style.display = 'flex';
+            row.style.justifyContent = 'space-between';
+            row.style.marginBottom = '2px'; 
+            for (let j = 0; j < 5; j++) {
+                const index = i * 5 + j;
+                if (index < emojis.length) {
+                    const emojiItem = document.createElement('div');
+                    emojiItem.textContent = emojis[index];
+                    emojiItem.style.flex = '3';
+                    emojiItem.style.textAlign = 'center';
+                    emojiItem.style.cursor = 'pointer';
+                    emojiItem.style.padding = '2px';
+                    emojiItem.style.fontSize = '16px'; // Tamaño del emoji
+                    emojiItem.style.userSelect = 'none';
+                    emojiItem.addEventListener('click', function() {
+                        document.querySelectorAll(`.emoji-row .emoji-item`)
+                            .forEach(item => item.classList.remove('selected'));
+                        // Marcar el emoji actual como seleccionado
+                        emojiItem.classList.add('selected');
+                        // Insertar el emoji en el campo de texto
+                        messageContent.value += emojiItem.textContent;
+                        emojiPicker.style.display = 'none'; // Ocultar el picker después de seleccionar un emoji
+                    });
+                    row.appendChild(emojiItem);
+                }
+            }
+            emojiPicker.appendChild(row);
+        }
+    }
+
+    // Llamar a la función para llenar el contenedor de emojis
+    populateEmojiGrid();
+
+    // Mostrar el emoji picker al hacer clic en el botón
+    emojiButton.addEventListener('click', function () {
+        const rect = emojiButton.getBoundingClientRect();
+        emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
+        emojiPicker.style.top = `${rect.top - emojiPicker.offsetHeight}px`; // Posicionar arriba del botón
+        emojiPicker.style.left = `${rect.left}px`; // Alineación horizontal con el botón
+    });
+
+    // Manejar clic fuera del emoji picker para ocultarlo
+    document.addEventListener('click', function(event) {
+        if (!emojiButton.contains(event.target) && !emojiPicker.contains(event.target)) {
+            emojiPicker.style.display = 'none';
+        }
+    });
+});
 
 </script>

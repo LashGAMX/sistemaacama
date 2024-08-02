@@ -603,7 +603,7 @@ sendMessageForm.addEventListener('submit', function(e) {
         success: function(data) {
             messageContentInput.value = '';
             messageFileInput.value = '';
-            console.log('Mensaje enviado exitosamente:', data);
+            // console.log('Mensaje enviado exitosamente:', data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 413) {
