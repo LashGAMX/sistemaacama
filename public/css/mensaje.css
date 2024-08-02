@@ -29,14 +29,16 @@
     display: none;
     box-shadow:  black;
     border-radius: 10 px;
-    background-image: url('/Imagen/F.png'); 
+    background-image: url('/sofiadev/public/assets/imagen/F.png');
     background-size: cover;
+    border-radius: 10px;
 }
 .message-item {
     margin: 10px 0;
     padding: 5px;
     border-radius: 10px;
-    max-width: 70%;
+    max-width:max-content;
+    max-height:min-content;
     word-wrap: break-word;
     background-color: #238C55; 
     color: #f0f0f0;
@@ -44,11 +46,12 @@
 
 .current-user {
     margin-left: auto;
-    text-align: right;
+    text-align: auto;
     background-color: #238C79; 
     color: #f0f0f0;
-    max-width: 70%;
-
+    word-break: normal;
+    max-width:max-content;
+    max-height:min-content;
 
 }
 
@@ -68,4 +71,122 @@
 }
 #groupList{
     list-style: none;
+}
+
+.modal-dialog-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 0;
+    height: 100vh; 
+}
+
+.modal-content-right {
+    height: 100vh; 
+    width: 400px;
+    overflow-y: auto;
+}
+
+@media (max-width: 767.98px) {
+    .modal-dialog-right {
+        width: 100%;
+        right: 0;
+        top: 0;
+    }
+
+    .modal-content-right {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .modal-dialog-right {
+        width: 80%;
+        right: 0;
+        top: 0;
+    }
+
+    .modal-content-right {
+        width: 80%;
+    }
+    
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .modal-dialog-right {
+        width: 60%;
+        right: 0;
+        top: 0;
+    }
+
+    .modal-content-right {
+        width: 60%;
+    }
+    .select2-container {
+        width: 100% !important;
+    }
+    .select2-container--default .select2-selection--multiple {
+        min-height: 38px; 
+        overflow: auto; 
+    }
+}
+
+@media (min-width: 1200px) {
+    .modal-dialog-right {
+        width: 400px;
+        right: 0;
+        top: 0;
+    }
+
+    .modal-content-right {
+        width: 400px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+    .select2-container--default .select2-selection--multiple {
+        min-height: 38px; 
+        overflow: auto; 
+    }
+
+    .mb-3 {
+        display: grid; 
+        grid-template-columns: auto 1fr auto; 
+        align-items: center; 
+        column-gap: 10px; 
+    }
+    
+    .modal-title {
+        grid-column: 1; 
+    }
+    
+    .img-fluid {
+        grid-column: 2; 
+    }
+    
+    .close {
+        grid-column: 3;
+    }
+    .mensaje {
+        display: flex; 
+        align-items: center;
+        gap: 5px; 
+        padding: 1px; 
+    }
+    @media (max-width: 576px) {
+        .mensaje {
+            flex-direction: column; 
+            gap: 2px; 
+            padding: 5px; 
+
+        }
+        
+        .form-control {
+            width: 70%; /* Asegura que el campo de texto ocupe el ancho completo */
+        }
+    }
+
+   
+
 }

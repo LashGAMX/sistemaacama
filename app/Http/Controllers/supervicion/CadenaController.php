@@ -93,15 +93,12 @@ class CadenaController extends Controller
                                 ->first();
 
                             if (!empty($modelLim)) {
-                                if ($models->Id_muestreo == 6) {
-                                    $fila->Limite = $modelLim->Vi;
-                                } else {
-                                    $fila->Limite = $modelLim->Pd;
-                                }
+                                $fila->Limite = $modelLim->Pm;
                             } else {
                                 $fila->Limite = 'N/A';
                             }
                         }
+                    break;
                 }
                 break;
             default:
@@ -872,6 +869,9 @@ class CadenaController extends Controller
             case 218: //Cloro
             case 84: // Olor
             case 86: // Sabor
+            case 365:
+            case 370:
+            case 372:
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();

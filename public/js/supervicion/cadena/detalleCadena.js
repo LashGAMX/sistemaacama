@@ -212,9 +212,22 @@ function getParametros() {
                 }
         
                 switch (parseInt(item.Id_parametro)) {
-                    case 14: // Ph
+                    case 14: //Ph
                     case 100:
-                    case 26: // Gasto
+                    case 26:// Gasto
+                    case 13: // GA
+                    case 12: //Coliformes
+                    case 137:
+                    case 51:
+                    case 134: 
+                    case 132:
+                    case 67: //conductividad
+                    case 2: //Materia Floatante
+                    case 97: //Températura 
+                    case 100:
+                    case 5:
+                    case 71:
+                    case 35:
                     case 253:
                         if (item.Liberado != 1) {
                             color = "danger";
@@ -1285,6 +1298,30 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
                         tab += '<td>' + item.Resultado + '</td>';
+                        tab += '</tr>';
+                        resLiberado = item.Resultado;
+                    });
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    break;
+                case 365:
+                case 370:
+                case 372:
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Descripcion</th>';
+                    tab += '          <th>Valor</th>';
+                    tab += '          <th>Ph</th>';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    $.each(response.model, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td>' + item.Parametro + '</td>';
+                        tab += '<td>' + item.Resultado + '</td>';
+                        tab += '<td>' + item.Ph + '</td>';
                         tab += '</tr>';
                         resLiberado = item.Resultado;
                     });

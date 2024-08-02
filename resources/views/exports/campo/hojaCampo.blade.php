@@ -9,6 +9,7 @@
  
     <title>Hoja de Campo </title>
 </head>
+{{-- comn --}}
 <body style="font-size: 9px"> 
     <div class="container" id="pag">
         <div class="row">
@@ -251,19 +252,19 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                @if (@$phMuestra[$i]->Olor == "" )
                                         ---
                                     @else
                                     {{@$phMuestra[$i]->Olor}}
                                     @endif
-                                    
+                                    {{-- comentario --}}
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                @if (@$phMuestra[$i]->Color == "" )
                                         ---
                                     @else
                                     {{@$phMuestra[$i]->Color}}

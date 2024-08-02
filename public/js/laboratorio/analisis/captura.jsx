@@ -2709,8 +2709,8 @@ function getDetalleMuestra(id) {
                             } else {
                                 $("#sulfurosEspectro1").val(0);
                             }
-                            $("#fDilucion1").val(response.model.Vol_dilucion);
-                            $("#fDilucion2").val(response.model.Vol_dilucion);
+                            $("#fDilucionEspectro1").val(response.model.Vol_dilucion);
+                            $("#fDilucionEspectro2").val(response.model.Vol_dilucion);
                             $("#volMuestraEspectro1").val(response.model.Vol_muestra);
                             $("#volMuestraEspectro2").val(response.model.Vol_muestra);
                             $("#abs1Espectro1").val(number_format(parseFloat(response.model.Abs1),3,'.',''));

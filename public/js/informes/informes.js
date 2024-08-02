@@ -53,6 +53,9 @@ $(document).ready(function () {
     $('#btnNota').on('click', function(){
         setNota4(idSol)
     });
+    $('#firmaAut').on('click', function(){
+        setFirmaAut(idSol)
+    });
 
     $(document).on('change', '#puntoMuestreo', function(){
         setTimeout(() => { 
@@ -63,6 +66,25 @@ $(document).ready(function () {
     });
 
 }); 
+function setFirmaAut(id){
+    if (confirm("Estas seguro de firmas estos informes?")) {
+        $.ajax({
+            url: base_url + '/admin/informes/setFirmaAut',
+            type: 'POST', //método de envio
+            data: {
+                id: id,
+                firma: $("#firmaAut").prop("checked"),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json', 
+            async: false, 
+            success: function (response) {
+                console.log(response)
+                alert(response.msg)
+            }
+        });  
+    }
+}
  
 function setNota4(id)
 {

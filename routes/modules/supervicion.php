@@ -50,5 +50,9 @@ use Illuminate\Support\Facades\Route;
         Route::post('setLiberarTodoCampo', [SupervicionController::class,'setLiberarTodoCampo']);
         Route::get('liberarTodo', [SupervicionController::class,'liberarTodo']);
     });
+    Route::group(['prefix' => 'informe'], function () {
+        Route::get('/valInforme', [SupervicionController::class, 'valInforme']);
+        Route::post('/getFirmaEncriptada', [SupervicionController::class,'getFirmaEncriptada']); 
+    });
 });
        

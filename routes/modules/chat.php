@@ -1,37 +1,33 @@
 <?php 
 
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Chat\GrupoController; 
+use App\Http\Controllers\chat\MensajeController; 
+
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'notificacion'], function () {
-  
-  //rutas para el chat
-   
-  Route::get('/groups', [GroupController::class, 'index']);
-  Route::post('/groups', [GroupController::class, 'store']);
-  Route::post('/saveColor', [GroupController::class, 'saveColor']);
-  Route::post('/groups/{id}/update-color', [GroupController::class, 'updateColor']);
+// Define tus rutas aquí
+Route::group(['prefix' => 'chat'], function () {
+
+  Route::get('getGroups', [GrupoController::class, 'getGroups']);
+  Route::get('asignarUser', [GrupoController::class, 'asignarUser']);
+  Route::post('store', [GrupoController::class, 'store']);
+
+  // Route::get('chat-view', function () {
+  //   return view('Chat.chat'); 
+  // });
 
 
-  Route::get('/groups', [GroupController::class, 'getGroups']);
- 
-  Route::get('/groups/{id}/details', [GroupController::class, 'getGroupDetails']);
-  Route::post('/groups/{id}/edit', [GroupController::class, 'editGroup']);
+  //RUTAS NUEVAS PARA PRODUCCION 
+  Route::get('getGroupDetails/{id}', [GrupoController::class, 'getGroupDetails']);
+  Route::post('editGroup/{id}', [GrupoController::class, 'editGroup']);
+  Route::post('updateColor/{id}', [GrupoController::class, 'updateColor']);
+
+  Route::post('CountGrupo/{group}', [GrupoController::class, 'CountGrupo']);
+  Route::get('ContGen', [MensajeController::class, 'ContGen']);
 
 
-  Route::get('/groups/{group}/messages', [GroupController::class, 'messages']);
-  Route::get('/download/{file}', [MessageController::class, 'download'])->name('download.file');
-  Route::post('/messages', [MessageController::class, 'store']);
-  Route::get('asignarUser', [GroupController::class, 'asignarUser']);
-  
-  Route::post('/count/{group}/', [GroupController::class, 'resetMessage'])->name('group.resetMessage');
-  Route::get('/message/count', [MessageController::class, 'getMessageCount'])->name('message.count');
-  
-
-  Route::get('/ruta', function () {
-    return view('Chat.chat'); 
-});
+  Route::post('mensaje', [MensajeController::class, 'mensaje']);
+  Route::get('messages/{group}', [GrupoController::class, 'messages']);
 
 
 });

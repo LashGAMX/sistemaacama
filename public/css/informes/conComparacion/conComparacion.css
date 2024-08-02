@@ -419,3 +419,13 @@
 .colorBlanco{
     color: white;
 }
+.borderFooter{
+    border: 0.2px solid black;
+    border-collapse: collapse;
+}
+.adaptarP{
+    margin: 0; /* Elimina el margen por defecto */
+        padding: 5px; /* Añade un poco de padding si es necesario */
+        width: 100%; /* Asegura que el párrafo ocupe el 100% del ancho de la celda */
+        box-sizing: border-box; /* Incluye el padding dentro del ancho total */
+}

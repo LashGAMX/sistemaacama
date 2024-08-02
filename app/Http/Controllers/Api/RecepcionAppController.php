@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProcesoAnalisis;
 use App\Models\UsuarioApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -75,6 +76,7 @@ class RecepcionAppController extends Controller
             "fechaMuestreo" => null,
             "fechaConformacion" => null,
             "procedencia" => null,
+            "puntosMuestreo" => null
         );
 
         $modelProcesoAnalisis = DB::table('proceso_analisis')
@@ -82,6 +84,10 @@ class RecepcionAppController extends Controller
         ->first();
 
         if(!empty($modelProcesoAnalisis)){
+            $modelHijosFolio = DB::Table('viewsolicitud2')
+            ->where('Hijo', '=', $modelProcesoAnalisis->Id_solicitud)
+            ->get();
+            
             $data["mensaje"] = "exito";
             $data["folio"] = $modelProcesoAnalisis->Folio;
             $data["descarga"] = $modelProcesoAnalisis->Descarga;
@@ -89,8 +95,30 @@ class RecepcionAppController extends Controller
             $data["empresa"] = $modelProcesoAnalisis->Empresa;
             $data["horaRecepcion"] = $modelProcesoAnalisis->Hora_recepcion;
             $data["horaEntrada"] = $modelProcesoAnalisis->Hora_entrada;
+            $data["puntosMuestro"] = $modelHijosFolio;
         }
 
+        return response()->json($data);
+    }
+
+    public function upHoraRecepcion(Request $res){
+        //1 Recepción - 2 Entrada
+        $data = array(
+            "estado" => "error",
+            "mensaje" => "la hora no pudo ser cambiada",
+        );
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Folio', '=', $res->folio)->first();
+        if(!empty($modelProcesoAnalisis)){
+            if($res->tipoHora == 1){
+                $modelProcesoAnalisis->Hora_recepcion = $res->hora;
+            }
+            else{
+                $modelProcesoAnalisis->Hora_entrada = $res->hora;
+            }
+            $data["estado"] = "exito";
+            $data["mensaje"] = "la hora fue cambiada";
+            $modelProcesoAnalisis->save();
+        }
         return response()->json($data);
     }
 }

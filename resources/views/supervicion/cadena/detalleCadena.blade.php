@@ -200,6 +200,6 @@
 
 @endsection
     @section('javascript')
-    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.2"></script>
+    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.3"></script>
 @stop
 

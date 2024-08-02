@@ -31,6 +31,8 @@ Route::group(['prefix' => 'informes'], function () {
     //! Funciones adicionales
     Route::get('muestrasCanceladas',[InformesController::class,'muestrasCanceladas']);
     Route::post('setNota4',[InformesController::class,'setNota4']);
+    Route::post('setFirmaAut',[InformesController::class,'setFirmaAut']);
 
 });
+
 

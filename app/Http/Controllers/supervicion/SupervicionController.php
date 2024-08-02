@@ -1132,4 +1132,28 @@ class SupervicionController extends Controller
     
         }
     }
+    public function valInforme(){
+        return view('supervicion.informe.valInforme');
+    }
+    public function getFirmaEncriptada(Request $res)
+    {
+        $std = false;
+        $clave  = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $method = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        /*
+         Encripta el contenido de la variable, enviada como parametro.
+          */
+        $folioEncript = openssl_decrypt($res->codigo, $method, $clave, false, $iv);
+        $content = explode($folioEncript,'|');
+
+
+        $data = array(
+            'content' => $content,
+            'folioEncript' => $folioEncript,
+        );
+        return response()->json($data);
+    }
 } 

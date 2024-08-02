@@ -30,6 +30,7 @@ class ProcesoAnalisis extends Model
         'Hora_recepcion',
         'Hora_entrada',
         'Emision_informe',
+        'Firma_aut',
         'Liberado',
         'Cancelado',
         'Obs_proceso',

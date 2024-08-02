@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://sistemasofia.ddns.net:85/sofia/'),
+    'url' => env('APP_URL', 'http://51.51.51.2:85/sofiadev/'),
 
     'asset_url' => env('ASSET_URL', null), 
 
