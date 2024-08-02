@@ -9,6 +9,7 @@
  
     <title>Hoja de Campo </title>
 </head>
+{{-- comn --}}
 <body style="font-size: 9px"> 
     <div class="container" id="pag">
         <div class="row">
