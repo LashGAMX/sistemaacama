@@ -241,7 +241,7 @@ class InformesController extends Controller
                 array(0, 0),
             );
     
-        $mpdf->showWatermarkImage = true;
+        // $mpdf->showWatermarkImage = true;
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
 
         $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
