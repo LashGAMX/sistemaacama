@@ -233,15 +233,15 @@ class InformesController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
-            //Establece la marca de agua del documento PDF
-            // $mpdf->SetWatermarkImage(
-            //     asset('/public/storage/MembreteVertical.png'),
-            //     1,
-            //     array(215, 280),
-            //     array(0, 0),
-            // );
+            // Establece la marca de agua del documento PDF
+            $mpdf->SetWatermarkImage(
+                asset('/public/storage/MembreteVertical.png'),
+                1,
+                array(215, 280),
+                array(0, 0),
+            );
     
-        // $mpdf->showWatermarkImage = true;
+        $mpdf->showWatermarkImage = true;
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
 
         $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
@@ -766,9 +766,10 @@ class InformesController extends Controller
         //Id Firmas
         //ID 4 Luisita
         //ID 12 Sandy
-        //Id 14 Lupita
-        //Id 35 Agueda
-        //id 31 elsa
+        //ID 14 Lupita
+        //ID 35 Agueda
+        //ID 31 elsa
+
         switch ($solModel->Id_norma) {
             case 5:
             case 7:
@@ -777,14 +778,14 @@ class InformesController extends Controller
                  //$firma1 = User::find(14) ;
                  $firma1 = User::find(31);
                 //  $firma1 = User::find(12); // Reviso
-                 $firma2 = User::find(14); // Autorizo
+                 $firma2 = User::find(34); // Autorizo
                  //$firma2 = User::find(12); // Autorizo
                 //$firma2 = User::find(14);
                 break;
             default:
                 //$firma1 = User::find(12); // Reviso
                  //$firma1 = User::find(14); //reviso
-                 $firma1 = User::find(14); //reviso
+                 $firma1 = User::find(34); //reviso
                 // $firma2 = User::find(35); //Autorizo
                 $firma2 = User::find(31); //Autorizo
                  //$firma2 = User::find(12); // Autorizo
@@ -810,19 +811,19 @@ class InformesController extends Controller
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
-        $dataFirma2 = $firma2->name.' | '.$solicitud->Folio_servicio.'|'.$modelProcesoAnalisis->Emision_informe;
+        $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio;
+        $dataFirma2 = $firma2->name.' | '.$solicitud->Folio_servicio;
         $tempProceso = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
 
         if ($tempProceso->Supervicion != 0) {
             $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
         }else{
-            $firmaEncript1 = "No hay firma de supervición";
+            $firmaEncript1 = "";
         }
         if ($tempProceso->Firma_aut != 0) {
             $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
         }else{
-            $firmaEncript2 = "No hay firma autorizadas";
+            $firmaEncript2 = "";
         }
 
 
@@ -2616,7 +2617,7 @@ class InformesController extends Controller
         array(215, 280), 
         array(0, 0),
     );
-    // $mpdf->showWatermarkImage = true;
+    $mpdf->showWatermarkImage = true;
 
         $solModel1 = Solicitud::where('Id_solicitud', $idSol1Temp)->first();
         $solModel2 = Solicitud::where('Id_solicitud', $idSol2Temp)->first();
@@ -3121,8 +3122,8 @@ class InformesController extends Controller
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        $dataFirma1 = 'Rev: '.$firma1->name.' | Fol1: '.$proceso1->Folio.' , Fol2: '.$proceso2->Folio.'| Fecha E1: '.$proceso1->Emision_informe .' , Fecha E2: '.$proceso2->Emision_informe;
-        $dataFirma2 = 'Aut:  '.$firma2->name.' | Fol1: '.$proceso1->Folio.' , Fol2: '.$proceso2->Folio.'| Fecha E1: '.$proceso1->Emision_informe .' , Fecha E2: '.$proceso2->Emision_informe;
+        $dataFirma1 = 'Rev: '.$firma1->name.' | Fol1: '.$proceso1->Folio.' , Fol2: '.$proceso2->Folio;
+        $dataFirma2 = 'Aut:  '.$firma2->name.' | Fol1: '.$proceso1->Folio.' , Fol2: '.$proceso2->Folio;
 
         $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
         $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
@@ -5804,9 +5805,25 @@ class InformesController extends Controller
         $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
 
 
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $reportesCadena->Nombre_responsable.' | '.$model->Folio_servicio;
+        
+        $tempProceso = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        if ($tempProceso->Supervicion != 0) {
+            $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+        }else{
+            $firmaEncript1 = "";
+        }
+
 
         $mpdf->showWatermarkImage = true;
         $data = array(
+            'firmaEncript1' => $firmaEncript1,
             'cadenaGenerales' => $cadenaGenerales,
             'idParametro' => $idParametro,
             'idArea' => $idArea,
