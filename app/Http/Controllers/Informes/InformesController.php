@@ -234,12 +234,12 @@ class InformesController extends Controller
             'defaultheaderline' => '0'
         ]);
             //Establece la marca de agua del documento PDF
-            $mpdf->SetWatermarkImage(
-                asset('/public/storage/MembreteVertical.png'),
-                1,
-                array(215, 280),
-                array(0, 0),
-            );
+            // $mpdf->SetWatermarkImage(
+            //     asset('/public/storage/MembreteVertical.png'),
+            //     1,
+            //     array(215, 280),
+            //     array(0, 0),
+            // );
     
         // $mpdf->showWatermarkImage = true;
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
@@ -2616,7 +2616,7 @@ class InformesController extends Controller
         array(215, 280), 
         array(0, 0),
     );
-    $mpdf->showWatermarkImage = true;
+    // $mpdf->showWatermarkImage = true;
 
         $solModel1 = Solicitud::where('Id_solicitud', $idSol1Temp)->first();
         $solModel2 = Solicitud::where('Id_solicitud', $idSol2Temp)->first();
