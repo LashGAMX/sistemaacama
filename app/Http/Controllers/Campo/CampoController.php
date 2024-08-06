@@ -1521,13 +1521,25 @@ class CampoController extends Controller
 
 
         $areaModel = AreaLab::all();
+        $firmaRecepcion =  DB::table('users')->where('id', 31)->first();
+
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $muestreador->name.' | '.$numOrden->Folio_servicio;
+        $dataFirma2 = $firmaRecepcion->name.' | '.$numOrden->Folio_servicio;
+
+        $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+
         $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $id)->get();
+
         if ($procesoAnalisis->count()) {
-            $firmaRecepcion =  DB::table('users')->where('id', 31)->first();
+            $firmaEncriptRec =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
         } else {
-            $firmaRecepcion = "";
+            $firmaEncriptRec =  "";
         }
-        
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1544,6 +1556,8 @@ class CampoController extends Controller
             array(0, 0),
         );
         $data = array(
+            'firmaEncriptRec' => $firmaEncriptRec,
+            'firmaEncript1' => $firmaEncript1,
             'equipo1' => $equipo1,
             'equipo2' => $equipo2,
             'campoGeneral' => $campoGeneral,

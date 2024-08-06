@@ -4,6 +4,7 @@ use App\Http\Controllers\Clientes\ClienteController;
 use App\Http\Controllers\Clientes\ClientesController;
 use App\Http\Controllers\Clientes\ImportController;
 use App\Http\Controllers\Clientes\IntermediarioController;
+use App\Http\Livewire\Historial\Clientes;
 use Illuminate\Support\Facades\Route;
 
 Route::get('clientes/intermediarios', [IntermediarioController::class,'index']);
@@ -21,9 +22,13 @@ Route::post('clientes/storeContactoGeneral', [ClienteController::class,'storeCon
 Route::get('clientes/importar',[ImportController::class,'index'] );
 Route::post('clientes/importar/create',[ImportController::class,'create'] );
 
+
+//aqui erea js antes 
 Route::get('clientes/clientesGen', [ClientesController::class,'clientesGen']);
 Route::get('clientes/clientesGenDetalle/{id}', [ClientesController::class,'clientesGenDetalle']);
+Route::get('clienetes/datosClientes/{id}', [ ClientesController::class, 'TablaSucursal']);
 
 Route::post('clientes/getClientesGen', [ClientesController::class,'getClientesGen']);
 Route::post('clientes/setClientesGen', [ClientesController::class,'setClientesGen']);
 Route::post('clientes/upClientesGen', [ClientesController::class,'upClientesGen']);
+Route::post('cliente/GuardarUser',[ClientesController::class, 'datosGenerales']);
