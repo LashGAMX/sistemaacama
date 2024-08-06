@@ -33,14 +33,14 @@
             @show
         </div>
         <ul class="nav navbar-nav @if (__('voyager::generic.is_rtl') == 'true') navbar-left @else navbar-right @endif">
-        <li style="margin-top: 5px;" class="nav-item">
+        <!-- <li style="margin-top: 5px;" class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#chat">
             <span class="message-icon">
                 <i class="fa fa-comment-dots" style="color: #63E6BE;"></i>
                 <span style="color: red;" id="CountMen"></span>
             </span>
         </a>
-    </li>
+    </li> -->
             <li style="margin-top: 5px;">
             <a class="nav-link" href="#" id="notificationIcon">
           <span class="notification-icon">
@@ -97,8 +97,7 @@
     </div>
 </nav>
 
-<!-- Modal for chat -->
-<div class="modal fade" id="chat" tabindex="-1" role="dialog" aria-labelledby="chatLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="chat" tabindex="-1" role="dialog" aria-labelledby="chatLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-right" role="document">
         <div class="modal-content modal-content-right">
             <div class="modal-header" style="background-color:#238C79">
@@ -115,11 +114,11 @@
             </div>
             <div class="modal-body">
                 <ul class="list-group" id="groupListContainer">
-                 
+                   @if(Auth::user()->role_id == 1)
                     <button class="btn" style="background-color: #BFFFF3" data-toggle="collapse" data-target="#createGroupForm" aria-expanded="false" aria-controls="createGroupForm">Nuevo Grupo</button>
                     <br>
                     <div id="createGroupForm" class="collapse">
-                    @if(Auth::user()->role_id == 1)
+                  
                          <form id="groupCreationForm" method="POST" action="{{ url('/admin/notificacion/store') }}">
                              @csrf
                              <div class="mb-3">
@@ -130,7 +129,6 @@
                              <div class="mb-3">
                                  <label for="groupUsers" class="form-label">Seleccionar Usuarios:</label>
                                  <select id="groupUsers" name="usuarios[]" class="form-control" multiple required>
-                                   <!-- Opciones dinámicas de usuarios -->
                                  </select>
 
                              </div>
@@ -160,10 +158,9 @@
     </div>
 </div>
 
-<!-- Modal del chat del grupo  selecionado-->
 <div class="modal fade" id="groupModal2" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-right" role="document">
-    <div class="modal-content modal-content-right">
+    <div class="modal-content ">
       <div class="modal-header">
         <h5 class="modal-title" id="groupModalLabel">Nombre Grupo</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -173,38 +170,35 @@
       <div class="modal-body">
         <div id="chatMessagesContainer">
         <div id="chatMessages"></div>
+        <div id="emojiPicker"></div>
         </div>
-        <!-- Formulario para enviar mensajes -->
+        
         <form id="sendMessageForm">
             <div class="mb-3">
-              <div id="emojiPicker"></div>
-              <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
+                <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
             </div>
             <div class="mensaje">
                 <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
                 <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
-                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('messageFile').click();">
-                    <i class="fas fa-paperclip"></i>
-                </button>
-                <button class="btn btn-outline-secondary" type="button" id="emojiButton">
+
+                <button type="button" id="emojiButton" class="btn btn-outline-secondary">
                     <i class="fas fa-smile"></i>
                 </button>
-                <button class="btn" id="enviar" type="submit">
-                    <i class="fa fa-paper-plane" aria-hidden="true" style="color: azure"></i>
+
+                <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('messageFile').click();">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+
+                <button type="submit" class="btn" id="enviar">
+                    <i class="fa fa-paper-plane" aria-hidden="true"  ></i>
                 </button>
             </div>
         </form>
-
-
-
       </div>
     </div>
   </div>
 </div>
 
-
-
-<!-- Modal de visualización del grupo -->
 <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -215,7 +209,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Contenido del modal se llenará dinámicamente -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -224,8 +217,6 @@
     </div>
 </div>
 
-
-<!-- Modal de edición del grupo -->
 <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-labelledby="editGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -236,7 +227,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Contenido del modal de edición se llenará dinámicamente -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -244,7 +234,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
  
 
 
@@ -270,129 +260,5 @@
   </div>
 </div>
 
-<script>
-function seleccion() {
-    const fileInput = document.getElementById('messageFile');
-    const fileStatusMessage = document.getElementById('fileStatusMessage');
-    
-    if (fileInput.files.length > 0) {
-        const fileName = fileInput.files[0].name;
-        fileStatusMessage.textContent = `Archivo seleccionado: ${fileName}`;
-        fileStatusMessage.style.color = 'green';  
-    } else {
-        fileStatusMessage.textContent = '';
-    }
-}
 
-document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
-    event.preventDefault();  
-    
-    const fileStatusMessage = document.getElementById('fileStatusMessage');
-    const fileInput = document.getElementById('messageFile');
 
-    if (fileInput.files.length > 0) {
-        fileStatusMessage.textContent = 'Archivo Enviado.';
-        fileStatusMessage.style.color = 'blue'; 
-    } else {
-        fileStatusMessage.textContent = 'No se ha seleccionado ningún archivo para enviar.';
-        fileStatusMessage.style.color = 'red';
-    }
-
-});
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const emojiButton = document.getElementById('emojiButton');
-    const emojiPicker = document.getElementById('emojiPicker');
-    const messageContent = document.getElementById('messageContent');
-
-    // Lista de emojis
-    const emojis = [
-        '😀', '😁', '😂', '😃', '😄',
-        '😅', '😆', '😇', '😈', '😉',
-        '😊', '😋', '😌', '😍', '😎',
-        '😏', '😐', '😑', '😒', '😓',
-        '😔', '😕', '😖', '😗', '😘',
-        '😙', '😚', '😛', '😜', '😝',
-        '😞', '😟', '😠', '😡', '😢',
-        '😣', '😤', '😥', '😦', '😧',
-        '😨', '😩', '😪', '😫', '😬',
-        '😭', '😮', '😯', '😰', '😱',
-        '😲', '😳', '😴', '😵', '😶',
-        '😷', '🙁', '🙂', '🙃', '🙄',
-        '🤐', '🤑', '🤒', '🤓', '🤔',
-        '🤕', '🤗', '🤠', '🤢', '🤣',
-        '🤤', '🤥', '🤧', '🤨', '🤩',
-        '🤪', '🤫', '🤭', '🤮', '🤯',
-        '🥰', '🥱', '🥳', '🥴', '🥵',
-        '🥶', '🥺', '🧐', '😸', '😹',
-        '😺', '😻', '😼', '😽', '😾',
-        '😿', '🙀', '🙈', '🙉', '🙊',
-        '👿', '💀', '🤬'
-    ];
-
-    function populateEmojiGrid() {
-        emojiPicker.innerHTML = '';
-        emojiPicker.style.top = '100px'; // Ajusta la posición según tu necesidad
-        emojiPicker.style.left = '100px'; // Ajusta la posición según tu necesidad
-        emojiPicker.style.width = '200px';
-        emojiPicker.style.height = '200px';
-        emojiPicker.style.backgroundColor = '#fff';
-        emojiPicker.style.border = '1px solid #ccc';
-        emojiPicker.style.boxShadow = '0px 4px 8px rgba(0,0,0,0.2)';
-        emojiPicker.style.overflowY = 'auto';
-        emojiPicker.style.display = 'none'; // Ocultar el contenedor por defecto
-
-        const rows = Math.ceil(emojis.length / 5);
-        for (let i = 0; i < rows; i++) {
-            const row = document.createElement('div');
-            row.style.display = 'flex';
-            row.style.justifyContent = 'space-between';
-            row.style.marginBottom = '2px'; 
-            for (let j = 0; j < 5; j++) {
-                const index = i * 5 + j;
-                if (index < emojis.length) {
-                    const emojiItem = document.createElement('div');
-                    emojiItem.textContent = emojis[index];
-                    emojiItem.style.flex = '3';
-                    emojiItem.style.textAlign = 'center';
-                    emojiItem.style.cursor = 'pointer';
-                    emojiItem.style.padding = '2px';
-                    emojiItem.style.fontSize = '16px'; // Tamaño del emoji
-                    emojiItem.style.userSelect = 'none';
-                    emojiItem.addEventListener('click', function() {
-                        document.querySelectorAll(`.emoji-row .emoji-item`)
-                            .forEach(item => item.classList.remove('selected'));
-                        // Marcar el emoji actual como seleccionado
-                        emojiItem.classList.add('selected');
-                        // Insertar el emoji en el campo de texto
-                        messageContent.value += emojiItem.textContent;
-                        emojiPicker.style.display = 'none'; // Ocultar el picker después de seleccionar un emoji
-                    });
-                    row.appendChild(emojiItem);
-                }
-            }
-            emojiPicker.appendChild(row);
-        }
-    }
-
-    // Llamar a la función para llenar el contenedor de emojis
-    populateEmojiGrid();
-
-    // Mostrar el emoji picker al hacer clic en el botón
-    emojiButton.addEventListener('click', function () {
-        const rect = emojiButton.getBoundingClientRect();
-        emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
-        emojiPicker.style.top = `${rect.top - emojiPicker.offsetHeight}px`; // Posicionar arriba del botón
-        emojiPicker.style.left = `${rect.left}px`; // Alineación horizontal con el botón
-    });
-
-    // Manejar clic fuera del emoji picker para ocultarlo
-    document.addEventListener('click', function(event) {
-        if (!emojiButton.contains(event.target) && !emojiPicker.contains(event.target)) {
-            emojiPicker.style.display = 'none';
-        }
-    });
-});
-
-</script>

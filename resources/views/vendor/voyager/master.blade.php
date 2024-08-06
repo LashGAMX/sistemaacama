@@ -165,7 +165,7 @@ $(document).ready( function () {
 
 
 <script src="{{asset('public/js/notificaciones/notificacion.js')}}"></script> 
-<script src="{{asset('public/js/chat/mensaje.js')}}?v=0.0.1"></script> 
+<!-- <script src="{{asset('public/js/chat/mensaje.js')}}?v=0.0.1"></script>  -->
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

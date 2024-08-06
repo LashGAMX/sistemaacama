@@ -95,7 +95,7 @@ class ClientesController extends Controller
         return view('clientes.clientesgen');
     }
   
-    public function TablaSucursal()
+    public function TablaSucursal($idCliente)
     {
         $model = SucursalCliente::withTrashed()->where('Id_cliente', $this->idCliente)->orderBy('Id_sucursal', 'desc')->paginate($this->perPage);
         $datos=array(
@@ -106,6 +106,20 @@ class ClientesController extends Controller
        return response()->json($datos);
     }
     
-    
+    public function datosGenerales(Request $request){
+        $model = SucursalCliente::find($request->idUser);
+        $model->Telefono = $request->telefono;
+        $model->Correo = $request->correo;
+        $model->Direccion = $request->direccion;
+        $model->Atencion = $request->atencion;
+        $model->save();
+
+       $data = array(
+           'sw' => true,
+           'model' => $model
+       );
+       
+       return response()->json($data);
+   }
 
 }

@@ -29,8 +29,6 @@ $(document).ready(function(){
         $("#intermediarioSelectEditar").val(intermediarioSeleccionado).change();
     });
    
-    
-
     $(document).on('click', '.boton-ver', function(){
         idSeleccionado = $(this)[0].parentNode.parentNode.children[0].innerHTML;
         window.location.href = base_url + '/admin/clientes/clientesGenDetalle/' + idSeleccionado;
@@ -39,19 +37,24 @@ $(document).ready(function(){
 
 var idSeleccionado;
 
-function getclientes(){
-    let color= "";
-    let tabla=document.getElementById('divclientesGen');
-    let tab="";
+function getclientes() {
+    let color = "";
+    let tabla = document.getElementById('clientesGen');
+    
+    if (!tabla) {
+        console.error('No ESTA EL ELEMENTO CARNAL.');
+        return;
+    }
+
+    let tab = "";
     $.ajax({
         type: 'POST',
-        url: base_url+'/admin/clientes/getClientesGen',
-        data:{
-        },
-        dataType:"json",
-        async:false,
-        success:function(response){
-            const listaClientesGen=response.clienteGen;
+        url: base_url + '/admin/clientes/getClientesGen',
+        data: {},
+        dataType: "json",
+        async: false,
+        success: function(response) {
+            const listaClientesGen = response.clienteGen;
             tab += '<table id="tablaClientesGen" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
@@ -69,49 +72,51 @@ function getclientes(){
             tab += '    <tbody> ';
             
             listaClientesGen.forEach(element => {
-                if(element.deleted_at == null){
-                    color ='';
-                }else
-                {
-                    color='danger';
+                if (element.deleted_at == null) {
+                    color = '';
+                } else {
+                    color = 'danger';
                 }
-                tab +=     '<tr>';
-                tab += '<td class="bg-'+color+'">'+element.Id_cliente+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.Empresa+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.Id_intermediario+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.Nombres+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.created_at+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.Id_user_c+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.updated_at+'</td>';
-                tab += '<td class="bg-'+color+'">'+element.Id_user_m+'</td>';
+                tab += '<tr>';
+                tab += '<td class="bg-' + color + '">' + element.Id_cliente + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.Empresa + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.Id_intermediario + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.Nombres + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.created_at + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.Id_user_c + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.updated_at + '</td>';
+                tab += '<td class="bg-' + color + '">' + element.Id_user_m + '</td>';
                 tab += '<td>';
                 tab += '<button type="button" class="btn btn-warning boton-editar" activo="si" data-toggle="modal" data-target="#modalEditar"><i class="voyager-edit"></i><span hidden-sm hidden-xs>editar</span></button>';
                 tab += '<button type="button" class="btn btn-primary boton-ver"><i class="voyager-external"></i><span hidden-sm hidden-xs>Ver</span></button>';
                 tab += '</td>';
-                tab +=     '</tr>';
+                tab += '</tr>';
             }); 
-            tab +=   '    </tbody> ';
+            tab += '    </tbody> ';
             tab += '</table>';
             
-            tabla.innerHTML=tab;
+            tabla.innerHTML = tab;
             
-            let tablaClientesGen=$('#tablaClientesGen').DataTable({
+            $('#tablaClientesGen').DataTable({
                 "language": {
                     "ordering": false,
-
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
                 },
                 "scrollY": "500px",
-                "scrollCollapse":true,
+                "scrollCollapse": true,
                 "paging": true,
-               
             });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error al cargar datos:', textStatus, errorThrown);
         }
     });
 }
+
+
 function setClientesGen(){
     let checked = $("#activoCheck").is(":checked");
     $.ajax({
@@ -185,6 +190,7 @@ function upClientesGen(){
 }
 
 
+    
 
 
 

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CampoCompuesto;
+use App\Models\ConductividadMuestra;
 use App\Models\ProcesoAnalisis;
+use App\Models\SolicitudPuntos;
 use App\Models\UsuarioApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,9 +87,32 @@ class RecepcionAppController extends Controller
         ->first();
 
         if(!empty($modelProcesoAnalisis)){
-            $modelHijosFolio = DB::Table('viewsolicitud2')
-            ->where('Hijo', '=', $modelProcesoAnalisis->Id_solicitud)
-            ->get();
+            $puntosMuestreo = array();
+            $modelHijosFolio = SolicitudPuntos::where('Id_solPadre', '=', $modelProcesoAnalisis->Id_solicitud)->get();
+            foreach($modelHijosFolio as $hijo){
+                $punto = array(
+                    "idFolio" => $hijo->Id_solicitud,
+                    "punto" => $hijo->Punto,
+                    "conductividad" => null,
+                    "cloruros" => null
+                );
+                $conductividadModel = ConductividadMuestra::where('Id_solicitud', $hijo->Id_solicitud)->where('Activo', '=', 1)->get();
+                if($conductividadModel->count()){
+                    $contador = 0;
+                    $promedio = 0;
+                    foreach($conductividadModel as $conductividad){
+                        $promedio = $promedio + $conductividad->Promedio;
+                        $contador++;
+                    }
+                    $promedio = $promedio / $contador;
+                    $punto["conductividad"] = intval(round($promedio));
+                }
+                $campoCompuestoModel = CampoCompuesto::where('Id_solicitud', '=', $hijo->Id_solicitud)->first();
+                if(!empty($campoCompuestoModel)){
+                    $punto["cloruros"] = intval($campoCompuestoModel->Cloruros);
+                }
+                array_push($puntosMuestreo, $punto);
+            }
             
             $data["mensaje"] = "exito";
             $data["folio"] = $modelProcesoAnalisis->Folio;
@@ -95,7 +121,7 @@ class RecepcionAppController extends Controller
             $data["empresa"] = $modelProcesoAnalisis->Empresa;
             $data["horaRecepcion"] = $modelProcesoAnalisis->Hora_recepcion;
             $data["horaEntrada"] = $modelProcesoAnalisis->Hora_entrada;
-            $data["puntosMuestro"] = $modelHijosFolio;
+            $data["puntosMuestreo"] = $puntosMuestreo;
         }
 
         return response()->json($data);
@@ -107,17 +133,22 @@ class RecepcionAppController extends Controller
             "estado" => "error",
             "mensaje" => "la hora no pudo ser cambiada",
         );
-        $modelProcesoAnalisis = ProcesoAnalisis::where('Folio', '=', $res->folio)->first();
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Folio', 'LIKE', '%' . $res->folio . '%')->get();
         if(!empty($modelProcesoAnalisis)){
             if($res->tipoHora == 1){
-                $modelProcesoAnalisis->Hora_recepcion = $res->hora;
+                foreach($modelProcesoAnalisis as $folios){
+                    $folios->Hora_recepcion = $res->hora;
+                    $folios->save();
+                }
             }
             else{
-                $modelProcesoAnalisis->Hora_entrada = $res->hora;
+                foreach($modelProcesoAnalisis as $folios){
+                    $folios->Hora_entrada = $res->hora;
+                    $folios->save();
+                }
             }
             $data["estado"] = "exito";
             $data["mensaje"] = "la hora fue cambiada";
-            $modelProcesoAnalisis->save();
         }
         return response()->json($data);
     }

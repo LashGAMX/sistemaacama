@@ -11,7 +11,6 @@ $(document).ready(function (){
 });
 
 function datosGenerales(){
-    console.log('btn guardar')
     $.ajax({
         url: base_url + '/admin/clientes/datosGenerales', //archivo que recibe la peticion
         type: 'POST', //método de envio
