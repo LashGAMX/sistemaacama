@@ -5821,7 +5821,7 @@ class InformesController extends Controller
         }
 
 
-        $mpdf->showWatermarkImage = true;
+        // $mpdf->showWatermarkImage = true;
         $data = array(
             'firmaEncript1' => $firmaEncript1,
             'cadenaGenerales' => $cadenaGenerales,
