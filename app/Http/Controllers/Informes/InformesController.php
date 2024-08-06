@@ -805,10 +805,10 @@ class InformesController extends Controller
         $folioSer = $solicitud->Folio_servicio;
         $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
         $norma = Norma::where('Id_norma',$solicitud->Id_norma)->first();
-
+        // cambio
         $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
         //Metodo de encriptaciÃ³n
-        $methodFirma = 'aes-256-cbc';
+        $methodFirma = 'aes-256-cbc'; 
         // Puedes generar una diferente usando la funcion $getIV()
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
         $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio;
