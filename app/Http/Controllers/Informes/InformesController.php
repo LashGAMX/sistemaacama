@@ -2617,7 +2617,7 @@ class InformesController extends Controller
         array(215, 280), 
         array(0, 0),
     );
-    $mpdf->showWatermarkImage = true;
+    // $mpdf->showWatermarkImage = true;
 
         $solModel1 = Solicitud::where('Id_solicitud', $idSol1Temp)->first();
         $solModel2 = Solicitud::where('Id_solicitud', $idSol2Temp)->first();

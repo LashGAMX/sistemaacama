@@ -9,6 +9,7 @@
  
     <title>Hoja de Campo </title>
 </head>
+{{-- comn --}}
 <body style="font-size: 9px"> 
     <div class="container" id="pag">
         <div class="row">
@@ -251,19 +252,19 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                @if (@$phMuestra[$i]->Olor == "" )
                                         ---
                                     @else
                                     {{@$phMuestra[$i]->Olor}}
                                     @endif
-                                    
+                                    {{-- comentario --}}
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                @if (@$phMuestra[$i]->Color == "" )
                                         ---
                                     @else
                                     {{@$phMuestra[$i]->Color}}
@@ -308,9 +309,14 @@
                         <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>    
                     </tr>
                     <tr>
-                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">
-                            <br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> 
-                            <br></td>
+                    <tr>
+                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter">
+                            <br>
+                            <span class="negrita">{{@$muestreador->name}}</span> 
+                            <p style="font-size: 10px">{{$firmaEncript1}}</p>
+                            <br>
+                            <br>
+                        </td>
                         <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">
                             @if (@$campoGeneral->Supervisor == null)
                                 ------
@@ -334,7 +340,8 @@
                        
                             @if ($procesoAnalisis->count())
                                 @if (@$solGen->Cancelado == 0)
-                                    <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
+                                    <!-- <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}"> -->
+                                     <p style="font-size: 10px">{{$firmaEncriptRec}}</p>
                                 @endif
                             @else
                                 
@@ -342,7 +349,8 @@
                         </td>
                       <td class="bordesTabla justifyCenter" style="width: 50%">
                         @if (@$solGen->Cancelado == 0)
-                            <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}">
+                            <!-- <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> -->
+                             <p style="font-size: 10px">{{$firmaEncript1}}</p>
                         @endif
                         </td>                      
                     </tr>
