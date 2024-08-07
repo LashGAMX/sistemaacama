@@ -26,9 +26,9 @@ Route::post('clientes/importar/create',[ImportController::class,'create'] );
 //aqui erea js antes 
 Route::get('clientes/clientesGen', [ClientesController::class,'clientesGen']);
 Route::get('clientes/clientesGenDetalle/{id}', [ClientesController::class,'clientesGenDetalle']);
-Route::get('clienetes/datosClientes/{id}', [ ClientesController::class, 'TablaSucursal']);
+
+Route::get('clientes/datosClientes/{id}', [ClientesController::class, 'TablaSucursal']);
 
 Route::post('clientes/getClientesGen', [ClientesController::class,'getClientesGen']);
 Route::post('clientes/setClientesGen', [ClientesController::class,'setClientesGen']);
 Route::post('clientes/upClientesGen', [ClientesController::class,'upClientesGen']);
-Route::post('cliente/GuardarUser',[ClientesController::class, 'datosGenerales']);

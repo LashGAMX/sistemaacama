@@ -1,117 +1,86 @@
-$(document).ready(function (){
+function tabalaclientes() {
 
-    // $("#guardarTelefono").click(function(){
-    //     console.log('btn guardar')
-    //     datosGenerales();
-    // });
+    const idClienteElement = document.getElementById('idCliente');
+    const idCliente = idClienteElement ? idClienteElement.textContent.trim() : '';
 
- 
-    datosGenerales()
+    if (!idCliente) {
+        console.error("No se encontró el ID del cliente.");
+        return;
+    }
 
-});
+    let tabla = document.getElementById('TableCliente');
 
-function datosGenerales(){
+    if (tabla) {
+        tabla.parentNode.removeChild(tabla);
+    }
+
+    tabla = document.createElement('table');
+    tabla.id = 'TableCliente';
+    tabla.className = 'table table-sm';
+    document.getElementById('SucurcalCliente').appendChild(tabla);
+
     $.ajax({
-        url: base_url + '/admin/clientes/datosGenerales', //archivo que recibe la peticion
-        type: 'POST', //método de envio
-        data: {
-            idUser:$("#idUser").val(),
-          telefono:$("#telefono").val(),
-          correo:$("#correo").val(),
-          direccion:$("#direccion").val(),
-          atencion:$("#atencion").val(),
-          
-          _token: $('input[name="_token"]').val(),
-        },
-        dataType: 'json', 
-        async: false, 
-        success: function (response) {
-         console.log(response);
-        if (response.sw == true) {
-            swal("Good job!", "Guardado!", "success");
-            console.log(response);
-        }
-        }
-    });   
-}
-function getDatosGenerales(){
-    let tabla = document.getElementById('tabGenerales');
-    let tab = '';
-    $.ajax({
-        type: 'POST',
-        url: base_url + '/admin/clientes/getDatosGenerales', 
-        data: {
-            id:$("#idUser").val(),
-            _token: $('input[name="_token"]').val(),
-        },
+        type: "GET",
+        url: base_url + '/admin/clientes/datosClientes/' + idCliente,
         dataType: "json",
         async: false,
-        success: function (response) {            
-            console.log(response);
-            model = response.model
-            tab += '<table id="tablaDatosGenerales" class="table table-sm" style="font-size:10px">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>#</th>';
-            tab += '          <th>Nombre</th>';
-            tab += '          <th>Departamento</th>';
-            tab += '          <th>Puesto</th>';
-            tab += '          <th>Email</th>';
-            tab += '          <th>Celular</th>';
-            tab += '          <th>Telefono</th>';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab2 += '<tr>';
-                tab2 += '<td>'+item.Id_contacto+'</td>';
-                tab2 += '<td>'+item.Nombre+'</td>';
-                tab2 += '<td>'+item.Departamento+'</td>';
-                tab2 += '<td>'+item.Puesto+'</td>';
-                tab2 += '<td>'+item.Celular+'</td>';
-                tab2 += '<td>'+item.Telefono+'</td>';
-                tab2 += '</tr>';
-            }); 
-            tab += '    </tbody>';
-            tab += '</table>';
+        success: function(response) {
+            const tablasucursal = response.datos;
+            let tipo='';
+            let tab = "";
+            tab += '<thead class="thead-dark">';
+            tab +=    '<tr>';
+            tab +=       '<th>ID</th>';
+            tab +=       '<th>Nombre</th>';
+            tab +=       '<th>Estado</th>';
+            tab +=       '<th>Tipo de Cliente</th>';
+            tab +=       '<th>Acción</th>';
+            tab +=    '</tr>';
+            tab += '</thead>';
+            tab += '<tbody>';
+            tablasucursal.forEach(element => {
+                tab +=    '<tr>';
+                tab +=       '<td>' + element.Id_cliente + '</td>';
+                tab +=       '<td>' + element.Empresa + '</td>';
+                tab +=       '<td>' + element.Estado + '</td>';
+                if(element.Id_siralab==1)
+                    {
+                     tipo='Reporte'
+                    }else if (element.Id_siralab==2){
+                         tipo="Reporte Siralab"
+                    }else{
+                        tipo="Quien sabe Carnal"
+
+                    }
+                tab +=       '<td>' +tipo + '</td>';
+                tab +=       '<td>';
+                tab +=           '<button type="button" class="btn btn-warning boton-editar" activo="si" data-toggle="modal" data-target="#modalEditar"><i class="voyager-edit"></i><span hidden-sm hidden-xs>editar</span></button>';
+                tab +=           '<button type="button" class="btn btn-primary boton-ver"><i class="voyager-external"></i><span hidden-sm hidden-xs>Ver</span></button>';
+                tab +=       '</td>';
+                tab +=    '</tr>';
+            });
+            tab += '</tbody>';
+
             tabla.innerHTML = tab;
+
+            $('#TableCliente').DataTable({
+                "ordering": false, 
+                "language": {
+                    "lengthMenu": "# _MENU_ por página",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                },
+                "scrollY": "500px",
+                "scrollCollapse": true,
+                "paging": true,
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error al cargar datos:', textStatus, errorThrown);
         }
     });
 }
 
-/*function TablaSucursal(){
-    tabla=document.getElementById('SucurcalCliente');
-    tab ='';
-    $.ajax({
-      type: 'POST',
-      url: base_url +'/admin/Clientes/TablaSucursal',
-      datos:{
-
-      },
-      dataType: "json",
-      ansync:false,
-      success:function(response){
-        listaclientes=response.model;
-        tab += '<table id="TablaScursal" class="table table-sm">';
-        tab += '<thead class="thead-dark">';
-        tab +=   '<tr>';
-        tab +=      ' <th>Id</th>';
-        tab +=      ' <th>Nombre</th>';
-        tab +=      ' <th>Estado</th>';
-        tab +=      '  <th>Tipo Cliente</th> ';
-        tab +=      ' <th>Acción</th> ';
-        tab +=   '</tr> ';
-        tab += '</thead> ';
-        tab += '      <tbody> ';
-       listaclientes.forEach(element => {
-        if(element.Id_)
-       })
-        tab +=          '<tr>';
-
-        tab +=          '</tr> ';
-        tab += '      </tbody> ';
-
-      }
-
-    });
-}*/
+// Llama a la función para cargar los datos
+tabalaclientes();
