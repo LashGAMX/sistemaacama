@@ -51,6 +51,9 @@ $('#btnLiberarTodo').click(function () {
 $('#btnEliminarControl').click(function () {
     eliminarControl();
 });
+$('#btnDesliberar').click(function () {
+    desliberarControl();
+});
 $('#btnHistorial').click(function () {
     console.log("Boton de historial")
     getHistorial();
@@ -69,6 +72,29 @@ function eliminarControl()
             success: function (response) {
                 console.log(response);
                 alert(response.msg)
+            }
+        });
+    }
+    
+}
+function desliberarControl()
+{
+    if (confirm("Estas seguro de desliberar este control?")) {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/" + area + "/desliberarControl",
+            data: { 
+                idMuestra: idMuestra,
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                alert(response.msg)
+                $('#tablaControles tr').each(function () {
+                    // Selecciona todos los inputs dentro de este tr y quita el atributo 'disabled'
+                    $(this).find('input').removeAttr('disabled');
+                });
             }
         });
     }
@@ -307,6 +333,7 @@ function getDataCaptura() {
         });
 }
 var numMuestras = new Array();
+var trTab;
 function getLoteCaptura() {
 
     // console.log("getLoteCaptura")
@@ -953,12 +980,15 @@ function getLoteCaptura() {
                     $(this).addClass('selected');
                 }
             });
-            $('#tablaControles tr').on('click', function () {
+            trTab = $('#tablaControles tr').on('click', function () {
                 let dato = $(this).find('td:first');
                 idMuestra = dato[0].firstElementChild.value;
+                
+                // Selecciona todos los inputs dentro del tr y quita el atributo 'disabled'
+                // $(this).find('input').removeAttr('disabled');
+                
                 // console.log(idMuestra);
             });
-
         }
     });
 

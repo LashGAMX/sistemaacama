@@ -93,16 +93,12 @@
                 <div class="col-md-2">
                     <button class="btn btn-primary" id="btnLiberarTodo">Liberar Todo</button>
                 </div>
-                @switch(Auth::user()->id)
-                        @case(1)
-                        @case(21)
-                            <div class="col-md-1">
-                                <button class="btn btn-danger" id="btnEliminarControl"><i class="fas fa-trash"></i> Ctrl</button>
-                            </div>
-                            @break
-                        @default
-                    @endswitch
-               
+                <div class="col-md-1">
+                    <button class="btn btn-danger" id="btnEliminarControl"><i class="fas fa-trash"></i> Ctrl</button>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-warning" id="btnDesliberar"><i class="fas fa-trash"></i> Ctrl</button>
+                </div>
                 <div class="col-md-2">
                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
                         id="btnGenControlInd">Generar control</button>

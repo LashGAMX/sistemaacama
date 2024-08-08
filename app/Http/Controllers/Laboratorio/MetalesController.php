@@ -2784,5 +2784,28 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-    
+    public function desliberarControl(Request $res)
+    {
+        $model = LoteDetalle::where('Id_detalle',$res->idMuestra)->first();
+        $msg = "";
+        if ($model->Id_control != 1) {
+            $model->Liberado = 0;
+            $model->save();
+            $msg = "Control desliberado";
+        }else{
+            $msg = "No se puede desliberado porque no es un control";
+        }
+
+        $contLote = LoteDetalle::where('Id_lote',$model->Id_lote)->get();
+        $contLib = LoteDetalle::where('Id_lote',$model->Id_lote)->where('Liberado',1)->get();
+        $temp = LoteAnalisis::where('Id_lote',$model->Id_lote)->first();
+        $temp->Liberado = $contLib->count();
+        $temp->save();
+
+        $data = array(
+            'model' => $model,
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
 }
