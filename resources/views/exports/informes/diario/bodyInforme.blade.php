@@ -705,14 +705,16 @@
                                     @php
                                         echo $impresion[0]->Nota;
                                     @endphp
-                                    @switch(@$solModel->Id_norm)
+                                    @switch(@$solModel->Id_norma)
                                         @case(27)
                                             @php
                                                 echo @$impresion[0]->Nota_siralab;
                                             @endphp 
                                             @break
                                         @case(7)
-                                            {{"LOS PARÁMETROS DE NITRATOS, SAAM, Y CIANUROS SE ANALIZARÁN BAJO ESPECIFICACIÓN PARA AGUA DE USO Y CONSUMO HUMANO."}}
+                                            @php
+                                                echo "LOS PARÁMETROS DE NITRATOS, SAAM, Y CIANUROS SE ANALIZARÁN BAJO ESPECIFICACIÓN PARA AGUA DE USO Y CONSUMO HUMANO.";
+                                            @endphp
                                             @break
                                         @default
                                             
