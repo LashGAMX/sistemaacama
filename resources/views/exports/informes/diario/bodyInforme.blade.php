@@ -705,11 +705,18 @@
                                     @php
                                         echo $impresion[0]->Nota;
                                     @endphp
-                                    @if (@$solModel->Id_norma == 27)
-                                        @php
-                                            echo @$impresion[0]->Nota_siralab;
-                                        @endphp
-                                    @endif
+                                    @switch(@$solModel->Id_norm)
+                                        @case(27)
+                                            @php
+                                                echo @$impresion[0]->Nota_siralab;
+                                            @endphp 
+                                            @break
+                                        @case(7)
+                                            {{"LOS PARÁMETROS DE NITRATOS, SAAM, Y CIANUROS SE ANALIZARÁN BAJO ESPECIFICACIÓN PARA AGUA DE USO Y CONSUMO HUMANO."}}
+                                            @break
+                                        @default
+                                            
+                                    @endswitch
                                     @if ($solModel->Nota_4 == 1)
                                         4 PARAMETRO NO ACREDITADO
                                     @endif
