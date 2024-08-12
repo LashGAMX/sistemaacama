@@ -776,7 +776,7 @@ class InformesController extends Controller
             case 30:
                 //potable y purificada
                  //$firma1 = User::find(14) ;
-                 $firma1 = User::find(31);
+                 $firma1 = User::find(31); 
                 //  $firma1 = User::find(12); // Reviso
                  $firma2 = User::find(35); // Autorizo
                  //$firma2 = User::find(12); // Autorizo
