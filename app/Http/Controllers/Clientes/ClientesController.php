@@ -97,29 +97,17 @@ class ClientesController extends Controller
   
     public function TablaSucursal($idCliente)
     {
-        $model = SucursalCliente::withTrashed()->where('Id_cliente', $this->idCliente)->orderBy('Id_sucursal', 'desc')->paginate($this->perPage);
-        $datos=array(
-            'model' =>$model,
-            
-        );
+  
+            $model = SucursalCliente::withTrashed()
+                ->where('Id_cliente', $idCliente)
+                ->orderBy('Id_sucursal', 'desc')
+                ->paginate($this->perPage);
+    
+            return response()->json(['datos' => $model->items()]);
 
-       return response()->json($datos);
+        
     }
     
-    public function datosGenerales(Request $request){
-        $model = SucursalCliente::find($request->idUser);
-        $model->Telefono = $request->telefono;
-        $model->Correo = $request->correo;
-        $model->Direccion = $request->direccion;
-        $model->Atencion = $request->atencion;
-        $model->save();
 
-       $data = array(
-           'sw' => true,
-           'model' => $model
-       );
-       
-       return response()->json($data);
-   }
 
 }

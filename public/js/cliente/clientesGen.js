@@ -108,6 +108,7 @@ function getclientes() {
                 "scrollY": "500px",
                 "scrollCollapse": true,
                 "paging": true,
+                "ordering": false, 
             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
