@@ -3156,7 +3156,7 @@ class LabAnalisisController extends Controller
                                     $modelCod = CodigoParametros::find($model->Id_codigo);
                                     $modelCod->Resultado = $model->Resultado;
                                     $modelCod->Resultado2 = $model->Resultado;
-                                    $modelCod->Ph_muestra = $model->Resultado;
+                                    $modelCod->Ph_muestra = $model->Ph_muestra;
                                     $modelCod->Analizo = $idLibero;
                                     $modelCod->save();
                                 }
