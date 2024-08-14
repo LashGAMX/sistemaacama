@@ -2658,6 +2658,7 @@ class LabAnalisisController extends Controller
                             break;
                         case 69:
                         case 152:
+                        case 87:
                             $muestra = LoteDetalleEspectro::where('Id_detalle', $res->idMuestra)->first();
                             $model = $muestra->replicate();
                             $model->Id_control = $res->idControl;
