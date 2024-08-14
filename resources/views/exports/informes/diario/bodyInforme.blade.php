@@ -702,9 +702,12 @@
                     <tbody>           
                             <tr>
                                 <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px;width: 80%;" >
-                                    @php
-                                        echo $impresion[0]->Nota;
-                                    @endphp
+                                    <p>
+                                        @php
+                                            echo $impresion[0]->Nota;
+                                        @endphp
+                                    </p>
+                                    
                                     @switch(@$solModel->Id_norma)
                                         @case(27)
                                             @php
@@ -712,9 +715,11 @@
                                             @endphp 
                                             @break
                                         @case(7)
-                                            @php
-                                                echo "LOS PARÁMETROS DE NITRATOS, SAAM, Y CIANUROS SE ANALIZARÁN BAJO ESPECIFICACIÓN PARA AGUA DE USO Y CONSUMO HUMANO.";
-                                            @endphp
+                                            <p>
+                                                @php
+                                                    echo "LOS PARÁMETROS DE NITRATOS, SAAM, Y CIANUROS SE ANALIZARÁN BAJO ESPECIFICACIÓN PARA AGUA DE USO Y CONSUMO HUMANO.";
+                                                @endphp
+                                            </p>
                                             @break
                                         @default
                                             
