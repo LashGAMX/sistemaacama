@@ -1521,14 +1521,13 @@ class CampoController extends Controller
 
 
         $areaModel = AreaLab::all();
-        $firmaRecepcion =  DB::table('users')->where('id', 31)->first();
+        $firmaRecepcion =  DB::table('users')->where('id', 101)->first();
 
         $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
         //Metodo de encriptaciÃ³n
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
-        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        $dataFirma1 = $muestreador->name.' | '.$numOrden->Folio_servicio;
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");a
         $dataFirma2 = $firmaRecepcion->name.' | '.$numOrden->Folio_servicio;
 
         $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);

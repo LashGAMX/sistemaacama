@@ -369,6 +369,21 @@ function regresarMuestra () {
         success: function (response) {
             console.log(response)
                 alert("Muestra regresada");
+
+                var table = $('#tableParametros').DataTable();
+                table.rows().every(function () {
+                var rowData = this.data();
+                var rowId = rowData[0];
+
+                if (rowId == idCodigo) {
+                    this.cell(this.index(), 4).data(response.resLiberado);
+                    
+                    $(this.node()).find('td:eq(1)').removeClass('bg-success').addClass('bg-warning');
+                    return false; 
+                }
+             
+                
+            });
           
         }
     });
