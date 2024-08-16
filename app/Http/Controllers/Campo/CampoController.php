@@ -1527,7 +1527,8 @@ class CampoController extends Controller
         //Metodo de encriptaciÃ³n
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
-        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");a
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $muestreador->name.' | '.$numOrden->Folio_servicio;
         $dataFirma2 = $firmaRecepcion->name.' | '.$numOrden->Folio_servicio;
 
         $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
