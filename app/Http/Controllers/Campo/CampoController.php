@@ -640,7 +640,7 @@ class CampoController extends Controller
 
         $model = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model[$i]->Gasto1 = $request->array1[$i];
+            $model[$i]->Gasto1 = $request->array1[$i]; 
             $model[$i]->Gasto2 = $request->array2[$i];
             $model[$i]->Gasto3 = $request->array3[$i];
             $model[$i]->Promedio = $request->promedio[$i];
