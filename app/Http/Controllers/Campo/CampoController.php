@@ -640,7 +640,7 @@ class CampoController extends Controller
 
         $model = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model[$i]->Gasto1 = $request->array1[$i];
+            $model[$i]->Gasto1 = $request->array1[$i]; 
             $model[$i]->Gasto2 = $request->array2[$i];
             $model[$i]->Gasto3 = $request->array3[$i];
             $model[$i]->Promedio = $request->promedio[$i];
@@ -1527,7 +1527,8 @@ class CampoController extends Controller
         //Metodo de encriptaciÃ³n
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
-        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");a
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $muestreador->name.' | '.$numOrden->Folio_servicio;
         $dataFirma2 = $firmaRecepcion->name.' | '.$numOrden->Folio_servicio;
 
         $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
