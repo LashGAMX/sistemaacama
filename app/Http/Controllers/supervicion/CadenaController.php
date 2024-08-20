@@ -17,6 +17,7 @@ use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEcoli;
 use App\Models\LoteDetalleEspectro;
+use App\Models\FotoRecepcion;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleHH;
 use App\Models\LoteDetalleNitrogeno;
@@ -59,6 +60,13 @@ class CadenaController extends Controller
         }
         $puntos = SolicitudPuntos::where('Id_solPadre', $id)->get();
         return view('supervicion.cadena.detalleCadena', compact('model', 'puntos','swSir', 'intermediario','proceso','direccion'));
+    }
+
+    public function getFotos(Request $res){
+        $model = FotoRecepcion::where('Id_solicitud', '=', $res->id)->get();
+
+        $data = array("model" => $model);
+        return response()->json($data);
     }
     
     public function getParametroCadena(Request $res)
@@ -443,6 +451,8 @@ class CadenaController extends Controller
             break;
        }
        $temp = CodigoParametros::find($res->idCodigo);
+       $temp->Resultado = "";
+       $temp->Resultado2 = "";
        $temp->Liberado = 0;
        $temp->save();
        

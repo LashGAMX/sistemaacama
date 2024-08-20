@@ -17,6 +17,7 @@ use App\Models\ConvinacionesEcoli;
 use App\Models\CrisolesGA;
 use App\Models\CurvaConstantes;
 use App\Models\DqoDetalle;
+use App\Models\FotoRecepcion;
 use App\Models\GrasasDetalle;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -672,8 +673,9 @@ class LabAnalisisController extends Controller
         $aux = array();
         $indice = array();
         $valores = array();
+        $img = array();
         if ($lote->count()) {
-            switch ($lote[0]->Id_area) {
+            switch ($lote[0]->Id_area) { 
                 case 16: // Espectrofotometria
                 case 5: // Fisicoquimicos
                     switch ($lote[0]->Id_tecnica) {
@@ -817,11 +819,20 @@ class LabAnalisisController extends Controller
                     $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
             }
+            foreach ($model as $item) {
+                $auxTemp = FotoRecepcion::where('Id_solicitud',$item->Id_analisis)->get();
+                if ($auxTemp->count()) {
+                    array_push($img,$auxTemp[0]->Foto);
+                }else{
+                    array_push($img,"");
+                }
+            }
         } else {
             $model = array();
         }
 
         $data = array(
+            'img' => $img,
             'indice' => $indice,
             'aux' => $aux,
             'model' => $model,
@@ -2392,6 +2403,20 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         case 98:
+                            $resultado = 0;
+                            $fd =  15 / $res->volumen;
+                            $promedio = (($res->l1 + $res->l2 + $res->l3) / 3) * $fd;
+                            $resultado = round($promedio, 2);
+                            $model = LoteDetalleDirectos::find($res->idMuestra);
+                            $model->Resultado = $resultado;
+                            $model->Factor_dilucion = $fd;
+                            $model->Vol_muestra = $res->volumen;
+                            $model->Lectura1 = $res->l1;
+                            $model->Lectura2 = $res->l2;
+                            $model->Lectura3 = $res->l3;
+                            $model->Promedio = $promedio;
+                            $model->save();
+                            break;
                         case 89:
                         case 115:
                             $resultado = 0;
