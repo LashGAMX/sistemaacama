@@ -61,6 +61,7 @@ $(document).ready(function () {
             let dato = $(this).find('td:first').html();
             idPunto = dato;
             getParametros(); 
+            getFotos()
         }
     });
 
@@ -98,6 +99,41 @@ $(document).ready(function () {
         liberarResultado();
     });
 });
+function getFotos(){
+    let divfotos = document.getElementById('fotos')
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/getFotos",
+        data: {
+            id:idPunto,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            let fotosHTML = '';
+
+            response.model.forEach(item => {
+                fotosHTML += `<img src="data:image/jpeg;base64,${item.Foto}"  onclick="modalImagenMuestra('${item.Foto}')" style="width:100%" alt="Foto">`;
+            });
+            
+            $("#fotos").html(`
+                <div class="row">
+                    <div class="col-md-12">
+                        ${fotosHTML}
+                    </div>
+                </div>
+            `);
+            
+        }
+    });
+}
+function modalImagenMuestra(id){
+    $('#modalImgFoto').modal('show')
+    console.log(id)
+    let img = document.getElementById('divImagen')
+    img.innerHTML = '<img src="data:image/png;base64,' + id+ '" style="width:100%;height:auto;">'
+}
 function setEmision(){
     $.ajax({
         type: 'POST',

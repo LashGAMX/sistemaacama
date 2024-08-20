@@ -1,6 +1,8 @@
 @extends('voyager::master')
 @section('content')
 <link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
+<link rel="stylesheet" href="{{asset('/public/css/laboratorio/analisis.css')}}">
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
@@ -5060,11 +5062,38 @@
                 </div>
             </div>
 
+<!-- The Modal -->
+<div class="modal fade" id="modalImgFoto" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="width: 80%">
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="">Foto</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divImagen">
 
-@endsection
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            @endsection
+
+
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.2.9"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.2.10"></script>
 
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">

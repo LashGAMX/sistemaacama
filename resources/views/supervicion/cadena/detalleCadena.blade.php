@@ -61,6 +61,7 @@
                         </div>
                         <div class="col-md-2">
                             <button class="btn btn-success" id="btnCadena">Imprimir</button>
+                            <div id="fotos"></div>
                         </div>
                     </div>
                 </div>
@@ -198,8 +199,35 @@
 </div>
 
 
+<!-- The Modal -->
+<div class="modal fade" id="modalImgFoto" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="width: 80%">
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="">Foto</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divImagen">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 @endsection
     @section('javascript')
-    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.1.3"></script>
+    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.2.0"></script>
 @stop
 

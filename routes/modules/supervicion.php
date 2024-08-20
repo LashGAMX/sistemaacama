@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('cadenaCustodia2', [CadenaController2::class, 'cadenaCustodia2']);
         Route::get('detalleCadena2/{id}', [CadenaController2::class, 'detalleCadena2']);
         Route::post('getParametroCadena2', [CadenaController2::class,'getParametroCadena2']);
+        Route::post('getFotos', [CadenaController::class, 'getFotos']);
 
         Route::post('getDetalleAnalisis', [CadenaController::class,'getDetalleAnalisis']);
         Route::post('regresarRes', [CadenaController::class,'regresarRes']);

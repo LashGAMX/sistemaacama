@@ -3723,6 +3723,7 @@ function getCapturaLote() {
     contador = 0
     let indice = new Array()
     let cont = 0
+    let contitem = 0
 
     let tabla = document.getElementById('divCaptura');
     let tab = '';
@@ -3751,6 +3752,7 @@ function getCapturaLote() {
             tab += '          <th style="width:100px"></th>';
             tab += '          <th hidden></th>';
             tab += '          <th></th>';
+            tab += '          <th></th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -3773,6 +3775,7 @@ function getCapturaLote() {
                 estiloH = parseInt(item.Historial) == 1 ? 'background-color:#e5e5ff;' : ''
                 console.log(estiloH) 
                 switch (parseInt(response.lote[0].Id_area)) {
+
                     case 16: // Espectrofotometria
                     case 5: // Fisicoquimicos
                     dec = 3
@@ -4034,7 +4037,11 @@ function getCapturaLote() {
                 }
                 
                 tab += '<td style="'+estiloH+'">' + icono + '</td>';
+
+                tab += '<td style="' + estiloH + '"><img src="data:image/png;base64,' + response.img[contitem] + '" style="width:100%;height:auto;" onclick="modalImagenMuestra(\'' + response.img[contitem] + '\')"></td>';
+
                 tab += '</tr>';
+                contitem++
 
             });
             tab += '    </tbody>';
@@ -4075,6 +4082,12 @@ function getCapturaLote() {
             });
         }
     });
+}
+function modalImagenMuestra(id){
+    $('#modalImgFoto').modal('show')
+    console.log(id)
+    let img = document.getElementById('divImagen')
+    img.innerHTML = '<img src="data:image/png;base64,' + id+ '" style="width:100%;height:auto;">'
 }
 function number_format (number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
