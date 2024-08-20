@@ -4037,8 +4037,12 @@ function getCapturaLote() {
                 }
                 
                 tab += '<td style="'+estiloH+'">' + icono + '</td>';
-
-                tab += '<td style="' + estiloH + '"><img src="data:image/png;base64,' + response.img[contitem] + '" style="width:100%;height:auto;" onclick="modalImagenMuestra(\'' + response.img[contitem] + '\')"></td>';
+                if (response.img[contitem] == "") {
+                    tab += '<td style="' + estiloH + '"></td>';
+                }else{
+                    tab += '<td style="' + estiloH + '"><img src="data:image/png;base64,' + response.img[contitem] + '" style="width:100%;height:auto;" onclick="modalImagenMuestra(\'' + response.img[contitem] + '\')"></td>';
+                }
+                
 
                 tab += '</tr>';
                 contitem++

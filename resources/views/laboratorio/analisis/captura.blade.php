@@ -5093,7 +5093,7 @@
 
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.2.10"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.3.0"></script>
 
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
