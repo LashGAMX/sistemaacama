@@ -937,17 +937,19 @@ class MetalesController extends Controller
             $model = LoteDetalle::find($item->Id_detalle);
             $model->Liberado = 1;
             $model->Analizo = Auth::user()->id;
-            if (strval($model->Vol_disolucion) != NULL) {
+            if (strval($model->Vol_disolucion) != NULL) { 
                 $sw = true;
                 $model->save(); 
             }   
             if($item->Id_control == 1)
             {
-                $modelCod = CodigoParametros::find($model->Id_codigo);
-                $modelCod->Resultado2 = $model->Vol_disolucion;
-                $modelCod->Resultado = $model->Vol_disolucion;
-                $modelCod->Analizo = Auth::user()->id;
-                $modelCod->save();
+                if (CodigoParametros::where('Id_codigo',$model->Id_codigo)->count()) {
+                    $modelCod = CodigoParametros::find($model->Id_codigo);
+                    $modelCod->Resultado2 = $model->Vol_disolucion;
+                    $modelCod->Resultado = $model->Vol_disolucion;
+                    $modelCod->Analizo = Auth::user()->id;
+                    $modelCod->save();
+                }
             }
         }
         
@@ -960,11 +962,13 @@ class MetalesController extends Controller
 
 
         $data = array(
-            'model' => $model,
+            'model' => $muestras,
             'sw' => $sw,
         );
         return response()->json($data);
     }
+
+
 
     // todo ************************************************
     // todo Fin de Captura
