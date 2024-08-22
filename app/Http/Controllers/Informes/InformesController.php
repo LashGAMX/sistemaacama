@@ -242,8 +242,8 @@ class InformesController extends Controller
                 array(215, 280),
                 array(0, 0),
             );
-     
-        $mpdf->showWatermarkImage = true;
+      
+        // $mpdf->showWatermarkImage = true;
         $auxSol = Solicitud::where('Id_solicitud', $idSol)->first();
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
 
@@ -745,7 +745,7 @@ class InformesController extends Controller
                     case 27:
                         $limNo = DB::table('limite001_2021')->where('Id_parametro', $item->Id_parametro)->where('Id_categoria', $solicitud->Id_reporte2)->get();
                         if ($limNo->count()) {
-                            $aux = $limNo[0]->Pm;
+                            $aux = $limNo[0]->Pd;
                         } else {
                             $aux = "N/A";
                         }
