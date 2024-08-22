@@ -44,10 +44,12 @@ use App\Models\TipoReporte;
 use App\Models\TituloConsecionSir;
 use App\Models\User;
 use Carbon\Carbon;
+// use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mpdf\Tag\Select;
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Round;
+use Illuminate\Support\Facades\File;
 
 class InformesController extends Controller
 {
@@ -241,7 +243,8 @@ class InformesController extends Controller
                 array(0, 0),
             );
      
-        // $mpdf->showWatermarkImage = true;
+        $mpdf->showWatermarkImage = true;
+        $auxSol = Solicitud::where('Id_solicitud', $idSol)->first();
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
 
         $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
@@ -740,9 +743,9 @@ class InformesController extends Controller
                         }
                         break;
                     case 27:
-                        $limNo = DB::table('limite001_2021')->where('Id_parametro', $item->Id_parametro)->where('Id_categoria', $solicitud->Id_promedio)->get();
+                        $limNo = DB::table('limite001_2021')->where('Id_parametro', $item->Id_parametro)->where('Id_categoria', $solicitud->Id_reporte2)->get();
                         if ($limNo->count()) {
-                            $aux = $limNo[0]->Pd;
+                            $aux = $limNo[0]->Pm;
                         } else {
                             $aux = "N/A";
                         }
@@ -876,6 +879,22 @@ class InformesController extends Controller
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlInforme);
         $mpdf->CSSselectMedia = 'mpdf'; 
+          // Definir la ruta donde quieres guardar el PDF
+        $nombreArchivoSeguro = str_replace('/', '-', $solicitud->Folio_servicio);
+        $folioPadre = str_replace('/', '-', $auxSol->Folio_servicio);
+
+        $rutaDirectorio = storage_path('app/public/clientes/'.$tempProceso->Emision_informe.'/'.$folioPadre);
+
+        // Asegúrate de que el directorio existe, si no, créalo
+        if (!File::isDirectory($rutaDirectorio)) {
+            File::makeDirectory($rutaDirectorio, 0755, true, true);
+        }
+
+        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-informe.pdf';
+
+        // Guardar el archivo en la ruta especificada
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
     }
  
@@ -5399,12 +5418,15 @@ class InformesController extends Controller
             array(215, 280),
             array(0, 0),
         );
+        $mpdf->showWatermarkImage = true;
 
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol)->first();
         $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
         $proceso->Impresion_cadena = 1;
         $proceso->save();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
+
+        $auxSolPadre = Solicitud::where('Id_solicitud',$model->Hijo)->first();
 
         $areaParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSol)->where('Id_parametro','!=',64)->get();
         // $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
@@ -5856,6 +5878,24 @@ class InformesController extends Controller
         $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', $data);
         $mpdf->WriteHTML($htmlInforme);
         $mpdf->CSSselectMedia = 'mpdf';
+
+         // Definir la ruta donde quieres guardar el PDF
+         $nombreArchivoSeguro = str_replace('/', '-', $model->Folio_servicio);
+         $folioPadre = str_replace('/', '-', $auxSolPadre->Folio_servicio);
+    
+         $rutaDirectorio = storage_path('app/public/clientes/'.$tempProceso->Emision_informe.'/'.$folioPadre);
+    
+         // Asegúrate de que el directorio existe, si no, créalo
+         if (!File::isDirectory($rutaDirectorio)) {
+             File::makeDirectory($rutaDirectorio, 0755, true, true);
+         }
+    
+         $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-custodia.pdf';
+    
+         // Guardar el archivo en la ruta especificada
+         $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+     
+
         $mpdf->Output('Cadena de Custodia Interna.pdf', 'I');
     }
     public function custodiaInterna($idSol)
