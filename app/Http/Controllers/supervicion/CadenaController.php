@@ -416,7 +416,7 @@ class CadenaController extends Controller
             switch($codigoParametro->Id_parametro){
                 case 10:
                 case 9: // N. AMONIACAL
-                case 10: //N. ORGANICO
+                case 108:
                     $model = LoteDetalleNitrogeno::where('Id_codigo',$res->idCodigo)->get();
                     foreach ($model as $item){
                         $item->Liberado = 0;
