@@ -33,6 +33,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('listaFoliosSinRellenar', [MetalesController::class, 'listaFoliosSinRellenar']);
         Route::post('getUltimoLote', [MetalesController::class, 'getUltimoLote']);
         Route::post('eliminarContro', [MetalesController::class, 'eliminarContro']);
+        Route::post('desliberarControl', [MetalesController::class, 'desliberarControl']);
         
 
         //? Modulo captura de datos analisis
@@ -43,6 +44,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setControlCalidad', [MetalesController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [MetalesController::class, 'liberarMuestraMetal']);
         Route::post('liberarTodo', [MetalesController::class, 'liberarTodo']); //revisar método
+        
 
         //? Modulo Lote - Creación  de lotes 
         Route::get('lote', [MetalesController::class, 'lote']);
