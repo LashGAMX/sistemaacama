@@ -4037,13 +4037,7 @@ function getCapturaLote() {
                 }
                 
                 tab += '<td style="'+estiloH+'">' + icono + '</td>';
-                if (response.img[contitem] == "") {
-                    tab += '<td style="' + estiloH + '"></td>';
-                }else{
-                    tab += '<td style="' + estiloH + '"><img src="data:image/png;base64,' + response.img[contitem] + '" style="width:100%;height:auto;" onclick="modalImagenMuestra(\'' + response.img[contitem] + '\')"></td>';
-                }
-                
-
+                tab += '<td style="'+estiloH+'"><button class="btn-info" onclick="getImagenMuestra('+item.Id_analisis+')" data-toggle="modal" data-target="#modalImgFoto"><i class="voyager-photo"></i></button></td>';
                 tab += '</tr>';
                 contitem++
 
@@ -4087,11 +4081,35 @@ function getCapturaLote() {
         }
     });
 }
-function modalImagenMuestra(id){
-    $('#modalImgFoto').modal('show')
-    console.log(id)
-    let img = document.getElementById('divImagen')
-    img.innerHTML = '<img src="data:image/png;base64,' + id+ '" style="width:100%;height:auto;">'
+
+function getImagenMuestra(id){
+    $("#divImagen").html("");
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/" + area + "/getImagenMuestra",
+        data: {
+            id: id,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        beforeSend: function() {
+            // Mostrar el spinner antes de iniciar la petición
+            $("#spinner").show();
+        },
+        success: function (response) {
+            console.log(response);
+            $("#divImagen").html(
+                `
+                <img src="data:image/jpeg;base64,${response.model}" style="width:100%" alt="Foto">
+                `
+            );
+        },
+        complete: function() {
+            // Ocultar el spinner cuando la petición se complete
+            $("#spinner").hide();
+        },
+    });
+    
 }
 function number_format (number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
@@ -4542,6 +4560,7 @@ function getHistorial(id)
                             <th>Id lote</th>
                             <th>Fecha lote</th>
                             <th>Codigo</th>
+                            <th>Punto</th>
                             <th>Parametro</th>
                             <th>Resultado</th>
                     
@@ -4558,6 +4577,7 @@ function getHistorial(id)
                                             <td>${item}</td>
                                             <td style ="${estilo}">${response.fechaLote[index]}</td>
                                             <td style ="${estilo}">${response.Codigohist[index]}</td>
+                                            <td style ="${estilo}">${response.puntoHist[index]}</td>
                                             <td style ="${estilo}"">${response.parametrohist[index]}</td>
                                             <td style ="${estilo}">${response.resultadoHist[index]}</td>
                                             

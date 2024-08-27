@@ -819,26 +819,15 @@ class LabAnalisisController extends Controller
                     $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                     break;
             }
-            foreach ($model as $item) {
-                $auxTemp = FotoRecepcion::where('Id_solicitud',$item->Id_analisis)->get();
-                if ($auxTemp->count()) {
-                    array_push($img,$auxTemp[0]->Foto);
-                }else{
-                    array_push($img,"");
-                }
-            }
         } else {
             $model = array();
         }
-
+    
         $data = array(
-            'img' => $img,
-            'indice' => $indice,
-            'aux' => $aux,
             'model' => $model,
             'lote' => $lote,
         );
-        return response()->json($data);
+        return response()->json($data); 
     }
     public function getDetalleMuestra(Request $res)
     {
@@ -7164,6 +7153,7 @@ class LabAnalisisController extends Controller
         $parametrohist = array();
         $resultadoHist = array();
         $historialHist = array();
+        $puntoHist = array();
      
         $sw = 0;
 
@@ -7180,6 +7170,7 @@ class LabAnalisisController extends Controller
                     $res = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Liberado',1)->get();
                     if ($res->count()) {
                         array_push($idHistorial,$item->Id_solicitud);
+                        array_push($puntoHist,@$histPunto[0]->Punto);
                         $sw++;
                     }
                 }
@@ -7187,17 +7178,16 @@ class LabAnalisisController extends Controller
                     break;
                 }
             }
-            for ($i=0; $i < sizeof($histPunto); $i++) { 
-                $temp = DB::table('viewcodigoparametro')->where('Id_solicitud',$histPunto[$i]->Id_solicitud)->where('Id_parametro',$codigo->Id_parametro)->first();
+            for ($i=0; $i < sizeof($idHistorial); $i++) { 
+                $temp = DB::table('ViewCodigoInforme')->where('Id_solicitud',$idHistorial[$i])->where('Id_parametro',$codigo->Id_parametro)->first();
                 $tempLote = LoteAnalisis::where('Id_lote',@$temp->Id_lote)->first();
                  
-                array_push($idsLotes,$tempLote->Id_lote);
+                array_push($idsLotes,@$tempLote->Id_lote);
                 array_push($fechaLote,@$tempLote->Fecha);
                 array_push($parametrohist,@$temp->Parametro. "(".@$temp->Tipo_formula.")");
                 array_push($Codigohist,@$temp->Codigo);
                 array_push($resultadoHist,@$temp->Resultado2);
                 array_push($historialHist,@$temp->Historial);
-           
 
             }
         } catch (\Throwable $th) {
@@ -7207,12 +7197,15 @@ class LabAnalisisController extends Controller
             $parametrohist = array();
             $resultadoHist = array();
             $historialHist=array();
+            $puntoHist=array();
          
         }
 
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$codigo->Id_solicitud)->get();
+        $model = DB::table('ViewCodigoInforme')->where('Id_solicitud',$codigo->Id_solicitud)->get();
         
         $data = array(
+            'idHistorial' => $idHistorial,
+            'puntoHist' => $puntoHist,
             'idsLotes' => $idsLotes,
             'fechaLote' => $fechaLote,
             'Codigohist' => $Codigohist,
@@ -8460,6 +8453,19 @@ class LabAnalisisController extends Controller
                 break;
         }
 
+        return response()->json($data);
+    }
+    public function getImagenMuestra(Request $res){
+        $sw = false;
+        $model = "";
+        $temp = FotoRecepcion::where('Id_solicitud',$res->id)->orderBy('Id_foto_recepcion','DESC')->get();
+        if ($temp->count()) {
+            $sw = true;
+            $model = $temp[0]->Foto;
+        }
+        $data = array(
+            'model' => $model,
+        );
         return response()->json($data);
     }
 }

@@ -450,6 +450,35 @@ class CadenaController extends Controller
             
             break;
        }
+
+       switch ($codigoParametro->Id_parametro) {
+        case 7:
+        case 8:                        
+            $temp = CodigoParametros::where('Id_parametro',$codigoParametro->Id_solicitud)->where('Id_parametro',11);
+            $temp->Resultado = "";
+            $temp->Resultado2 = "";
+            $temp->Liberado = 0;
+            $temp->save();
+            break;
+        case 10:
+        case 9:
+            $temp = CodigoParametros::where('Id_parametro',$codigoParametro->Id_solicitud)->where('Id_parametro',83);
+            $temp->Resultado = "";
+            $temp->Resultado2 = "";
+            $temp->Liberado = 0;
+            $temp->save();
+
+            $temp = CodigoParametros::where('Id_parametro',$codigoParametro->Id_solicitud)->where('Id_parametro',11);
+            $temp->Resultado = "";
+            $temp->Resultado2 = "";
+            $temp->Liberado = 0;
+            $temp->save();
+        break;
+        default:
+            # code...
+            break;
+       }
+       
        $temp = CodigoParametros::find($res->idCodigo);
        $temp->Resultado = "";
        $temp->Resultado2 = "";

@@ -114,7 +114,7 @@ function getFotos(){
             let fotosHTML = '';
 
             response.model.forEach(item => {
-                fotosHTML += `<img src="data:image/jpeg;base64,${item.Foto}"  onclick="modalImagenMuestra('${item.Foto}')" style="width:100%" alt="Foto">`;
+                fotosHTML += `<img src="data:image/jpeg;base64,${item.Foto}"  onclick="modalImagenMuestra('${item.Foto}')" style="width:50%" alt="Foto">`;
             });
             
             $("#fotos").html(`

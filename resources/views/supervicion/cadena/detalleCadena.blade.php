@@ -61,7 +61,7 @@
                         </div>
                         <div class="col-md-2">
                             <button class="btn btn-success" id="btnCadena">Imprimir</button>
-                            <div id="fotos"></div>
+                            <div id="fotos" style="display: flex;"></div>
                         </div>
                     </div>
                 </div>

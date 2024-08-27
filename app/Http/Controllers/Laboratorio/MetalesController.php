@@ -2634,9 +2634,9 @@ class MetalesController extends Controller
                 }
             }
             for ($i=0; $i < sizeof($histPunto); $i++) { 
-                $temp = DB::table('viewcodigoparametro')->where('Id_solicitud',$histPunto[$i]->Id_solicitud)->where('Id_parametro',$codigo->Id_parametro)->first();
+                $temp = DB::table('viewcodigorecepcion')->where('Id_solicitud',$idHistorial[$i])->where('Id_parametro',$codigo->Id_parametro)->first();
                 $tempLote = LoteAnalisis::where('Id_lote',@$temp->Id_lote)->first();
-                 
+                   
                 array_push($idsLotes,$tempLote->Id_lote);
                 array_push($fechaLote,@$tempLote->Fecha);
                 array_push($parametrohist,@$temp->Parametro. "(".@$temp->Tipo_formula.")");

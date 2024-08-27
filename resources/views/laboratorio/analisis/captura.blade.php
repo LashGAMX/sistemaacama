@@ -1,7 +1,7 @@
 @extends('voyager::master')
 @section('content')
 <link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
-<link rel="stylesheet" href="{{asset('/public/css/laboratorio/analisis.css')}}">
+<link rel="stylesheet" href="{{asset('/public/css/laboratorio/analisis/captura.css')}}">
 
 <div class="container-fluid">
   <div class="row">
@@ -5086,8 +5086,8 @@
                 </div>
             </div>
 
-
-
+ <!-- Spinner -->
+ <div id="spinner"></div>
             @endsection
 
 
