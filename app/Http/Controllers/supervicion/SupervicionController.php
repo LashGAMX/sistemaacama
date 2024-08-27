@@ -4,7 +4,7 @@ namespace App\Http\Controllers\supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\CadenaGenerales;
-use App\Models\CodigoParametros;
+use App\Models\CodigoParametros; 
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleAlcalinidad;
@@ -249,8 +249,9 @@ class SupervicionController extends Controller
     //     return response()->json($data);
     // }
     public function campo()
-    {
-        $muestreador = DB::table('users')->where('role_id',8)->orWhere('role_id',15)->get();
+    { 
+        //Adicion de intermediarios
+        $muestreador = DB::table('users')->where('role_id',8)->orWhere('role_id',15)->orWhere('role_id',13)->get();
         $data  = array(
         'muestreador' => $muestreador,
         );
