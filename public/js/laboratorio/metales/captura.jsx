@@ -1888,11 +1888,12 @@ function liberarTodo()
             {
                 getDataCaptura();
                 getLoteCaptura();
-            }else{
+            } else {
                 alert("La muestra no se pudo liberar");
             }
         }
     });
+    
 }
 
 function random(min, max) {

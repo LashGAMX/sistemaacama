@@ -824,6 +824,7 @@ class LabAnalisisController extends Controller
         }
     
         $data = array(
+            'aux' => $aux,
             'indice' => $indice,
             'model' => $model,
             'lote' => $lote,
@@ -1549,7 +1550,7 @@ class LabAnalisisController extends Controller
                             $model->Analizo = Auth::user()->id;
                             $model->save();
                             break;
-                        
+                         
                         // case 87:
                         //     $promedio = ($res->X + $res->Y + $res->Z) / 3;
                         //     $dilucion =  50 / $res->E;
