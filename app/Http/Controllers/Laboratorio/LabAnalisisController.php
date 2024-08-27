@@ -824,6 +824,7 @@ class LabAnalisisController extends Controller
         }
     
         $data = array(
+            'indice' => $indice,
             'model' => $model,
             'lote' => $lote,
         );
