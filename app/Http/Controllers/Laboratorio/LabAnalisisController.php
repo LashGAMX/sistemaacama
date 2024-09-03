@@ -1498,7 +1498,7 @@ class LabAnalisisController extends Controller
                             $model->save();
                             break;
                         case 95:
-                            // Sulfatos Potable 
+                         // Sulfatos Potable 
                             $val1 = $res->X2 - $res->X;
                             $val2 = $res->Y2 - $res->Y;
                             $val3 = $res->Z2 - $res->Z; 
@@ -1506,9 +1506,9 @@ class LabAnalisisController extends Controller
                             $prom2 = ($res->X2 + $res->Y2 + $res->Z2) / 3;
                             $x = ($val1 + $val2 + $val3) / 3;
                             $d =   100  / $res->E; 
-                            $res1 = round($x, 4) - ($res->CB);
+                            $res1 = round($x, 3) - ($res->CB);
                             $res2 = $res1 / $res->CM;
-                            $resultado = round($res2,4) * round($d, 4);
+                            $resultado = round($res2,3) * round($d, 3);
 
                             $model = LoteDetalleEspectro::find($res->idMuestra);
                             $model->Resultado = round($resultado,4);
@@ -1549,28 +1549,7 @@ class LabAnalisisController extends Controller
                             $model->Blanco = $res->CA;
                             $model->Analizo = Auth::user()->id;
                             $model->save();
-                            break;
-                         
-                        // case 87:
-                        //     $promedio = ($res->X + $res->Y + $res->Z) / 3;
-                        //     $dilucion =  50 / $res->E;
-                        //     $resultado = (($promedio - $res->CB) / $res->CM) * $dilucion;
-
-                        //     $model = LoteDetalleEspectro::find($res->idMuestra);
-                        //     $model->Resultado = round($resultado,3);
-                        //     $model->Abs1 = $res->X;
-                        //     $model->Abs2 = $res->Y;
-                        //     $model->Abs3 = $res->Z;
-                        //     $model->B = $res->CB;
-                        //     $model->M = $res->CM;
-                        //     $model->R = $res->CR;
-                        //     $model->Promedio = $promedio;
-                        //     $model->Vol_dilucion = $dilucion;
-                        //     $model->Vol_muestra = $res->E;
-                        //     $model->Blanco = $res->CA;
-                        //     $model->Analizo = Auth::user()->id;
-                        //     $model->save();
-                        //     break;
+                            break;          
                         case 87:
                                 $promedio = round(($res->X + $res->Y + $res->Z) / 3,3);
                                 $dilucion =  50 / $res->E;

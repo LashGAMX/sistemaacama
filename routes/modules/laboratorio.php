@@ -92,7 +92,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('configuracionMetales', [MetalesController::class, 'configuracionMetales']);
         Route::post('getConfiguraciones', [MetalesController::class, 'getConfiguraciones']);
         Route::post('setConfiguraciones', [MetalesController::class, 'setConfiguraciones']);
-        
+        Route::get('setEjecutraParametro/{id}', [MetalesController::class, 'setEjecutraParametro']);
+        Route::get('setFirmaSup', [MetalesController::class, 'setFirmaSup']);
         
     });
 
@@ -245,10 +246,10 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     Route::group(['prefix' => 'directos'], function () {
         Route::get('lote', [DirectosController::class, 'lote']);
-        Route::post('getLote',[DirectosController::class, 'getLote']); 
-        Route::post('getDetalleLote',[DirectosController::class, 'getDetalleLote']); 
-        Route::post('setLote',[DirectosController::class, 'setLote']); 
-        Route::post('setPlantilla',[DirectosController::class, 'setPlantilla']); 
+        Route::post('getLote',[DirectosController::class, 'getLote']);
+        Route::post('getDetalleLote',[DirectosController::class, 'getDetalleLote']);
+        Route::post('setLote',[DirectosController::class, 'setLote']);
+        Route::post('setPlantilla',[DirectosController::class, 'setPlantilla']);
         Route::get('loteDetalle/{id}',[DirectosController::class, 'loteDetalle']);
         Route::post('getPendientes', [DirectosController::class, 'getPendientes']);
         Route::post('muestraSinAsignar', [DirectosController::class, 'muestraSinAsignar']);

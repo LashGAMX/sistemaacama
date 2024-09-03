@@ -2812,4 +2812,167 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
+    public function setEjecutraParametro($id){
+
+        $loteMuestra = LoteAnalisis::where('Id_tecnica',$id)->whereDate('Fecha','<=',"2024-02-29")->get();
+        foreach ($loteMuestra as $item) {
+            echo "Id: ".$item->Id_lote. " ".$item->Fecha."<br>";
+            $detalle = LoteDetalle::where('Id_lote',$item->Id_lote)->get();
+            foreach ($detalle as $item2) {
+                echo "Id: ".$item2->Id_detalle."<br>";
+                echo "------------------------ <br>";
+                $fecha = new Carbon($item->Fecha);
+                $today = $fecha->toDateString();
+                $parametroModel = Parametro::where('Id_matriz', 12)->where('Id_parametro', $id)->get();
+                $parametroPurificada = Parametro::where('Id_matriz', 14)->where('Id_parametro', $id)->get();
+                 // //Buscar la BMR 
+                $parametro = Parametro::where('Id_parametro', $id)->first();
+                $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->where('Id_parametro', $id)->first();
+
+                $x = $item2->Abs1;
+                $y = $item2->Abs2;
+                $z = $item2->Abs3;
+                $FD = $item2->Factor_dilucion;
+                $FC = $item2->Factor_conversion;
+                $suma = ($x + $y + $z);
+                $promedio = round(($suma / 3),4);
+                $volFinal = 0;
+                $resMicro = 0;
+                
+                $resultado = "";
+            
+                switch ($parametro->Id_matriz) {
+                    case 14: // MetalPotable
+                    case 8:
+                        switch ($parametro->Id_parametro) {
+                            case  215:
+                            $promedio = round(($suma / 3),3);
+                            $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resMicro = $temp;
+                            $temp = $temp * $FD * $item2->Vol_final;  
+                            $resultado = ($temp ) / ($item2->Vol_final * $FC);
+                                break;
+                            case 197:
+                            case 232:
+                            case 226:
+                            case 187:
+                            case 351:
+                            case 41:
+                            case 354:
+                            case 353:
+                            case 55:
+                                $fechaResidual = \Carbon\Carbon::parse(@$item->Fecha)->format('Y-m-d');
+                                $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                                if ($fechaResidual <= $fechaLimite) {
+                                    $sw = false;
+                                    $promedio = round(($suma / 3),4);
+                                }else{
+                                    $sw = true;
+                                    $promedio = round(($suma / 3),3);
+                                }
+                        
+                                if ($parametroModel->count()) {
+                                    if ($item2->Descripcion != "Resultado") {
+                                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                                        $resMicro = $resultado;
+                                    } else {
+                                        $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                                        $resMicro = $resultado;
+                                        $resultado = $resultado / $FC;
+                                    }
+                                } else {
+                                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
+                                } 
+                                break;
+                            default:
+                            $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            $resMicro = $paso1;
+                            $resultado = ($paso1 * 1) / $FC;   
+                                break;
+                        }
+                        break;
+                    case 13: //Metal purificado
+                    case 9:
+                    $promedio = round(($suma / 3),4);
+                    switch ($parametro->Id_parametro) {
+                        case 190: 
+                        case 192:
+                        case 204:
+                        case 196:
+                            $volFinal = $item2->Vol_final;
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);   
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = (($temp ) / ($item2->Vol_muestra * $FC)); 
+                            break;
+                        case 191:
+                        case 194:
+                        case 189:
+                            $volFinal = $item2->Vol_final;
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);   
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = (($temp ) / ($item2->Vol_muestra)); 
+                            break;
+                        default:
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);   
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = ($temp ) / ($item2->Vol_muestra * $FC); 
+                            break;
+                    }
+                    break;
+                    default:            
+                    $fechaResidual = \Carbon\Carbon::parse(@$item->Fecha)->format('Y-m-d');
+                    $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                    if ($fechaResidual <= $fechaLimite) {
+                        $sw = false;
+                        $promedio = round(($suma / 3),4);
+                    }else{
+                        $sw = true;
+                        $promedio = round(($suma / 3),3);
+                    }
+            
+                    if ($parametroModel->count()) {
+                        if ($item2->Descripcion != "Resultado") {
+                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
+                        } else {
+                            $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                            $resMicro =(($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = $resultado / $FC;
+                        }
+                    } else {
+                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
+                    } 
+                break;
+
+                
+                $resultadoRound = round($resultado, 3);
+
+            
+                $detalle = LoteDetalle::find($request->idDetalle);
+                // $detalle->Vol_muestra = $request->volMuestra;
+                // $detalle->Vol_final = $request->volFinal;
+                // $detalle->Vol_dirigido = $request->volDirigido;
+                // $detalle->Abs1 = $request->x; 
+                // $detalle->Abs2 = $request->y;
+                // $detalle->Abs3 = $request->z;
+                // $detalle->Abs_promedio = $promedio;
+                // $detalle->Factor_dilucion = $request->FD;
+                // $detalle->Factor_conversion = $request->FC;
+                $detalle->Resultado_microgramo = $resMicro;
+                $detalle->Vol_disolucion = $resultadoRound;
+                // $detalle->Observacion = $request->obs;
+                // $detalle->Analizo = Auth::user()->id;
+                $detalle->save();
+            }
+
+            }
+        }
+ 
+       
+       
+
+    }
+    public function setFirmaSup($id){
+        // $model = LoteAnalisis::where('Id')
+    }
 }

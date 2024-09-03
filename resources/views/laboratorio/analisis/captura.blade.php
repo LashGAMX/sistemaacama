@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{asset('/public/css/laboratorio/analisis/captura.css')}}">
 
 <div class="container-fluid">
-  <div class="row">
+  <div class="row"> 
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-6">
@@ -5062,7 +5062,7 @@
                 </div>
             </div>
 
-<!-- The Modal -->
+<!-- The Modal --> 
 <div class="modal fade" id="modalImgFoto" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" style="width: 80%">
                     <div class="modal-content">
@@ -5075,7 +5075,7 @@
                             
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 text-center">
                                         <div id="divImagen">
 
                                         </div>
@@ -5093,7 +5093,7 @@
 
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.3.0"></script>
+<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.3.2"></script>
 
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">

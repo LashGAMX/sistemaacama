@@ -46,8 +46,7 @@ Route::group(['prefix' => 'admin'], function (){
     Route::get('seguimiento',[SeguimientoController::class,'index']);
     // Ordenamiento
     Route::get('ordenJson',[HomeController::class,'ordenJson']);
-    
-   
+  
 });
 
 
