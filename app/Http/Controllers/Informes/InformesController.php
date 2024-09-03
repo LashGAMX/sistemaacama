@@ -559,7 +559,7 @@ class InformesController extends Controller
                         case 250:
                         case 54:
                         case 261:
-
+                        case 130:
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
@@ -735,7 +735,7 @@ class InformesController extends Controller
                         if ($limNo->count()) {
                             if ($limNo[0]->Per_max != "") {
                                 $aux = $limNo[0]->Per_max;
-                            }else{
+                            }else{ 
                                 $aux = "N/A";
                             }
                         } else {
