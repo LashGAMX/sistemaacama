@@ -86,6 +86,7 @@ function agregarParametros(idSub)
     dataType: 'json', 
     async: false,
     success: function (response) {
+      console.log(response)
       $.each(response.sqlParametro,function(key,item){
         parametro.push("Id:"+item.Id_parametro+" Pa: "+item.Parametro + '/ Mat:' + item.Matriz);
         parametroId.push(item.Id_parametro);
@@ -93,21 +94,23 @@ function agregarParametros(idSub)
       $.each(response.sqlNorma,function(key,item){
         normaId.push(item.Id_parametro);
       });
+      let element = [
+        inputMultiple('parametros','','Lista de parametros',parametro,parametroId,'Parametros',normaId,'duallistbox'),
+      ];
+      console.log(parametro)
+      itemModal[0] = element;
+      newModal('divModal','listaParametros','Asignar parametros','lg',1,1,0,inputBtn('','','Guardar','save','success','createNormaParametro('+idSub+')'));
+      $('.duallistbox').bootstrapDualListbox({
+        nonSelectedListLabel: 'No seleccionado',
+        selectedListLabel: 'Seleccionado',
+        preserveSelectionOnMove: 'Mover',
+        moveOnSelect: true,
+        infoText:'Mostrar todo {0}',
+        filterPlaceHolder:'Filtro'
+      });
     }
   });
-  let element = [
-    inputMultiple('parametros','','Lista de parametros',parametro,parametroId,'Parametros',normaId,'duallistbox'),
-  ];
-  itemModal[0] = element;
-  newModal('divModal','listaParametros','Asignar parametros','lg',1,1,0,inputBtn('','','Guardar','save','success','createNormaParametro('+idSub+')'));
-  $('.duallistbox').bootstrapDualListbox({
-    nonSelectedListLabel: 'No seleccionado',
-    selectedListLabel: 'Seleccionado',
-    preserveSelectionOnMove: 'Mover',
-    moveOnSelect: true,
-    infoText:'Mostrar todo {0}',
-    filterPlaceHolder:'Filtro'
-  });
+
 }
 function createNormaParametro(idSub)
 {

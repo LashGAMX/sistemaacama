@@ -2,12 +2,7 @@
 
 @section('content')
 
-  @section('page_header')
-
-  <h6 class="page-title">
-      <i class="voyager-person"></i>
-      Detalle normas
-  </h6>
+  @section('page_header') 
 
   <div class="row">
     <div class="col-md-5">
@@ -38,8 +33,7 @@
         </div>
         <div class="col-md-12">
           {{-- @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub]) --}}
-          <div id="tabParametros">
-
+          <div id="tabParametros"> 
           </div>
         </div>
     </div>
@@ -58,7 +52,7 @@
 
 
 @section('javascript')
-<script src="{{asset('public/js/analisisQ/detalle_normas.js')}}?v=0.0.1"></script>
+<script src="{{asset('public/js/analisisQ/detalle_normas.js')}}?v=1.0.1"></script>
 <script src="{{asset('public/js/libs/componentes.js')}}?v=0.0.1"></script>
 <script src="{{asset('public/js/libs/tablas.js')}}?v=0.0.1"></script>
 @stop
