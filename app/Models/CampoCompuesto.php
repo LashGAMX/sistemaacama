@@ -25,6 +25,7 @@ class CampoCompuesto extends Model
         'Temp_muestraComp',
         'Volumen_calculado',
         'Cloruros',
+        'Cloro',
         'Id_user_c',
         'Id_user_m'
     ];
