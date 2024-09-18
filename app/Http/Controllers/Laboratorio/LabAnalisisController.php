@@ -2774,16 +2774,6 @@ class LabAnalisisController extends Controller
                     }
                     break;
                 case 7: //Campo
-                // case 19: // Directos
-                //     $muestra = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
-                //     $model = $muestra->replicate();
-                //     $model->Id_control = $res->idControl;
-                //     $model->Resultado = NULL;
-                //     $model->Liberado = 0;
-                //     $model->save();
-
-                //     $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->get();
-                //     break;
                 case 19: // Directos
                     switch ($lote[0]->Id_tecnica) {
                         case 102:
