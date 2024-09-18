@@ -2774,16 +2774,43 @@ class LabAnalisisController extends Controller
                     }
                     break;
                 case 7: //Campo
-                case 19: //Directos
-                    $muestra = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
-                    $model = $muestra->replicate();
-                    $model->Id_control = $res->idControl;
-                    $model->Resultado = NULL;
-                    $model->Liberado = 0;
-                    $model->save();
+                // case 19: // Directos
+                //     $muestra = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
+                //     $model = $muestra->replicate();
+                //     $model->Id_control = $res->idControl;
+                //     $model->Resultado = NULL;
+                //     $model->Liberado = 0;
+                //     $model->save();
 
-                    $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->get();
+                //     $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->get();
+                //     break;
+                case 19: // Directos
+                    switch ($lote[0]->Id_tecnica) {
+                        case 102:
+                            $muestra = LoteDetalleColor::where('Id_detalle', $res->idMuestra)->first();
+                            $model = $muestra->replicate();
+                            $model->Id_control = $res->idControl;
+                            $model->Resultado1 = NULL;
+                            $model->Resultado2 = NULL;
+                            $model->Resultado3 = NULL;
+                            $model->Liberado = 0;
+                            $model->save();
+                            $model = LoteDetalleColor::where('Id_lote', $res->idLote)->get();
+                            break;
+                        default:
+                            $muestra = LoteDetalleDirectos::where('Id_detalle', $res->idMuestra)->first();
+                            $model = $muestra->replicate();
+                            $model->Id_control = $res->idControl;
+                            $model->Resultado = NULL;
+                            $model->Liberado = 0;
+                            $model->save();
+                            $model = LoteDetalleDirectos::where('Id_lote', $res->idLote)->get();
+                            break;
+                    }
+
                     break;
+
+               
                 case 6://Mb
                 case 12://Mb Alimentos
                     switch ($lote[0]->Id_tecnica) {
