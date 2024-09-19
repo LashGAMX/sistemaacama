@@ -37,7 +37,7 @@
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    @switch($loteDetalle[0]->Id_parametro)
+                    @switch(@$loteDetalle[0]->Id_parametro)
                         @case(28)
                             ALCALINIDAD A LA FENOLFTALEINA  (como CaCO₃) mg/L
                             @break
