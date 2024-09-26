@@ -1049,6 +1049,10 @@ var setObservacion = function (id = "", id2 = "na", id3 = "na") {
             observacion: $("#" + id).val(),
             observacion2: $("#" + id2).val(),
             observacion3: $("#" + id3).val(),
+            // observacionColorDir1:$("#"+id).val(),
+            // observacionColorDir2:$("#"+id2).val(),
+            // observacionColorDir1:$("#"+id3).val(),
+
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -2206,24 +2210,32 @@ function setDetalleMuestra() {
                             volColor: $("#volColor").val(),
                             fd1: $("#fdColor1").val(),
                             longitud1: $("#longitud1").val(),
-                            abs11: $("#abs21Color").val(),
-                            abs12: $("#abs22Color").val(),
-                            abs13: $("#abs23Color").val(),
                             fd2: $("#fdColor2").val(),
                             longitud2: $("#longitud2").val(),
+                            fd3: $("#fdColor3").val(),
+                            longitud3: $("#longitud3").val(),
+
+                            //ABS 436
+                            abs11: $("#abs11Color").val(),
+                            abs12: $("#abs12Color").val(),
+                            abs13: $("#abs13Color").val(),
+                            //ABS 525
                             abs21: $("#abs21Color").val(),
                             abs22: $("#abs22Color").val(),
                             abs23: $("#abs23Color").val(),
-                            fd3: $("#fdColor3").val(),
-                            longitud3: $("#longitud3").val(),
+                            //ABS 620
                             abs31: $("#abs31Color").val(),
                             abs32: $("#abs32Color").val(),
                             abs33: $("#abs33Color").val(),
+
+                            
+
                             _token: $('input[name="_token"]').val(),
                         },
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
+                           
                             $("#resultadoColor1").val(
                                 response.model.Resultado1
                             );
@@ -2238,6 +2250,7 @@ function setDetalleMuestra() {
                             $("#absProm2").val(response.model.Abs_promedio2);
                             $("#absProm3").val(response.model.Abs_promedio3);
                             $("#phpColor").val(response.model.Ph_muestra);
+                           
                         },
                     });
                     break;
@@ -4218,9 +4231,9 @@ function getDetalleMuestra(id) {
                             $("#volColor").val(response.model.Vol_muestra);
                             $("#fdColor1").val(response.model.Fd1);
                             $("#longitud1").val(response.model.Longitud1);
-                            $("#abs1Color").val(response.model.Abs1_436);
-                            $("#abs2Color").val(response.model.Abs2_436);
-                            $("#abs3Color").val(response.model.Abs3_436);
+                            $("#abs11Color").val(response.model.Abs1_436);
+                            $("#abs12Color").val(response.model.Abs2_436);
+                            $("#abs13Color").val(response.model.Abs3_436);
                             $("#fdColor2").val(response.model.Fd2);
                             $("#longitud2").val(response.model.Longitud2);
                             $("#abs21Color").val(response.model.Abs1_525);
@@ -4254,6 +4267,13 @@ function getDetalleMuestra(id) {
                             );
                             $("#observacionColorDir3").val(
                                 response.model.Observacion3
+                            );
+                            $("#resultado").val(
+                                response.model.Resultado1 +
+                                    "," +
+                                    response.model.Resultado2 +
+                                    "," +
+                                    response.model.Resultado3
                             );
 
                             break;
@@ -5125,6 +5145,21 @@ function getCapturaLote() {
                                     item.Id_detalle +
                                     ');" data-toggle="modal" data-target="#modalCapturaEspectro">Capturar</button>';
                                 break;
+                            case 95:
+                                status = "";
+                                tab +=
+                                    '<td><input hidden id="idMuestra' +
+                                    item.Id_detalle +
+                                    '" value="' +
+                                    item.Id_detalle +
+                                    '"><button ' +
+                                    status +
+                                    ' type="button" class="btn btn-' +
+                                    color +
+                                    '" onclick="getDetalleMuestra(' +
+                                    item.Id_detalle +
+                                    ');" data-toggle="modal" data-target="#modalCapturaEspectro">Capturar</button>';
+                                break;
                             default:
                                 tab +=
                                     '<td><input hidden id="idMuestra' +
@@ -5326,7 +5361,7 @@ function getCapturaLote() {
                     case 19: // Directos
                         switch (parseInt(item.Id_parametro)) {
                             case 14: // Ph
-                            case 67: 
+                            case 67:
                             case 110:
                                 tab +=
                                     '<td><input hidden id="idMuestra' +
@@ -5761,37 +5796,93 @@ function getCapturaLote() {
                     item.Clave_norma +
                     '"></td>';
 
-                if (item.Resultado != null) {
-                    let formated = number_format(
-                        parseFloat(item.Resultado),
-                        dec
-                    );
-                    tab +=
-                        '<td style="' +
-                        estiloH +
-                        '"><input id="resultadoCap' +
-                        item.Id_detalle +
-                        '" disabled style="width: 100px;" value="' +
-                        formated +
-                        '"></td>';
-                } else {
-                    tab +=
-                        '<td style="' +
-                        estiloH +
-                        '"><input id="resultadoCap' +
-                        item.Id_detalle +
-                        '" disabled style="width: 80px;" value=""></td>';
-                }
-                if (item.Observacion != null) {
-                    tab +=
-                        '<td style="' +
-                        estiloH +
-                        '">' +
-                        item.Observacion +
-                        "</td>";
-                } else {
-                    tab += '<td style="' + estiloH + '"></td>';
-                }
+                    switch (parseInt(item.Id_parametro)) {
+                        case 102:
+                            let concatenatedResult = "";
+                    
+                            if (item.Resultado1 || item.Resultado2 || item.Resultado3) {
+                                concatenatedResult =
+                                    "R1: " +
+                                    (item.Resultado1 || "") +
+                                    ", R2: " +
+                                    (item.Resultado2 || "") +
+                                    ", R3: " +
+                                    (item.Resultado3 || "");
+                            }
+                    
+                            let concatenatedObservations = "";
+                    
+                            if (item.Observacion1 || item.Observacion2 || item.Observacion3) {
+                                concatenatedObservations =
+                                    "O1: " +
+                                    (item.Observacion1 || "") +
+                                    ", O2: " +
+                                    (item.Observacion2 || "") +
+                                    ", O3: " +
+                                    (item.Observacion3 || "");
+                            }
+                    
+                            if (concatenatedResult.trim() !== "") {
+                                let formated =
+                                    item.Resultado != null
+                                        ? number_format(parseFloat(item.Resultado), dec)
+                                        : concatenatedResult;
+                    
+                                tab +=
+                                    '<td style="' +
+                                    estiloH +
+                                    '"><input id="resultadoCap' +
+                                    item.Id_detalle +
+                                    '" disabled style="width: 100px;" value="' +
+                                    formated +
+                                    '"></td>';
+                            } else {
+                                // Si todos los resultados son null, no mostrar nada
+                                tab +=
+                                    '<td style="' +
+                                    estiloH +
+                                    '"><input id="resultadoCap' +
+                                    item.Id_detalle +
+                                    '" disabled style="width: 100px;" value=""></td>';
+                            }
+                    
+                            // Columna de observaciones solo en case 102
+                            if (concatenatedObservations.trim() !== "") {
+                                tab += '<td style="' + estiloH + '">' + concatenatedObservations + '</td>';
+                            } else {
+                                tab += '<td style="' + estiloH + '"></td>';
+                            }
+                            break;
+                    
+                        default:
+                            if (item.Resultado != null) {
+                                let formated = number_format(parseFloat(item.Resultado), dec);
+                                tab +=
+                                    '<td style="' +
+                                    estiloH +
+                                    '"><input id="resultadoCap' +
+                                    item.Id_detalle +
+                                    '" disabled style="width: 100px;" value="' +
+                                    formated +
+                                    '"></td>';
+                            } else {
+                                tab +=
+                                    '<td style="' +
+                                    estiloH +
+                                    '"><input id="resultadoCap' +
+                                    item.Id_detalle +
+                                    '" disabled style="width: 100px;" value=""></td>';
+                            }
+                    
+                            // Columna de observaciones fuera del case 102
+                            if (item.Observacion != null) {
+                                tab += '<td style="' + estiloH + '">' + item.Observacion + '</td>';
+                            } else {
+                                tab += '<td style="' + estiloH + '"></td>';
+                            }
+                            break;
+                    }
+                    
                 tab +=
                     '<td style="' +
                     estiloH +
@@ -5847,7 +5938,7 @@ function getCapturaLote() {
                         .parentElement.children[1].firstElementChild.getAttribute(
                             "value"
                         );
-                    console.log(folioElegido);
+                    console.log("este es el folio:" + folioElegido);
                     getDetalleElegido(folioElegido);
                 }
             });
