@@ -909,7 +909,7 @@ function getMatriz() {
     conArrStd8 = new Array();
     conArrStdProm = new Array();
     
-    if ($("#parametro").val() == 113){
+    if (parseInt($("#parametro").val()) == 113){
        
         for (let i = 0; i < 9; i++) {
             conArrCon.push($("#curCon" + i).val());

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\CadenaGenerales;
-use App\Models\CodigoParametros; 
+use App\Models\CodigoParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleAlcalinidad;
@@ -18,7 +18,8 @@ use App\Models\LoteDetalleEcoli;
 use App\Models\LoteDetalleEnterococos;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
-use App\Models\LoteDetalleHH; 
+use App\Models\LoteDetalleHH;
+use App\Models\LoteDetalleIcp;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\Parametro;
@@ -31,6 +32,7 @@ use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Break_;
 
 class SupervicionController extends Controller
 {
@@ -38,44 +40,44 @@ class SupervicionController extends Controller
     {
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $tipo = DB::table('tipo_formulas')
-        ->where('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
-        ->orWhere('Id_tipo_formula',58)
-        ->orWhere('Id_tipo_formula',59)
-        ->get();
+            ->where('Id_tipo_formula', 20)
+            ->orWhere('Id_tipo_formula', 21)
+            ->orWhere('Id_tipo_formula', 22)
+            ->orWhere('Id_tipo_formula', 23)
+            ->orWhere('Id_tipo_formula', 24)
+            ->orWhere('Id_tipo_formula', 58)
+            ->orWhere('Id_tipo_formula', 59)
+            ->get();
         $data  = array(
             'parametro' => $parametro,
             'tipo' => $tipo,
         );
-        return view('supervicion.analisis.analisis',$data); 
+        return view('supervicion.analisis.analisis', $data);
     }
     public function getLotes(Request $res)
     {
         // $model = DB::table('viewlotedetalle')->where('Id_parametro',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
         $parametro = Parametro::find($res->parametro);
         if ($res->tipo != 0) {
-            $model = DB::table('ViewLoteAnalisis')->where('Id_tipo_formula',$res->tipo)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
-        }else{
+            $model = DB::table('ViewLoteAnalisis')->where('Id_tipo_formula', $res->tipo)->where('Fecha', 'LIKE', '%' . $res->mes . '%')->get();
+        } else {
             switch ($parametro->Id_area) {
                 case 17:
-                    $model = DB::table('ViewLoteAnalisis')->where('Id_area',17)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+                    $model = DB::table('ViewLoteAnalisis')->where('Id_area', 17)->where('Fecha', 'LIKE', '%' . $res->mes . '%')->get();
                     break;
                 case 2:
                     if ($res->tipo == 0) {
-                        $model = DB::table('ViewLoteAnalisis')->where('Id_area',2)->where('Id_tecnica',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();   
-                    }else{
-                        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo_formula',$res->tipo)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+                        $model = DB::table('ViewLoteAnalisis')->where('Id_area', 2)->where('Id_tecnica', $res->parametro)->where('Fecha', 'LIKE', '%' . $res->mes . '%')->get();
+                    } else {
+                        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo_formula', $res->tipo)->where('Fecha', 'LIKE', '%' . $res->mes . '%')->get();
                     }
                     break;
                 default:
-                    $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->parametro)->where('Fecha','LIKE','%'.$res->mes.'%')->get();
+                    $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $res->parametro)->where('Fecha', 'LIKE', '%' . $res->mes . '%')->get();
                     break;
             }
         }
-        
+
         $data = array(
             'parametro' => $parametro,
             'model' => $model,
@@ -89,33 +91,54 @@ class SupervicionController extends Controller
         $parametro = Parametro::find($res->parametro);
         switch ($parametro->Id_area) {
             case 2:
-                $model = LoteDetalle::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                $model = LoteDetalle::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                 break;
             case 17:
-                $sw = true;
-                $msg = "Muestra liberada"  ;
+                // $sw = true;
+                // $msg = "Muestra liberada"  ;
+                switch ($res->parametro) {
+                    case 207:
+                    case 209:
+                    case 211:
+                    case 212:
+                    case 213:
+                    case 214:
+                    case 217:
+                    case 227:
+                    case  231:
+                    case 233:
+                    case 264:
+                    case 295:
+                    case 296:
+                    case 299:
+                    case 300:
+                    case 301:
+                        $model = LoteDetalleIcp::where('Id_lote', $res->id)->where('Liberado', 0)->get();
+                    break;
+                }
                 break;
+
             case 16: // Espectrofotometria
             case 5: // Fisicoquimicos
-                    $model = LoteDetalleEspectro::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                $model = LoteDetalleEspectro::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                 break;
             case 13: // G&A
-                    $model = LoteDetalleGA::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                $model = LoteDetalleGA::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                 break;
             case 15: // Solidos
-                    $model = LoteDetalleSolidos::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                $model = LoteDetalleSolidos::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                 break;
             case 14: //Volumetria
                 switch ($res->parametro) {
                     case 6: // Dqo
                     case 161:
-                        $model = LoteDetalleDqo::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleDqo::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 33: // Cloro
                     case 64:
                     case 119:
                     case 218:
-                        $model = LoteDetalleCloro::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleCloro::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 9: // Nitrogeno
                     case 10:
@@ -123,33 +146,33 @@ class SupervicionController extends Controller
                     case 287:
                     case 83:
                     case 108:
-                        $model = LoteDetalleNitrogeno::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleNitrogeno::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
-                    case 28://Alcalinidad
+                    case 28: //Alcalinidad
                     case 29:
                     case 30:
-                        $model = LoteDetalleAlcalinidad::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleAlcalinidad::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     default:
-                        $model = LoteDetalleDirectos::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleDirectos::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                 }
                 break;
             case 7: // Campo
             case 19: //Directos
-                $model = LoteDetalleDirectos::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                $model = LoteDetalleDirectos::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                 break;
             case 8: //Potable
                 switch ($res->parametro) {
                     case 77: //Dureza
                     case 103:
                     case 251:
-                    case 252: 
+                    case 252:
                         // $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
                         $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->get();
                         break;
                     default:
-                        $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Liberado',0)->get();
+                        $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
                         break;
                 }
                 break;
@@ -165,48 +188,47 @@ class SupervicionController extends Controller
                     case 35:
                     case 51: // Coliformes totales
                     case 137:
-                        $model = LoteDetalleColiformes::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleColiformes::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 253: //todo  ENTEROCOCO FECAL
-                        $model = LoteDetalleEnterococos::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleEnterococos::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5)  
                     case 71:
-                        $model = LoteDetalleDbo::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleDbo::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 70:
-                        $model = LoteDetalleDboIno::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleDboIno::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 16: //todo Huevos de Helminto 
-                        $model = LoteDetalleHH::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleHH::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     case 78:
-                        $model = LoteDetalleEcoli::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleEcoli::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
                     default:
-                        $model = LoteDetalleDirectos::where('Id_lote',$res->id)->where('Liberado',0)->get();
+                        $model = LoteDetalleDirectos::where('Id_lote', $res->id)->where('Liberado', 0)->get();
                         break;
-                    }
-            break;
+                }
+                break;
             default:
                 break;
         }
-
         if ($model->count()) {
             $sw = false;
             $msg = "Hay muestras sin liberar";
-        }else{
-            $model = LoteAnalisis::where('Id_lote',$res->id)->first();
+        } else {
+            $model = LoteAnalisis::where('Id_lote', $res->id)->first();
             if ($model->Supervisado == 0) {
                 $model->Supervisado = 1;
                 $msg = "Lote supervisado";
-            }else{
+            } else {
                 $model->Supervisado = 0;
                 $msg = "Lote desliberada";
-            }   
+            }
             if ($res->user != 0) {
-                $model->Id_superviso = $res->user;   
-            }else{
+                $model->Id_superviso = $res->user;
+            } else {
                 $model->Id_superviso = Auth::user()->id;
             }
             $model->save();
@@ -249,20 +271,20 @@ class SupervicionController extends Controller
     //     return response()->json($data);
     // }
     public function campo()
-    { 
+    {
         //Adicion de intermediarios
-        $muestreador = DB::table('users')->where('role_id',8)->orWhere('role_id',15)->orWhere('role_id',13)->get();
+        $muestreador = DB::table('users')->where('role_id', 8)->orWhere('role_id', 15)->orWhere('role_id', 13)->get();
         $data  = array(
-        'muestreador' => $muestreador,
+            'muestreador' => $muestreador,
         );
-        return view('supervicion.campo.campo',$data); 
+        return view('supervicion.campo.campo', $data);
     }
     public function getMuestreos(Request $res)
     {
         if ($res->muestreador != 0) {
-            $model = DB::table('ViewSolicitudGeneradaSupervicion')->where('Id_muestreador',$res->muestreador)->where('Fecha_muestreo','LIKE','%'.$res->mes.'%')->get();
-        }else{
-            $model = DB::table('ViewSolicitudGeneradaSupervicion')->where('Fecha_muestreo','LIKE','%'.$res->mes.'%')->get();
+            $model = DB::table('ViewSolicitudGeneradaSupervicion')->where('Id_muestreador', $res->muestreador)->where('Fecha_muestreo', 'LIKE', '%' . $res->mes . '%')->get();
+        } else {
+            $model = DB::table('ViewSolicitudGeneradaSupervicion')->where('Fecha_muestreo', 'LIKE', '%' . $res->mes . '%')->get();
         }
 
         $data = array(
@@ -272,18 +294,18 @@ class SupervicionController extends Controller
     }
     public function supervisarBitacoraCampo(Request $res)
     {
-        $model = SolicitudesGeneradas::where('Id_solicitud',$res->id)->first();
+        $model = SolicitudesGeneradas::where('Id_solicitud', $res->id)->first();
         $msg = "Supervisado";
 
         if ($res->user != 0) {
-            $model->Id_superviso = $res->user;   
-        }else{
+            $model->Id_superviso = $res->user;
+        } else {
             $model->Id_superviso = Auth::user()->id;
         }
         $model->Estado = 4;
         $model->save();
 
-        
+
         $data = array(
             'msg' => $msg,
         );
@@ -293,18 +315,18 @@ class SupervicionController extends Controller
     {
         $sw = true;
         $msg = "Error al liberar";
-        if(sizeof($res->ids) > 0){
-            for ($i=0; $i <  sizeof($res->ids); $i++) { 
-                $model = SolicitudesGeneradas::where('Id_solicitud',$res->ids[$i])->first();
+        if (sizeof($res->ids) > 0) {
+            for ($i = 0; $i <  sizeof($res->ids); $i++) {
+                $model = SolicitudesGeneradas::where('Id_solicitud', $res->ids[$i])->first();
                 if ($res->user != 0) {
-                    $model->Id_superviso = $res->user;   
-                }else{
+                    $model->Id_superviso = $res->user;
+                } else {
                     $model->Id_superviso = Auth::user()->id;
                 }
                 $model->Estado = 4;
                 $model->save();
             }
-        }else{
+        } else {
             $msg = "No hay muestra seleccionada";
         }
         $data = array(
@@ -317,24 +339,24 @@ class SupervicionController extends Controller
     {
         $sw = true;
         $msg = "Error al liberar";
-        if(sizeof($res->ids) > 0){
-            for ($i=0; $i <  sizeof($res->ids); $i++) { 
-                $model = LoteAnalisis::where('Id_lote',$res->ids[$i])->first();
+        if (sizeof($res->ids) > 0) {
+            for ($i = 0; $i <  sizeof($res->ids); $i++) {
+                $model = LoteAnalisis::where('Id_lote', $res->ids[$i])->first();
                 if ($model->Supervisado == 0) {
                     $model->Supervisado = 1;
                     $msg = "Lote supervisado";
-                }else{
+                } else {
                     $model->Supervisado = 0;
                     $msg = "Lote desliberada";
                 }
                 if ($res->user != 0) {
-                    $model->Id_superviso = $res->user;   
-                }else{
+                    $model->Id_superviso = $res->user;
+                } else {
                     $model->Id_superviso = Auth::user()->id;
                 }
                 $model->save();
             }
-        }else{
+        } else {
             $msg = "No hay muestra seleccionada";
         }
         $data = array(
@@ -362,33 +384,33 @@ class SupervicionController extends Controller
         $sw = true;
         $user = 1;
         $fechaTemp = '';
-        $solModel = Solicitud::where('Hijo',$res->idSol)->get();
+        $solModel = Solicitud::where('Hijo', $res->idSol)->get();
         if ($res->std == "true") {
             $std = 1;
             $msg = "Folio supervisado";
-        }else{
+        } else {
             $msg = "folio sin supervicion";
         }
-        
-        $temp = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
+
+        $temp = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->first();
         $temp->Supervicion = $std;
         $temp->save();
 
 
         foreach ($solModel as $item) {
             $tempArea = array();
-            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
             $temp->Supervicion = $std;
             $temp->save();
 
 
-            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro','!=',64)->where('Cancelado',0)->get();
-            $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get(); 
-            $detalleTemp = DB::table('cadena_generales')->where('Id_solicitud',$item->Id_solicitud)->delete();
+            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', '!=', 64)->where('Cancelado', 0)->get();
+            $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
+            $detalleTemp = DB::table('cadena_generales')->where('Id_solicitud', $item->Id_solicitud)->delete();
 
             foreach ($areaParam as $item2) {
                 $contAux = 0;
-                $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+                $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
                 $sw = false;
                 // $valParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', $item2->Id_parametro)->where('Cancelado',0)->get();
 
@@ -400,9 +422,9 @@ class SupervicionController extends Controller
                         }
                         switch ($item2->Id_parametro) {
                             case 11:
-                                $sw = true; 
-                                break; 
-                            
+                                $sw = true;
+                                break;
+
                             default:
                                 # code...
                                 break;
@@ -429,12 +451,11 @@ class SupervicionController extends Controller
                             if (@$item2->Id_parametro != 16) {
                                 if ($solModel[0]->Id_servicio != 3) {
                                     switch ($auxEnv[0]->Id_area) {
-     
+
                                         default:
                                             $numRecipientes = $phMuestra->count();
                                             break;
                                     }
-
                                 } else {
                                     switch ($auxEnv[0]->Id_area) {
                                         default:
@@ -442,13 +463,13 @@ class SupervicionController extends Controller
                                             break;
                                     }
                                 }
-                            }else{
-                                $numRecipientes = 1; 
+                            } else {
+                                $numRecipientes = 1;
                             }
-    
+
                             $stdArea = 1;
                         } else {
-                            $numRecipientes = 1; 
+                            $numRecipientes = 1;
                             $stdArea = 0;
                         }
                         $idSol = $item->Id_solicitud;
@@ -459,7 +480,7 @@ class SupervicionController extends Controller
                                     $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
                                     $fechaTemp = $loteTemp->Fecha;
                                 } else {
-                                    $fechaTemp = ""; 
+                                    $fechaTemp = "";
                                 }
                                 break;
                             case 17: // Metales ICP
@@ -508,9 +529,9 @@ class SupervicionController extends Controller
                                 } else {
                                     $fechaTemp = "";
                                 }
-    
+
                                 break;
-    
+
                             case 14: // volumetria 
                                 switch ($item2->Id_parametro) {
                                     case 6: // DQO
@@ -528,7 +549,7 @@ class SupervicionController extends Controller
                                     case 28:
                                     case 29:
                                     case 30:
-                                        $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control',1)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control', 1)->where('Id_parametro', $item2->Id_parametro)->get();
                                         break;
                                     default:
                                         $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
@@ -536,7 +557,7 @@ class SupervicionController extends Controller
                                 }
                                 if ($modelDet->count()) {
                                     $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                                    $fechaTemp = $loteTemp->Fecha; 
+                                    $fechaTemp = $loteTemp->Fecha;
                                 } else {
                                     $fechaTemp = "";
                                 }
@@ -567,7 +588,7 @@ class SupervicionController extends Controller
                                 } else {
                                     $fechaTemp = "";
                                 }
-    
+
                                 break;
                             case 5: // FQ
                                 switch ($item2->Id_parametro) {
@@ -587,7 +608,7 @@ class SupervicionController extends Controller
                                 } else {
                                     $fechaTemp = "";
                                 }
-                    
+
                                 break;
                             case 8: // potable
                                 switch ($item2->Id_parametro) {
@@ -607,7 +628,7 @@ class SupervicionController extends Controller
                                         break;
                                     case 64:
                                     case 358:
-    
+
                                         break;
                                     default:
                                         $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
@@ -636,24 +657,24 @@ class SupervicionController extends Controller
                                 break;
                         }
                         array_push($tempArea, $auxEnv[0]->Id_area);
- 
+
 
                         $fechaEntrada = "";
                         $fechaSalidaEli = "";
                         $fechaEmision = "";
                         $firma =  $user->firma;
-                        
+
                         if ($stdArea == 1) {
                             $fechaEntrada = "---------------";
                             $fechaSalidaEli = "---------------";
-                            $fechaEmision = "---------------"; 
-                        }else{
+                            $fechaEmision = "---------------";
+                        } else {
                             if ($fechaTemp != "") {
-                                if ($item->Id_area == 12 || $item->Id_area == 6 || $item->Id_area == 13 || $item->Id_area == 3  ) {
+                                if ($item->Id_area == 12 || $item->Id_area == 6 || $item->Id_area == 13 || $item->Id_area == 3) {
                                     $fechaEntrada = "---------------";
                                     $fechaSalidaEli = "---------------";
                                     $fechaEmision = "---------------";
-                                }else{
+                                } else {
                                     $fechaEntrada = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
                                     $fechaEmision = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
                                     switch ($item->Id_norma) {
@@ -669,12 +690,12 @@ class SupervicionController extends Controller
                                             // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
                                             break;
                                         default:
-                                        $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                        // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                             break;
                                     }
                                 }
-                            }else{
+                            } else {
                                 $fechaEntrada =  "Sin capturar";
                                 $fechaSalidaEli =  "Sin capturar";
                                 $fechaEmision =  "Sin capturar";
@@ -694,15 +715,15 @@ class SupervicionController extends Controller
                                     $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
                                     break;
                                 default:
-                                // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                     break;
                             }
-                        }else{
+                        } else {
                             $fechaSalidaEli = "---------------";
                             $fechaEmision = "---------------";
                         }
-                        
+
 
                         CadenaGenerales::create([
                             'Id_solicitud' => $item->Id_solicitud,
@@ -714,12 +735,10 @@ class SupervicionController extends Controller
                             'Fecha_salidaEli' => $fechaSalidaEli,
                             'Fecha_emision' => $fechaEmision,
                             'Firma' => $firma,
-                        ]); 
-            
+                        ]);
                     }
                 }
             }
-
         }
 
         $data = array(
@@ -732,20 +751,20 @@ class SupervicionController extends Controller
     {
         $msg = '';
         $std = 0;
-        $solModel = Solicitud::where('Hijo',$res->idSol)->get();
+        $solModel = Solicitud::where('Hijo', $res->idSol)->get();
         if ($res->std == "true") {
             $std = 1;
             $msg = "Folio supervisado";
-        }else{
+        } else {
             $msg = "folio sin supervicion";
         }
 
-        $temp = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
+        $temp = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->first();
         $temp->Liberado = $std;
         $temp->save();
 
         foreach ($solModel as $item) {
-            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
             $temp->Liberado = $std;
             $temp->save();
         }
@@ -755,8 +774,9 @@ class SupervicionController extends Controller
         );
         return response()->json($data);
     }
-    public function liberarTodo(){
-        $model = SolicitudesGeneradas::all(); 
+    public function liberarTodo()
+    {
+        $model = SolicitudesGeneradas::all();
         foreach ($model as $item) {
             switch ($item->Id_muestreador) {
                 case 15:
@@ -765,7 +785,7 @@ class SupervicionController extends Controller
                     $temp->Id_superviso = 97;
                     $temp->save();
                     break;
-                
+
                 default:
                     $temp = SolicitudesGeneradas::find($item->Id_solicitudGen);
                     $temp->Estado = 4;
@@ -773,10 +793,10 @@ class SupervicionController extends Controller
                     $temp->save();
                     break;
             }
-
         }
     }
-    public function setHistorialCadena(){
+    public function setHistorialCadena()
+    {
         $msg = '';
         $std = 0;
         //Datos generales
@@ -793,22 +813,22 @@ class SupervicionController extends Controller
         $sw = true;
         $user = 1;
         $fechaTemp = '';
-        $hisModel = ProcesoAnalisis::whereDate('Hora_recepcion','<=','2024-04-29')->orderBy('Id_solicitud','DESC')->limit(100)->get();
+        $hisModel = ProcesoAnalisis::whereDate('Hora_recepcion', '<=', '2024-04-29')->orderBy('Id_solicitud', 'DESC')->limit(100)->get();
         foreach ($hisModel as $item) {
-            echo "<br> Id_sol: ".$item->Id_solicitud;
+            echo "<br> Id_sol: " . $item->Id_solicitud;
             echo "<br>-----------------------------------";
             $idSol = $item->Id_solicitud;
-            $solModel = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
+            $solModel = Solicitud::where('Id_solicitud', $item->Id_solicitud)->first();
 
-   
-            $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
-            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro','!=',64)->where('Cancelado',0)->get();
-            $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get(); 
-            $detalleTemp = DB::table('cadena_generales')->where('Id_solicitud',$item->Id_solicitud)->delete();
+
+            $temp = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
+            $areaParam = DB::table('viewcodigoinforme')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', '!=', 64)->where('Cancelado', 0)->get();
+            $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
+            $detalleTemp = DB::table('cadena_generales')->where('Id_solicitud', $item->Id_solicitud)->delete();
 
             foreach ($areaParam as $item2) {
                 $contAux = 0;
-                $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+                $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item2->Id_parametro)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
                 $sw = false;
                 // $valParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', $item2->Id_parametro)->where('Cancelado',0)->get();
 
@@ -820,9 +840,9 @@ class SupervicionController extends Controller
                         }
                         switch ($item2->Id_parametro) {
                             case 11:
-                                $sw = true; 
-                                break; 
-                            
+                                $sw = true;
+                                break;
+
                             default:
                                 # code...
                                 break;
@@ -830,20 +850,19 @@ class SupervicionController extends Controller
                     }
 
                     if ($sw != true) {
-        
-                        
+
+
 
                         $user = DB::table('users')->where('id', $auxEnv[0]->Id_responsable)->first();
                         if (@$item2->Id_area == 12 || @$item2->Id_area == 6 || @$item2->Id_area == 13 || @$item2->Id_area == 3) {
                             if (@$item2->Id_parametro != 16) {
                                 if ($solModel->Id_servicio != 3) {
                                     switch ($auxEnv[0]->Id_area) {
-     
+
                                         default:
                                             $numRecipientes = $phMuestra->count();
                                             break;
                                     }
-
                                 } else {
                                     switch ($auxEnv[0]->Id_area) {
                                         default:
@@ -851,17 +870,17 @@ class SupervicionController extends Controller
                                             break;
                                     }
                                 }
-                            }else{
-                                $numRecipientes = 1; 
+                            } else {
+                                $numRecipientes = 1;
                             }
-    
+
                             $stdArea = 1;
                         } else {
-                            $numRecipientes = 1; 
+                            $numRecipientes = 1;
                             $stdArea = 0;
                         }
                         $idSol = $item->Id_solicitud;
-                        echo "<br> idSol Entro: ".$idSol;
+                        echo "<br> idSol Entro: " . $idSol;
                         echo "<br> ::::::::::::::::::::::";
                         switch ($item2->Id_area) {
                             case 2: // Metales
@@ -870,7 +889,7 @@ class SupervicionController extends Controller
                                     $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
                                     $fechaTemp = $loteTemp->Fecha;
                                 } else {
-                                    $fechaTemp = ""; 
+                                    $fechaTemp = "";
                                 }
                                 break;
                             case 17: // Metales ICP
@@ -919,9 +938,9 @@ class SupervicionController extends Controller
                                 } else {
                                     $fechaTemp = "";
                                 }
-    
+
                                 break;
-    
+
                             case 14: // volumetria 
                                 switch ($item2->Id_parametro) {
                                     case 6: // DQO
@@ -939,7 +958,7 @@ class SupervicionController extends Controller
                                     case 28:
                                     case 29:
                                     case 30:
-                                        $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control',1)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        $modelDet = DB::table('lote_detalle_alcalinidad')->where('Id_analisis', $idSol)->where('Id_control', 1)->where('Id_parametro', $item2->Id_parametro)->get();
                                         break;
                                     default:
                                         $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
@@ -947,7 +966,7 @@ class SupervicionController extends Controller
                                 }
                                 if ($modelDet->count()) {
                                     $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
-                                    $fechaTemp = $loteTemp->Fecha; 
+                                    $fechaTemp = $loteTemp->Fecha;
                                 } else {
                                     $fechaTemp = "";
                                 }
@@ -978,7 +997,7 @@ class SupervicionController extends Controller
                                 } else {
                                     $fechaTemp = "";
                                 }
-    
+
                                 break;
                             case 5: // FQ
                                 switch ($item2->Id_parametro) {
@@ -998,7 +1017,7 @@ class SupervicionController extends Controller
                                 } else {
                                     $fechaTemp = "";
                                 }
-                    
+
                                 break;
                             case 8: // potable
                                 switch ($item2->Id_parametro) {
@@ -1018,7 +1037,7 @@ class SupervicionController extends Controller
                                         break;
                                     case 64:
                                     case 358:
-    
+
                                         break;
                                     default:
                                         $modelDet = DB::table('lote_detalle_potable')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
@@ -1047,24 +1066,24 @@ class SupervicionController extends Controller
                                 break;
                         }
                         array_push($tempArea, $auxEnv[0]->Id_area);
- 
+
 
                         $fechaEntrada = "";
                         $fechaSalidaEli = "";
                         $fechaEmision = "";
                         $firma =  $user->firma;
-                        
+
                         if ($stdArea == 1) {
                             $fechaEntrada = "---------------";
                             $fechaSalidaEli = "---------------";
-                            $fechaEmision = "---------------"; 
-                        }else{
+                            $fechaEmision = "---------------";
+                        } else {
                             if ($fechaTemp != "") {
-                                if ($item->Id_area == 12 || $item->Id_area == 6 || $item->Id_area == 13 || $item->Id_area == 3  ) {
+                                if ($item->Id_area == 12 || $item->Id_area == 6 || $item->Id_area == 13 || $item->Id_area == 3) {
                                     $fechaEntrada = "---------------";
                                     $fechaSalidaEli = "---------------";
                                     $fechaEmision = "---------------";
-                                }else{
+                                } else {
                                     $fechaEntrada = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
                                     $fechaEmision = \Carbon\Carbon::parse(@$fechaTemp)->format('d/m/Y');
                                     switch ($item->Id_norma) {
@@ -1080,12 +1099,12 @@ class SupervicionController extends Controller
                                             // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
                                             break;
                                         default:
-                                        $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                        // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                             break;
                                     }
                                 }
-                            }else{
+                            } else {
                                 $fechaEntrada =  "Sin capturar";
                                 $fechaSalidaEli =  "Sin capturar";
                                 $fechaEmision =  "Sin capturar";
@@ -1105,15 +1124,15 @@ class SupervicionController extends Controller
                                     $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
                                     break;
                                 default:
-                                // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    // $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                    $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                     break;
                             }
-                        }else{
+                        } else {
                             $fechaSalidaEli = "---------------";
                             $fechaEmision = "---------------";
                         }
-                        
+
 
                         // $detalle = CadenaGenerales::create([
                         //     'Id_solicitud' => $item->Id_solicitud,
@@ -1126,14 +1145,14 @@ class SupervicionController extends Controller
                         //     'Fecha_emision' => $fechaEmision,
                         //     'Firma' => $firma,
                         // ]); 
-            
+
                     }
                 }
             }
-    
         }
     }
-    public function valInforme(){
+    public function valInforme()
+    {
         return view('supervicion.informe.valInforme');
     }
     public function getFirmaEncriptada(Request $res)
@@ -1148,7 +1167,7 @@ class SupervicionController extends Controller
          Encripta el contenido de la variable, enviada como parametro.
           */
         $folioEncript = openssl_decrypt($res->codigo, $method, $clave, false, $iv);
-        $content = explode($folioEncript,'|');
+        $content = explode($folioEncript, '|');
 
 
         $data = array(
@@ -1157,4 +1176,4 @@ class SupervicionController extends Controller
         );
         return response()->json($data);
     }
-} 
+}

@@ -17,4 +17,8 @@ Route::group(['prefix' => 'ingresar'], function () {
     Route::post('setGenFolio', [IngresarController::class, 'setGenFolio']);
     Route::post('setActCC', [IngresarController::class, 'setActCC']);
     Route::post('setEmision', [IngresarController::class, 'setEmision']);
+    Route::post('getFotos', [IngresarController::class, 'getFotos']);
+    Route::post('delFoto', [IngresarController::class, 'delFoto']);
+    Route::post('setObsRecepcion', [IngresarController::class, 'setObsRecepcion']);
+    Route::get('ConsultarFoto', [IngresarController::class, 'ConsultarFoto']);
 });

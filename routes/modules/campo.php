@@ -33,6 +33,8 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('GuardarPhControlCalidad', [CampoController::class, 'GuardarPhControlCalidad']);
         Route::post('GuardarConductividad', [CampoController::class, 'GuardarConductividad']);
         Route::post('GuardarGasto', [CampoController::class, 'GuardarGasto']);
+        Route::post('GuardarVidrio', [CampoController::class, 'GuardarVidrio']);
+
    
         Route::post('SetDatosCompuestos', [CampoController::class, 'SetDatosCompuestos']);
         Route::post('CancelarMuestra', [CampoController::class, 'CancelarMuestra']);
@@ -62,4 +64,8 @@ Route::group(['prefix' => 'campo'], function () {
     Route::get('hojaCampo/{id}', [CampoController::class, 'hojaCampo']);
     Route::get('bitacoraCampo/{id}', [CampoController::class, 'bitacoraCampo']);
     Route::get('planMuestreo/{idSolicitud}', [CampoController::class, 'planMuestreo']);
+
+    Route::get('EliminarCampo/{id}', [CampoController::class, 'EliminarCampo']);
+
+
 });

@@ -470,5 +470,8 @@ function setSolicitud()
           alert("Orden generada")
           window.location = base_url + "/admin/cotizacion/solicitud"
         }
+        
+
       });
+      $("#tipoDescarga").prop("disabled", true);
 }

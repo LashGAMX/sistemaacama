@@ -88,6 +88,9 @@
                     <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
                 </div>
                 <div class="col-md-1">
+                    <button class="btn btn-success" id="btnEjecutarTodo">Ejecutar T.</button>
+                </div>
+                <div class="col-md-1">
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
                 <div class="col-md-2">

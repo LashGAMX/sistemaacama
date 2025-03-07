@@ -36,6 +36,8 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('setPrecioCotizacion', [CotizacionController::class,'setPrecioCotizacion']);
     Route::get('duplicarCot/{idCot}', [CotizacionController::class, 'duplicar']);
     Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
+    Route::get('exportPdfCotizacion/{idCot}',[CotizacionController::class,'exportPdfCotizacion']); 
+
 
     
 });
@@ -60,7 +62,10 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
     Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
-    Route::post('setSolicitudSinCot',[SolicitudController::class,'setSolicitudSinCot']);
+    Route::get('Solicitudes',[SolicitudController::class,'Solicitudes']);
+    Route::post('getSolicitudes',[SolicitudController::class,'getSolicitudes']);
+
+    
     Route::post('setOrdenServicio',[SolicitudController::class,'setOrdenServicio']);
     Route::post('setPuntoMuestreo',[SolicitudController::class,'setPuntoMuestreo']);
     Route::post('getPuntoMuestreoSol',[SolicitudController::class,'getPuntoMuestreoSol']);
@@ -79,5 +84,21 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 
     Route::post('cancelarOrden',[SolicitudController::class,'cancelarOrden']);
+
+    Route::post('Tablasolicitud',[SolicitudController::class,'Tablasolicitud']);
+    Route::get('cancelarOrdenMasiva',[SolicitudController::class,'cancelarOrdenMasiva']);
+    Route::get('Consultas',[SolicitudController::class,'Consultas']);
+    Route::get('UpdateAnalista',[SolicitudController::class,'UpdateAnalista']);
+    Route::get('DesliberarMasivo',[SolicitudController::class,'DesliberarMasivo']);
+    Route::get('RegresarMasivoCuadrodeAsignacion',[SolicitudController::class,'RegresarMasivoCuadrodeAsignacion']);
+  
+
+    
+
+
+    
+
+    
+
 });
 

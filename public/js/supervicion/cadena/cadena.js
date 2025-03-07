@@ -3,12 +3,16 @@ $(document).ready(function () {
 
     var table = $('#tableCadena').DataTable({        
         "ordering": false,
+        "paging":false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",
-        }
+          
+
+        },
+        // lengthMenu: [1000],pagina a 1000 registro por pagina 
     });    
 
     // Agregar filtro por columnas

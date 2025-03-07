@@ -19,7 +19,7 @@ class TermometroCalibrado extends Component
     public $tab = true;
 
     public $idTermo;
-    public $equipo; 
+    public $equipo;
     public $marca;
     public $modelo;
     public $serie;
@@ -39,7 +39,7 @@ class TermometroCalibrado extends Component
     public $fa8;
     public $fa9;
     public $fa10;
-    
+
     public $apl1;
     public $apl2;
     public $apl3;
@@ -50,21 +50,22 @@ class TermometroCalibrado extends Component
     public $apl8;
     public $apl9;
     public $apl10;
- 
+
     public function render()
     {
-        // $model = TermometroCampo::all();
-        $muestreadores = Usuario::where('role_id',8)->orWhere('role_id',1)->get();
+        //$model = TermometroCampo::all();
+        $muestreadores = Usuario::where('role_id', 8)->orWhere('role_id', 1)->get();
         $model = TermometroCampo::withTrashed()->get();
-        $factores = TermFactorCorreccionTemp::where('Id_termometro',$this->idTermo)->get();
-        return view('livewire.config.campo.termometro-calibrado',compact('model','muestreadores','factores'));
+        $factores = TermFactorCorreccionTemp::where('Id_termometro', $this->idTermo)->get();
+        return view('livewire.config.campo.termometro-calibrado', compact('model', 'muestreadores', 'factores'));
     }
+
+
     public function tabla()
     {
-        if($this->tab == true)
-        {
+        if ($this->tab == true) {
             $this->tab = false;
-        }else if($this->tab == false){
+        } else if ($this->tab == false) {
             $this->tab = true;
         }
     }
@@ -74,14 +75,14 @@ class TermometroCalibrado extends Component
             'Id_muestreador' => $this->muestreador,
             'Equipo' => $this->equipo,
             'Marca' => $this->marca,
-            'Modelo' => $this->modelo, 
+            'Modelo' => $this->modelo,
             'Serie' => $this->serie,
             'Tipo' => $this->tipo
         ]);
 
         $de = 0;
         $a = 5;
-        for ($i=0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             # code...
             TermFactorCorreccionTemp::create([
                 'Id_termometro' => $termo->Id_termometro,
@@ -92,11 +93,11 @@ class TermometroCalibrado extends Component
             $a += 5;
         }
 
-        $this->alert = true; 
+        $this->alert = true;
     }
     public function store()
     {
-        TermometroCampo::withTrashed()->where('Id_termometro',$this->idTermo)->restore();
+        TermometroCampo::withTrashed()->where('Id_termometro', $this->idTermo)->restore();
         $model = TermometroCampo::find($this->idTermo);
         $model->Equipo = $this->equipo;
         $model->Marca = $this->marca;
@@ -105,16 +106,15 @@ class TermometroCalibrado extends Component
         $model->Tipo = $this->tipo;
         $model->Id_muestreador = $this->muestreador;
         $model->save();
-        if($this->status != 1) 
-        {
+        if ($this->status != 1) {
             TermometroCampo::find($this->idTermo)->delete();
         }
         $this->alert = true;
     }
     public function storeFactor()
     {
-        $model = TermFactorCorreccionTemp::where('Id_termometro',$this->idTermo)->get();
-        
+        $model = TermFactorCorreccionTemp::where('Id_termometro', $this->idTermo)->get();
+
         $termo = TermFactorCorreccionTemp::find($model[0]->Id_factor);
         $termo->Factor = $this->fa1;
         $termo->Factor_aplicado = $this->apl1;
@@ -149,7 +149,7 @@ class TermometroCalibrado extends Component
         $termo->Factor = $this->fa7;
         $termo->Factor_aplicado = $this->apl7;
         $termo->save();
-        
+
         $termo = TermFactorCorreccionTemp::find($model[7]->Id_factor);
         $termo->Factor = $this->fa8;
         $termo->Factor_aplicado = $this->apl8;
@@ -178,34 +178,34 @@ class TermometroCalibrado extends Component
        $termo = TermFactorCorreccionTemp::find($model[0]->Id_factor);
         $this->fa1 = $termo->Factor;
         $this->apl1 = $termo->Factor_aplicado;
-       
+
        $termo = TermFactorCorreccionTemp::find($model[1]->Id_factor);
         $this->fa2 = $termo->Factor;
         $this->apl2 = $termo->Factor_aplicado;
-       
+
        $termo = TermFactorCorreccionTemp::find($model[2]->Id_factor);
         $this->fa3 = $termo->Factor;
         $this->apl3 = $termo->Factor_aplicado;
-       
+
        $termo = TermFactorCorreccionTemp::find($model[3]->Id_factor);
         $this->fa4 = $termo->Factor;
         $this->apl4 = $termo->Factor_aplicado;
-       
+
        $termo = TermFactorCorreccionTemp::find($model[4]->Id_factor);
         $this->fa5 = $termo->Factor;
         $this->apl5 = $termo->Factor_aplicado;
-       
+
 
        $termo = TermFactorCorreccionTemp::find($model[5]->Id_factor);
         $this->fa6 = $termo->Factor;
         $this->apl6 = $termo->Factor_aplicado;
-       
+
 
        $termo = TermFactorCorreccionTemp::find($model[6]->Id_factor);
         $this->fa7 = $termo->Factor;
         $this->apl7 = $termo->Factor_aplicado;
-       
-       
+
+
        $termo = TermFactorCorreccionTemp::find($model[7]->Id_factor);
         $this->fa8 = $termo->Factor;
         $this->apl8 = $termo->Factor_aplicado;
@@ -217,23 +217,23 @@ class TermometroCalibrado extends Component
         $termo = TermFactorCorreccionTemp::find($model[9]->Id_factor);
         $this->fa10 = $termo->Factor;
         $this->apl10 = $termo->Factor_aplicado;
-       
+
     }
     public function setData($idTermo)
     {
         $this->clean();
-       $model = TermometroCampo::find($idTermo);
-       $this->idTermo = $model->Id_termometro;
-       $this->equipo = $model->Equipo;
-       $this->marca = $model->Marca;
-       $this->modelo = $model->Modelo;
-       $this->serie = $model->Serie;
-       $this->tipo = $model->Tipo;
-       $this->muestreador = $model->Id_muestreador;
-       if ($model->deleted != null) { 
+        $model = TermometroCampo::find($idTermo);
+        $this->idTermo = $model->Id_termometro;
+        $this->equipo = $model->Equipo;
+        $this->marca = $model->Marca;
+        $this->modelo = $model->Modelo;
+        $this->serie = $model->Serie;
+        $this->tipo = $model->Tipo;
+        $this->muestreador = $model->Id_muestreador;
+        if ($model->deleted != null) {
             $this->status = 0;
         } else {
-           $this->status = 1;
+            $this->status = 1;
         }
         $this->sw = true;
     }
@@ -261,7 +261,7 @@ class TermometroCalibrado extends Component
         $this->fa6 = '';
         $this->fa7 = '';
         $this->fa8 = '';
-        
+
         $this->apl1 = '';
         $this->apl2 = '';
         $this->apl3 = '';
@@ -271,4 +271,6 @@ class TermometroCalibrado extends Component
         $this->apl7 = '';
         $this->apl8 = '';
     }
+
+
 }

@@ -7,6 +7,7 @@ use TCG\Voyager\Events\RoutingAdminAfter;
 use TCG\Voyager\Events\RoutingAfter;
 use TCG\Voyager\Facades\Voyager;
 
+
 /*
 |--------------------------------------------------------------------------
 | Voyager Routes

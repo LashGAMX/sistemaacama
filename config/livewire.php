@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'asset_url' => "http://sistemasofia.ddns.net:85/sofiadev/public",  
+    'asset_url' => "http://sistemasofia.ddns.net:86/sofiadev/public",  
 
     /*
     |--------------------------------------------------------------------------

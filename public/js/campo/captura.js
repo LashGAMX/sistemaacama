@@ -21,6 +21,7 @@ $(document).ready(function () {
         guardarPhMuestra()
         GuardarConductividad()
         GuardarGasto()
+        GuardarVidrio()
         GuardarTempAgua()
         GuardarPhControlCalidad()
         GuardarTempAmb()
@@ -122,57 +123,88 @@ function generarVmsi()
     }); 
 }
 function valGastoMuestra(id) {
+    console.log("este es el id "+id);
     let sw = true;
-    let l1 = parseFloat(document.getElementById("gas1"+id).value);
-    let l2 = parseFloat(document.getElementById("gas2"+id).value);
-    let l3 = parseFloat(document.getElementById("gas3"+id).value);    
+    let l1 = parseFloat(document.getElementById("gas1" + id).value);
+    let l2 = parseFloat(document.getElementById("gas2" + id).value);
+    let l3 = parseFloat(document.getElementById("gas3" + id).value);
 
+    if (l1 - l2 > 1 || l1 - l2 < -1) {
+        sw = false;
+    }
+    if (l1 - l3 > 1 || l1 - l3 < -1) {
+        sw = false;
+    }
+    if (l2 - l1 > 1 || l2 - l1 < -1) {
+        sw = false;
+    }
+    if (l2 - l3 > 1 || l2 - l3 < -1) {
+        sw = false;
+    }
+    if (l3 - l1 > 1 || l3 - l1 < -1) {
+        sw = false;
+    }
+    if (l3 - l2 > 1 || l3 - l2 < -1) {
+        sw = false;
+    }
 
-    if ((l1 - l2) > 1 || (l1 - l2) < -1) {
+    if (l1 == "") {
+        $("#gas1" + id).attr("placeholder", "Lectura Vacía");
         sw = false;
     }
-    if ((l1 - l3) > 1 || (l1 - l3) < -1) {
+
+    if (l2 == "") {
+        $("#gas2" + id).attr("placeholder", "Lectura Vacía");
         sw = false;
     }
-    if ((l2 - l1) > 1 || (l2 - l1) < -1) {
-        sw = false;
-    }
-    if ((l2 - l3) > 1 || (l2 - l3) < -1) {
-        sw = false;
-    }
-    if ((l3 - l1) > 1 || (l3 - l1) < -1) {
-        sw = false;
-    }
-    if ((l3 - l2) > 1 || (l3 - l2) < -1) {
-        sw = false;
-    } 
-  
-    if(l1 == ""){
-        $("#gas1"+id).attr("placeholder","Lectura Vacía")
-        sw = false;
-    }
-    
-    if(l2 == ""){
-        $("#gas2"+id).attr("placeholder","Lectura Vacía")
-        sw = false;
-    }
-    
-    if(l3 == ""){
-        $("#gas3"+id).attr("placeholder","Lectura Vacía")
+
+    if (l3 == "") {
+        $("#gas3" + id).attr("placeholder", "Lectura Vacía");
         sw = false;
     }
 
     if (sw == true) {
-        $("#trGastoMuestra"+id).attr("class","bg-success")
+        $("#trGastoMuestra" + id).attr("class", "bg-success");
     } else {
-        $("#trGastoMuestra"+id).attr("class","bg-danger")
+        $("#trGastoMuestra" + id).attr("class", "bg-danger");
     }
-    
-    $("#gasprom"+id).val(((l1 + l2 + l3) / 3).toFixed(2))
-
+ 
+    $("#gasprom" + id).val(((l1 + l2 + l3) / 3).toFixed(2));
 
     return sw;
 }
+
+function valVidrio(id) {
+    let sw = true;
+
+    // Obtener los valores de los inputs y selects
+    let oxigenoD = parseFloat(document.getElementById("Vidrio1" + id).value);
+    let burbujas = document.getElementById("selectVidrio" + id).value;
+
+    // Validar que el campo de Oxigeno D no esté vacío y que sea un número
+    if (isNaN(oxigenoD) || oxigenoD < 0) {
+        document.getElementById("Vidrio1" + id).setAttribute("placeholder", "Valor no válido");
+        sw = false;
+    }
+
+    // Validar que se haya seleccionado una opción en el select
+    if (burbujas === "") {
+        sw = false;
+    }
+
+    // Cambiar color de la fila según la validación
+    if (sw) {
+        document.getElementById("trVidrio" + id).classList.remove("bg-danger");
+        document.getElementById("trVidrio" + id).classList.add("bg-success");
+    } else {
+        document.getElementById("trVidrio" + id).classList.remove("bg-success");
+        document.getElementById("trVidrio" + id).classList.add("bg-danger");
+    }
+
+    return sw;
+}
+
+
 function valConMuestra(id) {
     let sw = true;
     
@@ -444,7 +476,7 @@ function valTemperaturaAgua(id)
             $("#tempSin2"+id).val(l2 + parseFloat(factorCorrecion1[9].Factor_aplicado))    
             temp = temp + (l2 + parseFloat(factorCorrecion1[9].Factor_aplicado))
         }
-    $("#tempprom"+id).val((temp / 3).toFixed(2))
+    $("#tempprom"+id).val((temp / 3).toFixed())
 }
 function valTemperaturaAmbiente(id)
 {
@@ -826,6 +858,40 @@ function GuardarGasto() {
         },
     }); 
 }
+function GuardarVidrio() {
+    let oxigeno = [];
+    let burbuja = [];
+    let tab = document.getElementById('vidrio');
+    let numTomas = tab.rows.length - 1; // Resta 1 porque la primera fila es el encabezado
+
+    for (let i = 1; i <= numTomas; i++) { // Comienza en 1 para omitir la fila de encabezado
+        let oxigenoValor = parseFloat(tab.rows[i].cells[1].children[0].value).toFixed(1); // Obtiene el valor y redondea a 1 decimal
+        oxigeno.push(oxigenoValor);
+
+        let burbujaValor = tab.rows[i].cells[2].children[0].value === "si" ? 1 : 0;
+        burbuja.push(burbujaValor);
+    }
+
+    $.ajax({
+        url: base_url + "/admin/campo/captura/GuardarVidrio",
+        type: "POST",
+        data: {
+            idSolicitud: $("#idSolicitud").val(),
+            oxigeno: oxigeno,
+            burbuja: burbuja,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
 function SetDatosCompuestos(){
     $.ajax({
         url: base_url + "/admin/campo/captura/SetDatosCompuestos", //archivo que recibe la peticion
@@ -842,6 +908,7 @@ function SetDatosCompuestos(){
             phMuestraCompuesta:$("#phMuestraCompuesto").val(),
             tempMuestraCompuesta:$("#valTemp").val(),
             cloruros:$('#valCloruros').val(),
+            cloroMuestra:$("#cloroMuestra").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",

@@ -8,7 +8,10 @@ use App\Models\CampoCompuesto;
 use App\Models\CampoGenerales;
 use App\Models\CodigoParametros;
 use App\Models\ConductividadMuestra;
-use App\Models\PhMuestra; 
+use App\Models\FotoRecepcion;
+use App\Models\FotoRecepcionDB2;
+
+use App\Models\PhMuestra;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\ProcesoAnalisis;
 use App\Models\SeguimientoAnalisis;
@@ -21,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DateTime;
+use PhpParser\Node\Stmt\TryCatch;
 
 class IngresarController extends Controller
 {
@@ -73,6 +77,7 @@ class IngresarController extends Controller
         // $cloruro = 0;
 
         $conductividad = array();
+        $obs = array();
         $temp = 0;
         $aux = 0;
         foreach ($model as $item) {
@@ -92,12 +97,19 @@ class IngresarController extends Controller
 
             $campoModel = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($campoModel->count()) {
-                array_push($cloruro, $campoModel[0]->Cloruros);  
+                array_push($cloruro, $campoModel[0]->Cloruros);
             } else {
                 array_push($cloruro, '');
-            } 
+            }
+            $proceModel = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->get();
+            if ($proceModel->count()) {
+                array_push($obs, @$proceModel[0]->Obs_recepcion);
+            } else {
+                array_push($obs, '');
+            }
         }
         $data = array(
+            'obs' => $obs,
             'cloruro' => $cloruro,
             'conductividad' => $conductividad,
             'model' => $model,
@@ -108,7 +120,7 @@ class IngresarController extends Controller
     {
         $model = DB::table('ViewCodigoRecepcion')->where('Id_solicitud', $res->idSol)->get();
         $data = array(
-            'model' => $model, 
+            'model' => $model,
             'idSol' => $res->idSol,
         );
         return response()->json($data);
@@ -117,14 +129,16 @@ class IngresarController extends Controller
     {
         $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
         $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
-        $fecha2 = new \Carbon\Carbon($model->Fecha);
+        $fecha2 = new \Carbon\Carbon(@$model->Fecha);
         $procedencia = SucursalCliente::where('Id_sucursal', $sol->Id_sucursal)->first();
+        $fotos = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSol)->get();
 
         $data = array(
             'procedencia' => $procedencia,
             'fecha2' => $fecha2->addMinutes(30)->format('Y-m-d H:i:s'),
             'sol' => $sol,
-            'model' => $model,
+            'model' => @$model,
+            'fotos' => $fotos,
         );
         return response()->json($data);
     }
@@ -141,12 +155,12 @@ class IngresarController extends Controller
             $puntoMuestra->Cloruros = $res->cloruros[$contP];
             if ($res->condiciones == "true") {
                 $puntoMuestra->Condiciones = 1;
-            }else{
+            } else {
                 $puntoMuestra->Condiciones = 0;
             }
             $puntoMuestra->save();
 
-            $campo = CampoCompuesto::where('Id_solicitud',$item->Id_solicitud)->first();
+            $campo = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->first();
             $campo->Cloruros = $res->cloruros[$contP];
             $campo->save();
 
@@ -160,6 +174,30 @@ class IngresarController extends Controller
         );
         return response()->json($data);
     }
+
+    public function getFotos(Request $res)
+    {
+        $model = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSolicitud)->get();
+        $data = array("model" => $model);
+        return response()->json($data);
+    }
+
+    public function delFoto(Request $res)
+    {
+        $data = array(
+            "estado" => "exito",
+            "mensaje" => "imagen eliminada"
+        );
+        $modelFotoRecepcion = FotoRecepcionDB2::where('Id_foto_recepcion', '=', $res->idFoto)->first();
+        if (!empty($modelFotoRecepcion)) {
+            $modelFotoRecepcion->delete();
+        } else {
+            $data["estado"] = "error";
+            $data["mensaje"] = "imagen no encontrada";
+        }
+        return response()->json($data);
+    }
+
     public function setGenFolio(Request $res)
     {
         $msg = "";
@@ -173,7 +211,7 @@ class IngresarController extends Controller
             $puntoMuestra->Cloruros = $res->cloruros[$contP];
             if ($res->condiciones == "true") {
                 $puntoMuestra->Condiciones = 1;
-            }else{
+            } else {
                 $puntoMuestra->Condiciones = 0;
             }
             $puntoMuestra->save();
@@ -202,6 +240,24 @@ class IngresarController extends Controller
                 $cont = 0;
                 foreach ($parametros as $item2) {
                     switch ($item2->Id_subnorma) {
+                        case 173: //Toxicidad Aguda (Vidrio  Fischeri)
+                        case 172:
+                        case 180:    
+                            for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-V-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
+                                    'Mensual'=>1,
+                                    'Cancelado' => $canceladoAux[$i],
+                                ]);
+                            }
+                            break;
                         case 13: // G&A
                             for ($i = 0; $i < $item->Num_tomas; $i++) {
                                 CodigoParametros::create([
@@ -213,7 +269,7 @@ class IngresarController extends Controller
                                     'Analizo' => 1,
                                     'Reporte' => 1,
                                     'Cadena' => 1,
-                                    'Cancelado' => $canceladoAux[$i], 
+                                    'Cancelado' => $canceladoAux[$i],
                                 ]);
                             }
                             break;
@@ -247,11 +303,10 @@ class IngresarController extends Controller
                                     'Cancelado' => $canceladoAux[$i],
                                 ]);
                             }
-                        
-                        $codTemp = CodigoParametros::where('Id_parametro',134)->where('Id_solicitud',$item->Id_solicitud)->get();
+
+                            $codTemp = CodigoParametros::where('Id_parametro', 134)->where('Id_solicitud', $item->Id_solicitud)->get();
                             if ($codTemp->count()) {
-                              
-                            }else{
+                            } else {
                                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                                     CodigoParametros::create([
                                         'Id_solicitud' => $item->Id_solicitud,
@@ -283,7 +338,7 @@ class IngresarController extends Controller
                                             'Cancelado' => $canceladoAux[$i],
                                         ]);
                                     }
-                                }else{
+                                } else {
                                     if ($res->conductividad[$contP] < 3500) {
                                         for ($i = 0; $i < $item->Num_tomas; $i++) {
                                             CodigoParametros::create([
@@ -300,7 +355,6 @@ class IngresarController extends Controller
                                         }
                                     }
                                 }
-                                
                             } else {
                                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                                     CodigoParametros::create([
@@ -333,7 +387,7 @@ class IngresarController extends Controller
                                             'Cancelado' => $canceladoAux[$i],
                                         ]);
                                     }
-                                }else{
+                                } else {
                                     if ($res->conductividad[$contP] >= 3500) {
                                         for ($i = 0; $i < $item->Num_tomas; $i++) {
                                             CodigoParametros::create([
@@ -350,7 +404,6 @@ class IngresarController extends Controller
                                         }
                                     }
                                 }
-                               
                             } else {
                                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                                     CodigoParametros::create([
@@ -385,10 +438,11 @@ class IngresarController extends Controller
                                 ]);
                             }
                             break;
+                        
                         case 6: // DQO
-                         
+
                             if ($model[0]->Id_norma == "27") {
-                                if ($res->cloruros[$contP] < 1000 ) {
+                                if ($res->cloruros[$contP] < 1000) {
                                     CodigoParametros::create([
                                         'Id_solicitud' => $item->Id_solicitud,
                                         'Id_parametro' => $item2->Id_subnorma,
@@ -401,7 +455,7 @@ class IngresarController extends Controller
                                         'Cancelado' => 0,
                                     ]);
                                 }
-                            }else{
+                            } else {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,
                                     'Id_parametro' => $item2->Id_subnorma,
@@ -430,7 +484,7 @@ class IngresarController extends Controller
                                         'Cadena' => 1,
                                         'Cancelado' => 0,
                                     ]);
-                                }else{
+                                } else {
                                     if ($res->cloruros[$contP] > 1000) {
                                         CodigoParametros::create([
                                             'Id_solicitud' => $item->Id_solicitud,
@@ -445,7 +499,6 @@ class IngresarController extends Controller
                                         ]);
                                     }
                                 }
-                               
                             } else {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,
@@ -459,7 +512,7 @@ class IngresarController extends Controller
                                     'Cancelado' => 0,
                                 ]);
                             }
-                        break;
+                            break;
                         case 30:
                             CodigoParametros::create([
                                 'Id_solicitud' => $item->Id_solicitud,
@@ -472,10 +525,9 @@ class IngresarController extends Controller
                                 'Cadena' => 1,
                                 'Cancelado' => 0,
                             ]);
-                            $codTemp = CodigoParametros::where('Id_parametro',28)->where('Id_solicitud',$item->Id_solicitud)->get();
+                            $codTemp = CodigoParametros::where('Id_parametro', 28)->where('Id_solicitud', $item->Id_solicitud)->get();
                             if ($codTemp->count()) {
-                                
-                            }else{
+                            } else {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,
                                     'Id_parametro' => 28,
@@ -488,12 +540,11 @@ class IngresarController extends Controller
                                     'Cancelado' => 0,
                                 ]);
                             }
-                        
-                            $codTemp = CodigoParametros::where('Id_parametro',29)->where('Id_solicitud',$item->Id_solicitud)->get();
-                           
+
+                            $codTemp = CodigoParametros::where('Id_parametro', 29)->where('Id_solicitud', $item->Id_solicitud)->get();
+
                             if ($codTemp->count()) {
-                                
-                            }else{
+                            } else {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,
                                     'Id_parametro' => 29,
@@ -507,14 +558,14 @@ class IngresarController extends Controller
                                 ]);
                             }
                             break;
-                        default:
-                            
 
-                            $codTemp = CodigoParametros::where('Id_parametro',$item2->Id_subnorma)->where('Id_solicitud',$item->Id_solicitud)->get();
-                           
+                        default:
+
+
+                            $codTemp = CodigoParametros::where('Id_parametro', $item2->Id_subnorma)->where('Id_solicitud', $item->Id_solicitud)->get();
+
                             if ($codTemp->count()) {
-                                
-                            }else{
+                            } else {
                                 CodigoParametros::create([
                                     'Id_solicitud' => $item->Id_solicitud,
                                     'Id_parametro' => $item2->Id_subnorma,
@@ -524,7 +575,7 @@ class IngresarController extends Controller
                                     'Analizo' => 1,
                                     'Reporte' => 1,
                                     'Cadena' => 1,
-    
+
                                     'Cancelado' => 0,
                                 ]);
                             }
@@ -560,17 +611,33 @@ class IngresarController extends Controller
     {
         $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->idSol)->get();
         $puntoModel = SolicitudPuntos::where('Id_solPadre', $res->idSol)->get();
+        $fechaEmision = null;
         $sw = true;
         $msg = "";
         //cambio de hora de recepción
         $addMinute = "";
-        $now = "";
         $timeProce = "";
         foreach ($puntoModel as $item) {
             $codigoParametro = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($codigoParametro->count()) {
             } else {
                 $sw = false;
+                $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";
+            }
+        }
+        if ($model[0]->Id_servicio != 3) {
+            $modelViewSolicitud = DB::table('ViewSolicitud2')->where('Hijo', '=', $res->idSol)->get();
+            $fechaMayor = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', '1980-01-01 01:01:01');
+            foreach ($modelViewSolicitud as $fila) {
+                $modelPhMuestra = PhMuestra::where('Id_solicitud', '=', $fila->Id_solicitud)->orderBy('Id_ph', 'DESC')->first();
+                $fechaAuxiliarConformacion = new \Carbon\Carbon(@$modelPhMuestra->Fecha);
+                if ($fechaAuxiliarConformacion->gt($fechaMayor)) {
+                    $fechaMayor = $fechaAuxiliarConformacion;
+                }
+            }
+            if ($fechaMayor->diffInHours(\Carbon\Carbon::parse($res->horaRecepcion)->format('Y-m-d H:i:s')) > 48) {
+                $sw = false;
+                $msg = "Ya pasaron mas de 48 horas desde la fecha de conformación, no se puede ingresar";
             }
         }
         if ($sw == true) {
@@ -596,7 +663,7 @@ class IngresarController extends Controller
             $date2 = new DateTime($fecha_muestreo);
             $diff = $date1->diff($date2);
             $valProce = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->get();
-            
+
             if ($valProce->count()) {
                 // aqui se crea la condición para la "ventana" de 10 min despues de ingresar la muestra
                 $now = Carbon::now();
@@ -618,24 +685,24 @@ class IngresarController extends Controller
                             $fechaEmision = \Carbon\Carbon::parse(@$res->horaRecepcion)->addDays(11)->format('Y-m-d');
                             break;
                     }
-                  
-                        $valProce[0]->Hora_recepcion = $res->horaRecepcion;
-                        // $valProce->Hora_entrada = $res->horaEntrada;
-                         $valProce[0]->save();
-         
-                         $solModel = Solicitud::where('Hijo', $res->idSol)->get();
-         
-                         foreach ($solModel as $itme){
-                             $upd = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
-                             $upd->Hora_recepcion = $res->horaRecepcion;
-                             $upd->Emision_informe = @$fechaEmision;
-                             $upd->save();
-                         }
-                         $msg = "Esta muestra ha sido actializada";
+
+                    $valProce[0]->Hora_recepcion = $res->horaRecepcion;
+                    // $valProce->Hora_entrada = $res->horaEntrada;
+                    $valProce[0]->save();
+
+                    $solModel = Solicitud::where('Hijo', $res->idSol)->get();
+
+                    foreach ($solModel as $itme) {
+                        $upd = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
+                        $upd->Hora_recepcion = $res->horaRecepcion;
+                        $upd->Emision_informe = @$fechaEmision;
+                        $upd->save();
+                    }
+                    $msg = "Esta muestra ha sido actializada";
                 } else {
                     $msg = "Esta muestra ya fue ingresada hace mas de 10min";
                 }
-               // $msg = "Esta muestra ya fue ingresada hace mas de 10min";
+                // $msg = "Esta muestra ya fue ingresada hace mas de 10min";
             } else {
                 switch ($solModel->Id_norma) {
                     case 1:
@@ -684,10 +751,7 @@ class IngresarController extends Controller
                 }
                 $sw = true;
                 $msg = "Muestra ingresada";
-
             }
-        } else {
-            $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";
         }
         $dif = "";
         if (Auth::user()->id == 65) {
@@ -697,12 +761,18 @@ class IngresarController extends Controller
             'fechaEmision' => $fechaEmision,
             'model' => $model,
             'sw' => $sw,
-            'msg' => $msg ." ".$dif,
+            'msg' => $msg . " " . $dif,
             'puntoModel' => $puntoModel,
-            'now' => $now->toDayDateTimeString(),
-            'timeProceso' => $valProce[0]->created_at,
+            'now' => null,
+            'timeProceso' => null,
             'addMinute' => $addMinute,
         );
+        if (isset($valProce[0]->created_at)) {
+            $data['timeProceso'] = $valProce[0]->created_at;
+        }
+        if (isset($now)) {
+            $data['now'] = $now->toDayDateTimeString();
+        }
         return response()->json($data);
     }
 
@@ -730,12 +800,12 @@ class IngresarController extends Controller
     {
         $msg = "";
         try {
-            $model = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->first();
+            $model = ProcesoAnalisis::where('Id_solicitud', $res->idSol)->first();
             $model->Emision_informe = $res->fecha;
             $model->save();
-            $solModel = Solicitud::where('Hijo',$res->idSol)->get();
+            $solModel = Solicitud::where('Hijo', $res->idSol)->get();
             foreach ($solModel as $item) {
-                $model = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
+                $model = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->first();
                 $model->Emision_informe = $res->fecha;
                 $model->save();
             }
@@ -765,4 +835,30 @@ class IngresarController extends Controller
 
         return response()->json(compact('model'));
     }
+    public function setObsRecepcion(Request $res)
+    {
+        $msg = "";
+
+        try {
+            $model = ProcesoAnalisis::where('Id_solicitud', $res->id)->first();
+            $model->Obs_recepcion = $res->obs;
+            $model->save();
+            $msg = "Observacion asignada";
+        } catch (\Throwable $th) {
+            $msg = $th;
+        }
+
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+
+    public function ConsultarFoto()
+    {
+        $fotos = FotoRecepcionDB2::select('Id_foto_recepcion', 'Id_solicitud')->get();
+    
+        return response()->json($fotos);
+    }
+    
 }

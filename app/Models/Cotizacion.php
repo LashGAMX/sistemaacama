@@ -63,6 +63,13 @@ class Cotizacion extends Model
         'Cancelado',
         'Fecha_impresion',
     ];
+ 
+    public function Cotizacion_estado()
+    {
+      return $this->belongsTo(CotizacionEstado::class,"Estado_cotizacion","Id_estado");
+
+    }
+    
 
 }
 

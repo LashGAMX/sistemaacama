@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    padding: 0;
+    font-size: 12pt;
+}
+
+.container {
+    padding: 15px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24pt;
+    margin: 0;
+}
+
+.details table { 
+    width: 100%;                
+    margin-left: 300px;           
+    margin-right: 100px;           
+    text-align: center;
+    margin-top: 20px;            
+    border-collapse: collapse;  
+    table-layout: fixed;       
+    vertical-align: middle;   
+}
+
+
+.details th,
+.details td {
+    border: 1px solid #000;
+    padding: 8px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.details th {
+    width: 50%;
+}
+
+.details td {
+    width: 50%;
+}
+
+.footer {
+    text-align: left;
+    margin-top: 30px;
+    font-size: 10pt;
+}
+
+.cuerpo {
+    margin: 25.4px;           
+    width: 90%;             
+    border-collapse: collapse; 
+    table-layout: fixed;     
+}
+
+
+.encabezado {
+    text-align: left;
+    font-weight: bold;
+    padding-right: 20px; 
+}
+
+.table-1x1 {
+    width: 100%; 
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+.table-1x1 th {
+    padding: 8px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+.table-1x1 td {
+    border: 1px solid #000; 
+    padding: 8px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.table-1x1 td {
+    text-align: left; 
+}
+
+.table-1x1 th {
+    text-align: left;
+    width: 40%; 
+}
+.Autor{
+    text-align: center;
+}
+.seccion{
+    width: 100%; 
+    border-collapse: collapse;
+    margin-bottom: 15px;
+
+}
+.seccion label{
+    padding: 8px;
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+}
+.seccion p{
+    padding: 10px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+
+}
+
+.subrayado {
+    display: inline-block; 
+    border-bottom: 2px solid black; 
+    margin: 0 6cm; 
+    padding-bottom: 1px; 
+}
+
+

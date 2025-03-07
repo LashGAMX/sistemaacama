@@ -22,4 +22,5 @@ class SucursalContactos extends Model
         'Celular',
         'Telefono',
     ];
+    
 }

@@ -342,7 +342,7 @@ class CurvaController extends Controller
 
         } else {
 
-            for ($i = 0; $i < $request->conArr; $i++) {
+            for ($i = 0; $i < $stdModel->count(); $i++) {
                 $prom = ($request->arrCon[1][$i] + $request->arrCon[2][$i] + $request->arrCon[3][$i]) / 3;
 
                 $stdM = estandares::find($stdModel[$i]->Id_std);

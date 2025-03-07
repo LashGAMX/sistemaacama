@@ -5,11 +5,29 @@
 @section('page_header')
 
     @stop
-
+<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Acciones para foto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="foto" id="fotoGrande" style="max-width: 100%">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" id="eliminarFoto" onclick="">Eliminar Foto</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container-fluid" >
     
     <div class="row" style="scale: (0.5)">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -56,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="row">
                 <div class="col-md-12">
                     <button id="btnIngresar" class="btn-info" ><i class="fas fa-arrow-right"></i> Ingresar</button>
@@ -96,7 +114,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div id="divPuntos">
                 <table id="puntos" class="table" >
                     <thead>
@@ -111,6 +129,22 @@
             </div>
         </div>
     </div>
+    <div class="row" style="scale: (0.5)">
+        <div class="col">
+            <div class="row">
+                <div class="col text-center">
+                    <h4>Imágenes</h4>
+                </div>
+            </div>
+            <div id="fotos" class="py-3">
+                <div class="row">
+                    <div class="col text-center">
+                        <h5>No hay imágenes que mostrar</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
 </div>
 
@@ -118,5 +152,5 @@
 
 
 @section('javascript')
-<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.9"></script>
+<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.10"></script>
 @stop

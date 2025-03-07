@@ -17,6 +17,7 @@ class PuntoMuestreoGen extends Model
         'Id_sucursal',
         'Punto_muestreo',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
+        'deleted_at'
     ];
 }

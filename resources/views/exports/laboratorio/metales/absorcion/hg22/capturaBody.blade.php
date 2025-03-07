@@ -311,20 +311,24 @@
             <tbody>
             @foreach ($model as $item)
                 <tr>
-                    <td id="tableContent">
+                <td id="tableContent">
                         @switch($item->Id_control)
-                            @case(9)
-                            @case(4)
-                            @case(14)
-                                {{@$item->Control}}    
-                                @break
-                            @default
-                             @if ($item->Id_control != 1)
-                                    {{@$item->Folio_servicio}} 
-                                    {{@$item->Control}}    
-                                @else
-                                    {{@$item->Folio_servicio}} 
-                                @endif
+                        @case(9)
+                        @case(4)
+                        @case(14)
+                        @case(15)
+                        @case(23)
+                        @case(22)
+                        @case(5)
+                        {{@$item->Control}}
+                        @break
+                        @default
+                        @if ($item->Id_control != 1)
+                        {{@$item->Folio_servicio}}
+                        {{@$item->Control}}
+                        @else
+                        {{@$item->Folio_servicio}}
+                        @endif
                         @endswitch
                     </td>
                     <td id="tableContent">{{@$item->Vol_muestra}}</td>

@@ -10,6 +10,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::group(['prefix' => 'analisis'], function () { 
         Route::get('captura', [LabAnalisisController::class, 'captura']);
         Route::post('getPendientes',[LabAnalisisController::class,'getPendientes']);
+        Route::get('getPendientesAdmin',[LabAnalisisController::class,'getPendientesAdmin']);
         Route::post('getLote',[LabAnalisisController::class,'getLote']);
         Route::post('getDetalleLote',[LabAnalisisController::class,'getDetalleLote']);
         Route::post('setLote',[LabAnalisisController::class,'setLote']);
@@ -27,10 +28,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         Route::post('setTipoDqo',[LabAnalisisController::class,'setTipoDqo']); 
         Route::post('setControlCalidad', [LabAnalisisController::class, 'setControlCalidad']);
-        Route::post('setLiberarTodo', [LabAnalisisController::class, 'setLiberarTodo']);
+        // Route::post('setLiberarTodo', [LabAnalisisController::class, 'setLiberarTodo']);
         Route::post('setLiberar', [LabAnalisisController::class, 'setLiberar']);
         Route::post('setObservacion', [LabAnalisisController::class, 'setObservacion']);
         Route::get('bitacora/impresion/{id}', [LabAnalisisController::class, 'exportBitacora']);
+        Route::get('updateBitacoraNI', [LabAnalisisController::class, 'updateBitacoraNI']);
 
         //Funciones adicionales 
         Route::get('liberarMatraz', [LabAnalisisController::class, 'liberarMatraz']);
@@ -55,8 +57,10 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('regresarMuestrasDbo/{id}', [LabAnalisisController::class, 'regresarMuestrasDbo']);
         Route::post('getDetalleElegido', [LabAnalisisController::class, 'getDetalleElegido']);
         Route::post('getImagenMuestra', [LabAnalisisController::class, 'getImagenMuestra']);
-        
-        
+        Route::post('eliminarMuestra', [LabAnalisisController::class, 'eliminarMuestra']);
+        Route::get('updateLoteDetalle/{fi}/{ff}/{idp}/{ida}', [LabAnalisisController::class, 'updateLoteDetalle']);
+        Route::post('setLiberarTodo', [LabAnalisisController::class, 'setLiberarTodo']); 
+
     });
    
 });

@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Auth;
 
 use PDF;
 use Mpdf\Mpdf;
+use PhpParser\Node\Stmt\Echo_;
 use PhpParser\Node\Stmt\Return_;
 
 class CotizacionController extends Controller
@@ -76,10 +77,21 @@ class CotizacionController extends Controller
     }
     public function getDataCliente(Request $res)
     {
-        $model = SucursalCliente::where('Id_sucursal', $res->id)->first();
-        $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->get();
-        $contacto = SucursalContactos::where('Id_sucursal', $model->Id_sucursal)->get();
+        $model = array();
+        $direccion = array();
+        $contacto = array();
+        $sw = false;
+
+        $temp = SucursalCliente::where('Id_sucursal', $res->id)->get();
+        if ($temp->count()) {
+            $se = true;
+            $model = SucursalCliente::where('Id_sucursal', $res->id)->first();
+            $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->get();
+            $contacto = SucursalContactos::where('Id_sucursal', $model->Id_sucursal)->get();
+        }
+        
         $data = array(
+            'sw' => $sw,
             'model' => $model,
             'direccion' => $direccion, 
             'contacto' => $contacto,
@@ -208,8 +220,9 @@ class CotizacionController extends Controller
         $id = $_POST['idLocalidad'];
         $model = DB::table('localidades')->where('Id_estado', $id)->get();
         $cotizacionMuestreo = DB::table('cotizacion_muestreos')->where('Id_cotizacion', $id)->first();
-
+        $swCot = DB::table('cotizacion_muestreos')->where('Id_cotizacion', $id)->get();
         $data = array(
+            'swCot' => $swCot,
             'model' => $model,
             'cotizacionMuestreo' => $cotizacionMuestreo,
         );
@@ -840,6 +853,98 @@ class CotizacionController extends Controller
             'margin_left' => 5,
             'margin_right' => 5,
             'margin_top' => 20,
+            'margin_bottom' => 25,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $firma = User::find($impresion[0]->Id_responsable); // Firma maribel
+
+        $data = array(
+            'numServicios' => $numServicios,
+            'model' => $model,
+            'tipo' => $tipo,
+            'servicio' => $servicio,
+            'parametros' => $parametros,
+            'parametrosExtra' => $parametrosExtra,
+            'norma' => $norma,
+            'puntos' => $puntos,
+            'analisisDesc' => $analisisDesc,
+            'firma' => $firma,
+            'impresion' => $impresion[0],
+        );
+
+        $mpdf->showWatermarkImage = true;
+        $htmlFooter = view('exports.cotizacion.cotizacionFooter', $data);
+        $htmlHeader = view('exports.cotizacion.cotizacionHeader', $data);
+        $mpdf->setHeader("{PAGENO} / {nbpg}" . $htmlHeader,'O',true);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+
+        $html = view('exports.cotizacion.cotizacion', $data);
+        $mpdf->CSSselectMedia = 'mpdf';
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
+    public function exportPdfCotizacion($idCot)
+    {
+         //Recupera los parámetros de la cotización
+         $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
+
+         //Recupera los parámetros extra de la cotización
+         $parametrosExtra = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
+ 
+         $model = Cotizacion::where('Id_cotizacion', $idCot)->first();
+         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
+         $puntos = CotizacionPunto::where('Id_cotizacion', $idCot)->get();
+         // $relacion = InformesRelacion::where('Id_cotizacion', $model->Id_cotizacion)->get();
+ 
+         $impresion = ImpresionCotizacion::where('Id_cotizacion',$idCot)->get();
+         // $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();       
+         
+         if ($impresion->count()) {
+             
+         }else{
+             $reporteCotizacion = ReportesCotizacion::whereDate('Fecha_inicio','<=',$model->Fecha_impresion)->whereDate('Fecha_fin','>=',$model->Fecha_impresion)->get();
+             if ($reporteCotizacion->count()) {
+                 ImpresionCotizacion::create([
+                     'Id_cotizacion' => $idCot,
+                     'Encabezado' => $reporteCotizacion[0]->Encabezado,
+                     'Simbologia' => $reporteCotizacion[0]->Simbologia,
+                     'Texto' => $reporteCotizacion[0]->Texto,
+                     'texto_firma_cliente' => $reporteCotizacion[0]->texto_firma_cliente,
+                     'Despedida' => $reporteCotizacion[0]->Despedida,
+                     'Titulo_responsable' => $reporteCotizacion[0]->Titulo_responsable,
+                     'Id_responsable' => $reporteCotizacion[0]->Id_responsable,
+                     'Num_rev' => $reporteCotizacion[0]->Num_rev,
+                     'Fecha_inicio' => $reporteCotizacion[0]->Fecha_inicio,
+                     'Fecha_fin' => $reporteCotizacion[0]->Fecha_fin,
+                     'Version' => 1,
+                     'Fecha_impresion' => $model->Fecha_impresion,
+                 ]);
+             }
+  
+             $impresion = ImpresionCotizacion::where('Id_cotizacion',$idCot)->get();
+         }
+      
+        $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
+
+        $servicio = TipoServicios::all();
+        $tipo = TipoMuestraCot::all();
+        $numServicios = $model->Num_servicios * $puntos->count();
+
+ 
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 5,
+            'margin_right' => 5,
+            'margin_top' => 20,
             'margin_bottom' => 25
         ]);
         $mpdf->SetWatermarkImage(
@@ -866,10 +971,12 @@ class CotizacionController extends Controller
         );
 
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', $data);
+        $html = view('exports.cotizacion.cotizacion2', $data);
         $mpdf->CSSselectMedia = 'mpdf';
 
         $mpdf->WriteHTML($html);
         $mpdf->Output();
+
     }
+
 }

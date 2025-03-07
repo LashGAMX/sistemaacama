@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class FotoRecepcion extends Model
 {
     use HasFactory;
+    
     protected $table = 'foto_recepcion';
     protected $primaryKey = 'Id_foto_recepcion';
     public $timestamps = true;
 
-    protected $fillable = [
+    protected $fillable = 
+    [
         'Id_solicitud',
         'Foto',
         'Id_user_c',

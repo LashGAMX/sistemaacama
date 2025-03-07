@@ -47,4 +47,34 @@ class Solicitud extends Model
       'Id_user_c',
       'Id_user_m'
     ];
+    public function cliente()
+    {
+        return $this->belongsTo(Clientes::class, 'Id_cliente', 'Id_cliente');
+    }
+    public function norma()
+    {
+      return $this->belongsTo(Norma::class,"Id_norma","Id_norma");
+    }
+    public function cotizacion()
+    {
+      return $this->belongsTo(Cotizacion::class,"Id_cotizacion","Id_cotizacion");
+    }
+    public function descarga()
+    {
+      return $this->belongsTo(TipoDescarga::class,"Id_descarga","Id_tipo");
+    }
+    public function UserC()
+    {
+      return $this->belongsTo(User::class,"Id_user_c","id");
+
+    }
+    public function UserM()
+    {
+      return $this->belongsTo(User::class,"Id_user_m","id");
+
+    }
+   
+   
+  
+    
 }

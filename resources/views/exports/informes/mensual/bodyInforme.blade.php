@@ -37,6 +37,59 @@
                     $cont = 0; 
                 @endphp
                 @foreach ($model1 as $item)
+
+                @switch($item->Id_parametro)
+                        @case(365)
+                        @case(372)
+                        @case(370)
+                        <tr>
+                            <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
+                            <td class="tableContent bordesTablaBody">{{$item->Unidad}}</td>
+                            <td class="tableContent bordesTablaBody">
+                             {{$item->Clave_metodo}}
+                            </td>
+                            <td class="tableContent bordesTablaBody">
+                                {{@$limitesC1[$cont]}}
+                            </td>                    
+                            
+                            <td class="tableContent bordesTablaBody">
+                                {{@$limitesC2[$cont]}}
+                            </td>
+
+                            <td class="tableContent bordesTablaBody">
+                             {{@$ponderado[$cont]}}
+                            </td>
+                            @if (@$tipo == 1)
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limitesN[$cont]}} 
+                                </td>
+                            @endif
+                        </tr>
+                        <tr>
+                            <td class="tableContentLeft bordesTablaBody">pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color</td>
+                            <td class="tableContent bordesTablaBody">UpH</td>
+                            <td class="tableContent bordesTablaBody">
+                             NMX-AA-008-SCFI-2016
+                            </td>
+                            <td class="tableContent bordesTablaBody">
+                            {{@$limC1PhColor}}
+                            </td>                    
+                            
+                            <td class="tableContent bordesTablaBody">
+                            {{@$limC2PhColor}}
+                            </td>
+
+                            <td class="tableContent bordesTablaBody">
+                             {{@$limCPhColor}}
+                            </td>
+                            @if (@$tipo == 1)
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limitesN[$cont]}} 
+                                </td>
+                            @endif
+                        </tr>
+                        @break
+                    @default
                     <tr>
                         <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
                         <td class="tableContent bordesTablaBody">{{$item->Unidad}}</td>
@@ -88,6 +141,8 @@
                             </td>
                         @endif
                     </tr>
+                @endswitch
+                
                     @php $cont++; @endphp
                 @endforeach
                 

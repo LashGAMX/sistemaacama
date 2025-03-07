@@ -24,9 +24,7 @@ $(document).ready(function () {
     $("#btnPendientes").click(function () {
         getPendientes();
     });
-    $("#btnPendientes").click(function () {
-        getPendientes();
-    });
+
     $("#btnBuscarLote").click(function () {
         getLote();
     });
@@ -75,6 +73,9 @@ $(document).ready(function () {
     $("#btnFechaDeFGA2").click(function () {
         setFechaDefGA2();
     });
+    $("#btnEliminarMuestra").click(function () {
+        eliminarMuestra();
+    });
     $("#btnGuardarTipoDqo").click(function () {
         $.ajax({
             type: "POST",
@@ -101,6 +102,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: base_url + "/admin/laboratorio/micro/lote/setDetalleLote",
+
             data: {
                 idLote: idLote,
                 idParametro: $("#parametro").val(),
@@ -110,19 +112,23 @@ $(document).ready(function () {
                 bitacora: $("#sembrado_bitacora").val(),
                 preparacion: $("#pruebaPresuntiva_preparacion").val(),
                 lectura: $("#pruebaPresuntiva_lectura").val(),
-                medio: $("pruebaConfirmativa_medio").val(),
+                Ajolote: $("#MEDIO").val(),
                 preparacionCon: $("#pruebaConfirmativa_preparacion").val(),
                 lecturaCon: $("#pruebaConfirmativa_lectura").val(),
                 _token: $('input[name="_token"]').val(),
+            },
+            beforeSend: function () {
+                console.log("Datos a enviar:", this.data);
             },
             dataType: "json",
             async: false,
             success: function (response) {
                 console.log(response);
-                //swal("Registro!", "Datos guardados correctamente!", "success");
+                swal("Registro!", "Datos guardados correctamente!", "success");
             },
         });
     });
+
     $("#btnGuardarDqo").click(function () {
         $.ajax({
             type: "POST",
@@ -309,6 +315,25 @@ function getStdMenu() {
             break;
     }
 }
+function eliminarMuestra() {
+    if (idMuestra != 0) {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/" + area + "/eliminarMuestra",
+            data: {
+                idMuestra: idMuestra,
+                idLote: idLote,
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                alert(response.msg);
+            },
+        });
+    } else {
+        alert("Primero tiene que seleccionar una muestra para poder elimiarlo");
+    }
+}
 function setNormalidadAlc() {
     if ($("#fecIniAlc").val() != "" && $("#fecIniAlc").val() != "") {
         $.ajax({
@@ -461,7 +486,7 @@ function metodoCortoCol() {
             $("#pre8Col").val(0);
             $("#pre9Col").val(0);
 
-            $("#con10Col").val(0);
+            $("#ajo").val(0);
             $("#con11Col").val(0);
             $("#con12Col").val(0);
             $("#con13Col").val(0);
@@ -1019,7 +1044,6 @@ function setDetalleGrasas() {
         },
     });
 }
-
 function setBitacora() {
     $.ajax({
         type: "POST",
@@ -1088,7 +1112,8 @@ function setLiberar() {
 function setLiberarTodo() {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/setLiberarTodo",
+        url: base_url + "/admin/laboratorio/analisis/setLiberarTodo",
+
         data: {
             idLote: idLote,
             _token: $('input[name="_token"]').val(),
@@ -1131,6 +1156,7 @@ function exportBitacora(id) {
     );
 }
 function getDetalleLote(id, parametro) {
+    console.log("Id", id, "Y parametro", parametro);
     getStdMenu();
     $("#modalDetalleLote").modal("show");
 
@@ -1430,12 +1456,32 @@ function getDetalleLote(id, parametro) {
                                 response.model.Estandares_bit
                             );
                             break;
+
+                        case 137:
+                        case 12:
+                            // console.log(
+                            //     "CASO COLIFORME netzair",
+                            //     response.Bitacora
+                            // );
+                            $("#sembrado_sembrado").val(response.Bitacora.Sembrado);
+                            $("#sembrado_fechaResiembra").val(formatDate(response.Bitacora.Fecha_resiembra) );
+                            $("#sembrado_tuboN").val(response.Bitacora.Num_tubo);
+                            $("#sembrado_bitacora").val(response.Bitacora.Bitacora);
+
+                            $("#pruebaPresuntiva_preparacion").val(response.Bitacora.Preparacion_pre);
+                            $("#pruebaPresuntiva_lectura").val(
+                                response.Bitacora.Lectura_pre
+                            );
+
+                            $("#MEDIO").val(response.Bitacora.Medio_con);
+                            $("#pruebaConfirmativa_preparacion").val( response.Bitacora.Preparacion_con    );
+                            $("#pruebaConfirmativa_lectura").val(
+                                response.Bitacora.Lectura_con
+                            );
+                            break;
                         default:
                             break;
                     }
-
-                default:
-                    break;
             }
 
             $("#tituloLote").val(
@@ -2228,14 +2274,12 @@ function setDetalleMuestra() {
                             abs32: $("#abs32Color").val(),
                             abs33: $("#abs33Color").val(),
 
-                            
-
                             _token: $('input[name="_token"]').val(),
                         },
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
-                           
+
                             $("#resultadoColor1").val(
                                 response.model.Resultado1
                             );
@@ -2250,7 +2294,56 @@ function setDetalleMuestra() {
                             $("#absProm2").val(response.model.Abs_promedio2);
                             $("#absProm3").val(response.model.Abs_promedio3);
                             $("#phpColor").val(response.model.Ph_muestra);
-                           
+                        },
+                    });
+                    break;
+                case 173:
+                    $.ajax({
+                        type: "POST",
+                        url:
+                            base_url +
+                            "/admin/laboratorio/" +
+                            area +
+                            "/setDetalleMuestra",
+                        data: {
+                            idLote: idLote,
+                            idMuestra: idMuestra,
+                            vidrio1: $("#vidrio1").val(),
+                            vidrio2: $("#vidrio2").val(),
+                            vidrio3: $("#vidrio3").val(),
+                            vidrio4: $("#vidrio4").val(),
+                            vidrio5: $("#vidrio5").val(),
+                            vidrio6: $("#vidrio6").val(),
+                            _token: $('input[name="_token"]').val(),
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.success && response.model2) {
+                                $("#resultadoVidrio1").val(
+                                    response.model2.Resultado
+                                );
+                                $("#resultadoVidrio2").val(
+                                    response.model2.Resultado2
+                                );
+                                $("#resultadoVidrio3").val(
+                                    response.model2.Resultado_aux
+                                );
+                                $("#resultadoVidrio4").val(
+                                    response.model2.Resultado_aux2
+                                );
+                                $("#resultadoVidrio5").val(
+                                    response.model2.Resultado_aux3
+                                );
+                                $("#resultadoVidrio6").val(
+                                    response.model2.Resultado_aux4
+                                );
+                            } else {
+                                console.error(
+                                    "La respuesta no contiene los datos esperados:",
+                                    response
+                                );
+                            }
                         },
                     });
                     break;
@@ -2423,7 +2516,7 @@ function setDetalleMuestra() {
                             con8: $("#con8Col").val(),
                             con9: $("#con9Col").val(),
 
-                            con10: $("#con10Col").val(),
+                            con10: $("#ajo").val(),
                             con11: $("#con11Col").val(),
                             con12: $("#con12Col").val(),
                             con13: $("#con13Col").val(),
@@ -2456,6 +2549,10 @@ function setDetalleMuestra() {
                             // resultado: $('#resultadoCol').val(),
                             _token: $('input[name="_token"]').val(),
                         },
+                        // beforeSend: function() {
+                        //     console.log('Datos a enviar:', this.data);
+                        // },
+
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
@@ -2871,6 +2968,7 @@ function setDetalleMuestra() {
 let idMuestraG = 0;
 function getDetalleMuestra(id) {
     idMuestraG = id;
+    console.log("Id_lote", idMuestraG);
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleMuestra",
@@ -4277,6 +4375,18 @@ function getDetalleMuestra(id) {
                             );
 
                             break;
+                        case 173:
+                            $("#vidrio1").val(response.model.Vidrio1);
+                            $("#vidrio2").val(response.model.Vidrio2);
+                            $("#vidrio3").val(response.model.Vidrio3);
+                            $("#vidrio4").val(response.model.Vidrio4);
+                            $("#vidrio5").val(response.model.Vidrio5);
+                            $("#vidrio6").val(response.model.Vidrio6);
+                            $("#observacionVidrio").val(
+                                response.model.Observacion
+                            );
+
+                            break;
                         default: // Default Directos
                             $("#observacionDirectoDef").val(
                                 response.model.Observacion
@@ -4407,7 +4517,7 @@ function getDetalleMuestra(id) {
                         case 137:
                             console.log("Ocultando seccion");
 
-                            $("#con10Col").attr("hidden", true);
+                            $("#ajo").attr("hidden", true);
                             $("#con11Col").attr("hidden", true);
                             $("#con12Col").attr("hidden", true);
                             $("#con13Col").attr("hidden", true);
@@ -4428,7 +4538,7 @@ function getDetalleMuestra(id) {
 
                             switch (parseInt(response.model.Id_parametro)) {
                                 case 35:
-                                    $("#con10Col").attr("hidden", false);
+                                    $("#ajo").attr("hidden", false);
                                     $("#con11Col").attr("hidden", false);
                                     $("#con12Col").attr("hidden", false);
                                     $("#con13Col").attr("hidden", false);
@@ -4438,8 +4548,8 @@ function getDetalleMuestra(id) {
                                     $("#con17Col").attr("hidden", false);
                                     $("#con18Col").attr("hidden", false);
 
-                                    $("#con10Col").val(
-                                        response.model.Confirmativa1
+                                    $("#ajo").val(
+                                        response.model.Confirmativa10
                                     );
                                     $("#con11Col").val(
                                         response.model.Confirmativa2
@@ -4467,7 +4577,7 @@ function getDetalleMuestra(id) {
                                     );
 
                                     $("#con1Col").val(
-                                        response.model.Confirmativa10
+                                        response.model.Confirmativa1
                                     );
                                     $("#con2Col").val(
                                         response.model.Confirmativa11
@@ -4495,7 +4605,7 @@ function getDetalleMuestra(id) {
                                     );
                                     break;
                                 case 137:
-                                    $("#con10Col").attr("hidden", false);
+                                    $("#ajo").attr("hidden", false);
                                     $("#con11Col").attr("hidden", false);
                                     $("#con12Col").attr("hidden", false);
                                     $("#con13Col").attr("hidden", false);
@@ -4505,7 +4615,7 @@ function getDetalleMuestra(id) {
                                     $("#con17Col").attr("hidden", false);
                                     $("#con18Col").attr("hidden", false);
 
-                                    $("#con10Col").val(
+                                    $("#ajo").val(
                                         response.model.Confirmativa10
                                     );
                                     $("#con11Col").val(
@@ -4562,7 +4672,7 @@ function getDetalleMuestra(id) {
                                     );
                                     break;
                                 default:
-                                    $("#con10Col").val(
+                                    $("#ajo").val(
                                         response.model.Confirmativa10
                                     );
                                     $("#con11Col").val(
@@ -5330,7 +5440,7 @@ function getCapturaLote() {
                                     item.Id_detalle +
                                     '" value="' +
                                     item.Id_detalle +
-                                    '"><button ' +
+                                    '"><button' +
                                     status +
                                     ' type="button" class="btn btn-' +
                                     color +
@@ -5488,6 +5598,21 @@ function getCapturaLote() {
                                     '" onclick="getDetalleMuestra(' +
                                     item.Id_detalle +
                                     ');" data-toggle="modal" data-target="#modalCapturaColorVerdadero">Capturar</button>';
+                                break;
+                            case 173:
+                                tab +=
+                                    '<td><input hidden id="idMuestra' +
+                                    item.Id_detalle +
+                                    '" value="' +
+                                    item.Id_detalle +
+                                    '"><button ' +
+                                    status +
+                                    ' type="button" class="btn btn-' +
+                                    color +
+                                    '" onclick="getDetalleMuestra(' +
+                                    item.Id_detalle +
+                                    ');" data-toggle="modal" data-target="#modalVidrio">Capturar</button>';
+
                                 break;
                             // case 370:
                             // case 372:
@@ -5796,93 +5921,117 @@ function getCapturaLote() {
                     item.Clave_norma +
                     '"></td>';
 
-                    switch (parseInt(item.Id_parametro)) {
-                        case 102:
-                            let concatenatedResult = "";
-                    
-                            if (item.Resultado1 || item.Resultado2 || item.Resultado3) {
-                                concatenatedResult =
-                                    "R1: " +
-                                    (item.Resultado1 || "") +
-                                    ", R2: " +
-                                    (item.Resultado2 || "") +
-                                    ", R3: " +
-                                    (item.Resultado3 || "");
-                            }
-                    
-                            let concatenatedObservations = "";
-                    
-                            if (item.Observacion1 || item.Observacion2 || item.Observacion3) {
-                                concatenatedObservations =
-                                    "O1: " +
-                                    (item.Observacion1 || "") +
-                                    ", O2: " +
-                                    (item.Observacion2 || "") +
-                                    ", O3: " +
-                                    (item.Observacion3 || "");
-                            }
-                    
-                            if (concatenatedResult.trim() !== "") {
-                                let formated =
-                                    item.Resultado != null
-                                        ? number_format(parseFloat(item.Resultado), dec)
-                                        : concatenatedResult;
-                    
-                                tab +=
-                                    '<td style="' +
-                                    estiloH +
-                                    '"><input id="resultadoCap' +
-                                    item.Id_detalle +
-                                    '" disabled style="width: 100px;" value="' +
-                                    formated +
-                                    '"></td>';
-                            } else {
-                                // Si todos los resultados son null, no mostrar nada
-                                tab +=
-                                    '<td style="' +
-                                    estiloH +
-                                    '"><input id="resultadoCap' +
-                                    item.Id_detalle +
-                                    '" disabled style="width: 100px;" value=""></td>';
-                            }
-                    
-                            // Columna de observaciones solo en case 102
-                            if (concatenatedObservations.trim() !== "") {
-                                tab += '<td style="' + estiloH + '">' + concatenatedObservations + '</td>';
-                            } else {
-                                tab += '<td style="' + estiloH + '"></td>';
-                            }
-                            break;
-                    
-                        default:
-                            if (item.Resultado != null) {
-                                let formated = number_format(parseFloat(item.Resultado), dec);
-                                tab +=
-                                    '<td style="' +
-                                    estiloH +
-                                    '"><input id="resultadoCap' +
-                                    item.Id_detalle +
-                                    '" disabled style="width: 100px;" value="' +
-                                    formated +
-                                    '"></td>';
-                            } else {
-                                tab +=
-                                    '<td style="' +
-                                    estiloH +
-                                    '"><input id="resultadoCap' +
-                                    item.Id_detalle +
-                                    '" disabled style="width: 100px;" value=""></td>';
-                            }
-                    
-                            // Columna de observaciones fuera del case 102
-                            if (item.Observacion != null) {
-                                tab += '<td style="' + estiloH + '">' + item.Observacion + '</td>';
-                            } else {
-                                tab += '<td style="' + estiloH + '"></td>';
-                            }
-                            break;
-                    }
-                    
+                switch (parseInt(item.Id_parametro)) {
+                    case 102:
+                        let concatenatedResult = "";
+
+                        if (
+                            item.Resultado1 ||
+                            item.Resultado2 ||
+                            item.Resultado3
+                        ) {
+                            concatenatedResult =
+                                "R1: " +
+                                (item.Resultado1 || "") +
+                                ", R2: " +
+                                (item.Resultado2 || "") +
+                                ", R3: " +
+                                (item.Resultado3 || "");
+                        }
+
+                        let concatenatedObservations = "";
+
+                        if (
+                            item.Observacion1 ||
+                            item.Observacion2 ||
+                            item.Observacion3
+                        ) {
+                            concatenatedObservations =
+                                "O1: " +
+                                (item.Observacion1 || "") +
+                                ", O2: " +
+                                (item.Observacion2 || "") +
+                                ", O3: " +
+                                (item.Observacion3 || "");
+                        }
+
+                        if (concatenatedResult.trim() !== "") {
+                            let formated =
+                                item.Resultado != null
+                                    ? number_format(
+                                          parseFloat(item.Resultado),
+                                          dec
+                                      )
+                                    : concatenatedResult;
+
+                            tab +=
+                                '<td style="' +
+                                estiloH +
+                                '"><input id="resultadoCap' +
+                                item.Id_detalle +
+                                '" disabled style="width: 100px;" value="' +
+                                formated +
+                                '"></td>';
+                        } else {
+                            // Si todos los resultados son null, no mostrar nada
+                            tab +=
+                                '<td style="' +
+                                estiloH +
+                                '"><input id="resultadoCap' +
+                                item.Id_detalle +
+                                '" disabled style="width: 100px;" value=""></td>';
+                        }
+
+                        // Columna de observaciones solo en case 102
+                        if (concatenatedObservations.trim() !== "") {
+                            tab +=
+                                '<td style="' +
+                                estiloH +
+                                '">' +
+                                concatenatedObservations +
+                                "</td>";
+                        } else {
+                            tab += '<td style="' + estiloH + '"></td>';
+                        }
+                        break;
+
+                    default:
+                        if (item.Resultado != null) {
+                            let formated = number_format(
+                                parseFloat(item.Resultado),
+                                dec
+                            );
+                            tab +=
+                                '<td style="' +
+                                estiloH +
+                                '"><input id="resultadoCap' +
+                                item.Id_detalle +
+                                '" disabled style="width: 100px;" value="' +
+                                formated +
+                                '"></td>';
+                        } else {
+                            tab +=
+                                '<td style="' +
+                                estiloH +
+                                '"><input id="resultadoCap' +
+                                item.Id_detalle +
+                                '" disabled style="width: 100px;" value=""></td>';
+                        }
+
+                        // Columna de observaciones fuera del case 102
+                        if (item.Observacion != null) {
+                            tab +=
+                                '<td style="' +
+                                estiloH +
+                                '">' +
+                                item.Observacion +
+                                "</td>";
+                        } else {
+                            tab += '<td style="' + estiloH + '"></td>';
+                        }
+                        break;
+                }
+
                 tab +=
                     '<td style="' +
                     estiloH +
@@ -5949,12 +6098,11 @@ function getCapturaLote() {
         },
     });
 }
-
 function getImagenMuestra(id) {
     $("#divImagen").html("");
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getImagenMuestra",
+        url: base_url + "/admin/laboratorio/analisis/getImagenMuestra",
         data: {
             id: id,
             _token: $('input[name="_token"]').val(),
@@ -6163,7 +6311,6 @@ function getMuestraSinAsignar() {
         },
     });
 }
-
 function contarCheckbox() {
     let cantidadSeleccionados = $("input[name=stdCkAsignar]:checked").length;
     $("#muestrasSeleccionadas").val(cantidadSeleccionados);
@@ -6371,6 +6518,7 @@ function getPendientes() {
         async: false,
         success: function (response) {
             let mensaje = "";
+            let color = "";
             console.log(response);
             model = response.model;
             tab +=
@@ -6413,7 +6561,7 @@ function getPendientes() {
                         mensaje = "Fuera de Tiempo(" + diasDiferencia + ")";
                     }
                 }
-                console.log(color);
+                // console.log(color);
 
                 tab += "<tr>";
                 tab +=
@@ -6459,7 +6607,6 @@ function getPendientes() {
         },
     });
 }
-
 function getHistorial(id) {
     console.log("Get Historial");
     let tabla1 = document.getElementById("divTablaHist");
@@ -6567,7 +6714,6 @@ function getHistorial(id) {
         },
     });
 }
-
 function getUltimoLote() {
     let tabla = document.getElementById("divUltimoLote");
     let tab = "";
@@ -6586,7 +6732,16 @@ function getUltimoLote() {
         },
     });
 }
-
+function formatDateTime(dateTime) {
+    if (!dateTime) return ""; // Si no hay valor, devuelve una cadena vacía
+    const date = new Date(dateTime);
+    return date.toISOString().slice(0, 16); // Formato 'YYYY-MM-DDTHH:mm'
+}
+function formatDate(date) {
+    if (!date) return ""; // Si no hay valor, devuelve una cadena vacía
+    const d = new Date(date);
+    return d.toISOString().slice(0, 10); // Formato 'YYYY-MM-DD'
+}
 function getDetalleElegido(folio) {
     $.ajax({
         type: "POST",

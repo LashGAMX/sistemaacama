@@ -79,4 +79,47 @@ class PlantillasController extends Controller
         );
         return response()->json($data);
     }
+    public function pdfBitacora($id)
+    {
+          //Opciones del documento PDF
+          $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 40,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $mpdf->showWatermarkImage = true;
+        $mpdf->CSSselectMedia = 'mpdf';
+
+        $plantilla = PlantillaBitacora::where('Id_parametro', $id)->get();
+        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+
+        $data = array(
+            'plantilla' => $plantilla,
+            'procedimiento' => $procedimiento,
+        );
+
+        $htmlFooter = view('exports.config.plantillas.bitacoraFooter', $data);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $htmlHeader = view('exports.config.plantillas..bitacoraHeader', $data);
+        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+        $htmlCaptura = view('exports.config.plantillas.bitacoraBody', $data);
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($htmlCaptura);
+        $mpdf->Output();
+    }
+
+    
 }

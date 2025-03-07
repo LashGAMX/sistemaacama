@@ -33,14 +33,14 @@
             @show
         </div>
         <ul class="nav navbar-nav @if (__('voyager::generic.is_rtl') == 'true') navbar-left @else navbar-right @endif">
-        <!-- <li style="margin-top: 5px;" class="nav-item">
-        <a class="nav-link" href="#" data-toggle="modal" data-target="#chat">
-            <span class="message-icon">
-                <i class="fa fa-comment-dots" style="color: #63E6BE;"></i>
-                <span style="color: red;" id="CountMen"></span>
-            </span>
-        </a>
-    </li> -->
+        <li style="margin-top: 5px;" class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#chat">
+             <span class="message-icon">
+                 <i class="fa fa-comment-dots" style="color: #63E6BE;"></i>
+                 <span id="CountMen"></span>
+             </span>
+            </a>
+        </li>
             <li style="margin-top: 5px;">
             <a class="nav-link" href="#" id="notificationIcon">
           <span class="notification-icon">
@@ -97,108 +97,98 @@
     </div>
 </nav>
 
-<!-- <div class="modal fade" id="chat" tabindex="-1" role="dialog" aria-labelledby="chatLabel" aria-hidden="true">
+<!-- Modal de Chat -->
+<div class="modal fade" id="chat" tabindex="-1" role="dialog" aria-labelledby="chatLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-right" role="document">
         <div class="modal-content modal-content-right">
-            <div class="modal-header" style="background-color:#238C79">
-         
-            <div class="mb-3">
-              <h5 class="modal-title p-2" id="chatLabel" style="color: aliceblue">Chat Sofia</h5>
-              <img src="{{ asset('public/assets/imagen/sofia2.png') }}" alt="sofia" class="img-fluid" style="max-height: 50px;">
-              
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-               
-            </div>
+        <div class="modal-header d-flex align-items-center" style="background-color:#238C79;">
+    <h5 class="modal-title mb-0" id="chatLabel" style="color: aliceblue; margin-right: 15px;">Chat Sofia</h5>
+    <img src="{{ asset('public/assets/imagen/sofia2.png') }}" alt="sofia" class="img-fluid" style="max-height: 50px; margin-right: 15px;">
+    <button type="button" class="close ml-auto" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
             <div class="modal-body">
                 <ul class="list-group" id="groupListContainer">
-                   @if(Auth::user()->role_id == 1)
+                    @if(Auth::user()->role_id == 1)
                     <button class="btn" style="background-color: #BFFFF3" data-toggle="collapse" data-target="#createGroupForm" aria-expanded="false" aria-controls="createGroupForm">Nuevo Grupo</button>
                     <br>
                     <div id="createGroupForm" class="collapse">
-                  
-                         <form id="groupCreationForm" method="POST" action="{{ url('/admin/notificacion/store') }}">
-                             @csrf
-                             <div class="mb-3">
-                                 <label for="groupName" class="form-label">Nombre del Grupo:</label>
-                                 <input type="text" class="form-control" id="groupName" name="name" placeholder="Nombre del Grupo" required>
-                             </div>
-                             <br>
-                             <div class="mb-3">
-                                 <label for="groupUsers" class="form-label">Seleccionar Usuarios:</label>
-                                 <select id="groupUsers" name="usuarios[]" class="form-control" multiple required>
-                                 </select>
-
-                             </div>
-                             <br>
-                             <div class="mb-3">
-                                 <select class="form-control custom-select" id="colorPicker" name="color" aria-placeholder="Selecciona el Tema del Grupo">
-                                     <option selected>Selecciona el Tema del Grupo</option>
-                                     <option value="#F2D06B" style="background-color: #F2D06B">Amarillo</option>
-                                     <option value="#99D98F" style="background-color: #99D98F">Verde</option>
-                                     <option value="#F2ACDA" style="background-color: #F2ACDA">Rosa</option>
-                                     <option value="#C9ACF2" style="background-color: #C9ACF2">Púrpura</option>
-                                     <option value="#9EDFFF" style="background-color: #9EDFFF">Azul</option>
-                                     <option value="#F2F2F2" style="background-color: #F2F2F2">Gris</option>
-                                     <option value="#767676" style="background-color: #767676">Carboncillo</option>
-                                 </select>
-                             </div>
-                             <button type="submit" class="btn text-white" style="background-color: #264D45; color:white;">Crear Grupo</button>
-                         </form>
-                    @endif
+                        <form id="groupCreationForm" method="POST" action="{{ url('/admin/notificacion/store') }}">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="groupName" class="form-label">Nombre del Grupo:</label>
+                                <input type="text" class="form-control" id="groupName" name="name" placeholder="Nombre del Grupo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="groupUsers" class="form-label">Seleccionar Usuarios:</label>
+                                <select id="groupUsers" name="usuarios[]" class="form-control" multiple required>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <select class="form-control custom-select" id="colorPicker" name="color" aria-placeholder="Selecciona el Tema del Grupo">
+                                    <option selected disabled>Selecciona el Tema del Grupo</option>
+                                    <option value="#F2D06B" style="background-color: #F2D06B">Amarillo</option>
+                                    <option value="#99D98F" style="background-color: #99D98F">Verde</option>
+                                    <option value="#F2ACDA" style="background-color: #F2ACDA">Rosa</option>
+                                    <option value="#C9ACF2" style="background-color: #C9ACF2">Púrpura</option>
+                                    <option value="#9EDFFF" style="background-color: #9EDFFF">Azul</option>
+                                    <option value="#F2F2F2" style="background-color: #F2F2F2">Gris</option>
+                                    <option value="#767676" style="background-color: #767676">Carboncillo</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn text-white" style="background-color: #264D45; color:white;">Crear Grupo</button>
+                        </form>
                     </div>
-                  
+                    @endif
                     <br>
                 </ul>
-                <li id="groupList"></li>
+                <ul id="groupList"></ul>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal de Grupo 2 -->
 <div class="modal fade" id="groupModal2" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-right" role="document">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <h5 class="modal-title" id="groupModalLabel">Nombre Grupo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div id="chatMessagesContainer">
-        <div id="chatMessages"></div>
-        <div id="emojiPicker"></div>
+    <div class="modal-dialog modal-dialog-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="groupModalLabel">Nombre Grupo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="chatMessagesContainer">
+                    <div id="chatMessages"></div>
+                    <div id="emojiPicker"></div>
+                </div>
+                <form id="sendMessageForm">
+                    <div class="mb-3">
+                        <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
+                    </div>
+                    <div class="mensaje">
+                        <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
+                        <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
+                        <button type="button" id="emojiButton" class="btn btn-outline-secondary" style="background-color:rgb(168, 168, 168);">
+                            <i class="fas fa-smile" style="color: black;"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(168, 168, 168); color: black;" onclick="document.getElementById('messageFile').click();">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <button type="submit" class="btn" id="enviar">
+                            <i class="fa fa-paper-plane" aria-hidden="true" style="color:white;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        
-        <form id="sendMessageForm">
-            <div class="mb-3">
-                <div id="fileStatusMessage" style="margin-top: 10px; color: green;"></div>
-            </div>
-            <div class="mensaje">
-                <input type="text" id="messageContent" class="form-control" placeholder="Escribe tu mensaje aquí...">
-                <input type="file" id="messageFile" style="display: none;" onchange="seleccion()">
-
-                <button type="button" id="emojiButton" class="btn btn-outline-secondary">
-                    <i class="fas fa-smile"></i>
-                </button>
-
-                <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('messageFile').click();">
-                    <i class="fas fa-paperclip"></i>
-                </button>
-
-                <button type="submit" class="btn" id="enviar">
-                    <i class="fa fa-paper-plane" aria-hidden="true"  ></i>
-                </button>
-            </div>
-        </form>
-      </div>
     </div>
-  </div>
 </div>
 
+<!-- Modal de Grupo -->
 <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -209,6 +199,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Contenido del modal -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -217,6 +208,7 @@
     </div>
 </div>
 
+<!-- Modal de Editar Grupo -->
 <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-labelledby="editGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -227,6 +219,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Contenido del modal -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -234,8 +227,7 @@
             </div>
         </div>
     </div>
-</div> -->
- 
+</div>
 
 
 
@@ -259,6 +251,5 @@
     </div>
   </div>
 </div>
-
 
 

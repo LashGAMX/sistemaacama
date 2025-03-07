@@ -59,7 +59,12 @@ function getBitacoras()
                 tab += '<tr>';
                 tab += '<td>'+item.Id_plantilla+'</td>';
                 tab += '<td>('+item.Id_parametro+') '+item.Parametro+'</td>';
-                tab += '<td><button type="button"  onclick="getDetalleBitacora('+item.Id_plantilla+',\' ('+item.Id_parametro+') '+item.Parametro+'\')"  data-toggle="modal" data-target="#modalDetalle" class="btn btn-primary"><i class="fas fa-pen"></i> Editar</button></td>';
+                // tab += '<td><button type="button"  onclick="getDetalleBitacora('+item.Id_plantilla+',\' ('+item.Id_parametro+') '+item.Parametro+'\')"  data-toggle="modal" data-target="#modalDetalle" class="btn btn-primary"><i class="fas fa-pen"></i> Editar</button></td>';
+                tab += '<td>';
+                tab += '<button type="button" onclick="getDetalleBitacora('+item.Id_plantilla+',\' ('+item.Id_parametro+') '+item.Parametro+'\')" data-toggle="modal" data-target="#modalDetalle" class="btn btn-primary"><i class="fas fa-pen"></i> Editar</button> ';
+                tab += '<button type="button" onclick="PdfBitacora('+item.Id_parametro+')" class="btn btn-danger"><i class="fas fa-file-pdf"></i> PDF</button>';
+                tab += '</td>';
+
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -72,6 +77,12 @@ function getBitacoras()
     });
 }
 var idPlantilla = 0
+function PdfBitacora(id) {
+    console.log('Parametro:', id);
+    let url = base_url + '/admin/config/plantillas/pdfBitacora/' + id; 
+    window.open(url, '_blank');
+}
+
 function getDetalleBitacora(id,parametro){
     $("#parametro").val(parametro)
     let summerTitulo = document.getElementById("divSummerTitulo");

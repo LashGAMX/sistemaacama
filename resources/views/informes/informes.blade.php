@@ -92,7 +92,9 @@
                                             <option value="1">Con comparación</option>
                                             <option value="4">Cadena de custodia</option>
                                             <option value="3">Campo</option>
-                                            
+                                            <option value="5">Vibrio fischeri</option>
+                                            <option value="6">Informe Add</option>
+                                            <option value="7">Hoja Campo Add</option>
                                         </select>
                                     </div>
                                 </div>

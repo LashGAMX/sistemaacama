@@ -54,9 +54,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/recepcionApp.php'));
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')
@@ -133,6 +130,17 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/chat.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace) 
+                ->prefix('admin')
+                ->group(base_path('routes/modules/cobranza.php'));
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace) 
+                ->prefix('admin')
+                ->group(base_path('routes/modules/alimentos.php'));
         });
     }
 
@@ -144,7 +152,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(120)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 }

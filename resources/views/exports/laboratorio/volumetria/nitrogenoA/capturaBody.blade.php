@@ -61,7 +61,7 @@
                         <td class="tableContent"> 
                             @if (@$loteDetalle[$i]->Resultado != NULL)
                                 @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
-                                    {{number_format(@$loteDetalle[$i]->Resultado, 2, ".", ".")}}
+                                    {{number_format(@$loteDetalle[$i]->Resultado, 3, ".", ".")}}
                                 @else 
                                     <{{@$loteDetalle[$i]->Limite}} 
                                 @endif

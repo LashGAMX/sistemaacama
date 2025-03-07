@@ -40,7 +40,9 @@
                             <span id="mensaje" class="badge">
                             
                             </span>
-
+                            <span id="mensaje2" class="badge">
+                            
+                            </span>
 
                         </div>
                      
@@ -61,6 +63,7 @@
                         </div>
                         <div class="col-md-2">
                             <button class="btn btn-success" id="btnCadena">Imprimir</button>
+                            <button class="btn btn-success" id="btnCadenaVidrio">Imprimir V.</button>
                             <div id="fotos" style="display: flex;"></div>
                         </div>
                     </div>
@@ -120,7 +123,7 @@
                                 <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
                                 @break
                             @default
-                            @if (Auth::user()->id == 14 || Auth::user()->id == 4 ||  Auth::user()->id == 12)
+                            @if (Auth::user()->id == 14 || Auth::user()->id == 4 ||  Auth::user()->id == 12 || Auth::user()->id == 100 )
                                 <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip" data-placement="top" title="Regresar Resultado"><i class="voyager-double-left"></i></button>
                                 <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()" data-toggle="tooltip" data-placement="top" title="Cuadro de asignación"><i class="voyager-check"></i></button>
                                 <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()" data-toggle="tooltip" data-placement="top" title="Ocultar"><i class="voyager-x"></i></button>
@@ -228,6 +231,6 @@
 
 @endsection
     @section('javascript')
-    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.2.0"></script>
+    <script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.2.5"></script>
 @stop
 

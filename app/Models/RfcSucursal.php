@@ -17,6 +17,7 @@ class RfcSucursal extends Model
         'Id_sucursal',
         'RFC',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
+        'delelet_at'
     ];
 }

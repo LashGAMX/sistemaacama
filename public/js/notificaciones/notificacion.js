@@ -14,7 +14,7 @@ $(document).ready(function() {
                 var notificacionesHtml = '';
     
                 if (response.length === 0) {
-                    notificacionesHtml = '<div><h4 class="fs-5">Te salvaste por el momento.</h4></div>';
+                    notificacionesHtml = '<div><h4 class="fs-5">No hay Notificaciones.</h4></div>';
                 } else {
                     response.forEach(function(notificacion) {
                        notificacionesHtml += '<div class="modal-body"><div class="card" style="margin-top: 0px; margin-bottom: 0px;">'+ notificacion.Mensaje +'</div></div>';

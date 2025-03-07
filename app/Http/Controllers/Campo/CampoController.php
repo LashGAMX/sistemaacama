@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campo;
 
 use App\Http\Controllers\Controller;
+use App\Http\Livewire\Isaac\Isaac;
 use App\Models\AreaAnalisis;
 use App\Models\AreaLab;
 use App\Models\CampoCompuesto;
@@ -60,6 +61,7 @@ use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\SubNorma;
+use App\Models\VidrioMuestra;
 use App\Models\SucursalCliente;
 use App\Models\TemperaturaAmbiente;
 use App\Models\TemperaturaMuestra;
@@ -72,6 +74,7 @@ use App\Models\Users;
 use App\Models\Usuario;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class CampoController extends Controller
 {
@@ -79,12 +82,12 @@ class CampoController extends Controller
 
     public function asignar()
     {
-        
-        if (Auth::user()->role->id == 13) { 
-            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(800)->get();
+
+        if (Auth::user()->role->id == 13) {
+            $id = Intermediario::where('Id_usuario', Auth::user()->id)->first();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(800)->get();
         } else {
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
         }
 
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
@@ -92,49 +95,49 @@ class CampoController extends Controller
         $usuarios = Usuario::all();
         return view('campo.asignarMuestreo', compact('model', 'intermediarios', 'generadas', 'usuarios'));
     }
-    public function buesquedaFecha(Request $res){
+    public function buesquedaFecha(Request $res)
+    {
         $sw = "";
-       if($res->month != null){
-        $fecha = explode("-",$res->month);
-        if (Auth::user()->role->id == 13) { 
-            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->whereMonth('Fecha_muestreo', $fecha[1])->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+        if ($res->month != null) {
+            $fecha = explode("-", $res->month);
+            if (Auth::user()->role->id == 13) {
+                $id = Intermediario::where('Id_usuario', Auth::user()->id)->first();
+                $model = DB::table('ViewSolicitud2')->whereMonth('Fecha_muestreo', $fecha[1])->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            } else {
+                $model = DB::table('ViewSolicitud2')->whereMonth('Fecha_muestreo', $fecha[1])->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            }
+            $sw = $fecha[1];
+        } else if ($res->dayfinish == null) {
+            $fecha = $res->daystart;
+            if (Auth::user()->role->id == 13) {
+                $id = Intermediario::where('Id_usuario', Auth::user()->id)->first();
+                $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            } else {
+                $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            }
+            $sw = "daystart";
+        } else {
+            if (Auth::user()->role->id == 13) {
+                $id = Intermediario::where('Id_usuario', Auth::user()->id)->first();
+                $model = DB::table('ViewSolicitud2')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            } else {
+                $model = DB::table('ViewSolicitud2')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            }
+            $sw = "range";
+        }
 
-        } else {
-            $model = DB::table('ViewSolicitud2')->whereMonth('Fecha_muestreo', $fecha[1])->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
-        }
-        $sw = $fecha[1];
-       } else if ($res->dayfinish == null){
-        $fecha = $res->daystart;
-        if (Auth::user()->role->id == 13) { 
-            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
-        } else {
-            $model = DB::table('ViewSolicitud2')->where('Fecha_muestreo', $fecha)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
-        }
-        $sw = "daystart";
-       } else {
-        if (Auth::user()->role->id == 13) { 
-            $id = Intermediario::where('Id_usuario',Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Padre', 1)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
-        } else {
-            $model = DB::table('ViewSolicitud2')->whereDate('Fecha_muestreo', '>=', $res->daystart)->whereDate('Fecha_muestreo', '<=', $res->dayfinish)->where('Padre', 1)->where('Id_servicio', 1)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
-        }
-        $sw = "range";
-       }
-        
 
         $data = array(
             'model' => $model,
         );
-       
+
 
         return response()->json($data);
-
     }
-    public function buscar(Request $res){
-        if($res->month != null){
-        $fecha = explode("-",$res->month);
+    public function buscar(Request $res)
+    {
+        if ($res->month != null) {
+            $fecha = explode("-", $res->month);
             switch (Auth::user()->role_id) {
                 case 1:
                 case 15:
@@ -144,7 +147,7 @@ class CampoController extends Controller
                     $model = DB::table('ViewSolicitudGenerada')->whereMonth('Fecha_muestreo', $fecha[1])->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
                     break;
             }
-        } else if ($res->dayfinish == null){
+        } else if ($res->dayfinish == null) {
             $fecha = $res->daystart;
             switch (Auth::user()->role_id) {
                 case 1:
@@ -166,7 +169,7 @@ class CampoController extends Controller
                     break;
             }
         }
-        
+
         $data = array(
             'model' => $model,
         );
@@ -181,20 +184,21 @@ class CampoController extends Controller
         switch (Auth::user()->role_id) {
             case 1:
             case 15:
+                case 7:
                 // $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
                 $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->get();
                 break;
             default:
-                // $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('500')->get();
-                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('1000')->get();
+                // $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
                 break;
         }
         foreach ($model as $item) {
-            $temp = DB::table('ViewSolicitud2')->where('Id_solicitud',$item->Id_solicitud)->first();
+            $temp = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
             array_push($cliente, @$temp->Empresa_suc);
             array_push($fecha, @$temp->Fecha_muestreo);
             array_push($norma, @$temp->Clave_norma);
-            $userTemp = DB::table('users')->where('id',$item->Id_muestreador)->first();
+            $userTemp = DB::table('users')->where('id', $item->Id_muestreador)->first();
             array_push($usuario, @$userTemp->name);
         }
         $data = array(
@@ -204,7 +208,7 @@ class CampoController extends Controller
             'norma' => $norma,
             'cliente' => $cliente,
         );
-        return view('campo.listaMuestreo',$data);
+        return view('campo.listaMuestreo', $data);
     }
     public function setObservacion(Request $res)
     {
@@ -220,12 +224,12 @@ class CampoController extends Controller
     {
         $phControlCalidad = PHCalidad::where('Ph_calidad', 7)->first();
 
-        $phTrazable = PHTrazable::all();
-        $phCalidad = PHCalidad::all();
+        $phTrazable = PHTrazable::withTrashed()->get();
+        $phCalidad = PHCalidad::withTrashed()->get();
         $termometros = TermometroCampo::where('Tipo', 1)->get();
         $termometros2 = TermometroCampo::where('Tipo', 2)->get();
-        $conTrazable = ConductividadTrazable::all();
-        $conCalidad = ConductividadCalidad::all();
+        $conTrazable = ConductividadTrazable::withTrashed()->get();
+        $conCalidad = ConductividadCalidad::withTrashed()->get();
         $aforo = MetodoAforo::all();
         $conTratamiento = ConTratamiento::all();
         $tipo = TipoTratamiento::all();
@@ -252,6 +256,7 @@ class CampoController extends Controller
         $phCalidadCampo = PhCalidadCampo::where('Id_solicitud', $id)->get();
         $conductividadMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
+        $vidrio = VidrioMuestra::where('Id_solicitud', $id)->get();
 
         // $materiales =   DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
         $materiales = array();
@@ -262,7 +267,7 @@ class CampoController extends Controller
             $hidden = "hidden";
         }
 
-        $puntoSol = SolicitudPuntos::where('Id_solicitud',$model->Id_solicitud)->first();
+        $puntoSol = SolicitudPuntos::where('Id_solicitud', $model->Id_solicitud)->first();
 
         $data = array(
             'puntoSol' => $puntoSol,
@@ -297,13 +302,14 @@ class CampoController extends Controller
             'gastoMuestra' => $gastoMuestra,
             'puntos' => $puntos,
             'materiales' => $materiales,
+            'vidrio' => $vidrio,
             //'phCampoCalidadMuestra' => $phCampoCalidadMuestra
         );
         return view('campo.captura', $data);
     }
     public function setDataGeneral(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -334,7 +340,7 @@ class CampoController extends Controller
         $puntoSol->Punto = $request->puntoMuestreo;
         $puntoSol->save();
 
-        $auxPunto = SolicitudPuntos::where('Id_solicitud',$puntoSol->Id_solPadre)->where('Id_muestreo',$puntoSol->Id_muestreo)->first();
+        $auxPunto = SolicitudPuntos::where('Id_solicitud', $puntoSol->Id_solPadre)->where('Id_muestreo', $puntoSol->Id_muestreo)->first();
         $auxPunto->Punto = $request->puntoMuestreo;
         $auxPunto->save();
 
@@ -368,7 +374,7 @@ class CampoController extends Controller
         $phTrazable->save();
 
         //PhCalidad
-        $phCalidadTemp = PHCalidad::where('Ph_calidad',$request->phCalidad1)->first();
+        $phCalidadTemp = PHCalidad::where('Ph_calidad', $request->phCalidad1)->first();
         $phCalidadMode = CampoPhCalidad::where('Id_solicitud', $request->idSolicitud)->get();
         $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
         $phCalidad->Id_solicitud = $request->idSolicitud;
@@ -385,7 +391,7 @@ class CampoController extends Controller
 
         $phCalidad->save();
 
-        $phCalidadTemp = PHCalidad::where('Ph_calidad',$request->phCalidad2)->first();
+        $phCalidadTemp = PHCalidad::where('Ph_calidad', $request->phCalidad2)->first();
 
         $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
         $phCalidad->Id_solicitud = $request->idSolicitud;
@@ -452,7 +458,7 @@ class CampoController extends Controller
 
     public function CancelarMuestra(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -494,35 +500,35 @@ class CampoController extends Controller
 
         return response()->json($data);
     }
-    public function CancelarPunto(Request $request){
+    public function CancelarPunto(Request $request)
+    {
         $sw = false;
         $model = null;
         $parametro = CodigoParametros::where('Id_solicitud', $request->idSolicitud)->get();
-        if($parametro->count()){
-            $model = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->firt();
+        if ($parametro->count()) {
+            $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->firt();
             $model->Cancelado = 1;
             $model->save();
 
-            $model2 = Solicitud::where('Id_solicitud',$request->idSolicitud)->firt();
+            $model2 = Solicitud::where('Id_solicitud', $request->idSolicitud)->firt();
             $model2->Cancelado = 1;
             $model2->save();
         }
-        if($model!=null){
+        if ($model != null) {
             $sw = true;
         } else {
             $sw = false;
         }
-        
+
         $data = array(
             'sw' => $sw,
         );
         return response()->json($data);
-
     }
     //-----------------------------Inicio de guardado independiente en Captura campo-----------------------------------
     public function GuardarPhMuestra(Request $res)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$res->id)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $res->id)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -546,7 +552,7 @@ class CampoController extends Controller
     }
     public function GuardarTempAgua(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -570,7 +576,7 @@ class CampoController extends Controller
     }
     public function GuardarTempAmb(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -591,7 +597,7 @@ class CampoController extends Controller
     }
     public function GuardarPhControlCalidad(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -613,7 +619,7 @@ class CampoController extends Controller
     }
     public function GuardarConductividad(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -634,13 +640,13 @@ class CampoController extends Controller
     }
     public function GuardarGasto(Request $request)
     {
-      $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
         $model = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model[$i]->Gasto1 = $request->array1[$i]; 
+            $model[$i]->Gasto1 = $request->array1[$i];
             $model[$i]->Gasto2 = $request->array2[$i];
             $model[$i]->Gasto3 = $request->array3[$i];
             $model[$i]->Promedio = $request->promedio[$i];
@@ -653,6 +659,24 @@ class CampoController extends Controller
         );
         return response()->json($data);
     }
+    public function GuardarVidrio(Request $request)
+    {
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
+        $aux->Id_user_m = Auth::user()->id;
+        $aux->save();
+
+        $model = VidrioMuestra::where('Id_solicitud', $request->idSolicitud)->get();
+
+        for ($i = 0; $i < count($model); $i++) {
+            $model[$i]->Oxigeno = floatval($request->oxigeno[$i]); // Asegúrate de que sea decimal
+            $model[$i]->Burbujas = intval($request->burbuja[$i]); // Convierte el valor a entero
+
+            $model[$i]->save();
+        }
+
+        return response()->json(['success' => true, 'model' => $model]);
+    }
+
     public function setDatosCompuestos(Request $request)
     {
         $aux = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
@@ -797,7 +821,7 @@ class CampoController extends Controller
 
     public function setDataMuestreo(Request $request)
     {
-        $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->save();
 
@@ -1163,7 +1187,7 @@ class CampoController extends Controller
 
     public function setDataCompuesto(Request $request)
     {
-       $aux = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
+        $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
         $aux->Id_user_m = Auth::user()->id;
         $aux->Captura = "WEB";
         $aux->save();
@@ -1292,7 +1316,7 @@ class CampoController extends Controller
     public function generar(Request $request) //Generar solicitud 
     {
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
-        
+
         if ($sol->count() > 0) {                    //ACTUALIZAR
             $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
             $msg = "Entro a if";
@@ -1306,6 +1330,17 @@ class CampoController extends Controller
             foreach ($solModel as $item) {
                 // $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
                 $punto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+                $parametro = SolicitudParametro::where('Id_solicitud', $item->Id_solicitud)->where('Id_subnorma',173)->get();
+
+                if ($parametro->count()) {
+                    for ($i = 0; $i < $item->Num_tomas; $i++) {                      
+                            VidrioMuestra::create([
+                                'Id_solicitud' => $item->Id_solicitud,
+                                'Num_toma' => $i + 1,
+                                'Activo' => 1,
+                            ]);      
+                    }
+                }
 
                 SolicitudesGeneradas::create([
                     'Id_solicitud' => $item->Id_solicitud,
@@ -1342,6 +1377,11 @@ class CampoController extends Controller
                 CampoCompuesto::create([
                     'Id_solicitud' => $item->Id_solicitud,
                 ]);
+                // VidrioMuestra::create([
+                //     'Id_solicitud' => $item->Id_solicitud,
+                // ]);
+
+
 
                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                     //Datos muestreo
@@ -1375,19 +1415,21 @@ class CampoController extends Controller
                         'Num_toma' => $i + 1,
                         'Activo' => 1,
                     ]);
+
+              
+                    
                 }
             }
 
 
             //$this->historial();
             $this->alert = true;
-          
         }
         $solPunto = array();
         $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
         foreach ($model as $item) {
-            $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
-            array_push($solPunto,$temp->Punto);
+            $temp = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+            array_push($solPunto, $temp->Punto);
         }
 
         $data = array(
@@ -1414,7 +1456,6 @@ class CampoController extends Controller
             'Id_user_c' => $model->Id_user_c,
             'Id_user_m' => $idUser,
             'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $idUser,
             'Punto_muestreo' => $model->Punto_muestreo,
             'Captura' => $model->Captura
         ]);
@@ -1480,7 +1521,7 @@ class CampoController extends Controller
             case 1:
             case 27:
             case 33:
-                $this->updateConductividad($id);       
+                $this->updateConductividad($id);
                 break;
             default:
                 break;
@@ -1496,19 +1537,19 @@ class CampoController extends Controller
         //     $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
         // }
         $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
-        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$id)->first();
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $id)->first();
 
         $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
-        $numOrden = Solicitud::where('Hijo',$model->Hijo)->first();
-        $folioPadre = Solicitud::where('Id_solicitud',$model->Hijo)->first();
+        $numOrden = Solicitud::where('Hijo', $model->Hijo)->first();
+        $folioPadre = Solicitud::where('Id_solicitud', $model->Hijo)->first();
 
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
-
+        $Vidrio=VidrioMuestra::where('Id_solicitud',$id)->get();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
-        $equipo1 = TermometroCampo::where('Id_termometro',$campoGeneral->Id_equipo)->first();
-        $equipo2 = TermometroCampo::where('Id_termometro',$campoGeneral->Id_equipo2)->first();
+        $equipo1 = TermometroCampo::where('Id_termometro', $campoGeneral->Id_equipo)->first();
+        $equipo2 = TermometroCampo::where('Id_termometro', $campoGeneral->Id_equipo2)->first();
         $phMuestra = PhMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $id)->get();
@@ -1516,6 +1557,7 @@ class CampoController extends Controller
         $conMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $muestreador = Usuario::where('id', @$solGen->Id_muestreador)->first();
         $swMateria = SolicitudParametro::where('Id_solicitud', $id)->where('Id_subnorma', 2)->get();
+        $swVibrio = SolicitudParametro::where('Id_solicitud', $id)->where('Id_subnorma', 173)->get();
         $recepcion = SeguimientoAnalisis::where('Id_servicio', $id)->first();
 
         $firmaRes = DB::table('users')->where('id', @$solGen->Id_muestreador)->first();
@@ -1529,8 +1571,8 @@ class CampoController extends Controller
         $methodFirma = 'aes-256-cbc';
         // Puedes generar una diferente usando la funcion $getIV()
         $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-        $dataFirma1 = $muestreador->name.' | '.$numOrden->Folio_servicio;
-        $dataFirma2 = $firmaRecepcion->name.' | '.$numOrden->Folio_servicio;
+        $dataFirma1 = $muestreador->name . ' | ' . $numOrden->Folio_servicio;
+        $dataFirma2 = $firmaRecepcion->name . ' | ' . $numOrden->Folio_servicio;
 
         $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
 
@@ -1557,6 +1599,7 @@ class CampoController extends Controller
             array(0, 0),
         );
         $data = array(
+            'swVibrio' => $swVibrio,
             'firmaEncriptRec' => $firmaEncriptRec,
             'firmaEncript1' => $firmaEncript1,
             'equipo1' => $equipo1,
@@ -1582,13 +1625,37 @@ class CampoController extends Controller
             'recepcion' => $recepcion,
             'firmaRes' => $firmaRes,
             'direccion' => $direccion,
+            'Vidrio' =>$Vidrio,
         );
         $mpdf->showWatermarkImage = true;
+
         $html = view('exports.campo.hojaCampo', $data);
         $mpdf->CSSselectMedia = 'mpdf';
         $htmlFooter = view('exports.campo.hojaCampoFooter');
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($html);
+
+        $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+
+        $folPadre = Solicitud::where('Id_solicitud', $model->Hijo)->first();
+        $primeraLetra = substr($cliente->Empresa, 0, 1);
+        $passUse = $folPadre->Folio_servicio . "" . $primeraLetra;
+        // $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+
+
+        // Definir la ruta donde quieres guardar el PDF
+        $nombreArchivoSeguro = str_replace('/', '-', $model->Folio_servicio);
+        $folioPadre = str_replace('/', '-', $folPadre->Folio_servicio);
+        $rutaDirectorio = storage_path('app/public/clientes/' . $folPadre->Fecha_muestreo . '/' . $folioPadre);
+        // Asegúrate de que el directorio existe, si no, créalo
+        if (!File::isDirectory($rutaDirectorio)) {
+            File::makeDirectory($rutaDirectorio, 0755, true, true);
+        }
+        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-hojaCampo.pdf';
+        // Guardar el archivo en la ruta especificada
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
+
         $mpdf->Output();
     }
     public function updateConductividad($id)
@@ -1601,35 +1668,33 @@ class CampoController extends Controller
             if ($item->Conductividad1 >= 3500) {
                 $temp->Conductividad1 = 3500;
                 $cond += 3500;
-            }else{
+            } else {
                 $cond += $item->Conductividad1;
             }
             if ($item->Conductividad2 >= 3500) {
                 $temp->Conductividad2 = 3500;
-                $cond += 3500; 
-            }else{
+                $cond += 3500;
+            } else {
                 $cond += $item->Conductividad2;
             }
             if ($item->Conductividad3 >= 3500) {
                 $temp->Conductividad3 = 3500;
                 $cond += 3500;
-            }else{
+            } else {
                 $cond += $item->Conductividad3;
             }
 
             $temp->Promedio = round(($cond / 3));
             $temp->save();
-            
         }
-        $model2 = ConductividadMuestra::where('Id_solicitud', $id)->where('Activo',1)->get();
+        $model2 = ConductividadMuestra::where('Id_solicitud', $id)->where('Activo', 1)->get();
         $promCond = 0;
         foreach ($model2 as $item) {
             $promCond += $item->Promedio;
         }
         $puntoMuestra = SolicitudPuntos::where('Id_solicitud', $id)->first();
         $puntoMuestra->Conductividad = round($promCond / $model2->count());
-        $puntoMuestra->save();   
-
+        $puntoMuestra->save();
     }
 
     public function hojaCampoCli($id)
@@ -1731,7 +1796,7 @@ class CampoController extends Controller
         }
 
         // $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
-        $punto = SolicitudPuntos::where('Id_solicitud',$id)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud', $id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud', $id)->first();
@@ -1795,13 +1860,15 @@ class CampoController extends Controller
         $campoConCalidad = DB::table('ViewCampoConCalidad')->where('Id_solicitud', $id)->get();
 
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
+        $Vidrio = VidrioMuestra::where('Id_solicitud', $id)->get();
+
         $metodoAforo = MetodoAforo::where('Id_aforo', $campoCompuesto->Metodo_aforo)->first();
         $proceMuestreo = ProcedimientoAnalisis::where('Id_procedimiento', $campoCompuesto->Proce_muestreo)->first();
         $conTratamiento = ConTratamiento::where('Id_tratamiento', $campoCompuesto->Con_tratamiento)->first();
         $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
         $materia = SolicitudParametro::where('Id_subnorma', 2)->where('Id_solicitud', $model->Id_solicitud)->get();
-        $solGenTemp = SolicitudesGeneradas::where('Id_solicitud',$model->Id_solicitud)->first();
+        $solGenTemp = SolicitudesGeneradas::where('Id_solicitud', $model->Id_solicitud)->first();
         $firmaRevisor = array();
         if ($solGenTemp->Id_muestreador == 15) {
             @$firmaRevisor = User::where('id', 5)->first();
@@ -1857,6 +1924,7 @@ class CampoController extends Controller
             'conTratamiento',
             'tipoTratamiento',
             'campoCompuesto',
+            'Vidrio',
             'factorCorreccion',
             'puntoMuestreo',
             'puntos',
@@ -1867,8 +1935,10 @@ class CampoController extends Controller
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
         $mpdf->setHeader("<br><br>" . $htmlHeader);
 
-        $htmlFooter = view('exports.campo.bitacoraCampoFooter', 
-        compact('muestreador', 'campoGeneral', 'model','solGenTemp','firmaRevisor'));
+        $htmlFooter = view(
+            'exports.campo.bitacoraCampoFooter',
+            compact('muestreador', 'campoGeneral', 'model', 'solGenTemp', 'firmaRevisor')
+        );
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);
@@ -1900,7 +1970,7 @@ class CampoController extends Controller
 
         //Recupera los parámetros de la solicitud
         // $parametros = SolicitudParametro::where('Id_solicitud', $idSolicitud)->get();
-        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$idSolicitud)->get();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSolicitud)->get();
 
         $complementoCampoTipo1 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 1)->get();
         $complementoCampoTipo2 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 2)->get();
@@ -1912,7 +1982,7 @@ class CampoController extends Controller
         $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->get();
         $paqueteLength = $paquete->count();
         // $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSolicitud)->get();
-        $puntoMuestreo = SolicitudPuntos::where('Id_solPadre',$idSolicitud)->get();
+        $puntoMuestreo = SolicitudPuntos::where('Id_solPadre', $idSolicitud)->get();
 
         $areaModel = AreaLab::all();
 
@@ -1922,9 +1992,9 @@ class CampoController extends Controller
         $volumentEnva = array();
         $sw = false;
         $aux = 0;
-     
+
         foreach ($parametros as $item) {
-            $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro',$item->Id_parametro)->where('stdArea', '=', NULL)->get();
+            $auxEnv = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->where('stdArea', '=', NULL)->get();
             if ($auxEnv->count()) {
                 $sw = false;
                 $aux = 0;
@@ -1937,30 +2007,29 @@ class CampoController extends Controller
                     switch ($item->Id_area) {
                         case 3:
                         case 6:
-                        case 13: 
-                         case 12:
+                        case 13:
+                        case 12:
                             switch ($item->Id_parametro) {
                                 case 16:
                                 case 81:
-                                    $aux = $puntoMuestreo->count(); 
+                                    $aux = $puntoMuestreo->count();
                                     break;
-                                
+
                                 default:
                                     $aux = $model->Num_tomas * $puntoMuestreo->count();
                                     break;
                             }
                             break;
-                    
-                        default: 
-                        $aux = $puntoMuestreo->count(); 
+
+                        default:
+                            $aux = $puntoMuestreo->count();
                             break;
                     }
-        
-                    array_push($volumentEnva, $auxEnv[0]->Nombre ." ". $auxEnv[0]->Volumen ." ".$auxEnv[0]->Unidad);
+
+                    array_push($volumentEnva, $auxEnv[0]->Nombre . " " . $auxEnv[0]->Volumen . " " . $auxEnv[0]->Unidad);
                     array_push($totalArea, $aux);
                     array_push($tempArea, $auxEnv[0]->Id_area);
                     array_push($area, $auxEnv[0]->Area);
-                        
                 }
             }
         }
@@ -1985,13 +2054,13 @@ class CampoController extends Controller
         //                     case 81:
         //                         $aux = $puntoMuestreo->count(); 
         //                         break;
-                            
+
         //                     default:
         //                         $aux = $model->Num_tomas * $puntoMuestreo->count();
         //                         break;
         //                 }
         //                 break;
-                    
+
         //             default: 
         //             $aux = $puntoMuestreo->count(); 
         //                 break;
@@ -2049,7 +2118,7 @@ class CampoController extends Controller
             'preservacionesArrayLength',
             'puntos'
         ));
-        $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model', 'puntos','puntoMuestreo'));
+        $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model', 'puntos', 'puntoMuestreo'));
         $htmlFooter = view('exports.campo.planMuestreo.footerPlanMuestreo');
 
         $mpdf->CSSselectMedia = 'mpdf';
@@ -2174,11 +2243,11 @@ class CampoController extends Controller
     }
     public function updatePhTrazableCaptura()
     {
-        $model = Solicitud::where('Padre',0)->whereDate('Fecha_muestreo', '<=', '2024-03-01')->whereDate('Fecha_muestreo', '>=', '2024-05-17')->where('Id_servicio','!=',3)->get();
+        $model = Solicitud::where('Padre', 0)->whereDate('Fecha_muestreo', '<=', '2024-03-01')->whereDate('Fecha_muestreo', '>=', '2024-05-17')->where('Id_servicio', '!=', 3)->get();
 
         foreach ($model as $item) {
             echo "<br>";
-            echo " ".$item->Id_solicitud."- Fecha: ".$item->Fecha_muestreo;
+            echo " " . $item->Id_solicitud . "- Fecha: " . $item->Fecha_muestreo;
         }
     }
 
@@ -2186,4 +2255,57 @@ class CampoController extends Controller
     //todo ******************************************************
     //todo Fin de configuracio plan de muestreo
     //todo ******************************************************
+
+//METODO PARA ELIMINAR CAMPO DUPLICADO Prueba Netza
+
+public function EliminarCampo($id)
+{
+    $eliminados = 0; // Contador de registros eliminados
+    $modelos = [
+        campocompuesto::class,
+        CampoConCalidad::class,
+        CampoConTrazable::class,
+        CampoGenerales::class,
+        CampoPhCalidad::class,
+        CampoPhTrazable::class,
+        PhCalidadCampo::class,
+        TemperaturaMuestra::class,
+        TemperaturaAmbiente::class,
+        ConductividadMuestra::class,
+        GastoMuestra::class,
+        PhMuestra::class,
+        SolicitudesGeneradas::class,
+        VidrioMuestra::class,
+    ];
+
+    try {
+        foreach ($modelos as $modelo) {
+            if (class_exists($modelo)) {
+               
+                $eliminadosModelo = $modelo::where('Id_solicitud', $id)->forceDelete();
+
+              
+                $eliminados += $eliminadosModelo;
+            } else {
+                // Log::warning("El modelo {$modelo} no existe.");
+                return response()->json([
+                   'message'=>"El Modelo {$modelo} No Existe.",
+                ]);
+            }
+        }
+
+        return response()->json([
+            'message' => "{$eliminados} registros eliminados permanentemente.",
+            'status' => 'success'
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => "Error al eliminar registros: {$e->getMessage()}",
+            'status' => 'error'
+        ], 500);
+    }
+}
+
+    
 }

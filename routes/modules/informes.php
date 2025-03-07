@@ -13,13 +13,16 @@ Route::group(['prefix' => 'informes'], function () {
     Route::get('exportPdfConComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfConComparacion']);
     Route::get('exportPdfInforme/{idSol}/{idPunto}/{tipo}', [InformesController::class, 'exportPdfInforme']);
     Route::get('exportPdfInformeCampo/{idSol}/{idPunto}', [InformesController::class, 'exportPdfInformeCampo']);
-    
+    Route::get('exportHojaCampoAdd/{id}', [InformesController::class, 'exportHojaCampoAdd']);
+    Route::get('exportPdfInformeVidrio/{idSol}/{idPunto}', [InformesController::class, 'exportPdfInformeVidrio']);
+    Route::get('exportPdfInformeAdd/{idSol}/{idPunto}', [InformesController::class, 'exportPdfInformeAdd']);
 
     Route::get('/mensual', [InformesController::class, 'mensual']);
     Route::post('/getPreReporteMensual', [InformesController::class, 'getPreReporteMensual']);
     //Ruta temporal para la generación de plantilla de custodia interna
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInterna']);
     Route::get('cadena/pdf/{idSol}',[InformesController::class,'exportPdfCustodiaInterna']);
+    Route::get('cadenavidrio/pdf/{idSol}',[InformesController::class,'exportPdfCustodiaInternaVidrio']);
 
 
     Route::get('exportPdfInformeMensual/{idSol1}/{idsol2}/{tipo}', [InformesController::class, 'exportPdfInformeMensual']);
@@ -32,7 +35,9 @@ Route::group(['prefix' => 'informes'], function () {
     Route::get('muestrasCanceladas',[InformesController::class,'muestrasCanceladas']);
     Route::post('setNota4',[InformesController::class,'setNota4']);
     Route::post('setFirmaAut',[InformesController::class,'setFirmaAut']);
+    
 
 });
+
 
 

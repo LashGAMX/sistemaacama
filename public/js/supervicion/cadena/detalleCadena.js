@@ -3,8 +3,8 @@ var dataModel;
 var name;
 var idPunto;
 var detPa;
-$(document).on('change', '.sugeridoCheckbox', function() {
-    var Id_codigo = $(this).data('id');
+$(document).on("change", ".sugeridoCheckbox", function () {
+    var Id_codigo = $(this).data("id");
     var sugerido_sup = this.checked ? 1 : 0;
 
     $.ajax({
@@ -12,111 +12,110 @@ $(document).on('change', '.sugeridoCheckbox', function() {
         url: base_url + "/admin/supervicion/cadena/sugerido",
         data: {
             Id_codigo: Id_codigo,
-            sugerido_sup: sugerido_sup
+            sugerido_sup: sugerido_sup,
         },
-        success: function(response) 
-        {
+        success: function (response) {
             if (sugerido_sup === 1) {
-                alert('Has marcado este resultado para que tu analista lo libere');
-            }  else if(sugerido_sup===0) {
-                alert('Has desmarcado el resultado');
+                alert(
+                    "Has marcado este resultado para que tu analista lo libere"
+                );
+            } else if (sugerido_sup === 0) {
+                alert("Has desmarcado el resultado");
             }
         },
-        error: function(xhr, status, error) 
-        {
-           alert('Hubo un error al procesar la solicitud.');
-        }
+        error: function (xhr, status, error) {
+            alert("Hubo un error al procesar la solicitud.");
+        },
     });
 });
 
-
-
 $(document).ready(function () {
-
-    let tablePunto = $('#tablePuntos').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
+    let tablePunto = $("#tablePuntos").DataTable({
+        ordering: false,
+        language: {
+            lengthMenu: "# _MENU_ por pagina",
+            zeroRecords: "No hay datos encontrados",
+            info: "Pagina _PAGE_ de _PAGES_",
+            infoEmpty: "No hay datos encontrados",
         },
-        "scrollY": "300px",
-        "scrollCollapse": true,
-        "paging": false
+        scrollY: "300px",
+        scrollCollapse: true,
+        paging: false,
     });
-    $('#btnCadena').click(function () {
-        window.open(base_url+"/admin/informes/cadena/pdf/"+idPunto)
+    $("#btnCadena").click(function () {
+        window.open(base_url + "/admin/informes/cadena/pdf/" + idPunto);
     });
-    $('#btnSetEmision').click(function () {
-        setEmision()
+    $("#btnCadenaVidrio").click(function () {
+        window.open(base_url + "/admin/informes/cadenavidrio/pdf/" + idPunto);
     });
-    $('#tablePuntos tbody').on('click', 'tr', function () { 
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        }
-        else {
-            tablePunto.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            let dato = $(this).find('td:first').html();
+    $("#btnSetEmision").click(function () {
+        setEmision();
+    });
+    $("#tablePuntos tbody").on("click", "tr", function () {
+        if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+        } else {
+            tablePunto.$("tr.selected").removeClass("selected");
+            $(this).addClass("selected");
+            let dato = $(this).find("td:first").html();
             idPunto = dato;
-            getParametros(); 
-            getFotos()
+            getParametros();
+            getFotos();
         }
     });
 
-    $('#tableParametros').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
+    $("#tableParametros").DataTable({
+        ordering: false,
+        language: {
+            lengthMenu: "# _MENU_ por pagina",
+            zeroRecords: "No hay datos encontrados",
+            info: "Pagina _PAGE_ de _PAGES_",
+            infoEmpty: "No hay datos encontrados",
+        },
     });
-    $('#tableResultado').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
+    $("#tableResultado").DataTable({
+        ordering: false,
+        language: {
+            lengthMenu: "# _MENU_ por pagina",
+            zeroRecords: "No hay datos encontrados",
+            info: "Pagina _PAGE_ de _PAGES_",
+            infoEmpty: "No hay datos encontrados",
+        },
     });
-    $('#ckLiberado').click(function () {
-        setLiberar()
+    $("#ckLiberado").click(function () {
+        liberarSolicitud();
+        setLiberar();
     });
-    $('#ckSupervisado').click(function () {
+    $("#ckSupervisado").click(function () {
         setSupervicion();
     });
-    $('#ckHistorial').click(function () {
-        var historialValor = $(this).is(':checked') ? 1 : 0; //verifica si esta activado o desactivado 
-    
+    $("#ckHistorial").click(function () {
+        var historialValor = $(this).is(":checked") ? 1 : 0; //verifica si esta activado o desactivado
+
         setHistorial(historialValor);
-    
     });
-    $('#btnLiberar').click(function () {
+    $("#btnLiberar").click(function () {
         liberarResultado();
     });
 });
-function getFotos(){
-    let divfotos = document.getElementById('fotos')
+function getFotos() {
+    let divfotos = document.getElementById("fotos");
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/getFotos",
         data: {
-            id:idPunto,
+            id: idPunto,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
-        async: false,
+        async: true,
         success: function (response) {
-            let fotosHTML = '';
+            let fotosHTML = "";
 
-            response.model.forEach(item => {
+            response.model.forEach((item) => {
                 fotosHTML += `<img src="data:image/jpeg;base64,${item.Foto}"  onclick="modalImagenMuestra('${item.Foto}')" style="width:50%" alt="Foto">`;
             });
-            
+
             $("#fotos").html(`
                 <div class="row">
                     <div class="col-md-12">
@@ -124,19 +123,21 @@ function getFotos(){
                     </div>
                 </div>
             `);
-            
-        }
+        },
     });
 }
-function modalImagenMuestra(id){
-    $('#modalImgFoto').modal('show')
-    console.log(id)
-    let img = document.getElementById('divImagen')
-    img.innerHTML = '<img src="data:image/png;base64,' + id+ '" style="width:100%;height:auto;">'
+function modalImagenMuestra(id) {
+    $("#modalImgFoto").modal("show");
+    console.log(id);
+    let img = document.getElementById("divImagen");
+    img.innerHTML =
+        '<img src="data:image/png;base64,' +
+        id +
+        '" style="width:100%;height:auto;">';
 }
-function setEmision(){
+function setEmision() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/setEmision",
         data: {
             idSol: $("#idSol").val(),
@@ -146,51 +147,51 @@ function setEmision(){
         dataType: "json",
         async: false,
         success: function (response) {
-            alert(response.msg)
-        }
+            alert(response.msg);
+        },
     });
 }
-function setSupervicion(){
+function setSupervicion() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/setSupervicion",
         data: {
             idSol: $("#idSol").val(),
-            std: $('#ckSupervisado').prop('checked'),
+            std: $("#ckSupervisado").prop("checked"),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response)
-            alert(response.msg)
-        }
+            console.log(response);
+            alert(response.msg);
+        },
     });
 }
-function setLiberar(){
+function setLiberar() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/setLiberar",
         data: {
             idSol: $("#idSol").val(),
-            std: $('#ckLiberado').prop('checked'),
+            std: $("#ckLiberado").prop("checked"),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
-            alert(response.msg)
-        }
+            alert(response.msg);
+        },
     });
 }
 function setHistorial(historialValor) {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/setHistorial",
         data: {
             idSol: $("#idSol").val(),
             historial: historialValor,
-        
+
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -199,20 +200,19 @@ function setHistorial(historialValor) {
             if (response.sw == true) {
                 swal("Registro!", "Proceso por historial", "success");
 
-                $('#tableParametros tbody tr').each(function () {
-                    $(this).find('td:eq(5)').text(historialValor);
-
+                $("#tableParametros tbody tr").each(function () {
+                    $(this).find("td:eq(5)").text(historialValor);
                 });
             } else {
                 swal("Registro!", "Proceso por historial cancelado", "success");
             }
-        }
+        },
     });
 }
 
 function getParametros() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/getParametroCadena",
         data: {
             idPunto: idPunto,
@@ -220,54 +220,57 @@ function getParametros() {
         },
         dataType: "json",
         success: function (response) {
+            console.log(response)
             let tab = '<table id="tableParametros" class="table">';
             tab += '<thead class="thead-dark">';
-            tab += '<tr>';
-                tab += '<th>Id</th>';
-                tab += '<th>Parametro</th>';
-                tab += '<th>Tipo formula</th>';
-                tab += '<th style="width:50px">Ejec.</th>';
-                tab += '<th style="width:50px">Res.</th>';
-                tab += '<th>his</th>';
-                tab += '<th>Limite</th>'; 
-                tab += '<th>%</th>'; 
-            tab += '</tr>';
-            tab += '</thead>';
-            tab += '<tbody>';
-        
+            tab += "<tr>";
+            tab += "<th>Id</th>";
+            tab += "<th>Parametro</th>";
+            tab += "<th>Tipo formula</th>";
+            tab += '<th style="width:50px">Ejec.</th>';
+            tab += '<th style="width:50px">Res.</th>';
+            tab += "<th>his</th>";
+            tab += "<th>Limite</th>";
+            tab += "<th>%</th>";
+            tab += "</tr>";
+            tab += "</thead>";
+            tab += "<tbody>";
+
             let countDanger = 0; // Contador para parámetros fuera de rango
-            let cont = 0
+            let cont = 0;
             $.each(response.model, function (key, item) {
                 let color = "";
                 let AP = "";
-        
+
                 if (item.Resultado2 != null) {
                     color = "success";
                 } else {
                     color = "warning";
                 }
-        
+                
+                
+
                 switch (parseInt(item.Id_parametro)) {
                     case 14: //Ph
                     case 100:
-                    case 26:// Gasto
+                    case 26: // Gasto
                     case 13: // GA
                     case 12: //Coliformes
                     case 137:
                     case 51:
-                    case 134: 
+                    case 134:
                     case 132:
                     case 67: //conductividad
                     case 2: //Materia Floatante
-                    case 97: //Températura 
+                    case 97: //Températura
                     case 100:
                     case 5:
                     case 71:
                     case 35:
                     case 253:
+                    case 361:
                         if (item.Liberado != 1) {
                             color = "danger";
-                      
                         } else {
                             color = "success";
                         }
@@ -275,178 +278,223 @@ function getParametros() {
                     default:
                         break;
                 }
-        
+
                 if (item.Cadena == 0) {
                     AP = "primary";
                 } else {
                     AP = "";
                 }
-              
-        
-                let LOL = ""; 
-    
-                if (item.Limite == 'N/A' || item.Limite == null || item.Resultado2 ==null ) {
-                    LOL = 'success';
-                } else if (item.Limite.includes('-')) {
-                    
-                    var limites = item.Limite.split('-');
+
+                let LOL = "";
+
+                if (
+                    item.Limite == "N/A" ||
+                    item.Limite == null ||
+                    item.Resultado2 == null
+                ) {
+                    LOL = "success";
+                } else if (item.Limite.includes("-")) {
+                    var limites = item.Limite.split("-");
                     var limiteMin = parseFloat(limites[0]);
                     var limiteMax = parseFloat(limites[1]);
-                    
+
                     var resultado2 = parseFloat(item.Resultado2);
-                     if(item.resultado2 < item.Limite)
-                     {
-                        LOL = 'success';
-
-                     }
-                    if (!isNaN(resultado2) && resultado2 >= limiteMin && resultado2 <= limiteMax) {
-                        LOL = 'success';
-                    } else {
-                        LOL = 'danger';
-                        countDanger++; 
+                    if (item.resultado2 < item.Limite) {
+                        LOL = "success";
                     }
-                } else if (parseFloat(item.Resultado2) == parseFloat(item.Limite)) {
-                    LOL = 'success';
-                } else if (parseFloat(item.Resultado2) < parseFloat(item.Limite)) {
-                    LOL = 'success';
-                } else if (parseFloat(item.Resultado2) > parseFloat(item.Limite)) {
-                    LOL = 'danger';
-                    countDanger++; 
+                    if (
+                        !isNaN(resultado2) &&
+                        resultado2 >= limiteMin &&
+                        resultado2 <= limiteMax
+                    ) {
+                        LOL = "success";
+                    } else {
+                        LOL = "danger";
+                        countDanger++;
+                    }
+                } else if (
+                    parseFloat(item.Resultado2) == parseFloat(item.Limite)
+                ) {
+                    LOL = "success";
+                } else if (
+                    parseFloat(item.Resultado2) < parseFloat(item.Limite)
+                ) {
+                    LOL = "success";
+                } else if (
+                    parseFloat(item.Resultado2) > parseFloat(item.Limite)
+                ) {
+                    LOL = "danger";
+                    countDanger++;
+                } else {
+                    LOL = "success";
                 }
-                else {
-                    LOL = 'success';
-                }
-                
-                
-                tab += '<tr>';
-                tab += '<td>' + item.Id_codigo + '</td>';
-                tab += '<td class="bg-' + color + '">(' + item.Id_parametro + ') ' + item.Parametro + '</td>';
-                tab += '<td class="bg-' + AP + '">' + item.Tipo_formula + '</td>';
-                tab += '<td class="bg-' + AP + '">' + item.Resultado + '</td>';
-                tab += '<td class="bg-' + AP + '">' + item.Resultado2 + '</td>';
-                tab += '<td><button class="btn-warning" onclick="getHistorial(' + item.Id_codigo + ')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
-                tab += '<td class="bg-' + LOL + '">' + item.Limite + '</td>'; 
-                tab += '<td>'+response.porcentaje[cont]+'</td>'; 
-                tab += '</tr>';
-                cont++
+
+                tab += "<tr>";
+                tab += "<td>" + item.Id_codigo + "</td>";
+                tab +=
+                    '<td class="bg-' +
+                    color +
+                    '">(' +
+                    item.Id_parametro +
+                    ") " +
+                    item.Parametro +
+                    "</td>";
+                tab +=
+                    '<td class="bg-' + AP + '">' + item.Tipo_formula + "</td>";
+                tab += '<td class="bg-' + AP + '">' + item.Resultado + "</td>";
+                tab += '<td class="bg-' + AP + '">' + item.Resultado2 + "</td>";
+                tab +=
+                    '<td><button class="btn-warning" onclick="getHistorial(' +
+                    item.Id_codigo +
+                    ')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
+                tab += '<td class="bg-' + LOL + '">' + item.Limite + "</td>";
+                tab += '<td class="bg-'+response.porcentajeCom[cont]+'"> ' + response.porcentaje[cont] + '</td>';
+                tab += "</tr>";
+                cont++;
             });
-        
-            tab += '</tbody>';
-            tab += '</table>';
-        
-            $('#divTableParametros').html(tab);
 
-            const mensaje = $('#mensaje'); 
+            tab += "</tbody>";
+            tab += "</table>";
 
+            $("#divTableParametros").html(tab);
 
-        
+            const mensaje = $("#mensaje");
+            const mensaje2 = $("#mensaje2");
+
             if (countDanger == 0) {
-                mensaje.text('No Hay Parametros Fuera de Rango');
-                mensaje.css('background-color', 'green');
+                mensaje.text("No Hay Parametros Fuera de Rango");
+                mensaje.css("background-color", "green");
             } else if (countDanger > 0) {
-                mensaje.text('Parametros Fuera de Rango:  ');
-                mensaje.css('background-color', 'red');
-        
-                const span = $('<span>').addClass('badge rounded-pill').css('background-color', 'rgb(3, 196, 245)');
-                span.text(' ' + countDanger);
-                
+                mensaje.text("Parametros Fuera de Rango:  ");
+                mensaje.css("background-color", "red");
+
+                const span = $("<span>")
+                    .addClass("badge rounded-pill")
+                    .css("background-color", "rgb(3, 196, 245)");
+                span.text(" " + countDanger);
+
                 mensaje.append(span);
             }
-        
-            let tableParametro = $('#tableParametros').DataTable({
-                "ordering": false,
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
+            
+            if (parseInt(response.contPa) == 0) {
+                mensaje2.text("No hay porcentajes fuera de rango");
+                mensaje2.css("background-color", "green");
+            } else if (parseInt(response.contPa) > 0) {
+                mensaje2.text("Porcentaje fuera de rango:  ");
+                mensaje2.css("background-color", "red");
+
+                const span = $("<span>")
+                    .addClass("badge rounded-pill")
+                    .css("background-color", "rgb(3, 196, 245)");
+                span.text(" " + parseInt(response.contPa));
+
+                mensaje2.append(span);
+            }
+
+            let tableParametro = $("#tableParametros").DataTable({
+                ordering: false,
+                language: {
+                    lengthMenu: "# _MENU_ por pagina",
+                    zeroRecords: "No hay datos encontrados",
+                    info: "Pagina _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay datos encontrados",
                 },
-                "scrollY": "300px",
-                "scrollCollapse":true,
-                "paging": false,
-               
+                scrollY: "300px",
+                scrollCollapse: true,
+                paging: false,
             });
-            $('#tableParametros tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else 
-                {
-                    tableParametro.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
+            $("#tableParametros tbody").on("click", "tr", function () {
+                if ($(this).hasClass("selected")) {
+                    $(this).removeClass("selected");
+                } else {
+                    tableParametro.$("tr.selected").removeClass("selected");
+                    $(this).addClass("selected");
                     getDetalleAnalisis(idCodigo);
+                    console.log("ID codigo" + idCodigo);
                 }
             });
-            $('#tableParametros tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
+            $("#tableParametros tr").on("click", function () {
+                let dato = $(this).find("td:first").html();
                 idCodigo = dato;
             });
         },
-        
+
         error: function (xhr, status, error) {
-            console.error('Error en la solicitud AJAX:', status, error);
-        }
+            console.error("Error en la solicitud AJAX:", status, error);
+        },
     });
 }
 
-
-function regresarMuestra () {
+function regresarMuestra() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/regresarMuestra",
         data: {
             idSol: $("#idSol").val(),
             idCodigo: idCod,
-           
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response)
-                alert("Muestra regresada");
+            console.log(response);
+            alert("Muestra regresada");
 
-                var table = $('#tableParametros').DataTable();
-                table.rows().every(function () {
+            var table = $("#tableParametros").DataTable();
+            table.rows().every(function () {
                 var rowData = this.data();
                 var rowId = rowData[0];
 
                 if (rowId == idCodigo) {
                     this.cell(this.index(), 4).data(response.resLiberado);
-                    
-                    $(this.node()).find('td:eq(1)').removeClass('bg-success').addClass('bg-warning');
-                    return false; 
+
+                    $(this.node())
+                        .find("td:eq(1)")
+                        .removeClass("bg-success")
+                        .addClass("bg-warning");
+                    return false;
                 }
-             
-                
             });
-          
-        }
+        },
     });
 }
-function reasignarMuestra () {
+function reasignarMuestra() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/reasignarMuestra",
         data: {
             idSol: $("#idSol").val(),
             idCodigo: idCod,
-           
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response)
-           
-                alert("Muestra Para Reasignar");
-          
-        }
+            console.log(response);
+            
+            alert(response.msg);
+            var table = $("#tableParametros").DataTable();
+            table.rows().every(function () {
+                var rowData = this.data();
+                var rowId = rowData[0];
+
+                if (rowId == idCodigo) {
+                    this.cell(this.index(), 4).data(response.resLiberado);
+
+                    $(this.node())
+                        .find("td:eq(1)")
+                        .removeClass("bg-success")
+                        .addClass("bg-warning");
+                    return false;
+                }
+            });
+        },
+        
     });
 }
 function desactivarMuestra() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/desactivarMuestra",
         data: {
             idSol: $("#idSol").val(),
@@ -456,37 +504,36 @@ function desactivarMuestra() {
         dataType: "json",
         async: false,
         success: function (response) {
-            var table = $('#tableParametros').DataTable();
+            var table = $("#tableParametros").DataTable();
             table.rows().every(function () {
                 var rowData = this.data();
                 var rowId = rowData[0];
 
                 if (rowId == idCodigo) {
-            alert("Muestra desactivada");
-            $(this.node()).find('td:eq(2)').addClass('bg-primary');
-            $(this.node()).find('td:eq(3)').addClass('bg-primary');
-            $(this.node()).find('td:eq(4)').addClass('bg-primary');
-            
-        }
-    });
-        }
+                    alert("Muestra desactivada");
+                    $(this.node()).find("td:eq(2)").addClass("bg-primary");
+                    $(this.node()).find("td:eq(3)").addClass("bg-primary");
+                    $(this.node()).find("td:eq(4)").addClass("bg-primary");
+                }
+            });
+        },
     });
 }
 
-
 var resLiberado = 0;
 var idCod = idCodigo;
-var name = ""
+var name = "";
 function getDetalleAnalisis(idCodigo) {
-    let tabla = document.getElementById('divTabDescripcion');
-    let tab = '';
+    let tabla = document.getElementById("divTabDescripcion");
+    let tab = "";
     let aux = 0;
     let cont = 0;
+    let lib = "";
     tabla.innerHTML = tab;
     resLiberado = 0;
-    $("#resDes").val(0.0)
+    $("#resDes").val(0.0);
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/getDetalleAnalisis",
         data: {
             idSol: $("#idSol").val(),
@@ -496,13 +543,63 @@ function getDetalleAnalisis(idCodigo) {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response)
-            dataModel = response.model
+            console.log(response);
+            dataModel = response.model;
+
             idCod = idCodigo;
+            console.log(parseInt(response.paraModel.Id_parametro));
             switch (parseInt(response.paraModel.Id_parametro)) {
+                
+             
+                case 102:
+                    console.log("entro a caso 102");
+
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>436 nm</th>";
+                    tab += "          <th>525 nm</th>";
+                    tab += "          <th>620 nm</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+
+                    $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            response.paraModel.Parametro +
+                            "</td>";
+                        tab +=
+                            "<td> " +
+                            parseFloat(item.Resultado1).toFixed(1) +
+                            "</td>";
+                        tab +=
+                            "<td> " +
+                            parseFloat(item.Resultado2).toFixed(1) +
+                            "</td>";
+                        tab +=
+                            "<td> " +
+                            parseFloat(item.Resultado3).toFixed(1) +
+                            "</td>";
+                        tab += "</tr>";
+                    });
+
+                    tab += "    </tbody>";
+                    tab += "</table>";
+                    tabla.innerHTML = tab;
+                    break;
                 case 17: // Arsenico
                 case 208:
-                case 207: //Aluminio 
+                case 207: //Aluminio
                 case 231:
                 case 20: // Cobre
                 case 22: //Mercurio
@@ -510,14 +607,14 @@ function getDetalleAnalisis(idCodigo) {
                 case 25: //Zinc
                 case 227:
                 case 24: //Plomo
-                case 216:  
+                case 216:
                 case 21: //Cromoa
                 case 264:
                 case 18: //Cadmio
                 case 210:
                 case 300: //Niquel
                 case 233: // Seleneio
-                case 213: //Fierro 
+                case 213: //Fierro
                 case 197:
                 case 188:
                 case 189:
@@ -531,27 +628,37 @@ function getDetalleAnalisis(idCodigo) {
                 case 219:
                 case 230:
                 case 23:
-                    console.log("entro a caso 2");
+                    // console.log("entro a caso 2");
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + response.paraModel.Parametro + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '" >' +
+                            response.paraModel.Parametro +
+                            "</td>";
                         resLiberado = item.Vol_disolucion;
-                        tab += '<td>' + item.Vol_disolucion + '</td>';
-                        tab += '</tr>';
+                        tab += "<td>" + item.Vol_disolucion + "</td>";
+                        tab += "</tr>";
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
-                   
+
                 case 15: // fosforo
                 case 19: // Cianuros
                 case 7: //Nitrats
@@ -563,550 +670,757 @@ function getDetalleAnalisis(idCodigo) {
                 case 107:
                 case 96:
                 case 95: // Sulfatos
-                case 87: // silice 
+                case 87: // silice
                 case 79:
                 case 80:
-                    console.log("entro a caso 16");
-                  
+                    // console.log("entro a caso 16");
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + response.paraModel.Parametro + '</td>';
-                        tab += '<td>' + parseFloat(item.Resultado).toFixed(3) + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            response.paraModel.Parametro +
+                            "</td>";
+                        tab +=
+                            "<td>" +
+                            parseFloat(item.Resultado).toFixed(3) +
+                            "</td>";
                         resLiberado = parseFloat(item.Resultado).toFixed(3);
-                        tab += '</tr>';
+                        tab += "</tr>";
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 //Volumnetria
 
                 case 11:
-                    let swT = 0
-                    
+                    let swT = 0;
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
-                    tab += '<tr>';
-                    tab += '<td>' + response.model.Parametro + '</td>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+                    tab += "<tr>";
+
+                    tab += "<td>" + response.model.Parametro + "</td>";
                     if (response.model.Resultado2 < response.model.Limite) {
-                        tab += '<td>< ' + response.model.Limite + '</td>';
+                        tab += "<td>< " + response.model.Limite + "</td>";
                         aux = aux + parseFloat(response.model.Limite);
                     } else {
-                        tab += '<td>' + response.model.Resultado2 + '</td>';
+                        tab += "<td>" + response.model.Resultado2 + "</td>";
                         aux = aux + parseFloat(response.model.Resultado2);
-                        swT = 1
+                        swT = 1;
                     }
-                    console.log("Ken: "+ aux)
-                    tab += '</tr>';
-                    let tempR
+                    console.log("Ken: " + aux);
+                    tab += "</tr>";
+                    let tempR;
                     $.each(response.aux, function (key, item) {
-                        if (item.Id_parametro == "7" || item.Id_parametro == "8") {
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        if (
+                            item.Id_parametro == "7" ||
+                            item.Id_parametro == "8"
+                        ) {
+                            tab += "<tr>";
+                            tab +=
+                                '<td class="' +
+                                lib +
+                                '">' +
+                                item.Parametro +
+                                "</td>";
                             if (item.Resultado < item.Limite) {
-                                tab += '<td>< ' + item.Limite + '</td>';
+                                tab += "<td>< " + item.Limite + "</td>";
                                 aux = aux + parseFloat(item.Limite);
                             } else {
-                                tab += '<td>' + parseFloat(item.Resultado).toFixed(3) + '</td>';
-                                tempR = parseFloat(item.Resultado).toFixed(3)
+                                tab +=
+                                    "<td>" +
+                                    parseFloat(item.Resultado).toFixed(3) +
+                                    "</td>";
+                                tempR = parseFloat(item.Resultado).toFixed(3);
                                 aux = aux + parseFloat(tempR);
                             }
-                            tab += '</tr>';
-                            if (parseFloat(item.Resultado) >= parseFloat(item.Limite)) {
-                                swT = 1
-                            } 
+                            tab += "</tr>";
+                            if (
+                                parseFloat(item.Resultado) >=
+                                parseFloat(item.Limite)
+                            ) {
+                                swT = 1;
+                            }
                         }
                     });
-                    resLiberado = parseFloat(aux).toFixed(3)
+                    resLiberado = parseFloat(aux).toFixed(3);
                     if (swT != 1) {
-                        resLiberado = 1.50;
-                    } 
-                    console.log(swT)
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                        resLiberado = 1.5;
+                    }
+                    console.log(swT);
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 9:
                 case 10:
-                case 108: 
-                   
+                case 108:
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
                         resLiberado = item.Resultado;
-                        tab += '</tr>';
+                        tab += "</tr>";
                     });
-                    tab += '    </tbody>'; 
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 6:
-                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
                         resLiberado = item.Resultado;
-                        tab += '</tr>';
+                        tab += "</tr>";
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 83:
                     let swK = 0;
-                    let resN1 = 0.0
-                    let resN2 = 0.0
-                    console.log("Entro a kendal")
-                  
+                    let resN1 = 0.0;
+                    let resN2 = 0.0;
+                    console.log("Entro a kendal");
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
                         if (item.Resultado < item.Limite) {
-                            tab += '<td> < ' + item.Limite + '</td>';
+                            tab += "<td> < " + item.Limite + "</td>";
                             resLiberado = resLiberado + parseFloat(item.Limite);
                         } else {
-                            tab += '<td>' + item.Resultado + '</td>';
-                            // resLiberado = resLiberado + parseFloat(item.Resultado); 
-                            resN1 = parseFloat(item.Resultado).toFixed(2)
-                            resLiberado = resLiberado + parseFloat(resN1)
+                            tab += "<td>" + item.Resultado + "</td>";
+                            // resLiberado = resLiberado + parseFloat(item.Resultado);
+                            resN1 = parseFloat(item.Resultado).toFixed(2);
+                            resLiberado = resLiberado + parseFloat(resN1);
                         }
-                        tab += '</tr>';
+                        tab += "</tr>";
                         if (parseFloat(item.Resultado) >= item.Limite) {
-                            swK = 1
-                        } 
+                            swK = 1;
+                        }
                     });
                     $.each(response.aux, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
                         if (item.Resultado <= item.Limite) {
-                            tab += '<td> < ' + item.Limite + '</td>';
+                            tab += "<td> < " + item.Limite + "</td>";
                             resLiberado = resLiberado + parseFloat(item.Limite);
                         } else {
-                            tab += '<td>' + item.Resultado + '</td>';
-                            // resLiberado = resLiberado + parseFloat(item.Resultado);   
-                            resN2 = parseFloat(item.Resultado).toFixed(2)
-                            resLiberado = resLiberado + parseFloat(resN2)
+                            tab += "<td>" + item.Resultado + "</td>";
+                            // resLiberado = resLiberado + parseFloat(item.Resultado);
+                            resN2 = parseFloat(item.Resultado).toFixed(2);
+                            resLiberado = resLiberado + parseFloat(resN2);
                         }
-                        tab += '</tr>';
+                        tab += "</tr>";
                         if (parseFloat(item.Resultado) >= item.Limite) {
-                            swK = 1
-                        } 
+                            swK = 1;
+                        }
                     });
 
-                        if (swK != 1) {
-                            resLiberado = 1.39;
-                        } 
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    if (swK != 1) {
+                        resLiberado = 1.39;
+                    }
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 // case 218:
                 case 64:
-                
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            resLiberado = resLiberado + parseFloat(item.Resultado);
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+
+                        tab +=
+                            '<td  class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        resLiberado = resLiberado + parseFloat(item.Resultado);
+                        tab += "</tr>";
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 358:
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                            tab += '<td>Cloruros Totales (Cl¯)</td>';
-                            tab += '<td>' + item.Cloruros + '</td>';
-                            resLiberado = resLiberado + parseFloat(item.Cloruros);
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">Cloruros Totales (Cl¯)</td>';
+                        tab += "<td>" + item.Cloruros + "</td>";
+                        resLiberado = resLiberado + parseFloat(item.Cloruros);
+                        tab += "</tr>";
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
-                case 13:// Graasas & Aceites
-                    console.log("entro a caso 13");
+                case 13: // Graasas & Aceites
+                    // console.log("entro a caso 13");
                     let swG = 0;
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
                     if ($("#idNorma").val() == "27") {
-                        tab += '          <th>%</th>';
+                        tab += "          <th>%</th>";
                     }
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
 
-                    aux = 0; 
+                    aux = 0;
                     cont = 0;
-                $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td> GA - ' + item.Num_tomas + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        
+                    $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '"> GA - ' +
+                            item.Num_tomas +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+
                         if (item.Resultado != null) {
                             if (response.solModel.Id_servicio != "3") {
                                 if (parseInt(response.solModel.Num_tomas) > 1) {
                                     // tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
                                     // aux = aux + (response.aux[cont] * item.Resultado);
-                                    
-                                    if (item.Resultado < item.Limite) {
-                                        tab += '<td>< ' + item.Limite + '</td>';
-                                        aux = aux + (response.aux[cont] * item.Limite)
+
+                                    if (
+                                        parseFloat(item.Resultado) <
+                                        parseFloat(item.Limite)
+                                    ) {
+                                        tab += "<td>< " + item.Limite + "</td>";
+                                        aux =
+                                            aux +
+                                            parseFloat(response.aux[cont]) *
+                                                parseFloat(item.Limite);
                                     } else {
-                                        tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
-                                        aux = aux + (response.aux[cont] * item.Resultado)
+                                        tab +=
+                                            "<td>" +
+                                            (
+                                                parseFloat(response.aux[cont]) *
+                                                parseFloat(item.Resultado)
+                                            ).toFixed(2) +
+                                            "</td>";
+                                        aux =
+                                            aux +
+                                            parseFloat(response.aux[cont]) *
+                                                parseFloat(item.Resultado);
                                     }
                                     cont++;
                                 } else {
-                                    aux = parseFloat(item.Resultado)
+                                    aux = parseFloat(item.Resultado);
                                     cont++;
                                 }
                             } else {
-                                aux = parseFloat(item.Resultado)
+                                aux = parseFloat(item.Resultado);
                                 cont++;
                             }
-                           
                         }
-                        tab += '</tr>';
+                        tab += "</tr>";
                     });
-                    console.log(aux)
+                    console.log(aux);
                     if (aux.toFixed(2) <= 10) {
-                        aux = 9.9
+                        aux = 9.9;
                     }
-                    resLiberado = (aux).toFixed(2);  
-                    
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    resLiberado = aux.toFixed(2);
+
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
-                    case 5:
-                    case 70:
-                    case 71:
-                            console.log("Entro a id 5")
-                            tab += '<table id="tableResultado" class="table table-sm">';
-                            tab += '    <thead class="thead-dark">';
-                            tab += '        <tr>';
-                            tab += '          <th>Descripcion</th>';
-                            tab += '          <th>Valor</th>';
-                            tab += '          <th>Sup</th>';
-                            tab += '        </tr>';
-                            tab += '    </thead>';
-                            tab += '    <tbody>';
-                            $.each(response.model, function (key, item) {
-                                tab += '<tr>';
-                                if (item.Sugerido == 1) {
-                                    tab += '<td class="bg-success">';
-                                    resLiberado = item.Resultado;
-                                } else {
-                                    tab += '<td>';
-                                }
-                                tab += '' + item.Parametro + '</td>';
-                                tab += '<td>' + item.Resultado + '</td>';                                                  
-                                tab += '<td><input type="checkbox" class="sugeridoCheckbox" data-id="' + item.Id_codigo + '" ' + (item.Sugerido_sup === 1 ? 'checked' : '') + '></td>';    
-                             });
-                            tab += '    </tbody>';
-                            tab += '</table>';
-                          
-                            tabla.innerHTML = tab;
-                            break;
+                case 5:
+                case 70:
+                case 71:
+                    console.log("Entro a id 5");
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "          <th>Sup</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+                    $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        if (item.Sugerido == 1) {
+                            tab += '<td class="bg-success">';
+                            resLiberado = item.Resultado;
+                        } else {
+                            tab += "<td>";
+                        }
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab +=
+                            '<td><input type="checkbox" class="sugeridoCheckbox" data-id="' +
+                            item.Id_codigo +
+                            '" ' +
+                            (item.Sugerido_sup === 1 ? "checked" : "") +
+                            "></td>";
+                    });
+                    tab += "    </tbody>";
+                    tab += "</table>";
+
+                    tabla.innerHTML = tab;
+                    break;
                 case 12:
                 case 133:
                 case 134:
                 case 137:
                 case 51:
-                case 35: 
+                case 35:
                     let swC = 0;
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     aux = 1;
                     $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
                         if (parseInt(item.Resultado) < parseInt(item.Limite)) {
                             aux = aux * parseFloat(3);
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td> < '+item.Limite+'</td>';
-                            tab += '</tr>';
+                            tab += "<tr>";
+                            tab +=
+                                '<td class="' +
+                                lib +
+                                '">' +
+                                item.Parametro +
+                                "</td>";
+                            tab += "<td> < " + item.Limite + "</td>";
+                            tab += "</tr>";
                         } else {
                             aux = aux * parseFloat(item.Resultado);
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            tab += '</tr>';
+                            tab += "<tr>";
+                            tab += "<td>" + item.Parametro + "</td>";
+                            tab += "<td>" + item.Resultado + "</td>";
+                            tab += "</tr>";
                         }
                         if (parseInt(item.Resultado) > 0) {
-                            swC = 1
-                        } 
+                            swC = 1;
+                        }
                         cont++;
-
                     });
                     // resLiberado = (aux / cont);
                     if (swC == 1) {
-                        resLiberado = (Math.pow(aux, 1 / cont));   
+                        resLiberado = Math.pow(aux, 1 / cont);
                     } else {
                         resLiberado = 0;
                     }
-                    console.log("Res: "+resLiberado);
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    console.log("Res: " + resLiberado);
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 253:
-                    let swEn = 0
-                    
+                    let swEn = 0;
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
-                    aux = 1; 
-
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+                    aux = 1;
 
                     $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
                         if (parseInt(item.Resultado) < parseInt(item.Limite)) {
                             aux = aux * 3;
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td> < 3</td>';
-                            tab += '</tr>';
+                            tab += "<tr>";
+                            tab +=
+                                '<td class="' +
+                                lib +
+                                '">' +
+                                item.Parametro +
+                                "</td>";
+                            tab += "<td> < 3</td>";
+                            tab += "</tr>";
                         } else {
                             aux = aux * parseFloat(item.Resultado);
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            tab += '</tr>';   
+                            tab += "<tr>";
+                            tab +=
+                                '<td class="' +
+                                lib +
+                                '">' +
+                                item.Parametro +
+                                "</td>";
+                            tab += "<td>" + item.Resultado + "</td>";
+                            tab += "</tr>";
                         }
                         if (parseInt(item.Resultado) > 0) {
-                            swEn = 1
-                        } 
+                            swEn = 1;
+                        }
                         cont++;
                     });
                     // resLiberado = (aux / cont);
                     // resLiberado = (Math.pow(aux, 1 / cont));
                     if (swEn == 1) {
-                        resLiberado = (Math.pow(aux, 1 / cont));   
+                        resLiberado = Math.pow(aux, 1 / cont);
                     } else {
                         resLiberado = 0;
                     }
                     console.log(resLiberado);
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 35:
-                   
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     aux = 1;
 
                     $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
                         if (parseInt(item.Resultado) < parseInt(item.Limite)) {
                             aux = aux * parseFloat(3);
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td> < 3</td>';
-                            tab += '</tr>';
+                            tab += "<tr>";
+                            tab +=
+                                '<td class="' +
+                                lib +
+                                '">' +
+                                item.Parametro +
+                                "</td>";
+                            tab += "<td> < 3</td>";
+                            tab += "</tr>";
                         } else {
                             aux = aux * parseFloat(item.Resultado);
-                            tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            tab += '</tr>';
+                            tab += "<tr>";
+                            tab +=
+                                '<td class="' +
+                                lib +
+                                '">' +
+                                item.Parametro +
+                                "</td>";
+                            tab += "<td>" + item.Resultado + "</td>";
+                            tab += "</tr>";
                         }
                         cont++;
                     });
                     // resLiberado = (aux / cont);
-                    resLiberado = (Math.pow(aux, 1 / cont));
+                    resLiberado = Math.pow(aux, 1 / cont);
                     console.log(resLiberado);
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 16:
-                  
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 78:
-                    
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
 
-                case 3:// Solidos
-                case 4:// Solidos
-                case 112:// Solidos
+                case 3: // Solidos
+                case 4: // Solidos
+                case 112: // Solidos
                 case 90:
-                    console.log("entro a caso 15");
-                   
+                    // console.log("entro a caso 15");
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 //Campo
-                case 26://Gasto
+                case 26: //Gasto
                 case 2: //Materia flotante
                 case 14: //ph
                 case 110: //ph
                 case 97: //Temperatura
-                case 67://Conductividad
+                case 67: //Conductividad
                 case 68:
                     console.log("entro a caso 7");
-                    
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
                     if ($("#idNorma").val() == "27") {
-                        tab += '          <th>%</th>';
+                        tab += "          <th>%</th>";
                     }
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
-                    if (parseInt(response.codigoModel.Id_parametro) == 26) { // Gasto
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+                    if (parseInt(response.codigoModel.Id_parametro) == 26) {
+                        // Gasto
                         aux = 0;
                         cont = 0;
                         $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            tab += '<td>Gasto Campo - ' + (cont + 1) + '</td>';
-                            if (parseInt(response.solModel.Id_servicio) != 3) {
-                                tab += '<td>' + item.Promedio + '</td>';   
-                                aux = aux + parseFloat(item.Promedio);
-                                console.log("Entra en campo")
-                            } else { 
-                                tab += '<td>' + item.Resultado + '</td>';
-                                aux = aux + parseFloat(item.Resultado);
-                                console.log("Entra en Lab")
+                            if (parseInt(item.Liberado) != 1) {
+                                lib = "bg-danger";
+                            } else {
+                                lib = "bg-success";
                             }
-                            tab += '</tr>';
-                            cont++
+                            tab += "<tr>";
+                            tab += "<td>Gasto Campo - " + (cont + 1) + "</td>";
+                            if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab +=
+                                    '<td class="' +
+                                    lib +
+                                    '">' +
+                                    item.Promedio +
+                                    "</td>";
+                                aux = aux + parseFloat(item.Promedio);
+                                console.log("Entra en campo");
+                            } else {
+                                tab += "<td>" + item.Resultado + "</td>";
+                                aux = aux + parseFloat(item.Resultado);
+                                console.log("Entra en Lab");
+                            }
+                            tab += "</tr>";
+                            cont++;
                         });
-                        resLiberado = (aux / cont);
-                    } else if (response.codigoModel.Id_parametro == 67 || response.codigoModel.Id_parametro == 68) { // Gasto
+                        resLiberado = aux / cont;
+                    } else if (
+                        response.codigoModel.Id_parametro == 67 ||
+                        response.codigoModel.Id_parametro == 68
+                    ) {
+                        // Gasto
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
@@ -1123,209 +1437,285 @@ function getDetalleAnalisis(idCodigo) {
                             // });
                             // resLiberado = (aux).toFixed(2);
                             $.each(response.model, function (key, item) {
-                                tab += '<tr>';
-                                tab += '<td> Conductividad Campo - ' + (cont + 1) + '</td>';
-                                if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    tab += '<td>' + item.Promedio + '</td>';   
-                                } else { 
-                                    tab += '<td>' + item.Resultado + '</td>';
+                                if (parseInt(item.Liberado) != 1) {
+                                    lib = "bg-danger";
+                                } else {
+                                    lib = "bg-success";
                                 }
-                                tab += '</tr>';
-                                if (item.Promedio != null || item.Resultado != null) {
-                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += "<tr>";
+                                tab +=
+                                    "<td> Conductividad Campo - " +
+                                    (cont + 1) +
+                                    "</td>";
+                                if (
+                                    parseInt(response.solModel.Id_servicio) != 3
+                                ) {
+                                    tab +=
+                                        '<td class="' +
+                                        lib +
+                                        '">' +
+                                        item.Promedio +
+                                        "</td>";
+                                } else {
+                                    tab += "<td>" + item.Resultado + "</td>";
+                                }
+                                tab += "</tr>";
+                                if (
+                                    item.Promedio != null ||
+                                    item.Resultado != null
+                                ) {
+                                    if (
+                                        parseInt(
+                                            response.solModel.Id_servicio
+                                        ) != 3
+                                    ) {
                                         aux = aux + parseFloat(item.Promedio);
-                                    } else { 
+                                    } else {
                                         aux = aux + parseFloat(item.Resultado);
                                     }
-                                    cont++; 
+                                    cont++;
                                 }
                             });
-                            resLiberado = (aux /cont);
+                            resLiberado = aux / cont;
                         } else {
                             $.each(response.model, function (key, item) {
-                                tab += '<tr>';
-                                tab += '<td> Conductividad Campo - ' + (cont + 1) + '</td>';
-                                if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    tab += '<td>' + item.Promedio + '</td>';   
-                                } else { 
-                                    tab += '<td>' + item.Resultado + '</td>';
+                                if (parseInt(item.Liberado) != 1) {
+                                    lib = "bg-danger";
+                                } else {
+                                    lib = "bg-success";
                                 }
-                                tab += '</tr>';
-                                if (item.Promedio != null || item.Resultado != null) {
-                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += "<tr>";
+                                tab +=
+                                    "<td> Conductividad Campo - " +
+                                    (cont + 1) +
+                                    "</td>";
+                                if (
+                                    parseInt(response.solModel.Id_servicio) != 3
+                                ) {
+                                    tab +=
+                                        '<td class="' +
+                                        lib +
+                                        '">' +
+                                        item.Promedio +
+                                        "</td>";
+                                } else {
+                                    tab += "<td>" + item.Resultado + "</td>";
+                                }
+                                tab += "</tr>";
+                                if (
+                                    item.Promedio != null ||
+                                    item.Resultado != null
+                                ) {
+                                    if (
+                                        parseInt(
+                                            response.solModel.Id_servicio
+                                        ) != 3
+                                    ) {
                                         aux = aux + parseFloat(item.Promedio);
-                                    } else { 
+                                    } else {
                                         aux = aux + parseFloat(item.Resultado);
                                     }
-                                    cont++; 
+                                    cont++;
                                 }
                             });
-                            resLiberado = (aux /cont);
+                            resLiberado = aux / cont;
                         }
-                    } else if (response.codigoModel.Id_parametro == 2) { // Materia flotante
+                    } else if (response.codigoModel.Id_parametro == 2) {
+                        // Materia flotante
                         aux = 0;
                         cont = 0;
                         $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            tab += '<td> Materia - ' + (cont + 1) + '</td>';
+                            if (parseInt(item.Liberado) != 1) {
+                                lib = "bg-danger";
+                            } else {
+                                lib = "bg-success";
+                            }
+                            tab += "<tr>";
+                            tab += "<td> Materia - " + (cont + 1) + "</td>";
                             if (parseInt(response.solModel.Id_servicio) != 3) {
-                                tab += '<td>' + item.Materia + '</td>';   
+                                tab +=
+                                    '<td class="' +
+                                    lib +
+                                    '">' +
+                                    item.Materia +
+                                    "</td>";
                                 if (item.Materia == "Presente") {
                                     aux = 1;
                                 }
-                            } else { 
-                                tab += '<td>' + item.Resultado + '</td>';
-                                if (item.Resultado == "Presente" || item.Resultado == "PRESENTE") {
+                            } else {
+                                tab += "<td>" + item.Resultado + "</td>";
+                                if (
+                                    item.Resultado == "Presente" ||
+                                    item.Resultado == "PRESENTE"
+                                ) {
                                     aux = 1;
                                 }
                             }
-                            tab += '</tr>';
+                            tab += "</tr>";
                             cont++;
                         });
                         resLiberado = aux;
-                    } else if (response.codigoModel.Id_parametro == 14 || response.codigoModel.Id_parametro == 110) { // PH
+                    } else if (
+                        response.codigoModel.Id_parametro == 14 ||
+                        response.codigoModel.Id_parametro == 110
+                    ) {
+                        // PH
                         aux = 0;
                         cont = 0;
                         $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            if (parseInt(response.solModel.Id_servicio) != 3) {
-                                tab += '<td>Ph Campo - ' + (cont + 1) + '</td>';
-                                tab += '<td>' + item.Promedio + '</td>';   
-                                aux = aux + parseFloat(item.Promedio);  
-                            } else {  
-                                tab += '<td>Ph Laboratorio</td>';
-                                tab += '<td>' + item.Resultado + '</td>';
-                                aux = aux + parseFloat(item.Resultado); 
+                            if (parseInt(item.Liberado) != 1) {
+                                lib = "bg-danger";
+                            } else {
+                                lib = "bg-success";
                             }
-                            tab += '<td></td>'; 
-                            tab += '</tr>'; 
-                            cont++ 
-                        }); 
-                        resLiberado = (aux / cont);
-                        // aux = 0;
-                        // cont = 0;
-                        // if ($("#idNorma").val() == "27") {
-                        //     $.each(response.model, function (key, item) {
-                        //         tab += '<tr>';
-                        //         if (response.solModel.Id_muestra == 1) {
-                        //             tab += '<td> Ph</td>';
-                        //             tab += '<td>' + item.Promedio + '</td>';   
-                        //             aux =  item.Promedio;
-                        //         } else {  
-                        //             tab += '<td> pH compuesto</td>';
-                        //             tab += '<td>' + item.Ph_muestraComp + '</td>';
-                        //             tab += '<td>------</td>';
-                        //             // tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
-                        //             if (item.Ph_muestraComp != null) {
-                        //                 aux =  item.Ph_muestraComp;
-                        //                 cont++;
-                        //             }
-                        //         }
-                        //         tab += '</tr>';
-                        //     });
-                        //     resLiberado = parseFloat(aux).toFixed(2);
-                        // } else {
-                        //     $.each(response.model, function (key, item) {
-                        //         tab += '<tr>';
-                        //         if (parseInt(response.solModel.Id_servicio) != 3) {
-                        //             if (response.solModel.Id_muestra == 1) {
-                        //                 tab += '<td> Ph</td>';
-                        //                 tab += '<td>' + item.Promedio + '</td>';   
-                        //             } else { 
-                        //                 tab += '<td> pH Compuesto</td>';
-                        //                 tab += '<td>' + item.Ph_muestraComp + '</td>';      
-                        //             }
-                        //         } else { 
-                        //             tab += '<td> pH - ' + (cont + 1) + '</td>';
-                        //             tab += '<td>' + item.Resultado + '</td>';
-                        //         }
-                        //         tab += '</tr>';
-                        //         if (item.Ph_muestraComp != null || item.Resultado != null || item.Promedio != null) {
-                        //             if (parseInt(response.solModel.Id_servicio) != 3) {
-                        //                 if (response.solModel.Id_muestra == 1) {
-                        //                     aux = aux + parseFloat(item.Promedio); 
-                        //                 } else {
-                        //                     aux = aux + parseFloat(item.Ph_muestraComp);   
-                        //                 }
-                        //             } else { 
-                        //                 aux = aux + parseFloat(item.Resultado);
-                        //             }
-                        //             cont++; 
-                        //         }
-                        //     });
-                        //     resLiberado = (aux / cont).toFixed(2);
-                        // }
-                    } else if (response.codigoModel.Id_parametro == "97" || response.codigoModel.Id_parametro == "100") { // Temperatura
+                            tab += "<tr>";
+                            if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += "<td>Ph Campo - " + (cont + 1) + "</td>";
+                                tab +=
+                                    '<td  class="' +
+                                    lib +
+                                    '">' +
+                                    item.Promedio +
+                                    "</td>";
+                                aux = aux + parseFloat(item.Promedio);
+                            } else {
+                                tab += "<td>Ph Laboratorio</td>";
+                                tab += "<td>" + item.Resultado + "</td>";
+                                aux = aux + parseFloat(item.Resultado);
+                            }
+                            tab += "<td></td>";
+                            tab += "</tr>";
+                            cont++;
+                        });
+                        resLiberado = aux / cont;
+                    } else if (
+                        response.codigoModel.Id_parametro == "97" ||
+                        response.codigoModel.Id_parametro == "100"
+                    ) {
+                        // Temperatura
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
-                      
                             $.each(response.model, function (key, item) {
-                                tab += '<tr>';
-                                tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
-                                if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    tab += '<td>' + item.Promedio + '</td>';   
-                                } else { 
-                                    tab += '<td>' + item.Resultado + '</td>';
+                                if (parseInt(item.Liberado) != 1) {
+                                    lib = "bg-danger";
+                                } else {
+                                    lib = "bg-success";
                                 }
-                                tab += '</tr>';
-                                if (item.Promedio != null || item.Resultado != null) {
-                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += "<tr>";
+                                tab +=
+                                    "<td> Temperatura - " +
+                                    (cont + 1) +
+                                    "</td>";
+                                if (
+                                    parseInt(response.solModel.Id_servicio) != 3
+                                ) {
+                                    tab +=
+                                        '<td class="' +
+                                        lib +
+                                        '">' +
+                                        item.Promedio +
+                                        "</td>";
+                                } else {
+                                    tab += "<td>" + item.Resultado + "</td>";
+                                }
+                                tab += "</tr>";
+                                if (
+                                    item.Promedio != null ||
+                                    item.Resultado != null
+                                ) {
+                                    if (
+                                        parseInt(
+                                            response.solModel.Id_servicio
+                                        ) != 3
+                                    ) {
                                         aux = aux + parseFloat(item.Promedio);
-                                    } else { 
+                                    } else {
                                         aux = aux + parseFloat(item.Resultado);
                                     }
-                                    cont++; 
+                                    cont++;
                                 }
                             });
                             resLiberado = (aux / cont).toFixed(2);
                         } else {
                             $.each(response.model, function (key, item) {
-                                tab += '<tr>';
-                                tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
-                                if (parseInt(response.solModel.Id_servicio) != 3) {
-                                    tab += '<td>' + item.Promedio + '</td>';   
-                                } else { 
-                                    tab += '<td>' + item.Resultado + '</td>';
+                                if (parseInt(item.Liberado) != 1) {
+                                    lib = "bg-danger";
+                                } else {
+                                    lib = "bg-success";
                                 }
-                                tab += '</tr>';
-                                if (item.Promedio != null || item.Resultado != null) {
-                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                tab += "<tr>";
+                                tab +=
+                                    "<td> Temperatura - " +
+                                    (cont + 1) +
+                                    "</td>";
+                                if (
+                                    parseInt(response.solModel.Id_servicio) != 3
+                                ) {
+                                    tab +=
+                                        '<td class="' +
+                                        lib +
+                                        '">' +
+                                        item.Promedio +
+                                        "</td>";
+                                } else {
+                                    tab += "<td>" + item.Resultado + "</td>";
+                                }
+                                tab += "</tr>";
+                                if (
+                                    item.Promedio != null ||
+                                    item.Resultado != null
+                                ) {
+                                    if (
+                                        parseInt(
+                                            response.solModel.Id_servicio
+                                        ) != 3
+                                    ) {
                                         aux = aux + parseFloat(item.Promedio);
-                                    } else { 
+                                    } else {
                                         aux = aux + parseFloat(item.Resultado);
                                     }
-                                    cont++; 
+                                    cont++;
                                 }
                             });
                             resLiberado = (aux / cont).toFixed(2);
                         }
                     }
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
-                case 95:// Potable
+                case 95: // Potable
                 case 116:
                     console.log("entro a caso 8");
-                    
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 66:
@@ -1336,24 +1726,34 @@ function getDetalleAnalisis(idCodigo) {
                 case 84: // Olor
                 case 86: // Sabor
                     console.log("entro a caso 8");
-                    
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 case 365:
@@ -1361,80 +1761,155 @@ function getDetalleAnalisis(idCodigo) {
                 case 372:
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '          <th>Ph</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "          <th>Ph</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '<td>' + item.Ph + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "<td>" + item.Ph + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
+                    tabla.innerHTML = tab;
+                    break;
+                case 361: // Cloro Campo
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+                    $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab += "<td>Cloro Residual libre</td>";
+                        tab +=
+                            '<td class="' + lib + '">' + item.Cloro + "</td>";
+                        tab += "</tr>";
+                        resLiberado = parseFloat(item.Cloro);
+                    });
+                    tab += "    </tbody>";
+                    tab += "</table>";
+                    tabla.innerHTML = tab;
+                    break;
+
+                case 173:
+                    console.log("entro a break");
+
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
+                    $.each(response.model, function (key, item) {
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Vidrio1 + " |  " +item.Vidrio2+  " |  " +item.Vidrio3+  " |  " +item.Vidrio4+  " |  " +item.Vidrio5+  " |  " +item.Vidrio6+  "</td>";
+                        tab += "</tr>";
+                        resLiberado = item.Resultado;
+                    });
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
                 default:
                     console.log("entro a break");
-                   
+
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
-                    tab += '        <tr>';
-                    tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
-                    tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += "        <tr>";
+                    tab += "          <th>Descripcion</th>";
+                    tab += "          <th>Valor</th>";
+                    tab += "        </tr>";
+                    tab += "    </thead>";
+                    tab += "    <tbody>";
                     $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
+                        if (parseInt(item.Liberado) != 1) {
+                            lib = "bg-danger";
+                        } else {
+                            lib = "bg-success";
+                        }
+                        tab += "<tr>";
+                        tab +=
+                            '<td class="' +
+                            lib +
+                            '">' +
+                            item.Parametro +
+                            "</td>";
+                        tab += "<td>" + item.Resultado + "</td>";
+                        tab += "</tr>";
                         resLiberado = item.Resultado;
                     });
-                    tab += '    </tbody>';
-                    tab += '</table>';
+                    tab += "    </tbody>";
+                    tab += "</table>";
                     tabla.innerHTML = tab;
                     break;
             }
             $("#resDes").val(resLiberado);
-            let tableResultado = $('#tableResultado').DataTable({
-                "ordering": false,
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
-                }
+            let tableResultado = $("#tableResultado").DataTable({
+                ordering: false,
+                language: {
+                    lengthMenu: "# _MENU_ por pagina",
+                    zeroRecords: "No hay datos encontrados",
+                    info: "Pagina _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay datos encontrados",
+                },
             });
-            $('#tableResultado tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    tableResultado.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                    let dato = $(this).find('td:eq(1)').html();
+            $("#tableResultado tbody").on("click", "tr", function () {
+                if ($(this).hasClass("selected")) {
+                    $(this).removeClass("selected");
+                } else {
+                    tableResultado.$("tr.selected").removeClass("selected");
+                    $(this).addClass("selected");
+                    let dato = $(this).find("td:eq(1)").html();
                     detPa = dato;
                     resLiberado = detPa;
                 }
             });
-
-        }
+        },
     });
 }
 
-
-
 function liberarResultado() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/liberarMuestra",
         data: {
             idSol: $("#idSol").val(),
@@ -1445,59 +1920,66 @@ function liberarResultado() {
         },
         dataType: "json",
         success: function (response) {
-            var table = $('#tableParametros').DataTable();
+            var table = $("#tableParametros").DataTable();
             table.rows().every(function () {
                 var rowData = this.data();
                 var rowId = rowData[0];
 
                 if (rowId == idCodigo) {
                     this.cell(this.index(), 4).data(response.resLiberado);
-                    
-                    $(this.node()).find('td:eq(4)').text(resLiberado); 
-                    $(this.node()).find('td:eq(1)').removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success');
-                    return false; 
+
+                    $(this.node()).find("td:eq(4)").text(resLiberado);
+                    $(this.node())
+                        .find("td:eq(1)")
+                        .removeClass("bg-warning")
+                        .removeClass("bg-danger")
+                        .addClass("bg-success");
+                    return false;
                 }
-             
-                
             });
-        }
+        },
     });
 }
 
 function liberarSolicitud() {
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: base_url + "/admin/supervicion/cadena/liberarSolicitud",
         data: {
             idSol: $("#idSol").val(),
-            liberado: $('#ckLiberado').prop('checked'),
+            liberado: $("#ckLiberado").prop("checked"),
             _token: $('input[name="_token"]').val(),
+        },
+        beforeSend: function (xhr, settings) {
+            console.log(settings.data); 
         },
         dataType: "json",
         async: false,
         success: function (response) {
+            // console.log('AQUI', response.idsActualizados);
+            // console.log('grasas', response.ga);
+            // console.log('solidos', response.sol);
             if (response.sw == true) {
                 swal("Registro!", "Solicitud liberada", "success");
             } else {
-                swal("Registro!", "Liberacion modificada", "success");
+                swal("Registro!", "Liberacion modificada", "warning");
             }
-        }
+            
+        },
     });
 }
 
-function getHistorial(id)
-{
+function getHistorial(id) {
     console.log("Get Historial");
-    let tabla1 = document.getElementById('divTablaHist');
-    let tab1 = ''
+    let tabla1 = document.getElementById("divTablaHist");
+    let tab1 = "";
 
-  
     $.ajax({
         type: "POST",
         url: base_url + "/admin/supervicion/cadena/getHistorial",
         data: {
-            idCodigo:id,
-            _token: $('input[name="_token"]').val()
+            idCodigo: id,
+            _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         success: function (response) {
@@ -1515,10 +1997,12 @@ function getHistorial(id)
                         </tr>
                     </thead>
                     <tbody>
-                            ${
-                               $.map(response.idsLotes, function (item,index){
-                                let    estilo =   parseInt(response.historialHist[index]) == 1 ? 'background-color:#e5e5ff;' : ''
-                                    return `
+                            ${$.map(response.idsLotes, function (item, index) {
+                                let estilo =
+                                    parseInt(response.historialHist[index]) == 1
+                                        ? "background-color:#e5e5ff;"
+                                        : "";
+                                return `
                                  
                                     
                                         <tr>
@@ -1529,27 +2013,25 @@ function getHistorial(id)
                                             <td style ="${estilo}">${response.resultadoHist[index]}</td>
                                             
                                         </tr>
-                                    `
-                               }).join('') 
-                            }
+                                    `;
+                            }).join("")}
                     </tbody>
                  </table>
-            `
+            `;
 
-            tabla1.innerHTML = tab1
+            tabla1.innerHTML = tab1;
 
-            
-            var t2 = $('#tablaCodigosHistorial').DataTable({
-                "ordering": false,
+            var t2 = $("#tablaCodigosHistorial").DataTable({
+                ordering: false,
                 paging: false,
-                scrollY: '300px',
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
-                }
+                scrollY: "300px",
+                language: {
+                    lengthMenu: "# _MENU_ por pagina",
+                    zeroRecords: "No hay datos encontrados",
+                    info: "Pagina _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay datos encontrados",
+                },
             });
-        }
+        },
     });
 }

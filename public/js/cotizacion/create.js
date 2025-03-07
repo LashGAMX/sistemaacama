@@ -167,8 +167,12 @@ function getLocalidad()
             $.each(response.model, function (key, item) {              
               if($("#idCot").val() != "") 
               {
-                if (response.cotizacionMuestreo.Localidad == item.Id_localidad) {
-                  tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
+                if (response.swCot.length > 0) {
+                  if (response.cotizacionMuestreo.Localidad == item.Id_localidad) {
+                    tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
+                  } else {
+                    tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
+                  }   
                 } else {
                   tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
                 }
@@ -205,6 +209,7 @@ function updateParametroCot()
 }
 function getDataUpdate()
 {
+  
   $.ajax({
     url: base_url + '/admin/cotizacion/getDataUpdate', //archivo que recibe la peticion
     type: 'POST', //método de envio
@@ -215,6 +220,7 @@ function getDataUpdate()
     dataType: 'json',
     async: false,
     success: function (response) {
+      
         data = response.model
         tabParam = true
         $("#intermediario  option[value="+data.Id_intermedio+"]").attr("selected",true);
@@ -229,7 +235,7 @@ function getDataUpdate()
         getNormas()
         getSubNormas()
         parametros = response.parametros
-        createTabParametros()
+        createTabParametrosUpdate()
         getLocalidad()
         // $("#precioTotal").val(data.Costo_total)
         // $("#subTotal").val(data.Sub_total)
@@ -430,6 +436,51 @@ function getDatosCotizacion()
 }
 function  createTabParametros()
 {
+  console.log("Parametros de cotizacion cargados")
+  // console.log(parametros)
+  let table = document.getElementById("tabParametros")
+  let tab = '';
+  let cont = 1;
+  $("#normaPa").val($("#norma option:selected").text())
+  
+  $.each(parametros, function (key, item) {
+      if ($("#idCot").val() != "") {
+          if (item.Extra == 1) {
+              tab += '<tr class="bg-danger">'
+          } else {
+              tab += '<tr>'
+          }
+      } else {
+          tab += '<tr>'
+      }
+  
+      let temp = ''
+      if (item.Reporte == 1) {
+          temp = "checked"
+      }
+  
+      // Usar Id_subnorma si existe, de lo contrario usar Id_parametro
+      let id = item.Id_subnorma !== undefined && item.Id_subnorma !== null
+          ? parseInt(item.Id_subnorma)
+          : (item.Id_parametro !== undefined && item.Id_parametro !== null
+              ? parseInt(item.Id_parametro)
+              : '-'); // Mostrar '-' si ninguno de los dos existe
+  
+      tab += '<td><input type="checkbox" ' + temp + '></td>';
+      tab += '<td>' + cont + '</td>';
+      tab += '<td>' + id + '</td>'; 
+      tab += '<td>' + item.Parametro + '(' + item.Matriz + ')</td>';
+      tab += '</tr>'
+      cont++
+  });
+  
+  table.innerHTML = tab
+  
+}
+function  createTabParametrosUpdate()
+{
+  console.log("Parametros de cotizacion cargados")
+  // console.log(parametros)
   let table = document.getElementById("tabParametros")
   let tab = '';
   let cont = 1;
@@ -450,7 +501,7 @@ function  createTabParametros()
     }
     tab += '<td><input type="checkbox" '+temp+'></td>';
     tab += '<td>'+cont+'</td>';
-    tab += '<td>'+item.Id_parametro+'</td>'; 
+    tab += '<td>'+parseInt(item.Id_subnorma)+'</td>'; 
     tab += '<td>'+item.Parametro+'('+item.Matriz+')</td>';
     tab += '</tr>'
     cont++
@@ -665,6 +716,7 @@ function getClientesIntermediarios() {
     dataType: 'json',
     async: false,
     success: function (response) {
+      console.log(data);
       tab += '<option value="0">Sin seleccionar</option>';
       $.each(response.model, function (key, item) {
         if (data.Id_cliente == item.Id_cliente) {
@@ -718,18 +770,20 @@ function getDataCliente() {
     async: false,
     success: function (response) {
       console.log(response)
-      tab += '<option value="0">Sin seleccionar</option>';
-      $.each(response.direccion, function (key, item) {
-        tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
-      });
-      sub.innerHTML = tab;
+      if (response.sw == true) {
+        tab += '<option value="0">Sin seleccionar</option>';
+        $.each(response.direccion, function (key, item) {
+          tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
+        });
+        sub.innerHTML = tab;
 
-      tab2 += '<option value="0">Sin seleccionar</option>';
-      $.each(response.contacto, function (key, item) {
-        tab2 += '<option value="' + item.Id_contacto + '">' + item.Nombre + '</option>';
-      }); 
-      sub2.innerHTML = tab2;
-      $("#nomCli").val(response.model.Empresa)
+        tab2 += '<option value="0">Sin seleccionar</option>';
+        $.each(response.contacto, function (key, item) {
+          tab2 += '<option value="' + item.Id_contacto + '">' + item.Nombre + '</option>';
+        }); 
+        sub2.innerHTML = tab2;
+        $("#nomCli").val(response.model.Empresa)
+      }
     }
   });
 }

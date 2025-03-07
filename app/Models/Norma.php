@@ -17,6 +17,7 @@ class Norma extends Model
         'Norma',
         'Clave_norma',
         'Id_descarga',
+        'Id_tipo',
         'Inicio_validez',
         'Fin_validez',
         'Id_user_c',

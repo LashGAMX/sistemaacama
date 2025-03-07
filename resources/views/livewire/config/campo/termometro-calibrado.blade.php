@@ -179,7 +179,7 @@
                                         <td>{{$item->A_c}}</td>
                                         <td> 
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Factor de correccion" wire:model="fa{{$contF}}" value="{{$item->Factor}}">
+                                            <input type="text" class="form-control" name="fa{{$contF}}" wire:model="fa{{$contF}}" value="{{ old('fa'.$contF) }}">
                                             </div>
                                         </td>
                                         <td>
@@ -214,6 +214,5 @@
   $('#modalCalibracion').modal('hide');
 </script>
 @endif
-
 </div>
 

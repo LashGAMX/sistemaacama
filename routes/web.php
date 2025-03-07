@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Informes\InformesController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Mail\ConfirmacionMailable;
+use TCG\Voyager\Facades\Voyager;
 
 
 Route::get('/', function () {
@@ -46,7 +47,7 @@ Route::group(['prefix' => 'admin'], function (){
     Route::get('seguimiento',[SeguimientoController::class,'index']);
     // Ordenamiento
     Route::get('ordenJson',[HomeController::class,'ordenJson']);
-  
+    
 });
 
 

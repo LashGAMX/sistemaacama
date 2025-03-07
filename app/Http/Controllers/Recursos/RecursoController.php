@@ -61,4 +61,11 @@ class RecursoController extends Controller
         return response()->json($data);
     }
 
+    public function recepcion(){
+        return view('recurso.recepcion');
+    }
+
+    public function appRecepcion(){
+        return view('recurso.appRecepcion');
+    }
 }

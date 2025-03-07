@@ -2,14 +2,14 @@
 
 #chatMessagesContainer {
     display: none;
-    box-shadow:  black;
-    border-radius: 10 px;
+    box-shadow: black;
+    border-radius: 10px; /* Corrige '10 px' a '10px' */
     background-image: url('/sofiadev/public/assets/imagen/F.png');
     background-size: cover;
-    border-radius: 10px;
-    height: 83vh;;
+    height: 83vh;
     overflow-y: auto;
 }
+
 .modal-dialog-right {
     position: fixed;
     top: 0;
@@ -125,8 +125,6 @@
     
 
 }
-
-
 
 /* Estilo para los mensajes */
 .message 
