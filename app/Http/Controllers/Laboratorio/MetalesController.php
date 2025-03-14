@@ -121,8 +121,12 @@ class MetalesController extends Controller
                 ->orWhere('Id_tipo_formula',24)
                 ->orWhere('Id_tipo_formula',58)
                 ->orWhere('Id_tipo_formula',59)
+<<<<<<< HEAD
                 ->where('Asignado','!=',1)
                 ->where('Cancelado','=',0)
+=======
+                ->where('Asignado','!=',1)->where('Cancelado','=',0)->where('Id_area','!=',17)
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                 ->get();
                 foreach ($model as $item) {
                     $aux = 0;
@@ -132,9 +136,9 @@ class MetalesController extends Controller
                         }
                     }
                     if ($aux == 0) {
-                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
-                        $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
-                        $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
+                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
+                        $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
+                        $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->where('Cancelado','=',0)->first();
                         array_push($ids,$item->Id_solicitud);
                         array_push($folios,$solAux->Folio_servicio); 
                         array_push($empresas,$temp->Empresa);
@@ -146,8 +150,12 @@ class MetalesController extends Controller
             case 2:
                 $model = DB::table('ViewParametroProceso')
                 ->where('Id_tipo_formula',$res->id)
+<<<<<<< HEAD
                 ->where('Asignado','!=',1)
                 ->where('Cancelado','=',0)
+=======
+                ->where('Asignado','!=',1)->where('Cancelado','=',0)->where('Id_area','!=',17)
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                 ->get();
                 foreach ($model as $item) {
                     $aux = 0;
@@ -157,9 +165,9 @@ class MetalesController extends Controller
                         }
                     }
                     if ($aux == 0) {
-                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->first();
-                            $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
-                            $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->first();
+                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
+                            $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
+                            $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->where('Cancelado','=',0)->first();
                         $aux2 = 0;
                         for ($i=0; $i < sizeof($folios); $i++) { 
                             if ($folios[$i] == @$solAux->Folio_servicio) {
@@ -1447,7 +1455,11 @@ class MetalesController extends Controller
         $codigo = array();
         switch ($res->sw) {
             case 1:
+<<<<<<< HEAD
                 $codigo = DB::table('ViewCodigoPendientes')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->where('Cancelado',0)->get();
+=======
+                $codigo = DB::table('ViewCodigoPendientes')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->where('Cancelado', '!=', 1)->get();
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                 foreach ($codigo as $item) {
                     $temp = array();
                     array_push($temp,$item->Id_codigo);

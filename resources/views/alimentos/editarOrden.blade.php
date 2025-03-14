@@ -83,7 +83,11 @@
               </small>
             </div>
           </div>
+<<<<<<< HEAD
           <input type="text" class="" id="idCot" hidden value="{{@$model->Id_solicitud}}">
+=======
+          <input type="text" class="" id="idCot" hidden value="{{@$model->Id_cotizacion}}">
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
           <div class="col-md-8">
             <table class="table">

@@ -1024,7 +1024,11 @@
                                 <div class="col-md-12">
                                     <p>Tipo descarga: </p>
                                 </div>
+<<<<<<< HEAD
                                 <div class="col-md-2">
+=======
+                                <div class="col-md-3">
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                     <div class="form-group">
                                         <label for="">Método aforo</label>
                                         <select name="" id="aforoCompuesto" class="form-control">
@@ -1039,7 +1043,11 @@
                                         </select>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="col-md-2">
+=======
+                                <div class="col-md-3">
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                     <div class="form-group">
                                         <label for="">Con tratamiento</label>
                                         <select name="" id="conTratamientoCompuesto" class="form-control">
@@ -1057,7 +1065,11 @@
                                         </select>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="col-md-2">
+=======
+                                <div class="col-md-3">
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                     <div class="form-group">
                                         <label for="">Tipo tratamiento</label>
                                         <select name="" id="tipoTratamientoCompuesto" class="form-control">
@@ -1075,6 +1087,7 @@
                                         </select>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="">Proc. de Muestreo PE-10-002-</label>
@@ -1088,6 +1101,14 @@
                                         <input type="number" id="procedimientoCompuesto2" class="form-control"
                                             placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo2}}">
                                     </div>
+=======
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Procedimiento de Muestreo PE-10-02-</label>
+                                        <input type="number" id="procedimientoCompuesto" class="form-control"
+                                            placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo}}">
+                                    </div>
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -1437,5 +1458,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<<<<<<< HEAD
     <script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.9"></script>
+=======
+    <script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.8"></script>
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     @stop

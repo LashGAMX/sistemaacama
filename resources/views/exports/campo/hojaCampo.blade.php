@@ -9,7 +9,6 @@
  
     <title>Hoja de Campo </title>
 </head>
-{{-- comn --}}
 <body style="font-size: 9px"> 
     <div class="container" id="pag">
         <div class="row">
@@ -105,6 +104,7 @@
                     </thead>
 
                     <tbody>     
+<<<<<<< HEAD
                         @foreach ($areaModel as $item)
                         @php
                             $cont = 0;
@@ -164,6 +164,67 @@
                         @endforeach
                     @endforeach    
                
+=======
+                    @foreach ($areaModel as $item)
+                            @php
+                                $cont = 0;
+                                $auxEnv = 0;
+                                $mod = DB::table('ViewEnvaseParametro')->where('Id_analisis',$item->Id_area)->orderBy('Id_envase',"ASC")->get();
+                            @endphp
+                            @foreach ($mod as $item2)
+                                @php
+                                    $pa = DB::table('solicitud_parametros')->where('Id_subnorma',$item2->Id_parametro)->where('Id_solicitud',$model->Id_solicitud)->get();
+                                @endphp
+                                @if ($pa->count())
+                                    @if ($cont == 0)
+                                        <tr class="bordesTablaSup">
+                                            @if ($item2->Id_area == 2 || $item2->Id_area == 7 || $item2->Id_area == 16)
+                                                <td class="justifyCenter  fontSize7">{{$model->Num_tomas}}</td>
+                                            @else
+                                                <td class="justifyCenter  fontSize7">1</td>  
+                                            @endif
+                                            <td class="justifyCenter  fontSize7">{{$item2->Area}}</td>
+                                            <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                            @if ($auxEnv == $item2->Id_envase)
+                                            <td class=" fontSize7"></td>
+                                                <td class="justifyCenter  fontSize7"></td>                                    
+                                                <td class=" fontSize7"></td>
+                                            @else
+                                                <td class=" fontSize7">{{$item2->Nombre}} {{$item2->Volumen}} {{@$item2->UniEnv}}</td>
+                                                <td class="justifyCenter  fontSize7">{{$item2->Volumen}} {{@$item2->UniEnv}}</td>                                    
+                                                <td class=" fontSize7">{{$item2->Preservacion}}</td>
+                                                @php
+                                                    $auxEnv = $item2->Id_envase;
+                                                @endphp
+                                            @endif
+                                            <td class="justifyCenter  fontSize7">SI</td>                                    
+                                        </tr>
+                                        @php $cont++; @endphp
+                                    @else
+                                        <tr>
+                                            <td class="justifyCenter  fontSize7"></td>
+                                            <td class="justifyCenter  fontSize7"></td>
+                                            <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                            @if ($auxEnv == $item2->Id_envase)
+                                                <td class=" fontSize7"></td>
+                                                <td class="justifyCenter  fontSize7"></td>                                    
+                                                <td class=" fontSize7"></td>
+                                            @else
+                                                <td class=" fontSize7">{{$item2->Nombre}} {{$item2->Volumen}} {{@$item2->UniEnv}}</td>
+                                                <td class="justifyCenter  fontSize7">{{$item2->Volumen}} {{@$item2->UniEnv}}</td>                                    
+                                                <td class=" fontSize7">{{$item2->Preservacion}}</td>
+                                                @php
+                                                    $auxEnv = $item2->Id_envase;
+                                                @endphp
+                                            @endif
+                                            <td class="justifyCenter  fontSize7">SI</td>                                    
+                                        </tr>
+                                    @endif
+                                @endif 
+                            @endforeach
+                        @endforeach    
+                   
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                     </tbody>
                     
                 </table>
@@ -330,13 +391,13 @@
                     <tr>
                     <tr>
                         <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter">
-                            <!-- <br>
+                            <br>
                             <span class="negrita">{{@$muestreador->name}}</span> 
                             <p style="font-size: 10px">{{$firmaEncript1}}</p>
                             <br>
-                            <br> -->
-                            <br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> 
                             <br>
+                            <!-- <br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> 
+                            <br> -->
                         </td>
                         <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">
                             @if (@$campoGeneral->Supervisor == null)
@@ -361,8 +422,8 @@
                        
                             @if ($procesoAnalisis->count())
                                 @if (@$solGen->Cancelado == 0)
-                                    <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
-                                     <!-- <p style="font-size: 10px">{{$firmaEncriptRec}}</p> -->
+                                    <!-- <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}"> -->
+                                     <p style="font-size: 10px">{{$firmaEncriptRec}}</p>
                                 @endif
                             @else
                                 
@@ -370,8 +431,8 @@
                         </td>
                       <td class="bordesTabla justifyCenter" style="width: 50%">
                         @if (@$solGen->Cancelado == 0)
-                            <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}">
-                             <!-- <p style="font-size: 10px">{{$firmaEncript1}}</p> -->
+                            <!-- <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> -->
+                             <p style="font-size: 10px">{{$firmaEncript1}}</p>
                         @endif
                         </td>                      
                     </tr>
@@ -391,7 +452,15 @@
                     @if (@$model->Num_tomas > 1) 
                         <tr>
                             <td class="bordesTablaInfIzqDer" style="width: 50%">Fecha y hora de recepción en Lab: 
-                            <!-- {{\Carbon\Carbon::parse(@$recepcion->created_at)}} -->
+                                @if ($procesoAnalisis->count())
+                                    {{\Carbon\Carbon::parse(@$procesoAnalisis[0]->Hora_recepcion)->format('d-m-Y H:i')}}
+                                @endif
+                                ,&nbsp; T° Recep: 
+                                    @if (@$procesoAnalisis->count())
+                                        {{@$procesoAnalisis[0]->Obs_recepcion}}
+                                    @else
+                                        ------------
+                                    @endif
                             </td>
                             <td class="bordesTablaSupInfDer" style="width: 50%">
                                 Fecha y hora de conformación de la muestra: 
@@ -415,25 +484,77 @@
                                     </table>
                                 </td>
                                     <tr>
-                                        <td class="bordesTablaInfIzq" style="width: 100%" colspan="2">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
+                                        <td class="bordesTablaInfIzq" style="width: 100%" colspan="2">
+                                            OBSERVACIONES: {{@$modelCompuesto->Observaciones}}
+                                           
+                                        </td>
                                     </tr>
                             </tr>
                         @else
                             <tr>
                                 <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">Fecha y hora de recepción en Lab: 
-                                <!-- {{\Carbon\Carbon::parse(@$recepcion->created_at)->format('d-m-Y H:i')}} -->
+                                {{\Carbon\Carbon::parse(@$procesoAnalisis[0]->Hora_recepcion)->format('d-m-Y H:i')}}
+                                ,&nbsp; T° Recep: 
+                                    @if (@$procesoAnalisis->count())
+                                        {{@$procesoAnalisis[0]->Obs_recepcion}}
+                                    @else
+                                        ------------
+                                    @endif
                             </td>
 
                             </tr>
                             <tr>
                                 <tr>
-                                    <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
+                                    <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">
+                                        OBSERVACIONES: {{@$modelCompuesto->Observaciones}}
+                                    </td>
+                                    
                                 </tr>
                             </tr>
                         @endif
                 </table>
           
             </div>
+            
+            @if ($swVibrio->count())
+            <div class="col-12 negrita">
+                            5. VIBRIO FISCHERI
+                        </div>
+                <!-- Aqui va si hay  -->
+                <div class="col-md-12">
+                <table style="width: 30%; border: 1px solid #000000; " cellpadding="2" cellspacing="0">
+                <thead>
+                <tr>
+                <td colspan="2" class="fontCalibri fontBold fontSize12">
+                                                    <center>    Vibrio Fischeri </center>
+                                                </td>
+                                            </tr>
+                    <tr>
+                        <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Oxigeno Disuelto</th>
+                        <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Burbujas/Espuma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach ($Vidrio as $item)
+                    <tr>
+                        <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                            {{ $item->Oxigeno }}
+                        </td>
+                        <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                        {{ $item->Burbujas == 1 ? 'Sí' : 'No' }}
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+
+            </table>
+                
+                </div>
+                <br>
+            @else
+           
+            @endif
 
             @if ($swVibrio->count())
             <div class="col-12 negrita">

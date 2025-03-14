@@ -94,6 +94,7 @@ class SolicitudController extends Controller
         return view('cotizacion.solicitud', $data);
     }
 
+<<<<<<< HEAD
         public function Solicitudes()
     {
         $currentYear = date('Y'); // Año actual
@@ -240,6 +241,96 @@ class SolicitudController extends Controller
         return response()->json(['res' => $req->nombre, 'model' => $model]);
     }
 
+=======
+    public function Solicitudes()
+    {
+        if (Auth::user()->role->id == 13) {
+            $model = Cotizacion::orderBy('Id_cotizacion', 'DESC')->where('Creado_por', Auth::user()->id)->take(1000)->get();
+        } else {
+            // $model = Cotizacion::orderBy('Id_cotizacion','DESC')->take(200)->get();
+            $model = Cotizacion::orderBy('Id_cotizacion', 'DESC')->take(1000)->get();
+        }
+        $norma = Norma::all();
+        $descarga = TipoDescarga::all();
+        $estado = CotizacionEstado::all();
+        $usuario = User::all();
+        $data = array(
+            'usuario' => $usuario,
+            'model' => $model,
+            'norma' => $norma,
+            'descarga' => $descarga,
+            'estado' => $estado,
+        );
+        return view('cotizacion.solicitud2', $data);
+
+        // return response()->json(['data' => $data]);
+    }
+    public function getSolicitudes(Request $res)
+{
+    $folioServicio = $res->filters['Folioservicio'] ?? null;
+
+    $data = Cotizacion::where('Creado_por', Auth::user()->id)
+                     ->when($folioServicio, function ($query) use ($folioServicio) {
+                         return $query->where('Folio_servicio', $folioServicio);
+                     })
+                     ->get();
+
+    return response()->json($data);
+}
+
+    public function buscar(Request $req)
+    {
+        $query = Solicitud::with([
+            'cliente' => function ($query) {
+                $query->select('Id_cliente', 'Nombres'); // Solo selecciona Id_cliente y Nombres
+            },
+            'cotizacion' => function ($query) {
+                $query->select('Id_cotizacion', 'Estado_cotizacion'); // Solo selecciona Id_cotizacion y Estado_cotizacion
+            },
+            'norma' => function ($query) {
+                $query->select('Id_norma', 'Clave_norma'); // Solo selecciona Id_norma y Clave_norma
+            },
+            'descarga' => function ($query) {
+                $query->select('Id_tipo', 'Descarga'); // Solo selecciona Id_tipo y Descarga
+            },
+            'UserC' => function ($query) {
+                $query->select('id', 'name'); // Solo selecciona id y name
+            },
+            'UserM' => function ($query) {
+                $query->select('id', 'name'); // Solo selecciona id y name
+            },
+
+
+        ])
+            ->when($req->nombre != 0 && $req->nombre != 5584, function ($query) use ($req) {
+                $query->where('Id_cliente', $req->nombre);
+            })
+            ->when($req->nombre == 5584, function ($query) use ($req) {
+                $query->limit(1000);
+            })
+            ->when($req->folio, function ($query) use ($req) {
+                $query->where(function ($query) use ($req) {
+                    $query->where('Folio', 'LIKE', "%$req->folio%")
+                        ->orWhere('Folio_servicio', 'LIKE', "%$req->folio%");
+                })
+                    ->where(function ($query) {
+                        $query->where('Folio', 'NOT LIKE', '%/%-%')
+                            ->orWhere('Folio_servicio', 'NOT LIKE', '%/%-%');
+                    });
+            })
+
+            ->when($req->norma != 0, function ($query) use ($req) {
+                $query->where('Id_norma', $req->norma);
+            })
+            ->whereNull('deleted_at')
+            ->orderBy('Id_cotizacion', 'DESC');
+
+        $model = $query->get();
+
+        return response()->json(['res' => $req->nombre, 'model' => $model]);
+    }
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
     public function create($idCot)
     {
@@ -2228,7 +2319,11 @@ class SolicitudController extends Controller
                 if ($codigoMuestra->count()) {
 
                     foreach ($solicitud as $item) {
+<<<<<<< HEAD
                         $temp = CodigoParametros::whereIn('Id_solicitud', $res->id)->update(['Cancelado' => 1]);
+=======
+                        $temp = CodigoParametros::whereIn('Id_solicitud',$res->id)->update(['Cancelado' => 1]);
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
                         if ($temp) {
                             $temp->Cancelado = 1;
@@ -2557,12 +2652,18 @@ class SolicitudController extends Controller
     public function RegresarMasivoCuadrodeAsignacion()
     {
         $operaciones = [
+<<<<<<< HEAD
             '61-2/25-1',
             '61-2/25-2',
             '61-2/25-3',
             '61-5/25-1',
             '61-5/25-2',
             '61-5/25-3'
+=======
+            '44-6/25-1',
+            '44-4/25-1',
+            '45-9/25-1'
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
         ];
 
         $folioServicios = [];
@@ -2576,7 +2677,11 @@ class SolicitudController extends Controller
             $query->whereIn('Codigo', $operaciones)
                 ->orWhereIn('Codigo', $folioServicios);
         })
+<<<<<<< HEAD
             ->where('Id_parametro', 67)
+=======
+            ->where('Id_parametro', 10)
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
             ->pluck('Id_codigo')
             ->toArray();
         //    dd($ids);
@@ -2589,26 +2694,43 @@ class SolicitudController extends Controller
                     'Id_lote' => null
                 ]);
 
+<<<<<<< HEAD
             $idsNoEliminar = LoteDetalleDirectos::whereIn('Id_codigo', $ids)
+=======
+            $idsNoEliminar = LoteDetalleNitrogeno::whereIn('Id_codigo', $ids)
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                 ->where('Id_control', '!=', 1)
                 ->pluck('Id_codigo')
                 ->toArray();
 
+<<<<<<< HEAD
             LoteDetalleDirectos::whereIn('Id_codigo', $ids)
+=======
+            LoteDetalleNitrogeno::whereIn('Id_codigo', $ids)
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                 ->where('Id_control', 1)
                 ->forceDelete();
 
             dd($idsNoEliminar);
         }
 
+<<<<<<< HEAD
         $model = LoteDetalleDirectos::whereIn('Id_codigo', $ids)->get();
+=======
+        $model = LoteDetalleNitrogeno::whereIn('Id_codigo', $ids)->get();
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
         if ($model->isNotEmpty()) {
             $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
 
             if ($lote) {
+<<<<<<< HEAD
                 $aux = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
                 $aux2 = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->get();
+=======
+                $aux = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+                $aux2 = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->get();
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
                 $lote->Asignado = $aux2->count();
                 $lote->Liberado = $aux->count();

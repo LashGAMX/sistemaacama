@@ -83,7 +83,7 @@ class LabAnalisisController extends Controller
         $model = array();
         $temp = array();
         // $codigo = DB::table('ViewCodigoPendientes')->where('Asignado', 0)->where('Cancelado','!=',1)->where('Liberado',0)->whereYear('Hora_recepcion', now()->year)->get(); //modifique esta linea para que solo aparecan los del año actual ->whereYear('created_at', now()->year)
-        $codigo = DB::table('ViewCodigoPendientes')->where('Asignado', 0)->where('Cancelado', '!=', 1)->where('Liberado', 0)->get(); //modifique esta linea para que solo aparecan los del año actual ->whereYear('created_at', now()->year)
+        $codigo = DB::table('ViewCodigoPendientes')->where('Asignado', 0)->where('Cancelado', '!=', 1)->where('Auditoria','!=',ENV('AUDITORIA'))->where('Liberado', 0)->get(); //modifique esta linea para que solo aparecan los del año actual ->whereYear('created_at', now()->year)
         $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
         foreach ($codigo as $item) {

@@ -784,6 +784,7 @@
                                                 @else
                                                     NMX-AA-003-1980 / NMX-AA-014-1980
                                                 @endif
+<<<<<<< HEAD
                                                 Y DE ACUERDO A PROCEDIMIENTO  
                                                 @if ($campoCompuesto->Proce_muestreo)
                                                      PE-10-002-{{str_pad($campoCompuesto->Proce_muestreo, 2, "0", STR_PAD_LEFT)}}
@@ -792,6 +793,9 @@
                                                      PEA-10-002-{{$campoCompuesto->Proce_muestreo2}}
                                                 @endif 
                                                 <br>
+=======
+                                                Y DE ACUERDO A PROCEDIMIENTO PE-10-002-{{str_pad($campoCompuesto->Proce_muestreo, 2, "0", STR_PAD_LEFT)}} <br>
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                                 {{@$obsCampo}}
                                                 @break
                                             @case(5) 
@@ -801,6 +805,7 @@
                                                     OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
                                                     @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
                                                     Y COLOR DE LA MUESTRA {{$color}} ,
+<<<<<<< HEAD
                                                     EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN EL PROCEDIMIENTO INTERNO 
                                                     @if ($campoCompuesto->Proce_muestreo)
                                                      PE-10-002-{{str_pad($campoCompuesto->Proce_muestreo, 2, "0", STR_PAD_LEFT)}} Y DE ACUERDO A PROCEDIMIENTO PE-10-002-{{str_pad($campoCompuesto->Proce_muestreo, 2, "0", STR_PAD_LEFT)}} <br>
@@ -808,6 +813,9 @@
                                                     @if ($campoCompuesto->Proce_muestreo2)
                                                         PEA-10-002-{{$campoCompuesto->Proce_muestreo2}} <br>
                                                     @endif  
+=======
+                                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN EL PROCEDIMIENTO INTERNO PEA-10-002-01 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-{{str_pad($campoCompuesto->Proce_muestreo, 2, "0", STR_PAD_LEFT)}} <br>
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                                     {{@$obsCampo}}
                                                 @else
                                                     OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ

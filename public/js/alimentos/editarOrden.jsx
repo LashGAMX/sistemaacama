@@ -392,7 +392,11 @@ function getDataContacto(id) {
 function setGenFolio() {
     if ($("#fechaMuestreo").val() != "") {
         const data = {
+<<<<<<< HEAD
             // id: $("#idCot").val(),
+=======
+            id: $("#idCot").val(),
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
             fecha: $("#fechaMuestreo").val(),
             _token: $('input[name="_token"]').val(),
         };

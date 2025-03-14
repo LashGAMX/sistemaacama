@@ -73,6 +73,11 @@ class AlimentosController extends Controller
         // Retornar la vista con el ID
         return view('alimentos.replabalimentos');
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function CampoAlimentos()
     {
         return view('alimentos.campo');
@@ -83,6 +88,10 @@ class AlimentosController extends Controller
         $model = ProcesoAnalisisA::orderBy("Id_procAnalisis", "desc")->get();
         return view('alimentos.informes', compact('model'));
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getPuntoMuestro(Request $res)
     {
         $solModel = SolicitudesAlimentos::where('Id_solicitud', $res->id)->first();
@@ -92,6 +101,10 @@ class AlimentosController extends Controller
         );
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function createcotizacion()
     {
         return view('alimentos.createCotizacion');
@@ -106,14 +119,26 @@ class AlimentosController extends Controller
         );
         return view('alimentos.captura', $data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function ordenServicio()
     {
         return view('alimentos.ordenServicio');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function recepcionMuestras()
     {
         return view('alimentos.recepcionMuestras');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function createOrden()
     {
         // $normas = Norma::where('Id_tipo', 2)->get();
@@ -144,6 +169,10 @@ class AlimentosController extends Controller
         );
         return view('alimentos.createOrdenIngreso', $data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function editOrden($id)
     {
         $model = SolicitudesAlimentos::find($id);
@@ -175,6 +204,10 @@ class AlimentosController extends Controller
         );
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getDireccionReporte(Request $res)
     {
 
@@ -285,6 +318,10 @@ class AlimentosController extends Controller
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getOrden()
     {
         $solicitudes = SolicitudesAlimentos::all();
@@ -294,6 +331,10 @@ class AlimentosController extends Controller
         );
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getcotizacionAli()
     {
         $cotizaciones = CotizacionAlimentos::select(
@@ -313,6 +354,10 @@ class AlimentosController extends Controller
 
         return response()->json(['data' => $cotizaciones]);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getClientesIntermediarios(Request $res)
     {
         $model = ClienteGeneral::where('Id_intermediario', $res->id)->get();
@@ -421,6 +466,10 @@ class AlimentosController extends Controller
 
         $mpdf->Output($nombreArchivo, 'I');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getClienteGen()
     {
         $clientesGen = DB::table('viewclientegeneral')
@@ -467,6 +516,10 @@ class AlimentosController extends Controller
 
         return response()->json($contacto);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getservicios()
     {
         $servicio = DB::table('tipo_servicios')
@@ -563,6 +616,14 @@ class AlimentosController extends Controller
             ]);
         }
     }
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getinformes()
     {
         $informe = DB::table('solicitudes_alimentos')
@@ -664,6 +725,10 @@ class AlimentosController extends Controller
 
         $mpdf->Output($nombreArchivo, 'I');
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function exportPdfInforme($id)
     {
         $muestra = SolicitudMuestraA::where('Id_muestra', $id)->first();
@@ -762,6 +827,10 @@ class AlimentosController extends Controller
     //     return response()->json($data);
     // }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function DeleteMuestra(Request $res)
     {
 
@@ -776,6 +845,10 @@ class AlimentosController extends Controller
 
         return response()->json(['msg' => 'Datos Eliminados']);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function setGenFolioSol(Request $res)
     {
         // Verificar si la fecha está presente y es válida
@@ -793,7 +866,11 @@ class AlimentosController extends Controller
         $dayYear = date("z", $temp) + 1;
 
         // Verificar si ya existe un folio para la cotización
+<<<<<<< HEAD
         $cotizacion = SolicitudesAlimentos::find($res->id);
+=======
+        $cotizacion = CotizacionAlimentos::find($res->id);
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
         if ($cotizacion && $cotizacion->Folio_servicio) {
             return response()->json([
                 'msg' => 'Ya tiene un folio',
@@ -806,7 +883,11 @@ class AlimentosController extends Controller
             ->count();
 
         // Construcción del folio
+<<<<<<< HEAD
         $folio = $dayYear  . "-" . ($solDay + 1) . "/" . $year . "-A";
+=======
+        $folio = $dayYear . "-A" . "-" . ($solDay + 1) . "/" . $year;
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
         if (empty($folio)) {
             return response()->json(['msg' => 'No se pudo generar el folio', 'folio' => null]);
@@ -872,6 +953,10 @@ class AlimentosController extends Controller
             'proceso' => $proceso,
         ]);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function RepAlimentos(Request $res)
     {
         $reg = RecepcionAlimentos::where('Id_rep', $res->idrep)->first();
@@ -895,6 +980,12 @@ class AlimentosController extends Controller
             return response()->json(['message' => 'No se encontró el registro con ese idrep.'], 404);
         }
     }
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function ingresar(Request $res)
     {
 
@@ -937,6 +1028,12 @@ class AlimentosController extends Controller
                 : 'La muestra con folio ' . $res->folio . ' se actualizó correctamente.',
         ]);
     }
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function CodigoAlimentos(Request $res)
     {
         // Verifica si ya existen códigos generados para esta solicitud
@@ -1230,6 +1327,10 @@ class AlimentosController extends Controller
 
         return view('alimentos.cadena', compact('model'));
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function detalleCadena($id)
     {
         $swSir = false;
@@ -1293,6 +1394,10 @@ class AlimentosController extends Controller
             return response()->json(['error' => 'No carga los datos'], 500);
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getDetalleAnalisis(Request $res)
     {
         $aux = 0;
@@ -1314,6 +1419,12 @@ class AlimentosController extends Controller
         );
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function regresarMuestra(Request $res)
     {
         $codigoParametro = DB::table('viewcodigoparametrosalimentos')->where('Id_codigo', $res->idCodigo)->first();
@@ -1332,6 +1443,10 @@ class AlimentosController extends Controller
 
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function desactivarMuestra(Request $res)
     {
         $codigoParametro = DB::table('viewcodigoparametrosalimentos')->where('Id_codigo', $res->idCodigo)->first();
@@ -1347,6 +1462,10 @@ class AlimentosController extends Controller
         );
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function getbitacoras(Request $request)
     {
         // Validar que Fini y Ffin existan
@@ -1413,6 +1532,10 @@ class AlimentosController extends Controller
         // Retornar los datos como respuesta JSON
         return response()->json($REPALI);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function setDetalleMuestra(Request $res)
     {
         $r2 = 0;
@@ -2784,6 +2907,10 @@ class AlimentosController extends Controller
 
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function setObservacion(Request $res)
     {
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
@@ -2947,6 +3074,10 @@ class AlimentosController extends Controller
         );
         return response()->json($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function setControlCalidad(Request $res)
     {
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
@@ -3430,7 +3561,11 @@ class AlimentosController extends Controller
     //     );
     //     return response()->json($data);
     // }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
     public function reasignarMuestra(Request $res)
     {
         $msg = "";
