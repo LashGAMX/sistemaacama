@@ -106,45 +106,64 @@
 
                     <tbody>     
                         @foreach ($areaModel as $item)
+                        @php
+                            $cont = 0;
+                            $auxEnv = 0;
+                            $mod = DB::table('ViewEnvaseParametro')->where('Id_analisis',$item->Id_area)->orderBy('Id_envase',"ASC")->get();
+                        @endphp
+                        @foreach ($mod as $item2)
                             @php
-                                $cont = 0;
-                                $mod = DB::table('ViewEnvaseParametro')->where('Id_analisis',$item->Id_area)->get();
+                                $pa = DB::table('solicitud_parametros')->where('Id_subnorma',$item2->Id_parametro)->where('Id_solicitud',$model->Id_solicitud)->get();
                             @endphp
-                            @foreach ($mod as $item2)
-                                @php
-                                    $pa = DB::table('solicitud_parametros')->where('Id_subnorma',$item2->Id_parametro)->where('Id_solicitud',$model->Id_solicitud)->get();
-                                @endphp
-                                @if ($pa->count())
-                                    @if ($cont == 0)
-                                          <tr class="bordesTablaSup">
-                                            @if ($item2->Id_area == 2 || $item2->Id_area == 7 || $item2->Id_area == 16)
-                                                <td class="justifyCenter  fontSize7">{{$model->Num_tomas}}</td>
-                                            @else
-                                                <td class="justifyCenter  fontSize7">1</td>  
-                                            @endif
-                                            <td class="justifyCenter  fontSize7">{{$item2->Area}}</td>
-                                            <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                            @if ($pa->count())
+                                @if ($cont == 0)
+                                    <tr class="bordesTablaSup">
+                                        @if ($item2->Id_area == 2 || $item2->Id_area == 7 || $item2->Id_area == 16)
+                                            <td class="justifyCenter  fontSize7">{{$model->Num_tomas}}</td>
+                                        @else
+                                            <td class="justifyCenter  fontSize7">1</td>  
+                                        @endif
+                                        <td class="justifyCenter  fontSize7">{{$item2->Area}}</td>
+                                        <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                        @if ($auxEnv == $item2->Id_envase)
+                                        <td class=" fontSize7"></td>
+                                            <td class="justifyCenter  fontSize7"></td>                                    
+                                            <td class=" fontSize7"></td>
+                                        @else
                                             <td class=" fontSize7">{{$item2->Nombre}} {{$item2->Volumen}} {{@$item2->UniEnv}}</td>
                                             <td class="justifyCenter  fontSize7">{{$item2->Volumen}} {{@$item2->UniEnv}}</td>                                    
                                             <td class=" fontSize7">{{$item2->Preservacion}}</td>
-                                            <td class="justifyCenter  fontSize7">SI</td>                                    
-                                        </tr>
-                                        @php $cont++; @endphp
-                                    @else
-                                        <tr>
-                                            <td class="justifyCenter  fontSize7"></td>
-                                            <td class="justifyCenter  fontSize7"></td>
-                                            <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                            @php
+                                                $auxEnv = $item2->Id_envase;
+                                            @endphp
+                                        @endif
+                                        <td class="justifyCenter  fontSize7">SI</td>                                    
+                                    </tr>
+                                    @php $cont++; @endphp
+                                @else
+                                    <tr>
+                                        <td class="justifyCenter  fontSize7"></td>
+                                        <td class="justifyCenter  fontSize7"></td>
+                                        <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                        @if ($auxEnv == $item2->Id_envase)
+                                            <td class=" fontSize7"></td>
+                                            <td class="justifyCenter  fontSize7"></td>                                    
+                                            <td class=" fontSize7"></td>
+                                        @else
                                             <td class=" fontSize7">{{$item2->Nombre}} {{$item2->Volumen}} {{@$item2->UniEnv}}</td>
                                             <td class="justifyCenter  fontSize7">{{$item2->Volumen}} {{@$item2->UniEnv}}</td>                                    
                                             <td class=" fontSize7">{{$item2->Preservacion}}</td>
-                                            <td class="justifyCenter  fontSize7">SI</td>                                    
-                                        </tr>
-                                    @endif
-                                @endif 
-                            @endforeach
-                        @endforeach    
-                   
+                                            @php
+                                                $auxEnv = $item2->Id_envase;
+                                            @endphp
+                                        @endif
+                                        <td class="justifyCenter  fontSize7">SI</td>                                    
+                                    </tr>
+                                @endif
+                            @endif 
+                        @endforeach
+                    @endforeach    
+               
                     </tbody>
                     
                 </table>
@@ -192,7 +211,7 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Materia == "0")
-                                    ---
+                                    --- 
                                 @else
                                     @if ($swMateria->count())
                                         {{@$phMuestra[$i]->Materia}}
@@ -332,7 +351,7 @@
             </div>
 
             <div class="col-12 negrita">
-                4. ENTREGA A LABORATORIO
+                4. ENTREGA A LABORATORIO 1
             </div>
 
             <div class="col-md-12">
@@ -415,6 +434,47 @@
                 </table>
           
             </div>
+
+            @if ($swVibrio->count())
+            <div class="col-12 negrita">
+                            5. VIBRIO FISCHERI
+                        </div>
+                <!-- Aqui va si hay  -->
+                <div class="col-md-12">
+                <table style="width: 30%; border: 1px solid #000000; " cellpadding="2" cellspacing="0">
+                <thead>
+                <tr>
+                <td colspan="2" class="fontCalibri fontBold fontSize12">
+                                                    <center>    Vibrio Fischeri </center>
+                                                </td>
+                                            </tr>
+                    <tr>
+                        <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Oxigeno Disuelto</th>
+                        <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Burbujas/Espuma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach ($Vidrio as $item)
+                    <tr>
+                        <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                            {{ $item->Oxigeno }}
+                        </td>
+                        <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                        {{ $item->Burbujas == 1 ? 'Sí' : 'No' }}
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+
+            </table>
+                
+                </div>
+                <br>
+            @else
+           
+            @endif
+
 
         </div>
     </div>

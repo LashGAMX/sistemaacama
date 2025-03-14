@@ -17,6 +17,7 @@ class DireccionReporte extends Model
         'Id_sucursal',
         'Direccion',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
+        'deleted_at'
     ];
 }

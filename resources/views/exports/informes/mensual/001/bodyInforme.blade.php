@@ -16,6 +16,7 @@
             <thead>
                 <tr>
                     @if (@$tipo == 1)
+                    
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="35%">PARAMETRO &nbsp;</td>
                     @else
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="40.9%">PARAMETRO &nbsp;</td>    
@@ -38,7 +39,93 @@
                     $cont = 0; 
                 @endphp
                 @foreach ($model1 as $item)
-                    <tr>
+                    @switch($item->Id_parametro)
+                        @case(365)
+                        @case(372)
+                        @case(370)
+                        <tr>
+                                <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
+                                <td class="tableContent bordesTablaBody">{{$item->Unidad}}</td>
+                                <td class="tableContent bordesTablaBody">{{$item->Clave_metodo}}</td>
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limitesC1[$cont]}}
+                                </td>                    
+                                
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limitesC2[$cont]}}
+                                </td>
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$ponderado[$cont]}}
+                                </td>
+                                @php
+                                    $aux = 0;
+                                @endphp
+                                @if (@$tipo == 1)
+                                    <td class="tableContent bordesTablaBody">
+                                        @if (@$limitesN[$cont] == "N.N" || @$limitesN[$cont] == "N/A")
+                                            @php
+                                                $aux = 1;
+                                            @endphp
+                                        @endif
+                                        {{@$limitesN[$cont]}}
+                                    </td>
+                                    <td class="tableContent bordesTablaBody">
+                                        @if ($aux == 1)
+                                            ---
+                                        @else
+                                             @if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                                                    N.A
+                                                @else
+                                                    @if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif
+                                                @endif
+                                        @endif
+                                    </td>
+                                @endif
+                            
+                            </tr>
+                            <tr>
+                                <td class="tableContentLeft bordesTablaBody">pH muestra filtrada <sup>{{$item->Simbologia}}</sup> <br> análisis color </td>
+                                <td class="tableContent bordesTablaBody">UpH</td>
+                                <td class="tableContent bordesTablaBody">  NMX-AA-008-SCFI-2016</td>
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limC1PhColor}}
+                                </td>                    
+                                
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limC2PhColor}}
+                                </td>
+                                <td class="tableContent bordesTablaBody">
+                                    {{@$limCPhColor}}
+                                </td>
+                                @php
+                                    $aux = 0;
+                                @endphp
+                                @if (@$tipo == 1)
+                                    <td class="tableContent bordesTablaBody">
+                                        @if (@$limitesN[$cont] == "N.N" || @$limitesN[$cont] == "N/A")
+                                            @php
+                                                $aux = 1;
+                                            @endphp
+                                        @endif
+                                        {{@$limitesN[$cont]}}
+                                    </td>
+                                    <td class="tableContent bordesTablaBody">
+                                        @if ($aux == 1)
+                                            ---
+                                        @else
+                                             @if (@$item->Limite == "N.A" || @$item->Limite == "N.N" || @$item->Limite == "N/A" || @$item->Limite == "N.A.")
+                                                    N.A
+                                                @else
+                                                    @if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif
+                                                @endif
+                                        @endif
+                                    </td>
+                                @endif
+                            
+                            </tr>
+                        @break
+                        @default
+                        <tr>
                         <td class="tableContentLeft bordesTablaBody">{{$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
                         <td class="tableContent bordesTablaBody">{{$item->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">{{$item->Clave_metodo}}</td>
@@ -116,6 +203,8 @@
                         @endif
                      
                     </tr>
+                    @endswitch
+                   
                     @php $cont++; @endphp
                 @endforeach
             </tbody>

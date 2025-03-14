@@ -107,6 +107,18 @@
         <div class="col-md-2">
           <button class="btn-success"><i class="fas fa-vials"></i> Controles</button>
         </div>
+        <div class="col-md-2">
+          @switch(Auth::user()->id)
+              @case(1)
+              @case(14)
+              @case(100)
+              <button class="btn-danger" id="btnEliminarMuestra"><i class="fas fa-trash"></i> Del M.</button>
+                  @break
+              
+              @default
+                  
+          @endswitch
+        </div>
       </div>
     </div>
     <div class="col-md-12" id="divCaptura">
@@ -1154,11 +1166,10 @@
             <button id="btnColiformes" class="btn btn-succcess">Guardar</button>
             <h4>Sembrado</h4>
             <hr>
-
             {{-- <label>Lote ID: <input type="text" id="sembrado_loteId"></label> <br> --}}
             <label>Sembrado: <input type="datetime-local" id="sembrado_sembrado"></label><br>
             <label>Fecha de resiembra de la cepa utilizada: <input type="date" id="sembrado_fechaResiembra"></label><br>
-            <label>Tubo N°: <input type="text" id="sembrado_tuboN"></label> <br>
+            <label>Placa N°: <input type="text" id="sembrado_tuboN"></label> <br>
             <label>Bitácora: <input type="text" id="sembrado_bitacora"></label>
 
             <br><br>
@@ -1174,7 +1185,8 @@
             <h4>Prueba confirmativa</h4>
             <hr>
 
-            <label>Medio: <input type="text" id="pruebaConfirmativa_medio"></label> <br>
+            <!-- <label>Medio: <input type="text" id="Ajolote"></label> <br> -->
+            <label for="medio">Medio: <input type="text" id="MEDIO"></label><br>
             <label>Preparación: <input type="datetime-local" id="pruebaConfirmativa_preparacion"></label><br>
             <label>Lectura: <input type="datetime-local" id="pruebaConfirmativa_lectura"></label><br>
           </div>
@@ -1184,7 +1196,7 @@
           <div class="tab-pane fade" id="dbo" role="tabpanel" aria-labelledby="dbo-tab">
             <div class="row">
               <div class="col-md-4">
-                <label>Cantidad de agua en dilución en ltros preparado: <input class="form-control" type="text" id="cantDilucion"></label>
+                <label>Cantidad de agua en dilución en litros preparado: <input class="form-control" type="text" id="cantDilucion"></label>
               </div>
               <div class="col-md-6">
                 <label for="">Tiempo de aireacion</label>
@@ -4105,7 +4117,7 @@
                     <input type="text" id="con9Col" value="0" style="width: 60px;">
                   </td>
                   <td>
-                    <input type="text" id="con10Col" value="0" style="width: 60px">
+                    <input type="text" id="ajo" value="0" style="width: 60px">
                     <input type="text" id="con11Col" value="0" style="width: 60px">
                     <input type="text" id="con12Col" value="0" style="width: 60px">
                     <br> 
@@ -4224,31 +4236,31 @@
                   <td>Prueba presuntiva 24 hrs / 48 hrs</td>
                   <td>
                     <center>24 Hrs</center> <br>
-                    <input type="text" id="enPre1Ent" style="width: 60px;">
-                    <input type="text" id="enPre2Ent" style="width: 60px;">
-                    <input type="text" id="enPre3Ent" style="width: 60px;">
+                    <input type="text" id="enPre1Ent" style="width: 45px;">
+                    <input type="text" id="enPre2Ent" style="width: 45px;">
+                    <input type="text" id="enPre3Ent" style="width: 45px;">
                     <br>
-                    <input type="text" id="enPre4Ent" style="width: 60px;">
-                    <input type="text" id="enPre5Ent" style="width: 60px;">
-                    <input type="text" id="enPre6Ent" style="width: 60px;">
+                    <input type="text" id="enPre4Ent" style="width: 45px;">
+                    <input type="text" id="enPre5Ent" style="width: 45px;">
+                    <input type="text" id="enPre6Ent" style="width: 45px;">
                     <br>
-                    <input type="text" id="enPre7Ent" style="width: 60px;">
-                    <input type="text" id="enPre8Ent" style="width: 60px;">
-                    <input type="text" id="enPre9Ent" style="width: 60px;">
+                    <input type="text" id="enPre7Ent" style="width: 45px;">
+                    <input type="text" id="enPre8Ent" style="width: 45px;">
+                    <input type="text" id="enPre9Ent" style="width: 45px;">
                   </td>
                   <td>
                     <center>48 Hrs</center> <br>
-                    <input type="text" id="enPre12Ent" style="width: 60px;">
-                    <input type="text" id="enPre22Ent" style="width: 60px;">
-                    <input type="text" id="enPre32Ent" style="width: 60px;">
+                    <input type="text" id="enPre12Ent" style="width: 35px;">
+                    <input type="text" id="enPre22Ent" style="width: 35px;">
+                    <input type="text" id="enPre32Ent" style="width: 35px;">
                     <br>
-                    <input type="text" id="enPre42Ent" style="width: 60px;">
-                    <input type="text" id="enPre52Ent" style="width: 60px;">
-                    <input type="text" id="enPre62Ent" style="width: 60px;">
+                    <input type="text" id="enPre42Ent" style="width: 35px;">
+                    <input type="text" id="enPre52Ent" style="width: 35px;">
+                    <input type="text" id="enPre62Ent" style="width: 35px;">
                     <br>
-                    <input type="text" id="enPre72Ent" style="width: 60px;">
-                    <input type="text" id="enPre82Ent" style="width: 60px;">
-                    <input type="text" id="enPre92Ent" style="width: 60px;">
+                    <input type="text" id="enPre72Ent" style="width: 35px;">
+                    <input type="text" id="enPre82Ent" style="width: 35px;">
+                    <input type="text" id="enPre92Ent" style="width: 35px;">
                   </td>
                   <td>V</td>
                 </tr>
@@ -4257,31 +4269,31 @@
                   <td>Prueba confirmativa (1° - 24 hrs )/(2° - 48 hrs)</td>
                   <td>
                     <center>24 Hrs</center><br>
-                    <input type="text" id="enCon1Ent" style="width: 60px;">
-                    <input type="text" id="enCon2Ent" style="width: 60px;">
-                    <input type="text" id="enCon3Ent" style="width: 60px;">
+                    <input type="text" id="enCon1Ent" style="width: 50px;">
+                    <input type="text" id="enCon2Ent" style="width: 50px;">
+                    <input type="text" id="enCon3Ent" style="width: 50px;">
                     <br>
-                    <input type="text" id="enCon4Ent" style="width: 60px;">
-                    <input type="text" id="enCon5Ent" style="width: 60px;">
-                    <input type="text" id="enCon6Ent" style="width: 60px;">
+                    <input type="text" id="enCon4Ent" style="width: 50px;">
+                    <input type="text" id="enCon5Ent" style="width: 50px;">
+                    <input type="text" id="enCon6Ent" style="width: 50px;">
                     <br>
-                    <input type="text" id="enCon7Ent" style="width: 60px;">
-                    <input type="text" id="enCon8Ent" style="width: 60px;">
-                    <input type="text" id="enCon9Ent" style="width: 60px;">
+                    <input type="text" id="enCon7Ent" style="width: 50px;">
+                    <input type="text" id="enCon8Ent" style="width: 50px;">
+                    <input type="text" id="enCon9Ent" style="width: 50px;">
                   </td>
                   <td>
                     <center>48 Hrs</center><br>
-                    <input type="text" id="enCon12Ent" style="width: 60px;">
-                    <input type="text" id="enCon22Ent" style="width: 60px;">
-                    <input type="text" id="enCon32Ent" style="width: 60px;">
+                    <input type="text" id="enCon12Ent" style="width: 30px;">
+                    <input type="text" id="enCon22Ent" style="width: 30px;">
+                    <input type="text" id="enCon32Ent" style="width: 30px;">
                     <br>
-                    <input type="text" id="enCon42Ent" style="width: 60px;">
-                    <input type="text" id="enCon52Ent" style="width: 60px;">
-                    <input type="text" id="enCon62Ent" style="width: 60px;">
+                    <input type="text" id="enCon42Ent" style="width: 30px;">
+                    <input type="text" id="enCon52Ent" style="width: 30px;">
+                    <input type="text" id="enCon62Ent" style="width: 30px;">
                     <br>
-                    <input type="text" id="enCon72Ent" style="width: 60px;">
-                    <input type="text" id="enCon82Ent" style="width: 60px;">
-                    <input type="text" id="enCon92Ent" style="width: 60px;">
+                    <input type="text" id="enCon72Ent" style="width: 30px;">
+                    <input type="text" id="enCon82Ent" style="width: 30px;">
+                    <input type="text" id="enCon92Ent" style="width: 30px;">
                   </td>
                   <td>V</td>
                 </tr>
@@ -5035,6 +5047,99 @@
 {{--* Fin Modal Color --}}
 
 
+{{--* Inicio Modal Vidrio --}}
+<div class="modal fade" id="modalVidrio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Vidrio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionVidrio"
+                placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionVidrio')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <label for="resultadoVidrio1">Res1</label><input type="text" id="resultadoVidrio1" style="font-size: 10px;color:red;" placeholder="Resultado">
+              <label for="resultadoVidrio2">Res2</label><input type="text" id="resultadoVidrio2" style="font-size: 10px;color:red;" placeholder="Resultado">
+              <label for="resultadoVidrio3">Res3</label><input type="text" id="resultadoVidrio3" style="font-size: 10px;color:red;" placeholder="Resultado"><br>
+              <label for="resultadoVidrio4">Res4</label><input type="text" id="resultadoVidrio4" style="font-size: 10px;color:red;" placeholder="Resultado">
+              <label for="resultadoVidrio5">Res5</label><input type="text" id="resultadoVidrio5" style="font-size: 10px;color:red;" placeholder="Resultado">
+              <label for="resultadoVidrio6">Res6</label><input type="text" id="resultadoVidrio6" style="font-size: 10px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Unidad</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td>Toxicidad Aguda V. Fischeri 5min</td>
+                  <td>CE50 %</td>
+                  <td><input type="text" id="vidrio1"></td>
+                </tr>
+                <tr>
+                  <td>Toxicidad Aguda V. Fischeri 15min</td>
+                  <td>CE50 %</td>
+                  <td><input type="text" id="vidrio2"></td>
+                </tr>
+                <tr>
+                  <td>Toxicidad Aguda V. Fischeri 30min</td>
+                  <td>CE50 %</td>
+                  <td><input type="text" id="vidrio3"></td>
+                </tr>
+
+                <tr>
+                  <td>Toxicidad Aguda V. Fischeri 5min</td>
+                  <td>UT</td>
+                  <td><input type="text" id="vidrio4"></td>
+                </tr>
+                <tr>
+                  <td>Toxicidad Aguda V. Fischeri 15min</td>
+                  <td>UT</td>
+                  <td><input type="text" id="vidrio5"></td>
+                </tr>
+                <tr>
+                  <td>Toxicidad Aguda V. Fischeri 30min</td>
+                  <td>UT</td>
+                  <td><input type="text" id="vidrio6"></td>
+                </tr>
+        
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{{--* Fin Modal Vidrio --}}
+
+
 {{--todo Fin modal MB --}}
 {{--! FIN Modal de capturas de parametros --}}
 
@@ -5089,12 +5194,12 @@
  <!-- Spinner -->
  <div id="spinner"></div>
             @endsection
+             wire: wire:  
 
 
 
 @section('javascript')
-<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.3.3"></script>
-
+<script src="{{asset('/public/js/laboratorio/analisis/captura.jsx')}}?v=1.4.0"></script>
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>

@@ -12,6 +12,9 @@ $(document).ready(function () {
         window.open(base_url+"/admin/cotizacion/exportPdfOrden/"+idCot);
         //window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
     } );
+    $('#btnPrint2').click( function () {
+        window.open(base_url+"/admin/cotizacion/exportPdfCotizacion/"+idCot);
+    } );
     $('#btnShow').click( function () {
         window.location = base_url+"/admin/cotizacion/show/"+idCot;
     } );

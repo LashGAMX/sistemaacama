@@ -210,6 +210,7 @@
                                         @switch(@$paramResultado[$i]->Id_parametro)
                                             @case(5)
                                             @case(71)
+                                           
                                             {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}    
                                                 @break
                                             @default
@@ -224,11 +225,18 @@
                                 </td>
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri " style="font-size:8.5px">
                                     @if (@$paramResultado[$i + $temp]->Id_area == 12 || @$paramResultado[$i + $temp]->Id_area == 6 || @$paramResultado[$i + $temp]->Id_area == 13 || @$paramResultado[$i + $temp]->Id_area == 3) 
-                                        @switch(@$paramResultado[$i + $temp]->Id_parametro)
+                                        @switch(@$paramResultado[$i + $temp]->Id_parametro->Id_parametro)
                                         @case(5)
                                         @case(71)
                                             {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                             @break
+                                        @case(173)
+                                            @if (@$paramResultado[$i + $temp]->Num_muestra <= 3 )
+                                                {{@$paramResultado[$i + $temp]->Parametro}} CE50 %
+                                            @else
+                                                {{@$paramResultado[$i + $temp]->Parametro}} UT
+                                            @endif
+                                        @break
                                         @default
                                             {{@$paramResultado[$i + $temp]->Num_muestra}} - {{@$paramResultado[$i + $temp]->Parametro}} {{@$paramResultado[$i + $temp]->Unidad}}
                                         @endswitch
@@ -242,8 +250,16 @@
                                         @switch(@$paramResultado[$i + ($temp * 2)]->Id_parametro)
                                         @case(5)
                                         @case(71)
+                                    
                                             {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                             @break
+                                        @case(173)
+                                            @if (@$paramResultado[$i + ($temp * 2)]->Num_muestra <= 3 )
+                                                <!-- {{@$paramResultado[$i + ($temp * 2)]->Parametro}} CE50 % -->
+                                            @else
+                                                <!-- {{@$paramResultado[$i + ($temp * 2)]->Parametro}} UT -->
+                                            @endif
+                                        @break
                                         @default
                                             {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} - {{@$paramResultado[$i + ($temp * 2)]->Parametro}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}
                                         @endswitch

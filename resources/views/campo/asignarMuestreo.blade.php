@@ -62,11 +62,10 @@
         </thead>
         <tbody>
             @foreach ($model as $item) 
-              @if ($item->Folio_servicio != NULL)
-                <tr>
+            <tr>
                   <td>{{$item->Id_solicitud}}</td>
                   <td>{{$item->Folio_servicio}}</td>
-                  <td>{{$item->Nombres}}</td>
+                  <td>{{$item->Empresa_suc}}</td>
                   <td>{{$item->Servicio}}</td>
                   <td>{{$item->Descarga}}</td>
                   <td>{{$item->Fecha_muestreo}}</td>
@@ -75,7 +74,6 @@
                   <td>{{$item->created_at}}</td>
                   <td>{{$item->updated_at}}</td>
                 </tr>
-              @endif
           @endforeach
         </tbody>
       </table>

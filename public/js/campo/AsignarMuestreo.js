@@ -1,5 +1,6 @@
 
 var table;
+var folioAsignar;
  $(document).ready(function (){
     
     listaSolicitudes();
@@ -23,7 +24,7 @@ function puntoOrden()
         paging:         false
     });
 }
-var folioAsignar;
+
  function listaSolicitudes()
  {
     
@@ -280,6 +281,9 @@ function setMuestreadorMultiple()
  var idSol = 0
  function generar(idSolicitud, folio) 
 {
+    console.log("esta es la soli:"+idSolicitud);
+    console.log("esta es el folio:"+folio);
+
     idSol = idSolicitud
     let tabla = document.getElementById('divSolGenerada');
     let tab = '';

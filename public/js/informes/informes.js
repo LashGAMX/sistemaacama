@@ -45,6 +45,15 @@ $(document).ready(function () {
             case "4":
                 window.open(base_url+"/admin/informes/cadena/pdf/"+$("#puntoMuestreo").val()) 
                 break;
+            case "5":
+                window.open(base_url+"/admin/informes/exportPdfInformeVidrio/"+idSol+"/"+$("#puntoMuestreo").val()) 
+                break;
+            case "6":
+                window.open(base_url+"/admin/informes/exportPdfInformeAdd/"+idSol+"/"+$("#puntoMuestreo").val()) 
+                break;
+            case "7":
+                window.open(base_url+"/admin/informes/exportHojaCampoAdd/"+$("#puntoMuestreo").val()) 
+                break; 
             default:
                 break;
         }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
 use App\Http\Controllers\Laboratorio\VolController;
 use App\Http\Controllers\Laboratorio\DirectosController;
+use App\Http\Controllers\Laboratorio\LabAnalisisController;
 use App\Http\Controllers\Laboratorio\PotableController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Models\Laboratorio; 
@@ -34,7 +35,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getUltimoLote', [MetalesController::class, 'getUltimoLote']);
         Route::post('eliminarContro', [MetalesController::class, 'eliminarContro']);
         Route::post('desliberarControl', [MetalesController::class, 'desliberarControl']);
-        
+        Route::post('getImagenMuestra', [MetalesController::class, 'getImagenMuestra']);
+
 
         //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [MetalesController::class, 'tipoAnalisis']);
@@ -44,6 +46,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setControlCalidad', [MetalesController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [MetalesController::class, 'liberarMuestraMetal']);
         Route::post('liberarTodo', [MetalesController::class, 'liberarTodo']); //revisar método
+
         
 
         //? Modulo Lote - Creación  de lotes 
@@ -71,6 +74,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createControlCalidad', [MetalesController::class, 'createControlCalidad']);
         Route::post('operacion', [MetalesController::class, 'operacion']);
         Route::post('enviarObservacion', [MetalesController::class, 'enviarObservacion']);
+        Route::post('refrescar', [MetalesController::class, 'refrescar']);
+
         Route::post('lote/equipo/guardarDatosGenerales', [MetalesController::class, 'guardarDatosGenerales']);
         Route::post('getDataLote/plantillaPredeterminada', [MetalesController::class, 'getPlantillaPred']);
         Route::post('lote/procedimiento/busquedaFiltros', [MetalesController::class, 'busquedaFiltros']);
@@ -94,6 +99,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setConfiguraciones', [MetalesController::class, 'setConfiguraciones']);
         Route::get('setEjecutraParametro/{id}', [MetalesController::class, 'setEjecutraParametro']);
         Route::get('setFirmaSup', [MetalesController::class, 'setFirmaSup']);
+        Route::post('setEjecutarTodo', [MetalesController::class, 'setEjecutarTodo']);
         
     });
 

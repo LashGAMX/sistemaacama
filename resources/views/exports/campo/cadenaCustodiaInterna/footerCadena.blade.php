@@ -3,14 +3,14 @@
         <div>
             <table class="table-sm" width="100%">
                 <tr>
-                    @php
+                    <!-- @php
                         $aux = DB::table('codigo_parametro')->where('Id_solicitud',$model->Id_solicitud)->where('Id_parametro',102)->get();
                     @endphp
                     @if ($aux->count())
                         <td class="fontCalibri anchoColumna111 fontSize8">
-                            Color verdadero 436nm: {{@$aux->Resultado}} | 525nm: {{@$aux->Resultado2}} | 620nm : {{@$aux->Resultado_aux}}
+                            Color verdadero 436nm: {{number_format(@$aux[0]->Resultado,3,'.','')}} | 525nm: {{number_format(@$aux[0]->Resultado2,3,'.','')}} | 620nm : {{number_format(@$aux[0]->Resultado_aux,3,'.','')}}
                         </td>
-                    @endif
+                    @endif -->
                     @switch(@$norma->Id_norma)
                     @case(2)
                         @if (@$promGra->count())

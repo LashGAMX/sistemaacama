@@ -10,7 +10,11 @@
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="400.8px">{{$solModel1->Empresa}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="137.3px">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="92.9px">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzq">&nbsp;RFC: {{@$rfc->RFC}}</td>                    
+                    <td class="filasIzq bordesTabla fontBold bordeIzq">&nbsp;
+                        @if (@$rfc->RFC != "")
+                            RFC: {{@$rfc->RFC}}
+                        @endif
+                    </td>                    
                     <td class="filasIzq bordesTabla fontBold bordeFinal justificadoDer" ></td>                    
                 </tr>
 

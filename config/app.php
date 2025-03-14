@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://51.51.51.2:85/sofiadev/'),
+    'url' => env('APP_URL', 'http://51.51.51.2:85/sofia/'),
 
     'asset_url' => env('ASSET_URL', null), 
 
@@ -169,6 +169,9 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        
+
+
         
     ], 
 

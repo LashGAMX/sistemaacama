@@ -34,6 +34,10 @@ class ProcesoAnalisis extends Model
         'Liberado',
         'Cancelado',
         'Obs_proceso',
+        'Obs_recepcion',
+        'Pass_archivo',
+        'Pagado',
+        'Auditoria',
         'Id_user_c',
         'Id_user_m'
     ];

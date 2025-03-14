@@ -43,7 +43,6 @@
                             N.A INTERPRETAR COMO NO APLICA. <br>
                             N.N INTERPRETAR COMO NO NORMADO. <br>
                             NOTA 2: LOS DATOS EXPRESADOS AVALAN ÚNICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA. <br> <br>
-
                         </td>
                     </tr>                
             </tbody>         

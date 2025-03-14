@@ -19,6 +19,7 @@ class CampoCompuesto extends Model
         'Con_tratamiento',
         'Tipo_tratamiento',
         'Proce_muestreo',
+        'Proce_muestreo2',
         'Observaciones',
         'Obser_solicitud',
         'Ph_muestraComp',

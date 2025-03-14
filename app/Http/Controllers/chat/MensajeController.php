@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\File;
 class MensajeController extends Controller
 {
 // Metodo para realizar el contador general por usuarios 
-    public function ContGen ()
-    {
-        $userId=Auth::id();
-        $messageCount=GroupUser::where('user_id',$userId)->sum('count_message');
-        return response()->json($messageCount);
+public function ContGen ()
+{
+    $userId = Auth::id();
+    if (!$userId) {
+        return response()->json(['error' => 'No autorizado'], 401);
     }
+
+    $messageCount = GroupUser::where('user_id', $userId)->sum('count_message') ?? 0;
+
+    return response()->json($messageCount);
+}
+
 
 //METODO PARA CREAR UN NUEVO MENSAJE POR Grupo   
       public function mensaje(Request $request)

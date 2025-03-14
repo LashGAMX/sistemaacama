@@ -11,48 +11,49 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
-    
-    public function index() 
+
+    public function index()
     {
         return view('clientes.cliente');
     }
     public function show($id)
     {
-        $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
-        return view('clientes.cliente_detalle',compact('cliente'));
+        $cliente = DB::table('ViewGenerales')->where('Id_cliente', $id)->first();
+        return view('clientes.cliente_detalle', compact('cliente'));
     }
 
-    public function details($id,$idSuc)
+    public function details($id, $idSuc)
     {
-        $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
-        $sucursal = SucursalCliente::withTrashed()->where('Id_sucursal',$idSuc)->first();
+        $cliente = DB::table('ViewGenerales')->where('Id_cliente', $id)->first();
+        $sucursal = SucursalCliente::withTrashed()->where('Id_sucursal', $idSuc)->first();
         // var_dump($sucursal);
-        return view('clientes.cliente_detalle',compact('cliente','idSuc','sucursal'));
+        return view('clientes.cliente_detalle', compact('cliente', 'idSuc', 'sucursal'));
     }
-    public function datosGenerales(Request $request){
-         $model = SucursalCliente::find($request->idUser);
-         $model->Telefono = $request->telefono;
-         $model->Correo = $request->correo;
-         $model->Direccion = $request->direccion;
-         $model->Atencion = $request->atencion;
-         $model->save();
+    public function datosGenerales(Request $request)
+    {
+        $model = SucursalCliente::find($request->idUser);
+        $model->Telefono = $request->telefono;
+        $model->Correo = $request->correo;
+        $model->Direccion = $request->direccion;
+        $model->Atencion = $request->atencion;
+        $model->save();
 
         $data = array(
             'sw' => true,
             'model' => $model
         );
-        
+
         return response()->json($data);
     }
     public function getDatosGenerales(Request $res)
     {
-        $model = SucursalContactos::where('Id_sucursal',$res->id)->get();
+        $model = SucursalContactos::where('Id_sucursal', $res->id)->get();
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
- 
+
     public function setDatosGenerales(Request $res)
     {
         $model = SucursalContactos::create([
@@ -81,7 +82,7 @@ class ClienteController extends Controller
     {
         $model = SucursalContactos::find($res->id);
         $model->Id_sucursal = $res->sucursal;
-        $model->Nombre = $res->nombre; 
+        $model->Nombre = $res->nombre;
         $model->Departamento = $res->departamento;
         $model->Puesto = $res->puesto;
         $model->Email = $res->correo;
@@ -94,4 +95,4 @@ class ClienteController extends Controller
         );
         return response()->json($data);
     }
-} 
+}

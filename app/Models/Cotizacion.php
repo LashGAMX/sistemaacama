@@ -14,11 +14,8 @@ class Cotizacion extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_intermedio',
+        
         'Id_cliente',
-        'Id_sucursal',
-        'Id_direccion',
-        'Id_general',
         'Nombre',
         'Direccion',
         'Atencion',
@@ -63,6 +60,32 @@ class Cotizacion extends Model
         'Cancelado',
         'Fecha_impresion',
     ];
+ 
+    public function Cotizacion_estado()
+    {
+        return $this->belongsTo(CotizacionEstado::class, 'Estado_cotizacion', 'Id_estado');
+    }
+    
+    public function clavenorma()
+    {
+        return $this->belongsTo(Norma::class, 'Id_norma', 'Id_norma');
+    }
+    
+    public function descarga()
+    {
+        return $this->belongsTo(TipoDescarga::class, 'Tipo_descarga', 'Id_tipo');
+    }
+    
+    public function cliente()
+    {
+        return $this->belongsTo(Clientes::class, 'Id_cliente', 'Id_cliente');
+    }
+    
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'Creado_por', 'id');
+    }
+    
 
 }
 

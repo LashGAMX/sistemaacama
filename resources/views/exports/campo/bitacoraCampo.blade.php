@@ -786,6 +786,46 @@
                     </tbody>
                 </table>
             </div>
+           
+
+            @if (empty($Vidrio))
+
+@else
+    <!-- Aqui va si hay  -->
+    <div class="contenidoTabla">
+     <table style="width: 30%; border: 1px solid #000000; border-collapse: collapse;" cellpadding="2" cellspacing="0">
+    <thead>
+    <tr>
+    <td colspan="2" class="fontCalibri fontBold fontSize12">
+                                        <center>    Vibrio Fischeri </center>
+                                    </td>
+                                </tr>
+        <tr>
+            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Oxigeno Disuelto</th>
+            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Burbujas/Espumas</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($Vidrio as $item)
+        <tr>
+            <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+                {{ $item->Oxigeno }}
+            </td>
+            <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">
+               {{ $item->Burbujas == 1 ? 'Sí' : 'No' }}
+            </td>
+
+        </tr>
+    @endforeach
+</tbody>
+
+</table>
+      
+    </div>
+    <br>
+@endif
+
+            
 
             {{-- <br> --}}
 
@@ -800,7 +840,13 @@
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Procedimiento de muestreo</td>
                             <td class="fontCalibri fontSize12 fontBold" width="75%">
-                                PE-10-002-0{{@$campoCompuesto->Proce_muestreo}}</td> 
+                                @if (@$campoCompuesto->Proce_muestreo)
+                                    PE-10-002-0{{@$campoCompuesto->Proce_muestreo}}
+                                @endif
+                                @if (@$campoCompuesto->Proce_muestreo2)
+                                    PEA-10-002-1{{@$campoCompuesto->Proce_muestreo2}}
+                                @endif
+                                </td> 
                         </tr>
                     </tbody>
                 </table>

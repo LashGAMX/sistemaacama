@@ -25,8 +25,13 @@ class Message extends Model
                 ->where('user_id', '!=', $message->user_id)
                 ->increment('count_message');
         });
+        static::created(function ($message) {
+            // Despliego el evento 
+            broadcast(new \App\Events\MessageCreated($message));
+        });
     }
-
+   
+    
 
     public function group()
     {

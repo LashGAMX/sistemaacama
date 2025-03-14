@@ -269,6 +269,17 @@ ON sol.Id_subnorma = pa.Id_parametro
 INNER JOIN solicitudes as s
 ON sol.Id_solicitud = s.Id_solicitud;
 
+/* ViewSolicitudParametrosAli */
+
+CREATE VIEW ViewSolicitudParametrosAli AS SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,pa.Id_parametro,
+pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,
+s.Folio_servicio,pa.Metodo_prueba,pa.Unidad
+FROM solicitud_parametrosa as sol
+INNER JOIN ViewParametros as pa
+ON sol.Id_parametro = pa.Id_parametro
+INNER JOIN solicitudes as s
+ON sol.Id_solicitud = s.Id_solicitud;
+
 /* Lista Puntos Solicitud Generales */
 CREATE VIEW ViewPuntoGenSol as SELECT sol.*,puntos.Id_sucursal,puntos.Punto_muestreo FROM solicitud_puntos as sol
 INNER JOIN puntos_muestreogen as puntos
@@ -582,7 +593,7 @@ INNER JOIN puntos_muestreogen as gen
 ON pu.Id_muestreo = gen.Id_punto;
 
 /*Lista ViewCodigoParametro */
-
+/*
 CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,
 sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad,
  pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area,pa.Limite FROM codigo_parametro as cod
@@ -593,7 +604,33 @@ ON sol.Id_subnorma = sub.Id_subnorma
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro
 INNER JOIN users as us
-ON cod.Analizo = us.id
+ON cod.Analizo = us.id */
+
+/* ViewCodigoParametrosAli */
+
+CREATE VIEW ViewCodigoParametrosAli as SELECT cod.*,us.name,us.iniciales,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad,
+ pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area,pa.Limite 
+FROM codigo_parametroa as cod
+INNER JOIN solicitud_muestrasa as sol
+ON cod.Id_solicitud = sol.Id_muestra
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro
+INNER JOIN users as us
+ON cod.Analizo = us.id;
+//Vista Netza
+
+CREATE VIEW ViewCodigoParametrosAli AS
+SELECT cod.*, us.name, us.iniciales, pa.Parametro, pa.Id_simbologia, pa.Simbologia, 
+pa.Id_tipo_formula, pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo, 
+pa.Id_area, pa.Limite
+FROM codigo_parametroa AS cod
+LEFT JOIN solicitud_muestrasa AS sol
+ON cod.Id_solicitud = sol.Id_muestra
+LEFT JOIN ViewParametros AS pa
+ON cod.Id_parametro = pa.Id_parametro
+LEFT JOIN users AS us
+ON cod.Analizo = us.id;
+
 
 CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sol.Siralab,sub.Id_subnorma,sub.Id_norma,sub.Norma,
 sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, 
@@ -641,7 +678,7 @@ ON cod.Id_parametro = pa.Id_parametro;
 
 CREATE VIEW ViewCodigoInforme as 
 SELECT cod.* , pa.Parametro,pa.Id_area,pa.Tipo_formula,pa.Area_analisis,pa.Id_tipo_formula,pa.Id_tecnica,pa.Tecnica,
-pa.Clave_metodo,pa.Unidad,pa.Limite,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia,pa.Id_simbologia_info , us.iniciales,
+pa.Clave_metodo,pa.Unidad,pa.Limite,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia,pa.Id_simbologia_info , us.iniciales,us.name,
 pa.Descripcion,pa.Descripcion2,pa.Descripcion_sim
 FROM codigo_parametro as cod
 INNER JOIN ViewParametros as pa
@@ -771,6 +808,21 @@ INNER JOIN control_calidad as con
 ON det.Id_control = con.Id_control
 INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo;
+
+/**ViewLoteDetalleVidrio */
+CREATE VIEW ViewLoteDetallevidrio AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra 
+FROM lote_detalle_vidrio as det
+INNER JOIN  lote_analisis as lot
+ON det.Id_lote = lot.Id_lote
+INNER JOIN  ViewSolicitud2 as sol
+ON det.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON det.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as con
+ON det.Id_control = con.Id_control
+INNER JOIN codigo_parametro as cod
+ON det.Id_codigo = cod.Id_codigo;
+
 /* ViewLoteDetalleDureza */
 
 CREATE VIEW ViewLoteDetalleDureza AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra,cod.Historial FROM lote_detalle_dureza as det
@@ -820,7 +872,7 @@ INNER JOIN incidencias_prioridad as pri ON inci.Id_prioridad = pri.Id_prioridad;
 
 /* ViewProcesoAnalisis */
 
-CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Clave_norma,sol.Servicio,sol.Id_norma,sol.Padre,sol.Hijo,sol.Siralab FROM proceso_analisis as pr
+CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Clave_norma,sol.Servicio,sol.Id_norma,sol.Padre,sol.Hijo,sol.Siralab,sol.Fecha_muestreo FROM proceso_analisis as pr
 INNER JOIN ViewSolicitud2 as sol
 ON pr.Id_solicitud = sol.Id_solicitud;
 
@@ -928,11 +980,13 @@ ON cot.Actualizado_por = usr2.id;
 
 
 /* ViewParametrosProceso */ 
-CREATE VIEW ViewParametroProceso as SELECT cod.*,par.Parametro,par.Id_tipo_formula,pro.Cliente,pro.Empresa 
+CREATE VIEW ViewParametroProceso as  SELECT cod.*,par.Parametro,par.Id_tipo_formula,pro.Cliente,pro.Empresa, par.Id_area,SOLPUN.Punto
 FROM codigo_parametro as cod
 INNER JOIN parametros as par
 ON cod.Id_parametro = par.Id_parametro
 INNER JOIN proceso_analisis as pro
+ON cod.Id_solicitud = pro.Id_solicitud
+INNER JOIN solicitud_puntos as SOLPUN
 ON cod.Id_solicitud = pro.Id_solicitud;
 
 /* ViewParametroProcesoMetales */
@@ -960,8 +1014,10 @@ CREATE VIEW  ViewProcesoAnalisisNorma as SELECT pro.*,sol.Id_norma FROM proceso_
 INNER JOIN solicitudes as sol
 ON pro.Id_solicitud = sol.Id_solicitud;
 
-
-
+ //vista DE LOTE DETALLE DIRECTOA PARA ALIMENTOS Netza
+ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewlotedetalledirectosA`  AS SELECT `det`.`Id_detalle` AS `Id_detalle`, `det`.`Id_lote` AS `Id_lote`, `det`.`Id_analisis` AS `Id_analisis`, `det`.`Id_codigo` AS `Id_codigo`, `det`.`Id_parametro` AS `Id_parametro`, `det`.`Id_control` AS `Id_control`, `det`.`Lectura1` AS `Lectura1`, `det`.`Lectura2` AS `Lectura2`, `det`.`Lectura3` AS `Lectura3`, `det`.`Promedio` AS `Promedio`, `det`.`Temperatura` AS `Temperatura`, `det`.`Color_a` AS `Color_a`, `det`.`Color_v` AS `Color_v`, `det`.`Factor_dilucion` AS `Factor_dilucion`, `det`.`Vol_muestra` AS `Vol_muestra`, `det`.`Ph` AS `Ph`, `det`.`Factor_correcion` AS `Factor_correcion`, `det`.`Resultado` AS `Resultado`, `det`.`Observacion` AS `Observacion`, `det`.`Liberado` AS `Liberado`, `det`.`Cancelado` AS `Cancelado`, `det`.`Analizo` AS `Analizo`, `det`.`created_at` AS `created_at`, `det`.`updated_at` AS `updated_at`, `det`.`deleted_at` AS `deleted_at`, `sol`.`Folio` AS `Folio`, `sol`.`Num_muestras` AS `Num_muestras`, `sol`.`Norma` AS `Norma`, `param`.`Parametro` AS `Parametro`, `param`.`Limite` AS `Limite`, `con`.`Control` AS `Control`, `cod`.`Codigo` AS `Codigo`, `cod`.`Num_muestra` AS `Num_muestra`, `cod`.`Historial` AS `Historial` FROM (((((`lote_detalle_directosa` `det` join `lote_analisis` `lot` on(`det`.`Id_lote` = `lot`.`Id_lote`)) join `solicitudes_alimentos` `sol` on(`det`.`Id_analisis` = `sol`.`Id_solicitud`)) join `parametros` `param` on(`det`.`Id_parametro` = `param`.`Id_parametro`)) join `control_calidad` `con` on(`det`.`Id_control` = `con`.`Id_control`)) join `codigo_parametroa` `cod` on(`det`.`Id_codigo` = `cod`.`Id_codigo`));
+ // Vista de view codigoinformeAlimentos lo solicita para regresar al cuadro de asignacion una muestra 
+ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewcodigoinformeAlimentos`  AS SELECT `cod`.`Id_codigo` AS `Id_codigo`, `cod`.`Id_solicitud` AS `Id_solicitud`, `cod`.`Id_parametro` AS `Id_parametro`, `cod`.`Codigo` AS `Codigo`, `cod`.`Num_muestra` AS `Num_muestra`, `cod`.`Resultado` AS `Resultado`, `cod`.`Resultado2` AS `Resultado2`, `cod`.`Ph_muestra` AS `Ph_muestra`, `cod`.`Id_lote` AS `Id_lote`, `cod`.`Cadena` AS `Cadena`, `cod`.`Asignado` AS `Asignado`, `cod`.`Analizo` AS `Analizo`, `cod`.`Reporte` AS `Reporte`, `cod`.`Mensual` AS `Mensual`, `cod`.`Cancelado` AS `Cancelado`, `cod`.`Liberado` AS `Liberado`, `cod`.`Id_user_c` AS `Id_user_c`, `cod`.`Id_user_m` AS `Id_user_m`, `cod`.`Historial` AS `Historial`, `cod`.`created_at` AS `created_at`, `cod`.`updated_at` AS `updated_at`, `cod`.`deleted_at` AS `deleted_at`, `pa`.`Parametro` AS `Parametro`, `pa`.`Id_area` AS `Id_area`, `pa`.`Tipo_formula` AS `Tipo_formula`, `pa`.`Area_analisis` AS `Area_analisis`, `pa`.`Id_tipo_formula` AS `Id_tipo_formula`, `pa`.`Id_tecnica` AS `Id_tecnica`, `pa`.`Tecnica` AS `Tecnica`, `pa`.`Clave_metodo` AS `Clave_metodo`, `pa`.`Unidad` AS `Unidad`, `pa`.`Limite` AS `Limite`, `pa`.`Simbologia` AS `Simbologia`, `pa`.`Simbologia_inf` AS `Simbologia_inf`, `pa`.`Id_simbologia` AS `Id_simbologia`, `pa`.`Id_simbologia_info` AS `Id_simbologia_info`, `us`.`iniciales` AS `iniciales`, `us`.`name` AS `name`, `pa`.`Descripcion` AS `Descripcion`, `pa`.`Descripcion2` AS `Descripcion2`, `pa`.`Descripcion_sim` AS `Descripcion_sim` FROM ((`codigo_parametroa` `cod` join `viewparametros` `pa` on(`cod`.`Id_parametro` = `pa`.`Id_parametro`)) join `users` `us` on(`cod`.`Analizo` = `us`.`id`));
 -- ALTER TABLE `metales_detalle` CHANGE `RecuperacionE` `RecuperacionE` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 -- ALTER TABLE `metales_detalle` CHANGE `CumpleE` `CumpleE` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 -- ALTER TABLE `metales_detalle` CHANGE `ConcI` `ConcI` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

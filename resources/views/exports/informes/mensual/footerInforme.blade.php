@@ -71,6 +71,28 @@
                         @endphp
                     @endforeach
                     <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>  
+                        <td style="border: 1px solid black; padding: 5px;">
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> 
+                                @php
+                                    for ($i = 0; $i < strlen($firmaEncript1); $i++) {
+                                        echo $firmaEncript1[$i] . "\n";
+                                    }
+                                @endphp
+                            </span>
+                        </td>
+                        <td style="border: 1px solid black; padding: 5px;">
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> 
+                                @php
+                                    for ($i = 0; $i < strlen($firmaEncript2); $i++) {
+                                        echo $firmaEncript2[$i] . "\n";
+                                    }
+                                @endphp
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>        
                         <td>
                             

@@ -11,6 +11,7 @@ use App\Models\CampoGenerales;
 use App\Models\Clientes;
 use App\Models\ClienteSiralab;
 use App\Models\CodigoParametros;
+use App\Models\ConductividadMuestra;
 use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
@@ -22,6 +23,10 @@ use App\Models\Limite002;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleCloro;
 use App\Models\LoteDetalleColiformes;
+use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleEnterococos;
+use App\Models\LoteDetalleSolidos;
+use App\Models\Nmp1Micro;
 use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\PhMuestra;
@@ -32,6 +37,7 @@ use App\Models\PuntoMuestreoSir;
 use App\Models\ReportesInformes;
 use App\Models\RfcSiralab;
 use App\Models\RfcSucursal;
+use App\Models\SeguimientoAnalisis;
 use App\Models\SimbologiaParametros;
 use App\Models\Solicitud;
 use App\Models\SolicitudesGeneradas;
@@ -39,11 +45,15 @@ use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\SucursalCliente;
 use App\Models\TemperaturaAmbiente;
+use App\Models\TermometroCampo;
 use App\Models\TipoCuerpo;
 use App\Models\TipoReporte;
 use App\Models\TituloConsecionSir;
 use App\Models\User;
+use App\Models\Usuario;
+use App\Models\VidrioMuestra;
 use Carbon\Carbon;
+use DateTime;
 // use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +70,10 @@ class InformesController extends Controller
         // $model = DB::table('ViewSolicitud2')->orderBy('Id_solicitud', 'desc')->where('Padre', 1)->get();
         $model = DB::table('ViewProcesoAnalisis')->where('Cancelado',0)->where('Padre',1)->orderBy("Id_procAnalisis","desc")->get();
         return view('informes.informes', compact('tipoReporte', 'model'));
+    }
+    public function firma()
+    {
+        return view('informes.firma');
     }
     public function getPuntoMuestro(Request $request)
     {
@@ -231,19 +245,19 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 30,
-            'margin_bottom' => 32,
+            'margin_bottom' => 31,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
-            // Establece la marca de agua del documento PDF
-            $mpdf->SetWatermarkImage(
-                asset('/public/storage/MembreteVertical.png'),
-                1,
-                array(215, 280),
-                array(0, 0),
-            );
+        // Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
       
-        // $mpdf->showWatermarkImage = true;
+        $mpdf->showWatermarkImage = false;
         $auxSol = Solicitud::where('Id_solicitud', $idSol)->first();
         $model = Solicitud::where('Id_solicitud', $idPunto)->get();
 
@@ -252,16 +266,21 @@ class InformesController extends Controller
         @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
 
         $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+        $auxNota = "";
         if ($impresion->count()) {
             
         }else{
+            $simBac = CodigoParametros::where('Id_solicitud',$idPunto)->where('Resultado2','LIKE',"%*%")->where('Id_parametro',32)->get();
+            if ($simBac->count()) {
+                $auxNota = "<br> * VALOR ESTIMADO";
+            }
             $reporteInforme = ReportesInformes::where('Fecha_inicio','<=',@$model[0]->Fecha_muestreo)->where('Fecha_fin','>=',@$model[0]->Fecha_muestreo)->get();
             if ($reporteInforme->count()) {
                 if ($model[0]->Siralab == 1) {
                     ImpresionInforme::create([
                         'Id_solicitud' => $idPunto,
                         'Encabezado' => $reporteInforme[0]->Encabezado,
-                        'Nota' => $reporteInforme[0]->Nota,
+                        'Nota' => $reporteInforme[0]->Nota . "".$auxNota,
                         'Nota_siralab' => $reporteInforme[0]->Nota_siralab,
                         'Id_analizo' => $reporteInforme[0]->Id_analizo,
                         'Id_reviso' => $reporteInforme[0]->Id_reviso,
@@ -275,7 +294,7 @@ class InformesController extends Controller
                     ImpresionInforme::create([
                         'Id_solicitud' => $idPunto,
                         'Encabezado' => $reporteInforme[0]->Encabezado,
-                        'Nota' => $reporteInforme[0]->Nota,
+                        'Nota' => $reporteInforme[0]->Nota . "".$auxNota,
                         'Id_analizo' => $reporteInforme[0]->Id_analizo,
                         'Id_reviso' => $reporteInforme[0]->Id_reviso,
                         'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
@@ -326,17 +345,27 @@ class InformesController extends Controller
             $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->withTrashed()->first();
             $tituloConsecion = $titTemp->Titulo;
         }
+
+        // Agregar Datos
+
+
+        //Fin Agregar datos
+
         // $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
-        $model = DB::table('ViewCodigoInforme')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        $model = DB::table('ViewCodigoInforme')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')
+        ->where('Id_parametro','!=',173)->get();
         // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
         $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->get();
         $tempAmbienteProm = 0;
         $auxTem = 0;
         foreach ($auxAmbienteProm as $item) {
-            $tempAmbienteProm = $tempAmbienteProm + $item->Temperatura1;
+            @$tempAmbienteProm = @$tempAmbienteProm + $item->Temperatura1;
             $auxTem++;
         }
-        @$tempAmbienteProm = round($tempAmbienteProm / $auxTem);
+        
+        if ($auxAmbienteProm->count()) {
+            @$tempAmbienteProm = round($tempAmbienteProm / $auxTem);    
+        }
 
         //Recupera la temperatura compuesta
         $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
@@ -395,6 +424,7 @@ class InformesController extends Controller
                             $limC = "AUSENTE";
                         }
                         break;
+
                     case 14:
                         switch ($solModel->Id_norma) {
                             case 1:
@@ -406,11 +436,7 @@ class InformesController extends Controller
                             case 20:
                                 $limC = number_format(@$item->Resultado2, 2, ".", "");
                                 break;
-                            default:
-                            
-                                $limC = number_format(@$item->Resultado2, 1, ".", "");
-                           
-                                       
+                            default:    
                                 break;
                         }
                         break;
@@ -502,7 +528,7 @@ class InformesController extends Controller
                     case 65:
                     case 66:
                     case 102:
-                    // case 58:
+                    case 361:
                         if ($item->Resultado2 < $item->Limite) {
                             $limC = "< " . $item->Limite;
                         } else {
@@ -553,13 +579,13 @@ class InformesController extends Controller
                     case 30:
                     case 90:
                     case 33:
-                    // case 271:
-                        // audi
-                        case 52:
-                        case 250:
-                        case 54:
-                        case 261:
-                        case 130:
+                    case 52:
+                    case 250:
+                    case 54:
+                    case 261:
+                    case 130:
+                    case 95:
+                    case 113:
                         if ($item->Resultado2 < $item->Limite) { 
                             $limC = "< " . $item->Limite; 
                         } else {
@@ -574,6 +600,7 @@ class InformesController extends Controller
                         }
                         break;
                     case 25:
+               
                             if ($item->Resultado2 < $item->Limite) {
                                 $limC = "< " . $item->Limite;
                             } else {
@@ -877,27 +904,263 @@ class InformesController extends Controller
         $htmlFooter = view('exports.informes.diario.footerInforme', $data);
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        //Para la proteccion con contraseña, es el segundo parametro de la función SetProtection, el tercer parametro es una contraseña de propietario para permitir más acciones
+        //En el caso del ultimo parámetro es la longitud del cifrado
         $mpdf->WriteHTML($htmlInforme);
         $mpdf->CSSselectMedia = 'mpdf'; 
+
+        // $mpdf->SetProtection(array(), 654, null, 128);
+        // Establecer protección con contraseña de usuario y propietario
+
+        $folPadre = Solicitud::where('Id_solicitud',$solicitud->Hijo)->first();
+        $primeraLetra = substr($cliente->Empresa, 0, 1);
+        $passUse = $folPadre->Folio_servicio."".$primeraLetra;
+        // $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+
+        // echo $passUse;
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$folPadre->Id_solicitud)->first();
+        $proceso->Pass_archivo = $passUse;
+        $proceso->save();
+
           // Definir la ruta donde quieres guardar el PDF
-        $nombreArchivoSeguro = str_replace('/', '-', $solicitud->Folio_servicio);
-        $folioPadre = str_replace('/', '-', $auxSol->Folio_servicio);
+        // $nombreArchivoSeguro = str_replace('/', '-', $solicitud->Folio_servicio);
+        // $folioPadre = str_replace('/', '-', $auxSol->Folio_servicio);
 
-        $rutaDirectorio = storage_path('app/public/clientes/'.$tempProceso->Emision_informe.'/'.$folioPadre);
+        // $rutaDirectorio = storage_path('app/public/clientes/'.$solicitud->Fecha_muestreo.'/'.$folioPadre);
 
-        // Asegúrate de que el directorio existe, si no, créalo
-        if (!File::isDirectory($rutaDirectorio)) {
-            File::makeDirectory($rutaDirectorio, 0755, true, true);
-        }
+        // // Asegúrate de que el directorio existe, si no, créalo
+        // if (!File::isDirectory($rutaDirectorio)) {
+        //     File::makeDirectory($rutaDirectorio, 0755, true, true);
+        // }
 
-        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-informe.pdf';
-
+        // $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-informe.pdf';
         // Guardar el archivo en la ruta especificada
-        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
-
+        // $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
+
     }
  
+        //todo Seccio de pdf
+    public function exportPdfInformeAdd($idSol, $idPunto)
+    {
+            $today = carbon::now()->toDateString();
+            $reportesInformes = array();
+            //Opciones del documento PDF
+            $mpdf = new \Mpdf\Mpdf([
+                'orientation' => 'P',
+                'format' => 'letter',
+                'margin_left' => 10,
+                'margin_right' => 10,
+                'margin_top' => 30,
+                'margin_bottom' => 32,
+                'defaultheaderfontstyle' => ['normal'],
+                'defaultheaderline' => '0'
+            ]);
+            // Establece la marca de agua del documento PDF
+            $mpdf->SetWatermarkImage(
+                asset('/public/storage/MembreteVertical.png'),
+                1,
+                array(215, 280),
+                array(0, 0),
+            );
+          
+            $mpdf->showWatermarkImage = true;
+            $auxSol = Solicitud::where('Id_solicitud', $idSol)->first();
+            $model = Solicitud::where('Id_solicitud', $idPunto)->get();
+    
+            $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
+            @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
+            @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
+    
+            $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+            $auxNota = "";
+            if ($impresion->count()) {
+                
+            }else{
+                $simBac = CodigoParametros::where('Id_solicitud',$idPunto)->where('Resultado2','LIKE',"%*%")->where('Id_parametro',32)->get();
+                if ($simBac->count()) {
+                    $auxNota = "<br> * VALOR ESTIMADO";
+                }
+                $reporteInforme = ReportesInformes::where('Fecha_inicio','<=',@$model[0]->Fecha_muestreo)->where('Fecha_fin','>=',@$model[0]->Fecha_muestreo)->get();
+                if ($reporteInforme->count()) {
+                    if ($model[0]->Siralab == 1) {
+                        ImpresionInforme::create([
+                            'Id_solicitud' => $idPunto,
+                            'Encabezado' => $reporteInforme[0]->Encabezado,
+                            'Nota' => $reporteInforme[0]->Nota . "".$auxNota,
+                            'Nota_siralab' => $reporteInforme[0]->Nota_siralab,
+                            'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                            'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                            'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                            'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                            'Num_rev' => $reporteInforme[0]->Num_rev,
+                            'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                            'Clave' => $reporteInforme[0]->Clave,
+                        ]);
+                    }else{
+                        ImpresionInforme::create([
+                            'Id_solicitud' => $idPunto,
+                            'Encabezado' => $reporteInforme[0]->Encabezado,
+                            'Nota' => $reporteInforme[0]->Nota . "".$auxNota,
+                            'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                            'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                            'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                            'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                            'Num_rev' => $reporteInforme[0]->Num_rev,
+                            'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                            'Clave' => $reporteInforme[0]->Clave,
+                        ]);
+                    }
+                    
+                }
+                $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+            }
+        
+            // $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
+            $aux = true;
+    
+            $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->first();
+            $idSol = $idPunto;
+    
+            $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
+            $proceso->Impresion_informe = 1;
+            $proceso->save();
+    
+            $aux = DB::table('viewprocesoanalisis')->where('Hijo',$solModel->Hijo)->where('Impresion_informe',0)->get();
+            if ($aux->count() == 0) {
+                $proceso = ProcesoAnalisis::where('Id_solicitud',$solModel->Hijo)->first();
+                $proceso->Impresion_informe = 1;
+                $proceso->save();
+            }
+    
+            //Formatea la fecha; Por adaptar para el informe sin comparacion
+            $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+            //Recupera los datos de la temperatura de la muestra compuesta
+            $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
+    
+            $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+            $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
+    
+            $cliente = SucursalCliente::where('Id_sucursal', $solModel->Id_sucursal)->first();
+            $rfc = RfcSucursal::where('Id_sucursal', $solModel->Id_sucursal)->first();
+    
+            $tituloConsecion = "";
+            $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
+            if ($solModel->Siralab == 1) {
+                $auxPunto = PuntoMuestreoSir::where('Id_punto',$puntoMuestreo->Id_muestreo)->withTrashed()->first();
+                $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->withTrashed()->first();
+                $tituloConsecion = $titTemp->Titulo;
+            }
+
+           
+
+
+            $histCol = DB::table('solicitudes as sol')
+            ->join('codigo_parametro as cod', 'sol.Id_solicitud', '=', 'cod.Id_solicitud')
+            ->where('sol.Id_direccion', $solicitud->Id_direccion)
+            ->where('sol.Padre', 0)
+            ->where('cod.Id_parametro', 12)
+            ->where('sol.Id_solicitud','!=',$idSol)
+            ->select('sol.*', 'cod.*') // Selecciona todos los campos de ambas tablas
+            ->get();
+
+            // CF
+            $compP = CodigoParametros::where('Id_solicitud',$idSol)->where('Id_parametro',12)->get();
+            if ($compP->count()) {
+                // si existe
+            }else{
+                 // Coliformes
+                $extra = SolicitudParametro::where('Id_solicitud',$idSol)->where('Id_subnorma',12)->get();
+                if ($extra->count()) {
+                    
+                }else{
+                    SolicitudParametro::create([
+                        'Id_solicitud' => $idSol,
+                        'Id_subnorma' => 12,
+                        'Extra' => 3,
+                        'Reporte' => 0,
+                    ]);
+                }
+                $phM = PhMuestra::where('Id_solicitud',$idSol)->get();
+
+                $pro = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
+                $datetime = new DateTime($pro->Hora_recepcion);
+                $date = $datetime->format("Y-m-d");
+
+                $loteS = LoteAnalisis::whereDate('Fecha','>=',$date)->where('Id_tecnica',12)->limit(3)->get();
+                foreach ($phM as $item) {
+
+                    if ($item->Activo != 1) {
+                        $idCodS = CodigoParametros::create([
+                            'Id_solicitud' => $idSol,
+                            'Id_parametro' => 3,
+                            'Codigo' => $solModel->Folio_servicio. '-CF-' . $item->Num_toma,
+                            'Num_muestra' => 1,
+                            'Asignado' => 0,
+                            'Analizo' => 1,
+                            'Reporte' => 2, // Se va como reporte 2 para salir en informe Adicional
+                            'Cadena' => 0,
+                            'Mensual' => 0,
+                            'Cancelado' => 1,
+                        ]);
+                    
+                    }else {
+                        
+                        $idCodS = CodigoParametros::create([
+                            'Id_solicitud' => $idSol,
+                            'Id_parametro' => 12,
+                            'Codigo' => $solModel->Folio_servicio. '-CF-' . $item->Num_toma,
+                            'Num_muestra' => 1,
+                            'Asignado' => 0,
+                            'Analizo' => 1,
+                            'Reporte' => 2, // Se va como reporte 2 para salir en informe Adicional
+                            'Cadena' => 0,
+                            'Mensual' => 0,
+                            'Cancelado' => 0,
+                        ]);
+                        
+                        $temp = LoteDetalleColiformes::create([
+                            'Id_lote' => $loteS[0]->Id_lote,
+                            'Id_analisis' => $idSol,
+                            'Id_codigo' => $idCodS->Id_codigo,
+                            'Id_parametro' => 12,
+                            'Id_control' => 1,
+                            'Analizo' => 20,
+                            'Liberado' => 1,
+                        ]);
+
+                        if ($histCol->count()) {
+                            $idSolTemp = $histCol[0]->Id_solicitud;
+                            $detTemp = LoteDetalleColiformes::where('Id_analisis',$$histCol[0]->Id_solicitud)->where('Id_control',1)->get();
+                            if ($detTemp[($item->Num_toma - 1)]) {
+                                $this->metodoCortoColiformes($temp->Id_detalle,12,$detTemp[($item->Num_toma - 1)]->Indice,$detTemp[($item->Num_toma - 1)]->Dilucion1,$detTemp[($item->Num_toma - 1)]->Dilucion2,$detTemp[($item->Num_toma - 1)]->Dilucion3);
+                            }else{
+                                $this->metodoCortoColiformes($temp->Id_detalle,12,0,10,1,0.1);
+                            }
+                        }else{
+                            $this->metodoCortoColiformes($temp->Id_detalle,12,0,10,1,0.1);
+                        }
+                    }
+                    
+                    
+                }
+
+
+             
+
+                    $lotes = LoteAnalisis::where('Id_lote', $loteS[0]->Id_lote)->first();
+                    $lotes->Asignado =  LoteDetalleColiformes::where('Id_lote', $loteS[0]->Id_lote)->get()->count();
+                    $lotes->Liberado =  LoteDetalleColiformes::where('Id_lote', $loteS[0]->Id_lote)->where('Liberado',1)->get()->count();
+                    $lotes->save();
+                
+                
+            }
+
+
+    
+    }
+     
+    
     public function exportPdfInformeCampo($idSol, $idPunto)
     {
         $today = carbon::now()->toDateString();
@@ -1204,6 +1467,143 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
+    }
+
+    public function exportHojaCampoAdd($id)
+    {
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $id)->first();
+      
+        $direccion = "";
+        $firmaRecepcion = "";
+
+        // if ($model->Siralab == 1) { //Es cliente Siralab
+        //     //$direccion = DB::table('ViewDireccionSir')->where('Id_cliente_siralab', $model->Id_direccion)->first();
+        //     $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
+        //     // $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
+        // } else {
+        //     $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
+        // }
+        $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $id)->first();
+
+        $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
+
+        $numOrden = Solicitud::where('Hijo', $model->Hijo)->first();
+        $folioPadre = Solicitud::where('Id_solicitud', $model->Hijo)->first();
+
+        $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
+        $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
+        $Vidrio=VidrioMuestra::where('Id_solicitud',$id)->get();
+        $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
+        $equipo1 = TermometroCampo::where('Id_termometro', $campoGeneral->Id_equipo)->first();
+        $equipo2 = TermometroCampo::where('Id_termometro', $campoGeneral->Id_equipo2)->first();
+        $phMuestra = PhMuestra::where('Id_solicitud', $id)->get();
+        $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $id)->get();
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $id)->get();
+        $conMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
+        $muestreador = Usuario::where('id', @$solGen->Id_muestreador)->first();
+        $swMateria = SolicitudParametro::where('Id_solicitud', $id)->where('Id_subnorma', 2)->get();
+        $swVibrio = SolicitudParametro::where('Id_solicitud', $id)->where('Id_subnorma', 173)->get();
+        $recepcion = SeguimientoAnalisis::where('Id_servicio', $id)->first();
+
+        $firmaRes = DB::table('users')->where('id', @$solGen->Id_muestreador)->first();
+
+
+        $areaModel = AreaLab::all();
+        $firmaRecepcion =  DB::table('users')->where('id', 101)->first();
+
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $muestreador->name . ' | ' . $numOrden->Folio_servicio;
+        $dataFirma2 = $firmaRecepcion->name . ' | ' . $numOrden->Folio_servicio;
+
+        $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+
+        $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $id)->get();
+
+        if ($procesoAnalisis->count()) {
+            $firmaEncriptRec =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
+        } else {
+            $firmaEncriptRec =  "";
+        }
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 2,
+            'margin_right' => 2,
+            'margin_top' => 18,
+            'margin_bottom' => 10
+        ]);
+
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $data = array(
+            'swVibrio' => $swVibrio,
+            'firmaEncriptRec' => $firmaEncriptRec,
+            'firmaEncript1' => $firmaEncript1,
+            'equipo1' => $equipo1,
+            'equipo2' => $equipo2,
+            'campoGeneral' => $campoGeneral,
+            'solGen' => $solGen,
+            'procesoAnalisis' => $procesoAnalisis,
+            'firmaRecepcion' => $firmaRecepcion,
+            'swMateria' => $swMateria,
+            'model' => $model,
+            'tempAmbiente' => $tempAmbiente,
+            'modelCompuesto' => $modelCompuesto,
+            'areaModel' => $areaModel,
+            'numOrden' => $numOrden,
+            'folioPadre' => $folioPadre,
+            'punto' => $punto,
+            'puntoMuestreo' => $puntoMuestreo,
+            'phMuestra' => $phMuestra,
+            'gastoMuestra' => $gastoMuestra,
+            'tempMuestra' => $tempMuestra,
+            'conMuestra' => $conMuestra,
+            'muestreador' => $muestreador,
+            'recepcion' => $recepcion,
+            'firmaRes' => $firmaRes,
+            'direccion' => $direccion,
+            'Vidrio' =>$Vidrio,
+        );
+        $mpdf->showWatermarkImage = true;
+
+        $html = view('exports.campo.hojaCampoAdd.hojaCampo', $data);
+        $mpdf->CSSselectMedia = 'mpdf';
+        $htmlFooter = view('exports.campo.hojaCampoAdd.hojaCampoFooter');
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($html);
+
+        $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+
+        $folPadre = Solicitud::where('Id_solicitud', $model->Hijo)->first();
+        $primeraLetra = substr($cliente->Empresa, 0, 1);
+        $passUse = $folPadre->Folio_servicio . "" . $primeraLetra;
+        $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+
+
+        // Definir la ruta donde quieres guardar el PDF
+        $nombreArchivoSeguro = str_replace('/', '-', $model->Folio_servicio);
+        $folioPadre = str_replace('/', '-', $folPadre->Folio_servicio);
+        $rutaDirectorio = storage_path('app/public/clientes/' . $folPadre->Fecha_muestreo . '/' . $folioPadre);
+        // Asegúrate de que el directorio existe, si no, créalo
+        if (!File::isDirectory($rutaDirectorio)) {
+            File::makeDirectory($rutaDirectorio, 0755, true, true);
+        }
+        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-hojaCampo.pdf';
+        // Guardar el archivo en la ruta especificada
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
+
+        $mpdf->Output();
     }
 
     //****************ESTAS FUNCIONES SE LLAMAN A TRAVÉS DE LA RUTA PÚBLICA HACIENDO USO DEL CÓDIGO QR
@@ -2615,6 +3015,8 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
+
+
         $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
     }
     public function exportPdfInformeMensual001($idSol1Temp, $idSol2Temp, $tipo)
@@ -2636,10 +3038,13 @@ class InformesController extends Controller
         array(215, 280), 
         array(0, 0),
     );
-    // $mpdf->showWatermarkImage = true;
+        $mpdf->showWatermarkImage = true;
 
         $solModel1 = Solicitud::where('Id_solicitud', $idSol1Temp)->first();
         $solModel2 = Solicitud::where('Id_solicitud', $idSol2Temp)->first();
+        $folPadre1 = Solicitud::where('Id_solicitud', $solModel1->Hijo)->first();
+        $folPadre2 = Solicitud::where('Id_solicitud', $solModel2->Hijo)->first();
+
         $valFol = explode('-',$solModel1->Folio_servicio);
         $valFol2 = explode('-',$solModel2->Folio_servicio);
         
@@ -2986,19 +3391,19 @@ class InformesController extends Controller
                                         $limP = (($parti1 * $limAux1) + ($parti2 * $limAux2));
                                     }
                                     if ($limP < $item->Limite) {
-                                        $limP = "" . number_format(@$item->Limite, 3, ".", "");
+                                        $limP = "" . number_format(@$item->Limite, 2, ".", "");
                                     }else{
-                                        $limP = number_format(@$limP, 3, ".", "");  
+                                        $limP = number_format(@$limP, 2, ".", "");  
                                     }
                                     if (@$item->Resultado2 < @$item->Limite) {
                                         $limC1 = "< ".$item->Limite;
                                     }else{
-                                        $limC1 = number_format(@$item->Resultado2, 3, ".", "");
+                                        $limC1 = number_format(@$item->Resultado2, 2, ".", "");
                                     }
                                     if (@$model2[$cont]->Resultado2 < @$item->Limite) {
                                         $limC2 = "< ".$item->Limite;
                                     }else{
-                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 3, ".", "");
+                                        $limC2 = number_format(@$model2[$cont]->Resultado2, 2, ".", "");
                                     }
                                     break;
                                 case 9:
@@ -3195,9 +3600,6 @@ class InformesController extends Controller
             'reportesInformes' => $reportesInformes,
         );
 
-
-
-
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.mensual.001.bodyInforme', $data);
         //HEADER-FOOTER************************************************************************************** ****************************
@@ -3209,6 +3611,34 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
+
+        // Definir la ruta donde quieres guardar el PDF
+        $procesoPass = ProcesoAnalisis::where('Id_solicitud',$folPadre1->Id_solicitud)->first();
+        $nombreArchivoSeguro = str_replace('/', '-', $folPadre1->Folio_servicio);
+        $folioPadre = str_replace('/', '-', $folPadre1->Folio_servicio);
+        $rutaDirectorio = storage_path('app/public/clientes/'.$folPadre1->Fecha_muestreo.'/'.$folioPadre);
+        // Asegúrate de que el directorio existe, si no, créalo
+        if (!File::isDirectory($rutaDirectorio)) {
+            File::makeDirectory($rutaDirectorio, 0755, true, true);
+        }
+        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-mensualInforme.pdf';
+        // Guardar el archivo en la ruta especificada
+        $mpdf->SetProtection(array('print', 'copy'), $procesoPass->Pass_archivo, 'admin', 128);
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
+        $nombreArchivoSeguro = str_replace('/', '-', $folPadre2->Folio_servicio);
+        $folioPadre = str_replace('/', '-', $folPadre2->Folio_servicio);
+        $rutaDirectorio = storage_path('app/public/clientes/'.$folPadre2->Fecha_muestreo.'/'.$folioPadre);
+        // Asegúrate de que el directorio existe, si no, créalo
+        if (!File::isDirectory($rutaDirectorio)) {
+            File::makeDirectory($rutaDirectorio, 0755, true, true);
+        }
+        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-mensualInforme.pdf';
+        // Guardar el archivo en la ruta especificada
+        $mpdf->SetProtection(array('print', 'copy'), $procesoPass->Pass_archivo, 'admin', 128);
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+
+
         $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
     }
     public function exportPdfInformeMensualCampo($idSol1, $idSol2)
@@ -5683,6 +6113,7 @@ class InformesController extends Controller
                     }
                     break;
                 case 64:
+                case 69:
         
                     if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                         $resTemp = "----";
@@ -5719,6 +6150,14 @@ class InformesController extends Controller
                         } else {
                             $resTemp = $item->Resultado2." | pH: ".$item->Ph_muestra;
                         }
+                       
+                    }
+                    break;
+                case 102:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                       $resTemp = "436nm: ".number_format($item->Resultado,1,'.','')."| 525nm: ".number_format($item->Resultado2,1,'.','')."| 620nm: ".number_format($item->Resultado_aux,1,'.','');
                        
                     }
                     break;
@@ -5880,10 +6319,531 @@ class InformesController extends Controller
         $mpdf->CSSselectMedia = 'mpdf';
 
          // Definir la ruta donde quieres guardar el PDF
+         $folPadre = Solicitud::where('Id_solicitud',$model->Hijo)->first();
+         $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        $primeraLetra = substr($cliente->Empresa, 0, 1);
+        // $passUse = $folPadre->Folio_servicio."".$primeraLetra;
+        // $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+
+        // echo $passUse;
+        // $proceso = ProcesoAnalisis::where('Id_solicitud',$folPadre->Id_solicitud)->first();
+        // $proceso->Pass_archivo = $passUse;
+        // $proceso->save();
+
+        //  $nombreArchivoSeguro = str_replace('/', '-', $model->Folio_servicio);
+        //  $folioPadre = str_replace('/', '-', $auxSolPadre->Folio_servicio);
+    
+        //  $rutaDirectorio = storage_path('app/public/clientes/'.$model->Fecha_muestreo.'/'.$folioPadre);
+    
+        //  // Asegúrate de que el directorio existe, si no, créalo
+        //  if (!File::isDirectory($rutaDirectorio)) {
+        //      File::makeDirectory($rutaDirectorio, 0755, true, true);
+        //  }
+    
+        //  $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-custodia.pdf';
+    
+        //  // Guardar el archivo en la ruta especificada
+        //  $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+     
+
+        $mpdf->Output('Cadena de Custodia Interna.pdf', 'I');
+    }
+    public function exportPdfCustodiaInternaVidrio($idSol){
+         //Opciones del documento PDF
+         $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 15, 
+            'margin_bottom' => 15,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/HojaMembretadaHorizontal.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
+
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol)->first();
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
+        $proceso->Impresion_cadena = 1;
+        $proceso->save();
+        $norma = Norma::where('Id_norma', $model->Id_norma)->first();
+
+        $auxSolPadre = Solicitud::where('Id_solicitud',$model->Hijo)->first();
+
+        $areaParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSol)->where('Id_parametro',173)->get();
+        // $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Reportes', 1)->where('stdArea', '=', NULL)->get();
+        $phMuestra = PhMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get(); 
+        $tempArea = array();
+        $temp = 0;
+        $sw = false;
+
+        //Datos generales
+        $area = array();
+        $idArea = array();
+        $responsable = array();
+        $numRecipientes = array();
+        $fechasSalidas = array();
+        $stdArea = array();
+        $firmas = array();
+        $idParametro = array();
+        $contAux = 0;
+        
+    
+        // Comentado temporal
+        // $cadenaGenerales = CadenaGenerales::where('Id_solicitud',$idSol)->get();
+        // if ($cadenaGenerales->count()) {
+        // }else{
+        //     $this->setSupervicion($model->Hijo);
+        //     $cadenaGenerales = CadenaGenerales::where('Id_solicitud',$idSol)->get();    
+ 
+        // }
+
+        $this->setSupervicion($model->Hijo);
+        $cadenaGenerales = CadenaGenerales::where('Id_solicitud',$idSol)->get();   
+     
+
+        $paramResultado = DB::table('ViewCodigoParametro')
+            ->where('Id_solicitud', $idSol)
+            ->where('Id_parametro',  173)
+            ->where('Cadena', 1)
+            ->where('Id_area','!=',9)
+            ->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+            
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
+        $resInfo = array();
+        $resTemp = 0;
+        foreach ($paramResultado as $item) {
+            $resTemp = 0;
+            if ($item->Cancelado != 1) {     
+            switch ($item->Id_parametro) {
+                case 12:
+                case 13:
+                case 35:
+                case 253:
+                case 137:
+                case 51:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+                            $resTemp = number_format($item->Resultado,2);
+                        }
+                    }
+                    break;
+                case 135:
+                case 78:
+                case 134:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado > 0) {
+                            if ($item->Resultado2 > 8){
+                                $resTemp = '>' . 8;
+                            } else {
+                                $resTemp = $item->Resultado;
+                            }
+                        } else {
+                            $resTemp = "" . $item->Limite;
+                        }
+                    }
+                    break;
+                case 3:
+                case 4:
+                // case 13: // g y a
+                case 6: //DQO
+                case 5: //DBO
+                
+                case 9: //nitrogeno amoniacal
+                case 83: //kejendal
+                case 10: //organico
+                case 11: //nitrogeno total
+                case 15: //Fosforo
+                case 251: 
+                case 77:
+                case 46:
+                // case 152:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    }else{
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+    
+                            // $resTemp = round($item->Resultado2, 2);
+                            $resTemp = number_format(@$item->Resultado2, 2, ".", "");
+                        }
+                    }
+                  
+                    break;
+                case 71: //DBO SOLUBLE
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    }else{
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+                             //$resTemp = round($item->Resultado2, 2);
+                            $resTemp = number_format(@$item->Resultado2, 2, ".", "");
+                            //$resTemp = @$item->Resultado2;
+                        }
+                    }
+                  
+                    break;
+
+                case 152:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    }else{
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+    
+                            // $resTemp = round($item->Resultado2, 2);
+                            $resTemp = number_format(@$item->Resultado2, 3, ".", "");
+                        }
+                    }
+                  
+                    break;
+                case 133:
+                case 58:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    }else{
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+    
+                            // $resTemp = round($item->Resultado2, 2);
+                            $resTemp = number_format(@$item->Resultado2, 1, ".", "");
+                        }
+                    }
+                    break;
+                case 22:
+                case 20: //cobre total
+                case 7:
+                case 8:
+                case 23: //niquel
+                case 24: //plomo total
+                case 25: //zinc total
+                case 122:
+                case 106: //nitratos
+                case 124:
+                case 114:
+                case 96:
+                case 95:
+                case 243: //sulfatos
+                case 17: //arsenico total
+                case 113:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    }else{
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . number_format(@$item->Limite, 3, ".", "");
+                        } else {
+                            $resTemp = number_format(@$item->Resultado2, 3, ".", "");
+                        }
+                    }
+
+                    break;
+                case 80:
+                case 105:
+                case 121: // Fluoruros 
+                        if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                            $resTemp = "----";
+                        }else{
+                            if ($item->Resultado2 < $item->Limite) {
+                                $resTemp = "< " . number_format(@$item->Limite, 3, ".", "");
+                            } else {
+                                $resTemp = number_format(@$item->Resultado2, 3, ".", "");
+                            }
+                        }
+    
+                        break;
+                case 132:
+                        if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL){
+                            $resTemp = "-----";
+                        } else {
+                            if ($item->Resultado2 > 0) {
+                                if ($item->Resultado2 >= 8){
+                                    $resTemp = "> 8";
+                                } else {
+                                    $resTemp = $item->Resultado2;
+                                }
+                               
+                            } else {
+                                 $resTemp = "< 1.1";
+                            }
+                        }
+                        
+                    break;
+                case 32:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL){
+                        $resTemp = "-----";
+                    } else {
+                        $restTemp = $item->Resultado2;
+                    }
+                    break;
+                case 2:
+                
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado2 == 1 || $item->Resultado2 == "PRESENTE") {
+                            $resTemp = "PRESENTE";
+                        } else {
+                            $resTemp = "AUSENTE";
+                        }
+                    }
+                    break;
+                case 14: // ph
+                case 110:
+                    switch ($model->Id_norma) {
+                        case 1:
+                        case 27: 
+                        case 9:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 33:
+                        case 21:
+                            if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                                $resTemp = "----";
+                            } else {
+                                $resTemp = number_format(@$item->Resultado2, 2, ".", "");
+                                
+                            }
+                            break;
+                        default:
+                       
+                            if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                                $resTemp = "----";
+                            } else {
+                                $resTemp = number_format(@$item->Resultado2, 1, ".", "");
+                            }
+                            break;
+                        
+                            
+                    }
+                    break;
+                case 64:
+        
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+                            $resTemp = number_format($item->Resultado2,2); 
+                        }
+                    }
+                    break;
+                case 271:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        $resTemp = number_format($item->Resultado2,1); 
+                    }
+                    break;
+                case 97:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        $resTemp = round($item->Resultado2);
+                    }
+                    break;
+                case 365:
+                case 370:
+                case 372:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp ="< " . $item->Limite." | pH: ".$item->Ph_muestra;
+                        } else {
+                            $resTemp = $item->Resultado2." | pH: ".$item->Ph_muestra;
+                        }
+                       
+                    }
+                    break;
+                case 102:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                       $resTemp = "436nm: ".number_format($item->Resultado,1,'.','')."| 525nm: ".number_format($item->Resultado2,1,'.','')."| 620nm: ".number_format($item->Resultado_aux,1,'.','');
+                       
+                    }
+                    break;
+                case 67:
+                case 110:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        switch ($item->Id_norma) {
+                            case 1:
+                            case 27:
+                            case 33:
+                                if ($puntoMuestreo->Condiciones != 1) {
+                                    if ($item->Resultado2 >= 3500) {
+                                        $resTemp = "> 3500";
+                                    }else{
+                                        $resTemp = round($item->Resultado2);
+                                    }
+                                }else{
+                                    $resTemp = round($item->Resultado2);
+                                }
+                               
+                                break;
+                            
+                            default:
+                                $resTemp = round($item->Resultado2);
+                                break;
+                        }
+                    }
+                    break;
+                case 358:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        switch ($item->Id_norma) {
+                            case 1:
+                            case 27:
+                            case 33:
+                            case 9:
+                                switch ($item->Resultado2) {
+                                    case 499:
+                                        $resTemp = "< 500";
+                                        break;
+                                    case 500:
+                                        $resTemp = "500";
+                                        break;
+                                    case 1000:
+                                        $resTemp = "1000";
+                                        break;
+                                    case 1500:
+                                        $resTemp = "> 1000";
+                                        break;
+                                    default:
+                                        $resTemp =  number_format(@$item->Resultado2, 2, ".", "");    
+                                        break;
+                                    }
+                                break;
+                            default:
+                                    if ($item->Resultado2 < $item->Limite) {
+                                        $limC = "< " . $item->Limite;
+                                    }else{
+                                        $limC =  number_format(@$item->Resultado2, 2, ".", "");
+                                    }
+                                break;
+                            }
+                        }
+                        break;
+                default:
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado2 < $item->Limite) {
+                            $resTemp = "< " . $item->Limite;
+                        } else {
+                            $resTemp = $item->Resultado2;
+                        }
+                    }
+                    break;
+            }
+            } else {
+                $resTemp = "----";
+            }
+
+            array_push($resInfo, $resTemp);
+        }
+
+        $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+        $firmaRes = User::where('id', 14)->first(); 
+        // $firmaRes = User::where('id', 4)->first();
+        $reportesCadena = DB::table('ViewReportesCadena')->where('Num_rev', 9)->first(); //Condición de busqueda para las configuraciones(Historicos)
+
+        $clave  = 'fol123ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $method = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+
+        $folioSer = $model->Folio_servicio;
+        $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
+
+
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $reportesCadena->Nombre_responsable.' | '.$model->Folio_servicio;
+        
+        $tempProceso = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        if ($tempProceso->Supervicion != 0) {
+            $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+        }else{
+            $firmaEncript1 = "";
+        }
+
+
+        // $mpdf->showWatermarkImage = true;
+        $data = array(
+            'firmaEncript1' => $firmaEncript1,
+            'cadenaGenerales' => $cadenaGenerales,
+            'idParametro' => $idParametro,
+            'idArea' => $idArea,
+    
+            'folioEncript' => $folioEncript,
+            'firmaRes' => $firmaRes,
+            'resInfo' => $resInfo,
+            'paramResultado' => $paramResultado,
+            'firmas' => $firmas,
+            'recepcion' => $recepcion,
+            'stdArea' => $tempArea,
+            'fechasSalidas' => $fechasSalidas,
+            'numRecipientes' => $numRecipientes,
+            'responsable' => $responsable,
+            'area' => $area,
+            'phMue6stra' => $phMuestra,
+            'areaParam' => $areaParam,
+            'norma' => $norma,
+            'model' => $model,
+            'reportesCadena' => $reportesCadena,
+        );
+
+        $htmlFooter = view('exports.campo.cadenaCustodiaVidrio.footerCadena', $data);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $htmlInforme = view('exports.campo.cadenaCustodiaVidrio.bodyCadena', $data);
+        $mpdf->WriteHTML($htmlInforme);
+        $mpdf->CSSselectMedia = 'mpdf';
+
+         // Definir la ruta donde quieres guardar el PDF
+         $folPadre = Solicitud::where('Id_solicitud',$model->Hijo)->first();
+         $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        $primeraLetra = substr($cliente->Empresa, 0, 1);
+        $passUse = $folPadre->Folio_servicio."".$primeraLetra;
+        $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+
+        // echo $passUse;
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$folPadre->Id_solicitud)->first();
+        $proceso->Pass_archivo = $passUse;
+        $proceso->save();
+
          $nombreArchivoSeguro = str_replace('/', '-', $model->Folio_servicio);
          $folioPadre = str_replace('/', '-', $auxSolPadre->Folio_servicio);
     
-         $rutaDirectorio = storage_path('app/public/clientes/'.$tempProceso->Emision_informe.'/'.$folioPadre);
+         $rutaDirectorio = storage_path('app/public/clientes/'.$model->Fecha_muestreo.'/'.$folioPadre);
     
          // Asegúrate de que el directorio existe, si no, créalo
          if (!File::isDirectory($rutaDirectorio)) {
@@ -6717,7 +7677,15 @@ class InformesController extends Controller
                                 break;
                             case 19:
                             case 7:
-                                $modelDet = DB::table('lote_detalle_directos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                switch ($item2->Id_parametro) {
+                                    case 173:
+                                        $modelDet = DB::table('lote_detalle_vidrio')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                        break;
+                                    default:
+                                    $modelDet = DB::table('lote_detalle_directos')->where('Id_analisis', $idSol)->where('Id_parametro', $item2->Id_parametro)->get();
+                                    break;
+                                }
+
                                 if ($modelDet->count()) {
                                     $loteTemp = LoteAnalisis::where('Id_lote', $modelDet[0]->Id_lote)->first();
                                     $fechaTemp = $loteTemp->Fecha;
@@ -6754,17 +7722,17 @@ class InformesController extends Controller
                                         case 1:
                                         case 27:
                                         case 33:
-                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(18)->format('d/m/Y');
                                             // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                             break;
                                         case 5:
                                         case 30:
-                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(21)->format('d/m/Y');
                                             // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(14)->format('d/m/Y');
                                             break;
                                         default:
-                                        $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
-                                        // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
+                                            $fechaSalidaEli = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(18)->format('d/m/Y');
+                                            // $fechaEmision = \Carbon\Carbon::parse(@$temp->Hora_recepcion)->addDays(11)->format('d/m/Y');
                                             break;
                                     }
                                 }
@@ -6815,6 +7783,824 @@ class InformesController extends Controller
             }
 
         }
+
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function exportPdfInformeVidrio($idSol, $idPunto)
+    {
+        $today = carbon::now()->toDateString();
+        $reportesInformes = array();
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 30,
+            'margin_bottom' => 32,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        // Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+      
+        $mpdf->showWatermarkImage = true;
+        $auxSol = Solicitud::where('Id_solicitud', $idSol)->first();
+        $model = Solicitud::where('Id_solicitud', $idPunto)->get();
+
+        $cotModel = Cotizacion::where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
+        @$tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
+        @$tipoReporte2 = TipoCuerpo::find($cotModel->Tipo_reporte);
+
+        $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+        $auxNota = "";
+        if ($impresion->count()) {
+            
+        }else{
+            $simBac = CodigoParametros::where('Id_solicitud',$idPunto)->where('Resultado2','LIKE',"%*%")->where('Id_parametro',32)->get();
+            if ($simBac->count()) {
+                $auxNota = "<br> * VALOR ESTIMADO";
+            }
+            $reporteInforme = ReportesInformes::where('Fecha_inicio','<=',@$model[0]->Fecha_muestreo)->where('Fecha_fin','>=',@$model[0]->Fecha_muestreo)->get();
+            if ($reporteInforme->count()) {
+                if ($model[0]->Siralab == 1) {
+                    ImpresionInforme::create([
+                        'Id_solicitud' => $idPunto,
+                        'Encabezado' => $reporteInforme[0]->Encabezado,
+                        'Nota' => $reporteInforme[0]->Nota . "".$auxNota,
+                        'Nota_siralab' => $reporteInforme[0]->Nota_siralab,
+                        'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                        'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                        'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                        'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                        'Num_rev' => $reporteInforme[0]->Num_rev,
+                        'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                        'Clave' => $reporteInforme[0]->Clave,
+                    ]);
+                }else{
+                    ImpresionInforme::create([
+                        'Id_solicitud' => $idPunto,
+                        'Encabezado' => $reporteInforme[0]->Encabezado,
+                        'Nota' => $reporteInforme[0]->Nota . "".$auxNota,
+                        'Id_analizo' => $reporteInforme[0]->Id_analizo,
+                        'Id_reviso' => $reporteInforme[0]->Id_reviso,
+                        'Fecha_inicio' => $reporteInforme[0]->Fecha_inicio,
+                        'Fecha_fin' => $reporteInforme[0]->Fecha_fin,
+                        'Num_rev' => $reporteInforme[0]->Num_rev,
+                        'Obs_impresion' => $reporteInforme[0]->Obs_reimpresion,
+                        'Clave' => $reporteInforme[0]->Clave,
+                    ]);
+                }
+                
+            }
+            $impresion = ImpresionInforme::where('Id_solicitud',$idPunto)->get();
+        }
+    
+
+        // $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
+        $aux = true;
+
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $idPunto)->first();
+        $idSol = $idPunto;
+
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$idSol)->first();
+        $proceso->Impresion_informe = 1;
+        $proceso->save();
+
+        $aux = DB::table('viewprocesoanalisis')->where('Hijo',$solModel->Hijo)->where('Impresion_informe',0)->get();
+        if ($aux->count() == 0) {
+            $proceso = ProcesoAnalisis::where('Id_solicitud',$solModel->Hijo)->first();
+            $proceso->Impresion_informe = 1;
+            $proceso->save();
+        }
+
+        //Formatea la fecha; Por adaptar para el informe sin comparacion
+        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+        //Recupera los datos de la temperatura de la muestra compuesta
+        $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
+
+        $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+        $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
+
+        $cliente = SucursalCliente::where('Id_sucursal', $solModel->Id_sucursal)->first();
+        $rfc = RfcSucursal::where('Id_sucursal', $solModel->Id_sucursal)->first();
+
+        $tituloConsecion = "";
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $idSol)->first();
+        if ($solModel->Siralab == 1) {
+            $auxPunto = PuntoMuestreoSir::where('Id_punto',$puntoMuestreo->Id_muestreo)->withTrashed()->first();
+            $titTemp = TituloConsecionSir::where('Id_titulo',$auxPunto->Titulo_consecion)->withTrashed()->first();
+            $tituloConsecion = $titTemp->Titulo;
+        }
+        // $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->where('Id_area','!=',9)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->get();
+        $model = DB::table('ViewCodigoInforme')->where('Id_solicitud', $idSol)->where('Reporte', 1)->orderBy('Parametro', 'ASC')->where('Id_parametro',173)->get();
+        // $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
+        $auxAmbienteProm = TemperaturaAmbiente::where('Id_solicitud', $idSol)->get();
+        $tempAmbienteProm = 0;
+        $auxTem = 0;
+        foreach ($auxAmbienteProm as $item) {
+            $tempAmbienteProm = $tempAmbienteProm + $item->Temperatura1;
+            $auxTem++;
+        }
+        @$tempAmbienteProm = round($tempAmbienteProm / $auxTem);
+
+        //Recupera la temperatura compuesta
+        $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        //Recupera la obs de campo
+        $obsCampo = @$temperaturaC->Observaciones;
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+        $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
+        $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();
+        $numTomas = PhMuestra::where('Id_solicitud', $idSol)->where('Activo',1)->get();
+        $numOrden =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel->Hijo)->first();
+        if ($solModel->Id_servicio != 3) {
+            $horaMuestreo = \Carbon\Carbon::parse($phCampo[0]->Fecha)->format('H:i');
+        } else {
+            $horaMuestreo = '';
+        }
+
+        $temp = DB::table('ph_muestra')
+            ->where('Id_solicitud', $idSol)
+            ->selectRaw('count(Color) as numColor,Color')
+            ->groupBy('Color')
+            ->get();
+        $swPh = false;
+        $swOlor = false;
+        foreach ($phCampo as $item) {
+            if ($item->Olor == "Si") {
+                $swOlor = true;
+            }
+        }
+        $colorTemp = 0;
+        $color = "";
+        foreach ($temp as $item) {
+            if ($item->numColor >= $colorTemp) {
+                $color = $item->Color;
+                $colorTemp = $item->numColor;
+            }
+        }
+        $limitesN = array();
+        $limitesC = array();
+        $limitesCon = array();
+        $aux = 0;
+        $limC = 0;
+        $auxCon = "";
+        foreach ($model as $item) {
+            if ($item->Resultado2 != NULL || $item->Resultado2 != "NULL") {
+                switch ($item->Id_parametro) {
+                    case 97:
+                        $limC = round($item->Resultado2);
+                        break;
+                    case 2:
+                    case 42: // salmonela
+                    case 57:
+                    case 59:
+                        if ($item->Resultado2 == 1) {
+                            $limC = "PRESENTE";
+                        } else {
+                            $limC = "AUSENTE";
+                        }
+                        break;
+
+                    case 14:
+                        switch ($solModel->Id_norma) {
+                            case 1:
+                            case 27:
+                            case 2:
+                            case 4:
+                            case 9:
+                            case 21:
+                            case 20:
+                                $limC = number_format(@$item->Resultado2, 2, ".", "");
+                                break;
+                            default:
+                            
+                           
+                                       
+                                break;
+                        }
+                        break;
+                    case 110:
+                    case 125:
+                        $limC = number_format(@$item->Resultado2, 1, ".", "");
+                        break;
+                    case 26:
+                    case 39:
+                        @$limC = number_format(@$item->Resultado2, 2, ".", "");
+                        break;
+                    case 16:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+                         $limC = number_format(@$item->Resultado2, 0, ".", "");
+                        }
+                         break;
+                    case 34:
+                    case 84:
+                    case 86:
+                    case 32:
+                    case 111:
+                    case 109: 
+                   // case 67:
+                    case 68:
+                    case 57:
+                        $limC = $item->Resultado2;
+                        break;
+
+                    case 78:
+                   // case 350:
+                        if ($item->Resultado2 > 0 ) {
+                            if ($item->Resultado2 > 8){
+                                $limC = '>' . 8;
+                            } else {
+                                $limC = $item->Resultado;
+                            }
+                        } else {
+                            // $limC = "<" . $item->Limite;
+                            $limC = "NO DETECTABLE";
+                        }
+                        break;
+                    case 135:
+                    case 134:
+                   // case 132:
+                        if ($item->Resultado2 > 0) {
+                            if ($item->Resultado >= 8) {
+                                $limC = "> 8";       
+                            }else{
+                                $limC = $item->Resultado;
+                            }
+                        } else {
+                            // $limC = "<" . $item->Limite;
+                            $limC = "NO DETECTABLE";
+                        }
+                        break;
+                    case 132:
+                    case 350:
+                        if ($item->Resultado2 > 0) {
+                            if ($item->Resultado >= 8) {
+                                $limC = "> 8";       
+                            }else{
+                                $limC = $item->Resultado;
+                            }
+                        } else {
+                            // $limC = "<" . $item->Limite;
+                            $limC = "< 1.1";
+                        }
+                        break;
+                    case 133:
+                        if ($item->Resultado2 > 0) {
+                            if ($item->Resultado >= 8) {
+                                $limC = "> 8";       
+                            }else{
+                                $limC = $item->Resultado;
+                            }
+                        } else {
+                            $limC = "< " . $item->Limite;
+                        }
+                        break;
+                    case 137:
+                            if ($item->Resultado2 < $item->Limite) {
+                                $limC = "< " . $item->Limite;
+                            } else {
+                                $limC = number_format(@$item->Resultado2, 2, ".", "");
+                            }
+                        break;
+                    case 65:
+                    case 66:
+                    case 102:
+                    case 361:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+                            $limC = number_format(@$item->Resultado2, 1, ".", "");
+                        }
+                        break;
+                    case 58:
+                    case 271:
+                        $limC = $item->Resultado2;
+                        break;
+                    // case 271:
+                    //     $limC = number_format(@$item->Resultado2, 1, ".", "");
+                    //     break;
+                    case 5:
+                    case 11:
+                    case 6:
+                    case 70:
+                    case 12:
+                    case 35:
+                    case 13:
+                    case 15:
+                    case 9:
+                    case 10:
+                    case 83:
+                    case 4:
+                    case 3:
+                    case 103:
+                    case 98:
+                    case 112:
+                    case 218:
+                    case 253:
+                    case 252: 
+                    case 29: 
+                    case 51: 
+                    case 98:
+                    case 89:
+                    case 58:
+                    case 115:
+                    case 88:
+                    case 161: //DQO soluble
+                    case 71:
+                    case 38: //ortofosfato
+                    case 36: //fosfatros
+                    case 46: //ssv
+                    case 137: //Coliformes totales
+                    case 251:
+                    case 77:
+                    case 30:
+                    case 90:
+                    case 33:
+                    // case 271:
+                        // audi
+                        case 52:
+                        case 250:
+                        case 54:
+                        case 261:
+                        case 130:
+                        if ($item->Resultado2 < $item->Limite) { 
+                            $limC = "< " . $item->Limite; 
+                        } else {
+                            $limC = number_format(@$item->Resultado2, 2, ".", "");
+                        }
+                        break;
+                    case 227:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+                            $limC = $item->Resultado2;
+                        }
+                        break;
+                    case 25:
+                            if ($item->Resultado2 < $item->Limite) {
+                                $limC = "< " . $item->Limite;
+                            } else {
+                                $limC = number_format(@$item->Resultado2, 3, ".", "");
+                            }
+                            break;
+                   // case 64:
+                    case 358:
+                        switch ($solModel->Id_norma) {
+                            case 1:
+                            case 27:
+                            case 33:
+                            case 9:
+                                switch ($item->Resultado2) {
+                                    case 499:
+                                        $limC = "< 500";
+                                        break;
+                                    case 500:
+                                        $limC = "500";
+                                        break;
+                                    case 1000:
+                                        $limC = "1000";
+                                        break;
+                                    case 1500:
+                                        $limC = "> 1000";
+                                        break;
+                                    default:
+                                    $limC =  number_format(@$item->Resultado2, 2, ".", "");
+                                        break;
+                                }
+                                
+                                break;
+                            default:
+                                if ($item->Resultado2 < $item->Limite) {
+                                    $limC = "< " . $item->Limite;
+                                }else{
+                                    $limC =  number_format(@$item->Resultado2, 2, ".", "");
+                                }
+                                break;
+                        }
+                        break;
+                    case 64:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        }else{
+                            $limC =  number_format(@$item->Resultado2, 2, ".", "");
+                        }
+                        break;
+                    case 67: //conductividad
+                        switch ($solModel->Id_norma) {
+                            case 1:
+                            case 27:
+                                if ($puntoMuestreo->Condiciones != 1) {
+                                    if ($item->Resultado2 >= 3500) {
+                                        $limC = "> 3500";
+                                    } else {
+                                        $limC = round($item->Resultado2);
+                                    }
+                                }else{
+                                    $limC = round($item->Resultado2);
+                                }
+                                break;
+                            default:
+                                $limC = round($item->Resultado2);
+                                break;
+                        }
+                        break;
+                       
+                    default:
+                        if ($item->Resultado2 < $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+                            // echo "<br> Dato error ".$item->Resultado2;
+    
+                            $Resultado =  floatval($item->Resultado2);
+                          
+                            $limC = number_format(@$Resultado, 3, ".", "");
+                        }
+                        break;
+                }
+                switch ($solModel->Id_norma) {
+                    case 1:
+                        @$limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Prom_Dmax;
+                        } else {
+                            $aux = "N/A"; 
+                        }
+                        //comentarios
+                        break;
+                    case 2:
+                        $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            switch (@$solModel->Id_promedio) {
+                                case 1:
+                                    $aux = $limNo[0]->Instantaneo;
+                                    break;
+                                case 2:
+                                    $aux = $limNo[0]->PromM;
+                                    break;
+                                case 3:
+                                    $aux = $limNo[0]->PromD;
+                                    break;
+                                default:
+                                    $aux = $limNo[0]->PromD;       
+                                    break;
+                            }
+                            switch ($item->Id_parametro) {
+                                case 14:
+                                    $rango = explode("-", $aux);
+                                    if (@$rango[0] <= @$item->Resultado2 &&  @$rango >= @$item->Resultado2) {
+                                        $auxCon = "CUMPLE";
+                                    }else{
+                                        $auxCon = "NO CUMPLE";
+                                    }
+                                    break;
+                                case 2: 
+                                    if (@$item->Resultado2 == 1) {
+                                        $auxCon = "NO CUMPLE";
+                                    }else{
+                                        $auxCon = "CUMPLE";
+                                    }
+                                    break;
+                                default:
+                                    if ($aux != "N.N.") {
+                                        if ($aux != "N/A") {
+                                            if (@$item->Resultado2 <= $aux) {
+                                                $auxCon = "CUMPLE";
+                                            }else{
+                                                $auxCon = "NO CUMPLE";
+                                            }
+                                        }else{
+                                            $auxCon = "N/A";    
+                                        }
+                                    }else{
+                                        $auxCon = "N.N.";
+                                    }
+                                    break;
+                            }
+                        } else {
+                            $aux = "N/A";
+                            $auxCon = "N/A";
+                        }
+                        break;
+                    case 30:
+                        $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            if ( $limNo[0]->Per_min != "") {
+                                $aux = $limNo[0]->Per_min." - ".$limNo[0]->Per_max;
+                            }else{
+                                $aux = $limNo[0]->Per_max;
+                            }
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 7:
+                        $limNo = DB::table('limitepnorma_201')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            if ($limNo[0]->Per_max != "") {
+                                $aux = $limNo[0]->Per_max;
+                            }else{ 
+                                $aux = "N/A";
+                            }
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 27:
+                        $limNo = DB::table('limite001_2021')->where('Id_parametro', $item->Id_parametro)->where('Id_categoria', $solicitud->Id_reporte2)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Pd;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 365:
+                        break;
+                    default:
+
+                        break;
+                }
+            } else {
+                $aux = "------";
+                $limC = "------";
+            }
+            array_push($limitesN, $aux);
+            array_push($limitesC, $limC);
+            array_push($limitesCon, $auxCon);
+        }
+        $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+
+        //Id Firmas
+        //ID 4 Luisita
+        //ID 12 Sandy
+        //ID 14 Lupita
+        //ID 35 Agueda
+        //ID 31 elsa
+
+        switch ($solModel->Id_norma) {
+            case 5:
+            case 7:
+            case 30:
+                //potable y purificada
+                 //$firma1 = User::find(14) ;
+                 $firma1 = User::find(31); 
+                //  $firma1 = User::find(12); // Reviso
+                 $firma2 = User::find(14); // Autorizo
+                 //$firma2 = User::find(12); // Autorizo
+                //$firma2 = User::find(14);
+                break;
+            default:
+                //$firma1 = User::find(12); // Reviso
+                 //$firma1 = User::find(14); //reviso
+                 $firma1 = User::find(14); //reviso
+                // $firma2 = User::find(35); //Autorizo
+                $firma2 = User::find(31); //Autorizo
+                 //$firma2 = User::find(12); // Autorizo
+                
+                break;
+        }
+        //Proceso de Reporte Informe
+
+        $clave  = 'fol123ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $method = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        /*
+                 Encripta el contenido de la variable, enviada como parametro.
+                  */
+        $folioSer = $solicitud->Folio_servicio;
+        $folioEncript =  openssl_encrypt($folioSer, $method, $clave, false, $iv);
+        $norma = Norma::where('Id_norma',$solicitud->Id_norma)->first();
+        // cambio 
+        $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
+        //Metodo de encriptaciÃ³n
+        $methodFirma = 'aes-256-cbc'; 
+        // Puedes generar una diferente usando la funcion $getIV()
+        $ivFirma = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        $dataFirma1 = $firma1->name.' | '.$solicitud->Folio_servicio;
+        $dataFirma2 = $firma2->name.' | '.$solicitud->Folio_servicio;
+        $tempProceso = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        if ($tempProceso->Supervicion != 0) {
+            $firmaEncript1 =  openssl_encrypt($dataFirma1, $methodFirma, $claveFirma, false, $ivFirma);
+        }else{
+            $firmaEncript1 = "";
+        }
+        if ($tempProceso->Firma_aut != 0) {
+            $firmaEncript2 =  openssl_encrypt($dataFirma2, $methodFirma, $claveFirma, false, $ivFirma);
+        }else{
+            $firmaEncript2 = "";
+        }
+
+
+        $data = array(
+            'firmaEncript1' => $firmaEncript1,
+            'firmaEncript2' => $firmaEncript2,
+            'norma' => $norma,
+            'limitesCon' => $limitesCon,
+            'impresion' => $impresion,
+            'tituloConsecion' => $tituloConsecion,
+            'numTomas' => @$numTomas,
+            'tipoReporte2' => $tipoReporte2,
+            'folioEncript' => $folioEncript,
+            'campoCompuesto' => $campoCompuesto,
+            'swOlor' => $swOlor,
+            'color' => $color,
+            'tempAmbienteProm' => $tempAmbienteProm,
+            'limitesC' => $limitesC,
+            'horaMuestreo' => $horaMuestreo,
+            'numOrden' => $numOrden,
+            'model' => $model,
+            'cotModel' => $cotModel,
+            'tipoReporte' => $tipoReporte,
+            'solModel' => $solModel,
+            'fechaAnalisis' => $fechaAnalisis,
+            'swPh' => $swPh,
+            'firma1' => $firma1,
+            'firma2' => $firma2,
+            'phCampo' => $phCampo,
+            'modelProcesoAnalisis' => $modelProcesoAnalisis,
+            'campoGeneral' => $campoGeneral,
+            'obsCampo' => $obsCampo,
+            'temperaturaC' => $temperaturaC,
+            'puntoMuestreo' => $puntoMuestreo,
+            'cliente' => $cliente,
+            'direccion' => $direccion,
+            'solicitud' => $solicitud,
+            'tempCompuesta' => $tempCompuesta,
+            'limitesN' => $limitesN,
+            // 'tipo' => $tipo,
+            'rfc' => $rfc,
+            'reportesInformes' => $reportesInformes,
+        );
+
+        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        $htmlInforme = view('exports.informes.vidrio.bodyInforme', $data);
+        $htmlHeader = view('exports.informes.vidrio.headerInforme', $data);
+        $htmlFooter = view('exports.informes.vidrio.footerInforme', $data);
+        $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        //Para la proteccion con contraseña, es el segundo parametro de la función SetProtection, el tercer parametro es una contraseña de propietario para permitir más acciones
+        //En el caso del ultimo parámetro es la longitud del cifrado
+        $mpdf->WriteHTML($htmlInforme);
+        $mpdf->CSSselectMedia = 'mpdf'; 
+
+        // $mpdf->SetProtection(array(), 654, null, 128);
+        // Establecer protección con contraseña de usuario y propietario
+
+        $folPadre = Solicitud::where('Id_solicitud',$solicitud->Hijo)->first();
+        $primeraLetra = substr($cliente->Empresa, 0, 1);
+        $passUse = $folPadre->Folio_servicio."".$primeraLetra;
+        $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+
+        // echo $passUse;
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$folPadre->Id_solicitud)->first();
+        $proceso->Pass_archivo = $passUse;
+        $proceso->save();
+
+          // Definir la ruta donde quieres guardar el PDF
+        $nombreArchivoSeguro = str_replace('/', '-', $solicitud->Folio_servicio);
+        $folioPadre = str_replace('/', '-', $auxSol->Folio_servicio);
+
+        $rutaDirectorio = storage_path('app/public/clientes/'.$solicitud->Fecha_muestreo.'/'.$folioPadre);
+
+        // Asegúrate de que el directorio existe, si no, créalo
+        if (!File::isDirectory($rutaDirectorio)) {
+            File::makeDirectory($rutaDirectorio, 0755, true, true);
+        }
+
+        $filePath = $rutaDirectorio . '/' . $nombreArchivoSeguro . '-informe.pdf';
+        // Guardar el archivo en la ruta especificada
+        $mpdf->Output($filePath, \Mpdf\Output\Destination::FILE);
+        $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
+
+    }
+    public function metodoCortoColiformes($id,$idP,$NMP,$D1,$D2,$D3)
+    {
+        $msg = "";
+        $convinacion = Nmp1Micro::where('Nmp', $NMP)->get();
+        $metodoCorto = 1;
+        $auxCon = array();
+        $auxCon2 = array();
+        $auxPre1 = array();
+        $auxPre2 = array();
+        switch ($idP) {
+            case 12:
+                if ($convinacion->count()) {
+                    $convinacion = Nmp1Micro::where('Nmp', $NMP)->first();
+                    $positivos = $convinacion->Col1 + $convinacion->Col2 + $convinacion->Col3;
+                    if ($D1 == 10 && $D2 == 1 && $D3 == 0.1) {
+                        $resultado = $convinacion->Nmp;
+                    } else {
+                        $resultado = (10 / $D1) * $convinacion->Nmp;
+                    }
+
+                    for ($i = 0; $i < 3; $i++) {
+                        if ($i + 1 <= $convinacion->Col1) {
+                            $auxCon[$i] = 1;
+                        } else {
+                            $auxCon[$i] = 0;
+                        }
+                        if ($i + 1 <= $convinacion->Col2) {
+                            $auxCon[$i + 3] = 1;
+                        } else {
+                            $auxCon[$i + 3] = 0;
+                        }
+                        if ($i + 1 <= $convinacion->Col3) {
+                            $auxCon[$i + 6] = 1;
+                        } else {
+                            $auxCon[$i + 6] = 0;
+                        }
+                    }
+
+                    for ($i = 0; $i < sizeof($auxCon); $i++) {
+                        if ($auxCon[$i] == 1) {
+                            $auxPre2[$i] = 1;
+                        } else {
+                            $bit_aleatorio = rand() & 1;
+                            if ($bit_aleatorio == 1) {
+                                $auxPre2[$i] = 1;
+                            } else {
+                                $auxPre2[$i] = 0;
+                            }
+                        }
+                    }
+                    for ($i = 0; $i < sizeof($auxCon); $i++) {
+                        if ($auxPre2[$i] == 0) {
+                            $auxPre1[$i] = 0;
+                        } else {
+                            $bit_aleatorio = rand() & 1;
+                            if ($bit_aleatorio == 1) {
+                                $auxPre1[$i] = 1;
+                            } else {
+                                $auxPre1[$i] = 0;
+                            }
+                        }
+                    }
+
+                    $metodoCorto = 1;
+                    $model = LoteDetalleColiformes::find($id);
+                    $model->Tipo = 1;
+                    $model->Dilucion1 = $D1;
+                    $model->Dilucion2 = $D2;
+                    $model->Dilucion3 = $D3;
+                    $model->Indice = $NMP;
+                    $model->Tubos_negativos = 9 - $positivos;
+                    $model->Tubos_positivos = $positivos;
+
+                    $model->Confirmativa1 = $auxCon[0];
+                    $model->Confirmativa2 = $auxCon[1];
+                    $model->Confirmativa3 = $auxCon[2];
+                    $model->Confirmativa4 = $auxCon[3];
+                    $model->Confirmativa5 = $auxCon[4];
+                    $model->Confirmativa6 = $auxCon[5];
+                    $model->Confirmativa7 = $auxCon[6];
+                    $model->Confirmativa8 = $auxCon[7];
+                    $model->Confirmativa9 = $auxCon[8];
+
+                    $model->Presuntiva1 = $auxPre1[0];
+                    $model->Presuntiva2 = $auxPre1[1];
+                    $model->Presuntiva3 = $auxPre1[2];
+                    $model->Presuntiva4 = $auxPre1[3];
+                    $model->Presuntiva5 = $auxPre1[4];
+                    $model->Presuntiva6 = $auxPre1[5];
+                    $model->Presuntiva7 = $auxPre1[6];
+                    $model->Presuntiva8 = $auxPre1[7];
+                    $model->Presuntiva9 = $auxPre1[8];
+
+                    $model->Presuntiva10 = $auxPre2[0];
+                    $model->Presuntiva11 = $auxPre2[1];
+                    $model->Presuntiva12 = $auxPre2[2];
+                    $model->Presuntiva13 = $auxPre2[3];
+                    $model->Presuntiva14 = $auxPre2[4];
+                    $model->Presuntiva15 = $auxPre2[5];
+                    $model->Presuntiva16 = $auxPre2[6];
+                    $model->Presuntiva17 = $auxPre2[7];
+                    $model->Presuntiva18 = $auxPre2[8];
+                    $model->Resultado = $resultado;
+                    $model->save();
+                    $msg = "Resultado calculado";
+                } else {
+                    $msg = "Este valor no se encuentra en tabla";
+                }
+                break;
+       
+            default:
+                $msg = "No existe metodo para este parametro";
+                break;
+        }
+
 
         $data = array(
             'msg' => $msg,

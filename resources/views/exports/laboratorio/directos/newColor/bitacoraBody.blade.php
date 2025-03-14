@@ -67,7 +67,7 @@
                             @if (@$item->Resultado < @$item->Limite)
                             < {{@$item->Limite}}
                             @else
-                            {{round(@$item->Resultado,2)}}
+                           {{number_format(@$item->Resultado,2,'.','')}}
                             @endif
                         </td>
                         
@@ -86,7 +86,7 @@
                         <td class="tableContent">{{ $item->Abs2_525 }}</td>
                         <td class="tableContent">{{ $item->Abs3_525 }}</td>
                         <td class="tableContent">{{ $item->Abs_promedio2 }}</td>
-                        <td class="tableContent">{{ $item->Resultado2 }}</td>
+                        <td class="tableContent"> {{number_format(@$item->Resultado2,2,'.','')}}</td>
                         <td class="tableContent">{{$item->Observacion2}}</td>
                     </tr>
                     <tr>
@@ -96,7 +96,7 @@
                         <td class="tableContent">{{ $item->Abs2_620 }}</td>
                         <td class="tableContent">{{ $item->Abs3_620 }}</td>
                         <td class="tableContent">{{ $item->Abs_promedio3 }}</td>
-                        <td class="tableContent">{{ $item->Resultado3 }}</td>
+                        <td class="tableContent"> {{number_format(@$item->Resultado3,2,'.','')}}</td>
                         <td class="tableContent">{{$item->Observacion3}}</td>
                     </tr>
                 @endforeach

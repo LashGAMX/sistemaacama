@@ -74,4 +74,10 @@ class HomeController extends Controller
     {
      return view('home.ordenJson');
     }
+
+    public function login()
+    {
+        return view('voyager::login');
+    }
+    
 }

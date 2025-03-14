@@ -772,6 +772,62 @@ class MbController extends Controller
             case 12: //todo Número más probable (NMP), en tubos múltiples
             case 35: //Escheruchia coli/acreditado
             case 137:
+                //Guardado estandar
+                $metodoCorto = 1;
+                $model = LoteDetalleColiformes::find($request->idDetalle);
+                $model->Tipo = 1;
+                $model->Dilucion1 = $request->D1;
+                $model->Dilucion2 = $request->D2;
+                $model->Dilucion3 = $request->D3;
+                $model->Indice = $request->NMP;
+                $model->Muestra_tubos = $request->G3;
+                $model->Tubos_negativos = $request->G2;
+                $model->Tubos_positivos = $request->G1;
+
+                $model->Confirmativa1 = $request->con1;
+                $model->Confirmativa2 = $request->con2;
+                $model->Confirmativa3 = $request->con3;
+                $model->Confirmativa4 = $request->con4;
+                $model->Confirmativa5 = $request->con5;
+                $model->Confirmativa6 = $request->con6;
+                $model->Confirmativa7 = $request->con7;
+                $model->Confirmativa8 = $request->con8;
+                $model->Confirmativa9 = $request->con9;
+
+                $model->Confirmativa10 = $request->con10;
+                $model->Confirmativa11 = $request->con11;
+                $model->Confirmativa12 = $request->con12;
+                $model->Confirmativa13 = $request->con13;
+                $model->Confirmativa14 = $request->con14;
+                $model->Confirmativa15 = $request->con15;
+                $model->Confirmativa16 = $request->con16;
+                $model->Confirmativa17 = $request->con17;
+                $model->Confirmativa18 = $request->con18;
+
+                $model->Presuntiva1 = $request->pre1;
+                $model->Presuntiva2 = $request->pre2;
+                $model->Presuntiva3 = $request->pre3;
+                $model->Presuntiva4 = $request->pre4;
+                $model->Presuntiva5 = $request->pre5;
+                $model->Presuntiva6 = $request->pre6;
+                $model->Presuntiva7 = $request->pre7;
+                $model->Presuntiva8 = $request->pre8;
+                $model->Presuntiva9 = $request->pre9;
+                $model->Presuntiva10 = $request->pre11;
+                $model->Presuntiva11 = $request->pre22;
+                $model->Presuntiva12 = $request->pre33;
+                $model->Presuntiva13 = $request->pre44;
+                $model->Presuntiva14 = $request->pre55;
+                $model->Presuntiva15 = $request->pre66;
+                $model->Presuntiva16 = $request->pre77;
+                $model->Presuntiva17 = $request->pre88;
+                $model->Presuntiva18 = $request->pre99;
+
+                $model->Resultado = $request->resultadoCol;
+                        $model->Analizo = Auth::user()->id;
+                        $model->save();
+
+                        //Aqui empieza la condicional rara 
                 # Coliformes
                 if ($loteModel->Id_control == 1 || $loteModel->Id_control == 11) {
                     if ($request->indicador == 1) {
@@ -1989,7 +2045,7 @@ class MbController extends Controller
                 $model->Bitacora = $res->bitacora;
                 $model->Preparacion_pre = $res->preparacion;
                 $model->Lectura_pre = $res->lectura;
-                $model->Medio_con = $res->medio;
+                $model->Medio_con = $res->Ajolote;
                 $model->Preparacion_con = $res->preparacionCon;
                 $model->Lectura_con = $res->lecturaCon;
                 $model->save();
@@ -2002,7 +2058,7 @@ class MbController extends Controller
                     'Bitacora' => $res->bitacora,
                     'Preparacion_pre' => $res->preparacion,
                     'Lectura_pre' => $res->lectura,
-                    'Medio_con' => $res->medio,
+                    'Medio_con' => $res->Ajolote,
                     'Preparacion_con' => $res->preparacionCon,
                     'Lectura_con' => $res->lecturaCon,
                     'Id_user_c' => Auth::user()->id,
