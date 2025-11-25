@@ -86,13 +86,24 @@
                 </tr>
 
                 <tr>
-                    <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
-                    <td class="tableContent">
-                        @php
-                            $fechaHoraFormateadaP = date("d/m/Y H:i:s", strtotime(@$bitacora->Lectura_pre));
-                            echo $fechaHoraFormateadaP;
-                        @endphp
-                    </td>
+                    <tr>
+                        <td class="tableContent">Fecha y hora de lectura, después 24 hrs. de incubación:</td>
+                        <td class="tableContent">
+                            @php
+                                $fechaHoraFormateadaP = date("d/m/Y H:i:s", strtotime(@$bitacora->Lectura_pre));
+                                echo $fechaHoraFormateadaP;
+                            @endphp
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableContent">Fecha y hora de lectura, después 48 hrs. de incubación:</td>
+                        <td class="tableContent">
+                            @php
+                                $fechaHoraFormateadaP2 = date("d/m/Y H:i:s", strtotime(@$bitacora->Lectura_pre2));
+                                echo $fechaHoraFormateadaP2;
+                            @endphp
+                        </td>
+                    </tr>
                     
                     <td></td>                  
                     
@@ -100,7 +111,14 @@
                     <td></td>
                     <td class="tableContent">{{@$lote->Parametro}}<sup>{{@$simbologiaParam->Simbologia}}</sup></td>                    
                 </tr>
-
+                <tr>
+                    <td class="tableContent nombreHeaderBold">
+                        Fecha de Resiembra de la cepa utilizada
+                    </td>  
+                    <td class="tableContent">
+                       {{date("d/m/Y", strtotime(@$bitacora->Fecha_resiembra))}}
+                    </td>
+                   </tr>
                 <tr>
                     <td class="tableContent"></td>     
                     <td></td>               

@@ -29,6 +29,9 @@ $(document).ready(function () {
     });
     getFactorCorreccion(1,'termometro')
     getFactorCorreccion(2,'termometro2')
+
+    getConTrazable("conTrazable")
+    getConCalidad('conCalidad')
 });
 function validacionFechaMuestreo(f1,f2,sw){
 
@@ -970,6 +973,8 @@ function valPendiente(valor, criterio) {
         t.rows[1].setAttribute("class", "bg-danger");
     }
 }
+var inicioConCalidad = 0
+var finConCalidad = 0
 function getConCalidad(id) {
     $.ajax({
         url: base_url + "/admin/campo/captura/getConCalidad", //archivo que recibe la peticion
@@ -985,6 +990,9 @@ function getConCalidad(id) {
             $("#conCNombre").text(response.model.Conductividad) 
             $("#conCMarca").text(response.model.Marca) 
             $("#conCLote").text(response.model.Lote) 
+
+            inicioConCalidad = response.model.Inicio_rango
+            finConCalidad = response.model.Fin_rango
         },
     }); 
 }
@@ -1010,6 +1018,20 @@ function valConTrazable(lec1, lec2, lec3, estado) {
     if (l3 - con < porcentaje2 * -1 || l3 - con > porcentaje2) { 
         sw = false;
     }
+
+ // Suponiendo que inicioConTrazable y finConTrazable son los límites de rango
+if (inicioConTrazable != null && finConTrazable != null) { // Usamos AND para asegurar que AMBOS existan
+    // Convertimos a números si no lo son ya (es buena práctica)
+    let inicio = parseFloat(inicioConTrazable);
+    let fin = parseFloat(finConTrazable);
+
+    if (l1 < inicio || l1 > fin || l2 < inicio || l2 > fin || l3 < inicio || l3 > fin) {
+        sw = false;
+    }
+} else {
+    // sw = false;
+    // alert("Los límites de rango (inicio y fin) no están definidos.");
+}
 
     if($("#conTrazable option:selected").text() == "Sin seleccionar"){
         sw = false;
@@ -1051,6 +1073,20 @@ function valConCalidad(lec1, lec2, lec3, estado, prom) {
         sw = false;
     }
 
+     // Suponiendo que inicioConTrazable y finConTrazable son los límites de rango
+    if (inicioConCalidad != null && finConCalidad != null) { // Usamos AND para asegurar que AMBOS existan
+        // Convertimos a números si no lo son ya (es buena práctica)
+        let inicio = parseFloat(inicioConCalidad);
+        let fin = parseFloat(finConCalidad);
+
+        if (l1 < inicio || l1 > fin || l2 < inicio || l2 > fin || l3 < inicio || l3 > fin) {
+            sw = false;
+        }
+    } else {
+        // sw = false;
+        // alert("Los límites de rango (inicio y fin) no están definidos.");
+    }
+
     if(isNaN(l1) || isNaN(l2) || isNaN(l3)){
         sw = false;
     }
@@ -1070,6 +1106,9 @@ function valConCalidad(lec1, lec2, lec3, estado, prom) {
 
     p.value = ((l1 + l2 + l3) / 3).toFixed();
 }
+
+var inicioConTrazable = 0
+var finConTrazable = 0
 function getConTrazable(id) {
     $.ajax({
         url: base_url + "/admin/campo/captura/getConTrazable", //archivo que recibe la peticion
@@ -1085,9 +1124,13 @@ function getConTrazable(id) {
             $("#conTNombre").text(response.model.Conductividad) 
             $("#conTMarca").text(response.model.Marca) 
             $("#conTLote").text(response.model.Lote) 
+
+            inicioConTrazable = response.model.Inicio_rango
+            finConTrazable = response.model.Fin_rango
         },
     });
 }
+
 function valPhCalidad(id) {
 
     let l1 = parseFloat($("#phC1"+id).val())

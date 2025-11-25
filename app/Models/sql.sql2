@@ -324,7 +324,7 @@ ON sir.Titulo_consecion = con.Id_titulo;
 CREATE VIEW ViewSolicitudGenerada as 
 SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,
 us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM,
-gen.created_at as FechaCreacion,gen.updated_at as FechaModificacion ,punto.Punto
+gen.created_at as FechaCreacion,gen.updated_at as FechaModificacion ,punto.Punto,gen.Firma_digital
 FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud2 as sol
 ON gen.Id_solicitud = sol.Id_solicitud
@@ -620,7 +620,7 @@ ON cod.Analizo = us.id;
 //Vista Netza
 
 CREATE VIEW ViewCodigoParametrosAli AS
-SELECT cod.*, us.name, us.iniciales, pa.Parametro, pa.Id_simbologia, pa.Simbologia, 
+SELECT cod.*, us.name, us.iniciales, pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_simbologia_info, pa.Simbologia_inf,pa.Descripcion2,
 pa.Id_tipo_formula, pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo, 
 pa.Id_area, pa.Limite
 FROM codigo_parametroa AS cod
@@ -692,6 +692,7 @@ INNER JOIN ViewSolicitud2 as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro;
+
 /* Lista ViewPlanPaquete */
 CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,lab.Parametro,lab.Reportes,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
 INNER JOIN areas_lab as lab

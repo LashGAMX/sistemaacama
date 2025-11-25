@@ -5,8 +5,8 @@
             <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
-                            <td class="nombreHeader nom fontSize727 justificadorIzq">{{-- OBSERVACIONES: EL MUESTREO FUE REALIZADO DE ACUERDO A LO
-                                ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                            <td class="nombreHeader nom fontSize727 justificadorIzq"> OBSERVACIONES: EL MUESTREO FUE REALIZADO DE ACUERDO A LO
+                                ESTABLECIDO EN LA NMX-AA-003-1980 / NMX-AA-014-1980  Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                                 DIA SOLEADO, EQUIPO UTILIZADO INVLAB 583 // NO HUBO DESCARGA EN LAS TOMAS 2, 5 Y 6 CONDICIONES AMBIENTALES: 
                                 DÍA SOLEADO, EQUIPO UTILIZADO INVLAB583, EN LAS TOMAS 4, 5 Y 6 NO HAY FLUJO POR LO CUAL NO SE TOMAN MUESTRAS.     --}}                            
                                 {{@$solicitud->Observacion}}</td>

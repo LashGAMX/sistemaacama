@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\RecepcionAlimentos;
 use Carbon\Carbon;
+
+
 
 class ProcesoAnalisisA extends Model
 {
@@ -23,8 +26,13 @@ class ProcesoAnalisisA extends Model
         'Id_dirección',
         'Hora_recepcion',
         'Hora_entrada',
+        'Fecha_muestreo',
+        'Periodo_analisis',
         'Id_recibio',
         'Recibio',
+        'Descarga',
+        'Obs_ambiental',        
+        'Obs_muestreo',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -35,58 +43,43 @@ class ProcesoAnalisisA extends Model
     {
         return $this->belongsTo(User::class, 'Id_user_c', 'id');
     }
+  
 
-    protected static function booted()
+protected static function booted()
     {
-        // Evento para manejar la creación del modelo
-        static::created(function ($procesoAnalisis) {
-            $horaRecepcion = Carbon::parse($procesoAnalisis->Hora_recepcion); 
-            
-            // Generar un número aleatorio entre 15 y 25
+        // Evento before save (create o update) ANTES DE QUE SE CREE 
+        // static::saving(function ($modelo) {
+        //     if (!empty($modelo->Hora_recepcion)) {
+        //         //$modelo->Periodo_analisis = Carbon::parse($modelo->Hora_recepcion)->addDays(4);
+        //     }
+        // });
+
+        // Evento after create  DESPUES DE QUE SE CREA 
+        static::created(function ($proceso) {
+            $horaRecepcion = Carbon::parse($proceso->Hora_recepcion);
             $minutosAleatorios = rand(15, 25);
-    
-            // Sumar los minutos aleatorios a la hora de recepción
-            $horaRecepcionConRango = $horaRecepcion->addMinutes($minutosAleatorios);
-    
-            RecepcionAlimentos::create([
-                'Id_rep' => $procesoAnalisis->Id_procAnalisis,
-                'Folio' => $procesoAnalisis->Folio,
-                'Hora_recepcion' => $procesoAnalisis->Hora_recepcion,
-                'Recibio' => $procesoAnalisis->Recibio,
-                'Fecha' => $horaRecepcionConRango, 
-                'Nombre' => 'Sin Analista', 
-            ]);
-        });
-    
-        // Evento para manejar la actualización del modelo
-        static::updated(function ($procesoAnalisis) {
-            // Verificar si las columnas específicas se actualizaron
-            if ($procesoAnalisis->isDirty(['Hora_recepcion', 'Recibio'])) {
-                $horaRecepcion = Carbon::parse($procesoAnalisis->Hora_recepcion);
-    
-                // Generar un número aleatorio entre 15 y 25
-                $minutosAleatorios = rand(15, 25);
-    
-                // Sumar los minutos aleatorios a la hora de recepción
-                $horaRecepcionConRango = $horaRecepcion->addMinutes($minutosAleatorios);
-    
-                // Buscar el registro correspondiente en el modelo RecepcionAlimentos
-                $recepcionAlimentos = RecepcionAlimentos::where('Id_rep', $procesoAnalisis->Id_procAnalisis)->first();
-    
-                if ($recepcionAlimentos) {
-                    // Actualizar los campos necesarios
-                    $recepcionAlimentos->update([
-                        'Hora_recepcion' => $procesoAnalisis->Hora_recepcion,
-                        'Recibio' => $procesoAnalisis->Recibio,
-                        'Fecha' => $horaRecepcionConRango,
+            $horaRecepcionConRango = $horaRecepcion->copy()->addMinutes($minutosAleatorios);
+
+            $muestras = SolicitudMuestraA::where('Id_solicitud', $proceso->Id_solicitud)->get();
+
+            foreach ($muestras as $index => $muestra) {
+                if ($muestra && $muestra->Muestra) {
+                    RecepcionAlimentos::create([
+                        'Id_sol'         => $proceso->Id_solicitud,
+                        'Folio'          => $proceso->Folio . '-' . ($index + 1),
+                        'Id_muestra'     => $muestra->Id_muestra,
+                        'Hora_recepcion' => $proceso->Hora_recepcion,
+                        'Fecha_muestreo' => $muestra->Fecha_muestreo,
+                        'Muestra'        => $muestra->Muestra,
+                        'Recibio'        => $proceso->Recibio,
+                        'Fecha'          => $horaRecepcionConRango,
+                        'Nombre'         => 'SIN ANALISTA',
+                        'Cancelado'      => 0,
+                        'Estatus'        => 0, 
+                        'Fecha_R_Recep'  => $proceso->created_at,
                     ]);
                 }
             }
         });
     }
-    
-
-    
-  
-
 }

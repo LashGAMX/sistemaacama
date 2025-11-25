@@ -5,7 +5,7 @@
 @section('page_header')
 
     @stop
-<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="container-fluid" >
     
     <div class="row" style="scale: (0.5)">
@@ -74,62 +74,64 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="row">
-                <div class="col-md-12">
-                    <button id="btnIngresar" class="btn-info" ><i class="fas fa-arrow-right"></i> Ingresar</button>
-                    <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Generar codigos</button>
-                    <label for="">sin condiciones </label><input type="checkbox" id="condiciones" onchange="valSinCondiciones()">
-                    <label for="">Historial</label><input type="checkbox" id="historial"> 
-                    @switch(Auth::user()->role->id)
-                        @case(1)
-                            <button id="btnActCC" class="btn-info"><i class="voyager-edit"></i> Act. C.C</button>
-                            <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>
-                            @break
-                        @default
-                            @switch(Auth::user()->id)
-                                @case(65)
-                                @case(101)
-                                @case(107)
-                                <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>      
-                                    @break
-                                @default
-                                    
-                            @endswitch
-                    @endswitch
-                </div>
-                
-                <div class="col-md-12">
-                    <div class="" id=divCodigos>
-                        <table id="codigos" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Tipo</th>
-                                    <th># Muestra</th>
-                                    <th>Cant.Total</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-4"> <!-- Aumenta el tamaño de divCodigos -->
+    <div class="row">
+        <div class="col-md-12">
+            <button id="btnIngresar" class="btn-info"><i class="fas fa-arrow-right"></i> Ingresar</button>
+            <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Generar códigos</button>
+            <label for="">Sin condiciones </label><input type="checkbox" id="condiciones" onchange="valSinCondiciones()">
+            <label for="">Historial</label><input type="checkbox" id="historial">
+            @switch(Auth::user()->role->id)
+            @case(1)
+                <button id="btnActCC" class="btn-info"><i class="voyager-edit"></i> Act. C.C</button>
+                <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>
+                @break
+            @default
+                @switch(Auth::user()->id)
+                    @case(65)
+                    @case(101)
+                    @case(116)
+                    <h6>Fecha emisión: <input type="date" id="fechaEmision" value=""> <span id="btnSetEmision" class="fas fa-edit bg-success"></span></h6>      
+                        @break
+                    @default
+                        
+                @endswitch
+        @endswitch
         </div>
-        <div class="col-md-8">
-            <div id="divPuntos">
-                <table id="puntos" class="table" >
+        
+        <div class="col-md-12">
+            <div id="divCodigos">
+                <table id="codigos" class="table">
                     <thead>
                         <tr>
-                            <th style="width: 10%">#</th>
-                            <th style="width: 70%">...</th>
-                            <th style="width: 20%">Opc</th>
+                            <th>Tipo</th>
+                            <th># Muestra</th>
+                            <th>Cant. Total</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
-    <div class="row" style="scale: (0.5)">
+</div>
+
+<div class="col-md-6"> <!-- Reduce el tamaño de divPuntos -->
+    <div id="divPuntos">
+        <table id="puntos" class="table">
+            <thead>
+                <tr>
+                    <th style="width: 10%">#</th>
+                    <th style="width: 70%">...</th>
+                    <th style="width: 20%">Opc</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+    </div>
+    <!-- <div class="row" style="scale: (0.5)">
         <div class="col">
             <div class="row">
                 <div class="col text-center">
@@ -144,7 +146,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     
 </div>
 
@@ -152,5 +154,5 @@
 
 
 @section('javascript')
-<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.10"></script>
+<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=3.0.1"></script>
 @stop

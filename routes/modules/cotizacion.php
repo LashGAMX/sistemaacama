@@ -62,7 +62,23 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
     Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
-    Route::get('Solicitudes',[SolicitudController::class,'Solicitudes']);
+    Route::get('/GetSolicitudes',[SolicitudController::class,'GetSolicitudes']);
+
+
+    Route::get('/Solicitudes',[SolicitudController::class,'Solicitudes']);
+    Route::post('Buscarsolicitud',[SolicitudController::class,'Buscarsolicitud']);
+
+
+    Route::get('/solicitudes/data', [CotizacionController::class, 'solicitudesData']);
+
+    Route::get('verimagen',[SolicitudController::class,'verimagen']);
+    Route::get('migrarDatos',[SolicitudController::class,'migrarDatos']);
+    Route::get('extraerTablaCotizacion',[SolicitudController::class,'extraerTablaCotizacion']);
+    Route::get('arreglolotes',[SolicitudController::class,'arreglolotes']);
+
+
+
+
     Route::post('getSolicitudes',[SolicitudController::class,'getSolicitudes']);
 
     
@@ -86,12 +102,14 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('cancelarOrden',[SolicitudController::class,'cancelarOrden']);
 
     Route::post('Tablasolicitud',[SolicitudController::class,'Tablasolicitud']);
-    Route::get('cancelarOrdenMasiva',[SolicitudController::class,'cancelarOrdenMasiva']);
+    // Route::get('cancelarOrdenMasiva',[SolicitudController::class,'cancelarOrdenMasiva']);
+    Route::get('migrarFotos',[SolicitudController::class,'migrarFotos']);
+    
     Route::get('Consultas',[SolicitudController::class,'Consultas']);
     Route::get('UpdateAnalista',[SolicitudController::class,'UpdateAnalista']);
     Route::get('DesliberarMasivo',[SolicitudController::class,'DesliberarMasivo']);
     Route::get('RegresarMasivoCuadrodeAsignacion',[SolicitudController::class,'RegresarMasivoCuadrodeAsignacion']);
-  
+    Route::get('RejecutarParametro',[SolicitudController::class,'RejecutarParametro']);
 
     
 

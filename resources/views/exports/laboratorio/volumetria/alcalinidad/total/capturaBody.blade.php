@@ -66,11 +66,21 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$loteDetalle[$i]->Titulados}}
+                        @if (@$loteDetalle[$i]->Titulados <= 10.07)
+                             < 10.07
+                        @else
+                            {{@$loteDetalle[$i]->Titulados}}
+                        @endif 
+                        
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$loteDetalle[$i]->Normalidad}}
+                        @if (@$loteDetalle[$i]->Normalidad <= 10.07)
+                             < 10.07
+                        @else
+                            {{@$loteDetalle[$i]->Normalidad}}
+                        @endif 
+                        
                     </td>
 
                     <td class="contenidoBody bordesTabla">

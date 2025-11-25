@@ -93,6 +93,7 @@ function setPrecioCotizacion()
     type: 'POST', //método de envio
     data: {
       id: $('#idCot').val(),
+      userCot: $('#userCot').val(),
       obsInt: $('#observacionInterna').val(),
       obsCot: $("#observacionCotizacion").summernote('code'),
       metodoPago: $('#metodoPago').val(),

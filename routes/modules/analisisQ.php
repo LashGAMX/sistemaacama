@@ -28,6 +28,15 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::post('getDatoParametro',[ParametroController::class,'getDatoParametro']);
     Route::post('setParametros',[ParametroController::class,'setParametros']);
     Route::post('updateParametro',[ParametroController::class,'updateParametro']);
+    Route::get('limiteAli', [ParametroController::class,'limiteAli']); 
+    Route::post('setLimiteAli', [ParametroController::class,'setLimiteAli']); 
+    Route::post('getParametrosAli', [ParametroController::class,'getParametrosAli']); 
+    Route::post('delParametroAli', [ParametroController::class,'delParametroAli']); 
+    Route::post('getDataParametroAli', [ParametroController::class,'getDataParametroAli']); 
+    Route::post('updateParaAli', [ParametroController::class,'updateParaAli']); 
+    
+    
+    
 
     Route::get('normas', [NormaController::class,'index']);
 

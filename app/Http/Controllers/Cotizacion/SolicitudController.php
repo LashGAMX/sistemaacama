@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\LimiteParametros001;
 use App\Http\Livewire\AnalisisQ\Normas;
+use App\Models\backup\CodigoParametro2;
 use App\Models\CampoCompuesto;
 use App\Models\ClienteGeneral;
 use App\Models\ClienteSiralab;
@@ -13,6 +14,7 @@ use App\Models\CodigoParametros;
 use App\Models\ConductividadMuestra;
 use App\Models\ContactoCliente;
 use App\Models\Cotizacion;
+use App\Models\backup\Cotizacion2;
 use App\Models\CotizacionEstado;
 use App\Models\CotizacionMuestreo;
 use App\Models\CotizacionParametros;
@@ -20,7 +22,6 @@ use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\Frecuencia001;
 use App\Models\Intermediario;
-
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleAlcalinidad;
 use App\Models\LoteDetalleCloro;
@@ -28,6 +29,7 @@ use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
 use App\Models\LoteDetalleDboIno;
 use App\Models\LoteDetalleDirectos;
+use App\Models\LoteDetalle;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEcoli;
@@ -38,10 +40,16 @@ use App\Models\LoteDetalleHH;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetallePotable;
 use App\Models\LoteDetalleSolidos;
+use App\Models\FotoRecepcionDB2;
+use App\Models\FotosRecepcionBlob;
 use App\Models\Norma;
 use App\Models\NormaParametros;
 use App\Models\PhMuestra;
+use Illuminate\Support\Facades\Log;
 use App\Models\ProcesoAnalisis;
+use App\Models\backup\ProcesoAnalisis2;
+use App\Models\FotoRecepcion;
+use App\Models\LoteDetalleDirectosA;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
@@ -59,22 +67,24 @@ use App\Models\SucursalContactos;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
-
+use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use PDF;
 use \Milon\Barcode\DNS1D;
 use \Milon\Barcode\DNS2D;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class SolicitudController extends Controller
 {
     // 
     public function index()
     {
-        if (Auth::user()->role->id == 13) {
+        if (intval(Auth::user()->role->id) == 13) {
             $model = Cotizacion::orderBy('Id_cotizacion', 'DESC')->where('Creado_por', Auth::user()->id)->take(1000)->get();
         } else {
             // $model = Cotizacion::orderBy('Id_cotizacion','DESC')->take(200)->get();
@@ -94,190 +104,169 @@ class SolicitudController extends Controller
         return view('cotizacion.solicitud', $data);
     }
 
-<<<<<<< HEAD
-        public function Solicitudes()
-    {
-        $currentYear = date('Y'); // Año actual
-        $lastYear = $currentYear - 1; // Año pasado
-
-        $data['model'] = Cotizacion::with([
-            'Cotizacion_estado:Id_estado,Estado', 
-            'clavenorma:Id_norma,Clave_norma', 
-            'descarga:Id_tipo,Descarga', 
-            'creador:id,name' 
-        ])->select([
-            'Id_cotizacion',
-            'Estado_cotizacion',
-            'Folio_servicio',
-            'Folio',
-            'Fecha_muestreo',
-            'Nombre',
-            'Id_norma',
-            'Tipo_descarga',
-            'Creado_por',
-            'created_at',
-            'Cancelado'
-        ])
-        ->whereYear('created_at', '>=', $lastYear) // Filtra desde el año pasado hasta el actual
-        ->orderBy('Id_cotizacion', 'desc')
-        ->get();
-
-        return view('cotizacion.solicitud2', $data);
-    }
-
-   
-    // public function Solicitudes()
-    // {
-    //     $currentYear = date('Y');
-    //     $lastYear = $currentYear - 1;
-    //     $cacheKey = "cotizaciones_{$lastYear}_{$currentYear}";
-
-    //     $data['model'] = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($lastYear) {
-    //         $result = [];
-
-    //         Cotizacion::with([
-    //             'Cotizacion_estado:Id_estado,Estado',
-    //             'clavenorma:Id_norma,Clave_norma',
-    //             'descarga:Id_tipo,Descarga',
-    //             'creador:id,name'
-    //         ])
-    //             ->select([
-    //                 'Id_cotizacion',
-    //                 'Estado_cotizacion',
-    //                 'Folio_servicio',
-    //                 'Folio',
-    //                 'Fecha_muestreo',
-    //                 'Nombre',
-    //                 'Id_norma',
-    //                 'Tipo_descarga',
-    //                 'Creado_por',
-    //                 'created_at',
-    //                 'Cancelado'
-    //             ])
-    //             ->whereYear('created_at', '>=', $lastYear)
-    //             ->orderBy('Id_cotizacion', 'desc')
-    //             ->chunk(1000, function ($cotizaciones) use (&$result) {
-    //                 foreach ($cotizaciones as $cotizacion) {
-    //                     $result[] = $cotizacion;
-    //                 }
-    //             });
-
-    //         return $result;
-    //     });
-
-    //     return view('cotizacion.solicitud2', $data);
-    // }
-
-    //     public function getSolicitudes(Request $res)
-    // {
-    //     $folioServicio = $res->filters['Folioservicio'] ?? null;
-
-    //     $data = Cotizacion::where('Creado_por', Auth::user()->id)
-    //                      ->when($folioServicio, function ($query) use ($folioServicio) {
-    //                          return $query->where('Folio_servicio', $folioServicio);
-    //                      })
-    //                      ->get();
-
-    //     return response()->json($data);
-    // }
-    public function getSolicitudes(Request $request)
-    {
-
-        return response()->json([
-            'filtro' => $request->all(),
-        ]);
-    }
-
-
-    public function buscar(Request $req)
-    {
-        $query = Solicitud::with([
-            'cliente' => function ($query) {
-                $query->select('Id_cliente', 'Nombres'); // Solo selecciona Id_cliente y Nombres
-            },
-            'cotizacion' => function ($query) {
-                $query->select('Id_cotizacion', 'Estado_cotizacion'); // Solo selecciona Id_cotizacion y Estado_cotizacion
-            },
-            'norma' => function ($query) {
-                $query->select('Id_norma', 'Clave_norma'); // Solo selecciona Id_norma y Clave_norma
-            },
-            'descarga' => function ($query) {
-                $query->select('Id_tipo', 'Descarga'); // Solo selecciona Id_tipo y Descarga
-            },
-            'UserC' => function ($query) {
-                $query->select('id', 'name'); // Solo selecciona id y name
-            },
-            'UserM' => function ($query) {
-                $query->select('id', 'name'); // Solo selecciona id y name
-            },
-
-
-        ])
-            ->when($req->nombre != 0 && $req->nombre != 5584, function ($query) use ($req) {
-                $query->where('Id_cliente', $req->nombre);
-            })
-            ->when($req->nombre == 5584, function ($query) use ($req) {
-                $query->limit(1000);
-            })
-            ->when($req->folio, function ($query) use ($req) {
-                $query->where(function ($query) use ($req) {
-                    $query->where('Folio', 'LIKE', "%$req->folio%")
-                        ->orWhere('Folio_servicio', 'LIKE', "%$req->folio%");
-                })
-                    ->where(function ($query) {
-                        $query->where('Folio', 'NOT LIKE', '%/%-%')
-                            ->orWhere('Folio_servicio', 'NOT LIKE', '%/%-%');
-                    });
-            })
-
-            ->when($req->norma != 0, function ($query) use ($req) {
-                $query->where('Id_norma', $req->norma);
-            })
-            ->whereNull('deleted_at')
-            ->orderBy('Id_cotizacion', 'DESC');
-
-        $model = $query->get();
-
-        return response()->json(['res' => $req->nombre, 'model' => $model]);
-    }
-
-=======
-    public function Solicitudes()
-    {
-        if (Auth::user()->role->id == 13) {
-            $model = Cotizacion::orderBy('Id_cotizacion', 'DESC')->where('Creado_por', Auth::user()->id)->take(1000)->get();
-        } else {
-            // $model = Cotizacion::orderBy('Id_cotizacion','DESC')->take(200)->get();
-            $model = Cotizacion::orderBy('Id_cotizacion', 'DESC')->take(1000)->get();
-        }
-        $norma = Norma::all();
-        $descarga = TipoDescarga::all();
-        $estado = CotizacionEstado::all();
-        $usuario = User::all();
-        $data = array(
-            'usuario' => $usuario,
-            'model' => $model,
-            'norma' => $norma,
-            'descarga' => $descarga,
-            'estado' => $estado,
-        );
-        return view('cotizacion.solicitud2', $data);
-
-        // return response()->json(['data' => $data]);
-    }
-    public function getSolicitudes(Request $res)
+  public function Solicitudes(){
+        return view('cotizacion.solicitud2');
+  }
+ public function GetSolicitudes(Request $request)
 {
-    $folioServicio = $res->filters['Folioservicio'] ?? null;
+    
+    $searchGlobal = $request->input('search.value');
+    $columns = $request->input('columns', []);
+    $canceladas = $request->input('canceladas');
 
-    $data = Cotizacion::where('Creado_por', Auth::user()->id)
-                     ->when($folioServicio, function ($query) use ($folioServicio) {
-                         return $query->where('Folio_servicio', $folioServicio);
-                     })
-                     ->get();
+    // Configuración base de la consulta
+$query = Cotizacion::with([
+        'cotizacion_estado:Id_estado,Estado',
+        'clavenorma:Id_norma,Clave_norma',
+        'descarga:Id_tipo,Descarga',
+        'creador:id,name',
+        'actualizado:id,name'
+    ])
+    ->when(Auth::user()->role->id == 13, function ($q) {
+        $q->where('Creado_por', Auth::user()->id);
+    })
+    ->select([
+        'Id_cotizacion',
+        'Estado_cotizacion',
+        'Folio_servicio',
+        'Folio',
+        'Fecha_muestreo',
+        'Nombre',
+        'Id_norma',
+        'Tipo_descarga',
+        'Creado_por',
+        'created_at',
+        'Cancelado',
+        'Actualizado_por',
+        'updated_at',
+    ])
+    ->orderBy('Id_cotizacion', 'desc');
 
-    return response()->json($data);
+
+    // Filtrar canceladas si corresponde
+    if ($canceladas === '1') {
+        $query->where('Cancelado', 1);
+    }
+
+    // Búsqueda global
+    if (!empty($searchGlobal)) {
+        $query->where(function ($q) use ($searchGlobal) {
+            $q->where('Nombre', 'like', "%$searchGlobal%")
+              ->orWhere('Folio', 'like', "%$searchGlobal%")
+              ->orWhere('Folio_servicio', 'like', "%$searchGlobal%");
+        });
+    }
+
+    // Búsqueda por columnas
+    $hayBusquedaColumnas = false;
+
+    foreach ($columns as $index => $col) {
+        $value = $col['search']['value'];
+        if (!empty($value)) {
+            $hayBusquedaColumnas = true;
+
+            switch ($index) {
+                case 0:
+                    $query->where('Id_cotizacion', 'like', "%$value%");
+                    break;
+                case 1:
+                    $query->whereHas('cotizacion_estado', function ($q) use ($value) {
+                        $q->where('Estado', 'like', "%$value%");
+                    });
+                    break;
+                case 2:
+                    $query->where('Folio_servicio', 'like', "%$value%");
+                    break;
+                case 3:
+                    $query->where('Folio', 'like', "%$value%");
+                    break;
+                case 4:
+                    $query->where('Fecha_muestreo', 'like', "%$value%");
+                    break;
+                case 5:
+                    $query->where('Nombre', 'like', "%$value%");
+                    break;
+                case 6:
+                    $query->whereHas('clavenorma', function ($q) use ($value) {
+                        $q->where('Clave_norma', 'like', "%$value%");
+                    });
+                    break;
+                case 7:
+                    $query->whereHas('descarga', function ($q) use ($value) {
+                        $q->where('Descarga', 'like', "%$value%");
+                    });
+                    break;
+                case 8:
+                    $query->whereHas('creador', function ($q) use ($value) {
+                        $q->where('name', 'like', "%$value%");
+                    });
+                    break;
+                case 9:
+                    $query->where('created_at', 'like', "%$value%");
+                    break;
+                case 10:
+                    $query->whereHas('actualizado', function ($q) use ($value) {
+                        $q->where('name', 'like', "%$value%");
+                    });
+                    break;
+                case 11:
+                    $query->where('updated_at', 'like', "%$value%");
+                    break;
+            }
+        }
+    }
+
+    // Ordenamiento dinámico
+    $orderColumnIndex = $request->input('order.0.column', 0);
+    $orderDirection = $request->input('order.0.dir', 'desc');
+    $orderColumnName = $columns[$orderColumnIndex]['data'];
+
+    // Permitir orden solo en columnas válidas
+    $sortableColumns = [
+        'Id_cotizacion', 'Folio_servicio', 'Folio', 'Fecha_muestreo',
+        'Nombre', 'created_at', 'updated_at'
+    ];
+
+    if (in_array($orderColumnName, $sortableColumns)) {
+        $query->orderBy($orderColumnName, $orderDirection);
+    } else {
+        $query->orderBy('Id_cotizacion', 'desc');
+    }
+
+    // Aplicar límite si no hay búsquedas activas ni canceladas
+    if (empty($searchGlobal) && !$hayBusquedaColumnas && $canceladas !== '1') {
+        $query->take(1000);
+    }
+
+    // Paginación
+    $perPage = intval($request->input('length', 10));
+    $start = intval($request->input('start', 0));
+    $page = ($start / $perPage) + 1;
+
+    $paginated = $query->paginate($perPage, ['*'], 'page', $page);
+
+    return response()->json([
+        'draw' => intval($request->input('draw')),
+        'recordsTotal' => $paginated->total(),
+        'recordsFiltered' => $paginated->total(),
+        'data' => $paginated->items(),
+    ]);
 }
 
+
+
+    public function verimagen(Request $res)
+    {
+        $foto = FotosRecepcionBlob::where('Id_solicitud', $res->id)->select('Foto')->first();
+
+        if ($foto && $foto->Foto) {
+            return response($foto->Foto)
+                ->header('Content-Type', 'image/webp'); // Ajusta el tipo MIME según corresponda
+        } else {
+            return response('Imagen no encontrada', 404);
+        }
+    }
+
     public function buscar(Request $req)
     {
         $query = Solicitud::with([
@@ -330,7 +319,6 @@ class SolicitudController extends Controller
         return response()->json(['res' => $req->nombre, 'model' => $model]);
     }
 
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
     public function create($idCot)
     {
@@ -736,6 +724,7 @@ class SolicitudController extends Controller
     //     );
     //     return response()->json($data);
     // }
+
     public function setSolicitud(Request $res)
     {
         $temp = strtotime($res->fechaMuestreo);
@@ -1255,32 +1244,64 @@ class SolicitudController extends Controller
             //Genera folio
             $idCot = $res->id;
 
-            $tempSol = Solicitud::where('Id_cotizacion', $idCot)->where('Padre', 1)->first();
-            $tempSol->Id_intermediario = $res->inter;
-            $tempSol->Id_cliente = $res->clientes;
-            $tempSol->Siralab = $siralab;
-            $tempSol->Id_sucursal = $res->sucursal;
-            $tempSol->Id_direccion = $res->direccionReporte;
-            $tempSol->Id_contacto = $res->contacto;
-            $tempSol->Atencion = $res->atencion;
-            $tempSol->Observacion = $res->observacion;
-            $tempSol->Id_servicio = $res->tipoServicio;
-            $tempSol->Id_descarga = $res->tipoDescarga;
-            $tempSol->Id_norma = $res->norma;
-            $tempSol->Id_subnorma = $res->subnorma;
-            $tempSol->Fecha_muestreo = $res->fechaMuestreo;
-            $tempSol->Id_muestreo = $res->frecuencia;
-            $tempSol->Num_tomas = $res->numTomas;
-            $tempSol->Id_muestra = $res->tipoMuestra;
-            $tempSol->Id_promedio = $res->promedio;
-            $tempSol->Id_reporte = $res->tipoReporte;
-            $tempSol->Id_reporte2 = $res->tipoReporte2;
-            $tempSol->Padre = 1;
-            $tempSol->Hijo = 0;
-            $tempSol->Id_user_c = Auth::user()->id;
-            $tempSol->Id_user_m = Auth::user()->id;
-            $tempSol->save();
+            $tempSol = Solicitud::where('Id_cotizacion', $idCot)->get();
 
+                if ($tempSol->Count() > 1 ) {
+                    $tempSol = Solicitud::where('Id_cotizacion', $idCot)->where('Padre', 1)->first();
+                    $tempSol->Id_intermediario = $res->inter;
+                    $tempSol->Id_cliente = $res->clientes;
+                    $tempSol->Siralab = $siralab;
+                    $tempSol->Id_sucursal = $res->sucursal;
+                    $tempSol->Id_direccion = $res->direccionReporte;
+                    $tempSol->Id_contacto = $res->contacto;
+                    $tempSol->Atencion = $res->atencion;
+                    $tempSol->Observacion = $res->observacion;
+                    $tempSol->Id_servicio = $res->tipoServicio;
+                    $tempSol->Id_descarga = $res->tipoDescarga;
+                    $tempSol->Id_norma = $res->norma;
+                    $tempSol->Id_subnorma = $res->subnorma;
+                    $tempSol->Fecha_muestreo = $res->fechaMuestreo;
+                    $tempSol->Id_muestreo = $res->frecuencia;
+                    $tempSol->Num_tomas = $res->numTomas;
+                    $tempSol->Id_muestra = $res->tipoMuestra;
+                    $tempSol->Id_promedio = $res->promedio;
+                    $tempSol->Id_reporte = $res->tipoReporte;
+                    $tempSol->Id_reporte2 = $res->tipoReporte2;
+                    $tempSol->Padre = 1;
+                    $tempSol->Hijo = 0;
+                    $tempSol->Id_user_c = Auth::user()->id;
+                    $tempSol->Id_user_m = Auth::user()->id;
+                    $tempSol->save();
+                }else{
+                    foreach ($tempSol as $item) {
+                        $item->Id_intermediario = $res->inter;
+                        $item->Id_cliente = $res->clientes;
+                        $item->Siralab = $siralab;
+                        $item->Id_sucursal = $res->sucursal;
+                        $item->Id_direccion = $res->direccionReporte;
+                        $item->Id_contacto = $res->contacto;
+                        $item->Atencion = $res->atencion;
+                        $item->Observacion = $res->observacion;
+                        $item->Id_servicio = $res->tipoServicio;
+                        $item->Id_descarga = $res->tipoDescarga;
+                        $item->Id_norma = $res->norma;
+                        $item->Id_subnorma = $res->subnorma;
+                        $item->Fecha_muestreo = $res->fechaMuestreo;
+                        $item->Id_muestreo = $res->frecuencia;
+                        $item->Num_tomas = $res->numTomas;
+                        $item->Id_muestra = $res->tipoMuestra;
+                        $item->Id_promedio = $res->promedio;
+                        $item->Id_reporte = $res->tipoReporte;
+                        $item->Id_reporte2 = $res->tipoReporte2;
+                        $item->Id_user_c = Auth::user()->id;
+                        $item->Id_user_m = Auth::user()->id;
+                        $item->save();
+                    }
+                }
+
+
+          
+            $tempSol = Solicitud::where('Id_cotizacion', $idCot)->where('Padre', 1)->first();
             $aux = SucursalCliente::where('Id_sucursal', $res->sucursal)->get();
             if ($aux->count()) {
                 $nombreCli = $aux[0]->Empresa;
@@ -1469,8 +1490,9 @@ class SolicitudController extends Controller
 
         return response()->json($data);
     }
-    public function editPuntoMuestreo(Request $res)
+    public function editPuntoMuestreo(Request $res)     
     {
+         
         $model = SolicitudPuntos::where('Id_punto', $res->id)->first();
         $model->Punto = $res->idPunto;
         $model->save();
@@ -1481,6 +1503,7 @@ class SolicitudController extends Controller
             $tempPunto->Punto = $res->idPunto;
             $tempPunto->save();
         }
+     
 
         $data = array(
             'model' => $model,
@@ -1510,11 +1533,7 @@ class SolicitudController extends Controller
             } else {
                 $extra = 1;
             }
-            // if($res->chParam[$i] == "true"){
-            //     $chParam = 1;
-            // }else{
-            //     $chParam = 0;
-            // }
+
             SolicitudParametro::create([
                 'Id_solicitud' => $tempSol->Id_solicitud,
                 'Id_subnorma' => $res->param[$i]["id"],
@@ -1623,6 +1642,7 @@ class SolicitudController extends Controller
         // Si todo sale bien, devolver el éxito
         return response()->json(['success' => true, 'message' => 'Orden creada correctamente']);
     }
+
     public function setGenFolioSol(Request $res)
     {
         $cotTemp = Solicitud::where('Id_cotizacion', $res->id)->where('Padre', 1)->get();
@@ -1633,6 +1653,7 @@ class SolicitudController extends Controller
                 $temp = strtotime($res->fecha);
                 $year = date("y", $temp);
                 $dayYear = date("z", $temp) + 1;
+
                 $solDay = Solicitud::where('Fecha_muestreo', $res->fecha)->where('Padre', 1)->where('Folio_servicio', '!=', '')->count();
 
                 $folio = $dayYear . "-" . ($aux + $solDay + 1) . "/" . $year;
@@ -1669,6 +1690,7 @@ class SolicitudController extends Controller
         $cotDup = $cotModel->replicate();
         $cotDup->Folio = "";
         $cotDup->Folio_servicio = "";
+        $cotDup->Cancelado = 0;
         $cotDup->save();
 
         $solDup = $solModel->replicate();
@@ -1701,7 +1723,7 @@ class SolicitudController extends Controller
         }
 
 
-        return redirect()->to('admin/cotizacion/solicitud');
+        return redirect()->to('admin/cotizacion/solicitud/Solicitudes');
     }
     public function addParametro(Request $res)
     {
@@ -2071,6 +2093,7 @@ class SolicitudController extends Controller
     //     );
     //     return response()->json($data);
     // }
+
     public function getClienteSol(Request $res)
     {
         $model = DB::table('viewclientegeneral')->where('Empresa', 'LIKE', '%' . $res->q . '%')->get();
@@ -2319,11 +2342,7 @@ class SolicitudController extends Controller
                 if ($codigoMuestra->count()) {
 
                     foreach ($solicitud as $item) {
-<<<<<<< HEAD
                         $temp = CodigoParametros::whereIn('Id_solicitud', $res->id)->update(['Cancelado' => 1]);
-=======
-                        $temp = CodigoParametros::whereIn('Id_solicitud',$res->id)->update(['Cancelado' => 1]);
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
                         if ($temp) {
                             $temp->Cancelado = 1;
@@ -2342,400 +2361,551 @@ class SolicitudController extends Controller
         );
         return response()->json($data);
     }
+    //NI TE ATREVAS A MIRARLOS SOFIA  *SOLO DESCOMENTAR CUANDO SE USEN *
+    // public function cancelarOrdenMasiva()
+    // {
+    //     $msg = 'Órdenes canceladas con éxito.';
+    //     $sw = true;
 
-    public function cancelarOrdenMasiva()
-    {
-        $msg = 'Órdenes canceladas con éxito.';
-        $sw = true;
+    //     $FOLSER = [];
 
-        $FOLSER = [
-            "115-1/23",
-            "146-100/23",
-            "143-9/23",
-            "123-24/23",
-            "161-101/23",
-            "161-101/23",
-            "172-100/23",
-            "185-101/23",
-            "170-12/23",
-            "170-26/23",
-            "213-108/23",
-            "213-103/23",
-            "213-105/23",
-        ];
+    //     $ids = Solicitud::where(function ($query) use ($FOLSER) {
+    //         foreach ($FOLSER as $folio) {
+    //             $query->orWhere('Folio_servicio', $folio);
+    //             for ($i = 1; $i <= 10; $i++) {
+    //                 $query->orWhere('Folio_servicio', $folio . '-' . $i);
+    //             }
+    //         }
+    //     })->pluck('Id_solicitud')->toArray();
+    //     $idsCot = Solicitud::where(function ($query) use ($FOLSER) {
+    //         foreach ($FOLSER as $folio) {
+    //             $query->orWhere('Folio_servicio', $folio);
+    //             for ($i = 1; $i <= 10; $i++) {
+    //                 $query->orWhere('Folio_servicio', $folio . '-' . $i);
+    //             }
+    //         }
+    //     })->pluck('Id_cotizacion', 'Folio_servicio')->toArray();
 
-        $ids = Solicitud::where(function ($query) use ($FOLSER) {
-            foreach ($FOLSER as $folio) {
-                $query->orWhere('Folio_servicio', $folio);
-                for ($i = 1; $i <= 10; $i++) {
-                    $query->orWhere('Folio_servicio', $folio . '-' . $i);
-                }
-            }
-        })->pluck('Id_solicitud')->toArray();
-        $idsCot = Solicitud::where(function ($query) use ($FOLSER) {
-            foreach ($FOLSER as $folio) {
-                $query->orWhere('Folio_servicio', $folio);
-                for ($i = 1; $i <= 10; $i++) {
-                    $query->orWhere('Folio_servicio', $folio . '-' . $i);
-                }
-            }
-        })->pluck('Id_cotizacion', 'Folio_servicio')->toArray();
-
-        // dd("cotizacion", $idsCot);
-        // dd("solicitud id ",$ids);
+    //     // dd("cotizacion", $idsCot);
+    //     // dd("solicitud id ",$ids);
 
 
-        if (empty($ids)) {
-            return response()->json([
-                'sw' => false,
-                'msg' => 'No se encontraron solicitudes para cancelar.',
-            ]);
-        }
+    //     if (empty($ids)) {
+    //         return response()->json([
+    //             'sw' => false,
+    //             'msg' => 'No se encontraron solicitudes para cancelar.',
+    //         ]);
+    //     }
 
-        SolicitudesGeneradas::whereIn('Id_solicitud', $ids)->update([
-            'Cancelado' => 1,
-        ]);
+    //     SolicitudesGeneradas::whereIn('Id_solicitud', $ids)->update([
+    //         'Cancelado' => 1,
+    //     ]);
 
-        ProcesoAnalisis::whereIn('Id_solicitud', $ids)->update(['Cancelado' => 1]);
-        Cotizacion::whereIn('Id_cotizacion', $idsCot)->update(['Cancelado' => 1]);
-        Solicitud::whereIn('Id_solicitud', $ids)->update([
-            'Cancelado' => 1,
-            'Obs_cancelado' => 'Cancelacion Masiva'
-        ]);
+    //     ProcesoAnalisis::whereIn('Id_solicitud', $ids)->update(['Cancelado' => 1]);
+    //     Cotizacion::whereIn('Id_cotizacion', $idsCot)->update(['Cancelado' => 1]);
+    //     Solicitud::whereIn('Id_solicitud', $ids)->update([
+    //         'Cancelado' => 1,
+    //         'Obs_cancelado' => 'Cancelacion Masiva2'
+    //     ]);
 
-        DB::table('codigo_parametro')
-            ->whereIn('Id_solicitud', $ids)
-            ->update(['Cancelado' => 1]);
+    //     DB::table('codigo_parametro')
+    //         ->whereIn('Id_solicitud', $ids)
+    //         ->update(['Cancelado' => 1]);
 
-        // Obtener Id_codigo para actualizar en los modelos
-        $codigos = DB::table('codigo_parametro')
-            ->whereIn('Id_solicitud', $ids)
-            ->pluck('Id_codigo')
-            ->toArray();
+    //     // Obtener Id_codigo para actualizar en los modelos
+    //     $codigos = DB::table('codigo_parametro')
+    //         ->whereIn('Id_solicitud', $ids)
+    //         ->pluck('Id_codigo')
+    //         ->toArray();
 
-        if (empty($codigos)) {
-            return response()->json([
-                'sw' => false,
-                'msg' => 'NO hay muestras en lotes.',
-            ]);
-        }
+    //     if (empty($codigos)) {
+    //         return response()->json([
+    //             'sw' => false,
+    //             'msg' => 'NO hay muestras en lotes.',
+    //         ]);
+    //     }
 
-        // Modelos  LOTE a actualizar
-        $modelos = [
-            LoteDetalleEspectro::class,
-            LoteDetalleGA::class,
-            LoteDetalleSolidos::class,
-            LoteDetalleDqo::class,
-            LoteDetalleCloro::class,
-            LoteDetalleNitrogeno::class,
-            LoteDetalleAlcalinidad::class,
-            LoteDetalleDirectos::class,
-            LoteDetalleDureza::class,
-            LoteDetallePotable::class,
-            LoteDetalleColiformes::class,
-            LoteDetalleEnterococos::class,
-            LoteDetalleDbo::class,
-            LoteDetalleDboIno::class,
-            LoteDetalleHH::class,
-            LoteDetalleEcoli::class,
-        ];
+    //     // Modelos  LOTE a actualizar
+    //     $modelos = [
+    //         LoteDetalleEspectro::class,
+    //         LoteDetalleGA::class,
+    //         LoteDetalleSolidos::class,
+    //         LoteDetalleDqo::class,
+    //         LoteDetalleCloro::class,
+    //         LoteDetalleNitrogeno::class,
+    //         LoteDetalleAlcalinidad::class,
+    //         LoteDetalleDirectos::class,
+    //         LoteDetalleDureza::class,
+    //         LoteDetallePotable::class,
+    //         LoteDetalleColiformes::class,
+    //         LoteDetalleEnterococos::class,
+    //         LoteDetalleDbo::class,
+    //         LoteDetalleDboIno::class,
+    //         LoteDetalleHH::class,
+    //         LoteDetalleEcoli::class,
+    //     ];
 
-        // Actualizar cada modelo con los Id_codigo obtenidos
-        if (!empty($codigos)) {
-            foreach ($modelos as $modelo) {
-                $modelo::whereIn('Id_codigo', $codigos)->update([
-                    'Liberado' => 1,
-                    'Cancelado' => 1
-                ]);
-            }
-        }
-
-
-        $model = LoteDetalleDirectos::whereIn('Id_codigo', $codigos)
-            ->where('Id_control', '!=', 1)
-            ->get();
-
-        if ($model->count() > 0) {
-            return response()->json([
-                'sw' => false,
-                'msg' => 'Hay muestras con controles de calidad, por favor verifique las muestras antes de cancelar.',
-                'codigos_con_control' => $model->pluck('Id_codigo') // Extrae solo los Id_codigo afectados
-            ]);
-        }
+    //     // Actualizar cada modelo con los Id_codigo obtenidos
+    //     if (!empty($codigos)) {
+    //         foreach ($modelos as $modelo) {
+    //             $modelo::whereIn('Id_codigo', $codigos)->update([
+    //                 'Liberado' => 1,
+    //                 'Cancelado' => 1
+    //             ]);
+    //         }
+    //     }
 
 
-        // Actualizar LoteAnalisis
-        $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
+    //     $model = LoteDetalleDirectos::whereIn('Id_codigo', $codigos)
+    //         ->where('Id_control', '!=', 1)
+    //         ->get();
 
-        if ($lote) {
-            $aux = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleGA::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleGA::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleSolidos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleSolidos::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleDqo::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleDqo::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleCloro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleCloro::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleAlcalinidad::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleAlcalinidad::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleDureza::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleDureza::where('Id_lote', $lote->Id_lote)->get();
-
-            $aux = LoteDetallePotable::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetallePotable::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleColiformes::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleColiformes::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleEnterococos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleEnterococos::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleDbo::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleDbo::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleDboIno::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleDboIno::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleHH::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleHH::where('Id_lote', $lote->Id_lote)->get();
-            $aux = LoteDetalleEcoli::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-            $aux2 = LoteDetalleEcoli::where('Id_lote', $lote->Id_lote)->get();
-
-            $lote->Asignado = $aux2->count();
-            $lote->Liberado = $aux->count();
-            $lote->save();
-        }
-
-        return response()->json([
-            'sw' => $sw,
-            'msg' => $msg,
-        ]);
-    }
-    public function UpdateAnalista()
-    {
-
-        $operaciones = array(
-
-            '246-19/24',
-            '214-13/24',
-            '183-19/24',
-            '155-14/24',
-            '123-15/24',
-            '92-21/24',
-            '61-10/24',
+    //     if ($model->count() > 0) {
+    //         return response()->json([
+    //             'sw' => false,
+    //             'msg' => 'Hay muestras con controles de calidad, por favor verifique las muestras antes de cancelar.',
+    //             'codigos_con_control' => $model->pluck('Id_codigo') // Extrae solo los Id_codigo afectados
+    //         ]);
+    //     }
 
 
-        );
+    //     // Actualizar LoteAnalisis
+    //     $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
 
-        $folioServicios = [];
-        foreach ($operaciones as $ope) {
-            for ($i = 1; $i <= 10; $i++) {
-                $folioServicios[] = $ope . '-' . $i;
-            }
-        }
+    //     if ($lote) {
+    //         $aux = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleGA::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleGA::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleSolidos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleSolidos::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleDqo::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleDqo::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleCloro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleCloro::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleAlcalinidad::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleAlcalinidad::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleDureza::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleDureza::where('Id_lote', $lote->Id_lote)->get();
 
-        $ids = CodigoParametros::where(function ($query) use ($operaciones, $folioServicios) {
-            if (!empty($operaciones)) {
-                $query->whereIn('Codigo', $operaciones);
-            }
-            if (!empty($folioServicios)) {
-                $query->orWhereIn('Codigo', $folioServicios);
-            }
-        })
-            ->where('Id_parametro', 87)
-            ->pluck('Id_codigo')
-            ->toArray();
+    //         $aux = LoteDetallePotable::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetallePotable::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleColiformes::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleColiformes::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleEnterococos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleEnterococos::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleDbo::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleDbo::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleDboIno::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleDboIno::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleHH::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleHH::where('Id_lote', $lote->Id_lote)->get();
+    //         $aux = LoteDetalleEcoli::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //         $aux2 = LoteDetalleEcoli::where('Id_lote', $lote->Id_lote)->get();
 
-        if (!empty($ids)) {
+    //         $lote->Asignado = $aux2->count();
+    //         $lote->Liberado = $aux->count();
+    //         $lote->save();
+    //     }
 
-            $idsNoEliminar = LoteDetalleEspectro::whereIn('Id_codigo', $ids)
-                ->where('Id_control', '!=', 1)
-                ->pluck('Id_codigo')
-                ->toArray();
+    //     return response()->json([
+    //         'sw' => $sw,
+    //         'msg' => $msg,
+    //     ]);
+    // }
+    // public function UpdateAnalista()
+    // {
 
+    //     $operaciones = array(
 
-            LoteDetalleEspectro::whereIn('Id_codigo', $ids)
-                ->update(['Analizo' => 52]);
-            CodigoParametros::whereIn('Id_codigo', $ids)
-                ->update(['Analizo' => 52]);
-
-            // dump($idsNoEliminar); 
-        }
-
-        // Obtener modelos relacionados
-        $model = LoteDetalleEspectro::whereIn('Id_codigo', $ids)->get();
-
-        if ($model->isNotEmpty()) {
-            $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
-
-            if ($lote) {
-                $aux = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-                $aux2 = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->get();
-
-                $lote->Asignado = $aux2->count();
-                $lote->Liberado = $aux->count();
-                $lote->save();
-            }
-        }
-    }
-    public function DesliberarMasivo()
-    {
-
-        $operaciones = array(
-            '35-14/25',
-            '2-2/25',
-            '337-12/24',
-            '309-4/24',
-            '276-18/24',
-            '246-19/24',
-            '214-13/24',
-            '183-19/24',
-            '155-14/24',
-            '123-15/24',
-            '92-21/24',
-            '61-10/24',
-            '32-11/24',
-            '2-8/24'
-        );
-
-        $folioServicios = [];
-        foreach ($operaciones as $ope) {
-            for ($i = 1; $i <= 10; $i++) {
-                $folioServicios[] = $ope . '-' . $i;
-            }
-        }
-
-        $ids = CodigoParametros::where(function ($query) use ($operaciones, $folioServicios) {
-            if (!empty($operaciones)) {
-                $query->whereIn('Codigo', $operaciones);
-            }
-            if (!empty($folioServicios)) {
-                $query->orWhereIn('Codigo', $folioServicios);
-            }
-        })
-            ->where('Id_parametro', 87)
-            ->pluck('Id_codigo')
-            ->toArray();
-
-        if (!empty($ids)) {
-
-            $idsNoEliminar = LoteDetalleEspectro::whereIn('Id_codigo', $ids)
-                ->where('Id_control', '!=', 1)
-                ->pluck('Id_codigo')
-                ->toArray();
+    //         '246-19/24',
+    //         '214-13/24',
+    //         '183-19/24',
+    //         '155-14/24',
+    //         '123-15/24',
+    //         '92-21/24',
+    //         '61-10/24',
 
 
-            LoteDetalleEspectro::whereIn('Id_codigo', $ids)
-                ->where('Id_control', 1)
-                ->update(['Liberado' => 0]);
+    //     );
 
-            // dump($idsNoEliminar); 
-        }
+    //     $folioServicios = [];
+    //     foreach ($operaciones as $ope) {
+    //         for ($i = 1; $i <= 10; $i++) {
+    //             $folioServicios[] = $ope . '-' . $i;
+    //         }
+    //     }
 
-        // Obtener modelos relacionados
-        $model = LoteDetalleEspectro::whereIn('Id_codigo', $ids)->get();
+    //     $ids = CodigoParametros::where(function ($query) use ($operaciones, $folioServicios) {
+    //         if (!empty($operaciones)) {
+    //             $query->whereIn('Codigo', $operaciones);
+    //         }
+    //         if (!empty($folioServicios)) {
+    //             $query->orWhereIn('Codigo', $folioServicios);
+    //         }
+    //     })
+    //         ->where('Id_parametro', 87)
+    //         ->pluck('Id_codigo')
+    //         ->toArray();
 
-        if ($model->isNotEmpty()) {
-            $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
+    //     if (!empty($ids)) {
 
-            if ($lote) {
-                $aux = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-                $aux2 = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->get();
+    //         $idsNoEliminar = LoteDetalleEspectro::whereIn('Id_codigo', $ids)
+    //             ->where('Id_control', '!=', 1)
+    //             ->pluck('Id_codigo')
+    //             ->toArray();
 
-                $lote->Asignado = $aux2->count();
-                $lote->Liberado = $aux->count();
-                $lote->save();
-            }
-        }
-    }
-    public function RegresarMasivoCuadrodeAsignacion()
-    {
-        $operaciones = [
-<<<<<<< HEAD
-            '61-2/25-1',
-            '61-2/25-2',
-            '61-2/25-3',
-            '61-5/25-1',
-            '61-5/25-2',
-            '61-5/25-3'
-=======
-            '44-6/25-1',
-            '44-4/25-1',
-            '45-9/25-1'
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-        ];
 
-        $folioServicios = [];
-        foreach ($operaciones as $ope) {
-            for ($i = 1; $i <= 10; $i++) {
-                $folioServicios[] = $ope . '-' . $i;
-            }
-        }
+    //         LoteDetalleEspectro::whereIn('Id_codigo', $ids)
+    //             ->update(['Analizo' => 52]);
+    //         CodigoParametros::whereIn('Id_codigo', $ids)
+    //             ->update(['Analizo' => 52]);
 
-        $ids = CodigoParametros::where(function ($query) use ($operaciones, $folioServicios) {
-            $query->whereIn('Codigo', $operaciones)
-                ->orWhereIn('Codigo', $folioServicios);
-        })
-<<<<<<< HEAD
-            ->where('Id_parametro', 67)
-=======
-            ->where('Id_parametro', 10)
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-            ->pluck('Id_codigo')
-            ->toArray();
-        //    dd($ids);
-        if (!empty($ids)) {
-            CodigoParametros::whereIn('Id_codigo', $ids)
-                ->update([
-                    'Asignado' => 0,
-                    'Analizo' => 1,
-                    'Liberado' => 0,
-                    'Id_lote' => null
-                ]);
+    //         // dump($idsNoEliminar); 
+    //     }
 
-<<<<<<< HEAD
-            $idsNoEliminar = LoteDetalleDirectos::whereIn('Id_codigo', $ids)
-=======
-            $idsNoEliminar = LoteDetalleNitrogeno::whereIn('Id_codigo', $ids)
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-                ->where('Id_control', '!=', 1)
-                ->pluck('Id_codigo')
-                ->toArray();
+    //     // Obtener modelos relacionados
+    //     $model = LoteDetalleEspectro::whereIn('Id_codigo', $ids)->get();
 
-<<<<<<< HEAD
-            LoteDetalleDirectos::whereIn('Id_codigo', $ids)
-=======
-            LoteDetalleNitrogeno::whereIn('Id_codigo', $ids)
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-                ->where('Id_control', 1)
-                ->forceDelete();
+    //     if ($model->isNotEmpty()) {
+    //         $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
 
-            dd($idsNoEliminar);
-        }
+    //         if ($lote) {
+    //             $aux = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //             $aux2 = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->get();
 
-<<<<<<< HEAD
-        $model = LoteDetalleDirectos::whereIn('Id_codigo', $ids)->get();
-=======
-        $model = LoteDetalleNitrogeno::whereIn('Id_codigo', $ids)->get();
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
+    //             $lote->Asignado = $aux2->count();
+    //             $lote->Liberado = $aux->count();
+    //             $lote->save();
+    //         }
+    //     }
+    // }
+    // public function DesliberarMasivo()
+    // {
 
-        if ($model->isNotEmpty()) {
-            $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
+    //     $operaciones = array(
+    //         '35-14/25',
+    //         '2-2/25',
+    //         '337-12/24',
+    //         '309-4/24',
+    //         '276-18/24',
+    //         '246-19/24',
+    //         '214-13/24',
+    //         '183-19/24',
+    //         '155-14/24',
+    //         '123-15/24',
+    //         '92-21/24',
+    //         '61-10/24',
+    //         '32-11/24',
+    //         '2-8/24'
+    //     );
 
-            if ($lote) {
-<<<<<<< HEAD
-                $aux = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-                $aux2 = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->get();
-=======
-                $aux = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
-                $aux2 = LoteDetalleNitrogeno::where('Id_lote', $lote->Id_lote)->get();
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
+    //     $folioServicios = [];
+    //     foreach ($operaciones as $ope) {
+    //         for ($i = 1; $i <= 10; $i++) {
+    //             $folioServicios[] = $ope . '-' . $i;
+    //         }
+    //     }
 
-                $lote->Asignado = $aux2->count();
-                $lote->Liberado = $aux->count();
-                $lote->save();
-            }
-        }
-    }
+    //     $ids = CodigoParametros::where(function ($query) use ($operaciones, $folioServicios) {
+    //         if (!empty($operaciones)) {
+    //             $query->whereIn('Codigo', $operaciones);
+    //         }
+    //         if (!empty($folioServicios)) {
+    //             $query->orWhereIn('Codigo', $folioServicios);
+    //         }
+    //     })
+    //         ->where('Id_parametro', 87)
+    //         ->pluck('Id_codigo')
+    //         ->toArray();
+
+    //     if (!empty($ids)) {
+
+    //         $idsNoEliminar = LoteDetalleEspectro::whereIn('Id_codigo', $ids)
+    //             ->where('Id_control', '!=', 1)
+    //             ->pluck('Id_codigo')
+    //             ->toArray();
+
+
+    //         LoteDetalleEspectro::whereIn('Id_codigo', $ids)
+    //             ->where('Id_control', 1)
+    //             ->update(['Liberado' => 0]);
+
+    //         // dump($idsNoEliminar); 
+    //     }
+
+    //     // Obtener modelos relacionados
+    //     $model = LoteDetalleEspectro::whereIn('Id_codigo', $ids)->get();
+
+    //     if ($model->isNotEmpty()) {
+    //         $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
+
+    //         if ($lote) {
+    //             $aux = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //             $aux2 = LoteDetalleEspectro::where('Id_lote', $lote->Id_lote)->get();
+
+    //             $lote->Asignado = $aux2->count();
+    //             $lote->Liberado = $aux->count();
+    //             $lote->save();
+    //         }
+    //     }
+    // }
+    // public function RegresarMasivoCuadrodeAsignacion()
+    // {
+    //     $operaciones = [
+    //         "117-2/25",
+    //         "118-29/25",
+    //         "122-20/25",
+    //         "119-35/25",
+    //         "120-29/25",
+    //         "122-25/25",
+    //         "122-24/25",
+    //         "122-36/25",
+    //         "126-22/25",
+    //         "122-22/25",
+    //         "121-2/25",
+    //         "122-23/25",
+    //         "120-27/25",
+    //         "126-13/25",
+    //         "127-5/25",
+    //         "127-4/25",
+    //         "127-28/25",
+    //         "127-32/25",
+    //         "127-33/25",
+    //         "127-36/25",
+    //         "127-42/25"
+    //     ];
+
+
+    //     $folioServicios = [];
+    //     foreach ($operaciones as $ope) {
+    //         for ($i = 1; $i <= 10; $i++) {
+    //             $folioServicios[] = $ope . '-' . $i;
+    //         }
+    //     }
+
+    //     $ids = CodigoParametros::where(function ($query) use ($operaciones, $folioServicios) {
+    //         $query->whereIn('Codigo', $operaciones)
+    //             ->orWhereIn('Codigo', $folioServicios);
+    //     })
+    //         ->where('Id_parametro', 67)
+    //         ->pluck('Id_codigo')
+    //         ->toArray();
+    //     //    dd($ids);
+    //     if (!empty($ids)) {
+    //         CodigoParametros::whereIn('Id_codigo', $ids)
+    //             ->update([
+    //                 'Asignado' => 0,
+    //                 'Analizo' => 1,
+    //                 'Liberado' => 0,
+    //                 'Id_lote' => null
+    //             ]);
+
+    //         $idsNoEliminar = LoteDetalleDirectos::whereIn('Id_codigo', $ids)
+    //             ->where('Id_control', '!=', 1)
+    //             ->pluck('Id_codigo')
+    //             ->toArray();
+
+    //         LoteDetalleDirectos::whereIn('Id_codigo', $ids)
+    //             ->where('Id_control', 1)
+    //             ->forceDelete();
+
+    //         dd($idsNoEliminar);
+    //     }
+
+    //     $model = LoteDetalleDirectos::whereIn('Id_codigo', $ids)->get();
+
+    //     if ($model->isNotEmpty()) {
+    //         $lote = LoteAnalisis::where('Id_lote', $model->first()->Id_lote ?? null)->first();
+
+    //         if ($lote) {
+    //             $aux = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->where('Liberado', 1)->get();
+    //             $aux2 = LoteDetalleDirectos::where('Id_lote', $lote->Id_lote)->get();
+
+    //             $lote->Asignado = $aux2->count();
+    //             $lote->Liberado = $aux->count();
+    //             $lote->save();
+    //         }
+    //     }
+    // }
+    // public function migrarFotos()
+    // {
+    //     $fotosTexto = FotoRecepcion::all();  
+        
+
+    //     $contador = 0;
+
+    //     foreach ($fotosTexto as $fotoTexto) {
+    //         $base64 = trim($fotoTexto->Foto);
+
+
+    //         if (str_contains($base64, ',')) {
+    //             $base64 = explode(',', $base64, 2)[1];
+    //         }
+
+    //         $fotoBinaria = base64_decode($base64, true);
+    //         if ($fotoBinaria === false) {
+
+    //             continue;
+    //         }
+
+    //         FotosRecepcionBlob::create([
+    //             'Id_solicitud' => $fotoTexto->Id_solicitud,
+    //             'Foto' => $fotoBinaria,
+    //             'Id_user_c' => 100,
+    //             'Id_user_m' => 100,
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
+
+    //         $contador++;
+    //     }
+
+    //     return response()->json([
+    //         'mensaje' => 'Migración de fotos completada.',
+    //         'registros_migrados' => $contador
+    //     ]);
+    // }
+        
+    // public function extraerTablaCotizacion()
+    // {
+    //     $rutaArchivo = storage_path('app/SPLIT/archivo.sql');
+    //     $rutaDestino = storage_path('app/SPLIT/cotizacion.sql');
+
+    //     if (!file_exists($rutaArchivo) || !is_readable($rutaArchivo)) {
+    //         echo "No se pudo leer el archivo";
+    //         return;
+    //     }
+
+    //     $handle = fopen($rutaArchivo, 'rb');
+    //     if (!$handle) {
+    //         echo "No se pudo abrir el archivo";
+    //         return;
+    //     }
+
+    //     $capturando = false;
+    //     $buffer = '';
+
+    //     while (!feof($handle)) {
+    //         $linea = fgets($handle);
+
+    //         if ($linea === false) {
+    //             break;
+    //         }
+
+
+    //         if (strpos($linea, '-- Table structure for table `cotizacion`') !== false) {
+    //             $capturando = true;
+    //             $buffer = $linea; 
+    //             continue;
+    //         }
+
+    //         if ($capturando) {
+    //             $buffer .= $linea;
+
+
+    //             if (preg_match('/\/\*\!40000 ALTER TABLE `cotizacion` ENABLE KEYS \*\//', $linea)) {
+
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     fclose($handle);
+
+    //     if ($capturando && $buffer) {
+    //         file_put_contents($rutaDestino, $buffer);
+    //         echo "Tabla 'cotizacion' extraída correctamente en: $rutaDestino\n";
+    //     } else {
+    //         echo "No se encontró la definición completa de la tabla 'cotizacion' en el archivo.\n";
+    //     }
+    // }
+    // public function arreglolotes()
+    // {
+    //     $modelos = [
+    //         LoteDetalleEspectro::class,
+    //         LoteDetalleGA::class,
+    //         LoteDetalleSolidos::class,
+    //         LoteDetalleDqo::class,
+    //         LoteDetalleCloro::class,
+    //         LoteDetalleNitrogeno::class,
+    //         LoteDetalleAlcalinidad::class,
+    //         LoteDetalleDirectos::class,
+    //         LoteDetalleDirectosA::class,
+    //         LoteDetalleDureza::class,
+    //         LoteDetallePotable::class,
+    //         LoteDetalleColiformes::class,
+    //         LoteDetalleEnterococos::class,
+    //         LoteDetalleDbo::class,
+    //         LoteDetalleDboIno::class,
+    //         LoteDetalleHH::class,
+    //         LoteDetalleEcoli::class,
+    //         LoteDetalle::class,
+    //     ];
+    
+    //     // Trae todos los lotes de la tabla principal
+    //     $lotes = LoteAnalisis::all();
+    
+    //     foreach ($lotes as $lote) {
+    //         $idLote = $lote->Id_lote;
+    
+    //         $asignados = 0;
+    //         $liberados = 0;
+    
+    //         foreach ($modelos as $modelo) {
+    //             // total registros del lote en ese modelo
+    //             $asignados += $modelo::where('Id_lote', $idLote)->count();
+    
+    //             // solo liberados
+    //             $liberados += $modelo::where('Id_lote', $idLote)
+    //                 ->where('Liberado', 1)
+    //                 ->count();
+    //         }
+    
+    //        // actualizar el registro de LoteAnalisis
+    //        $lote->Asignado = $asignados;
+    //        $lote->Liberado = $liberados;
+    //        $lote->save();
+    //     }
+    
+    //     dd("Conteo terminado y actualizado correctamente.");
+    // }
+
+    //FUNCION UTIL PERO INCOMPLETA PARA REJECUTAR RESULTADO POR PARAMETROS Y FECHAS
+    // public function RejecutarParametro()
+    // {
+    //     // 1. Obtener los Id_lote acorde a las fechas o en este caso año 2025
+    //     $lotes = LoteAnalisis::where('Id_tecnica', 115)
+    //         ->where('Fecha', 'LIKE', '%2025%')
+    //         ->pluck('Id_lote');
+    
+    //     // 2. Obtengo los  detalles
+    //     $detalles = LoteDetalleDirectos::whereIn('Id_lote', $lotes)->where('Id_control', 1)->where('Id_parametro', 115)->select('Id_codigo', 'Resultado', 'Aux')->get();
+    
+    //     // 3. Indexar por Id_codigo para acceso rápido
+    //     $detallesIndex = $detalles->keyBy('Id_codigo');
+    
+    //     // 4. Obteniene los codigos relacionados
+    //     $cod = CodigoParametros::whereIn('Id_codigo', $detallesIndex->keys())
+    //         ->get();
+    
+    //     // 5. Inicializo la varauble Contador de actualizaciones
+    //     $countUpdated = 0;
+    
+    //     // 6. Actualiza los registros
+    //     foreach ($cod as $c) {
+    //         if (isset($detallesIndex[$c->Id_codigo])) {
+    //             $c->Resultado  = $detallesIndex[$c->Id_codigo]->Resultado;
+    //             $c->Resultado2 = $detallesIndex[$c->Id_codigo]->Aux;
+    //             $c->save();      
+    //             $countUpdated++; 
+    //         }
+    //     }
+    //     return "Registros actualizados: {$countUpdated}";
+    // }
 }
+    

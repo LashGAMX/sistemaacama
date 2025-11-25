@@ -813,7 +813,7 @@ function buscar() {
                                 tab += '<tr>';
                             tab += '<td>' + item.Id_std + '</td>';
                             tab += '<td>' + item.STD + '</td>';
-                            tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont -1].Concentracion + '"></td>';
+                            tab += '<td><input  id="curCon' + cont + '" value="' + parseFloat(response.concentracion[cont -1].Concentracion) + '"></td>';
                             tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
                             tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
                             tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';

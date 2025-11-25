@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\kpi;
+namespace App\Http\Controllers\Kpi;
 
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;

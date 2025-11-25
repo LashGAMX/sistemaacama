@@ -31,6 +31,7 @@ class LoteDetalleDirectos extends Model
         'Ph',
         'Factor_correcion',
         'Resultado',
+        'Aux',
         'Observacion',
         'Liberado',
         'Cancelado',

@@ -12,8 +12,7 @@
 </div>
 
 <h6 class="page-title">
-  <i class="voyager-person"></i>
-  Detalle Cliente
+  <i class="voyager-person"></i>Detalle Cliente
 </h6>
 <div class="row">
   <div class="col-md-5">
@@ -21,12 +20,10 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <h5 class="card-title"><strong>Status: </strong>@if ($clienteGen->deleted_at != 'null') Activo @else
-              Inactivo @endif</h5>
-
+            <h5 class="card-title"><strong>Status: </strong>@if ($clienteGen->deleted_at != 'null') Activo @else Inactivo @endif</h5>
           </div>
           <div class="col-md-6">
-            <h5 class="card-title"><strong>Id clienteGen: </strong><span
+            <h5  class="card-title"><strong>Id clienteGen: </strong><span
                 id="idCliente">{{$clienteGen->Id_cliente}}</span></h5>
           </div>
           <div class="col-md-6">
@@ -42,14 +39,10 @@
               class="voyager-plus"></i> Crear</button>
 
           <div class="col-md-12">
-
             <div id="SucurcalCliente">
               <table id="TableCliente"></table>
             </div>
           </div>
-
-
-
           <!-- Modal Sucursal  cliente-->
           <div class="modal fade" id="ModalSucursal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
             aria-hidden="true">
@@ -90,15 +83,13 @@
                         <div class="col-md-6">
                           <label for="id_siralab">Tipo</label>
                           <select class="form-control" id="tipo" name="tipo" required>
-                            <option value="1">Siralab</option>
+                            <option value="0">Sin Seleccionar</option>
+                            <option value="1">Reportes</option>
                             <option value="2">Siralab / Reporte</option>
-                            <option value="0">No Seleccionado</option>
                           </select>
                         </div>
                       </div>
                     </div>
-
-
                   </form>
 
                 </div>
@@ -148,7 +139,7 @@
 
   </div>
   <div class="col-mb-7">
-    <div class="card" id="generalidades" style="visibility: hidden;">
+    <div class="card" id="generalidades">
       <div class="card-body ">
         <!--eliminar succes cuando finalicen las pruebas-->
         <div class="row">
@@ -178,7 +169,7 @@
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link " data-toggle="tab" href="#menu0">Reporte</a>
-            </li>
+            </li>   
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#menu1">Siralab</a>
             </li>
@@ -187,8 +178,7 @@
             </li>
           </ul>
           <!-- Modal General -->
-          <div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-            aria-hidden="true">
+          <div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -391,10 +381,13 @@
 
                                 <!-- Fila 1: Título y Calle -->
                                 <div class="form-row mb-3">
-                                  <div class="col-md-6">
-                                    <label for="NoTitulo" class="form-label">Título</label>
-                                    <input type="text" class="form-control" id="NoTitulo">
-                                  </div>
+                                  <div class="col-md-10">
+                                       <label for="NoTitulo" class="form-label">Título</label>
+                                       <select class="form-control" id="NoTitulo">
+                                           <!-- Opciones se cargarán aquí dinámicamente -->
+                                       </select>
+                                   </div>
+
                                   <div class="col-md-6">
                                     <label for="calle" class="form-label">Calle</label>
                                     <input type="text" class="form-control" id="calle">
@@ -432,7 +425,6 @@
                                     <input type="text" class="form-control" id="ciudad">
                                   </div>
                                 </div>
-
                                 <!-- Fila 4: Localidad -->
                                 <div class="form-row mb-3">
                                   <div class="col-md-12">
@@ -445,7 +437,6 @@
                             <div class="modal-footer">
                               <!-- Botón de acción -->
                               <button type="button" class="btn btn-success" id="btnModalCrear">Crear</button>
-
                               <button type="button" class="btn btn-primary" id="btnModal">Guardar Cambios</button>
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             </div>
@@ -468,10 +459,160 @@
                   </div>
                   <div id="collapse3" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      <button class="btn btn-success" data-toggle="collapse" data-target="#6">Crear</button>
-                      <div id="6" class="collapse">
-                        aqui va mi formulario
+                      <!-- Botón para abrir el modal -->
+                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalMuestreo"
+                        id="btnCrearMuestreo">
+                        Crear Punto de Muestreo
+                      </button>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="modalMuestreo" tabindex="-1" role="dialog"
+                        aria-labelledby="modalMuestreoLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                          <div class="modal-content p-3">
+                            <div class="modal-header">
+                              <h5 id="modalTitle">Modal</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+
+                            <form id="formMuestreo">
+                              <div class="modal-body">
+                                <!-- 1. Activo + Título -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-2 d-flex align-items-center">
+                                    <input type="text" id="idPunto" hidden >
+                                    <input type="text" id="idTituloConcecion" hidden >
+
+                                    <input type="checkbox" class="form-check-input mr-2" id="activo" checked>
+                                    <label for="activo">Activo</label>
+                                  </div>
+                                  <div class="form-group col-md-10">
+                                    <label for="titulo">Título</label>
+                                    <select class="form-control" id="titulopuntosir">
+                                    </select>
+                                  </div>
+
+                                </div>
+
+                                <!-- 2. Punto muestreo, Anexo, Cuerpo -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-4">
+                                    <label for="punto">Punto muestreo</label>
+                                    <input type="text" class="form-control" id="PuntoSirLaB" placeholder="Punto muestreo">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label for="anexo">Anexo</label>
+                                    <input type="text" class="form-control" id="anexo" placeholder="Anexo">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label for="cuerpo">Cuerpo</label>
+                                    <select class="form-control" id="cuerpo">
+                                      <option selected>Sin seleccionar</option>
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <!-- 3. Uso de agua y Categoría -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                    <label for="usoAgua">Uso de agua</label>
+                                    <select class="form-control" id="usoAgua">
+                                      <option selected>Sin seleccionar</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <label for="categoria">Categoría</label>
+                                    <select class="form-control" id="categoria">
+                                      <option selected>Sin seleccionar</option>
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <!-- 4. Latitud (título) -->
+                                <div class="form-group">
+                                  <label>Latitud</label>
+                                </div>
+
+                                <!-- 5. Latitud: grados, minutos, segundos -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="Grados" placeholder="Grados">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="Minutos" placeholder="Minutos">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="Segundos" placeholder="Segundos">
+                                  </div>
+                                </div>
+
+                                <!-- 6. Longitud (título) -->
+                                <div class="form-group">
+                                  <label>Longitud</label>
+                                </div> 
+                              <!-- 7. Longitud: grados, minutos, segundos -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-4">
+                                    <input type="text" class="form-control"  id="Grados2" placeholder="Grados2">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="Minutos2" placeholder="Minutos2">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" id="Segundos2" placeholder="Segundos2">
+                                  </div>
+                                </div>
+
+                                <!-- 8. Hora, Fecha inicio, Fecha término -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-4">
+                                    <label for="hora">Hora</label>
+                                    <input type="time" class="form-control" id="hora">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label for="fechaInicio">Fecha inicio</label>
+                                    <input type="date" class="form-control" id="fechaInicio">
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label for="fechaTermino">Fecha término</label>
+                                    <input type="date" class="form-control" id="fechaTermino">
+                                  </div>
+                                </div>
+
+                                <!-- 9. Tres checkboxes -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-2">
+                                    <input type="checkbox" class="form-check-input" id="siralab" checked>
+                                    <label for="siralab" class="form-check-label">Siralab</label>
+                                  </div>
+                                  <div class="form-group col-md-2">
+                                    <input type="checkbox" class="form-check-input" id="pozos" checked>
+                                    <label for="pozos" class="form-check-label">Pozos</label>
+                                  </div>
+
+                                </div>
+
+                                <!-- 10. Textarea -->
+                                <div class="form-group">
+                                  <br>
+                                  <label for="observaciones">Observaciones</label>
+                                  <textarea class="form-control" id="observaciones" rows="3"
+                                    placeholder="Escribe tus observaciones aquí..."></textarea>
+                                </div>
+                              </div>
+
+                              <!-- Footer -->
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" id="modalpunto">Guardar</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
                       </div>
+
                       <div class="container">
                         <table id="TablePuntoSiralab" class="display"></table>
                       </div>
@@ -481,6 +622,10 @@
               </div>
             </div>
             <div id="menu2" class="container tab-pane fade"><br>
+                   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#DatosModal"
+                        id="btnCrearDatos">
+                        Crear Datos Generales
+                      </button>
               <table id="Tablageneral" class="table table-striped">
                 <!-- La tabla se llenará con datos aquí -->
               </table>
@@ -490,7 +635,7 @@
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="DatosModalLabel">Formulario de Datos</h5>
+                      <h5 class="modal-title" id="DatosModalLabel">Crear Nuevos Datos</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -500,7 +645,7 @@
                         <div class="row">
                           <!-- Primera columna -->
                           <div class="col-md-6">
-                          
+
                             <div class="form-group">
                               <label for="nombre">Nombre</label>
                               <input type="text" class="form-control" id="nombre" placeholder="Nombre">
@@ -535,7 +680,9 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <button type="button" class="btn btn-primary" id="GDGen">Guardar cambios</button>
+                      <button type="button" class="btn btn-primary" id="GDGen">Guardar Cambios</button>
+                      <button type="button" class="btn btn-success" id="GDGen12" style="display:none">Guardar</button>
+
                     </div>
                   </div>
                 </div>
@@ -548,6 +695,7 @@
       </div>
 
     </div>
+    
   </div>
 
   @endsection
@@ -555,5 +703,5 @@
   @section('javascript')
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-  <script src="{{ asset('/public/js/cliente/cliente_detalle.js')}}?v=0.0.1"></script>
+  <script src="{{ asset('/public/js/cliente/cliente_detalle.js')}}?v=2.0.2"></script>
   @stop

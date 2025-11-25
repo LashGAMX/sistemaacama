@@ -51,7 +51,7 @@
                 <td>
 
                     <button type="button" class="btn btn-warning"
-                        wire:click="setData('{{$item->Id_norma}}','{{$item->Norma}}','{{$item->Clave_norma}}','{{$item->Id_descarga}}','{{$item->Inicio_validez}}','{{$item->Fin_validez}}','{{$item->deleted_at}}')"
+                        wire:click="setData('{{$item->Id_norma}}','{{$item->Norma}}','{{$item->Clave_norma}}','{{$item->Id_descarga}}','{{$item->Inicio_validez}}','{{$item->Fin_validez}}','{{$item->deleted_at}}','{{$item->Espesificacion_ali}}','{{$item->Id_tipo}}')"
                         data-toggle="modal" data-target="#modalNorma"><i class="voyager-edit"></i> <span hidden-sm
                             hidden-xs>editar</span> </button>
                     <button class="btn btn-primary btn-sm" wire:click="showDetils('{{$item->Id_norma}}')"><i
@@ -112,6 +112,7 @@
                                         @error('norma') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="clave">Clave de norma</label>
@@ -130,6 +131,26 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="esp">Especificación Para Alimentos</label>
+                                        <input type="text" wire:model='esp' class="form-control"
+                                            placeholder="Introduzca la espeficicacion">
+                                        @error('esp') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-2">
+                                    <div class="form-group">
+                                        <label for="opcion">Opción</label>
+                                        <select class="form-control" wire:model="tipo">
+                                            <option default  value="1">Agua</option>
+                                            <option value="2">Alimentos</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="inicio">Inicio validez</label>

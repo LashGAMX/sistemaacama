@@ -236,6 +236,14 @@
                                 <option value="51">VICTOR CAPORAL</option>
                             </select>
                         </div>
+                         <div class="form-group">
+                            <label for="Users">Usuario Cliente</label>
+                            <input type="text" class="form-control" id="Users" placeholder="Usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="Pass">Contraseña Cliente</label>
+                            <input type="text" class="form-control" id="Pass" placeholder="Contraseña">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -246,7 +254,7 @@
         </div>
     </div>
 </div>
-<div id="clientesGen"></div>
+<div id="clientesGen" ></div>
 
 @endsection
 

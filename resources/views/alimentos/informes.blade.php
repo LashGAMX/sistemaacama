@@ -9,17 +9,28 @@
   </h6>
   @stop
 
+<style>
+#informeTable tbody tr {
+    cursor: pointer;
+    color: #000;
+}
+
+#informeTable tbody tr.selected {
+    background-color: #6BBFA7; /* azul cielo */
+    color: #000; /* puedes mantener texto negro o blanco según tu preferencia */
+}
+</style>
 
   <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="form-group">
                         <input type="month" class="form-control form-control-sm">
                     </div>
-                </div>
-                <div class="col-md-3">
+                </div> -->
+                <!-- <div class="col-md-3">
                     <div class="form-group">
                         <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Buscar</button>
                     </div>
@@ -30,32 +41,28 @@
                         <input type="checkbox" id="firmaAut">
                         
                     </div>
-                </div>
+                </div> -->
                 <div class="col-md-12">
                     <div class="row">
                         <!-- Primera sección de tablas -->
                         <div class="col-md-4">
-                            <div style="width: 100%; overflow:scroll">
-                                <table id="tableServicios" class="table" style="width: 100%; font-size: 10px;">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Folio</th>
-                                            <th>Cliente</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($model as $item)
-                                        <tr onclick="getPuntoMuestro({{$item->Id_solicitud}})">
-                                            <td>{{$item->Id_solicitud}}</td>
-                                            <td>{{$item->Folio}}</td>
-                                            <td>{{$item->Empresa}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                          <div style="width: 100%; overflow-x: auto; max-height: 400px; overflow-y: auto;">
+                            <table id="informeTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr class="filters">
+                                        <th><input type="text" class="form-control" style="width:10px;" placeholder="Id"></th>
+                                        <th><input type="text" class="form-control form-control-sm" placeholder="Folio"></th>
+                                        <th><input type="text" class="form-control form-control-sm" placeholder="Empresa"></th>
+                                        <th><input type="text" class="form-control form-control-sm" placeholder="Norma"></th>
+                                        <th><input type="text" class="form-control form-control-sm" placeholder="Servicio"></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                          </div>
                         </div>
+
                         <!-- Segunda seccion de tablas -->
                         <div class="col-md-8">
                             <div class="row">
@@ -120,5 +127,5 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/alimentos/informes.js')}}?v=0.0.1"></script>
+    <script src="{{asset('/public/js/alimentos/informes.js')}}?v=1.0.1"></script>
 @stop

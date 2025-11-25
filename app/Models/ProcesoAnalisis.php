@@ -25,12 +25,14 @@ class ProcesoAnalisis extends Model
         'Impresion_informe',
         'Entrega_resultado',
         'Historial_resultado',
-        'Reporte',
+        'Reporte', 
         'ClienteG',
         'Hora_recepcion',
         'Hora_entrada',
         'Emision_informe',
         'Firma_aut',
+        'Firma_superviso',
+        'Firma_autorizo',
         'Liberado',
         'Cancelado',
         'Obs_proceso',
@@ -41,4 +43,23 @@ class ProcesoAnalisis extends Model
         'Id_user_c',
         'Id_user_m'
     ];
+ public function User()
+    {
+      return $this->belongsTo(User::class,"Id_user_c","id");
+
+    }
+    public function solicitud()
+    {
+        return $this->belongsTo(Solicitud::class, 'Id_solicitud', 'Id_solicitud');
+    }
+    public function puntos()
+    {
+        return $this->belongsTo(SolicitudPuntos::class, 'Id_solicitud', 'Id_solicitud');
+    }
+     public function phmuestra()
+    {
+        return $this->belongsTo(PhMuestra::class, 'Id_solicitud', 'Id_solicitud');
+    }
+  
+    
 }

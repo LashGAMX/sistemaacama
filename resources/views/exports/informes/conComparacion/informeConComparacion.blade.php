@@ -213,7 +213,7 @@
                         <tr>
                             <td class="nombreHeader nom fontSize11 justificadorIzq" height="57">
                                 OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE 25.97°C, LA MUESTRA PRESENTA OLOR Y COLOR TURBIO
-                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 / NMX-AA-014-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                                 {{@$obsCampo}}
                             </td>
                         </tr>                

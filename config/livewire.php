@@ -55,11 +55,7 @@ return [
     |
     */
 
-<<<<<<< HEAD
-    'asset_url' => "http://sistemasofia.ddns.net:86/sofia/public",  
-=======
-    'asset_url' => "http://sistemasofia.ddns.net:86/sofiadev/public",  
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
+    'asset_url' => "http://sistemasofia.ddns.net:86/sofia/public", 
 
     /*
     |--------------------------------------------------------------------------

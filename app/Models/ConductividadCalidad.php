@@ -17,6 +17,8 @@ class ConductividadCalidad extends Model
         'Conductividad',
         'Marca',
         'Lote',
+        'Inicio_rango',
+        'Fin_rango',
         'Inicio_caducidad',
         'Fin_caducidad',
         'Id_user_c',

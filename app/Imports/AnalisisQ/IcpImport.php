@@ -17,6 +17,10 @@ class IcpImport implements ToCollection
 {
     public function collection(Collection $rows) 
     {
+                set_time_limit(0);
+        ini_set('memory_limit', '4000M');
+
+
         $id = TempIcp::orderBy('Id','DESC')->first();
         $model = DB::table('lote_detalle_icp')->where('Id_lote',$id->Temp)->delete();
         foreach ($rows as $row) {
@@ -57,6 +61,11 @@ class IcpImport implements ToCollection
             }
         }
     }
+        public function chunkSize(): int
+    {
+        return 500; // Ajusta según el rendimiento del servidor
+    }
+
     // public function collection(Collection $rows) 
     // {
     //     $id = TempIcp::orderBy('Id','DESC')->first();

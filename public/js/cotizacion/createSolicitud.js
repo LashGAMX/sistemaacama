@@ -468,7 +468,7 @@ function setSolicitud()
             console.log("Resiviendo repuesta");
           console.log(response);
           alert("Orden generada")
-          window.location = base_url + "/admin/cotizacion/solicitud"
+          window.location = base_url + "/admin/cotizacion/solicitud/Solicitudes"
         }
         
 

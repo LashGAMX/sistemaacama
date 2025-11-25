@@ -21,18 +21,26 @@ Route::get('/', function () {
  return redirect()->to('admin'); 
 });
 Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
+Route::get('/getRespaldoObservacion',[HomeController::class,'getRespaldoObservacion']);
+Route::get('/getRegresarMuestraParametro',[HomeController::class,'getRegresarMuestraParametro']);
+
+Route::get('/pruebaFuncion',function(){
+    echo Auth::user()->role_id;
+});
 
 
 Route::group(['prefix' => 'admin'], function () { 
     Voyager::routes(); 
-}); 
+});  
 Route::group(['prefix' => 'clientes'], function () {
     
     // Route::get('cadena-custodia-interna/{id}',[ClientesAcamaController::class,'cadenacustodiainterna']);
     // Route::get('informe-de-resultados-acama/{id}',[ClientesAcamaController::class,'informederesultados']);
-    Route::get('cadena-custodia-interna/{id}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
-    Route::get('informe-de-resultados-acama/{id}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
-    Route::get('informe-de-resultados-acama-mensual/{id}/{id2}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
+     Route::get('cadena-custodia-interna/{id}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
+    Route::get('informe-de-resultados-acama/{id}', [ClientesAcamaController::class, 'getDatosInforme'])
+    ->where('id', '.+');
+    // Route::get('informe-de-resultados-acama/{id}',function(){echo "<br><center><h1>Prueba</h1></center>";});
+    // Route::get('informe-de-resultados-acama-mensual/{id}/{id2}',function(){echo "<br><center><h1>Deshabilitado temporalmente por mantenimiento</h1></center>";});
     Route::get('seguimiento-servicio', [ClientesAcamaController::class, 'seguimientoServicio']);
     Route::get('validacion-informe-diario', [ClientesAcamaController::class, 'validacionInformeDiario']);
     Route::post('getFolioServicio', [ClientesAcamaController::class, 'getFolioServicio']);

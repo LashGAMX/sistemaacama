@@ -734,6 +734,7 @@ class CotizacionController extends Controller
         $model->Iva = $res->iva;
         $model->Sub_total = $res->subTotal;
         $model->Costo_total = $res->precioTotal;
+        $model->Cotizacion_user = $res->userCot;
         $model->save();
         
         $data = array(

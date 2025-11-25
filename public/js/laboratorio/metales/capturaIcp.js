@@ -23,6 +23,33 @@ $(document).ready(function () {
       
       
 });
+function setUpdateRestultado(id) {
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/metales/setUpdateRestultado",
+        data: {
+            id: id,
+            cps: $("#cps" + id).val(),
+            res: $("#res" + id).val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                alert(response.message); // Ej: "Resultado actualizado correctamente"
+                console.log(response.data); // Puedes mostrar los datos devueltos
+            } else {
+                alert("Error: " + response.message);
+                console.warn(response.errors); // Si tienes detalles
+            }
+        },
+        error: function (xhr, status, error) {
+            alert("Error al procesar la solicitud");
+            console.error(xhr.responseText); // Para depurar en consola
+        }
+    });
+}
+
 function setPlantilla(){
     $.ajax({
         type: "POST",
@@ -237,6 +264,7 @@ function getLoteCaptura() {
           tab += '          <th>Resultado</th>';
           tab += '          <th>F/H Análisis</th>';
           tab += '          <th>Tipo</th>';
+          tab += '          <th>Opc</th>';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
@@ -272,15 +300,15 @@ function getLoteCaptura() {
             }
               tab += '  <td>'+item.Id_codigo+'</td>';
               tab += '  <td>'+item.Parametro+'</td>';
-              tab += '  <td>'+item.Cps+'</td>';
-              tab += '  <td>'+item.Resultado+'</td>';
+              tab += '  <td><input id="cps'+item.Id_detalle+'" style="width:50%;" value="'+item.Cps+'"></td>';
+              tab += '  <td><input id="res'+item.Id_detalle+'" style="width:50%;" value="'+item.Resultado+'"></td>';
               tab += '  <td>'+item.Fecha+'</td>';
               if (item.Id_control == 1) {
                 tab += '  <td class="bg-success">Resultado</td>';
               } else {
                 tab += '  <td>Datos Equipo</td>';                
               }
-
+              tab += '<td><button type="button" onclick="setUpdateRestultado('+item.Id_detalle+')" class="btn-success"><i class="fas fa-check"></button></td>';
               tab += '</tr>';
        
           }); 

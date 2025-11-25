@@ -58,6 +58,7 @@ class Cotizacion extends Model
         'Id_reporte',
         'Tipo',
         'Cancelado',
+        'Cotizacion_user',
         'Fecha_impresion',
     ];
  
@@ -84,6 +85,10 @@ class Cotizacion extends Model
     public function creador()
     {
         return $this->belongsTo(User::class, 'Creado_por', 'id');
+    }
+    public function actualizado()
+    {
+        return $this->belongsTo(User::class, 'Actualizado_por', 'id');
     }
     
 

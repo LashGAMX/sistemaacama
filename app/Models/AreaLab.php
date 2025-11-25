@@ -22,4 +22,9 @@ class AreaLab extends Model
         'Id_user_c',
         'Id_user_m'
     ];
+    public function User()
+    {
+      return $this->belongsTo(Users::class,"Id_responsable","id");
+
+    }
 }

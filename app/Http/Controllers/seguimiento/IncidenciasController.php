@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\seguimiento;
+namespace App\Http\Controllers\Seguimiento;
 
 use App\Http\Controllers\Controller;
 use App\Models\Incidencias;

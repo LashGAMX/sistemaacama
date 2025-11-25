@@ -22,6 +22,8 @@ class Normas extends Component
     public $clave;
     public $inicio;
     public $fin;
+    public $esp;
+    public $tipo;
 
     public $alert =  false;
     
@@ -70,6 +72,8 @@ class Normas extends Component
         $model->Id_descarga = $this->descarga;
         $model->Inicio_validez = $this->inicio;
         $model->Fin_validez = $this->fin;
+        $model->Espesificacion_ali = $this->esp;
+        $model->Id_tipo = $this->tipo;
         $model->save();
         if($this->status != 1) 
         {
@@ -84,7 +88,7 @@ class Normas extends Component
         $this->clean();
         $this->sw = false;
     }
-    public function setData($idNorma,$norma,$clave,$descarga,$inicio,$fin,$status)
+    public function setData($idNorma,$norma,$clave,$descarga,$inicio,$fin,$status,$esp,$tipo)
     {
         $this->idNorma = $idNorma;
         $this->norma = $norma;
@@ -100,6 +104,8 @@ class Normas extends Component
         }
         $this->sw = true;
         $this->alert = false;
+        $this->esp=$esp;
+        $this->tipo=$tipo;
     }
     public function showDetils($id)
     {

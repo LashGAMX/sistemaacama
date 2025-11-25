@@ -3,6 +3,11 @@ var dataModel;
 var name;
 var idPunto;
 var detPa;
+
+var resLiberado = 0;
+var idCod = idCodigo;
+var name = "";
+
 $(document).on("change", ".sugeridoCheckbox", function () {
     var Id_codigo = $(this).data("id");
     var sugerido_sup = this.checked ? 1 : 0;
@@ -42,6 +47,7 @@ $(document).ready(function () {
         scrollCollapse: true,
         paging: false,
     });
+       
     $("#btnCadena").click(function () {
         window.open(base_url + "/admin/informes/cadena/pdf/" + idPunto);
     });
@@ -58,6 +64,8 @@ $(document).ready(function () {
             tablePunto.$("tr.selected").removeClass("selected");
             $(this).addClass("selected");
             let dato = $(this).find("td:first").html();
+            let dato2 = $(this).find("td:eq(2)").html();
+            idmuestra=dato2;
             idPunto = dato;
             getParametros();
             getFotos();
@@ -83,13 +91,17 @@ $(document).ready(function () {
         },
     });
     $("#ckLiberado").click(function () {
+        alert("No disponibles para alimento por el momento");
         setLiberar();
+        
     });
     $("#ckSupervisado").click(function () {
+        alert("No disponibles para alimento por el momento");
         setSupervicion();
     });
-    $("#ckHistorial").click(function () {
-        var historialValor = $(this).is(":checked") ? 1 : 0; //verifica si esta activado o desactivado
+    $("#ckHistorial").click(function () {      
+        alert("No disponibles para alimento por el momento");
+        var historialValor = $(this).is(":checked") ? 1 : 0; 
 
         setHistorial(historialValor);
     });
@@ -97,6 +109,7 @@ $(document).ready(function () {
         liberarResultado();
     });
 });
+
 function getFotos() {
     let divfotos = document.getElementById("fotos");
     $.ajax({
@@ -137,7 +150,7 @@ function modalImagenMuestra(id) {
 function setEmision() {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/supervicion/cadena/setEmision",
+        url: base_url + "/admin/alimentos/setEmision",
         data: {
             idSol: $("#idSol").val(),
             fecha: $("#fechaEmision").val(),
@@ -150,230 +163,159 @@ function setEmision() {
         },
     });
 }
-function setSupervicion() {
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/supervicion/cadena/setSupervicion",
-        data: {
-            idSol: $("#idSol").val(),
-            std: $("#ckSupervisado").prop("checked"),
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            console.log(response);
-            alert(response.msg);
-        },
-    });
-}
-function setLiberar() {
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/supervicion/cadena/setLiberar",
-        data: {
-            idSol: $("#idSol").val(),
-            std: $("#ckLiberado").prop("checked"),
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            alert(response.msg);
-        },
-    });
-}
-function setHistorial(historialValor) {
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/supervicion/cadena/setHistorial",
-        data: {
-            idSol: $("#idSol").val(),
-            historial: historialValor,
+// function setSupervicion() {
+//     $.ajax({
+//         type: "POST",
+//         url: base_url + "/admin/supervicion/cadena/setSupervicion",
+//         data: {
+//             idSol: $("#idSol").val(),
+//             std: $("#ckSupervisado").prop("checked"),
+//             _token: $('input[name="_token"]').val(),
+//         },
+//         dataType: "json",
+//         async: false,
+//         success: function (response) {
+//             console.log(response);
+//             alert(response.msg);
+//         },
+//     });
+// }
+// function setLiberar() {
+//     $.ajax({
+//         type: "POST",
+//         url: base_url + "/admin/supervicion/cadena/setLiberar",
+//         data: {
+//             idSol: $("#idSol").val(),
+//             std: $("#ckLiberado").prop("checked"),
+//             _token: $('input[name="_token"]').val(),
+//         },
+//         dataType: "json",
+//         async: false,
+//         success: function (response) {
+//             alert(response.msg);
+//         },
+//     });
+// }
+// function setHistorial(historialValor) {
+//     $.ajax({
+//         type: "POST",
+//         url: base_url + "/admin/supervicion/cadena/setHistorial",
+//         data: {
+//             idSol: $("#idSol").val(),
+//             historial: historialValor,
 
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            if (response.sw == true) {
-                swal("Registro!", "Proceso por historial", "success");
+//             _token: $('input[name="_token"]').val(),
+//         },
+//         dataType: "json",
+//         async: false,
+//         success: function (response) {
+//             if (response.sw == true) {
+//                 swal("Registro!", "Proceso por historial", "success");
 
-                $("#tableParametros tbody tr").each(function () {
-                    $(this).find("td:eq(5)").text(historialValor);
-                });
-            } else {
-                swal("Registro!", "Proceso por historial cancelado", "success");
-            }
-        },
-    });
-}
+//                 $("#tableParametros tbody tr").each(function () {
+//                     $(this).find("td:eq(5)").text(historialValor);
+//                 });
+//             } else {
+//                 swal("Registro!", "Proceso por historial cancelado", "success");
+//             }
+//         },
+//     });
+// }
 
 function getParametros() {
-    console.log("Este es el Id_SOL: " + idPunto);
     $.ajax({
         type: "POST",
         url: base_url + "/admin/alimentos/getParametroCadena",
         data: {
+            idmuestra: idmuestra,
             idPunto: idPunto,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
-
         success: function (response) {
-            console.log(response);
-            let tab = '<table id="tableParametros" class="table">';
-            tab += '<thead class="thead-dark">';
-            tab += "<tr>";
-            tab += "<th>Id</th>";
-            tab += "<th>Parametro</th>";
-            tab += "<th>Tipo formula</th>";
-            tab += '<th style="width:50px">Ejec.</th>';
-            tab += '<th style="width:50px">Res.</th>';
-            tab += "<th>his</th>";
-            // tab += "<th>Limite</th>";
-            // tab += "<th>%</th>";
-            tab += "</tr>";
-            tab += "</thead>";
-            tab += "<tbody>";
+            let tab = `
+                <table id="tableParametros" class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Parametro</th>
+                        <th>Tipo formula</th>
+                        <th style="width:50px">Ejec.</th>
+                        <th style="width:50px">Res.</th>
+                        <th>his</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
 
-            let countDanger = 0; // Contador para parámetros fuera de rango
-            let cont = 0;
-            $.each(response.model, function (key, item) {
-                let color = "";
-                let AP = "";
+            let countDanger = 0;
 
-                if (item.Resultado2 != null) {
-                    color = "success";
-                } else {
-                    color = "warning";
-                }
+            // Función para determinar color de fila
+            function getColorResultado2(item) {
+                if (item.Resultado2 !== null) return "success";
+                return "warning";
+            }
 
-                switch (parseInt(item.Id_parametro)) {
-                    case 14: //Ph
-                    case 100:
-                    case 26: // Gasto
-                    case 13: // GA
-                    case 12: //Coliformes
-                    case 137:
-                    case 51:
-                    case 134:
-                    case 132:
-                    case 67: //conductividad
-                    case 2: //Materia Floatante
-                    case 97: //Températura
-                    case 100:
-                    case 5:
-                    case 71:
-                    case 35:
-                    case 253:
-                    case 361:
-                        if (item.Liberado != 1) {
-                            color = "danger";
-                        } else {
-                            color = "success";
-                        }
-                        break;
-                    default:
-                        break;
-                }
+            // Función para determinar color AP
+            function getColorAP(item) {
+                return item.Cadena == 0 ? "primary" : "";
+            }
 
-                if (item.Cadena == 0) {
-                    AP = "primary";
-                } else {
-                    AP = "";
-                }
+            // Función para determinar color Limite (LOL)
+            function getColorLimite(item) {
+                if (!item.Limite || item.Limite === "N/A" || item.Resultado2 == null) return "success";
 
-                let LOL = "";
+                const resultado2 = parseFloat(item.Resultado2);
+                if (item.Limite.includes("-")) {
+                    const [minStr, maxStr] = item.Limite.split("-");
+                    const min = parseFloat(minStr);
+                    const max = parseFloat(maxStr);
 
-                if (
-                    item.Limite == "N/A" ||
-                    item.Limite == null ||
-                    item.Resultado2 == null
-                ) {
-                    LOL = "success";
-                } else if (item.Limite.includes("-")) {
-                    var limites = item.Limite.split("-");
-                    var limiteMin = parseFloat(limites[0]);
-                    var limiteMax = parseFloat(limites[1]);
-
-                    var resultado2 = parseFloat(item.Resultado2);
-                    if (item.resultado2 < item.Limite) {
-                        LOL = "success";
-                    }
-                    if (
-                        !isNaN(resultado2) &&
-                        resultado2 >= limiteMin &&
-                        resultado2 <= limiteMax
-                    ) {
-                        LOL = "success";
-                    } else {
-                        LOL = "danger";
-                        countDanger++;
-                    }
-                } else if (
-                    parseFloat(item.Resultado2) == parseFloat(item.Limite)
-                ) {
-                    LOL = "success";
-                } else if (
-                    parseFloat(item.Resultado2) < parseFloat(item.Limite)
-                ) {
-                    LOL = "success";
-                } else if (
-                    parseFloat(item.Resultado2) > parseFloat(item.Limite)
-                ) {
-                    LOL = "danger";
+                    if (!isNaN(resultado2) && resultado2 >= min && resultado2 <= max) return "success";
                     countDanger++;
-                } else {
-                    LOL = "success";
+                    return "danger";
                 }
 
-                tab += "<tr>";
-                tab += "<td>" + item.Id_codigo + "</td>";
-                tab +=
-                    '<td class="bg-' +
-                    color +
-                    '">(' +
-                    item.Id_parametro +
-                    ") " +
-                    item.Parametro +
-                    "</td>";
-                tab +=
-                    '<td class="bg-' + AP + '">' + item.Tipo_formula + "</td>";
-                tab += '<td class="bg-' + AP + '">' + item.Resultado + "</td>";
-                tab += '<td class="bg-' + AP + '">' + item.Resultado2 + "</td>";
-                tab +=
-                    '<td><button class="btn-warning" onclick="getHistorial(' +
-                    item.Id_codigo +
-                    ')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-info"></i></button></td>';
-                // tab += '<td class="bg-' + LOL + '">' + item.Limite + "</td>";
-                // tab += '<td class="bg-'+response.porcentajeCom[cont]+'">' + response.porcentaje[cont] + '</td>';
-                tab += "</tr>";
-                cont++;
+                const limiteNum = parseFloat(item.Limite);
+                if (isNaN(resultado2) || isNaN(limiteNum)) return "success";
+
+                if (resultado2 <= limiteNum) return "success";
+
+                countDanger++;
+                return "danger";
+            }
+
+            $.each(response.model, function (key, item) {
+                // Colores
+                let color = getColorResultado2(item);
+                let AP = getColorAP(item);
+                let LOL = getColorLimite(item);
+
+                // Condiciones especiales para algunos Id_parametro
+                const paramsDanger = [14,100,26,13,12,137,51,134,132,67,2,97,5,71,35,253,361];
+                if (paramsDanger.includes(parseInt(item.Id_parametro))) {
+                    color = (item.Liberado != 1) ? "danger" : "success";
+                }
+
+                tab += `<tr data-id_codigo="${item.Id_codigo}" data-id_parametro="${item.Id_parametro}">
+                    <td>${item.Id_codigo}</td>
+                    <td class="bg-${color}">(${item.Id_parametro}) ${item.Parametro}</td>
+                    <td class="bg-${AP}">${item.Tipo_formula}</td>
+                    <td class="bg-${AP}">${item.Resultado}</td>
+                    <td class="bg-${AP}">${item.Resultado2}</td>
+                    <td>
+                        <button class="btn-warning" onclick="getHistorial(${item.Id_codigo})" data-toggle="modal" data-target="#modalHistorial">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </td>
+                </tr>`;
             });
 
-            tab += "</tbody>";
-            tab += "</table>";
+            tab += "</tbody></table>";
 
             $("#divTableParametros").html(tab);
 
-            // const mensaje = $("#mensaje");
-
-            // if (countDanger == 0) {
-            //     mensaje.text("No Hay Parametros Fuera de Rango");
-            //     mensaje.css("background-color", "green");
-            // } else if (countDanger > 0) {
-            //     mensaje.text("Parametros Fuera de Rango:  ");
-            //     mensaje.css("background-color", "red");
-
-            //     const span = $("<span>")
-            //         .addClass("badge rounded-pill")
-            //         .css("background-color", "rgb(3, 196, 245)");
-            //     span.text(" " + countDanger);
-
-            //     mensaje.append(span);
-            // }
-
+            // Inicializar DataTable
             let tableParametro = $("#tableParametros").DataTable({
                 ordering: false,
                 language: {
@@ -386,27 +328,41 @@ function getParametros() {
                 scrollCollapse: true,
                 paging: false,
             });
+
+            // Evento click único en tbody tr
             $("#tableParametros tbody").on("click", "tr", function () {
                 if ($(this).hasClass("selected")) {
                     $(this).removeClass("selected");
                 } else {
                     tableParametro.$("tr.selected").removeClass("selected");
                     $(this).addClass("selected");
-                    getDetalleAnalisis(idCodigo);
-                    console.log("ID codigo: " + idCodigo);
+
+                    const idCodigo = $(this).data("id_codigo");
+                    const idParametro = $(this).data("id_parametro");
+
+                    getDetalleAnalisis(idCodigo, idParametro);
+                    //console.log("ID codigo:", idCodigo, "ID parametro:", idParametro);
                 }
             });
-            $("#tableParametros tr").on("click", function () {
-                let dato = $(this).find("td:first").html();
-                idCodigo = dato;
-            });
-        },
 
+            // Aquí podrías mostrar mensaje si quieres
+            /*
+            const mensaje = $("#mensaje");
+            if (countDanger == 0) {
+                mensaje.text("No Hay Parametros Fuera de Rango").css("background-color", "green");
+            } else {
+                mensaje.text("Parametros Fuera de Rango: ").css("background-color", "red");
+                const span = $("<span>").addClass("badge rounded-pill").css("background-color", "rgb(3, 196, 245)").text(" " + countDanger);
+                mensaje.append(span);
+            }
+            */
+        },
         error: function (xhr, status, error) {
             console.error("Error en la solicitud AJAX:", status, error);
         },
     });
 }
+
 
 function regresarMuestra() {
     $.ajax({
@@ -421,7 +377,7 @@ function regresarMuestra() {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response);
+           // console.log(response);
             alert("Muestra regresada");
 
             var table = $("#tableParametros").DataTable();
@@ -442,10 +398,11 @@ function regresarMuestra() {
         },
     });
 }
-function reasignarMuestra() {
+function reasignarMuestra2() {
+   
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/alimentos/reasignarMuestra",
+        url: base_url + "/admin/alimentos/reasignarMuestra2",
         data: {
             idSol: $("#idSol").val(),
             idCodigo: idCod,
@@ -494,10 +451,9 @@ function desactivarMuestra() {
     });
 }
 
-var resLiberado = 0;
-var idCod = idCodigo;
-var name = "";
-function getDetalleAnalisis(idCodigo) {
+
+function getDetalleAnalisis(idCodigo,Id_parametro) {
+  
     let tabla = document.getElementById("divTabDescripcion");
     let tab = "";
     let aux = 0;
@@ -512,6 +468,7 @@ function getDetalleAnalisis(idCodigo) {
         data: {
             idSol: $("#idSol").val(),
             idCodigo: idCodigo,
+            Id_parametro: Id_parametro,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -521,7 +478,7 @@ function getDetalleAnalisis(idCodigo) {
             dataModel = response.model;
 
             idCod = idCodigo;
-            console.log(parseInt(response.paraModel.Id_parametro));
+            //console.log(parseInt(response.paraModel.Id_parametro));
             switch (parseInt(response.paraModel.Id_parametro)) {
                 default:
                     tab += '<table id="tableResultado" class="table table-sm">';

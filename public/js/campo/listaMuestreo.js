@@ -81,6 +81,7 @@ function buscar(){
             table += '            <th>Fecha muestro</th>';
             table += '            <th>Norma</th>';
             table += '            <th>Muestreador</th>';
+            table += '            <th>Digital</th>';
             table += '            <th>Fecha Creacion</th>';
             table += '            <th>Fecha Modificación</th>';
             table += '        </tr>';
@@ -94,6 +95,7 @@ function buscar(){
               table += '    <td>'+item.Fecha_muestreo+'</td>';
               table += '    <td>'+item.Clave_norma+'</td>';
               table += '    <td>'+item.name+'</td>';
+              table += '    <td></td>';
               table += '    <td>'+item.created_at+'</td>';
               table += '    <td>'+item.updated_at+'</td>';
               table += '</tr>';
@@ -138,5 +140,10 @@ function buscar(){
          }
         
     });  
+    
 
  }
+ function supervisarBitacora(checkbox) {
+    console.log("ID de solicitud:", checkbox.value);
+    console.log("Estado del checkbox:", checkbox.checked ? "Marcado" : "Desmarcado");
+}

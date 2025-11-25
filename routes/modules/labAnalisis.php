@@ -9,12 +9,16 @@ Route::group(['prefix' => 'laboratorio'], function () {
  
     Route::group(['prefix' => 'analisis'], function () { 
         Route::get('captura', [LabAnalisisController::class, 'captura']);
+        Route::get('captura2', [LabAnalisisController::class, 'captura2']);
         Route::post('getPendientes',[LabAnalisisController::class,'getPendientes']);
+
         Route::get('getPendientesAdmin',[LabAnalisisController::class,'getPendientesAdmin']);
         Route::post('getLote',[LabAnalisisController::class,'getLote']);
         Route::post('getDetalleLote',[LabAnalisisController::class,'getDetalleLote']);
         Route::post('setLote',[LabAnalisisController::class,'setLote']);
         Route::post('getMuestraSinAsignar', [LabAnalisisController::class,'getMuestraSinAsignar']);
+
+    
         Route::post('setMuestraLote',[LabAnalisisController::class,'setMuestraLote']);
         Route::post('getCapturaLote',[LabAnalisisController::class,'getCapturaLote']);
         Route::post('getDetalleMuestra',[LabAnalisisController::class,'getDetalleMuestra']);
@@ -52,7 +56,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('updateMatrazDuplicado', [LabAnalisisController::class, 'updateMatrazDuplicado']);
         Route::get('updatePruebaConfirmativaCol', [LabAnalisisController::class, 'updatePruebaConfirmativaCol']);
         Route::get('updateDetalleDbo', [LabAnalisisController::class, 'updateDetalleDbo']);
-        Route::get('updateCrisolDupl♂icado/{id}', [LabAnalisisController::class, 'updateCrisolDuplicado']);
+        Route::get('updateCrisolDuplicado/{id}', [LabAnalisisController::class, 'updateCrisolDuplicado']);
         Route::get('updateCrisolDuplicado2', [LabAnalisisController::class, 'updateCrisolDuplicado2']);
         Route::get('regresarMuestrasDbo/{id}', [LabAnalisisController::class, 'regresarMuestrasDbo']);
         Route::post('getDetalleElegido', [LabAnalisisController::class, 'getDetalleElegido']);
@@ -60,6 +64,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('eliminarMuestra', [LabAnalisisController::class, 'eliminarMuestra']);
         Route::get('updateLoteDetalle/{fi}/{ff}/{idp}/{ida}', [LabAnalisisController::class, 'updateLoteDetalle']);
         Route::post('setLiberarTodo', [LabAnalisisController::class, 'setLiberarTodo']); 
+        Route::post('PorcentaejeE', [LabAnalisisController::class, 'PorcentaejeE']); 
+        Route::post('eliminarLote', [LabAnalisisController::class, 'eliminarLote']); 
+
+
+
 
     });
    

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Laboratorio;
 
-use App\Http\Controllers\Config\ConfiguracionesController; 
+use App\Http\Controllers\Config\ConfiguracionesController;
 use App\Http\Controllers\Controller;
 use App\Imports\AnalisisQ\IcpImport;
 use Illuminate\Http\Request;
@@ -91,19 +91,20 @@ class MetalesController extends Controller
     public function observacion()
     {
         $formulas = DB::table('tipo_formulas')
-            ->where('Id_tipo_formula',20)
-            ->orWhere('Id_tipo_formula',21)
-            ->orWhere('Id_tipo_formula',22)
-            ->orWhere('Id_tipo_formula',23)
-            ->orWhere('Id_tipo_formula',24)
-            ->orWhere('Id_tipo_formula',58)
-            ->orWhere('Id_tipo_formula',59)
+            ->where('Id_tipo_formula', 20)
+            ->orWhere('Id_tipo_formula', 21)
+            ->orWhere('Id_tipo_formula', 22)
+            ->orWhere('Id_tipo_formula', 23)
+            ->orWhere('Id_tipo_formula', 24)
+            ->orWhere('Id_tipo_formula', 58)
+            ->orWhere('Id_tipo_formula', 59)
             ->get();
         return view('laboratorio.metales.observacion', compact('formulas'));
     }
 
     public function getObservacionanalisis(Request $res)
     {
+        $years = Carbon::now()->year;
         $ids = array();
         $folios = array();
         $empresas = array();
@@ -114,76 +115,70 @@ class MetalesController extends Controller
         switch ($res->tipo) {
             case 1:
                 $model = DB::table('ViewParametroProceso')
-                ->where('Id_tipo_formula',20)
-                ->orWhere('Id_tipo_formula',21)
-                ->orWhere('Id_tipo_formula',22) 
-                ->orWhere('Id_tipo_formula',23)
-                ->orWhere('Id_tipo_formula',24)
-                ->orWhere('Id_tipo_formula',58)
-                ->orWhere('Id_tipo_formula',59)
-<<<<<<< HEAD
-                ->where('Asignado','!=',1)
-                ->where('Cancelado','=',0)
-=======
-                ->where('Asignado','!=',1)->where('Cancelado','=',0)->where('Id_area','!=',17)
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-                ->get();
+                    ->where('Id_tipo_formula', 20)
+                    ->orWhere('Id_tipo_formula', 21)
+                    ->orWhere('Id_tipo_formula', 22)
+                    ->orWhere('Id_tipo_formula', 23)
+                    ->orWhere('Id_tipo_formula', 24)
+                    ->orWhere('Id_tipo_formula', 58)
+                    ->orWhere('Id_tipo_formula', 59)
+                    ->where('Asignado', '!=', 1)
+                    ->where('Cancelado', '=', 0)
+                    ->whereYear('Created_at', $years)
+                    ->get();
                 foreach ($model as $item) {
                     $aux = 0;
-                    for ($i=0; $i < sizeof($ids); $i++) { 
+                    for ($i = 0; $i < sizeof($ids); $i++) {
                         if ($ids[$i] == $item->Id_solicitud) {
                             $aux = 1;
                         }
                     }
                     if ($aux == 0) {
-                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
-                        $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
-                        $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->where('Cancelado','=',0)->first();
-                        array_push($ids,$item->Id_solicitud);
-                        array_push($folios,$solAux->Folio_servicio); 
-                        array_push($empresas,$temp->Empresa);
-                        array_push($recepciones,$temp->Hora_recepcion);
-                        array_push($recepciones2,$temp->Hora_entrada);
+                        $temp = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->where('Cancelado', '=', 0)->first();
+                        $solTemp = Solicitud::where('Id_solicitud', $item->Id_solicitud)->where('Cancelado', '=', 0)->first();
+                        $solAux = Solicitud::where('Id_solicitud', $solTemp->Hijo)->where('Cancelado', '=', 0)->first();
+                        array_push($ids, $item->Id_solicitud);
+                        array_push($folios, $solAux->Folio_servicio);
+                        array_push($empresas, $temp->Empresa);
+                        array_push($recepciones, $temp->Hora_recepcion);
+                        array_push($recepciones2, $temp->Hora_entrada);
                     }
                 }
                 break;
             case 2:
                 $model = DB::table('ViewParametroProceso')
-                ->where('Id_tipo_formula',$res->id)
-<<<<<<< HEAD
-                ->where('Asignado','!=',1)
-                ->where('Cancelado','=',0)
-=======
-                ->where('Asignado','!=',1)->where('Cancelado','=',0)->where('Id_area','!=',17)
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-                ->get();
+                    ->where('Id_tipo_formula', $res->id)
+                    ->where('Asignado', '!=', 1)
+                    ->where('Cancelado', '=', 0)
+                    ->whereYear('Created_at', $years)
+                    ->get();
                 foreach ($model as $item) {
                     $aux = 0;
-                    for ($i=0; $i < sizeof($ids); $i++) { 
+                    for ($i = 0; $i < sizeof($ids); $i++) {
                         if ($ids[$i] == $item->Id_solicitud) {
                             $aux = 1;
                         }
                     }
                     if ($aux == 0) {
-                        $temp = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
-                            $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado','=',0)->first();
-                            $solAux = Solicitud::where('Id_solicitud',$solTemp->Hijo)->where('Cancelado','=',0)->first();
+
+
+                        $temp = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->where('Cancelado', 0)->first();
+                        $solTemp = Solicitud::where('Id_solicitud', $item->Id_solicitud)->where('Cancelado', '=', 0)->first();
+                        $solAux = Solicitud::where('Id_solicitud', @$solTemp->Hijo)->where('Cancelado', '=', 0)->first();
                         $aux2 = 0;
-                        for ($i=0; $i < sizeof($folios); $i++) { 
+                        for ($i = 0; $i < sizeof($folios); $i++) {
                             if ($folios[$i] == @$solAux->Folio_servicio) {
                                 $aux2 = 1;
                             }
-                        } 
-                        if ($aux2 == 0) {
-                            array_push($ids,$item->Id_solicitud);
-                            array_push($folios,@$solAux->Folio_servicio); 
-                            array_push($empresas,$temp->Empresa);
-                            array_push($recepciones,$temp->Hora_recepcion);
-                            array_push($recepciones2,$temp->Hora_entrada);
-                            }
-
                         }
-                      
+                        if ($aux2 == 0) {
+                            array_push($ids, $item->Id_solicitud);
+                            array_push($folios, @$solAux->Folio_servicio);
+                            array_push($empresas, @$temp->Empresa);
+                            array_push($recepciones, @$temp->Hora_recepcion);
+                            array_push($recepciones2, @$temp->Hora_entrada);
+                        }
+                    }
                 }
                 break;
             default:
@@ -204,32 +199,33 @@ class MetalesController extends Controller
     }
     public function getPuntoAnalisis(Request $res)
     {
-        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud',$res->idSol)->first();
-        $punto = SolicitudPuntos::where('Id_solPadre',$solModel->Hijo)->get();
+        $years = Carbon::now()->year;
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->idSol)->whereYear('Created_at', $years)->first();
+        // $punto = SolicitudPuntos::where('Id_solPadre',$solModel->Hijo)->where('Punto' )->get();
+        $punto = SolicitudPuntos::where('Id_solPadre', $solModel->Hijo)->where('Punto', 'not like', '%C A N C E L A D O%')->get();
 
-            // $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
+        // $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
         $model = array();
         $temp = array();
-        foreach($punto as $item)
-        {
+        foreach ($punto as $item) {
             $temp = array();
             $tempExtra = "";
-            $solTemp = Solicitud::where('Id_solicitud',$item->Id_solicitud)->first();
-            $paramExtra = DB::table('viewsolicitudparametros')->where('Extra','!=',0)->where('Id_area',2)->where('Id_solicitud',$item->Id_solicitud)->get();
-            array_push($temp,$solTemp->Folio_servicio);
-            array_push($temp,$item->Punto);   
-            array_push($temp,$solModel->Clave_norma); 
-            array_push($temp,$item->Obs_metales);
-            array_push($temp,$item->Ph_metales); 
-            array_push($temp,$item->Id_solicitud); 
+            $solTemp = Solicitud::where('Id_solicitud', $item->Id_solicitud)->first();
+            $paramExtra = DB::table('viewsolicitudparametros')->where('Extra', '!=', 0)->where('Id_area', 2)->where('Id_solicitud', $item->Id_solicitud)->get();
+            array_push($temp, $solTemp->Folio_servicio);
+            array_push($temp, $item->Punto);
+            array_push($temp, $solModel->Clave_norma);
+            array_push($temp, $item->Obs_metales);
+            array_push($temp, $item->Ph_metales);
+            array_push($temp, $item->Id_solicitud);
             foreach ($paramExtra as $item2) {
-                $tempExtra = $tempExtra . ", (".$item2->Id_parametro .")".$item2->Parametro;
+                $tempExtra = $tempExtra . ", (" . $item2->Id_parametro . ")" . $item2->Parametro;
             }
-            array_push($temp,$tempExtra); 
+            array_push($temp, $tempExtra);
 
-            array_push($model,$temp);  
+            array_push($model, $temp);
         }
-        
+
         $data = array(
             'punto' => $punto,
             'solModel' => $solModel,
@@ -240,17 +236,16 @@ class MetalesController extends Controller
 
     public function aplicarObservacion(Request $res)
     {
-        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud',$res->idSol)->first();
-        $punto = SolicitudPuntos::where('Id_solPadre',$solModel->Hijo)->get();
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->idSol)->first();
+        $punto = SolicitudPuntos::where('Id_solPadre', $solModel->Hijo)->get();
 
-        foreach($punto as $item) 
-        {
+        foreach ($punto as $item) {
             $puntoModel = SolicitudPuntos::find($item->Id_punto);
             $puntoModel->Obs_metales = $res->obs;
             $puntoModel->Ph_metales = $res->ph;
             $puntoModel->save();
         }
-        
+
         $data = array(
             'punto' => $punto,
             'solModel' => $solModel,
@@ -272,12 +267,12 @@ class MetalesController extends Controller
     public function captura()
     {
         // $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
-        $parametro = DB::table('ViewParametros')->where('Id_area',2)->orWhere('Id_area',17)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area', 2)->orWhere('Id_area', 17)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get(); 
         // var_dump($parametro);
         $auditoria = env('AUDITORIA');
         $controlModel = ControlCalidad::all();
-        return view('laboratorio.metales.captura', compact('parametro', 'controlModel','auditoria'));
+        return view('laboratorio.metales.captura', compact('parametro', 'controlModel', 'auditoria'));
     }
     public function capturaIcp()
     {
@@ -298,7 +293,7 @@ class MetalesController extends Controller
         // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $idLote)->get();
         $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $curvaConst = CurvaConstantes::where('Fecha_inicio', $idLote )->first();
+        $curvaConst = CurvaConstantes::where('Fecha_inicio', $idLote)->first();
         $data = array(
             'idL' => $idLote,
             'de' => $detModel,
@@ -311,16 +306,16 @@ class MetalesController extends Controller
     public function createControlCalidad(Request $request)
     {
         $muestra = LoteDetalle::where('Id_detalle', $request->idMuestra)->first();
-        $temp = LoteDetalle::where('Id_codigo',$muestra->Id_codigo)->where('Id_control',$request->idControl)->get();
+        $temp = LoteDetalle::where('Id_codigo', $muestra->Id_codigo)->where('Id_control', $request->idControl)->get();
         $msg = "";
         if ($temp->count()) {
             $msg = "Ya existe este control de calidad sobre este folio";
-        }else{
+        } else {
             $model = $muestra->replicate();
             $model->Id_control = $request->idControl;
             $model->Liberado = 0;
-            $model->Vol_disolucion = null;  
-            $model->save(); 
+            $model->Vol_disolucion = null;
+            $model->save();
 
             $detalleModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
             $lote = LoteAnalisis::find($request->idLote);
@@ -356,8 +351,8 @@ class MetalesController extends Controller
     public function createControlCalidadMetales(Request $res)
     {
         $msg = 'Controles creados';
-        $model = LoteDetalle::where('Id_lote',$res->idLote)->where('Id_control',1)->get();
-        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->first();
+        $model = LoteDetalle::where('Id_lote', $res->idLote)->where('Id_control', 1)->get();
+        $lote = LoteAnalisis::where('Id_lote', $res->idLote)->first();
         $cont = 0;
         $aux = 0;
         $orden = 1;
@@ -373,27 +368,33 @@ class MetalesController extends Controller
             case 24:
             case 25:
             case 232:
+            case 193:
             case 187:
             case 226:
             case 197:
             case 351:
             case 41:
             case 354:
+            case 224:
             case 353:
+            case 198:
             case 355:
             case 356:
             case 17:
             case 22:
             case 352:
             case 360:
+            case 388:
+            case 389:
+            case 393:
                 foreach ($model as $item) {
                     $sw--;
                     if ($aux == 0) {
                         //Estandar de verificacion
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',14)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 14)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 14;
                             $temp->Liberado = 0;
@@ -402,10 +403,10 @@ class MetalesController extends Controller
                             $orden++;
                         }
                         //Estandar
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',4)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 4)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 4;
                             $temp->Liberado = 0;
@@ -414,10 +415,10 @@ class MetalesController extends Controller
                             $orden++;
                         }
                         // Blanco Reactivo
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',9)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 9)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 9;
                             $temp->Liberado = 0;
@@ -430,18 +431,18 @@ class MetalesController extends Controller
                     if ($cont == 0) {
                         $idDetalle = $item->Id_detalle;
                     }
-                    
-                    $temp = LoteDetalle::where('Id_detalle',$item->Id_detalle)->first();
+
+                    $temp = LoteDetalle::where('Id_detalle', $item->Id_detalle)->first();
                     $temp->Orden = $orden;
                     $temp->save();
                     $orden++;
-        
+
                     if ($cont >= 9 || $sw == 0) {
                         // Muestra adicionada
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',3)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 3)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 3;
                             $temp->Liberado = 0;
@@ -449,22 +450,22 @@ class MetalesController extends Controller
                             $temp->save();
                             $orden++;
                         }
-                         // Muestra duplicada
-                         $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',2)->get();
-                         if ($comprobacion->count()) {
+                        // Muestra duplicada
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 2)->get();
+                        if ($comprobacion->count()) {
                             $orden++;
-                         }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 2;
                             $temp->Liberado = 0;
                             $temp->Orden = $orden;
                             $temp->save();
                             $orden++;
-                         }
+                        }
                     }
                     if ($cont == 9) {
                         $cont = 0;
-                    }else{
+                    } else {
                         $cont++;
                     }
                 }
@@ -479,19 +480,23 @@ class MetalesController extends Controller
             case 192:
             case 204:
             case 190:
+            case 223:
             case 196:
+            case 229:
             case 188:
+            case 220:
             case 219:
             case 195:
+            case 228:
             case 230:
                 foreach ($model as $item) {
                     $sw--;
                     if ($aux == 0) {
                         //MC1
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',22)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 22)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 22;
                             $temp->Liberado = 0;
@@ -500,10 +505,10 @@ class MetalesController extends Controller
                             $orden++;
                         }
                         //Blanco.
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',5)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 5)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 5;
                             $temp->Liberado = 0;
@@ -512,10 +517,10 @@ class MetalesController extends Controller
                             $orden++;
                         }
                         // Estandar control
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',4)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 4)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 4;
                             $temp->Liberado = 0;
@@ -524,10 +529,10 @@ class MetalesController extends Controller
                             $orden++;
                         }
                         // Blanco reactivo
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',9)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 9)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 9;
                             $temp->Liberado = 0;
@@ -538,18 +543,18 @@ class MetalesController extends Controller
                         $aux = 1;
                         $idDetalle = $item->Id_detalle;
                     }
-              
-                    $temp = LoteDetalle::where('Id_detalle',$item->Id_detalle)->first();
+
+                    $temp = LoteDetalle::where('Id_detalle', $item->Id_detalle)->first();
                     $temp->Orden = $orden;
                     $temp->save();
                     $orden++;
-        
+
                     if ($cont >= 9 || $sw == 0) {
                         // Muestra duplicado
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',2)->get();
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 2)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 2;
                             $temp->Liberado = 0;
@@ -557,23 +562,23 @@ class MetalesController extends Controller
                             $temp->save();
                             $orden++;
                         }
-                         // Muestra adicionada
-                         $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',3)->get();
-                         if ($comprobacion->count()) {
+                        // Muestra adicionada
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 3)->get();
+                        if ($comprobacion->count()) {
                             $orden++;
-                         }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 3;
                             $temp->Liberado = 0;
                             $temp->Orden = $orden;
                             $temp->save();
                             $orden++;
-                         }
-                         // Blanco 2
-                        $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',15)->get();
+                        }
+                        // Blanco 2
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 15)->get();
                         if ($comprobacion->count()) {
                             $orden++;
-                        }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 15;
                             $temp->Liberado = 0;
@@ -581,22 +586,22 @@ class MetalesController extends Controller
                             $temp->save();
                             $orden++;
                         }
-                         // MCI2
-                         $comprobacion = LoteDetalle::where('Id_codigo',$item->Id_codigo)->where('Id_control',23)->get();
-                         if ($comprobacion->count()) {
+                        // MCI2
+                        $comprobacion = LoteDetalle::where('Id_codigo', $item->Id_codigo)->where('Id_control', 23)->get();
+                        if ($comprobacion->count()) {
                             $orden++;
-                         }else{
+                        } else {
                             $temp = $item->replicate();
                             $temp->Id_control = 23;
                             $temp->Liberado = 0;
                             $temp->Orden = $orden;
                             $temp->save();
                             $orden++;
-                         }
+                        }
                     }
                     if ($cont == 9) {
                         $cont = 0;
-                    }else{
+                    } else {
                         $cont++;
                     }
                 }
@@ -607,7 +612,7 @@ class MetalesController extends Controller
         }
 
 
-    
+
         $detalleModel = LoteDetalle::where('Id_lote', $res->idLote)->get();
         $lote = LoteAnalisis::find($res->idLote);
         $lote->Asignado = $detalleModel->count();
@@ -724,161 +729,192 @@ class MetalesController extends Controller
     public function operacion(Request $request)
     {
         //! Cambio de busqueda de BMR de Lote a rango de fechas.
-        
+
 
         $detalleModel = LoteDetalle::where('Id_detalle', $request->idDetalle)->first();
         $sw = false;
-        if($detalleModel->Liberado != 1){
+        if ($detalleModel->Liberado != 1) {
             $sw = true;
-        $loteTemp = LoteAnalisis::where('Id_lote',$detalleModel->Id_lote)->first();
-        $fecha = new Carbon($loteTemp->Fecha);
-        $today = $fecha->toDateString();
-        $parametroModel = Parametro::where('Id_matriz', 12)->where('Id_parametro', $detalleModel->Id_parametro)->get();
+            $loteTemp = LoteAnalisis::where('Id_lote', $detalleModel->Id_lote)->first();
+            $fecha = new Carbon($loteTemp->Fecha);
+            $today = $fecha->toDateString();
+            $parametroModel = Parametro::where('Id_matriz', 12)->where('Id_parametro', $detalleModel->Id_parametro)->get();
 
-        //Buscar la BMR 
-        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
-        //$curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
-        $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            // ->where('Id_area', $parametro->Id_area)
-            ->where('Id_parametro', $parametro->Id_parametro)->first();
+            //Buscar la BMR 
+            $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
+            //$curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
+            $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+                // ->where('Id_area', $parametro->Id_area)
+                ->where('Id_parametro', $parametro->Id_parametro)->first();
 
-        $parametroPurificada = Parametro::where('Id_matriz', 14)->where('Id_parametro', $detalleModel->Id_parametro)->get();
+            $parametroPurificada = Parametro::where('Id_matriz', 14)->where('Id_parametro', $detalleModel->Id_parametro)->get();
 
-        $x = $request->x;
-        $y = $request->y;
-        $z = $request->z;
-        $FD = $request->FD;
-        $FC = $request->FC;
-        $suma = ($x + $y + $z);
-        $promedio = round(($suma / 3),4);
-        $volFinal = 0;
-        $resMicro = 0;
-        
-        $resultado = "";
-      
-        switch ($parametro->Id_matriz) {
-            case 14: // MetalPotable
-            case 8:
-                switch ($parametro->Id_parametro) {
-                    case  215:
-                    $promedio = round(($suma / 3),3);
-                    $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                    $resMicro = $temp;
-                    $temp = $temp * $FD * $request->volFinal;  
-                    $resultado = ($temp ) / ($request->volMuestra * $FC);
-                        break;
-                    case 197:
-                    case 232:
-                    case 226:
-                    case 187:
-                    case 351:
-                    case 41:
-                    case 354:
-                    case 353:
-                    case 55:
-                        $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
-                        $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
-                        if ($fechaResidual <= $fechaLimite) {
-                            $sw = false;
-                            $promedio = round(($suma / 3),4);
-                        }else{
-                            $sw = true;
-                            $promedio = round(($suma / 3),3);
-                        }
-                
-                        if ($parametroModel->count()) {
-                            if ($detalleModel->Descripcion != "Resultado") {
-                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                                $resMicro = $resultado;
+            $x = $request->x;
+            $y = $request->y;
+            $z = $request->z;
+            $FD = $request->FD;
+            $FC = $request->FC;
+            $suma = ($x + $y + $z);
+            $promedio = round(($suma / 3), 4);
+            $volFinal = 0;
+            $resMicro = 0;
+
+            $resultado = "";
+
+            switch ($parametro->Id_matriz) {
+                case 14: // MetalPotable
+                case 8:
+                    switch ($parametro->Id_parametro) {
+                        case  215:
+                            $promedio = round(($suma / 3), 3);
+                            $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resMicro = $temp;
+                            $temp = $temp * $FD * $request->volFinal;
+                            $resultado = ($temp) / ($request->volMuestra * $FC);
+                            $resultadoRound = round($resultado, 4);
+                            break;
+                        case 197:
+                        case 232:
+                        case 193:
+                        case 388:
+                        case 389:
+                        case 393:
+                        case 226:
+                        case 187:
+                        case 351:
+                        case 41:
+                        case 354:
+                        case 224:
+                        case 353:
+                        case 198:
+                        case 55:
+                        case 388:
+                        case 389:
+                            $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
+                            $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                            if ($fechaResidual <= $fechaLimite) {
+                                $sw = false;
+                                $promedio = round(($suma / 3), 4);
                             } else {
-                                $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
-                                $resMicro = $resultado;
-                                $resultado = $resultado / $FC;
+                                $sw = true;
+                                $promedio = round(($suma / 3), 3);
                             }
-                        } else {
-                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                        } 
-                        break;
-                    default:
-                    $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                    $resMicro = $paso1;
-                    $resultado = ($paso1 * 1) / $FC;   
-                        break;
-                }
-                break;
-            case 13: //Metal purificado
-            case 9:
-                $promedio = round(($suma / 3),4);
-                switch ($parametro->Id_parametro) {
-                    case 190: 
-                    case 192:
-                    case 204:
-                    case 196:
-                        $volFinal = $request->volFinal;
-                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
-                        $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                        $resultado = (($temp ) / ($request->volMuestra * $FC)); 
-                        break;
-                    case 191:
-                    case 194:
-                    case 189:
-                        $volFinal = $request->volFinal;
-                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
-                        $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                        $resultado = (($temp ) / ($request->volMuestra)); 
-                        break;
-                    default:
-                        $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);   
-                        $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                        $resultado = ($temp ) / ($request->volMuestra * $FC); 
-                        break;
-                }
-                break;
-            default:            
-                $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
-                $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
-                if ($fechaResidual <= $fechaLimite) {
-                    $sw = false;
-                    $promedio = round(($suma / 3),4);
-                }else{
-                    $sw = true;
-                    $promedio = round(($suma / 3),3);
-                }
-        
-                if ($parametroModel->count()) {
-                    if ($detalleModel->Descripcion != "Resultado") {
-                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                        $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
-                    } else {
-                        $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
-                        $resMicro =(($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                        $resultado = $resultado / $FC;
+
+                            if ($parametroModel->count()) {
+                                if ($detalleModel->Descripcion != "Resultado") {
+                                    $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                                    $resMicro = $resultado;
+                                } else {
+                                    $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                                    $resMicro = $resultado;
+                                    $resultado = $resultado / $FC;
+                                }
+                            } else {
+                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            }
+                            $resultadoRound = round($resultado, 3);
+                            break;
+                        case 208:
+                        case 210:
+                            $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            $resMicro = $paso1;
+                            $resultado = ($paso1 * 1) / $FC;
+                            // $resultadoRound = round($resultado, 4);
+                            $resultadoRound = number_format($resultado, 4);
+                            break;
+                        default:
+                            $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            $resMicro = $paso1;
+                            $resultado = ($paso1 * 1) / $FC;
+                            $resultadoRound = round($resultado, 3);
+                            break;
                     }
-                } else {
-                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                } 
-            break;
+                    break;
+                case 13: //Metal purificado
+                case 9:
+                    $promedio = round(($suma / 3), 4);
+                    switch ($parametro->Id_parametro) {
+                        case 190:
+                        case 223:
+                        case 192:
+                        case 204:
+                        case 196:
+                        case 229:
+                            $volFinal = $request->volFinal;
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = (($temp) / ($request->volMuestra * $FC));
+                            $resultadoRound = round($resultado, 3);
+                            break;
+                        case 191:
+                        case 194:
+                        case 189:
+                            $volFinal = $request->volFinal;
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = (($temp) / ($request->volMuestra));
+                            $resultadoRound = round($resultado, 3);
+                            break;
+                        case 195:
+                        case 228:
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = ($temp) / ($request->volMuestra * $FC);
+                            $resultadoRound = round($resultado, 4);
+                            break;
+                        default:
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $request->volFinal);
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = ($temp) / ($request->volMuestra * $FC);
+                            $resultadoRound = round($resultado, 3);
+                            break;
+                    }
+                    break;
+                default:
+                    $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
+                    $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                    if ($fechaResidual <= $fechaLimite) {
+                        $sw = false;
+                        $promedio = round(($suma / 3), 4);
+                    } else {
+                        $sw = true;
+                        $promedio = round(($suma / 3), 3);
+                    }
+
+                    if ($parametroModel->count()) {
+                        if ($detalleModel->Descripcion != "Resultado") {
+                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
+                        } else {
+                            $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resultado = $resultado / $FC;
+                        }
+                    } else {
+                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                    }
+                    $resultadoRound = round($resultado, 3);
+                    break;
+            }
+
+
+
+            $detalle = LoteDetalle::find($request->idDetalle);
+            $detalle->Vol_muestra = $request->volMuestra;
+            $detalle->Vol_final = $request->volFinal;
+            $detalle->Vol_dirigido = $request->volDirigido;
+            $detalle->Abs1 = $request->x;
+            $detalle->Abs2 = $request->y;
+            $detalle->Abs3 = $request->z;
+            $detalle->Abs_promedio = $promedio;
+            $detalle->Factor_dilucion = $request->FD;
+            $detalle->Factor_conversion = $request->FC;
+            $detalle->Resultado_microgramo = $resMicro;
+            $detalle->Vol_disolucion = $resultadoRound;
+            $detalle->Observacion = $request->obs;
+            $detalle->Analizo = Auth::user()->id;
+            $detalle->save();
         }
-
-        $resultadoRound = round($resultado, 3);
-
-       
-        $detalle = LoteDetalle::find($request->idDetalle);
-        $detalle->Vol_muestra = $request->volMuestra;
-        $detalle->Vol_final = $request->volFinal;
-        $detalle->Vol_dirigido = $request->volDirigido;
-        $detalle->Abs1 = $request->x; 
-        $detalle->Abs2 = $request->y;
-        $detalle->Abs3 = $request->z;
-        $detalle->Abs_promedio = $promedio;
-        $detalle->Factor_dilucion = $request->FD;
-        $detalle->Factor_conversion = $request->FC;
-        $detalle->Resultado_microgramo = $resMicro;
-        $detalle->Vol_disolucion = $resultadoRound;
-        $detalle->Observacion = $request->obs;
-        $detalle->Analizo = Auth::user()->id;
-        $detalle->save();
-       }
 
         $data = array(
             'resMicro' => $resMicro,
@@ -896,14 +932,14 @@ class MetalesController extends Controller
         return response()->json($data);
     }
     public function enviarObservacion(Request $request)
-    {       
-            
-            $detalle = LoteDetalle::find($request->idMuestra);
-            if ($detalle->Liberado != 1) {
-                $detalle->Observacion = $request->observacion;   
-            }
-            $detalle->save();  
-      
+    {
+
+        $detalle = LoteDetalle::find($request->idMuestra);
+        if ($detalle->Liberado != 1) {
+            $detalle->Observacion = $request->observacion;
+        }
+        $detalle->save();
+
         $data = array(
             'idDetalle' => $request->idMuestra,
             'model' => $detalle,
@@ -915,7 +951,7 @@ class MetalesController extends Controller
     {
         $sw = false;
         $model = LoteDetalle::find($request->idMuestra);
-        $model->Liberado = 1; 
+        $model->Liberado = 1;
         $model->Analizo = Auth::user()->id;
         if (strval($model->Vol_disolucion) != null) {
             $sw = true;
@@ -927,7 +963,7 @@ class MetalesController extends Controller
             $modelCod->Resultado2 = $model->Vol_disolucion;
             $modelCod->Analizo = Auth::user()->id;
             $modelCod->save();
-        } 
+        }
 
         $model = LoteDetalle::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
@@ -945,18 +981,17 @@ class MetalesController extends Controller
     {
         $sw = false;
 
-        $muestras = LoteDetalle::where('Id_lote',$res->idLote)->where('Liberado',0)->get();
+        $muestras = LoteDetalle::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
         foreach ($muestras as $item) {
             $model = LoteDetalle::find($item->Id_detalle);
             $model->Liberado = 1;
             $model->Analizo = Auth::user()->id;
-            if (strval($model->Vol_disolucion) != NULL) { 
+            if (strval($model->Vol_disolucion) != NULL) {
                 $sw = true;
-                $model->save(); 
-            }   
-            if($item->Id_control == 1)
-            {
-                if (CodigoParametros::where('Id_codigo',$model->Id_codigo)->count()) {
+                $model->save();
+            }
+            if ($item->Id_control == 1) {
+                if (CodigoParametros::where('Id_codigo', $model->Id_codigo)->count()) {
                     $modelCod = CodigoParametros::find($model->Id_codigo);
                     $modelCod->Resultado2 = $model->Vol_disolucion;
                     $modelCod->Resultado = $model->Vol_disolucion;
@@ -965,7 +1000,7 @@ class MetalesController extends Controller
                 }
             }
         }
-        
+
 
 
         $model = LoteDetalle::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
@@ -995,69 +1030,66 @@ class MetalesController extends Controller
     {
         // $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
         $tipo = DB::table('tipo_formulas')
-        ->where('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
-        ->orWhere('Id_tipo_formula',58)
-        ->orWhere('Id_tipo_formula',59)
-        ->get();
+            ->where('Id_tipo_formula', 20)
+            ->orWhere('Id_tipo_formula', 21)
+            ->orWhere('Id_tipo_formula', 22)
+            ->orWhere('Id_tipo_formula', 23)
+            ->orWhere('Id_tipo_formula', 24)
+            ->orWhere('Id_tipo_formula', 58)
+            ->orWhere('Id_tipo_formula', 59)
+            ->get();
 
         $data = array(
-            'tipo'=> $tipo 
+            'tipo' => $tipo
         );
-        return view('laboratorio.metales.lote',$data);
+        return view('laboratorio.metales.lote', $data);
     }
     public function createLote(Request $res)
     {
-          for ($i=0; $i < sizeof($res->ids) ; $i++) { 
-           if($res->horas[$i] != "")
-           {
-            $model = LoteAnalisis::where('Id_tecnica',$res->ids[$i])->where('Fecha',$res->fechas[$i])->get();
-            if($model->count())
-            {
-                $temp = LoteAnalisis::where('Id_tecnica',$res->ids[$i])->where('Fecha',$res->fechas[$i])->first();
-                $temp->Hora = $res->horas[$i];
-                $temp->save();
-            }else{
-                $tempLote = LoteAnalisis::create([
-                    'Id_area' => 2,
-                    'Id_tecnica' => $res->ids[$i],
-                    'Asignado' => 0,
-                    'Liberado' => 0,
-                    'Fecha' => $res->fechas[$i],
-                    'Hora' => $res->horas[$i],
-                ]);
-                $confModel = ConfiguracionMetales::where('Id_parametro',$res->ids[$i])->get();
-                if ($confModel->count()) {
-                    MetalesDetalle::create([
-                        'Id_lote'=> $tempLote->Id_lote,
-                        'Fecha_digestion' => $confModel[0]->Fecha_digestion,
-                        'Longitud_onda' => $confModel[0]->Longitud_onda,
-                        'No_inventario' => $confModel[0]->No_Inventario,
-                        'Corriente' => $confModel[0]->Lampara,
-                        'Gas' => $confModel[0]->Acetileno,
-                        'Flujo_gas' => $confModel[0]->Flujo_gas,
-                        'No_lampara' => $confModel[0]->No_lampara,
-                        'Energia' => $confModel[0]->Energia,
-                        'Aire' => $confModel[0]->Aire,
-                        'Equipo' => $confModel[0]->Equipo,
-                        'Slit' => $confModel[0]->Slit,
-                        'Conc_std' => $confModel[0]->Concentracion,
-                        'Oxido_nitroso' => $confModel[0]->Oxido_nitroso,
-                        'Bitacora' => $confModel[0]->Bitacora_curva,
-                        'Folio' => $confModel[0]->Folio,
-                        'Valor' => $confModel[0]->Valor,
+        for ($i = 0; $i < sizeof($res->ids); $i++) {
+            if ($res->horas[$i] != "") {
+                $model = LoteAnalisis::where('Id_tecnica', $res->ids[$i])->where('Fecha', $res->fechas[$i])->get();
+                if ($model->count()) {
+                    $temp = LoteAnalisis::where('Id_tecnica', $res->ids[$i])->where('Fecha', $res->fechas[$i])->first();
+                    $temp->Hora = $res->horas[$i];
+                    $temp->save();
+                } else {
+                    $tempLote = LoteAnalisis::create([
+                        'Id_area' => 2,
+                        'Id_tecnica' => $res->ids[$i],
+                        'Asignado' => 0,
+                        'Liberado' => 0,
+                        'Fecha' => $res->fechas[$i],
+                        'Hora' => $res->horas[$i],
                     ]);
-                }else{
-                    MetalesDetalle::create([
-                        'Id_lote'=> $tempLote->Id_lote,
-                    ]);
+                    $confModel = ConfiguracionMetales::where('Id_parametro', $res->ids[$i])->get();
+                    if ($confModel->count()) {
+                        MetalesDetalle::create([
+                            'Id_lote' => $tempLote->Id_lote,
+                            'Fecha_digestion' => $confModel[0]->Fecha_digestion,
+                            'Longitud_onda' => $confModel[0]->Longitud_onda,
+                            'No_inventario' => $confModel[0]->No_Inventario,
+                            'Corriente' => $confModel[0]->Lampara,
+                            'Gas' => $confModel[0]->Acetileno,
+                            'Flujo_gas' => $confModel[0]->Flujo_gas,
+                            'No_lampara' => $confModel[0]->No_lampara,
+                            'Energia' => $confModel[0]->Energia,
+                            'Aire' => $confModel[0]->Aire,
+                            'Equipo' => $confModel[0]->Equipo,
+                            'Slit' => $confModel[0]->Slit,
+                            'Conc_std' => $confModel[0]->Concentracion,
+                            'Oxido_nitroso' => $confModel[0]->Oxido_nitroso,
+                            'Bitacora' => $confModel[0]->Bitacora_curva,
+                            'Folio' => $confModel[0]->Folio,
+                            'Valor' => $confModel[0]->Valor,
+                        ]);
+                    } else {
+                        MetalesDetalle::create([
+                            'Id_lote' => $tempLote->Id_lote,
+                        ]);
+                    }
                 }
- 
             }
-           }
         }
         $data = array(
             'model' => $model,
@@ -1074,7 +1106,7 @@ class MetalesController extends Controller
         }
 
         $data = array(
-            'model' => $model, 
+            'model' => $model,
             'sw' => $sw,
         );
         return response()->json($data);
@@ -1083,31 +1115,31 @@ class MetalesController extends Controller
     {
 
         if ($request->folio != "") {
-            $tempCod = CodigoParametros::where('Codigo',$request->folio)->where('Id_parametro',$request->formulaTipo)->first();
-            $tempLote = LoteDetalle::where('Id_codigo',$tempCod->Id_codigo)->first();
+            $tempCod = CodigoParametros::where('Codigo', $request->folio)->where('Id_parametro', $request->formulaTipo)->first();
+            $tempLote = LoteDetalle::where('Id_codigo', $tempCod->Id_codigo)->first();
             $model = DB::table('ViewLoteAnalisis')->where('Id_lote', $tempLote->Id_lote)->get();
 
-            $fecha = new Carbon($request->fechaAnalisis); 
+            $fecha = new Carbon($request->fechaAnalisis);
             $today = $fecha->toDateString();
 
             $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-            $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->get();
+            $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->get();
             $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $model[0]->Fecha)->whereDate('Fecha_fin', '>=', $model[0]->Fecha)
-            ->where('Id_parametro', $parametro->Id_parametro)->first(); 
-        }else{
+                ->where('Id_parametro', $parametro->Id_parametro)->first();
+        } else {
             $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->whereDate('Fecha', $request->fechaAnalisis)->get();
-            $fecha = new Carbon($request->fechaAnalisis); 
+            $fecha = new Carbon($request->fechaAnalisis);
             $today = $fecha->toDateString();
 
             $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-            $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->get();
+            $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->get();
             $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $request->fechaAnalisis)->whereDate('Fecha_fin', '>=', $request->fechaAnalisis)
-            ->where('Id_parametro', $parametro->Id_parametro)->first(); 
+                ->where('Id_parametro', $parametro->Id_parametro)->first();
         }
 
         $data = array(
             'today'  => $today,
-            'lote' => $model, 
+            'lote' => $model,
             'curva' => $curva,
             'estandares' => $estandares,
         );
@@ -1116,43 +1148,42 @@ class MetalesController extends Controller
     public function getLote(Request $res)
     {
         $parametros = DB::table('ViewParametros')
-        ->where('Id_area',2)
-        ->where(function($query) use ($res) {
-            $query->where('Id_tipo_formula',$res->tipo)
-                  ->orWhere(function($query) use ($res) {
-                      $query->where('Id_tipo_formula',58)
-                            ->orWhere('Id_tipo_formula',59)
-                            ->when($res->tipo == 22, function($query) {
-                                $query->orWhere('Id_tipo_formula',22);
+            ->where('Id_area', 2)
+            ->where(function ($query) use ($res) {
+                $query->where('Id_tipo_formula', $res->tipo)
+                    ->orWhere(function ($query) use ($res) {
+                        $query->where('Id_tipo_formula', 58)
+                            ->orWhere('Id_tipo_formula', 59)
+                            ->when($res->tipo == 22, function ($query) {
+                                $query->orWhere('Id_tipo_formula', 22);
                             });
-                  });
-        })
-        ->get();
-    
+                    });
+            })
+            ->get();
+
 
         $model = array();
         $temp = array();
-        foreach($parametros as $item)
-        {
+        foreach ($parametros as $item) {
             $temp = array();
-            $lote = LoteAnalisis::where('Id_tecnica',$item->Id_parametro)
-            ->where('Fecha',$res->fecha)->get();
+            $lote = LoteAnalisis::where('Id_tecnica', $item->Id_parametro)
+                ->where('Fecha', $res->fecha)->get();
             if ($lote->count()) {
-                array_push($temp,$lote[0]->Id_lote);
-                array_push($temp,$item->Id_parametro);
-                array_push($temp,$item->Parametro);
-                array_push($temp,$item->Tipo_formula);
-                array_push($temp,$res->fecha);
-                array_push($temp,$lote[0]->Hora);
-            } else { 
-                array_push($temp,"N/A");
-                array_push($temp,$item->Id_parametro);
-                array_push($temp,$item->Parametro);
-                array_push($temp,$item->Tipo_formula);
-                array_push($temp,$res->fecha);
-                array_push($temp,"");
+                array_push($temp, $lote[0]->Id_lote);
+                array_push($temp, $item->Id_parametro);
+                array_push($temp, $item->Parametro);
+                array_push($temp, $item->Tipo_formula);
+                array_push($temp, $res->fecha);
+                array_push($temp, $lote[0]->Hora);
+            } else {
+                array_push($temp, "N/A");
+                array_push($temp, $item->Id_parametro);
+                array_push($temp, $item->Parametro);
+                array_push($temp, $item->Tipo_formula);
+                array_push($temp, $res->fecha);
+                array_push($temp, "");
             }
-            array_push($model,$temp); 
+            array_push($model, $temp);
         }
 
         $data = array(
@@ -1176,17 +1207,17 @@ class MetalesController extends Controller
         return response()->json($data);
     }
     public function getLoteCaptura(Request $request)
-    { 
+    {
         // $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->where('Liberado',0)->get(); // Asi se hara con las otras
 
-        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->orderBy('Orden','asc')->get();
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->orderBy('Orden', 'asc')->get();
         $obs = array();
         $punto = array();
         $temp = "";
         foreach ($detalle as $item) {
-            $temp = SolicitudPuntos::where('Id_solicitud',$item->Id_analisis)->first();
-            array_push($obs,$temp->Obs_metales);
-            array_push($punto,$temp->Punto);
+            $temp = SolicitudPuntos::where('Id_solicitud', $item->Id_analisis)->first();
+            array_push($obs, $temp->Obs_metales);
+            array_push($punto, $temp->Punto);
         }
         $data = array(
             'obs' => $obs,
@@ -1196,19 +1227,19 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-    public function getDetalleLote(Request $res)
+    public function getDetalleLote(Request $res) 
     {
-        $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
-        $parametro = Parametro::where('Id_parametro',$lote->Id_tecnica)->first();
-        $model = MetalesDetalle::where('Id_lote',$res->id)->get();
-        $plantilla = Bitacoras::where('Id_lote', $res->id)->get(); 
-        $configuracion = ConfiguracionMetales::where('Id_parametro',$lote->Id_tecnica)->first();
+        $lote = LoteAnalisis::where('Id_lote', $res->id)->first();
+        $parametro = Parametro::where('Id_parametro', $lote->Id_tecnica)->first();
+        $model = MetalesDetalle::where('Id_lote', $res->id)->get();
+        $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
+        $configuracion = ConfiguracionMetales::where('Id_parametro', $lote->Id_tecnica)->first();
         if ($plantilla->count()) {
         } else {
             $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
         }
 
-        $data = array( 
+        $data = array(
             'lote' => $lote,
             'parametro' => $parametro,
             'plantilla' => $plantilla,
@@ -1219,7 +1250,7 @@ class MetalesController extends Controller
     }
     public function setDetalleLote(Request $res)
     {
-        $model = MetalesDetalle::where('Id_lote',$res->id)->get();
+        $model = MetalesDetalle::where('Id_lote', $res->id)->get();
         if ($model->count()) {
             $model[0]->Fecha_digestion = $res->fechaDigestion;
             $model[0]->Fecha_preparacion = $res->fechaPreparacion;
@@ -1265,14 +1296,14 @@ class MetalesController extends Controller
             $model[0]->Abs2I = $res->abs2I;
             $model[0]->Abs3I = $res->abs3I;
             $model[0]->Abs4I = $res->abs4I;
-            $model[0]->Abs5I = $res->abs5I; 
+            $model[0]->Abs5I = $res->abs5I;
             $model[0]->Bitacora = $res->bitacora;
             $model[0]->Folio = $res->folio;
             $model[0]->Valor = $res->valor;
             $model[0]->save();
-        }else{
+        } else {
             MetalesDetalle::create([
-                'Id_lote'=> $res->id,
+                'Id_lote' => $res->id,
                 'Fecha_digestion' => $res->fechaDigestion,
                 'Fecha_preparacion' => $res->fechaPreparacion,
                 'Longitud_onda' => $res->longitudOnda,
@@ -1377,7 +1408,7 @@ class MetalesController extends Controller
                 null,
                 null,
                 null,
-                null, 
+                null,
                 null
             );
         }
@@ -1397,19 +1428,19 @@ class MetalesController extends Controller
     public function asignar()
     {
         $tipo = DB::table('tipo_formulas')
-        ->where('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
-        ->orWhere('Id_tipo_formula',58)
-        ->orWhere('Id_tipo_formula',59)
-        ->get();
+            ->where('Id_tipo_formula', 20)
+            ->orWhere('Id_tipo_formula', 21)
+            ->orWhere('Id_tipo_formula', 22)
+            ->orWhere('Id_tipo_formula', 23)
+            ->orWhere('Id_tipo_formula', 24)
+            ->orWhere('Id_tipo_formula', 58)
+            ->orWhere('Id_tipo_formula', 59)
+            ->get();
         $tecnica = DB::table('tecnicas')
-        ->where('Id_tecnica',20)
-        ->orWhere('Id_tecnica',21)
-        ->orWhere('Id_tecnica',22)
-        ->get();
+            ->where('Id_tecnica', 20)
+            ->orWhere('Id_tecnica', 21)
+            ->orWhere('Id_tecnica', 22)
+            ->get();
         $norma = Norma::all();
         $data = array(
             'tecnica' => $tecnica,
@@ -1424,7 +1455,7 @@ class MetalesController extends Controller
 
         $model = array();
         $temp = array();
-        $codigo = DB::table('ViewCodigoPendientes')->where('Asignado', 0)->where('Cancelado','!=',1)->where('Auditoria','=',0)->whereYear('Hora_recepcion',now()->year)->get();
+        $codigo = DB::table('ViewCodigoPendientes')->where('Asignado', 0)->where('Cancelado', '!=', 1)->where('Auditoria', '=', 0)->whereYear('Hora_recepcion', now()->year)->get();
         $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
         foreach ($codigo as $item) {
@@ -1437,8 +1468,8 @@ class MetalesController extends Controller
                     array_push($model, $temp);
                     array_push($temp, $item->Empresa);
                     array_push($temp, $item->Historial);
-                    array_push($temp, $fechaHoy); 
-                    array_push($temp,$item->Dias_analisis); 
+                    array_push($temp, $fechaHoy);
+                    array_push($temp, $item->Dias_analisis);
                     break;
                 }
             }
@@ -1455,83 +1486,75 @@ class MetalesController extends Controller
         $codigo = array();
         switch ($res->sw) {
             case 1:
-<<<<<<< HEAD
-                $codigo = DB::table('ViewCodigoPendientes')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->where('Cancelado',0)->get();
-=======
-                $codigo = DB::table('ViewCodigoPendientes')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->where('Cancelado', '!=', 1)->get();
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
+                $codigo = DB::table('ViewCodigoPendientes')->where('Id_area', 2)->where('Hijo', '!=', 0)->where('Asignado', 0)->where('Cancelado', 0)->get();
                 foreach ($codigo as $item) {
                     $temp = array();
-                    array_push($temp,$item->Id_codigo);
-                    array_push($temp,$item->Codigo);
-                    array_push($temp,$item->Empresa);
+                    array_push($temp, $item->Id_codigo);
+                    array_push($temp, $item->Codigo);
+                    array_push($temp, $item->Empresa);
                     if ($item->Siralab == 1) {
-                        $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$item->Id_solicitud)->first();
-                        array_push($temp,$punto->Punto);
+                        $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $item->Id_solicitud)->first();
+                        array_push($temp, $punto->Punto);
                     } else {
-                        $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$item->Id_solicitud)->first();
-                        array_push($temp,$punto->Punto_muestreo);
+                        $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $item->Id_solicitud)->first();
+                        array_push($temp, $punto->Punto_muestreo);
                     }
-                    array_push($temp,"");
-                    array_push($temp,$item->Parametro);
-                    $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
-                    if($lote->count())
-                    {
-                        array_push($temp,$lote[0]->Id_lote);
+                    array_push($temp, "");
+                    array_push($temp, $item->Parametro);
+                    $lote = DB::table('ViewLoteDetalle')->where('Id_analisis', $item->Id_solicitud)->where('Id_parametro', $item->Id_parametro)->get();
+                    if ($lote->count()) {
+                        array_push($temp, $lote[0]->Id_lote);
                         $loteDetalle = LoteAnalisis::find($lote[0]->Id_lote);
-                        array_push($temp,$loteDetalle->Fecha);
+                        array_push($temp, $loteDetalle->Fecha);
                         // array_push($temp,$loteDetalle->Hora);
-                    }else{
-                        array_push($temp,"");
-                        array_push($temp,"");
+                    } else {
+                        array_push($temp, "");
+                        array_push($temp, "");
                         // // array_push($temp,"");  
                     }
-                    array_push($model,$temp);
+                    array_push($model, $temp);
                 }
                 break;
             case 2:
                 $codigo = DB::table('ViewCodigoInforme')
-                ->where('Id_area', 2)
-                ->where('Asignado', 0)->where('Cancelado',0)
-                ->when($res->tipo != 0, function ($query) use ($res) {
-                    $query->where('Id_tipo_formula', $res->tipo);
-                })
-                ->when($res->tecnica != 0, function ($query) use ($res) {
-                    $query->where('Id_tecnica', $res->tecnica);
-                }) 
-                ->get();
+                    ->where('Id_area', 2)
+                    ->where('Asignado', 0)->where('Cancelado', 0)
+                    ->when($res->tipo != 0, function ($query) use ($res) {
+                        $query->where('Id_tipo_formula', $res->tipo);
+                    })
+                    ->when($res->tecnica != 0, function ($query) use ($res) {
+                        $query->where('Id_tecnica', $res->tecnica);
+                    })
+                    ->get();
                 foreach ($codigo as $item) {
                     if ($res->fechaRecepcion != '') {
-                        $aux = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->whereDate('Hora_recepcion',$res->fechaRecepcion)->where('Cancelado',0)->get();
-                    }else{
-                        $aux = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Cancelado',0)->get();
+                        $aux = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->whereDate('Hora_recepcion', $res->fechaRecepcion)->where('Cancelado', 0)->get();
+                    } else {
+                        $aux = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->where('Cancelado', 0)->get();
                     }
                     if ($aux->count()) {
                         $temp = array();
-                        array_push($temp,$item->Id_codigo);
-                        array_push($temp,$item->Codigo);
-                        array_push($temp,$aux[0]->Empresa);
-                        
-                        $punto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
-                        $solTemp = DB::table('ViewSolicitud2')->where('Id_solicitud',$item->Id_solicitud)->where('Cancelado',0)->first();
-                        array_push($temp,@$punto->Punto);
-    
-                        array_push($temp,$solTemp->Clave_norma);
-                        array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro . " (".@$item->Tecnica.")");
-                        $lote = LoteAnalisis::whereDate('Fecha',$res->fechaLote)->where('Id_tecnica',$item->Id_parametro)->get();
-                        if($lote->count())
-                        {
-                            array_push($temp,$lote[0]->Id_lote);
-                            array_push($temp,$lote[0]->Fecha);
+                        array_push($temp, $item->Id_codigo);
+                        array_push($temp, $item->Codigo);
+                        array_push($temp, $aux[0]->Empresa);
+                        $punto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+                        $solTemp = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->where('Cancelado', 0)->first();
+                        array_push($temp, @$punto->Punto);
+
+                        array_push($temp, @$solTemp->Clave_norma);
+                        array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro . " (" . @$item->Tecnica . ")");
+                        $lote = LoteAnalisis::whereDate('Fecha', $res->fechaLote)->where('Id_tecnica', $item->Id_parametro)->get();
+                        if ($lote->count()) {
+                            array_push($temp, $lote[0]->Id_lote);
+                            array_push($temp, $lote[0]->Fecha);
                             // array_push($temp,$loteDetalle->Hora);
-                        }else{
-                            array_push($temp,"");
-                            array_push($temp,""); 
+                        } else {
+                            array_push($temp, "");
+                            array_push($temp, "");
                             // array_push($temp,""); 
                         }
-                        array_push($model,$temp);
+                        array_push($model, $temp);
                     }
-              
                 }
 
                 break;
@@ -1539,12 +1562,12 @@ class MetalesController extends Controller
                 # code...
                 break;
         }
-        
+
         $data = array(
             'codigo' => $codigo,
             'model' => $model,
             // 'codigo2' => $codigo2,
-            
+
         );
         return response()->json($data);
     }
@@ -1610,7 +1633,7 @@ class MetalesController extends Controller
         $valFecha = false;
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-        
+
 
 
         LoteDetalle::create([
@@ -1644,136 +1667,23 @@ class MetalesController extends Controller
     }
     public function sendMuestrasLote(Request $res)
     {
-        $sw = false; 
+        $sw = false;
         $msg = "";
         $conversion = 0;
         $volMuestra = 100;
         $volFinal = 100;
         $dilucion = 1;
 
-        for ($i=0; $i <  sizeof($res->ids); $i++) { 
-            $parametro = CodigoParametros::where('Id_codigo',$res->ids[$i])->first();
-            $proceso = ProcesoAnalisis::where('Id_solicitud',$parametro->Id_solicitud)->first();
+        for ($i = 0; $i <  sizeof($res->ids); $i++) {
+            $parametro = CodigoParametros::where('Id_codigo', $res->ids[$i])->first();
+            $proceso = ProcesoAnalisis::where('Id_solicitud', $parametro->Id_solicitud)->first();
             $fechaLote = \Carbon\Carbon::parse(@$res->fechaLote)->format('Y-m-d');
             $fechaRecep = \Carbon\Carbon::parse(@$proceso->Hora_recepcion)->format('Y-m-d');
-            // $today = $fecha->toDateString();
-        //    if ($fechaLote < $fechaRecep) {
-        //     $msg = "Es Mayor y entra";
-        //     $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
-        //     ->where('Id_tecnica',$parametro->Id_parametro)->get();
-        //     // $msg = "Entro a for";
-        //     switch ($parametro->Id_parametro) {
-        //         case 20:
-        //         case 21:
-        //         case 23:
-        //         case 18:
-        //         case 24:
-        //         case 25:
-        //         case 232:
-        //         case 187:
-        //         case 226:
-        //         case 197:
-        //         case 351:
-        //         case 41:
-        //         case 354:
-        //         case 353:
 
-        //         case 355:
-        //         case 356:
-        //         case 22:
-        //         case 352:
-        //             $conversion = 1;
-        //             $volMuestra = 50;
-        //             break;
-        //         case 216:
-        //         case 210:
-        //         case 208:
-        //             $conversion = 1;
-        //             $volMuestra = 45;
-        //             $volFinal = 50;
-        //             $dilucion = 1.111111;
-        //             break;
-        //         case 215:
-        //             $conversion = 1;
-        //             $volMuestra = 45;
-        //             $volFinal = 100;
-        //             break;
-        //         case 191:
-        //         case 194:
-        //         case 189:
-        //         case 192:
-        //         case 204:
-        //         case 190:
-        //         case 196:
-        //             $conversion = 1;
-        //             $volMuestra = 100;
-        //             $volFinal = 100;
-        //         break;
-        //         case 188:
-        //         case 219:
-        //         case 195:
-        //             $conversion = 1;
-        //             $volMuestra = 80;
-        //             $volFinal = 100;
-        //         break;
-        //         case 230:
-        //             $conversion = 1;
-        //             $volMuestra = 100;
-        //             $volFinal = 100;
-        //             break;
-        //         case 215:
-        //             $conversion = 1;
-        //             $volMuestra = 45;
-        //             $volFinal = 100;
-        //             break;
-        //         default:
-        //             $volMuestra = 100;
-        //             $conversion = 1000;
-        //             $volFinal = 100;
-        //             break;
-        //     }
-        //     if ($lote->count()) {
-        //         $msg = "Entro a if";
-        //         $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
-        //         if($detalle->count()){}
-        //         else{
-        //             LoteDetalle::create([
-        //                 'Id_lote' => $lote[0]->Id_lote,
-        //                 'Id_analisis' => $parametro->Id_solicitud,
-        //                 'Id_codigo' => $res->ids[$i],
-        //                 'Id_parametro' => $parametro->Id_parametro,
-        //                 'Id_control' => 1,
-        //                 'Factor_dilucion' => 1,
-        //                 'Vol_muestra' => $volMuestra,
-        //                 'Factor_conversion' => $conversion,
-        //                 'Factor_dilucion' => $dilucion,
-        //                 'Liberado' => 0,
-        //                 'Analisis' => 1,
-                        
-        //             ]);
-        //             $solModel = CodigoParametros::find($res->ids[$i]);
-        //             $solModel->Asignado = 1;
-        //             $solModel->save();
-    
-        //             $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
-            
-        //             $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
-        //             $loteModel->Asignado = $detModel->count();
-        //             $loteModel->Liberado = 0;
-        //             $loteModel->save();
-        //             $sw = true;
-        //         }
-        //     }
-        //    }else{
-
-        //     // $sw = "Es Menor y no paso";
-        //    }
-
-        
             $msg = "Es Mayor y entra";
             // $fechaLote =  \Carbon\Carbon::parse(@$res->fechaLote)->format('Y-m-d');
-            $lote = LoteAnalisis::where('Fecha',$res->fechaLote)
-            ->where('Id_tecnica',$parametro->Id_parametro)->get();
+            $lote = LoteAnalisis::where('Fecha', $res->fechaLote)
+                ->where('Id_tecnica', $parametro->Id_parametro)->get();
             // $msg = "Entro a for";
             switch ($parametro->Id_parametro) {
                 case 20:
@@ -1783,14 +1693,19 @@ class MetalesController extends Controller
                 case 24:
                 case 25:
                 case 232:
+                case 193:
                 case 187:
                 case 226:
                 case 197:
                 case 351:
                 case 41:
                 case 354:
+                case 224:
                 case 353:
-
+                case 198:
+                case 388:
+                case 389:
+                case 393:
                 case 355:
                 case 356:
                 case 360:
@@ -1818,18 +1733,22 @@ class MetalesController extends Controller
                 case 192:
                 case 204:
                 case 190:
+                case 223:
                 case 196:
+                case 229:
                     $conversion = 1000;
                     $volMuestra = 100;
                     $volFinal = 100;
-                break;
+                    break;
                 case 188:
+                case 220:
                 case 219:
                 case 195:
+                case 228:
                     $conversion = 1000;
                     $volMuestra = 80;
                     $volFinal = 100;
-                break;
+                    break;
                 case 230:
                     $conversion = 1000;
                     $volMuestra = 100;
@@ -1844,9 +1763,9 @@ class MetalesController extends Controller
             }
             if ($lote->count()) {
                 $msg = "Entro a if";
-                $detalle = LoteDetalle::where('Id_codigo',$res->ids[$i])->get();
-                if($detalle->count()){}
-                else{
+                $detalle = LoteDetalle::where('Id_codigo', $res->ids[$i])->get();
+                if ($detalle->count()) {
+                } else {
                     LoteDetalle::create([
                         'Id_lote' => $lote[0]->Id_lote,
                         'Id_analisis' => $parametro->Id_solicitud,
@@ -1860,14 +1779,14 @@ class MetalesController extends Controller
                         'Factor_dilucion' => $dilucion,
                         'Liberado' => 0,
                         'Analisis' => 1,
-                         
+
                     ]);
                     $solModel = CodigoParametros::find($res->ids[$i]);
                     $solModel->Asignado = 1;
                     $solModel->save();
-    
+
                     $detModel = LoteDetalle::where('Id_lote', $lote[0]->Id_lote)->get();
-            
+
                     $loteModel = LoteAnalisis::find($lote[0]->Id_lote);
                     $loteModel->Asignado = $detModel->count();
                     $loteModel->Liberado = 0;
@@ -1875,10 +1794,8 @@ class MetalesController extends Controller
                     $sw = true;
                 }
             }
-      
-       
-        } 
-        
+        }
+
         $data = array(
             'lote' => $lote,
             'fechaLote' => $res->fechaLote,
@@ -2160,11 +2077,11 @@ class MetalesController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
         // $loteVal = LoteAnalisis::where('Id_lote', $id)->first();
-        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->orderBy('Orden','ASC')->get();
-        $tecnica = Tecnica::where('Id_tecnica',$model[0]->Id_tecnica)->first();
-        $tipoFormula = TipoFormula::where('Id_tipo_formula',$model[0]->Id_tipo_formula)->first();
-        $solModel = Solicitud::where('Id_solicitud',$model[0]->Id_analisis)->first();
-        $controles = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control','!=',1)->get();
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->orderBy('Orden', 'ASC')->get();
+        $tecnica = Tecnica::where('Id_tecnica', $model[0]->Id_tecnica)->first();
+        $tipoFormula = TipoFormula::where('Id_tipo_formula', $model[0]->Id_tipo_formula)->first();
+        $solModel = Solicitud::where('Id_solicitud', $model[0]->Id_analisis)->first();
+        $controles = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->where('Id_control', '!=', 1)->get();
         $plantilla = Bitacoras::where('Id_lote', $id)->get();
         $swValResidual = false;
         if ($plantilla->count()) {
@@ -2175,13 +2092,14 @@ class MetalesController extends Controller
         $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
         if ($fechaResidual <= $fechaLimite) {
             $sw = false;
-        }else{
+        } else {
             $sw = true;
         }
 
         $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
-        $estandares = estandares::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$lote->Fecha)->whereDate('Fecha_fin','>=',$lote->Fecha)->get();
-        $detalle = MetalesDetalle::where('Id_lote',$id)->first();
+        $estandares = estandares::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio', '<=', $lote->Fecha)->whereDate('Fecha_fin', '>=', $lote->Fecha)->get();
+        // dd($estandares);
+        $detalle = MetalesDetalle::where('Id_lote', $id)->first();
         //Comprobación de bitacora analizada
         $comprobacion = LoteDetalle::where('Liberado', 0)->where('Id_lote', $id)->get();
         if ($comprobacion->count()) {
@@ -2189,27 +2107,41 @@ class MetalesController extends Controller
         } else {
             @$analizo = User::where('id', $model[0]->Analizo)->first();
         }
-        $auxP= NormaParametros::where('Id_parametro',$lote->Id_tecnica)->where('Id_norma',7 )->get();
+        $auxP = NormaParametros::where('Id_parametro', $lote->Id_tecnica)->where('Id_norma', 7)->get();
         $tempN = 0;
         if ($auxP->count()) {
             $tempN = 7;
         }
-        
+
         switch ($solModel->Id_norma) {
             case 7:
-                $fechaHora = Carbon::parse(@$detalle->Fecha_preparacion);
-                $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
-                $hora = $fechaHora->isoFormat('h:mm A');
-                $today = @$fechaHora->toDateString();        
+                switch ($lote->Id_tecnica) {
+                    case 189:
+                    case 191:
+                    case 194:
+                        $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
+                        $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
+                        $hora = $fechaHora->isoFormat('h:mm A');
+                        $today = $fechaHora->toDateString();
+                        break;
+
+                    default:
+                        $fechaHora = Carbon::parse(@$detalle->Fecha_preparacion);
+                        $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
+                        $fechaHoraTemp = Carbon::parse(@$detalle->Fecha_digestion);
+                        $hora = $fechaHoraTemp->isoFormat('h:mm A');
+                        $today = @$fechaHora->toDateString();
+                        break;
+                }
                 break;
             default:
                 $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
                 $fechaPreparacion = Carbon::parse(@$detalle->Fecha_preparacion);
                 $hora = $fechaHora->isoFormat('h:mm A');
-                $today = $fechaHora->toDateString();    
+                $today = $fechaHora->toDateString();
                 break;
         }
- 
+
         $reviso = User::where('id', @$lote->Id_superviso)->first();
 
         $data = array(
@@ -2222,7 +2154,7 @@ class MetalesController extends Controller
             'estandares' => $estandares,
             'detalle' => $detalle,
             'lote' => $lote,
-            'hora' =>$hora,
+            'hora' => $hora,
             'fechaHora' => $fechaHora,
             'model' => $model,
             'curva' => $curva,
@@ -2240,14 +2172,21 @@ class MetalesController extends Controller
             case 24:
             case 25:
             case 232:
+            case 196:
+            case 229:
             case 187:
             case 226:
             case 197:
             case 351:
             case 41:
             case 354:
+            case 224:
             case 353:
+            case 198:
             case 55:
+            case 388:
+            case 389:
+            case 393:
                 $htmlFooter = view('exports.laboratorio.metales.absorcion.flamaResidual.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.flamaResidual.capturaHeader', $data);
@@ -2257,7 +2196,7 @@ class MetalesController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 $mpdf->Output();
                 break;
-                // 051 como horno de grafito a 4 decimales
+            // 051 como horno de grafito a 4 decimales
             case 355:
             case 356:
             case 360:
@@ -2283,11 +2222,13 @@ class MetalesController extends Controller
                 $mpdf->Output();
                 break;
             case 188:
+            case 220:
             case 219:
             case 219:
             case 195:
+            case 228:
             case 230:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Hidruros.capturaFooter', $data); 
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Hidruros.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.201Hidruros.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
@@ -2296,72 +2237,74 @@ class MetalesController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 $mpdf->Output();
                 break;
-                // 201 Flama
+            // 201 Flama
             case 191:
             case 194:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Flama.capturaFooter', $data); 
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Flama.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.201Flama.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Flama.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                $mpdf->Output();    
+                $mpdf->Output();
                 break;
             case 189:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Ba.capturaFooter', $data); 
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Ba.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.201Ba.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Ba.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                $mpdf->Output();    
+                $mpdf->Output();
                 break;
-                // Horno de grafito 201
+            // Horno de grafito 201
             case 192:
             case 204:
             case 190:
+            case 223:
             case 196:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Horno.capturaFooter', $data); 
+            case 229:
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.201Horno.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.201Horno.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.metales.absorcion.201Horno.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                $mpdf->Output();    
+                $mpdf->Output();
                 break;
             case 216:
             case 208:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Horno.capturaFooter', $data); 
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Horno.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.127Horno.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.metales.absorcion.127Horno.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                $mpdf->Output();    
+                $mpdf->Output();
                 break;
             case 210:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Cd.capturaFooter', $data); 
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Cd.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.127Cd.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.metales.absorcion.127Cd.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                $mpdf->Output();                    
+                $mpdf->Output();
                 break;
             case 215:
-                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaFooter', $data); 
+                $htmlFooter = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.metales.absorcion.127Hidruros.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                $mpdf->Output();    
+                $mpdf->Output();
                 break;
             default:
                 $htmlFooter = view('exports.laboratorio.metales.absorcion.capturaFooter', $data);
@@ -2374,7 +2317,6 @@ class MetalesController extends Controller
                 $mpdf->Output();
                 break;
         }
-       
     }
 
     // todo ************************************************
@@ -2391,7 +2333,7 @@ class MetalesController extends Controller
             'Fecha' => $res->fecha,
         ]);
         $data = array(
-            'model' => $model, 
+            'model' => $model,
         );
 
         return response()->json($data);
@@ -2406,7 +2348,7 @@ class MetalesController extends Controller
 
         $data = array(
             'model' => $model,
-            'sw' => $sw, 
+            'sw' => $sw,
         );
         return response()->json($data);
     }
@@ -2420,12 +2362,12 @@ class MetalesController extends Controller
             'Temp' => $res->idLote,
         ]);
         $data = array("data" => $res->idLote);
-        Excel::import(new IcpImport,$res->file('file')); 
+        Excel::import(new IcpImport, $res->file('file'));
         return response()->json($data);
     }
-    public function getLoteCapturaIcp(Request $res) 
+    public function getLoteCapturaIcp(Request $res)
     {
-        $model = LoteDetalleIcp::where('Id_lote',$res->idLote)->get();
+        $model = LoteDetalleIcp::where('Id_lote', $res->idLote)->get();
         $data = array(
             'model' => $model,
         );
@@ -2433,19 +2375,19 @@ class MetalesController extends Controller
     }
     public function liberarIcp(Request $res)
     {
-        $model = LoteDetalleIcp::where('Id_lote',$res->id)->where('Id_control',1)->get();
+        $model = LoteDetalleIcp::where('Id_lote', $res->id)->where('Id_control', 1)->get();
         foreach ($model as $item) {
             switch ($item->Id_parametro) {
-                case 207:// Al
-                case 212://Cr
-                case 300://Ni
-                case 209://Ba    
-                case 211://Cu
-                case 214://Mn
-                case 233://Se
-                case 217://Ag
+                case 207: // Al
+                case 212: //Cr
+                case 300: //Ni
+                case 209: //Ba    
+                case 211: //Cu
+                case 214: //Mn
+                case 233: //Se
+                case 217: //Ag
                     if ($item->Dilucio < 30) {
-                        $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                        $temp = CodigoParametros::where('Codigo', $item->Id_codigo)->where('Id_parametro', $item->Id_parametro)->first();
                         $temp->Resultado = $item->Resultado;
                         $temp->Resultado2 = $item->Resultado;
                         $temp->Analizo = Auth::user()->id;
@@ -2453,9 +2395,9 @@ class MetalesController extends Controller
                         $temp2 = LoteDetalleIcp::find($item->Id_detalle);
                         $temp2->Liberado = 1;
                         $temp2->save();
-                    }else{
+                    } else {
                         if ($item->Dilucion >= 30 && $item->Dilucion <= 390) {
-                            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                            $temp = CodigoParametros::where('Codigo', $item->Id_codigo)->where('Id_parametro', $item->Id_parametro)->first();
                             $temp->Resultado = $item->Resultado;
                             $temp->Resultado2 = $item->Resultado;
                             $temp->Analizo = Auth::user()->id;
@@ -2463,16 +2405,16 @@ class MetalesController extends Controller
                             $temp2 = LoteDetalleIcp::find($item->Id_detalle);
                             $temp2->Liberado = 1;
                             $temp2->save();
-                        }else{
+                        } else {
                             $temp2 = LoteDetalleIcp::find($item->Id_detalle);
                             $temp2->Liberado = 1;
                             $temp2->save();
                         }
                     }
                     break;
-                case 213:// Fe
+                case 213: // Fe
                     if ($item->Dilucio < 30) {
-                        $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                        $temp = CodigoParametros::where('Codigo', $item->Id_codigo)->where('Id_parametro', $item->Id_parametro)->first();
                         $temp->Resultado = $item->Resultado;
                         $temp->Resultado2 = $item->Resultado;
                         $temp->Analizo = Auth::user()->id;
@@ -2480,9 +2422,9 @@ class MetalesController extends Controller
                         $temp2 = LoteDetalleIcp::find($item->Id_detalle);
                         $temp2->Liberado = 1;
                         $temp2->save();
-                    }else{
+                    } else {
                         if ($item->Resultado >= 90 && $item->Resultado <= 1170) {
-                            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                            $temp = CodigoParametros::where('Codigo', $item->Id_codigo)->where('Id_parametro', $item->Id_parametro)->first();
                             $temp->Resultado = $item->Resultado;
                             $temp->Resultado2 = $item->Resultado;
                             $temp->Analizo = Auth::user()->id;
@@ -2490,7 +2432,7 @@ class MetalesController extends Controller
                             $temp2 = LoteDetalleIcp::find($item->Id_detalle);
                             $temp2->Liberado = 1;
                             $temp2->save();
-                        }else{
+                        } else {
                             $temp2 = LoteDetalleIcp::find($item->Id_detalle);
                             $temp2->Liberado = 1;
                             $temp2->save();
@@ -2501,100 +2443,99 @@ class MetalesController extends Controller
                 default:
                     break;
             }
-
-        } 
+        }
         $data = array(
             'model' => $model,
         );
-        return response()->json($data); 
+        return response()->json($data);
     }
     public function bitacoraIcp($id)
     {
-              //Opciones del documento PDF
-              $mpdf = new \Mpdf\Mpdf([  
-                'orientation' => 'P',
-                'format' => 'letter', 
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_top' => 39, 
-                'margin_bottom' => 40,
-                'defaultheaderfontstyle' => ['normal'],
-                'defaultheaderline' => '0'
-            ]);
-            $mpdf->SetWatermarkImage(
-                asset('/public/storage/MembreteVertical.png'),
-                1,
-                array(215, 280),
-                array(0, 0),
-            );
-    
-            $mpdf->showWatermarkImage = true;
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 39,
+            'margin_bottom' => 40,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
 
-            $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
-            $resultados = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',1)->get();
-            $controles = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',NULL)->get();
+        $mpdf->showWatermarkImage = true;
 
-
-            $plantilla = Bitacoras::where('Id_lote', $id)->get();
-            if ($plantilla->count()) {
-            } else {
-                $plantilla = PlantillaBitacora::where('Id_parametro', 207)->get();
-            }
-            $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
-            //Comprobación de bitacora analizada
-            $comprobacion = LoteDetalleIcp::where('Liberado', 0)->where('Id_lote', $id)->get();
-            if ($comprobacion->count()) {
-                $analizo = "";
-            } else {
-                @$analizo = User::where('id', $resultados[0]->Analizo)->first();
-            }
-            // $reviso = User::where('id', 46)->first();
-            $reviso = User::where('id', @$lote->Id_superviso)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
+        $resultados = LoteDetalleIcp::where('Id_lote', $id)->where('Id_control', 1)->get();
+        $controles = LoteDetalleIcp::where('Id_lote', $id)->where('Id_control', NULL)->get();
 
 
-            $data = array(
-                'lote' => $lote,
-                'comprobacion' => $comprobacion,
-                'plantilla' => $plantilla,
-                'resultados' => $resultados,
-                'controles' => $controles,
-                'reviso' => $reviso,
-                'analizo' => $analizo,
-                // 'textoProcedimiento' => $textoProcedimiento,
-            );
-            $htmlFooter = view('exports.laboratorio.metales.icp.capturaFooter', $data);
-            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-            $htmlHeader = view('exports.laboratorio.metales.icp.capturaHeader', $data);
-            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-            $htmlCaptura = view('exports.laboratorio.metales.icp.capturaBody', $data);
-            $mpdf->CSSselectMedia = 'mpdf';
-            $mpdf->WriteHTML($htmlCaptura);
-            $mpdf->Output();
+        $plantilla = Bitacoras::where('Id_lote', $id)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaBitacora::where('Id_parametro', 207)->get();
+        }
+        $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+        //Comprobación de bitacora analizada
+        $comprobacion = LoteDetalleIcp::where('Liberado', 0)->where('Id_lote', $id)->get();
+        if ($comprobacion->count()) {
+            $analizo = "";
+        } else {
+            @$analizo = User::where('id', $resultados[0]->Analizo)->first();
+        }
+        // $reviso = User::where('id', 46)->first();
+        $reviso = User::where('id', @$lote->Id_superviso)->first();
+
+
+        $data = array(
+            'lote' => $lote,
+            'comprobacion' => $comprobacion,
+            'plantilla' => $plantilla,
+            'resultados' => $resultados,
+            'controles' => $controles,
+            'reviso' => $reviso,
+            'analizo' => $analizo,
+            // 'textoProcedimiento' => $textoProcedimiento,
+        );
+        $htmlFooter = view('exports.laboratorio.metales.icp.capturaFooter', $data);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $htmlHeader = view('exports.laboratorio.metales.icp.capturaHeader', $data);
+        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+        $htmlCaptura = view('exports.laboratorio.metales.icp.capturaBody', $data);
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($htmlCaptura);
+        $mpdf->Output();
     }
     public function configuracionMetales()
     {
         $parametros = DB::table('ViewParametros')
-        ->where('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
-        ->orWhere('Id_tipo_formula',58)
-        ->orWhere('Id_tipo_formula',59)
-        ->get();
+            ->where('Id_tipo_formula', 20)
+            ->orWhere('Id_tipo_formula', 21)
+            ->orWhere('Id_tipo_formula', 22)
+            ->orWhere('Id_tipo_formula', 23)
+            ->orWhere('Id_tipo_formula', 24)
+            ->orWhere('Id_tipo_formula', 58)
+            ->orWhere('Id_tipo_formula', 59)
+            ->get();
         return view('laboratorio.metales.configuracionMetales', compact('parametros'));
     }
     public function getConfiguraciones(Request $res)
     {
-        $model = ConfiguracionMetales::where('Id_parametro',$res->id)->get();
+        $model = ConfiguracionMetales::where('Id_parametro', $res->id)->get();
         if ($model->count()) {
-        }else{
+        } else {
             ConfiguracionMetales::create([
                 'Id_parametro' => $res->id,
             ]);
         }
-        $model = ConfiguracionMetales::where('Id_parametro',$res->id)->get();
-        $parametro = DB::table('ViewParametros')->where('Id_parametro',$res->id)->first();
+        $model = ConfiguracionMetales::where('Id_parametro', $res->id)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_parametro', $res->id)->first();
         $data = array(
             'aux' => "Hola",
             'model' => $model[0],
@@ -2604,7 +2545,7 @@ class MetalesController extends Controller
     }
     public function setConfiguraciones(Request $res)
     {
-        $model = ConfiguracionMetales::where('Id_parametro',$res->id)->first();
+        $model = ConfiguracionMetales::where('Id_parametro', $res->id)->first();
         $model->Equipo = $res->Equipo;
         $model->Lampara = $res->Lampara;
         $model->No_inventario = $res->No_inventario;
@@ -2640,7 +2581,7 @@ class MetalesController extends Controller
 
         return response()->json($data);
     }
-    
+
     public function getHistorial(Request $res)
     {
         $idHistorial = array();
@@ -2650,22 +2591,21 @@ class MetalesController extends Controller
         $parametrohist = array();
         $resultadoHist = array();
         $historialHist = array();
-     
+
         $sw = 0;
 
-        $codigo = CodigoParametros::where('Id_codigo',$res->idCodigo)->first();
-        $solicitud = Solicitud::where('Id_solicitud',$codigo->Id_solicitud)->first();
-        $punto = SolicitudPuntos::where('Id_solicitud',$codigo->Id_solicitud)->first();
+        $codigo = CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
+        $solicitud = Solicitud::where('Id_solicitud', $codigo->Id_solicitud)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud', $codigo->Id_solicitud)->first();
 
-        $histSol = Solicitud::where('Padre',0)->where('Id_sucursal',$solicitud->Id_sucursal)->orderBy('Id_solicitud','DESC')->get();
-        try { 
-            foreach ($histSol as $item) 
-            {
-                $histPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->where('Id_muestreo',$punto->Id_muestreo)->get();
+        $histSol = Solicitud::where('Padre', 0)->where('Id_sucursal', $solicitud->Id_sucursal)->orderBy('Id_solicitud', 'DESC')->get();
+        try {
+            foreach ($histSol as $item) {
+                $histPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $punto->Id_muestreo)->get();
                 if ($histPunto->count()) {
-                    $res = ProcesoAnalisis::where('Id_solicitud',$item->Id_solicitud)->where('Liberado',1)->get();
+                    $res = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->where('Liberado', 1)->get();
                     if ($res->count()) {
-                        array_push($idHistorial,$item->Id_solicitud);
+                        array_push($idHistorial, $item->Id_solicitud);
                         $sw++;
                     }
                 }
@@ -2673,20 +2613,18 @@ class MetalesController extends Controller
                     break;
                 }
             }
-            for ($i=0; $i < sizeof($histPunto); $i++) {                 
-                $temp2 = DB::table('lote_detalle')->where('Id_analisis',$idHistorial[$i])->where('Id_parametro',$codigo->Id_parametro)->first();
+            for ($i = 0; $i < sizeof($histPunto); $i++) {
+                $temp2 = DB::table('lote_detalle')->where('Id_analisis', $idHistorial[$i])->where('Id_parametro', $codigo->Id_parametro)->first();
 
-                 $temp = DB::table('viewcodigorecepcion')->where('Id_solicitud',$idHistorial[$i])->where('Id_parametro',$codigo->Id_parametro)->first();
-                $tempLote = LoteAnalisis::where('Id_lote',@$temp2->Id_lote)->first();
-                   
-                array_push($idsLotes,$tempLote->Id_lote);
-                array_push($fechaLote,@$tempLote->Fecha);
-                array_push($parametrohist,@$temp->Parametro. "(".@$temp->Tipo_formula.")");
-                array_push($Codigohist,@$temp->Codigo);
-                array_push($resultadoHist,@$temp->Resultado2);
-                array_push($historialHist,@$temp->Historial);
-           
+                $temp = DB::table('viewcodigorecepcion')->where('Id_solicitud', $idHistorial[$i])->where('Id_parametro', $codigo->Id_parametro)->first();
+                $tempLote = LoteAnalisis::where('Id_lote', @$temp2->Id_lote)->first();
 
+                array_push($idsLotes, $tempLote->Id_lote);
+                array_push($fechaLote, @$tempLote->Fecha);
+                array_push($parametrohist, @$temp->Parametro . "(" . @$temp->Tipo_formula . ")");
+                array_push($Codigohist, @$temp->Codigo);
+                array_push($resultadoHist, @$temp->Resultado2);
+                array_push($historialHist, @$temp->Historial);
             }
         } catch (\Throwable $th) {
             $idsLotes = array();
@@ -2694,12 +2632,11 @@ class MetalesController extends Controller
             $Codigohist = array();
             $parametrohist = array();
             $resultadoHist = array();
-            $historialHist=array();
-         
+            $historialHist = array();
         }
 
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$codigo->Id_solicitud)->get();
-        
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigo->Id_solicitud)->get();
+
         $data = array(
             'idsLotes' => $idsLotes,
             'fechaLote' => $fechaLote,
@@ -2713,9 +2650,9 @@ class MetalesController extends Controller
     }
     public function setTituloBit(Request $res)
     {
-        $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
-        $plantilla = PlantillaBitacora::where('Id_parametro',$lote->Id_tecnica)->first();
-        $model = Bitacoras::where('Id_lote',$res->id)->first();
+        $lote = LoteAnalisis::where('Id_lote', $res->id)->first();
+        $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->first();
+        $model = Bitacoras::where('Id_lote', $res->id)->first();
         $model->Titulo = $plantilla->Titulo;
         $model->Rev = $plantilla->Rev;
         $model->save();
@@ -2727,20 +2664,19 @@ class MetalesController extends Controller
     }
     public function actualizarLiberaciones()
     {
-        
-        $loteTemp = LoteAnalisis::where('Id_area',2)->get();
+
+        $loteTemp = LoteAnalisis::where('Id_area', 2)->get();
         foreach ($loteTemp as $item) {
             $model = LoteDetalle::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->get();
             $loteModel = LoteAnalisis::find($item->Id_lote);
             $loteModel->Liberado = $model->count();
             $loteModel->save();
-            echo "Id lote: ".$item->Id_lote ."<br>";
+            echo "Id lote: " . $item->Id_lote . "<br>";
         }
-
     }
     public function getPlantilla(Request $res)
     {
-        $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
+        $lote = LoteAnalisis::where('Id_lote', $res->id)->first();
         $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
         if ($plantilla->count()) {
         } else {
@@ -2752,7 +2688,7 @@ class MetalesController extends Controller
         return response()->json($data);
     }
     public function setPlantilla(Request $res)
-    { 
+    {
         $temp = Bitacoras::where('Id_lote', $res->id)->get();
         if ($temp->count()) {
             $model = Bitacoras::where('Id_lote', $res->id)->first();
@@ -2776,23 +2712,23 @@ class MetalesController extends Controller
     }
     public function setObsIndividual(Request $res)
     {
-        $punto = SolicitudPuntos::where('Id_solicitud',$res->idSol)->first();
+        $punto = SolicitudPuntos::where('Id_solicitud', $res->idSol)->first();
         $punto->Obs_metales = $res->obs;
         $punto->save();
- 
+
         $data = array(
             'model' => $punto,
         );
-        return response()->json($data); 
+        return response()->json($data);
     }
     public function listaFoliosSinRellenar()
     {
-        $model = MetalesDetalle::where('Folio',NULL)->get();
-        echo "Lista Total: ".$model->count();
+        $model = MetalesDetalle::where('Folio', NULL)->get();
+        echo "Lista Total: " . $model->count();
         echo "<br>";
         foreach ($model as $item) {
             echo "<br>";
-            echo "Id lote: ".$item->Id_lote;
+            echo "Id lote: " . $item->Id_lote;
             echo "<br>";
             echo "----------";
             echo "<br>";
@@ -2800,7 +2736,7 @@ class MetalesController extends Controller
     }
     public function getUltimoLote(Request $res)
     {
-        $model = LoteAnalisis::where('Id_tecnica',$res->id)->orderBy('Id_lote','DESC')->first();
+        $model = LoteAnalisis::where('Id_tecnica', $res->id)->orderBy('Id_lote', 'DESC')->first();
         $data = array(
             'model' => $model,
         );
@@ -2808,18 +2744,18 @@ class MetalesController extends Controller
     }
     public function eliminarContro(Request $res)
     {
-        $model = LoteDetalle::where('Id_detalle',$res->idMuestra)->first();
+        $model = LoteDetalle::where('Id_detalle', $res->idMuestra)->first();
         $msg = "";
         if ($model->Id_control != 1) {
             DB::table('lote_detalle')->where('Id_detalle', $res->idMuestra)->delete();
             $msg = "Control eliminado";
-        }else{
+        } else {
             $msg = "No se puede eliminar porque no es un control";
         }
 
-        $contLote = LoteDetalle::where('Id_lote',$model->Id_lote)->get();
-        $contLib = LoteDetalle::where('Id_lote',$model->Id_lote)->where('Liberado',1)->get();
-        $temp = LoteAnalisis::where('Id_lote',$model->Id_lote)->first();
+        $contLote = LoteDetalle::where('Id_lote', $model->Id_lote)->get();
+        $contLib = LoteDetalle::where('Id_lote', $model->Id_lote)->where('Liberado', 1)->get();
+        $temp = LoteAnalisis::where('Id_lote', $model->Id_lote)->first();
         $temp->Asignado = $contLote->count();
         $temp->Liberado = $contLib->count();
         $temp->save();
@@ -2832,19 +2768,19 @@ class MetalesController extends Controller
     }
     public function desliberarControl(Request $res)
     {
-        $model = LoteDetalle::where('Id_detalle',$res->idMuestra)->first();
+        $model = LoteDetalle::where('Id_detalle', $res->idMuestra)->first();
         $msg = "";
         if ($model->Id_control != 1) {
             $model->Liberado = 0;
             $model->save();
             $msg = "Control desliberado";
-        }else{
+        } else {
             $msg = "No se puede desliberado porque no es un control";
         }
 
-        $contLote = LoteDetalle::where('Id_lote',$model->Id_lote)->get();
-        $contLib = LoteDetalle::where('Id_lote',$model->Id_lote)->where('Liberado',1)->get();
-        $temp = LoteAnalisis::where('Id_lote',$model->Id_lote)->first();
+        $contLote = LoteDetalle::where('Id_lote', $model->Id_lote)->get();
+        $contLib = LoteDetalle::where('Id_lote', $model->Id_lote)->where('Liberado', 1)->get();
+        $temp = LoteAnalisis::where('Id_lote', $model->Id_lote)->first();
         $temp->Liberado = $contLib->count();
         $temp->save();
 
@@ -2854,20 +2790,21 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-    public function setEjecutraParametro($id){
+    public function setEjecutraParametro($id)
+    {
 
-        $loteMuestra = LoteAnalisis::where('Id_tecnica',$id)->whereDate('Fecha','<=',"2024-02-29")->get();
+        $loteMuestra = LoteAnalisis::where('Id_tecnica', $id)->whereDate('Fecha', '<=', "2024-02-29")->get();
         foreach ($loteMuestra as $item) {
-            echo "Id: ".$item->Id_lote. " ".$item->Fecha."<br>";
-            $detalle = LoteDetalle::where('Id_lote',$item->Id_lote)->get();
+            echo "Id: " . $item->Id_lote . " " . $item->Fecha . "<br>";
+            $detalle = LoteDetalle::where('Id_lote', $item->Id_lote)->get();
             foreach ($detalle as $item2) {
-                echo "Id: ".$item2->Id_detalle."<br>";
+                echo "Id: " . $item2->Id_detalle . "<br>";
                 echo "------------------------ <br>";
                 $fecha = new Carbon($item->Fecha);
                 $today = $fecha->toDateString();
                 $parametroModel = Parametro::where('Id_matriz', 12)->where('Id_parametro', $id)->get();
                 $parametroPurificada = Parametro::where('Id_matriz', 14)->where('Id_parametro', $id)->get();
-                 // //Buscar la BMR 
+                // //Buscar la BMR 
                 $parametro = Parametro::where('Id_parametro', $id)->first();
                 $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->where('Id_parametro', $id)->first();
 
@@ -2877,42 +2814,48 @@ class MetalesController extends Controller
                 $FD = $item2->Factor_dilucion;
                 $FC = $item2->Factor_conversion;
                 $suma = ($x + $y + $z);
-                $promedio = round(($suma / 3),4);
+                $promedio = round(($suma / 3), 4);
                 $volFinal = 0;
                 $resMicro = 0;
-                
+
                 $resultado = "";
-            
+
                 switch ($parametro->Id_matriz) {
                     case 14: // MetalPotable
                     case 8:
                         switch ($parametro->Id_parametro) {
                             case  215:
-                            $promedio = round(($suma / 3),3);
-                            $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resMicro = $temp;
-                            $temp = $temp * $FD * $item2->Vol_final;  
-                            $resultado = ($temp ) / ($item2->Vol_final * $FC);
+                                $promedio = round(($suma / 3), 3);
+                                $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                                $resMicro = $temp;
+                                $temp = $temp * $FD * $item2->Vol_final;
+                                $resultado = ($temp) / ($item2->Vol_final * $FC);
                                 break;
                             case 197:
                             case 232:
+                            case 193:
                             case 226:
                             case 187:
                             case 351:
                             case 41:
                             case 354:
+                            case 224:
                             case 353:
+                            case 198:
                             case 55:
+                            case 388:
+                            case 389:
+                            case 393:
                                 $fechaResidual = \Carbon\Carbon::parse(@$item->Fecha)->format('Y-m-d');
                                 $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
                                 if ($fechaResidual <= $fechaLimite) {
                                     $sw = false;
-                                    $promedio = round(($suma / 3),4);
-                                }else{
+                                    $promedio = round(($suma / 3), 4);
+                                } else {
                                     $sw = true;
-                                    $promedio = round(($suma / 3),3);
+                                    $promedio = round(($suma / 3), 3);
                                 }
-                        
+
                                 if ($parametroModel->count()) {
                                     if ($item2->Descripcion != "Resultado") {
                                         $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
@@ -2923,109 +2866,107 @@ class MetalesController extends Controller
                                         $resultado = $resultado / $FC;
                                     }
                                 } else {
-                                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                                } 
+                                    $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                                }
                                 break;
                             default:
-                            $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                            $resMicro = $paso1;
-                            $resultado = ($paso1 * 1) / $FC;   
+                                $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                                $resMicro = $paso1;
+                                $resultado = ($paso1 * 1) / $FC;
                                 break;
                         }
                         break;
                     case 13: //Metal purificado
                     case 9:
-                    $promedio = round(($suma / 3),4);
-                    switch ($parametro->Id_parametro) {
-                        case 190: 
-                        case 192:
-                        case 204:
-                        case 196:
-                            $volFinal = $item2->Vol_final;
-                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);   
-                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = (($temp ) / ($item2->Vol_muestra * $FC)); 
-                            break;
-                        case 191:
-                        case 194:
-                        case 189:
-                            $volFinal = $item2->Vol_final;
-                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);   
-                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = (($temp ) / ($item2->Vol_muestra)); 
-                            break;
-                        default:
-                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);   
-                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = ($temp ) / ($item2->Vol_muestra * $FC); 
-                            break;
-                    }
-                    break;
-                    default:            
-                    $fechaResidual = \Carbon\Carbon::parse(@$item->Fecha)->format('Y-m-d');
-                    $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
-                    if ($fechaResidual <= $fechaLimite) {
-                        $sw = false;
-                        $promedio = round(($suma / 3),4);
-                    }else{
-                        $sw = true;
-                        $promedio = round(($suma / 3),3);
-                    }
-            
-                    if ($parametroModel->count()) {
-                        if ($item2->Descripcion != "Resultado") {
-                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                            $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
-                        } else {
-                            $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
-                            $resMicro =(($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = $resultado / $FC;
+                        $promedio = round(($suma / 3), 4);
+                        switch ($parametro->Id_parametro) {
+                            case 190:
+                            case 223:
+                            case 192:
+                            case 204:
+                            case 196:
+                            case 229:
+                                $volFinal = $item2->Vol_final;
+                                $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);
+                                $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                                $resultado = (($temp) / ($item2->Vol_muestra * $FC));
+                                break;
+                            case 191:
+                            case 194:
+                            case 189:
+                                $volFinal = $item2->Vol_final;
+                                $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);
+                                $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                                $resultado = (($temp) / ($item2->Vol_muestra));
+                                break;
+                            default:
+                                $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $item2->Vol_final);
+                                $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                                $resultado = ($temp) / ($item2->Vol_muestra * $FC);
+                                break;
                         }
-                    } else {
-                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                    } 
-                break;
+                        break;
+                    default:
+                        $fechaResidual = \Carbon\Carbon::parse(@$item->Fecha)->format('Y-m-d');
+                        $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
+                        if ($fechaResidual <= $fechaLimite) {
+                            $sw = false;
+                            $promedio = round(($suma / 3), 4);
+                        } else {
+                            $sw = true;
+                            $promedio = round(($suma / 3), 3);
+                        }
 
-                
-                $resultadoRound = round($resultado, 3);
+                        if ($parametroModel->count()) {
+                            if ($item2->Descripcion != "Resultado") {
+                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                                $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
+                            } else {
+                                $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
+                                $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                                $resultado = $resultado / $FC;
+                            }
+                        } else {
+                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                        }
+                        break;
 
-            
-                $detalle = LoteDetalle::find($request->idDetalle);
-                // $detalle->Vol_muestra = $request->volMuestra;
-                // $detalle->Vol_final = $request->volFinal;
-                // $detalle->Vol_dirigido = $request->volDirigido;
-                // $detalle->Abs1 = $request->x; 
-                // $detalle->Abs2 = $request->y;
-                // $detalle->Abs3 = $request->z;
-                // $detalle->Abs_promedio = $promedio;
-                // $detalle->Factor_dilucion = $request->FD;
-                // $detalle->Factor_conversion = $request->FC;
-                $detalle->Resultado_microgramo = $resMicro;
-                $detalle->Vol_disolucion = $resultadoRound;
-                // $detalle->Observacion = $request->obs;
-                // $detalle->Analizo = Auth::user()->id;
-                $detalle->save();
-            }
 
+                        $resultadoRound = round($resultado, 3);
+
+
+                        $detalle = LoteDetalle::find($request->idDetalle);
+                        // $detalle->Vol_muestra = $request->volMuestra;
+                        // $detalle->Vol_final = $request->volFinal;
+                        // $detalle->Vol_dirigido = $request->volDirigido;
+                        // $detalle->Abs1 = $request->x; 
+                        // $detalle->Abs2 = $request->y;
+                        // $detalle->Abs3 = $request->z;
+                        // $detalle->Abs_promedio = $promedio;
+                        // $detalle->Factor_dilucion = $request->FD;
+                        // $detalle->Factor_conversion = $request->FC;
+                        $detalle->Resultado_microgramo = $resMicro;
+                        $detalle->Vol_disolucion = $resultadoRound;
+                        // $detalle->Observacion = $request->obs;
+                        // $detalle->Analizo = Auth::user()->id;
+                        $detalle->save();
+                }
             }
         }
- 
-       
-       
-
     }
-    public function setFirmaSup($id){
+    public function setFirmaSup($id)
+    {
         // $model = LoteAnalisis::where('Id')
     }
-    
+
     public function setEjecutarTodo(Request $res)
     {
         $msg = "Muestras ejecutadas";
-        for ($i=0; $i < sizeof($res->ids); $i++) { 
+        for ($i = 0; $i < sizeof($res->ids); $i++) {
             $detalleModel = LoteDetalle::where('Id_detalle', $res->ids[$i])->first();
             $sw = false;
-            
-            $loteTemp = LoteAnalisis::where('Id_lote',$detalleModel->Id_lote)->first();
+
+            $loteTemp = LoteAnalisis::where('Id_lote', $detalleModel->Id_lote)->first();
             $fecha = new Carbon($loteTemp->Fecha);
             $today = $fecha->toDateString();
             $parametroModel = Parametro::where('Id_matriz', 12)->where('Id_parametro', $detalleModel->Id_parametro)->get();
@@ -3043,41 +2984,47 @@ class MetalesController extends Controller
             $FD = $res->fds[$i];
             $FC = $res->fcs[$i];
             $suma = ($x + $y + $z);
-            $promedio = round(($suma / 3),4);
+            $promedio = round(($suma / 3), 4);
             $volFinal = 0;
             $resMicro = 0;
-            
+
             $resultado = "";
             switch ($parametro->Id_matriz) {
                 case 14: // MetalPotable
                 case 8:
                     switch ($parametro->Id_parametro) {
                         case  215:
-                        $promedio = round(($suma / 3),3);
-                        $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                        $resMicro = $temp;
-                        $temp = $temp * $FD * $res->volFinals[$i];  
-                        $resultado = ($temp ) / ($res->voMuestras[$i] * $FC);
+                            $promedio = round(($suma / 3), 3);
+                            $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resMicro = $temp;
+                            $temp = $temp * $FD * $res->volFinals[$i];
+                            $resultado = ($temp) / ($res->voMuestras[$i] * $FC);
                             break;
                         case 197:
                         case 232:
+                        case 193:
                         case 226:
                         case 187:
                         case 351:
                         case 41:
                         case 354:
+                        case 224:
                         case 353:
+                        case 198:
                         case 55:
+                        case 388:
+                        case 389:
+                        case 393:
                             $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
                             $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
                             if ($fechaResidual <= $fechaLimite) {
                                 $sw = false;
-                                $promedio = round(($suma / 3),4);
-                            }else{
+                                $promedio = round(($suma / 3), 4);
+                            } else {
                                 $sw = true;
-                                $promedio = round(($suma / 3),3);
+                                $promedio = round(($suma / 3), 3);
                             }
-                    
+
                             if ($parametroModel->count()) {
                                 if ($detalleModel->Descripcion != "Resultado") {
                                     $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
@@ -3088,78 +3035,80 @@ class MetalesController extends Controller
                                     $resultado = $resultado / $FC;
                                 }
                             } else {
-                                    $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                            } 
+                                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            }
                             break;
                         default:
-                        $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-                        $resMicro = $paso1;
-                        $resultado = ($paso1 * 1) / $FC;   
+                            $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                            $resMicro = $paso1;
+                            $resultado = ($paso1 * 1) / $FC;
                             break;
                     }
                     break;
                 case 13: //Metal purificado
                 case 9:
-                    $promedio = round(($suma / 3),4);
+                    $promedio = round(($suma / 3), 4);
                     switch ($parametro->Id_parametro) {
-                        case 190: 
+                        case 190:
+                        case 223:
                         case 192:
                         case 204:
                         case 196:
+                        case 229:
                             $volFinal = $res->volFinals[$i];
-                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $res->volFinals[$i]);   
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $res->volFinals[$i]);
                             $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = (($temp ) / ($res->voMuestras[$i] * $FC)); 
+                            $resultado = (($temp) / ($res->voMuestras[$i] * $FC));
                             break;
                         case 191:
                         case 194:
                         case 189:
                             $volFinal = $res->volFinals[$i];
-                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $res->volFinals[$i]);   
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $res->volFinals[$i]);
                             $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = (($temp ) / ($res->voMuestras[$i])); 
+                            $resultado = (($temp) / ($res->voMuestras[$i]));
                             break;
                         default:
-                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $res->volFinals[$i]);   
+                            $temp =   (((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) * $res->volFinals[$i]);
                             $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
-                            $resultado = ($temp ) / ($res->voMuestras[$i] * $FC); 
+                            $resultado = ($temp) / ($res->voMuestras[$i] * $FC);
                             break;
                     }
                     break;
-                default:            
+                default:
                     $fechaResidual = \Carbon\Carbon::parse(@$loteTemp->Fecha)->format('Y-m-d');
                     $fechaLimite = \Carbon\Carbon::parse("2024-01-08")->format('Y-m-d');
                     if ($fechaResidual <= $fechaLimite) {
                         $sw = false;
-                        $promedio = round(($suma / 3),4);
-                    }else{
+                        $promedio = round(($suma / 3), 4);
+                    } else {
                         $sw = true;
-                        $promedio = round(($suma / 3),3);
+                        $promedio = round(($suma / 3), 3);
                     }
-            
+
                     if ($parametroModel->count()) {
                         if ($detalleModel->Descripcion != "Resultado") {
                             $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
                             $resMicro = ($promedio - $curvaConstantes->B) / $curvaConstantes->M;
                         } else {
                             $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD);
-                            $resMicro =(($promedio - $curvaConstantes->B) / $curvaConstantes->M);
+                            $resMicro = (($promedio - $curvaConstantes->B) / $curvaConstantes->M);
                             $resultado = $resultado / $FC;
                         }
                     } else {
-                            $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;      
-                    } 
-                break;
+                        $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                    }
+                    break;
             }
-    
+
             $resultadoRound = round($resultado, 3);
-    
-           
+
+
             $detalle = LoteDetalle::find($res->ids[$i]);
             $detalle->Vol_muestra = $res->voMuestras[$i];
             $detalle->Vol_final = $res->volFinals[$i];
             // $detalle->Vol_dirigido = $res->volDirigido;
-            $detalle->Abs1 = $res->xs[$i]; 
+            $detalle->Abs1 = $res->xs[$i];
             $detalle->Abs2 = $res->ys[$i];
             $detalle->Abs3 = $res->zs[$i];
             $detalle->Abs_promedio = $promedio;
@@ -3170,21 +3119,19 @@ class MetalesController extends Controller
             $detalle->Observacion = $res->obs[$i];
             // $detalle->Analizo = Auth::user()->id;
             $detalle->save();
-          
         }
-        
+
 
         $data = array(
             'msg' => $msg,
         );
         return response()->json($data);
-        
     }
     public function refrescar(Request $request)
     {
 
         $lote = LoteDetalle::where('Id_lote', $request->idLote)->get();
-        $liberado = LoteDetalle::where('Id_lote', $request->idLote)->where('Liberado', 1) ->get();
+        $liberado = LoteDetalle::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
 
         if ($lote) {
             return response()->json([
@@ -3193,13 +3140,46 @@ class MetalesController extends Controller
                 'Liberado' => $liberado,
             ]);
         }
-    
+
         return response()->json([
             'success' => false,
             'message' => 'Lote no encontrado',
         ], 404);
     }
-    
+    public function setUpdateRestultado(Request $res)
+    {
+        // Buscar el registro
+        $model = LoteDetalleIcp::find($res->id);
 
+        if (!$model) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Registro no encontrado',
+                'errors' => ['id' => 'El ID proporcionado no existe']
+            ], 404);
+        }
+
+        // Asignar valores
+        $model->Cps = $res->cps;
+        $model->Resultado = $res->res;
+
+        // Guardar y verificar si fue exitoso
+        if ($model->save()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Resultado actualizado correctamente',
+                'data' => [
+                    'id' => $model->id,
+                    'Cps' => $model->Cps,
+                    'Resultado' => $model->Resultado
+                ]
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No se pudo actualizar el resultado',
+                'errors' => []
+            ], 500);
+        }
+    }
 }
-

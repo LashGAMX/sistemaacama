@@ -624,7 +624,6 @@ function storeContacto(idContacto, idCliente) {
         },
     });
 }
-
 function getPuntoMuestro() {
     let punto = new Array();
     let puntoId = new Array();
@@ -785,7 +784,6 @@ function createTabParametros() {
     });
     table.innerHTML = tab;
 }
-
 function getNormas() {
     let sub = document.getElementById("norma");
     let tab = "";
@@ -863,7 +861,6 @@ function getParametrosNorma() {
         },
     });
 }
-
 function getFrecuenciaMuestreo() {
     $.ajax({
         url: base_url + "/admin/cotizacion/getFrecuenciaMuestreo", //archivo que recibe la peticion
@@ -933,7 +930,6 @@ function getParametrosSelected() {
         },
     });
 }
-
 function setOrdenServicio() {
     let puntos = new Array();
     let param = new Array();
@@ -1007,7 +1003,6 @@ function updateParametroSol() {
     let param = new Array();
     let chParam = new Array();
     let std2 = 0;
-
     $.ajax({
         url: base_url + "/admin/cotizacion/solicitud/updateParametroSol", //archivo que recibe la peticion
         type: "POST", //método de envio
@@ -1069,7 +1064,7 @@ function setCreateOrden() {
                 success: function (response) {
                     if (response.success) {
                         alert("Orden creada correctamente");
-                        window.location = base_url + "/admin/cotizacion/solicitud";
+                        window.location = base_url + "/admin/cotizacion/solicitud/Solicitudes";
                     } else {
                         alert(response.message); 
                     }

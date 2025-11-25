@@ -1,4 +1,4 @@
-
+var idUser = document.getElementById('idUser').value;
 $(document).ready(function () {
     $(".select2").select2()
     $("#btnBuscar").click(function () {
@@ -41,7 +41,7 @@ function setLiberarTodo()
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/supervicion/analisis/setLiberarTodo",
-        data: {
+    data: {
             ids:ids,
             user:$("#user").val(),
             _token: $('input[name="_token"]').val(),
@@ -107,7 +107,11 @@ function getLotes()
                     tab += '<td>' + item.Asignado + '</td>'
                     tab += '<td>' + item.Liberado + '</td>'
                 }
-                tab += '<td><button class="btn btn-info" onclick="getBitacora('+item.Id_lote+')"><i class="voyager-external"></i></button></td>'
+              tab += '<td>';
+              tab += '<button class="btn btn-info" onclick="getBitacora(' + item.Id_lote + ')"><i class="voyager-external"></i></button> ';
+              tab += '<button class="btn btn-danger btn-sm" onclick="eliminarLote(' + item.Id_lote + ')"><i class="fa fa-trash"></i></button>';
+              tab += '</td>';
+
                 tab += '</tr>'
             })
             tab += '    </tbody>'
@@ -118,4 +122,31 @@ function getLotes()
 }
 function getBitacora(id){
     window.open(base_url + "/admin/laboratorio/analisis/bitacora/impresion/" + id);
+}
+function eliminarLote(idLote) {
+    if (confirm("¿Deseas eliminar el lote con ID " + idLote + "?")) {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/analisis/eliminarLote",
+            data: { 
+                idLote: idLote,
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            success: function(response) {
+                if(response.success) {
+                    alert("Lote eliminado ");
+                    getLotes();
+                   
+                } else {
+                    alert("Error al eliminar lote");
+                }
+            },
+            error: function() {
+                alert("Error en la petición");
+            }
+        });
+    } else {
+        alert("Proceso Cancelado");
+    }
 }

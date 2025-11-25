@@ -23,5 +23,6 @@ class CadenaGenerales extends Model
         'Fecha_salidaEli',
         'Fecha_emision',
         'Firma',
+        'User',
     ];
 }

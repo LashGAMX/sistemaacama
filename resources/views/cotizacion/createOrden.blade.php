@@ -444,9 +444,6 @@
     </div>
   </div>
 </div>
-
-
-
 <style>
   .transfer-demo {
     width: 100%;
@@ -454,9 +451,8 @@
     margin: 0 auto;
   }
 </style>
-
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.10"></script>
+<script src="{{asset('public/js/cotizacion/createOrden.js')}}?v=1.0.11"></script>
 <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 @stop

@@ -25,6 +25,8 @@
   }
 </style>
 <input type="text"  id="idSol" hidden value="{{@$model->Id_solicitud}}">
+<input type="hidden" id="user" name="user" value="{{ Auth::user()->id }}">
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -83,11 +85,7 @@
               </small>
             </div>
           </div>
-<<<<<<< HEAD
           <input type="text" class="" id="idCot" hidden value="{{@$model->Id_solicitud}}">
-=======
-          <input type="text" class="" id="idCot" hidden value="{{@$model->Id_cotizacion}}">
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
           <div class="col-md-8">
             <table class="table">
@@ -168,34 +166,37 @@
               @endforeach
             </select>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4" hidden>
             <label for="subnorma">Paquete</label>
             <select name="subnorma" id="subnorma" class="form-control" onchange="getParametrosNorma()">
             </select>
           </div>
           <div class="col-md-4">
-            <label for="fechaMuestreo">Fecha muestreo</label>
-            <input type="date" id="fechaMuestreo" name="fechaMuestreo" @if (@$model->Folio_servicio != "") disabled @endif
-            class="form-control" value="{{@$model->Fecha_muestreo}}">
+           <label for="fechaMuestreo">Fecha muestreo</label>
+<input type="date" 
+       id="fechaMuestreo"  
+       name="fechaMuestreo" 
+       class="form-control" 
+       value="{{ @$model->Fecha_muestreo }}"
+       @if(@$model->Folio_servicio != "" || $proceso) disabled @endif>
+
           </div>
 
           <div class="col-md-4">
             <label for="numTomas">Número de muestras</label>
-            <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_tomas}}">
+            <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_muestras}}">
           </div>
           <div class="col-md-4">
             <label for="numTomas">Folio</label>
-            <input type="text" id="Folio" class="form-control" value="{{@$model->Folio}}">
+            <input type="text" disabled  id="Folio" class="form-control" value="{{@$model->Folio}}">
             <br>
-            <button class="btn-success" id="btnFolio"><i class="fas fa-new"></i> Crear Folio</button>
+            
+            <button class="btn-warning"  id="btnFolio"  @if($proceso) disabled @endif><i class="fas fa-new"></i> Crear Folio</button>
+            <button class="btn-success" id="btnGuardarSol"><i class="fas fa-new"></i> Guardar Orden</button>
           </div>
         </div>
       </div>
 
-      <div class="col-md-12">
-        <h6>Datos de la muestra a analizar</h6>
-        <hr>
-      </div>
       
       <div class="col-md-12">
         <button class="btn-success" id="btnAddCol"><i class="fas fa-plus"></i> </button>
@@ -208,7 +209,6 @@
                 <th>Muestra</th>
                 <th>Parametros a realizar</th>
                 <th>Normas</th>
-
                 <th></th>
               </tr>
             </thead>

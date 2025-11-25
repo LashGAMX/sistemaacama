@@ -38,5 +38,15 @@ class LoteDetalleDirectosA extends Model
         'Analizo',
     ]; 
 
+   public function proceso()
+    {
+        return $this->belongsTo(ProcesoAnalisisA::class, 'Id_analisis', 'Id_solicitud');
+    }
+
+    public function codigo()
+    {
+        return $this->belongsTo(CodigoParametroA::class, 'Id_codigo', 'Id_codigo');
+    }
+  
 }
 

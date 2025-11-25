@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\CodigoParametros;
+use App\Models\LoteAnalisis;
+use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleNitrogeno;
 use App\Models\Parametro;
 use App\Models\ParametroNorma;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -14,6 +19,35 @@ class HomeController extends Controller
     public function index($name)
     {
         
+    }
+    public function getRespaldoObservacion()
+    {
+        echo "Respaldo observacion";
+        $model = LoteDetalleNitrogeno::where('Id_parametro',108)->where('Observacion','LIKE','%CANCELACION MASIVA%')->get();
+        echo "Total: ".$model->count()."<br>";
+        foreach ($model as $item) {
+            echo "Id_lote: ".$item->Id_lote." - OBS: ".$item->Observacion.'<br>';
+            $temp = DB::connection('mysqlrespaldo')->table('lote_detalle_nitrogeno')->where('Id_detalle',$item->Id_detalle)->first();
+            
+            $item->Observacion = $temp->Observacion;
+            $item->save();
+        }
+    }
+    public function getRegresarMuestraParametro()
+    {
+        $model = LoteDetalleDbo::where('Id_lote',30752)->where('Liberado',0)->get();
+        foreach ($model as $item) {
+            $temp = CodigoParametros::where('Id_codigo',$item->Id_codigo)->first();
+            $temp->Asignado = 0;
+            $temp->save();
+
+            LoteDetalleDbo::withTrashed()->where('Id_detalle',$item->Id_detalle)->forceDelete();
+        }
+
+        $lot = LoteAnalisis::where('Id_lote',30752)->first();
+        $lot->Asignado = 21;
+        $lot->Liberado = 21;
+        $lot->save();
     }
     public function create(Request $request)
     {

@@ -67,7 +67,7 @@
                             <td class="{{$aux}}">{{$item->Empresa}}</td>
                             <td class="{{$aux}}">{{$item->Clave_norma}}</td>
                             <td class="{{$aux}}">{{$item->Pass_archivo}}</td>
-                            <td class="{{$aux}}">{{$item->Fecha_muestreo}}</td>
+                            <td class="{{$aux}}">{{@$item->Fecha_muestreo}}</td>
                             <td class="{{$aux}}">{{$item->Servicio}}</td>
                         </tr>
                     @endforeach

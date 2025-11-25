@@ -2,52 +2,54 @@
 
 @section('content')
 <style>
-  /* Estilo para el botón flotante */
   .btn-flotante {
-      border: none;
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background-color: #007bff;
-      color: white;
-      padding: 15px 20px;
-      border-radius: 50px;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      font-size: 16px;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-      z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+    border: none;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+    
   }
 
   .btn-flotante:hover {
-      background-color: #0056b3;
+    background-color: #0056b3;
   }
 </style>
-<input type="text"  id="idSol" hidden value="{{@$model->Id_solicitud}}">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="clientes">Clientes registrados</label>
-              <select name="clientes" id="clientes" class="form-control select2" onchange="getSucursalCliente(this.value)">
-                  <option value="0">Sin seleccionar</option>
-                    @foreach ($clientes as $item)
-                      @if (@$model->Id_cliente == $item->Id_cliente)
-                          <option value="{{$item->Id_cliente}}" selected>({{$item->Id_cliente}}) {{$item->Empresa}}</option>
-                      @else
-                          <option value="{{$item->Id_cliente}}">({{$item->Id_cliente}}) {{$item->Empresa}}</option>  
-                      @endif
-                    @endforeach
-              </select>
+<input type="text" id="idSol"  value="{{@$model->Id_solicitud}}">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="clientes">Clientes registrados</label>
+            <select name="clientes" id="clientes" class="form-control select2"
+              onchange="getSucursalCliente(this.value)">
+              <option value="0">Sin seleccionar</option>
+              @foreach ($clientes as $item)
+              @if (@$model->Id_cliente == $item->Id_cliente)
+              <option value="{{$item->Id_cliente}}" selected>({{$item->Id_cliente}}) {{$item->Empresa}}</option>
+              @else
+              <option value="{{$item->Id_cliente}}">({{$item->Id_cliente}}) {{$item->Empresa}}</option>
+              @endif
+              @endforeach
+            </select>
 
-            </div>
+          </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="sucursal">Sucursal Cliente</label>
-              <select name="sucursal" id="sucursal" class="form-control select2" onchange="getDireccionReporte(this.value)">
+              <select name="sucursal" id="sucursal" class="form-control select2"
+                onchange="getDireccionReporte(this.value)">
                 <option value="0">Sin seleccionar</option>
               </select>
             </div>
@@ -56,7 +58,7 @@
             <div class="form-group">
               <label for="direccionReporte">Dirección reporte</label>
               <select id="direccionReporte" class="form-control select2">
-              <option value="0">Sin seleccionar</option>
+                <option value="0">Sin seleccionar</option>
               </select>
             </div>
           </div>
@@ -84,6 +86,7 @@
             </div>
           </div>
           <input type="text" class="" id="idCot" hidden value="{{@$model->Id_cotizacion}}">
+          <input type="hidden" id="user" name="user" value="{{ Auth::user()->id }}">
 
           <div class="col-md-8">
             <table class="table">
@@ -115,9 +118,6 @@
           </div>
         </div>
       </div>
-
-
-
       <div class="col-md-12">
         <label for="atencion">Con atención a reporte</label>
         <input type="text" class="form-control" id="atencion" name="atencion" placeholder="Nombre con atención a..."
@@ -128,39 +128,36 @@
         <textarea class="form-control" id="observacion" name="observacion"
           placeholder="Escribir...">{{@$model->Observacion}}</textarea>
       </div>
-
       <div class="col-md-12">
         <h6>Datos generales</h6>
         <hr>
       </div>
-
       <div class="col-md-12">
         <div class="row">
 
           <div class="col-md-4">
             <label for="servicio">Servicio</label>
-            <select name="servicio" id="servicio" class="form-control" >
-            <option value="0">Sin seleccionar</option>
+            <select name="servicio" id="servicio" class="form-control">
+              <option value="0">Sin seleccionar</option>
               @foreach ($servicios as $item)
-                @if (@$model->Id_servicio == $item->Id_tipo)
-                  <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option> 
-                @else
-                  <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>  
-                @endif
+              @if (@$model->Id_servicio == $item->Id_tipo)
+              <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
+              @else
+              <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
+              @endif
               @endforeach
             </select>
           </div>
-
           <div class="col-md-4">
             <label for="norma">Norma</label>
             <select name="norma" id="norma" class="form-control select2" onchange="getSubNormas(this.value)">
-                <option value="0">Sin seleccionar</option>
+              <option value="0">Sin seleccionar</option>
               @foreach ($normas as $item)
-                @if (@$model->Id_norma == $item->Id_norma)
-                  <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>  
-                @else
-                  <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
-                @endif
+              @if (@$model->Id_norma == $item->Id_norma)
+              <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>
+              @else
+              <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+              @endif
               @endforeach
             </select>
           </div>
@@ -171,19 +168,20 @@
           </div>
           <div class="col-md-4">
             <label for="fechaMuestreo">Fecha y hora de muestreo</label>
-            <input type="datetime-local" id="fechaMuestreo" name="fechaMuestreo" @if (@$model->Folio_servicio != "") disabled @endif
+            <input type="datetime-local" id="fechaMuestreo" name="fechaMuestreo" @if (@$model->Folio_servicio != "")
+            disabled @endif
             class="form-control" value="{{@$model->Fecha_muestreo}}">
           </div>
-
           <div class="col-md-4">
             <label for="numTomas">Número de muestras</label>
             <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_tomas}}">
           </div>
           <div class="col-md-4">
             <label for="numTomas">Folio</label>
-            <input type="text" id="Folio" class="form-control" value="{{@$model->Folio}}">
+            <input type="text" disabled id="Folio" class="form-control" value="{{@$model->Folio}}">
             <br>
             <button class="btn-success" id="btnFolio"><i class="fas fa-new"></i> Crear Folio</button>
+            <button class="btn-info" id="btncrearsol"><i class="fas fa-new"></i> Guardar Solicitud</button>
           </div>
         </div>
       </div>
@@ -195,41 +193,48 @@
 
       <div class="col-md-12">
         <div class="row">
-            <div class="col-md-12">
-              <table class="table">
-                <tr>
-                  <td style="width: 20%">Condiciones del muestreo</td>
-                  <td><textarea class="form-control" id="condiciones" placeholder="Condiciones del muestreo....."></textarea></td>
-                </tr>
-                <tr>
-                  <td style="width: 20%">Condiciones del amientales</td>
-                  <td><textarea class="form-control" id="ambientales" placeholder="Condiciones del amientales....."></textarea></td>
-                </tr>
-              </table>
-            </div>
+          <div class="col-md-12">
+            <table class="table">
+              <tr>
+                <td style="width: 20%">Condiciones del muestreo</td>
+                <td><textarea class="form-control" id="condiciones"
+                    placeholder="Condiciones del muestreo....."></textarea></td>
+              </tr>
+              <tr>
+                <td style="width: 20%">Condiciones del amientales</td>
+                <td><textarea class="form-control" id="ambientales"
+                    placeholder="Condiciones del amientales....."></textarea></td>
+              </tr>
+            </table>
+          </div>
 
-            <div class="col-md-12">
-              <h6>Datos de la muestra a analizar</h6>
-              <hr>
-              <table>
-                <tr>
-                  <td>Fecha y hora recepcion: <br> <input type="datetime-local" class="form-control"> </td>
-                  <td style="padding-left: 2%">Quien recibe: <br> 
+          <div class="col-md-12">
+            <h6>Datos de la muestra a analizar</h6>
+            <hr>
+            <table>
+              <tr>
+                <td>Fecha y hora recepcion: <br> <input type="datetime-local" id="fechapro" class="form-control"> </td>
+                <td>Fecha de Muestreo: <br> <input type="datetime-local" id="FechaMuestreo" class="form-control"> </td>
+                <td style="padding-left: 2%">Quien recibe: <br>
                   <select name="" id="recibe" class="form-control">
-                            <option value="0">Sin seleccionar</option>
-                            <option value="1" @if (Auth::user()->id == 1) selected @endif> Admin</option>
-                            <option value="107" @if (Auth::user()->id == 107) selected @endif>Alejandra Arrellano Carmona</option>
-                            <option value="101" @if (Auth::user()->id == 101) selected @endif>Mary Carmen Durán Gutiérrez</option>
-                            <option value="109" @if (Auth::user()->id == 109) selected @endif>SAUL LUCERO GARCIA</option>
-                            <option value="110" @if (Auth::user()->id == 110) selected @endif>DOLORES MARIELA ANDRADE JAIMES</option>
-                        </select>
-                  </td>
-                </tr>
-              </table>
-            </div>
+                    <option value="0">Sin seleccionar</option>
+                    <option value="1 | Admin" @if (Auth::user()->id == 1) selected @endif> Admin</option>
+                    <option value="107 | Alejandra Arrellano Carmona " @if (Auth::user()->id == 107) selected
+                      @endif>Alejandra Arrellano Carmona</option>
+                    <option value="101 | Mary Carmen Durán Gutiérrez" @if (Auth::user()->id == 101) selected @endif>Mary
+                      Carmen Durán Gutiérrez</option>
+                    <option value="109 | SAUL LUCERO GARCIA" @if (Auth::user()->id == 109) selected @endif>SAUL LUCERO
+                      GARCIA</option>
+                    <option value="110 | DOLORES MARIELA ANDRADE JAIMES" @if (Auth::user()->id == 110) selected
+                      @endif>DOLORES MARIELA ANDRADE JAIMES</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
-      
+
       <div class="col-md-12">
         <button class="btn-success" id="btnAddCol"><i class="fas fa-plus"></i> </button>
         <div class="" id="divMuestras">
@@ -239,6 +244,11 @@
                 <th>#</th>
                 <td>Id</td>
                 <th>Muestra</th>
+                <th>Temp.</th>
+                <th>OBS</th>
+                <th>Cant. / U.</th>
+                <th>Motivo</th>
+                <th>Cumple</th>
                 <th>Parametros a realizar</th>
                 <th>Normas</th>
 
@@ -246,13 +256,13 @@
               </tr>
             </thead>
             <tbody id="bodyTabMuestras">
-              
+
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="col-md-12">
+      <!-- <div class="col-md-12">
         <button class="btn-success" id="btnAddColCri"><i class="fas fa-plus"></i> </button>
         <div class="" id="divCriterios">
           <table class="table" id="tableCriterios">
@@ -264,20 +274,20 @@
               </tr>
             </thead>
             <tbody id="bodyTabCriterios">
-              
+
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
 
     </div>
 
   </div>
 
-    <!-- Botón flotante -->
-    <button class="btn-flotante" id="btnGuardar"><i class="fas fa-save"></i> Guardar</button>
-@endsection
+  <!-- Botón flotante -->
+  <button class="btn-flotante" id="btnGuardar"><i class="fas fa-save"></i> Guardar</button>
+  @endsection
 
-@section('javascript')
-<script src="{{ asset('public/js/alimentos/createOrdenIngreso.jsx')}}?v=0.0.2"></script>
-@endsection
+  @section('javascript')
+  <script src="{{ asset('public/js/alimentos/createOrdenIngreso.jsx')}}?v=1.0.0"></script>
+  @endsection

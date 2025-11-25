@@ -10,9 +10,68 @@ $(document).ready(function () {
     $("#btnAddCol").click(function () {
         setMuestraSol();
     });
+     $("#btnGuardarSol").click(function () {
+        setPreSolicitud();
+    });
     tabParametros();
     $(".select2Multiple").select2({});
 });
+function setPreSolicitud() {
+    const formData = {
+        idSol: $("#idSol").val(),
+        cliente: $("#clientes").val(),
+        sucursal: $("#sucursal").val(),
+        folio: $("#Folio").val(), // Correcto
+        contacto: $("#contacto").val(),
+        direccion: $("#direccionReporte").val(),
+        atencion: $("#atencion").val(),
+        observacion: $("#observacion").val(),
+        servicio: $("#servicio").val(),
+        norma: $("#norma").val(),
+        // subnorma: $("#subnorma").val(),
+        fechaMuestreo: $("#fechaMuestreo").val(),
+        numTomas: $("#numTomas").val(),
+        id: $("#user").val(), // ID DEL USUARIO
+        _token: $('input[name="_token"]').val(),
+    };
+
+   // console.log(formData); // <<--- Así ves si id realmente trae un número
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/alimentos/setSolicitud",
+        dataType: "json",
+        data: formData,
+        success: function (response) {
+            alert(response.msg);
+            $("#idSol").val(response.model.Id_solicitud);
+             
+            
+        },
+    });
+}
+
+function setMuestraSol() {
+    if ($("#idSol").val() != "") {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/alimentos/setMuestraSol",
+            dataType: "json",
+            data: {
+                idSol: $("#idSol").val(),
+                numTomas: $("#numTomas").val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            success: function (response) {
+                alert(response.msg);
+                getMuestraSol();
+            },
+        });
+    } else {
+        alert("No puedes crear muestras sin antes haber guardado");
+    }
+}
+
 function tabParametros() {
     tableParametros = $("#tableParametros").DataTable({
         ordering: false,
@@ -25,25 +84,7 @@ function tabParametros() {
         },
     });
 }
-function setMuestraSol() {
-    if ($("#idSol").val() != "") {
-        $.ajax({
-            type: "POST",
-            url: base_url + "/admin/alimentos/setMuestraSol",
-            dataType: "json",
-            data: {
-                idSol: $("#idSol").val(),
-                _token: $('input[name="_token"]').val(),
-            },
-            success: function (response) {
-                alert(response.msg);
-                getMuestraSol();
-            },
-        });
-    } else {
-        alert("No puedes crear muestras sin antes haber guardado");
-    }
-}
+
 function getMuestraSol() {
     if ($("#idSol").val() != "") {
         $.ajax({
@@ -67,20 +108,31 @@ function getMuestraSol() {
                                 cont - 1
                             ]?.some(
                                 (solP) =>
-                                    solP.Id_parametro === param.Id_parametro
+                                    solP.Id_parametro === param.Id_parametro &&
+                                    solP.Id_matrizar === param.Id
                             )
                                 ? "selected"
                                 : "";
-                            return `<option value="${param.Id_parametro}" ${isSelected}>
-                                        (${param.Id_parametro}) ${param.Parametro}
-                                    </option>`;
+
+                            return `<option 
+                             value="${param.Id_parametro}" 
+                             data-idmatrizar="${param.Id}" 
+                             ${isSelected}>
+                             (${param.Id_parametro}) ${param.Parametro} 
+                             <strong>Matriz:(${param.Matriz})</strong> 
+                             <strong>Limite:(${param.Limite})</strong> 
+                             </option>`;
                         })
                         .join("");
 
                     // Generar las opciones para el select de normas
                     let opciones2 = response.normas
                         .map((norma) => {
-                            return `<option value="${norma.Id_norma}">
+                            const isSelected =
+                                item.Id_norma == norma.Id_norma
+                                    ? "selected"
+                                    : "";
+                            return `<option value="${norma.Id_norma}" ${isSelected}>
                                         (${norma.Id_norma}) ${norma.Clave_norma}
                                     </option>`;
                         })
@@ -89,14 +141,16 @@ function getMuestraSol() {
                     // Generar la fila para cada muestra
                     tabMuestras += `
                         <tr>
-                            <td style="width: 2px;">${cont}</td>
-                            <td style="width: 2px;">${item.Id_muestra}</td>
-                            <td>
-                                <textarea rows="2" cols="50" id="muestra${
-                                    item.Id_muestra
-                                }">
-                                    ${item.Muestra ?? ""}
-                                </textarea>
+                            <td style="width: 1%; white-space: nowrap;">${cont}</td>
+                       <td style="width: 1%; white-space: nowrap;">${
+                           item.Id_muestra
+                       }</td>
+
+                            <td style="width: 10%; white-space: nowrap;" >
+                             <textarea  id="muestra${item.Id_muestra}">${
+                        item.Muestra ?? ""
+                    }</textarea>
+
                             </td>
                             <td>
                                 <select class="select2Multiple form-control" id="parametros${
@@ -168,6 +222,25 @@ function DeleteMuestra(id) {
     });
 }
 function setSaveMuestra(id) {
+    // Captura la opción seleccionada
+    const parametrosSeleccionados = [];
+    const selectedOption = $("#parametros" + id + " option:selected");
+
+    // Si hay opciones seleccionadas, extraemos los datos
+    selectedOption.each(function () {
+        parametrosSeleccionados.push({
+            Id_parametro: $(this).val(),
+            Id_matrizar: $(this).data("idmatrizar"),
+        });
+    });
+
+    // Verifica si hay al menos un parámetro
+    if (parametrosSeleccionados.length === 0) {
+        alert("Debes seleccionar al menos un parámetro");
+        return;
+    }
+
+    // Envía los datos por AJAX
     $.ajax({
         type: "POST",
         url: base_url + "/admin/alimentos/setSaveMuestra",
@@ -176,7 +249,7 @@ function setSaveMuestra(id) {
             idSol: $("#idSol").val(),
             id: id,
             muestra: $("#muestra" + id).val(),
-            parametros: $("#parametros" + id).val(),
+            parametros: parametrosSeleccionados, // array de objetos { Id_parametro, Id_matrizar }
             norma: $("#normas" + id).val(),
             _token: $('input[name="_token"]').val(),
         },
@@ -184,35 +257,47 @@ function setSaveMuestra(id) {
             alert(response.msg);
             getMuestraSol();
         },
+        error: function (xhr) {
+            console.error("Error:", xhr.responseText);
+            alert("Error al guardar. Revisa la consola.");
+        },
     });
 }
+
 function setSolicitud() {
+    const formData = {
+        idSol: $("#idSol").val(),
+        cliente: $("#clientes").val(),
+        sucursal: $("#sucursal").val(),
+        folio: $("#Folio").val(), // Correcto
+        contacto: $("#contacto").val(),
+        direccion: $("#direccionReporte").val(),
+        atencion: $("#atencion").val(),
+        observacion: $("#observacion").val(),
+        servicio: $("#servicio").val(),
+        norma: $("#norma").val(),
+        subnorma: $("#subnorma").val(),
+        fechaMuestreo: $("#fechaMuestreo").val(),
+        numTomas: $("#numTomas").val(),
+        id: $("#user").val(), // ID DEL USUARIO
+        _token: $('input[name="_token"]').val(),
+    };
+
+   // console.log(formData); // <<--- Así ves si id realmente trae un número
+
     $.ajax({
         type: "POST",
         url: base_url + "/admin/alimentos/setSolicitud",
         dataType: "json",
-        data: {
-            idSol: $("#idSol").val(),
-            cliente: $("#clientes").val(),
-            sucursal: $("#sucursal").val(),
-            contacto: $("#contacto").val(),
-            direccion: $("#direccionReporte").val(),
-            atencion: $("#atencion").val(),
-            observacion: $("#observacion").val(),
-            servicio: $("#servicio").val(),
-            norma: $("#norma").val(),
-            subnorma: $("#subnorma").val(),
-            fechaMuestreo: $("#fechaMuestreo").val(),
-            numTomas: $("#numTomas").val(),
-            fechaMuestreo: $("#fechaMuestreo").val(),
-            _token: $('input[name="_token"]').val(),
-        },
+        data: formData,
         success: function (response) {
             alert(response.msg);
             $("#idSol").val(response.model.Id_solicitud);
+            window.location = base_url + "/admin/alimentos/orden-servicio";
         },
     });
 }
+
 function getSucursalCliente(id) {
     $.ajax({
         type: "POST",
@@ -224,19 +309,30 @@ function getSucursalCliente(id) {
         },
         success: function (response) {
             console.log(response);
-            let sucursal = "";
-            sucursal += `<option value="0">Sin seleccionar</option>`;
-            response.model.forEach((item) => {
-                sucursal += `<option value="${item.Id_sucursal}" selected>(${item.Id_sucursal}) ${item.Empresa}</option>`;
+            let sucursal = `<option value="0">Sin seleccionar</option>`;
+            let firstSucursalId = null; // Variable para almacenar el primer ID
+
+            response.model.forEach((item, index) => {
+                sucursal += `<option value="${item.Id_sucursal}" ${
+                    index === 0 ? "selected" : ""
+                }>(${item.Id_sucursal}) ${item.Empresa}</option>`;
+                if (index === 0) {
+                    firstSucursalId = item.Id_sucursal; // Guardar el primer ID
+                }
             });
 
-            $("#sucursal").html(`
-                ${sucursal} 
-            `);
+            $("#sucursal").html(sucursal);
+
+            // Solo llamar si hay al menos una sucursal
+            if (firstSucursalId) {
+                getDireccionReporte(firstSucursalId);
+            }
         },
     });
 }
+
 function getDireccionReporte(id) {
+    console.log("ID", id);
     $.ajax({
         type: "POST",
         url: base_url + "/admin/alimentos/getDireccionReporte",
@@ -262,6 +358,7 @@ function getDireccionReporte(id) {
     getContactoSucursal(id);
 }
 function getContactoSucursal(id) {
+    console.log("ID CONTACTO", id);
     $.ajax({
         type: "POST",
         url: base_url + "/admin/alimentos/getContactoSucursal",
@@ -330,7 +427,7 @@ function getDataContacto(id) {
                 $("#telCont").val(response[0].Telefono);
                 $("#celCont").val(response[0].Celular);
             } else {
-                alert("No se encontraron datos del contacto.");
+                // console.log("No se encontraron datos del contacto.");
             }
         },
         error: function (xhr, status, error) {
@@ -340,42 +437,55 @@ function getDataContacto(id) {
     });
 }
 function setGenFolio() {
-    if ($("#fechaMuestreo").val() != "") {
-        const data = {
-            id: $("#idCot").val(),
-            fecha: $("#fechaMuestreo").val(),
-            _token: $('input[name="_token"]').val(),
-        };
-        console.log("Datos:", data);
+    const fecha = $("#fechaMuestreo").val();
+    const idCot = $("#idCot").val();
 
-        $.ajax({
-            url: base_url + "/admin/alimentos/setGenFolioSol",
-            type: "POST",
-            data: data,
-            dataType: "json",
-            success: function (response) {
-                console.log("Respuesta del servidor:", response);
-
-                // Si el folio ya existe, mostramos un mensaje diferente
-                if (response.msg === "Ya tiene un folio") {
-                    alert(response.msg); // Muestra la alerta de que ya existe un folio
-                    $("#Folio").val(response.folio); // Carga el folio en el input
-                } else if (response.folio) {
-                    $("#Folio").val(response.folio); // Carga el folio generado en el input
-                    alert("Folio Generado Correctamente");
-                } else {
-                    alert("No se pudo generar el folio.");
-                }
-
-                // Habilitar nuevamente el input para la fecha de muestreo
-                $("#fechaMuestreo").attr("disabled", false);
-            },
-
-            error: function () {
-                alert("Hubo un error al generar el folio.");
-            },
-        });
-    } else {
+    if (!fecha) {
         alert("Necesitas la fecha de muestreo para generar el folio");
+        return;
     }
+
+    const data = {
+        id: idCot,
+        fecha: fecha,
+        _token: $('input[name="_token"]').val(),
+    };
+
+    console.log("Datos enviados:", data);
+
+    // Deshabilitar mientras se procesa
+    $("#fechaMuestreo").attr("disabled", true);
+
+    $.ajax({
+        url: base_url + "/admin/alimentos/setGenFolioSol",
+        type: "GET",
+        data: data,
+        dataType: "json",
+        success: function (response) {
+            //console.log("Respuesta del servidor:", response);
+
+            // Si viene folio, lo cargamos en el input
+            if (response.folio) {
+                $("#Folio").val(response.folio);
+            }
+
+            // Cargar el Id_solicitud en el input
+            if (response.id) {
+                $("#idSol").val(response.id);
+            }
+
+            // Mostrar mensaje siempre
+            if (response.msg) {
+                alert(response.msg);
+            }
+
+            // Habilitar nuevamente
+            $("#fechaMuestreo").attr("disabled", false);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error AJAX:", error);
+            alert("Hubo un error al generar el folio");
+            $("#fechaMuestreo").attr("disabled", false);
+        }
+    });
 }

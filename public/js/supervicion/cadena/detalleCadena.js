@@ -3,6 +3,7 @@ var dataModel;
 var name;
 var idPunto;
 var detPa;
+var firma64 = ""
 $(document).on("change", ".sugeridoCheckbox", function () {
     var Id_codigo = $(this).data("id");
     var sugerido_sup = this.checked ? 1 : 0;
@@ -42,12 +43,21 @@ $(document).ready(function () {
         scrollCollapse: true,
         paging: false,
     });
+
     $("#btnCadena").click(function () {
-        window.open(base_url + "/admin/informes/cadena/pdf/" + idPunto);
+        var idSol = $("#idSol").val();
+        window.open(
+            base_url +
+                "/admin/informes/CustodiaInterna/" +
+                idSol +
+                "/" +
+                idPunto
+        );
     });
     $("#btnCadenaVidrio").click(function () {
         window.open(base_url + "/admin/informes/cadenavidrio/pdf/" + idPunto);
     });
+
     $("#btnSetEmision").click(function () {
         setEmision();
     });
@@ -97,7 +107,49 @@ $(document).ready(function () {
     $("#btnLiberar").click(function () {
         liberarResultado();
     });
+    $('#btnFirma').on('click', function(){
+        setfirmaPad()
+    });
 });
+
+function setBase64(cod){
+    const base64Image = "data:image/png;base64,"+cod; // Tu cadena Base64 aquí
+
+const canvas = document.getElementById("cnv");
+const ctx = canvas.getContext("2d");
+
+const img = new Image();
+img.onload = function () {
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+};
+img.src = base64Image; // Asigna la imagen en Base64 como fuente
+
+}
+function clearCanva()
+{
+    const canvas = document.getElementById("cnv");
+    const ctx = canvas.getContext("2d");
+
+    // Limpia todo el canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+}
+function setfirmaPad(){
+    $.ajax({
+        url: base_url + '/admin/supervicion/cadena/setfirmaPad',
+        type: 'POST', //método de envio
+        data: {
+            id: idPunto,
+            firma:firma64,
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+            alert(response.msg)
+        }
+    });  
+}
 function getFotos() {
     let divfotos = document.getElementById("fotos");
     $.ajax({
@@ -184,6 +236,7 @@ function setLiberar() {
         },
     });
 }
+
 function setHistorial(historialValor) {
     $.ajax({
         type: "POST",
@@ -209,8 +262,8 @@ function setHistorial(historialValor) {
         },
     });
 }
-
 function getParametros() {
+    clearCanva()
     $.ajax({
         type: "POST",
         url: base_url + "/admin/supervicion/cadena/getParametroCadena",
@@ -220,6 +273,7 @@ function getParametros() {
         },
         dataType: "json",
         success: function (response) {
+            setBase64(response.proceso.Firma_superviso)
             console.log(response)
             let tab = '<table id="tableParametros" class="table">';
             tab += '<thead class="thead-dark">';
@@ -424,7 +478,6 @@ function getParametros() {
         },
     });
 }
-
 function regresarMuestra() {
     $.ajax({
         type: "POST",
@@ -1050,12 +1103,12 @@ function getDetalleAnalisis(idCodigo) {
                         }
                         tab += "</tr>";
                     });
-                    console.log(aux);
+                    //console.log(aux);
                     if (aux.toFixed(2) <= 10) {
                         aux = 9.9;
                     }
                     resLiberado = aux.toFixed(2);
-
+console.log(resLiberado);
                     tab += "    </tbody>";
                     tab += "</table>";
                     tabla.innerHTML = tab;
@@ -1906,7 +1959,6 @@ function getDetalleAnalisis(idCodigo) {
         },
     });
 }
-
 function liberarResultado() {
     $.ajax({
         type: "POST",
@@ -1940,7 +1992,6 @@ function liberarResultado() {
         },
     });
 }
-
 function liberarSolicitud() {
     $.ajax({
         type: "POST",
@@ -1968,7 +2019,6 @@ function liberarSolicitud() {
         },
     });
 }
-
 function getHistorial(id) {
     console.log("Get Historial");
     let tabla1 = document.getElementById("divTablaHist");

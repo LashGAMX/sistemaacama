@@ -38,4 +38,20 @@ class Parametro extends Model
         'Dias_analisis',
         'Usuario_default'
     ];
+    public function Matriz()
+    {
+        return $this->belongsTo(MatrizParametro::class, 'Id_matriz', 'Id_matriz_parametro');
+    }
+    public function unidad(){
+        return $this->belongsTo(Unidad::class, 'Id_unidad', 'Id_unidad');
+
+    }
+     public function metodo(){
+        return $this->belongsTo(MetodoPrueba::class, 'Id_metodo', 'Id_metodo');
+
+    }
+    public function simbologia(){
+        return $this->belongsTo(SimbologiaParametros::class, 'Id_simbologia', 'Id_simbologia');
+    }
+    
 }

@@ -56,7 +56,7 @@
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Molaridad}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Factor_equivalencia}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
+                        <td class="tableContent">{{number_format(@$loteDetalle[$i]->Titulado_blanco, 3, ".", ".")}}</td>
                         
                         <td class="tableContent"> 
                             @if (@$loteDetalle[$i]->Resultado != NULL)

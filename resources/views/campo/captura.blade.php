@@ -1024,11 +1024,7 @@
                                 <div class="col-md-12">
                                     <p>Tipo descarga: </p>
                                 </div>
-<<<<<<< HEAD
                                 <div class="col-md-2">
-=======
-                                <div class="col-md-3">
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                     <div class="form-group">
                                         <label for="">Método aforo</label>
                                         <select name="" id="aforoCompuesto" class="form-control">
@@ -1043,11 +1039,7 @@
                                         </select>
                                     </div>
                                 </div>
-<<<<<<< HEAD
                                 <div class="col-md-2">
-=======
-                                <div class="col-md-3">
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                     <div class="form-group">
                                         <label for="">Con tratamiento</label>
                                         <select name="" id="conTratamientoCompuesto" class="form-control">
@@ -1065,11 +1057,7 @@
                                         </select>
                                     </div>
                                 </div>
-<<<<<<< HEAD
                                 <div class="col-md-2">
-=======
-                                <div class="col-md-3">
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
                                     <div class="form-group">
                                         <label for="">Tipo tratamiento</label>
                                         <select name="" id="tipoTratamientoCompuesto" class="form-control">
@@ -1087,29 +1075,22 @@
                                         </select>
                                     </div>
                                 </div>
-<<<<<<< HEAD
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="">Proc. de Muestreo PE-10-002-</label>
                                         <input type="number" id="procedimientoCompuesto" class="form-control"
-                                            placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo}}">
+                                            placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo}}" @if(Auth::user()->role_id != 1 || Auth::user()->role_id != 15)  @endif>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="">Proc. de Muestreo PEA-10-002-</label>
-                                        <input type="number" id="procedimientoCompuesto2" class="form-control"
-                                            placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo2}}">
+                                @if ( Auth::user()->role_id != 13)
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="">Proc. de Muestreo PEA-10-002-</label>
+                                            <input type="number" id="procedimientoCompuesto2" class="form-control"
+                                                placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo2}}" @if(Auth::user()->role_id != 1 || Auth::user()->role_id != 15)  @endif>
+                                        </div>
                                     </div>
-=======
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Procedimiento de Muestreo PE-10-02-</label>
-                                        <input type="number" id="procedimientoCompuesto" class="form-control"
-                                            placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo}}">
-                                    </div>
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
-                                </div>
+                                @endif
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <textarea id="observacionCompuesto" class="form-group"

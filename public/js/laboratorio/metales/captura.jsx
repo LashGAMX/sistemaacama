@@ -290,7 +290,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-danger" id="btnrefresch" onclick="update('+item.Id_lote+');"><i class="fas fa-file-download"></i></button><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button> <button class="btn-info" onclick="setTituloBit('+item.Id_lote+')"><i class="fas fa-file"></i></button></td>';
+                    tab += '<td><button class="btn btn-danger" id="btnrefresch" onclick="update('+item.Id_lote+');"><i class="fas fa-sync"></i></button><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button> <button class="btn-info" onclick="setTituloBit('+item.Id_lote+')"><i class="fas fa-file"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -341,7 +341,7 @@ var numMuestras = new Array();
 var trTab;
 function getLoteCaptura() {
 
-    // console.log("getLoteCaptura")
+    console.log("getLoteCaptura")
 
     numMuestras = new Array();
     idMuestra = 0;
@@ -357,7 +357,8 @@ function getLoteCaptura() {
     $.ajax({ 
         type: "POST",
         url: base_url + "/admin/laboratorio/"+area+"/getLoteCaptura",
-        data: {
+        data: 
+        {
             idLote: idLote,
             formulaTipo: $("#formulaTipo").val(), 
             _token: $('input[name="_token"]').val()
@@ -365,9 +366,7 @@ function getLoteCaptura() {
         dataType: "json",
         success: function (response) {            
             console.log(response);
-
-                       let aux = 0
-            
+            let aux = 0
             switch (parseInt(response.detalle[0].Id_parametro)) {
                 //NMX  FLAMA
                 case 20: 
@@ -377,14 +376,19 @@ function getLoteCaptura() {
                 case 24:
                 case 25:
                 case 232:
+                case 193:
                 case 187:
                 case 226:
                 case 197:
                 case 351:
                 case 41:
                 case 354:
+                case 224:
                 case 353:
+                case 198:
                 case 55:
+                case 388:
+                case 389:
                     tab += '<table id="tablaControles" class="table display compact">';
                     tab += '    <thead>';
                     tab += '        <tr>';
@@ -436,9 +440,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button> <button class="btn-info" onclick="getImagenMuestra(' +
-                            item.Id_analisis +
-                            ')" data-toggle="modal" data-target="#modalImgFoto"><i class="fas fa-image"></i></button></td>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></td>';
                         
                         tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
@@ -508,9 +510,7 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button> <button class="btn-info" onclick="getImagenMuestra(' +
-                        item.Id_analisis +
-                        ')" data-toggle="modal" data-target="#modalImgFoto"><i class="fas fa-image"></i></button></td>';                        tab += '</tr>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button> </td>';                        tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
                         aux++ 
@@ -575,13 +575,10 @@ function getLoteCaptura() {
                         } else {
                             tab += '<td><textarea '+status+' style="width: 150px;height: 60px" id="obs'+item.Id_detalle+'" value="">'+item.Observacion+' </textarea></td>';
                         }
-                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button> <button class="btn-info" onclick="getImagenMuestra(' +
-                        item.Id_analisis +
-                        ')" data-toggle="modal" data-target="#modalImgFoto"><i class="fas fa-image"></i></button></td>';                        tab += '</tr>';
+                        tab += '<td><button class="btn-info" onclick="getHistorial('+item.Id_codigo+')" data-toggle="modal" data-target="#modalHistorial"><i class="fas fa-lightbulb"></i></button> </td>';                        tab += '</tr>';
                         numMuestras.push(item.Id_detalle);
                         cont++; 
-                        aux++ 
-                 
+                        aux++  
                     }); 
                     tab += '    </tbody>';
                     tab += '</table>';
@@ -731,7 +728,9 @@ function getLoteCaptura() {
                 case 192:
                 case 204:
                 case 190:
+                case 223:
                 case 196:
+                case 229:
                     tab += '<table id="tablaControles" class="table display compact">';
                     tab += '    <thead>';
                     tab += '        <tr>';
@@ -803,8 +802,10 @@ function getLoteCaptura() {
                     break;
                     // 201 Hidrudos
                 case 188:
+                case 220:
                 case 219:
                 case 195:
+                case 228:
                 case 230:
                 case 215:
                     tab += '<table id="tablaControles" class="table display compact">';
@@ -879,15 +880,19 @@ function getLoteCaptura() {
                     switch (parseInt(response.detalle[0].Id_parametro)) {
                         case 215:
                         case 195:
+                        case 228:
                         case 230:
                         case 188:
+                        case 220:
                         case 219:
                             hg = ""    
                             break;
                         case 192:
                         case 204:
                         case 190:
+                        case 223:
                         case 196:
+                        case 229:
                         case 191:
                         case 194:
                         case 189:
@@ -898,7 +903,7 @@ function getLoteCaptura() {
                             break;
                         default:
                             break;
-                    }
+                  }
                     tab += '<table id="tablaControles" class="table display compact">';
                     tab += '    <thead>';
                     tab += '        <tr>';
@@ -908,8 +913,8 @@ function getLoteCaptura() {
                     tab += '          <th>Punto</th>';
                     //tab2 += '          <th>PuntoMuestreo</th>';
                     tab += '          <th>Vol. Muestra E</th>';
-                    tab += '          <th '+volF+'>Vol Final</th>';
-                    tab += '          <th '+hg+'>Vol. D</th>';
+                    // tab += '          <th '+volF+'>Vol Final</th>';
+                    // tab += '          <th '+hg+'>Vol. D</th>';
                     tab += '          <th>Abs1</th>';
                     tab += '          <th>Abs2</th>';
                     tab += '          <th>Abs3</th>';
@@ -941,7 +946,7 @@ function getLoteCaptura() {
                         tab += '<td><textarea '+status+' style="width: 100px;height: 60px" > '+response.punto[aux]+'</textarea></td>';   
                         tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="'+item.Vol_muestra+'"></td>';
                         // tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
-                        tab += '<td '+volF+'><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
+                        // tab += '<td '+volF+'><input '+status+' style="width: 80px" id="volFinal'+item.Id_detalle+'" value="'+item.Vol_final+'" ></td>';
                         tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
                         tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
                         tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
@@ -973,9 +978,10 @@ function getLoteCaptura() {
                     tabla.innerHTML = tab;
                     break;
             }
-
-
-
+            if ($.fn.DataTable.isDataTable('#tablaControles')) {
+                $('#tablaControles').DataTable().destroy();
+                }
+                
             var t = $('#tablaControles').DataTable({
                 "ordering": false,
                 paging: false,
@@ -988,8 +994,6 @@ function getLoteCaptura() {
                     "infoEmpty": "No hay datos encontrados",
                 }
             });
-
-
             $('#tablaControles tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
@@ -1001,11 +1005,9 @@ function getLoteCaptura() {
             });
             trTab = $('#tablaControles tr').on('click', function () {
                 let dato = $(this).find('td:first');
-                idMuestra = dato[0].firstElementChild.value;
-                
+                idMuestra = dato[0].firstElementChild.value;                
                 // Selecciona todos los inputs dentro del tr y quita el atributo 'disabled'
                 // $(this).find('input').removeAttr('disabled');
-                
                 // console.log(idMuestra);
             });
         }
@@ -1021,7 +1023,6 @@ function imprimir(idLote){
 }
 function update(idLote) {
     console.log('Este es el lote a buscar:', idLote);
-
     $.ajax({
         url: base_url + "/admin/laboratorio/metales/refrescar",
         type: "POST",
@@ -1047,10 +1048,6 @@ function update(idLote) {
         }
     });
 }
-
-
-
-
 function enviarObservacion(){
     $.ajax({
         type: "POST",
@@ -1096,14 +1093,20 @@ function setEjecutarTodo(){
         case 24:
         case 25:
         case 232:
+        case 193:
         case 187:
         case 226:
         case 197:
         case 351:
         case 41:
         case 354:
+        case 224:
+        case 224:
         case 353:
+        case 198:
         case 55:
+        case 388:
+        case 389:
      
             break;
             // 051 HORNO DE GRAMIFOTO
@@ -1144,7 +1147,9 @@ function setEjecutarTodo(){
         case 192:
         case 204:
         case 190:
+        case 223:
         case 196:
+        case 229:
             for (let i = 1; i < parseInt(trTab.length); i++) {
                 ids.push(trTab[i].children[0].children[0].value)
                 voMuestras.push(trTab[i].children[3].children[0].value)
@@ -1159,8 +1164,10 @@ function setEjecutarTodo(){
             break;
             // 201 Hidrudos
         case 188:
+        case 220:
         case 219:
         case 195:
+        case 228:
         case 230:
         case 215:
            for (let i = 1; i < parseInt(trTab.length); i++) {
@@ -1209,7 +1216,6 @@ function setEjecutarTodo(){
 }
 function operacion()
 { 
-
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/metales/operacion",
@@ -1261,7 +1267,6 @@ function createControlCalidadMetales()
         }
     });
 }
-
 function createControlCalidad()
 {
     $.ajax({
@@ -1281,7 +1286,6 @@ function createControlCalidad()
         }
     });
 }
-
 function generarControles()
 {
     var ranCon = new Array();
@@ -1435,7 +1439,6 @@ function liberarTodo()
     });
     
 }
-
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -1493,6 +1496,3 @@ function getImagenMuestra(id) {
         },
     });
 }
-
-
-

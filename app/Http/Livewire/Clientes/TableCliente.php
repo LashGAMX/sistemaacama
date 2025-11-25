@@ -23,6 +23,8 @@ class TableCliente extends Component
 
     public $idCliente;
     public $cliente;
+    public $User;
+    public $Password;
     public $rfc;
     public $idInter = 0;
     public $inter;
@@ -119,6 +121,8 @@ class TableCliente extends Component
         Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
                 $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
+                $model->User = $this->User;
+                $model->Password = $this->Password;
                 // $model->RFC = $this->rfc;
                 $model->Id_user_m = $this->idCliente;
                 // $this->historial();

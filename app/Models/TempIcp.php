@@ -16,5 +16,6 @@ class TempIcp extends Model
 
     protected $fillable = [
         'Temp',
+        'colRes',
     ];
 }

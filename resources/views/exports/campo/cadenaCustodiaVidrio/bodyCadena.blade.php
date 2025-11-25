@@ -218,7 +218,11 @@
                         <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri" style="font-size: 11px;">{{$item->Resultado_aux}}</td>
                     </tr>    
                     <tr>
-                    <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri" style="font-size: 11px;" rowspan="3">{{@$item->Unidad}}</td>
+                    <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri" style="font-size: 11px;" rowspan="3">@if ($item->Ph_muestra == "1")
+                        %E
+                        @else
+                            {{@$item->Unidad}}
+                        @endif</td>
                     <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri" style="font-size: 11px;">5 Min</td>
                      <td class="justifyCenter bordesTabla anchoColumna125 fontSize9 fontCalibri" style="font-size: 11px;">{{$item->Resultado_aux2}}</td>
                     </tr>    

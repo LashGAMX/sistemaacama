@@ -25,6 +25,7 @@ class LoteDetalleVidrio extends Model
         'Vidrio4',
         'Vidrio5',
         'Vidrio6',
+        'Porcentaje_e',
         'Observacion',
         'Liberado',
         'Cancelado',

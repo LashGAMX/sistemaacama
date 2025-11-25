@@ -358,7 +358,7 @@
                     <td id="tableCabecera">No. de muestra &nbsp;</td>
                     <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Vol Final (mL)&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;< /td>
+                    <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>

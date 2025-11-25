@@ -107,9 +107,16 @@
         <div class="col-md-2">
           <button class="btn-success"><i class="fas fa-vials"></i> Controles</button>
         </div>
+        @switch(Auth::user()->id)
+        @case(1)
+        @case(14)
+        @case(100)
         <div class="col-md-2">
-          <button class="btn-danger" id="btnEliminarMuestra"><i class="fas fa-trash"></i> Del M.</button>
+         <button class="btn-danger" id="btnEliminarMuestra"><i class="fas fa-trash"></i> Del M.</button>
         </div>
+        @break
+        @default
+        @endswitch
       </div>
     </div>
     <div class="col-md-12" id="divCaptura">
@@ -1584,12 +1591,10 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <div id="divImagen">
-
                                         </div>
                                     </div>
                                 </div>

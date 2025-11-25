@@ -175,7 +175,17 @@
 
             
                     @break
-                        @default        
+                        @default     
+                        @if (@$promGra->count())
+                        <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
+                        <td class="fontCalibri anchoColumna111 fontSize8">
+                            @if (@$promGra[0]->Resultado2 <= @$promGra[0]->Limite)
+                                < {{@$promGra[0]->Limite}}
+                            @else
+                                {{number_format(@$promGra[0]->Resultado2, 2, ".", "")}}
+                            @endif
+                        </td>
+                        @endif   
                         @if (@$model->Num_tomas > 1)
                             @if (@$promEco->count())
                                 <td class="fontCalibri anchoColumna111 fontSize8">Escherichia coli NMP/100mL</td>
@@ -213,7 +223,7 @@
                     /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
                     "C39");*/
                     /*$url = url()->current();*/
-                    $url = "https://sistemaacama.com.mx/clientes/cadena-custodia-interna/".@$folioEncript;
+                    $url = "http://sistemasofia.ddns.net:86/sofia/clientes/cadena-custodia-interna/".@$folioEncript;
                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                     @endphp
 

@@ -137,8 +137,8 @@ function setGenFolio() {
             let puntos = document.getElementById("puntos");
             for (let i = 1; i < puntos.rows.length; i++) {
                 if (
-                    puntos.rows[i].children[3].children[0].value == "" ||
-                    puntos.rows[i].children[3].children[1].value == 0
+                    puntos.rows[i].children[4].children[0].value == "" ||
+                    puntos.rows[i].children[4].children[1].value == 0
                 ) {
                     sw = false;
                 }
@@ -150,7 +150,7 @@ function setGenFolio() {
     if (sw == true) {
         let puntos = document.getElementById("puntos");
         for (let i = 1; i < puntos.rows.length; i++) {
-            switch (puntos.rows[i].children[3].children[1].value) {
+            switch (puntos.rows[i].children[4].children[1].value) {
                 case "499":
                     aux = "499";
                     break;
@@ -167,7 +167,7 @@ function setGenFolio() {
                     aux = "";
                     break;
             }
-            conductividad.push(puntos.rows[i].children[3].children[0].value);
+            conductividad.push(puntos.rows[i].children[4].children[0].value);
             cloruros.push(aux);
         }
         $.ajax({
@@ -256,7 +256,8 @@ function tableCodigos(model) {
     console.log("Buscando codigos");
     let tabla = document.getElementById("divCodigos");
     let tab = "";
-    tab += '<table id="codigos" class="table table-sm">';
+    tab +=
+        '<table id="codigos" class="table" style="width:100%; font-size:16px;">';
     tab += '    <thead class="thead-dark">';
     tab += "        <tr>";
     tab += "          <th>Codigo</th>";
@@ -285,8 +286,16 @@ function tableCodigos(model) {
                     } else {
                         tempSw = "";
                     }
-                    tab += '<td class="' + tempSw + '">' + item2.Codigo + "</td>";
-                    tab += '<td class="' + tempSw + '">('+ item2.Id_parametro +') ' + item2.Parametro + "</td>";
+                    tab +=
+                        '<td class="' + tempSw + '">' + item2.Codigo + "</td>";
+                    tab +=
+                        '<td class="' +
+                        tempSw +
+                        '">(' +
+                        item2.Id_parametro +
+                        ") " +
+                        item2.Parametro +
+                        "</td>";
                     tab += "</tr>";
                 });
             },
@@ -333,6 +342,7 @@ function tablePuntos(id) {
             tab += "        <tr>";
             tab += '            <th style="width: 5%">#</th>';
             tab += '            <th style="width: 50%">...</th>';
+            tab += '            <th style="width: 20%">Obs Inf.</th>';
             tab += '            <th style="width: 20%">Obs</th>';
             tab += '            <th style="width: 20%">Opc</th>';
             tab += '            <th style="width: 5%"></th>';
@@ -348,9 +358,27 @@ function tablePuntos(id) {
                 tab += "<tr>";
                 tab += "<td>" + item.Id_solicitud + "</td>";
                 tab += "<td>" + item.Punto + "</td>";
-                tab += "<td><textarea id='obs"+item.Id_solicitud+"' rows='3' cols='25'> "+ response.obs[aux] +" </textarea></td>";
                 tab +=
-                    '<td><input placeholder="Conduct" value="' + response.conductividad[aux] + '">';
+                    "<td><textarea id='obsInf" +
+                    item.Id_solicitud +
+                    "' rows='3' cols='25'>" +
+                    (response.obsInf[aux] &&
+                    response.obsInf[aux] !== "null" &&
+                    response.obsInf[aux] !== "undefined"
+                        ? response.obsInf[aux]
+                        : "") +
+                    "</textarea></td>";
+                let obs = response.obs[aux] ?? "";
+                tab +=
+                    "<td><textarea id='obs" +
+                    item.Id_solicitud +
+                    "' rows='3' cols='25'>" +
+                    obs +
+                    "</textarea></td>";
+                tab +=
+                    '<td><input placeholder="Conduct" value="' +
+                    response.conductividad[aux] +
+                    '">';
                 tab += '<select id="sel' + item.Id_solicitud + '">';
                 if (response.cloruro[aux] == "") {
                     tab += "    <option selected  >Sin seleccionar</option>";
@@ -378,7 +406,12 @@ function tablePuntos(id) {
                     tab += '    <option value="1500" >> 1000</option>';
                 }
                 tab += "</select></td>";
-                tab += "<td><button class='btn-warning' onclick='setObsRecepcion("+item.Id_solicitud+")'><i class='fas fa-check'></i></button>&nbsp; <button class='btn-success' onclick='getHojaCampo("+item.Id_solicitud+")'><i class='fas fa-download'></i></button></td>";
+                tab +=
+                    "<td><button class='btn-warning' onclick='setObsRecepcion(" +
+                    item.Id_solicitud +
+                    ")'><i class='fas fa-check'></i></button>&nbsp; <button class='btn-success' onclick='getHojaCampo(" +
+                    item.Id_solicitud +
+                    ")'><i class='fas fa-download'></i></button></td>";
                 tab += "</tr>";
                 aux++;
             });
@@ -421,85 +454,89 @@ function tablePuntos(id) {
                         dataType: "json",
                         success: function (response) {
                             dataPunto = response;
-                    
+
                             if (response.model) {
                                 $("#finMuestreo").val(response.model.Fecha);
                                 $("#conformacion").val(response.fecha2);
                             }
-                    
+
                             $("#procedencia").val(response.procedencia.Estado);
-                    
-                            let fotos = response.fotos || []; 
-                            let template = "";
-                    
-                            if (fotos.length === 0) {
-                                template = `
-                                    <div class="row py-3">
-                                        <div class="col text-center">
-                                            <h5>El punto de muestreo no tiene imágenes,Sube la Imagen con Sara</h5>
-                                        </div>
-                                    </div>
-                                `;
-                            } else {
-                                template = '<div class="row py-3 justify-content-center align-items-center">';
-                                fotos.forEach((element, idx) => {
-                                    let cleanBase64 = element.Foto.replace(/\s/g, ''); 
-                                    template += `
-                                        <div class="col-md-4 text-center">
-                                            <img src="data:image/jpeg;base64,${cleanBase64}" 
-                                                class="puntoFoto" style="max-width:100%; cursor: pointer;" 
-                                                onclick="verFoto(${element.Id_foto_recepcion}, '${cleanBase64}')"
-                                                data-toggle="modal" data-target="#modalFoto">
-                                        </div>
-                                    `;
-                                    if ((idx + 1) % 3 === 0) template += `</div><div class="row py-3 justify-content-center align-items-center">`;
-                                });
-                                template += '</div>';
-                            }
-                    
-                            console.log("Fotos recibidas:", fotos);
-                            console.log("Plantilla generada:", template);
-                    
-                            $("#fotos").html(template);
+
+                            // let fotos = response.fotos || [];
+                            // let template = "";
+
+                            // if (fotos.length === 0) {
+                            //     template = `
+                            //         <div class="row py-3">
+                            //             <div class="col text-center">
+                            //                 <h5>El punto de muestreo no tiene imágenes,Sube la Imagen con Sara</h5>
+                            //             </div>
+                            //         </div>
+                            //     `;
+                            // } else {
+                            //     template =
+                            //         '<div class="row py-3 justify-content-center align-items-center">';
+                            //     fotos.forEach((element, idx) => {
+                            //         let cleanBase64 = element.Foto.replace(
+                            //             /\s/g,
+                            //             ""
+                            //         );
+                            //         template += `
+                            //             <div class="col-md-4 text-center">
+                            //                 <img src="data:image/jpeg;base64,${cleanBase64}" 
+                            //                     class="puntoFoto" style="max-width:100%; cursor: pointer;" 
+                            //                     onclick="verFoto(${element.Id_foto_recepcion}, '${cleanBase64}')"
+                            //                     data-toggle="modal" data-target="#modalFoto">
+                            //             </div>
+                            //         `;
+                            //         if ((idx + 1) % 3 === 0)
+                            //             template += `</div><div class="row py-3 justify-content-center align-items-center">`;
+                            //     });
+                            //     template += "</div>";
+                            // }
+
+                            // console.log("Fotos recibidas:", fotos);
+                            // console.log("Plantilla generada:", template);
+
+                            // $("#fotos").html(template);
                         },
                         error: function (xhr, status, error) {
                             console.error("Error en la petición AJAX:", error);
-                        }
+                        },
                     });
-                    
                 }
             });
         },
     });
 }
-function getHojaCampo(id)
-{
-    window.open(base_url + "/admin/campo/hojaCampo/"+id);
+function getHojaCampo(id) {
+    window.open(base_url + "/admin/campo/hojaCampo/" + id);
 }
-function setObsRecepcion(id){
+function setObsRecepcion(id) {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/ingresar/setObsRecepcion",
         data: {
             id: id,
-            obs: $("#obs"+id).val(),
+            obs: $("#obs" + id).val(),
+            obsInf: $("#obsInf" + id).val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
-        success: function(response){
-            alert(response.msg)
-        }
+        success: function (response) {
+            alert(response.msg);
+        },
     });
 }
 
-function verFoto(id, foto){
-    $("#fotoGrande").attr('src', 'data:image/jpeg;base64,' + foto);
-    $("#eliminarFoto").attr('onclick', `eliminarFoto(${id})`);
+function verFoto(id, foto) {
+    $("#fotoGrande").attr("src", "data:image/jpeg;base64," + foto);
+    $("#eliminarFoto").attr("onclick", `eliminarFoto(${id})`);
     console.log(id);
 }
 
-function eliminarFoto(id){
-    if(confirm("¿Realmente quieres eliminar esta foto?")){
+function eliminarFoto(id) {
+    if (confirm("¿Realmente quieres eliminar esta foto?")) {
         $("#modalFoto").modal("hide");
         $.ajax({
             type: "POST",
@@ -509,19 +546,18 @@ function eliminarFoto(id){
                 _token: $('input[name="_token"]').val(),
             },
             dataType: "json",
-            success: function(response){
-                if(response.estado == "exito"){
+            success: function (response) {
+                if (response.estado == "exito") {
                     actualizarFotos(idSol);
+                } else {
+                    alert("Algo salio mal, la foto no fue eliminada");
                 }
-                else{
-                    alert('Algo salio mal, la foto no fue eliminada');
-                }
-            }
+            },
         });
     }
 }
 
-function actualizarFotos(idSolicitud){
+function actualizarFotos(idSolicitud) {
     $("#fotos").html(`
         <div class="row">
             <div class="col text-center">
@@ -537,15 +573,11 @@ function actualizarFotos(idSolicitud){
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
-        success: function(response){
-            if(response.model.length > 0) {
+        success: function (response) {
+            if (response.model.length > 0) {
                 template = ``;
                 contador = 0;
-                response.model.forEach(function (
-                    element,
-                    idx,
-                    fotos
-                ) {
+                response.model.forEach(function (element, idx, fotos) {
                     contador = contador + 1;
                     if (contador == 1) {
                         template += `
@@ -587,8 +619,7 @@ function actualizarFotos(idSolicitud){
                     }
                 });
                 $("#fotos").html(template);
-            }
-            else {
+            } else {
                 $("#fotos").html(`
                     <div class="row">
                         <div class="col text-center">
@@ -597,7 +628,7 @@ function actualizarFotos(idSolicitud){
                     </div>    
                 `);
             }
-        }
+        },
     });
 }
 

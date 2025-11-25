@@ -42,10 +42,10 @@
                     <td class="tableContent">{{@$item->T_trichiura}}</td>
                     <td class="tableContent">{{@$item->Taenia_sp}}</td>
                     <td class="tableContent">
-                        @if (@$item->Resultado > @$item->Limite)
-                         {{@$item->Resultado}}    
+                        @if ($item->Resultado < $item->Limite)
+                         < {{@$item->Limite}}
                         @else
-                            < {{@$item->Limite}}
+                            {{@$item->Resultado}}    
                         @endif
                         </td>
                     <td class="tableContent">{{@$item->Observacion}}</td>

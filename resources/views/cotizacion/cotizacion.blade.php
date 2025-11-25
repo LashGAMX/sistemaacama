@@ -71,6 +71,8 @@
                                     <th>Fecha creación</th>
                                     <th>Actualizado por</th>
                                     <th>Fecha actualización</th>
+                                    <th>U. Cot</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -118,6 +120,7 @@
                                         @endforeach
                                     </td>
                                     <td>{{$item->updated_at}}</td>
+                                    <td>{{$item->Cotizacion_user}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

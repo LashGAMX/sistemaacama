@@ -294,7 +294,7 @@
             <div class="col-md-10">
               <div class="form-group">
                 <label for="normaPa">Norma</label>
-                <input type="text" class="form-control" placeholder="normaPa" id="normaPa" name="normaPa" disabled>
+                <input type="text" class="form-control" placeholder="normaPa" id="normaPa" name="normaPa" >
               </div>
             </div>
 

@@ -2045,6 +2045,7 @@ class MbController extends Controller
                 $model->Bitacora = $res->bitacora;
                 $model->Preparacion_pre = $res->preparacion;
                 $model->Lectura_pre = $res->lectura;
+                $model->Lectura_pre2 = $res->lectura2;
                 $model->Medio_con = $res->Ajolote;
                 $model->Preparacion_con = $res->preparacionCon;
                 $model->Lectura_con = $res->lecturaCon;

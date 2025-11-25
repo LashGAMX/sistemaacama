@@ -31,7 +31,8 @@ use App\Models\LoteDetallePotable;
 use App\Models\LoteDetalleSolidos;
 use App\Models\MatrazGA;
 use App\Models\CrisolesGA;
-
+use App\Models\FotoRecepcionDB2;
+use App\Models\LoteDetalleVidrio;
 use App\Models\PhMuestra;
 use App\Models\ProcesoAnalisis;
 use App\Models\Solicitud;
@@ -46,17 +47,10 @@ use Psy\Command\WhereamiCommand;
 
 class CadenaController extends Controller
 {
-    //cadena  
-    // public function cadenaCustodia()
-    // {
-
-    //     $model = DB::table('ViewSolicitud4')->orderby('Id_solicitud', 'desc')->where('Padre', 1)->get();
-    //     return view('supervicion.cadena.cadena', compact('model'));
-    // }
-
     public function cadenaCustodia()
     {
-        $model = DB::table('solicitudes as sol')
+
+        $model2 = DB::table('solicitudes as sol')
             ->join('intermediarios as inter', 'inter.Id_intermediario', '=', 'sol.Id_intermediario')
             ->join('clientes as cli', 'inter.Id_cliente', '=', 'cli.Id_cliente')
             ->join('sucursales_cliente as suc', 'suc.Id_sucursal', '=', 'sol.Id_sucursal')
@@ -78,22 +72,20 @@ class CadenaController extends Controller
                 'sol.Padre',
                 'sol.created_at',
                 'sol.updated_at',
+                'sol.Padre',
                 'creador.name as Id_user_c'
             )
-            ->where('sol.Padre', 1)
+            ->where('sol.Padre', '!=', 0)
+            // ->whereIn(DB::raw('YEAR(sol.created_at)'), [2024, 2025])
             ->orderBy('sol.Id_solicitud', 'desc')
             ->get();
 
-        return view('supervicion.cadena.cadena', compact('model'));
+        return view('supervicion.cadena.cadena', compact('model2'));
     }
-
-
-
-
     public function detalleCadena($id)
     {
         $swSir = false;
-        $model = DB::table('ViewSolicitud3')->where('Id_solicitud', $id)->first();
+        $model = DB::table('ViewSolicitud3')->where('Id_solicitud', $id)->where('Padre', 1)->where('Padre', '!=', 0)->first();
         $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario', $model->Id_intermediario)->first();
         $proceso = ProcesoAnalisis::where('Id_solicitud', $id)->first();
         $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
@@ -108,6 +100,10 @@ class CadenaController extends Controller
     public function getFotos(Request $res)
     {
         $model = FotoRecepcion::where('Id_solicitud', '=', $res->id)->get();
+        if ($model->Count()) {
+        }else{
+            $model = FotoRecepcionDB2::where('Id_solicitud', '=', $res->id)->get();
+        }
 
         $data = array("model" => $model);
         return response()->json($data);
@@ -118,6 +114,7 @@ class CadenaController extends Controller
         $porcentaje = array();
         $porcentajeCom = array();
         try {
+            $proceso = ProcesoAnalisis::where('Id_solicitud', $res->idPunto)->first();
             $model = DB::table('ViewCodigoRecepcion')
                 ->where('Id_solicitud', $res->idPunto)
                 ->where('Num_muestra', 1)
@@ -361,6 +358,7 @@ class CadenaController extends Controller
             }
 
             $data = [
+                'proceso' => $proceso,
                 'model' => $model,
                 'contPa' => $contPa,
                 'porcentajeCom' => $porcentajeCom,
@@ -374,17 +372,6 @@ class CadenaController extends Controller
         }
     }
 
-
-
-    //     public function cadenaCustodia()
-    //   {
-    //     $model= DB :: table('ViewSolicitud4')->orderby('Id_solicitud','desc')->where('Padre',1)->get();
-
-    //     $Miarray =array(
-    //     'model'=>$model,
-    //     );
-    //     return view('supervicion.cadena.cadena',compact ('model'));
-    //   }
 
     public function liberarMuestra(Request $res)
     {
@@ -463,191 +450,249 @@ class CadenaController extends Controller
         return response()->json($data);
     }
 
-    // Controles de liberacion, regresas muestras, etc... 
+
     public function regresarMuestra(Request $res)
     {
         $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
         switch ($codigoParametro->Id_area) {
-            case 19:
-                switch ($codigoParametro->Id_parametro) {
-                    case 102:
-                        $model = LoteDetalleColor::where('Id_codigo', $res->idCodigo)->get();
-                        foreach ($model as $item) {
-                            $item->Liberado = 0;
-                            $item->save();
-                        }
-                        break;
-                }
-                $model = LoteDetalleDirectos::where('Id_codigo', $res->idCodigo)->get();
-                foreach ($model as $item) {
-                    $item->Liberado = 0;
-                    $item->save();
-                }
-                break;
             case 2:
-                $model = LoteDetalle::where('Id_codigo', $res->idCodigo)->get();
+                $model = LoteDetalle::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                 foreach ($model as $item) {
                     $item->Liberado = 0;
                     $item->save();
+                    $asignado = LoteDetalle::where('Id_lote', $item->Id_lote)->count();
+                    $liberado = LoteDetalle::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                 }
                 break;
-            case 8:
-                case 33:
-                    case 251:
-                        case 252:
-                $model = LoteDetalleDureza::where('Id_codigo', $res->idCodigo)->first();
+            case 16: //Espectrofotometria
+            case 5: //Fisicoquimicos
+                $model = LoteDetalleEspectro::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                 foreach ($model as $item) {
                     $item->Liberado = 0;
                     $item->save();
+                    $asignado = LoteDetalleEspectro::where('Id_lote', $item->Id_lote)->count();
+                    $liberado = LoteDetalleEspectro::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                 }
-                break;
-            case 16:
-            case 5:
-                $model = LoteDetalleEspectro::where('Id_codigo', $res->idCodigo)->get();
-                foreach ($model as $item) {
-                    $item->Liberado = 0;
-                    $item->save();
-                }
-            case 6: //Microbiologia residual
-                switch ($codigoParametro->Id_parametro) {
-                    case 16: //Huevos
-                        $model = LoteDetalleHH::where('Id_codigo', $res->idCodigo)->get();
-                        foreach ($model as $item) {
-                            $item->Liberado = 0;
-                            $item->save();
-                        }
-                        break;
-                    case 5: // dbo
-                        $model = LoteDetalleDbo::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
-                        foreach ($model as $item) {
-                            $codigo = LoteDetalleDbo::where('Id_codigo', $item->Id_codigo)->first();
-                            $codigo->Liberado = 0;
-                            $codigo->save();
-                        }
-                        break;
-                    case 70:
-                        $model = LoteDetalleDboIno::where('Id_codigo', $res->idCodigo)->get();
-                        foreach ($model as $item) {
-                            $item->Liberado = 0;
-                            $item->save();
-                        }
-                        break;
-                    case 137:
-                        $model = LoteDetalleColiformes::where('Id_codigo', $res->idCodigo)->get();
-                        foreach ($model as $item) {
-                            $item->Liberado = 0;
-                            $item->save();
-                        }
-                        break;
-                    case 35: //ecoli mb
-                        $model = LoteDetalleColiformes::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
-                        foreach ($model as $item) {
-                            $codigo = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
-                            $codigo->Liberado = 0;
-                            $codigo->save();
-                        }
-                        break;
-                    case 12: //coliformes fecales
-                        $model = LoteDetalleColiformes::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
-                        foreach ($model as $item) {
-                            $codigo = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
-                            $codigo->Liberado = 0;
-                            $codigo->save();
-                        }
-                        break;
-                }
-                break;
-            case 13: //Grasas
+            case 13: //Grasas (G&A)
                 $model = LoteDetalleGA::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                 foreach ($model as $item) {
                     $codigo = LoteDetalleGA::where('Id_codigo', $item->Id_codigo)->first();
                     $codigo->Liberado = 0;
                     $codigo->save();
+                    $asignado = LoteDetalleGA::where('Id_lote', $item->Id_lote)->count();
+                    $liberado = LoteDetalleGA::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                 }
                 break;
-            case 14:     //Volumetria
+            case 15: //Solidos
+                $model = LoteDetalleSolidos::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                foreach ($model as $item) {
+                    $item->Liberado = 0;
+                    $item->save();
+                    $asignado = LoteDetalleSolidos::where('Id_lote', $item->Id_lote)->count();
+                    $liberado = LoteDetalleSolidos::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                }
+
+                break;
+            case 14: // Volumetria
                 switch ($codigoParametro->Id_parametro) {
-                    case 64:
-                        case 33:
-                        $model = LoteDetalleCloro::where('Id_codigo', $res->idCodigo)->get();
+                    case 6:
+                    case 161:
+                        $model = LoteDetalleDqo::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                         foreach ($model as $item) {
                             $item->Liberado = 0;
                             $item->save();
+                            $asignado = LoteDetalleDqo::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleDqo::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    case 33:
+                    case 218:
+                    case 119:
+                    case 64:
+                        $model = LoteDetalleCloro::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleCloro::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleCloro::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                         }
                         break;
                     case 10:
-                    case 9: // N. AMONIACAL
+                    case 9:
+                    case 11:
+                    case 287:
+                    case 83:
                     case 108:
-                        $model = LoteDetalleNitrogeno::where('Id_codigo', $res->idCodigo)->get();
+                        $model = LoteDetalleNitrogeno::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                         foreach ($model as $item) {
                             $item->Liberado = 0;
                             $item->save();
+                            $asignado = LoteDetalleNitrogeno::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleNitrogeno::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                         }
                         break;
-                    case 6:
-                        $model = LoteDetalleDqo::where('Id_codigo', $res->idCodigo)->get();
-                        foreach ($model as $item) {
-                            $item->Liberado = 0;
-                            $item->save();
-                        }
-                        break;
+
                     case 28:
                     case 29:
                     case 30:
-                        $model = LoteDetalleAlcalinidad::where('Id_codigo', $res->idCodigo)->get();
+                    case 27:
+                        $model = LoteDetalleAlcalinidad::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                         foreach ($model as $item) {
                             $item->Liberado = 0;
                             $item->save();
+                            $asignado = LoteDetalleAlcalinidad::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleAlcalinidad::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                         }
                         break;
                 }
-
                 break;
-            case 15: //Solidos
-                $model = LoteDetalleSolidos::where('Id_codigo', $res->idCodigo)->get();
+            case 7: //Campo
+            case 19: // Directos
+                switch ($codigoParametro->Id_parametro) {
+                    case 102:
+                        $model = LoteDetalleColor::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleColor::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleColor::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    case 173:
+                        $model = LoteDetalleVidrio::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleVidrio::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleVidrio::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    default:
+                        $model = LoteDetalleDirectos::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleDirectos::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleDirectos::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                }
+                break;
+            case 8: //Potable
+                switch ($codigoParametro->Id_parametro) {
+                    case 77: //Dureza
+                    case 103:
+                    case 251:
+                    case 252:
+                        $model = LoteDetalleDureza::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleDureza::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleDureza::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    default:
+                        $model = LoteDetallePotable::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetallePotable::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetallePotable::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                }
+                break;
+            case 6: // Microbiología Residual
+            case 12: // Microbiología Alimentos
+            case 3: // Alimentos
+                switch ($codigoParametro->Id_parametro) {
+                    case 135: // Coliformes fecales
+                    case 132:
+                    case 133:
+                    case 12:
+                    case 134: // termotolerantes
+                    case 35:
+                    case 51: // Coliformes totales
+                    case 137:
+                    case 350:
+                        $model = LoteDetalleColiformes::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleColiformes::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleColiformes::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    case 253: // ENTEROCOCO FECAL
+                        $model = LoteDetalleEnterococos::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleEnterococos::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleEnterococos::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    case 5: // DEMANDA BIOQUIMICA DE OXIGENO (DBOS) 
+                    case 71:
+                        $model = LoteDetalleDbo::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+
+                        foreach ($model as $item) {
+                            //dd("EjEMPLO", $item->Id_lote);
+                            $item->Liberado = 0;
+                            $item->save();
+
+                            $asignado = LoteDetalleDbo::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleDbo::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                            //  dd("Asignado", $asignado, "Liberado", $liberado);
+                        }
+
+                        break;
+                    case 70:
+                        $model = LoteDetalleDboIno::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleDboIno::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleDboIno::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    case 16:
+                        $model = LoteDetalleHH::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleHH::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleHH::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                    case 78:
+                        $model = LoteDetalleEcoli::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
+                        foreach ($model as $item) {
+                            $item->Liberado = 0;
+                            $item->save();
+                            $asignado = LoteDetalleEcoli::where('Id_lote', $item->Id_lote)->count();
+                            $liberado = LoteDetalleEcoli::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
+                        }
+                        break;
+                }
+                break;
+            default:
+                $model = LoteDetalleDirectos::where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', $codigoParametro->Id_parametro)->get();
                 foreach ($model as $item) {
                     $item->Liberado = 0;
                     $item->save();
+                    $asignado = LoteDetalleDirectos::where('Id_lote', $item->Id_lote)->count();
+                    $liberado = LoteDetalleDirectos::where('Id_lote', $item->Id_lote)->where('Liberado', 1)->count();
                 }
 
                 break;
-            default:
-                $model = LoteDetalleDirectos::where('Id_codigo', $res->idCodigo)->get();
-                foreach ($model as $item) {
-                    $item->Liberado = 0;
-                    $item->save();
-                }
+        } //fin del switch area 
 
-                break;
-        }
-
-        switch ($codigoParametro->Id_parametro) {
-            case 7:
-            case 8:
-                $temp = CodigoParametros::where('Id_parametro', $codigoParametro->Id_solicitud)->where('Id_parametro', 11);
-                $temp->Resultado = "";
-                $temp->Resultado2 = "";
-                $temp->Liberado = 0;
-                $temp->save();
-                break;
-            case 10:
-            case 9:
-                $temp = CodigoParametros::where('Id_parametro', $codigoParametro->Id_solicitud)->where('Id_parametro', 83);
-                $temp->Resultado = "";
-                $temp->Resultado2 = "";
-                $temp->Liberado = 0;
-                $temp->save();
-
-                $temp = CodigoParametros::where('Id_parametro', $codigoParametro->Id_solicitud)->where('Id_parametro', 11);
-                $temp->Resultado = "";
-                $temp->Resultado2 = "";
-                $temp->Liberado = 0;
-                $temp->save();
-                break;
-            default:
-                # code...
-                break;
-        }
+        $lote = LoteAnalisis::find($codigoParametro->Id_lote);
+        $lote->Asignado = $asignado;
+        $lote->Liberado = $liberado;
+        $lote->save();
 
         $temp = CodigoParametros::find($res->idCodigo);
         $temp->Resultado = "";
@@ -655,8 +700,11 @@ class CadenaController extends Controller
         $temp->Liberado = 0;
         $temp->save();
 
+
+
+
         $data = array(
-            'idSol' => $res->idSol,
+
             'idCodigo' => $res->idCodigo,
             'model' => $model,
 
@@ -668,11 +716,19 @@ class CadenaController extends Controller
     public function reasignarMuestra(Request $res)
     {
         $msg = "";
-        $detalle = DB::table('viewcodigoinforme')->where('Id_codigo', $res->idCodigo)->first();
-        $asignado = 0;
-        $liberado = 0;
         try {
+            $detalle = DB::table('viewcodigoinforme')->where('Id_codigo', $res->idCodigo)->first();
+
+            if (!$detalle) {
+                return response()->json(['msg' => 'No se encontró el detalle con ese Id_codigo']);
+            }
             switch ($detalle->Id_area) {
+                case 2:
+                    $model = DB::table('lote_detalle')->where('Id_analisis', $detalle->Id_solicitud)->where('Id_parametro', $detalle->Id_parametro)->delete();
+                    $asignado = LoteDetalle::where('Id_lote', $detalle->Id_lote)->get();
+                    $liberado = LoteDetalle::where('Id_lote', $detalle->Id_lote)->where('Liberado', 1)->get();
+                    break;
+
                 case 16: // Espectrofotometria
                 case 5: // Fisicoquimicos
                     $model = DB::table('lote_detalle_espectro')->where('Id_analisis', $detalle->Id_solicitud)->where('Id_parametro', $detalle->Id_parametro)->delete();
@@ -731,11 +787,18 @@ class CadenaController extends Controller
                     }
                     break;
                 case 7: //Campo
+                case 19: // Directos
                     switch ($detalle->Id_parametro) {
                         case 102:
                             $model = DB::table('lote_detalle_color')->where('Id_analisis', $detalle->Id_solicitud)->where('Id_parametro', $detalle->Id_parametro)->delete();
                             $asignado = LoteDetalleColor::where('Id_lote', $detalle->Id_lote)->get()->count();
                             $liberado = LoteDetalleColor::where('Id_lote', $detalle->Id_lote)->where('Liberado', 1)->get()->count();
+                            break;
+                        case 14:
+                            $model = DB::table('lote_detalle_directos')->where('Id_analisis', $detalle->Id_solicitud)->where('Id_parametro', $detalle->Id_parametro)->delete();
+                            $asignado = LoteDetalleDirectos::where('Id_lote', $detalle->Id_lote)->get()->count();
+                            $liberado = LoteDetalleDirectos::where('Id_lote', $detalle->Id_lote)->where('Liberado', 1)->get()->count();
+
                             break;
                         default:
                             $model = DB::table('lote_detalle_directos')->where('Id_analisis', $detalle->Id_solicitud)->where('Id_parametro', $detalle->Id_parametro)->delete();
@@ -817,118 +880,43 @@ class CadenaController extends Controller
                     $liberado = LoteDetalleDirectos::where('Id_lote', $detalle->Id_lote)->where('Liberado', 1)->get();
                     break;
             }
+
+            $asignado = DB::table('codigo_parametro')
+                ->where('Id_lote', $detalle->Id_lote)
+                ->where('Asignado', 1)
+                ->count();
+
+            $liberado = DB::table('codigo_parametro')
+                ->where('Id_lote', $detalle->Id_lote)
+                ->where('Liberado', 1)
+                ->count();
+
             $lote = LoteAnalisis::where('Id_lote', $detalle->Id_lote)->first();
-            $lote->Asignado = $asignado->count();
-            $lote->Liberado = $liberado->count();
-            $lote->save();
+            if ($lote) {
+                $lote->Asignado = $asignado;
+                $lote->Liberado = $liberado;
+                $lote->save();
+            }
 
             DB::table('codigo_parametro')
-                ->where('Id_codigo', $res->idCodigo)
-                ->update(
-                    [
-                        'Asignado' => 0,
-                        'Resultado' => null,
-                        'Resultado2' => null,
-                        'Liberado' => 0,
-                    ]
-                );
-            $msg = "Muestra regresada correctamente";
+                ->where('Id_solicitud', $detalle->Id_solicitud)->where('Id_parametro', $detalle->Id_parametro)
+                ->update([
+                    'Asignado' => 0,
+                    'Resultado' => "",
+                    'Resultado2' => "",
+                    'Liberado' => 0,
+                    'Id_lote' => null,
+                ]);
+
+            $msg = "Muestra Reasignada correctamente";
         } catch (\Throwable $th) {
-            //throw $th;
-            $msg = $th;
+            $msg = "Error: " . $th->getMessage();
         }
-        $data = array(
-            'msg' => $msg,
-        );
-        return response()->json($data);
+
+        return response()->json(['msg' => $msg]);
     }
-    public function reasignarMuestra1(Request $res)
-    {
-        $metodo = '';
-        $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
-        switch ($codigoParametro->Id_area) {
-            case 2:
-                $model = DB::table('lote_detalle')->where('Id_codigo', $res->idCodigo)->delete();
-                $metodo = 'simple';
-                break;
-            case 14:
-                $model = DB::table('lote_detalle_dqo')->where('Id_codigo', $res->idCodigo)->delete();
-                $metodo = 'simple';
-                break;
-            case 6:
-                switch ($codigoParametro->Id_parametro) {
-                    case 5:
-                        $model = DB::table('lote_detalle_dbo')->where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 5)->get();
-                        foreach ($model as $item) {
-                            $codigo = DB::table('lote_detalle_dbo')->where('Id_codigo', $item->Id_codigo)->delete();
-                        }
-                        $metodo = 'multiple';
-                        break;
-                    case 16;
-                        $model = DB::table('lote_detalle_hh')->where('Id_codigo', $res->idCodigo)->delete();
-                        $metodo = 'simple';
-                        break;
-                    case 137;
-                        $model = DB::table('lote_detalle_coliformes')->where('Id_codigo', $res->idCodigo)->delete();
-                        $metodo = 'simple';
-                        break;
-                    case 12;
-                        $model = DB::table('lote_detalle_coliformes')->where('Id_analisis', $codigoParametro->Id_solicitud)->where('Id_parametro', 12)->get();
-                        foreach ($model as $item) {
-                            $codigo = DB::table('lote_detalle_coliformes')->where('Id_codigo', $item->Id_codigo)->delete();
-                        }
-                        $metodo = 'multiple';
-                        break;
-                }
 
-                break;
-            case 16:
-            case 5:
-                $model = DB::table('lote_detalle_espectro')->where('Id_codigo', $res->idCodigo)->delete();
-                $metodo = 'simple';
-                break;
-            case 8:
-                $model = DB::table('lote_detalle_dureza')->where('Id_codigo', $res->idCodigo)->delete();
-                $metodo = 'simple';
-                break;
-            case 19;
-                $model = DB::table('lote_detalle_directos')->where('Id_codigo', $res->idCodigo)->delete();
-                $metodo = 'simple';
-                break;
-            default:
 
-                break;
-        }
-        if ($metodo == 'multiple') {
-            foreach ($model as $item) {
-                $codigo = CodigoParametros::where('Id_codigo', $item->idCodigo)->first();
-                $codigo->Asignado = 0;
-                $codigo->Resultado = null;
-                $codigo->Resultado2 = null;
-                $codigo->Id_lote = null;
-                //$codigo->Analizo = 1;
-                $codigo->save();
-            }
-        } else {
-            $codigo = CodigoParametros::where('Id_codigo', $res->idCodigo)->first();
-            $codigo->Asignado = 0;
-            $codigo->Resultado = null;
-            $codigo->Resultado2 = null;
-            $codigo->Id_lote = null;
-            //$codigo->Analizo = 1;
-            $codigo->save();
-        }
-
-        $data = array(
-            'idSol' => $res->idSol,
-            'idCodigo' => $res->idCodigo,
-            'codigoParametros' => $codigoParametro,
-            'model' => $model,
-            'area' => $codigoParametro->Id_area,
-            "metodo" => $metodo,
-        );
-        return response()->json($data);
-    }
     public function desactivarMuestra(Request $res)
     {
         $codigoParametro = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
@@ -961,11 +949,11 @@ class CadenaController extends Controller
                     ->where('Id_parametro', $codigoModel->Id_parametro)
                     ->where('Id_control', 1)->get();
                 break;
-                break;
+
             case 102:
                 $model = LoteDetalleColor::where('Id_analisis', $codigoModel->Id_solicitud)->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
-                // Metales
+            // Metales
             case 17: // Arsenico
             case 231:
             case 208:
@@ -1053,7 +1041,7 @@ class CadenaController extends Controller
                     ->where('Id_control', 1)
                     ->get();
                 break;
-                // case 218: //Cloro
+            // case 218: //Cloro
             case 64:
                 $model = DB::table('ViewLoteDetalleCloro')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
@@ -1072,7 +1060,7 @@ class CadenaController extends Controller
                 //     ->where('Id_control', 1)->get();
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_control', 1)
+                    ->where('Id_control', 1)->Where('Cancelado',0)
                     ->groupBy('Id_detalle', 'Id_analisis', 'Id_control') // Incluye todas las columnas relevantes
                     ->get();
 
@@ -1260,19 +1248,19 @@ class CadenaController extends Controller
                 }
                 break;
 
-                //Potable
+            //Potable
             case 95: // Sulfatos
             case 116:
                 $model = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
-                //Dureza
+            //Dureza
             case 77:
             case 251:
             case 252:
             case 119:
-                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)->where('Id_parametro', $paraModel->Id_parametro)->get();
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)->where('Id_control', 1)->where('Id_parametro', $paraModel->Id_parametro)->get();
                 break;
             case 103:
                 $model = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $codigoModel->Id_solicitud)
@@ -1362,101 +1350,48 @@ class CadenaController extends Controller
         );
         return response()->json($data);
     }
-    // public function liberarSolicitud(Request $res)
-    // {
-    //     $sw = true;
-    //     $model = Solicitud::find($res->idSol);
-    //     if ($res->liberado == true) {
-    //         $model->Liberado = 1;
-    //         $sw = true;
-    //     } else if{
-    //         $model->Liberado = 0;
-    //         $sw = false;
-    //     }
-    //     $model->save();
 
-    //     $data = array(
-    //         'sw' => $sw,
-    //     );
-    //     return response()->json($data);
-    // }
-
-
-    // public function liberarSolicitud(Request $res)
-    // {
-    //        $sw = false;
-
-     
-    //     $liberado = filter_var($res->liberado, FILTER_VALIDATE_BOOLEAN);    // lo convierte en boleano si no, no lo agarra como este tipo de dato     
-    //     $solicitudes = Solicitud::where('Id_solicitud', $res->idSol)->orWhere('Hijo', $res->idSol)->get();
-        
-    //     if ($solicitudes->isNotEmpty()) {
-    //         $sw = false;  
-    //         foreach ($solicitudes as $solicitud) {
-              
-    //             if ($liberado) {
-    //                 $crisol=CrisolGA::where('Id_solicitud',$solicitudes)->get();
-    //                 $crisol->Estado=0;
-    //                 $crisol=MatrazGA::where('Id_solicitud',$solicitudes)->get();
-    //                 $crisol->Estado=0;
-    //                 $solicitud->Liberado = 1;
-    //                 $sw = true;  
-    //             } else {
-                 
-    //                 $solicitud->Liberado = 0;
-    //                 $sw = false;  
-    //             }
-    //             $solicitud->save();
-    //         }
-    //     }
-
-        
-    //     return response()->json(['sw' => $sw]);
-    // }
     public function liberarSolicitud(Request $res)
     {
         $sw = false;
         $idsActualizados = [];
-    
         // Convertir $liberado a booleano por que asi normal no jala 
         $liberado = filter_var($res->liberado, FILTER_VALIDATE_BOOLEAN);
-    
-        $solicitudes = Solicitud::where('Id_solicitud', $res->idSol)
-            ->orWhere('Hijo', $res->idSol)
-            ->get();
-    
+
+        $solicitudes = Solicitud::where('Id_solicitud', $res->idSol)->orWhere('Hijo', $res->idSol)->get();
+
         if ($solicitudes->isNotEmpty()) {
             foreach ($solicitudes as $solicitud) {
                 $solicitud->Liberado = $liberado ? 1 : 0;
                 $solicitud->save();
-    
+
                 // Almacenar el ID de la solicitud actualizada
                 $idsActualizados[] = $solicitud->Id_solicitud;
             }
-    
+
             // Obtener los IDs de matraz y crisol relacionados
             $gaIds = LoteDetalleGA::whereIn('Id_analisis', $idsActualizados)->pluck('Id_matraz');
             $solIds = LoteDetalleSolidos::whereIn('Id_analisis', $idsActualizados)->pluck('Id_crisol');
-    
-          
+
+
             $gas = MatrazGA::whereIn('Id_matraz', $gaIds)->get();
             foreach ($gas as $matraz) {
-                $matraz->Estado = $liberado =0;
+                $matraz->Estado = $liberado = 0;
                 $matraz->save();
             }
-    
-            
+
+
             $sols = CrisolesGA::whereIn('Id_matraz', $solIds)->get();
             foreach ($sols as $crisol) {
-                $crisol->Estado = $liberado=0;
+                $crisol->Estado = $liberado = 0;
                 $crisol->save();
             }
-    
+
             if ($liberado) {
                 $sw = true;
             }
         }
-    
+
         return response()->json([
             'sw' => $sw,
             'idsActualizados' => $idsActualizados,
@@ -1464,7 +1399,7 @@ class CadenaController extends Controller
             'crisolesActualizados' => $sols
         ]);
     }
-    
+
 
     public function setHistorial(Request $res)
     {

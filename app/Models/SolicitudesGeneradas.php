@@ -25,10 +25,21 @@ class SolicitudesGeneradas extends Model
       'A_materno',
       'Nombres',
       'Observacion',
+      'Firma_digital',
       'Estado',
       'Cancelado',
       'Id_superviso', 
       'Id_user_c',
       'Id_user_m'
     ];
+
+    public function solicitud()
+    {
+        return $this->belongsTo(Solicitud::class, 'Id_solicitud', 'Id_solicitud');
+    }
+    public function muestreador()
+{
+    return $this->belongsTo(User::class, 'Id_muestreador', 'id');
+}
+
 }

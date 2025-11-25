@@ -78,6 +78,7 @@ class IngresarController extends Controller
 
         $conductividad = array();
         $obs = array();
+        $obsInf = array();
         $temp = 0;
         $aux = 0;
         foreach ($model as $item) {
@@ -104,11 +105,14 @@ class IngresarController extends Controller
             $proceModel = ProcesoAnalisis::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($proceModel->count()) {
                 array_push($obs, @$proceModel[0]->Obs_recepcion);
+                array_push($obsInf, @$proceModel[0]->Obs_proceso);
             } else {
                 array_push($obs, '');
+                array_push($obsInf, '');
             }
         }
         $data = array(
+            'obsInf' => $obsInf,
             'obs' => $obs,
             'cloruro' => $cloruro,
             'conductividad' => $conductividad,
@@ -131,7 +135,16 @@ class IngresarController extends Controller
         $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
         $fecha2 = new \Carbon\Carbon(@$model->Fecha);
         $procedencia = SucursalCliente::where('Id_sucursal', $sol->Id_sucursal)->first();
-        $fotos = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSol)->get();
+        // $fotos = FotoRecepcion::where('Id_solicitud', '=', $res->idSol)->get();
+
+         $fotos = FotoRecepcion::where('Id_solicitud', '=', $res->idSol)->get();
+        if ($fotos->Count()) {
+        }else{
+            $fotos = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSol)->get();
+        }
+
+
+        // $fotos = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSol)->get();
 
         $data = array(
             'procedencia' => $procedencia,
@@ -177,7 +190,15 @@ class IngresarController extends Controller
 
     public function getFotos(Request $res)
     {
-        $model = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSolicitud)->get();
+        // $model = FotoRecepcion::where('Id_solicitud', '=', $res->idSolicitud)->get();
+
+        $model = FotoRecepcion::where('Id_solicitud', '=', $res->idSolicitud)->get();
+        if ($model->Count()) {
+        }else{
+            $model = FotoRecepcionDB2::where('Id_solicitud', '=', $res->idSolicitud)->get();
+        }
+
+
         $data = array("model" => $model);
         return response()->json($data);
     }
@@ -188,7 +209,9 @@ class IngresarController extends Controller
             "estado" => "exito",
             "mensaje" => "imagen eliminada"
         );
-        $modelFotoRecepcion = FotoRecepcionDB2::where('Id_foto_recepcion', '=', $res->idFoto)->first();
+        // $modelFotoRecepcion = FotoRecepcionDB2::where('Id_foto_recepcion', '=', $res->idFoto)->first();
+        $modelFotoRecepcion = FotoRecepcion::where('Id_foto_recepcion', '=', $res->idFoto)->first();
+
         if (!empty($modelFotoRecepcion)) {
             $modelFotoRecepcion->delete();
         } else {
@@ -471,6 +494,7 @@ class IngresarController extends Controller
 
                             break;
                         case 152: // COT
+                        case 619:
                             if ($model[0]->Id_norma == "27") {
                                 if ($res->condiciones == "true") {
                                     CodigoParametros::create([
@@ -626,7 +650,7 @@ class IngresarController extends Controller
             }
         }
         if ($model[0]->Id_servicio != 3) {
-            $modelViewSolicitud = DB::table('ViewSolicitud2')->where('Hijo', '=', $res->idSol)->get();
+            $modelViewSolicitud = DB::table('ViewSolicitud2')->where('Hijo', '=', $res->idSol)->where('Cancelado','!=',1)->get();
             $fechaMayor = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', '1980-01-01 01:01:01');
             foreach ($modelViewSolicitud as $fila) {
                 $modelPhMuestra = PhMuestra::where('Id_solicitud', '=', $fila->Id_solicitud)->orderBy('Id_ph', 'DESC')->first();
@@ -842,7 +866,11 @@ class IngresarController extends Controller
         try {
             $model = ProcesoAnalisis::where('Id_solicitud', $res->id)->first();
             $model->Obs_recepcion = $res->obs;
+            $model->Obs_proceso = $res->obsInf;
             $model->save();
+            // $temp = SolicitudPuntos::where('Id_solicitud',$res->id)->first();
+            // $temp->Obs_recepcion = $res->obsInf;
+            // $temp->save();
             $msg = "Observacion asignada";
         } catch (\Throwable $th) {
             $msg = $th;
@@ -856,8 +884,10 @@ class IngresarController extends Controller
 
     public function ConsultarFoto()
     {
-        $fotos = FotoRecepcionDB2::select('Id_foto_recepcion', 'Id_solicitud')->get();
-    
+        // // $fotos = FotoRecepcionDB2::select('Id_foto_recepcion', 'Id_solicitud')->get();
+         
+     $fotos = FotoRecepcion::select('Id_foto_recepcion', 'Id_solicitud')->get();
+
         return response()->json($fotos);
     }
     

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Campo\CampoController;
+use App\Http\Controllers\Beto\BetoController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'campo'], function () { 
@@ -35,7 +37,8 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('GuardarGasto', [CampoController::class, 'GuardarGasto']);
         Route::post('GuardarVidrio', [CampoController::class, 'GuardarVidrio']);
 
-   
+        Route::get('Update_reviso', [CampoController::class, 'listaMuestreo']);
+
         Route::post('SetDatosCompuestos', [CampoController::class, 'SetDatosCompuestos']);
         Route::post('CancelarMuestra', [CampoController::class, 'CancelarMuestra']);
         Route::post('CancelarPunto', [CampoController::class, 'CancelarPunto']);

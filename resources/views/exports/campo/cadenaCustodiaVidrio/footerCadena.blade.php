@@ -18,7 +18,7 @@
                     /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
                     "C39");*/
                     /*$url = url()->current();*/
-                    $url = "https://sistemaacama.com.mx/clientes/cadena-custodia-interna/".@$folioEncript;
+                    $url = "http://sistemasofia.ddns.net:86/sofia/clientes/cadena-custodia-interna/".@$folioEncript;
                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                     @endphp
 

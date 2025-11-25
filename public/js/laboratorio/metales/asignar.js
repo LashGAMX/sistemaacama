@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('#btnPendiente').click(function () {
         getPendientes()
     });
-    $('.select2').select2();pero 
+    $('.select2').select2();
 });
 document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyS")
@@ -85,7 +85,7 @@ function getPendientes() {
                         mensaje = 'Fuera de Tiempo('+diasDiferencia+')';
                     }
                 }
-                console.log(color)
+                console.log(color);
 
                 tab += '<tr>';
                 tab += '<td style="' + estilohistorial + '">' + model[i][0] + '</td>';//Folio

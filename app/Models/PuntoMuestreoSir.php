@@ -40,4 +40,19 @@ class PuntoMuestreoSir extends Model
         'Id_user_c',
         'Id_user_m',
     ];
+   public function cuerpoReceptor()
+{
+    return $this->belongsTo(TipoCuerpo::class, 'Cuerpo_receptor', 'Id_tipo');
+}
+
+public function usoAgua()
+{
+    return $this->belongsTo(DetallesTipoCuerpo::class, 'Uso_agua', 'Id_detalle');
+}
+public  function titulo(){
+        return $this->belongsTo(TituloConsecionSir::class, 'Titulo_consecion', 'Id_titulo');
+}
+
+
+
 }

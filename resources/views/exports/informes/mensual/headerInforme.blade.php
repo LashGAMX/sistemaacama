@@ -24,16 +24,15 @@
 
                 <tr>                    
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Dirección:</td>                    
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$direccion1->Direccion}}</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;@if (@$solModel1->Siralab == 1) 
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup" colspan="2"> {{$direccion1->Direccion}}</td>
+                    <!-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> -->
+                    <!-- <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td> -->
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup" colspan="2">&nbsp;@if (@$solModel1->Siralab == 1) 
                         TITULO DE CONCESIÓN: {{@$tituloConsecion->Titulo}}
                     @else
                       
                     @endif</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer">
-                    </td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer"></td>
                 </tr>
 
                 <tr>

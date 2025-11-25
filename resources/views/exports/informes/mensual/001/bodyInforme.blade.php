@@ -17,19 +17,19 @@
                 <tr>
                     @if (@$tipo == 1)
                     
-                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="35%">PARAMETRO &nbsp;</td>
+                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="25%">PARAMETRO &nbsp;</td>
                     @else
-                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="40.9%">PARAMETRO &nbsp;</td>    
+                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="30.9%">PARAMETRO &nbsp;</td>    
                     @endif 
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="7%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="14%">&nbsp;METODO DE
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="12%">&nbsp;METODO DE
                         PRUEBA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10%" style="font-size: 8x">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="7.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="7.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="8%" style="font-size: 8x">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
                     @if (@$tipo == 1)
-                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;DECLARACION DE LA CONFORMIDAD &nbsp;&nbsp;</td>
-                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;EVALUACIÓN DE LA CONFORMIDAD &nbsp;&nbsp;</td>
+                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="6%">&nbsp;DECLARACION DE LA CONFORMIDAD &nbsp;&nbsp;</td>
+                        <!-- <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;EVALUACIÓN DE LA CONFORMIDAD &nbsp;&nbsp;</td> -->
                     @endif
                 </tr>
             </thead>
@@ -69,7 +69,7 @@
                                         @endif
                                         {{@$limitesN[$cont]}}
                                     </td>
-                                    <td class="tableContent bordesTablaBody">
+                                    <!-- <td class="tableContent bordesTablaBody">
                                         @if ($aux == 1)
                                             ---
                                         @else
@@ -79,7 +79,7 @@
                                                     @if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif
                                                 @endif
                                         @endif
-                                    </td>
+                                    </td> -->
                                 @endif
                             
                             </tr>
@@ -109,7 +109,7 @@
                                         @endif
                                         {{@$limitesN[$cont]}}
                                     </td>
-                                    <td class="tableContent bordesTablaBody">
+                                    <!-- <td class="tableContent bordesTablaBody">
                                         @if ($aux == 1)
                                             ---
                                         @else
@@ -119,7 +119,7 @@
                                                     @if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif
                                                 @endif
                                         @endif
-                                    </td>
+                                    </td> -->
                                 @endif
                             
                             </tr>
@@ -180,7 +180,7 @@
                                  @endif
                                 {{@$limitesN[$cont]}}
                             </td>
-                            <td class="tableContent bordesTablaBody">
+                            <!-- <td class="tableContent bordesTablaBody">
                                 @if ($aux == 1)
                                     ---
                                 @else
@@ -199,7 +199,7 @@
                                             @endif
                                     @endswitch
                                 @endif
-                            </td>
+                            </td> -->
                         @endif
                      
                     </tr>
@@ -218,12 +218,12 @@
                             <td class="nombreHeader nom fontSize727 justificadorIzq">
                             FOLIO {{$solModel1->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm1)}}°C, 
                             @php if(@$olor1 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color1; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color1; }@endphp
-                            EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                            EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 / NMX-AA-014-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                             {{@$obs1->Observaciones}}
                             <br>
                             FOLIO {{$solModel2->Folio_servicio}}: OBSERVACIONES - TEMPERATURA AMBIENTE PROMEDIO DE {{round(@$tempProm2)}}°C, 
                             @php if(@$olor2 == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR ".@$color2; } else{ echo "LA MUESTRA NO PRESENTA OLOR Y COLOR ".@$color2; }@endphp
-                            EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                            EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980  / NMX-AA-014-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                             {{@$obs2->Observaciones}}
                             </td>
                     </tr>                
@@ -236,25 +236,82 @@
                         <td class="nombreHeaders fontBold fontSize5 justificadorIzq" colspan="2">
 
                             @php
-                                echo $reportesInformes->Nota;
+                                echo @$reportesInformes->Nota;
                                 echo @$notaSiralab->Nota_siralab;
                             @endphp
                             <br>
                         </td>
                     </tr>
-   
-            </tbody>         
-        </table>                                                        
+                     @php
+                      $temp = array();
+                      $sw = false;
+                      $url = "http://sistemasofia.ddns.net:86/sofia/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
+                      $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                     @endphp 
+                    <tr>
+                        @foreach ($model1 as $item)
+                                    @for ($i = 0; $i < sizeof($temp); $i++)
+                                        @if ($temp[$i] == $item->Id_simbologia_info)
+                                            @php $sw = true; @endphp
+                                        @endif
+                                    @endfor
+                                    @if ($sw != true)
+                                        @switch($item->Id_parametro)
+                                            @case(97)
+                                                <tr>
+                                                    <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{round(@$campoCompuesto1->Temp_muestraComp)}}°C Y EL PH COMPUESTO ES DE {{ number_format(@$campoCompuesto1->Ph_muestraComp, 2, ".", ".")}} FOLIO {{$numOrden1->Folio_servicio}} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{round(@$campoCompuesto2->Temp_muestraComp)}}°C Y EL PH COMPUESTO ES DE {{ number_format(@$campoCompuesto2->Ph_muestraComp, 2, ".", ".")}} FOLIO {{$numOrden2->Folio_servicio}} </td>
+                                                </tr>
+                                                @php
+                                                    array_push($temp,$item->Id_simbologia_info);
+                                                @endphp
+                                                @break
+                                            @default
+                                                @if ($item->Id_simbologia_info != 9)
+                                                    <tr>
+                                                     <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                                    </tr>
+                                                    @php
+                                                        array_push($temp,$item->Id_simbologia_info);
+                                                    @endphp
+                                                @endif
+                                        @endswitch
+                                       
+                                    @endif
+                                    @php
+                                        $sw = false;
+                                    @endphp
+                                @endforeach
+                    </tr>
+                    <tr>
+                     <td class="justificadoDer" colspan="2">
+                             <img style="width: 4%; height: 4%;" src="{{@$qr_code}}" alt="qrcode" /> 
+                             <br>
+                             <span style="font-size: 10px">{{$solModel1->Folio_servicio}}</span>
+                             <br>
+                             <span style="font-size: 10px">{{$solModel2->Folio_servicio}}</span>
+                     </td> 
+                    </tr>
+
+            </tbody>       
+              
+        </table>      
+                                                          
     </div>
     @php
 @endphp
-<br>
+
      
-    <div id="contenedorTabla">
+    <!-- <div id="contenedorTabla">
         @php
             $temp = array();
             $sw = false;
-            $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
+            $url = "http://sistemasofia.ddns.net:86/sofia/clientes/informe-de-resultados-acama-mensual/".@$folioEncript1."/".@$folioEncript2;
             $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
         @endphp 
         {{-- <img style="width: 7%; height: 7%;float: right;" src="{{@$qr_code}}" alt="qrcode" />  --}}
@@ -263,7 +320,8 @@
                 <td>
                     <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%" >
                         <tbody>            
-                                @foreach ($model1 as $item)
+                               
+                        @foreach ($model1 as $item)
                                     @for ($i = 0; $i < sizeof($temp); $i++)
                                         @if ($temp[$i] == $item->Id_simbologia_info)
                                             @php $sw = true; @endphp
@@ -326,7 +384,7 @@
         </table>
  
     </div>    
-
+ -->
     
 </body>
 

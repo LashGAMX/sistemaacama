@@ -8,11 +8,10 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/public/css/exports/orden_alimento.css') }}">
 </head>
-
 <body>
     <div class="container">
         <div class="header">
-            <label>Solicitud de Servicio de Análisis de Alimentos</label>
+            <label>Solicitud de Servicio de Análisis</label>
         </div>
 
         <div class="details">
@@ -47,7 +46,7 @@
 
             <table class="table-1x1">
                 <tr>
-                    <th class="encabezado">TELÉFONO Y CORREO <br> ELECTRONICO:</th>
+                    <th class="encabezado">TELÉFONO Y CORREO ELECTRONICO:</th>
                     <td>{{ $numero }}</td>
                     <td>{{ $email }}</td>
                 </tr>
@@ -64,15 +63,19 @@
                     <!-- <td>{{ $servicio }}</td> -->
                     <td>
                         @foreach ($muestras as $item)
-                            Muestras : {{$item->Muestra}} <br>
-                            @php
-                                $temp = DB::table('ViewSolicitudParametrosAli')->where('Id_solicitud',$item->Id_muestra)->get();
-                            @endphp
-                            Parametros: @foreach ($temp as $item2)
-                                {{$item2->Parametro}} , 
-                            @endforeach
+                       <strong> Muestra : </strong>{{ $item->Muestra }}
 
+                        @php
+                        $temp = DB::table('ViewSolicitudParametrosAli')->where('Id_solicitud', $Idsolicitud)->where('Id_muestra', $item->Id_muestra)->get();
+                        @endphp
+                        <br>
+                        <strong>Parámetros:</strong>
+                        @foreach ($temp as $item2)
+                        {{ $item2->Parametro }},
                         @endforeach
+                        
+                        @endforeach
+
                     </td>
                 </tr>
             </table>
@@ -91,22 +94,9 @@
             </table>
 
         </div>
-        <br><br><br>
-        <div class="Autor">
-            <div class="seccion ">
-                <label for="elaboro"><strong>ELABORO:</strong></label>
-                <p class="subrayado">ESMERALDA SABINO V.</p>
-            </div>
+   
 
-        </div>
-
-
-
-        <div class="footer">
-            <p>Este es un documento generado por pruebas del sistema. Por favor, no lo tomen en cuenta hasta que se le
-                indique. By: Netzair</p>
-        </div>
-    </div>
 </body>
+
 
 </html>

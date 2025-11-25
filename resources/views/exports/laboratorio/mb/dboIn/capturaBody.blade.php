@@ -99,7 +99,7 @@
                 </td>
 
                 <td class="tableContent">
-                    {{@$item->Vol_muestra}}
+                    {{@$item->Vol_muestra_siembra}}
                 </td>
 
                 <td class="tableContent">

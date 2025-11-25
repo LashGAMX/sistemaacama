@@ -29,4 +29,11 @@ class ClienteSiralab extends Model
         'Id_user_m',
         'deleted_at'
     ];
+   
+
+    public function titulo()
+{
+    return $this->hasOne(TituloConsecionSir::class, 'Id_titulo', 'Titulo_concesion');
+}
+
 }

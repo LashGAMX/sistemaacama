@@ -39,28 +39,37 @@
                     <div class="text-center mb-3">
                         <h4>Datos de la Bitacora de Recepción</h4>
                     </div>
-                    <table id="DataBitacora">
+                    <table id="DataBitacora" class="table">
                         <thead>
+                            <tr>
+                                <th colspan="6" style="background-color: #f5c6cb; text-align: center;">Solicitud</th>
+                                <th colspan="13" style="background-color: #bee5eb; text-align: center;">Recepción</th>
+                            </tr>
                             <tr>
                                 <th>Folio</th>
                                 <th>Cliente</th>
-                                <th>Hora_recepcion</th>
-                                <th>Hora_entrada</th>
-                                <th>QUIEN dio Entrada</th>
-                                <th>Muestra</th>
-                                <th>Fecha_muestreo</th>
-                                <th>Id_direcion a</th>
+                                <th>Dirección</th>
                                 <th>Atención</th>
                                 <th>Norma</th>
+                                <th>Muestra</th>
+                                <th>Recibio</th>
+                                <th>Hora Recep</th>
+                                <th>Hora Entrada</th>
+                                <th>Fecha Muestreo</th>
+                                <th>Cant.</th>
+                                <th>Ud.</th>
+                                <th>Tem. Recep</th>
+                                <th>Tem. Muestra</th>
+                                <th>Obs</th>
+                                <th>Motivo</th>
+                                <th>Cumple</th>
                                 <th>Parametros</th>
-
+                                <th>Calculo TRI</th>
                             </tr>
                         </thead>
                         <tbody>
-
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

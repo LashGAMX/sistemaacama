@@ -73,11 +73,16 @@ function puntoOrden()
         alert("Imprimir"+" Id: "+idSolicitud);
         // window.location = base_url+"/admin/cotizacion/update/"+idSolicitud;
     } );
-    $('#btnGenerar').click( function () {
-        // alert("Generar");
-        generar(idSolicitud, folio);
-        // window.location = base_url+"/admin/campo/asignar";
-        // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
+    $('#btnGenerar').click(function () {
+        const $btn = $(this);
+        
+        // Evita múltiples clics
+        $btn.prop('disabled', true);
+
+        generar(idSolicitud, folio, function () {
+            // Rehabilita el botón una vez terminada la operación
+            $btn.prop('disabled', false);
+        });
     });
     $('#btnPlanMuestreo').click( function () {
         window.open(base_url+"/admin/campo/planMuestreo/"+idSolicitud);
@@ -279,54 +284,60 @@ function setMuestreadorMultiple()
     });  
 }
  var idSol = 0
- function generar(idSolicitud, folio) 
-{
-    console.log("esta es la soli:"+idSolicitud);
-    console.log("esta es el folio:"+folio);
+function generar(idSolicitud, folio, callback) {
+    console.log("esta es la soli:" + idSolicitud);
+    console.log("esta es el folio:" + folio);
 
-    idSol = idSolicitud
     let tabla = document.getElementById('divSolGenerada');
     let tab = '';
+
     $.ajax({
-        url: base_url + '/admin/campo/asignar/generar', //archivo que recibe la peticion
-        type: 'POST', //método de envio
+        url: base_url + '/admin/campo/asignar/generar',
+        type: 'POST',
         data: {
-            idSolicitud:idSolicitud,
-            folio:folio,
-            idUser:$("#idUsuarios").val(),
+            idSolicitud: idSolicitud,
+            folio: folio,
+            idUser: $("#idUsuarios").val(),
             _token: $('input[name="_token"]').val(),
-          },
-        dataType: 'json', 
-        success: function (response) {            
-            console.log(response);
-            let cont = 0
-          tab += '<table id="solicitudGenerada" class="table table-sm">';
-          tab += '    <thead class="thead-dark">';
-          tab += '        <tr>';
-          tab += '            <th>Folio</th>';
-          tab += '            <th>Punto de muestreo</th>';
-          tab += '            <th>Captura</th>';
-          tab += '            <th>Id muestreador</th>';
-          tab += '            <th>Nombres</th>';
-          tab += '        </tr>';
-          tab += '    </thead>';
-          tab += '    <tbody>';
-          $.each(response.model, function (key, item) {
-            tab += '<tr>';
-            tab += '    <td>'+item.Folio+'</td>';
-            tab += '    <td>'+response.solPunto[cont]+'</td>';
-            tab += '    <td>'+item.Captura+'</td>';
-            tab += '    <td>'+item.Id_muestreador+'</td>';
-            tab += '    <td>'+item.Nombres+'</td>';
-            tab += '</tr>';
-            cont++
-          });
-          tab += '    </tbody>';
-          tab += '</table>';
-          tabla.innerHTML = tab;
-   
+        },
+        dataType: 'json',
+        success: function (response) {
+            let cont = 0;
+            tab += '<table id="solicitudGenerada" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '            <th>Folio</th>';
+            tab += '            <th>Punto de muestreo</th>';
+            tab += '            <th>Captura</th>';
+            tab += '            <th>Id muestreador</th>';
+            tab += '            <th>Nombres</th>';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+
+            $.each(response.model, function (key, item) {
+                tab += '<tr>';
+                tab += '    <td>' + item.Folio + '</td>';
+                tab += '    <td>' + response.solPunto[cont] + '</td>';
+                tab += '    <td>' + item.Captura + '</td>';
+                tab += '    <td>' + item.Id_muestreador + '</td>';
+                tab += '    <td>' + item.Nombres + '</td>';
+                tab += '</tr>';
+                cont++;
+            });
+
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+        },
+        error: function () {
+            alert("Ocurrió un error al generar la solicitud.");
+        },
+        complete: function () {
+            // Esto se ejecuta al final, sea success o error
+            if (typeof callback === 'function') callback();
         }
-    });  
+    });
 }
 function getFolio(idSol)
 {

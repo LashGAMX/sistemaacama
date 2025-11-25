@@ -18,8 +18,6 @@ $(document).ready(function() {
                 } else {
                     response.forEach(function(notificacion) {
                        notificacionesHtml += '<div class="modal-body"><div class="card" style="margin-top: 0px; margin-bottom: 0px;">'+ notificacion.Mensaje +'</div></div>';
-
-
                     });
                 }
                 notificationList.html(notificacionesHtml);

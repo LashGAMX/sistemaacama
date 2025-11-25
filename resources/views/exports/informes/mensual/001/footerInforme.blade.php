@@ -1,29 +1,27 @@
 <footer style="padding-bottom: 30px">    
-    
     <div autosize="1" class="contenedorPadre12 borderFooter">        
         {{-- <table id="tablaDatos" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;" width="100%"> --}}
             <table id="tablaDatos" cellpadding="0" cellspacing="0"  width="100%">
             <tbody>        
-                     <tr class="borderFooter">
-                        <td  class="borderFooter" style="padding:2px">
+                    <tr class="borderFooter">
+                        <td  class="borderFooter" style="padding:10px">
                            
                             <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> 
                                 @php
                                 
-                                for ($i = 0; $i < strlen($firmaEncript1); $i++) {
-                                        echo $firmaEncript1[$i] . "\n";
+                                for ($i = 0; $i < strlen(@$firmaEncript1); $i++) {
+                                       // echo $firmaEncript1[$i] . "\n";
                                     }
                               @endphp
                             </span>
                             <br>
                         </td>
-                        <td  class="borderFooter" style="padding:2px">
-                          
-                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;"> 
+                        <td  class="borderFooter" style="padding:10px">
+                            <span class="bodyStdMuestra fontSize5" style="font-size: 8px;">
                                 @php
                                 
-                                for ($i = 0; $i < strlen($firmaEncript2); $i++) {
-                                        echo $firmaEncript2[$i] . "\n";
+                                for ($i = 0; $i < strlen(@$firmaEncript2); $i++) {
+                                       // echo $firmaEncript2[$i] . "\n";
                                     }
                              @endphp
                             </span>
@@ -49,7 +47,7 @@
         <thead>
             <tr>   
                 </td>
-                <td style="text-align: right;"><span class="revisiones" style="font-size: 8px">FO-13-001</span> <br> <span class="revisiones" style="font-size: 8px">Revisión 5</span></td>
+                <td style="text-align: right;"><span class="revisiones" style="font-size: 8px">FO-13-001</span> <br> <span class="revisiones" style="font-size: 8px">Revisión 6 05/06/2025</span></td>
             </tr>
         </thead>                        
     </table>  

@@ -11,7 +11,7 @@
 
 <div id="contenidoCurva">
         @php
-            echo $plantilla[0]->Texto; 
+            echo @$plantilla[0]->Texto; 
         @endphp
     </div>
     <br>
@@ -38,15 +38,15 @@
 
                 @if ($cont == 3)
                     <tr class="tablaDatosSmall">
-                        <td class="tableContent">{{$item->Id_codigo}}</td>
-                        <td class="tableContent">{{$item->Parametro}}</td>
-                        <td class="tableContent">{{$item->Cps}}</td>
-                        @if ($item->Resultado == NULL)
+                        <td class="tableContent">{{@$item->Id_codigo}}</td>
+                        <td class="tableContent">{{@$item->Parametro}}</td>
+                        <td class="tableContent">{{@$item->Cps}}</td>
+                        @if (@$item->Resultado == NULL)
                         <td class="tableContent">-----</td>
                         @else
-                            <td class="tableContent">{{number_format($item->Resultado,3)}}</td>
+                            <td class="tableContent">{{number_format(@$item->Resultado,3)}}</td>
                         @endif
-                        <td class="tableContent">{{$item->Fecha}}</td> 
+                        <td class="tableContent">{{@$item->Fecha}}</td> 
                         <td class="tableContent">Control</td> 
                     </tr>
                         @php 
@@ -64,15 +64,15 @@
                 @foreach ($resultados as $item) 
                     @if ($cont == 3)
                         <tr>
-                            <td class="tableContent">{{$item->Id_codigo}}</td>
-                            <td class="tableContent">{{$item->Parametro}}</td>
-                            <td class="tableContent">{{$item->Cps}}</td>
-                            @if ($item->Resultado == NULL)
+                            <td class="tableContent">{{@$item->Id_codigo}}</td>
+                            <td class="tableContent">{{@$item->Parametro}}</td>
+                            <td class="tableContent">{{@$item->Cps}}</td>
+                            @if (@$item->Resultado == NULL)
                             <td class="tableContent">-----</td>
                             @else
-                                <td class="tableContent">{{number_format($item->Resultado,3)}}</td>
+                                <td class="tableContent">{{number_format(@$item->Resultado,3)}}</td>
                             @endif
-                            <td class="tableContent">{{$item->Fecha}}</td>
+                            <td class="tableContent">{{@$item->Fecha}}</td>
                             <td class="tableContent">Resultado</td>
                         </tr> 
                         @php 

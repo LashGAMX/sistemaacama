@@ -38,6 +38,8 @@ class SolicitudesAlimentos extends Model
     'Liberado',
     'Cancelado',
     'Observacion',
+    'Creado_por',
+    'Actualizado_por',
     'Id_cotizacion',
   ];
   public function cotizacion()
@@ -56,4 +58,13 @@ class SolicitudesAlimentos extends Model
   {
     return  $this->belongsTo(DireccionReporte::class, 'Id_direccion', 'Id_direccion');
   }
+  public function usuario()
+  {
+    return  $this->belongsTo(User::class, 'Creado_por', 'id');
+  }
+    public function usuario2()
+  {
+    return  $this->belongsTo(User::class, 'Actualizado_por', 'id');
+  }
+
 }

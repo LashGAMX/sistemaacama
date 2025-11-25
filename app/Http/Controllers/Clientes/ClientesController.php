@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Clientes\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 use ReturnTypeWillChange;
 
 class ClientesController extends Controller
@@ -24,17 +26,13 @@ class ClientesController extends Controller
     public $perPage = 500;
     public $idCliente;
     public $Search = '';
-
-
     public function getClientesGen()
     {
-        $clienteGen = DB::table('Viewgenerales')->get();
-        $data = array(
-            'clienteGen' => $clienteGen
-        );
-        return response()->json($data);
+      $clientes = Clientes::select('Id_cliente', 'Nombres', 'A_paterno', 'Id_user_c', 'Id_user_m', 'User', 'Password')->get();
+      $clienteGen = DB::table('Viewgenerales as v')->leftJoin('users as u_c', 'v.Id_user_c', '=', 'u_c.id')->leftJoin('users as u_m', 'v.Id_user_m', '=', 'u_m.id')->select('v.*','u_c.name as name_user_c','u_m.name as name_user_m')->orderBy('v.created_at', 'desc')->get();     
+      $data = ['clienteGen' => $clienteGen]; 
+      return response()->json($data);
     }
-
     public function setClientesGen(Request $res)
     {
         $clientesCreado = Clientes::create([
@@ -43,7 +41,6 @@ class ClientesController extends Controller
             'Id_user_c' => Auth::user()->id,
             'Id_user_m' => Auth::user()->id
         ]);
-
         $clienteGeneralCreado = ClienteGeneral::create([
             'Id_cliente' => $clientesCreado->Id_cliente,
             // 'Nombre' => $res->nombres,
@@ -52,7 +49,6 @@ class ClientesController extends Controller
             'Id_user_c' => Auth::user()->id,
             'Id_user_m' => Auth::user()->id
         ]);
-
         if ($res->activoCheck == "false") {
             $clientesCreado->delete();
             $clienteGeneralCreado->delete();
@@ -65,7 +61,6 @@ class ClientesController extends Controller
 
         return response()->json($data);
     }
-
     public function upClientesGen(Request $res)
     {
         $clientesModificar = Clientes::withTrashed()->find($res->idCliente);
@@ -76,6 +71,8 @@ class ClientesController extends Controller
         $clienteGeneralModificar->Empresa = $res->nombres;
         $clienteGeneralModificar->Id_intermediario = $res->idIntermediario;
         $clienteGeneralModificar->Id_user_m = Auth::user()->id;
+        $clientesModificar->User = $res->user;
+        $clientesModificar->Password = $res->pass;
         $clientesModificar->save();
         $clienteGeneralModificar->save();
 
@@ -94,18 +91,16 @@ class ClientesController extends Controller
 
         return response()->json($data);
     }
-
     public function clientesGenDetalle($id)
     {
         $clienteGen = DB::table('Viewgenerales')->where('Id_cliente', $id)->first();
-        return view('clientes.clientesGenDetalle', compact('clienteGen'));
-    }
 
+        return view('clientes.clientesGenDetalle', compact('clienteGen',));
+    }
     public function clientesGen()
     {
         return view('clientes.clientesgen');
     }
-
     public function TablaSucursal($idCliente)
     {
         $model = SucursalCliente::withTrashed()
@@ -133,7 +128,6 @@ class ClientesController extends Controller
             return response()->json(['error' => 'Sucursal no encontrada'], 404);
         }
     }
-
     public function Nombrematrix($idCliente)
     {
         $matriz = Clientes::where('Id_cliente', $idCliente)->select('Nombres')->first();
@@ -144,11 +138,9 @@ class ClientesController extends Controller
             return response()->json(['error' => 'Cliente no encontrado'], 404);
         }
     }
-
     public function EditarSuc(Request $request)
     {
         $idSucursal = $request->input('idSucursal');
-
         $validatedData = $request->validate([
             'idSucursal' => 'required|integer',
             'empresa' => 'required|string|max:255',
@@ -159,7 +151,6 @@ class ClientesController extends Controller
 
 
         $sucursal = SucursalCliente::withTrashed()->find($idSucursal);
-
         if ($sucursal) {
             if ($sucursal->trashed() && $validatedData['deleted_at'] !== null) {
                 $sucursal->restore();
@@ -181,30 +172,33 @@ class ClientesController extends Controller
             return response()->json(['success' => false, 'message' => 'Registro no encontrado'], 404);
         }
     }
-
     public function CrearSuc(Request $res)
-    {
-        $validated = $res->validate([
-            'idCliente' => 'required|integer|exists:clientes,id',
-            'empresa' => 'required|string|max:255',
-            'estado' => 'required|string',
-            'tipo' => 'required|integer',
-            'deleted_at' => 'nullable|date',
-            'idUser' => 'integer|exists:users,id',
-        ]);
-        return response()->json(['success' => false, 'message' => 'Error al Crear Sucursal']);
+{
+    $validated = $res->validate([
+        'idCliente'  => 'required|integer|exists:clientes,Id_cliente',
+        'empresa'    => 'required|string|max:255',
+        'estado'     => 'required|string',
+        'tipo'       => 'required|integer',
+        'deleted_at' => 'nullable|date',
+        'idUser'     => 'nullable|integer|exists:users,id',
+    ]);
 
-        $sucursal = SucursalCliente::create([
-            'Id_cliente' => $res->idCliente,
-            'Empresa' => $res->empresa,
-            'Estado' => $res->estado,
-            'Id_siralab' => $res->tipo,
-            'Id_user_c' => $res->idUser,
-            'deleted_at' => $res->deleted_at,
-        ]);
+    $sucursal = SucursalCliente::create([
+        'Id_cliente' => $res->idCliente,
+        'Empresa'    => $res->empresa,
+        'Estado'     => $res->estado,
+        'Id_siralab' => $res->tipo,
+        'Id_user_c'  => $res->idUser ?? null,
+        'deleted_at' => $res->deleted_at ?? null,
+    ]);
 
-        return response()->json(['success' => true, 'message' => 'Sucursal Creada']);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Sucursal Creada'
+    ]);
+}
+
+
     public function TablaRFC(Request $res)
     {
         $model = RfcSucursal::withTrashed()
@@ -213,7 +207,6 @@ class ClientesController extends Controller
             ->paginate($this->perPage);
         return response()->json(['datos' => $model->items()]);
     }
-
     public function TablaDirReport(Request $res)
     {
         $model = DireccionReporte::withTrashed()
@@ -222,7 +215,6 @@ class ClientesController extends Controller
             ->paginate($this->perPage);
         return response()->json(['datos' => $model->items()]);
     }
-
     public function TablaPM(Request $res)
     {
         $model = PuntoMuestreoGen::withTrashed()
@@ -231,7 +223,6 @@ class ClientesController extends Controller
             ->paginate($this->perPage);
         return response()->json(['datos' => $model->items()]);
     }
-
     public function TablaConcesión(Request $res)
     {
         $model = TituloConsecionSir::withTrashed()
@@ -240,7 +231,6 @@ class ClientesController extends Controller
             ->paginate($this->perPage);
         return response()->json(['datos' => $model->items()]);
     }
-
     public function TablaDireccionSiralab(Request $res)
     {
         $model = ClienteSiralab::withTrashed()
@@ -249,14 +239,34 @@ class ClientesController extends Controller
             ->paginate($this->perPage);
         return response()->json(['datos' => $model->items()]);
     }
-
     public function TablePuntoSiralab(Request $res)
     {
         $model = PuntoMuestreoSir::withTrashed()
+            ->with(['cuerpoReceptor', 'usoAgua','titulo'])  // relaciones ya definidas
             ->where('Id_sucursal', $res->idSucursal)
             ->orderBy('Id_sucursal', 'desc')
             ->paginate($this->perPage);
-        return response()->json(['datos' => $model->items()]);
+           
+    
+            $data = collect($model->items())->map(function ($item) {
+            return [
+                'Id_punto' => $item->Id_punto,
+                'Titulo_consecion' => $item->titulo->Titulo,
+                'Punto' => $item->Punto,
+                'Anexo' => $item->Anexo,
+                'Siralab' => $item->Siralab,
+                'Pozos' => $item->Pozos,
+                'Cuerpo_receptor' => $item->cuerpoReceptor->Cuerpo ?? null,  
+                'Uso_agua' => $item->usoAgua->Detalle ?? null,               
+                'Latitud' => $item->Latitud,
+                'Longitud' => $item->Longitud,
+                'Hora' => $item->Hora,
+                'F_inicio' => $item->F_inicio,
+                'F_termino' => $item->F_termino,
+                'deleted_at' => $item->deleted_at,
+            ];
+        });
+        return response()->json(['datos' => $data]);
     }
     public function GetRFCDetails(Request $request, $id)
     {
@@ -274,18 +284,16 @@ class ClientesController extends Controller
     public function GetDirDetails(Request $res, $id)
     {
         $direc = DireccionReporte::withTrashed()->find($id);
-
+    
         if ($direc) {
             return response()->json(['datos' => [
                 'Direccion' => $direc->Direccion,
                 'status' => $direc->deleted_at === null
             ]]);
-            return response()->json(['success' => 'Consulta correcta de datos']);
         } else {
             return response()->json(['error' => 'Direccion no encontrada'], 400);
         }
     }
-
     public function GetPunDetails(Request $res, $id)
     {
         $punto = PuntoMuestreoGen::withTrashed()->find($id);
@@ -315,12 +323,14 @@ class ClientesController extends Controller
     public function GetDirSiralbDetails(Request $res, $id)
     {
         // Busca el registro basado en el campo 'Titulo_concesion'
-        $DirRepSir = ClienteSiralab::withTrashed()->where('Titulo_concesion', $id)->first();
+        $DirRepSir = ClienteSiralab::withTrashed()->where('Titulo_concesion', $id)->with('titulo')->first();
+        //dd($DirRepSir);
 
         if ($DirRepSir) {
             return response()->json([
                 'datos' => [
-                    'Titulo' => $DirRepSir->Titulo_concesion, // Cambia 'notitulo' por 'Titulo' si eso es lo que esperas
+                    'Tu' => $DirRepSir->titulo->Titulo,
+                    'TituloId' => $DirRepSir->titulo->Id_titulo, 
                     'Calle' => $DirRepSir->Calle,
                     'Noext' => $DirRepSir->Num_exterior,
                     'Noint' => $DirRepSir->Num_interior,
@@ -336,27 +346,95 @@ class ClientesController extends Controller
             return response()->json(['Error' => 'Dirección Siralab no encontrada']);
         }
     }
+    // Aqui quede
     public function GetDatosGen($id)
+    {
+        $contacto = SucursalContactos::withTrashed()->where('Id_contacto', $id)->first();
+        if ($contacto) {
+            return response()->json([
+                'dato' => [
+                    'numero' => $contacto->Id_contacto,
+                    'nombre' => $contacto->Nombre,
+                    'departamento' => $contacto->Departamento,
+                    'puesto' => $contacto->Puesto,
+                    'email' => $contacto->Email,
+                    'celular' => $contacto->Celular,
+                    'telefono' => $contacto->Telefono,
+                ]
+            ]);
+        } else {
+            return response()->json(['error' => 'Datos generales no encontrados.']);
+        }
+    }
+    //   public function EdiDatos(Request $res)
+    // {
+      
+    //     $validatedData = $res->validate([
+    //         'id' => 'required|integer|exists:sucursal_contactos,Id_contacto',
+    //         'nombre' => 'required|string|max:255',
+    //         'departamento' => 'required|string|max:255',
+    //         'puesto' => 'required|string|max:255',
+    //         'email' => 'required|email|max:255',
+    //         'celular' => 'required|string|max:15', 
+    //         'telefono' => 'required|string|max:15',
+    //     ]);
+
+    //     $contacto = SucursalContactos::withTrashed()->where('Id_contacto', $validatedData['id'])->first();
+
+    //     if (!$contacto) {
+    //         return response()->json(['success' => false, 'message' => 'Contacto no encontrado.'], 404);
+    //     }
+
+    //     // Actualizar los campos
+    //     $contacto->nombre = $validatedData['nombre'];
+    //     $contacto->departamento = $validatedData['departamento'];
+    //     $contacto->puesto = $validatedData['puesto'];
+    //     $contacto->email = $validatedData['email'];
+    //     $contacto->celular = $validatedData['celular'];
+    //     $contacto->telefono = $validatedData['telefono'];
+
+    //     // Guardar los cambios
+    //     if ($contacto->save()) {
+    //         return response()->json(['success' => true, 'message' => 'Datos actualizados correctamente.']);
+    //     } else {
+    //         return response()->json(['success' => false, 'message' => 'Error al actualizar los datos.'], 500);
+    //     }
+    // }
+    public function EditarDatos(Request $res)
 {
-    $contacto = SucursalContactos::withTrashed()->where('Id_contacto', $id)->first();
-    if ($contacto) {
-        return response()->json([
-            'dato' => [
-                'numero' => $contacto->Id_contacto,
-                'nombre' => $contacto->Nombre,
-                'departamento' => $contacto->Departamento,
-                'puesto' => $contacto->Puesto,
-                'email' => $contacto->Email,
-                'celular' => $contacto->Celular,
-                'telefono' => $contacto->Telefono,
-            ]
-        ]);
-    } else {
-        return response()->json(['error' => 'Datos generales no encontrados.']);
+    
+    if ($res->filled('id')) {
+        // Buscar contacto para editar
+        $contacto = SucursalContactos::find($res->id);
+
+        if (!$contacto) {
+            return response()->json(['success' => false, 'message' => 'Contacto no encontrado.'], 404);
+        }
+
+        // Actualizar solo los campos que vengan
+        $contacto->Nombre       = $res->nombre ?? $contacto->nombre;
+        $contacto->Departamento = $res->departamento ?? $contacto->departamento;
+        $contacto->Puesto       = $res->puesto ?? $contacto->puesto;
+        $contacto->Email        = $res->email ?? $contacto->email;
+        $contacto->Celular      = $res->celular ?? $contacto->celular;
+        $contacto->Telefono     = $res->telefono ?? $contacto->telefono;
+        $contacto->save();
+        return response()->json(['success' => true, 'message' => 'Datos actualizados correctamente.']);
+    } 
+    else {
+        // Crear nuevo contacto
+        $contacto = new SucursalContactos();
+        $contacto->Id_sucursal  = $res->idSucursal2;
+        $contacto->Nombre       = $res->nombre;
+        $contacto->Departamento = $res->departamento;
+        $contacto->Puesto       = $res->puesto;
+        $contacto->Email        = $res->email;
+        $contacto->Celular      = $res->celular;
+        $contacto->Telefono     = $res->telefono;
+        $contacto->save();
+        return response()->json(['success' => true, 'message' => 'Datos de Contacto creado correctamente.']);
     }
 }
-
-
 
 
     public function UpdateRFC(Request $request)
@@ -386,7 +464,6 @@ class ClientesController extends Controller
             return response()->json(['error' => 'RFC no encontrado'], 404);
         }
     }
-
     public function UpdateDIRrep(Request $request)
     {
 
@@ -415,7 +492,6 @@ class ClientesController extends Controller
             return response()->json(['error' => 'Dirección no encontrada'], 404);
         }
     }
-
     public function UpdatePunto(Request $request)
     {
 
@@ -443,7 +519,14 @@ class ClientesController extends Controller
             return response()->json(['error' => 'Punto no encontrada'], 404);
         }
     }
-
+    public function updatePun(Request $res)
+    {
+       $Idpunto = $res->input('Idpunto');
+   
+       $punto = PuntoMuestreoSir::where("Id_punto", $Idpunto)->get();
+   
+       return response()->json($punto);
+    }
     public function UpdateTitulo(Request $request)
     {
         // Validar los datos de la solicitud
@@ -503,7 +586,6 @@ class ClientesController extends Controller
             'CP' => 'required|string',
             'Ciudad' => 'required|string',
             'Estado' => 'nullable|string',
-
             'Localidad' => 'required|string',
             'Status' => 'required|in:0,1',
             'Id_sucursal' => 'required|integer',
@@ -526,7 +608,14 @@ class ClientesController extends Controller
             return response()->json(['success' => false, 'message' => 'Error al crear la dirección.']);
         }
     }
-
+    public function conreg(Request $res)
+    {
+        $Titulo = TituloConsecionSir::where('Id_sucursal', $res->idSucursal)
+            ->select('Id_titulo', 'Titulo')
+            ->get();
+    
+        return response()->json($Titulo);
+    }
     public function NuevoRFC(Request $request)
     {
         // Validar los datos recibidos
@@ -626,43 +715,88 @@ class ClientesController extends Controller
             ->get();
         return response()->json(['datos' => $model]);
     }
-    public function EdiDatos(Request $res) {
-
-    
-        // Validar los datos recibidos
-        $validatedData = $res->validate([
-            'id' => 'required|integer|exists:sucursal_contactos,Id_contacto',
-            'nombre' => 'required|string|max:255',
-            'departamento' => 'required|string|max:255',
-            'puesto' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'celular' => 'required|string|max:15', // Ajusta según el formato de tu celular
-            'telefono' => 'required|string|max:15', // Ajusta según el formato de tu teléfono
-        ]);
-    
-        // Recuperar el contacto
-        $contacto = SucursalContactos::withTrashed()->where('Id_contacto', $validatedData['id'])->first();
-    
-        // Verificar si se encontró el contacto
-        if (!$contacto) {
-            return response()->json(['success' => false, 'message' => 'Contacto no encontrado.'], 404);
-        }
-    
-        // Actualizar los campos
-        $contacto->nombre = $validatedData['nombre'];
-        $contacto->departamento = $validatedData['departamento'];
-        $contacto->puesto = $validatedData['puesto'];
-        $contacto->email = $validatedData['email'];
-        $contacto->celular = $validatedData['celular'];
-        $contacto->telefono = $validatedData['telefono'];
-    
-        // Guardar los cambios
-        if ($contacto->save()) {
-            return response()->json(['success' => true, 'message' => 'Datos actualizados correctamente.']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Error al actualizar los datos.'], 500);
-        }
+  
+    public function tituloPunSir($id) 
+    {
+       $titulos = TituloConsecionSir::where('Id_sucursal', $id)->select('Id_titulo', 'Titulo')->get();
+       return response()->json($titulos);
     }
-    
-    
+    public function precon(Request $res)
+    {
+        $titulos = TituloConsecionSir::where('Id_sucursal', $res->idSucursal)->orderBy('Titulo')->pluck('Titulo', 'Id_titulo');
+        $categorias = DB::table('categoria001_2021')->orderBy('Categoria')->select('Id_categoria', 'Categoria')->get();
+        $cuerpo = DB::table('tipo_cuerpo')->orderBy('Cuerpo')->select('Id_tipo', 'Cuerpo')->get();   
+        $detalle=DB::table('detalle_tipocuerpos')->orderBy('Detalle')->select('Id_detalle','Id_tipo','Detalle')->get();
+        return response()->json([
+            'titulos'    => $titulos,    
+            'categorias' => $categorias,
+            'cuerpo' => $cuerpo,
+            'detalle' => $detalle,
+        ]);
+    }
+    public function CreatePunSir(Request $res)
+    {
+        $idPunto = $res->input('Idpunto');
+        if ($idPunto) {
+            //EDITAR
+            $punto = PuntoMuestreoSir::findOrFail($idPunto);
+            $punto->update([
+                'Titulo_consecion' => $res->Titulo,
+                'Id_sucursal'      => $res->Sucursal,
+                'Punto'            => $res->Punto,
+                'Anexo'            => $res->Anexo,
+                'Siralab'          => $res->Siralab ? 1 : 0,
+                'Pozos'            => $res->Pozos ? 1 : 0,
+                'deleted_at'       => $res->Activo ? null : Carbon::now(),
+                'Cuerpo_receptor'  => $res->Cuerpo,
+                'Uso_agua'         => $res->UsoAgua,
+                'Categoria'        => $res->Categoria,
+                'GradosLat'        => $res->Grados,
+                'MinutosLat'       => $res->Minutos,
+                'SegundosLat'      => $res->Segundos,
+                'GradosLong'       => $res->Grados2,
+                'MinutosLong'      => $res->Minutos2,
+                'SegundosLong'     => $res->Segundos2,
+                'Hora'             => $res->Hora,
+                'Observaciones'    => $res->Observaciones,
+                'F_inicio'         => $res->Fechainico,
+                'F_termino'        => $res->FechaTermino,
+                'Id_user_m'        => auth()->id(),
+            ]);
+            $message = "Punto actualizado correctamente";
+        } else {
+            //CREAR
+            $punto = PuntoMuestreoSir::create([
+                'Titulo_consecion' => $res->Titulo,
+                'Id_sucursal'      => $res->Sucursal,
+                'Punto'            => $res->Punto,
+                'Anexo'            => $res->Anexo,
+                'Siralab'          => $res->Siralab ? 1 : 0,
+                'Pozos'            => $res->Pozos ? 1 : 0,
+                'deleted_at'       => $res->Activo ? null : Carbon::now(),
+                'Cuerpo_receptor'  => $res->Cuerpo,
+                'Uso_agua'         => $res->UsoAgua,
+                'Categoria'        => $res->Categoria,
+                'GradosLat'        => $res->Grados,
+                'MinutosLat'       => $res->Minutos,
+                'SegundosLat'      => $res->Segundos,
+                'GradosLong'       => $res->Grados2,
+                'MinutosLong'      => $res->Minutos2,
+                'SegundosLong'     => $res->Segundos2,
+                'Hora'             => $res->Hora,
+                'Observaciones'    => $res->Observaciones,
+                'F_inicio'         => $res->Fechainico,
+                'F_termino'        => $res->FechaTermino,
+                'Id_user_c'        => auth()->id(),
+            ]);
+            $message = "Punto creado correctamente";
+        }
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'data'    => $punto
+        ]);
+    }
+
+
 }

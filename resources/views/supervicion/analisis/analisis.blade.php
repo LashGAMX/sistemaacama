@@ -8,6 +8,8 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
+                        <input type="text" hidden value="{{ Auth::user()->id }}" id="idUser">
+
                         <label for="">Parametro</label>
                         <select id="parametro" class="form-control select2">
                             @foreach ($parametro as $item)
@@ -39,10 +41,13 @@
                             <option value="0" selected >Sin seleccionar</option>
                             <option value="1">ADMIN</option>
                             <option value="14">GUADALUPE GARCIA PÉREZ</option>
-                            <option value="21">SOCORRO VARYNIA AVELINO LUNA</option>
                             <option value="39">ERICK SÁNCHEZ TENORIO</option>
                             <option value="46">YURIDIA CORONA TLAPANCAL</option>
-                            <option value="12">SANDRA ROJAS NAVARRO</option>
+                            <option value="16">Francisco Javier Abundis Rodríguez</option>
+                            <option value="31">ELSA RIVERA RIVERA</option>
+                            <option value="30">MARIANA RAMÍREZ PICAZO</option>
+                            <option value="37">DASAAET SANCHEZ BLANCO</option>
+                            <option value="3">ALEJANDRO MORALES LÓPEZ</option>
 
                         </select>
                 </div>

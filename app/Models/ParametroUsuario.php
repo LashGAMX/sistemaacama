@@ -17,5 +17,9 @@ class ParametroUsuario extends Model
         'Id_user',
         'Id_parametro',
     ];
+     public function parametro()
+    {
+        return $this->belongsTo(Parametro::class, 'Id_parametro', 'Id_parametro');
+    }
 }
 

@@ -16,6 +16,7 @@ class Norma extends Model
     protected $fillable = [
         'Norma',
         'Clave_norma',
+        'Espesificacion_ali',
         'Id_descarga',
         'Id_tipo',
         'Inicio_validez',

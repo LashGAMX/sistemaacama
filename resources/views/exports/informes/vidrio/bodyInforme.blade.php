@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('/public/css/informes/sinComparacion/sinComparacion.css')}}">
-    <title>Informe Vibrio
+    <title>Informe Vibrio</title>
+    <style>
+        #conagua {
+            display: none;
+        }
+    </style>
 </head> 
 <body>
     <p id='header1'> 
@@ -200,10 +205,14 @@
             <thead>
                 <tr>
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" height="30" width="20.6%">PARAMETRO &nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" height="30" width="10%"># DE TOMA &nbsp;</td>
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="20.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%" colspan="2">&nbsp;CONCENTRACION <br> CUANTIFICADA&nbsp;&nbsp;</td>       
-                        
+                    @if($incerAux->count())
+                        <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">
+                        &nbsp;INCERTIDUMBRE&nbsp;&nbsp;</td>
+                    @endif
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">ANALISTA</td>
                 </tr>
             </thead>
@@ -211,15 +220,24 @@
             <tbody>
                 @php $i = 0; @endphp
                 @foreach ($model as $item)
+                  @if($incerAux->count())
+                         @php 
+                         $incer = explode(',',$item->Incertidumbre);
+                         @endphp
+                    @endif
+                 
                     <tr> 
-                            <td class="tableContent bordesTablaBody" style="font-size: 11px;" height="25" rowspan="6">{{@$item->Parametro}}<sup>{{$item->Simbologia}} </sup></td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 11px;" height="25" rowspan="6">Toxicidad aguda ( <i>Vibrio fischeri</i> ) <sup>{{$item->Simbologia}} </sup></td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 11px;" height="25" rowspan="6">{{$item->Num_muestra}}</td>
                             <td class="tableContent bordesTablaBody" style="font-size: 11px;" rowspan="6">
                                 {{$item->Clave_metodo}}
                             </td>
                             <td class="tableContent bordesTablaBody" style="font-size: 11px;" rowspan="3">CE50 %</td>
                             <td class="tableContent bordesTablaBody" style="font-size: 11px;"> 5 Min </td>
                             <td class="tableContent bordesTablaBody" style="font-size: 11px;">{{$item->Resultado}}</td>
-                            
+                             @if($incerAux->count())
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;"> {{@$incer[0]}}</td>
+                            @endif
                             <td class="tableContent bordesTablaBody" style="font-size: 11px;" rowspan="6">
                                 @if (@$item->Resultado2 != NULL)
                                     {{@$item->iniciales}}
@@ -231,23 +249,43 @@
                     <tr>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">15 Min</td>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">{{$item->Resultado2}}</td>
+                         @if($incerAux->count())
+                          <td class="tableContent bordesTablaBody" style="font-size: 8px;"> {{@$incer[1]}}</td>
+                    @endif
                     </tr>  
                     <tr>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">30 Min</td>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">{{$item->Resultado_aux}}</td>
+                         @if($incerAux->count())
+                          <td class="tableContent bordesTablaBody" style="font-size: 8px;"> {{@$incer[2]}}</td>
+                    @endif
                     </tr>    
                     <tr>
-                        <td class="tableContent bordesTablaBody" style="font-size: 11px;" rowspan="3">{{@$item->Unidad}}</td>
+                        <td class="tableContent bordesTablaBody" style="font-size: 11px;" rowspan="3">@if ($item->Ph_muestra == "1")
+                        %E
+                        @else
+                            {{@$item->Unidad}}
+                        @endif
+                        </td>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">5 Min</td>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;"> {{$item->Resultado_aux2}}</td>
+                         @if($incerAux->count())
+                          <td class="tableContent bordesTablaBody" style="font-size: 8px;"> {{@$incer[3]}}</td>
+                    @endif
                     </tr>    
                     <tr>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">15 Min</td>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">{{$item->Resultado_aux3}}</td>
+                         @if($incerAux->count())
+                          <td class="tableContent bordesTablaBody" style="font-size: 8px;"> {{@$incer[4]}}</td>
+                    @endif
                     </tr>    
                     <tr>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">30 Min</td>
                         <td class="tableContent bordesTablaBody" style="font-size: 11px;">{{$item->Resultado_aux4}}</td>
+                         @if($incerAux->count())
+                          <td class="tableContent bordesTablaBody" style="font-size: 8px;"> {{@$incer[5]}}</td>
+                    @endif
                     </tr>    
                         @php
                             $i++;
@@ -365,6 +403,7 @@
                                         @endphp
                                     </p>
                                     
+                                    
                                     @switch(@$solModel->Id_norma)
                                         @case(27)
                                             @php
@@ -391,7 +430,7 @@
                                 </td>
                                 <td style="width: 15%">
                                     @php
-                                    $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama/".@$folioEncript;
+                                    $url = "http://sistemasofia.ddns.net:86/sofia/clientes/informe-de-resultados-acama/".urlencode(@$folioEncript);
                                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                     @endphp
                                        

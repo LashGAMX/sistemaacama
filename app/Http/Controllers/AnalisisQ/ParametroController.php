@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\AnalisisQ;
 
 use App\Http\Controllers\Controller;
+use App\Http\Livewire\AnalisisQ\Parametros;
+use App\Models\Analisis;
 use App\Models\AreaAnalisis;
 use App\Models\Laboratorio;
 use App\Models\Notificacion;
-use App\Models\MatrizParametro;
 use App\Models\MetodoPrueba;
 use App\Models\Norma;
 use App\Models\Parametro;
+use App\Models\MatrizParametro;
+
 use App\Models\ParametroNorma;
+use App\Models\ParametrosMatriz;
 use App\Models\ProcedimientoAnalisis;
-use App\Models\Rama; 
+use App\Models\Rama;
 use App\Models\Regla;
 use App\Models\SimbologiaInforme;
 use App\Models\SimbologiaParametros;
@@ -23,10 +27,20 @@ use App\Models\Unidad;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
+use Psy\Command\WhereamiCommand;
 
 class ParametroController extends Controller
 {
+
+    public function limiteAli()
+{
+    $parametros = DB::table('ViewParametros')->get();
+    $matriz = MatrizParametro::all();
+    $unidad = Unidad::all();
+
+    return view('analisisQ.LimiteAlimentos', ['parametros' => $parametros, 'matriz' => $matriz ,'unidad' => $unidad,]);
+}
     //metodo de prueba 
     public function verNotificaciones()
     {
@@ -131,7 +145,7 @@ class ParametroController extends Controller
             'Id_user_m' => Auth::user()->id,
             'Curva' => $curva,
             'Padre' => $res->padre,
-            'Dias_analisis' => $res->dias_analisis, 
+            'Dias_analisis' => $res->dias_analisis,
             'Usuario_default' => $res->usuarioDef,
         ]);
 
@@ -225,6 +239,67 @@ class ParametroController extends Controller
         );
 
         // Se retorna la respuesta en formato JSON
+        return response()->json($data);
+    }
+
+    public function setLimiteAli(Request $res)
+    {
+        ParametrosMatriz::create([
+            'Id_parametro' => $res->parametro,
+            'Id_matriz_parametro' => $res->matriz,
+            'Id_unidad' => $res->unidad,
+            'Limite' => $res->limite,
+        ]);
+        $model = ParametrosMatriz::with('matriz')->with('parametro')->with('unidad')->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getParametrosAli(Request $res){
+        $model = ParametrosMatriz::with('matriz')->with('parametro')->with('unidad')->get();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function delParametroAli(Request $res){
+        $registro = ParametrosMatriz::withTrashed()->find($res->id);
+
+        if ($registro) {
+            $registro->forceDelete();
+            $msg = "Registro eliminado permanentemente";
+        } else {
+            $msg = "No se encontró el registro";
+        }
+
+        $data = array(
+            'msg' => $msg,
+        );
+        return response()->json($data);
+    }
+    public function getDataParametroAli(Request $res){
+        $model = ParametrosMatriz::where('Id',$res->id)->with('matriz')->with('parametro')->with('unidad')->first();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function updateParaAli(Request $res){
+        $model = ParametrosMatriz::where('Id',$res->id)->first();
+        $model->Id_parametro = $res->parametro;
+        $model->Id_matriz_parametro =  $res->matriz;
+        $model->Id_unidad = $res->unidad;
+        $model->Limite = $res->limite;
+        $model->Dias_analisis =$res->dias;
+        $model->save();
+        
+        $data = array(
+            'model' => $model,
+            'msg' => "Dato corregido correctamente",
+        );
         return response()->json($data);
     }
 }

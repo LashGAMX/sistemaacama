@@ -576,6 +576,16 @@
                                 <textarea cols="30" rows="2" class="form-control" name="observacionInterna"
                                     id="observacionInterna">{{ @$model->Observacion_interna }}</textarea>
                             </div>
+                            <div class="col-md-12 mt-1">
+                                <label for="">Usuario cotizacion:</label>
+                                <select id="userCot">
+                                    <option value="">Sin seleccionar</option>
+                                    <option value="LAB">Laboratorio</option>
+                                    <option value="JORGE">JORGE ALATORRE PÉREZ</option>
+                                    <option value="ALEJANDRO">ALEJANDRO MORALES LÓPEZ</option>
+                                    <option value="LABPROGRAMACION">ACAMA - Programacion</option>
+                                </select>
+                            </div>
                             <!-- Observación cotización  -->
                             <div class="col-md-12 mt-1">
                                 <label for="">Observación cotización:</label>

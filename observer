@@ -1,0 +1,36 @@
+
+                                  
+  Command "make" is not defined.  
+                                  
+  Did you mean one of these?      
+      livewire:make               
+      make:cast                   
+      make:channel                
+      make:command                
+      make:component              
+      make:controller             
+      make:event                  
+      make:exception              
+      make:export                 
+      make:factory                
+      make:import                 
+      make:job                    
+      make:listener               
+      make:livewire               
+      make:livewire-datatable     
+      make:mail                   
+      make:middleware             
+      make:migration              
+      make:model                  
+      make:notification           
+      make:observer               
+      make:policy                 
+      make:provider               
+      make:request                
+      make:resource               
+      make:rule                   
+      make:seeder                 
+      make:test                   
+      make:widget                 
+                                  
+

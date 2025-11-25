@@ -135,11 +135,9 @@
                     </div>
                 </div>
               </div>
-        
         </div> 
     </div>
 </div>
-
 @endsection
     @section('javascript')
     <script src="{{ asset('public/js/supervicion/cadena/detallecadena2.js') }}?v=1.1.1"></script>

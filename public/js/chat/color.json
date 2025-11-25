@@ -5,6 +5,22 @@
     },
     {
         "groupId": 47,
-        "color": "#F2D06B"
+        "color": "#C9ACF2"
+    },
+    {
+        "groupId": 48,
+        "color": "#9EDFFF"
+    },
+    {
+        "groupId": 49,
+        "color": "#F2ACDA"
+    },
+    {
+        "groupId": 50,
+        "color": "#9EDFFF"
+    },
+    {
+        "groupId": 51,
+        "color": "#F2ACDA"
     }
 ]

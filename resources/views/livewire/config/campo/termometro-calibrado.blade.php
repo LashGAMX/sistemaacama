@@ -42,7 +42,7 @@
           @endif
           <td>
             <button type="button" class="btn btn-warning" data-toggle="modal"
-            wire:click="setData('{{$item->Id_termometro}}')" data-target="#modalTermometro">
+            wire:click="setData({{ $item->Id_termometro }})" data-target="#modalTermometro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
             <button type="button" class="btn btn-info" data-toggle="modal"
             wire:click="setData2('{{$item->Id_termometro}}')" data-target="#modalCalibracion">
@@ -215,4 +215,3 @@
 </script>
 @endif
 </div>
-

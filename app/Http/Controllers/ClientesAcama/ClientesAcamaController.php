@@ -750,4 +750,49 @@ class ClientesAcamaController extends Controller
         );
         return response()->json($data);
     }
+    // public function getDatosInforme($code){
+    //     $clave  = 'fol123ABC!"#Loremipsumdolorsitamet';
+    //     //Metodo de encriptaciÃ³n
+    //     $method = 'aes-256-cbc';
+    //     // Puedes generar una diferente usando la funcion $getIV()
+    //     $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+    //     /*
+    //      Encripta el contenido de la variable, enviada como parametro.
+    //       */
+    //     $folioEncript = openssl_decrypt($code, $method, $clave, false, $iv);
+
+        
+    //     $model = DB::table('ViewSolicitud2')->where('Folio_servicio', $folioEncript)->first();
+    //     $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
+    //     // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud', $model->Id_solicitud)->first();
+    //     // $data = array(
+    //     //     'model ' => $model,
+    //     // );
+    //     return view('clientesAcama.datosInforme',compact('model','direccion'));
+    // }
+
+    
+    public function getDatosInforme($id) {
+        $code = $id;
+        $id = urldecode($id);
+        $clave  = 'fol123ABC!"#Loremipsumdolorsitamet';
+        $method = 'aes-256-cbc';
+        $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+     
+        $folioEncript = openssl_decrypt($id, $method, $clave, false, $iv);
+        if ($folioEncript == "") {
+            $folioEncript = openssl_decrypt($code, $method, $clave, false, $iv);   
+        }
+        $model = DB::table('ViewSolicitud2')->where('Folio_servicio', "LIKE" , '%'.$folioEncript.'%')->first();
+        
+        if (!$model) {
+            abort(404, "No se encontró el folio en la base de datos.");
+        }
+    
+        $direccion = DireccionReporte::where('Id_direccion', $model->Id_direccion)->first();
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',  $model->Id_solicitud)->first();
+    
+        return view('clientesAcama.datosInforme', compact('model', 'direccion','puntoMuestreo'));
+    }
+    
 }

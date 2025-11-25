@@ -32,11 +32,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <input type="text" wire:model="idLimite" hidden>
-                        <label for="">Directo.</label>
+                        <label for="">Indirecto.</label>
                         <input type="text" wire:model='promM' class="form-control" placeholder="Prom Indirecto">
                     </div>
                     <div class="col-md-6">
-                        <label for="">Indirecto</label>
+                        <label for="">Directo</label>
                         <input type="text" wire:model='promD' class="form-control" placeholder="Prom Directo">
                     </div>
                 </div>

@@ -26,7 +26,7 @@ class NotificacionController extends Controller
         try {
             DB::beginTransaction();
             
-            $notificaciones = Notificacion::where('Id_user', $userId)->where('Leido', 0)->latest()->get();
+            $notificaciones = Notificacion::where('Id_user', $userId)->whereIn('Leido', [0, 2])->latest()->get();
             // Marcar todas las notificaciones obtenidas como leídas
             Notificacion::where('Id_user', $userId)->where('Leido', 0)->update(['Leido' => 1]);
             // foreach ($notificaciones as $item) {
@@ -48,7 +48,8 @@ class NotificacionController extends Controller
     public function ContNot()
     {
         $userId = Auth::id();
-        $contador = Notificacion::where('Id_user', $userId)->where('Leido','=',0)->count();
+        $contador = Notificacion::where('Id_user', $userId)->whereIn('Leido', [0, 2])->count();
+        
         return response()->json($contador);
     }
     

@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Models\backup;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
+class Cotizacion2 extends Model
+{
+     use HasFactory,SoftDeletes;
+    protected $connection = 'mysqlrespaldo'; 
+    protected $table = 'cotizacion';
+    protected $primaryKey = 'Id_cotizacion';
+    public $timestamps = true;
+    protected $fillable = [
+         
+        'Id_cliente',
+        'Nombre',
+        'Direccion',
+        'Atencion',
+        'Telefono',
+        'Correo',
+        'Tipo_servicio',
+        'Tipo_descarga',
+        'Id_norma',
+        'Id_subnorma',
+        'Fecha_muestreo',
+        'Frecuencia_muestreo',
+        'Tomas',
+        'Tipo_muestra',
+        'Promedio',
+        'Numero_puntos',
+        'Tipo_reporte',
+        'Tipo_reporte2',
+        'Tiempo_entrega',
+        'Observacion_interna',
+        'Observacion_cotizacion',
+        'Folio_servicio',
+        'Folio',
+        'Fecha_cotizacion',
+        'Metodo_pago',
+        'Precio_analisis',
+        'Precio_catalogo',
+        'Paqueteria',
+        'Extras',
+        'Num_servicios',
+        'Descuento',
+        'Precio_analisisCon',
+        'Precio_muestreo',
+        'Iva',
+        'Sub_total',
+        'Costo_total',
+        'Estado_cotizacion', 
+        'Creado_por',
+        'Actualizado_por',
+        'Hijo',
+        'Id_reporte',
+        'Tipo',
+        'Cancelado',
+        'Fecha_impresion',
+      ];
+}

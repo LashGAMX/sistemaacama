@@ -79,67 +79,7 @@
                             </div>
                         </div>
 
-<<<<<<< HEAD
                     </div>
-=======
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-1">
-                    <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
-                </div>
-                <div class="col-md-1">
-                    <button class="btn btn-success" id="btnEjecutarTodo">Ejecutar T.</button>
-                </div>
-                <div class="col-md-1">
-                    <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary" id="btnLiberarTodo">Liberar Todo</button>
-                </div>
-                <div class="col-md-1">
-                    <button class="btn btn-danger" id="btnEliminarControl"><i class="fas fa-trash"></i> Ctrl</button>
-                </div>
-                <div class="col-md-1">
-                    <button class="btn btn-warning" id="btnDesliberar"><i class="fas fa-trash"></i> Ctrl</button>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
-                        id="btnGenControlInd">Generar control</button>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary" id="btnGenerarControles">Generar controles</button>
-                </div>
-                <div class="col-md-2">
-                    <h2><input placeholder="Resultado" style="color:red" id="resDato"></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div id="divTablaControles">
-                <table class="table" id="tablaControles">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>NumMuestra</th>
-                            <th>NomCliente</th>
-                            {{-- <th>PuntoMuestreo</th> --}}
-                            <th>Vol. Muestra E</th>
-                            <th>Abs1</th>
-                            <th>Abs2</th>
-                            <th>Abs3</th>
-                            <th>Absorción
-                                promedio
-                            </th>
-                            <th>Factor dilución D</th>
-                            <th>Factor conversion G</th>
-                            <th>Resultado</th> 
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-      </div>
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
                 </div>
 
@@ -166,12 +106,12 @@
                     <div class="col-md-1">
                         <button class="btn btn-warning" id="btnDesliberar"><i class="fas fa-trash"></i> Ctrl</button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
-                            id="btnGenControlInd">Generar control</button>
+                            id="btnGenControlInd">Gen. ctrl</button>
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-primary" id="btnGenerarControles">Generar controles</button>
+                    <div class="col-md-1">
+                        <button class="btn btn-primary" id="btnGenerarControles">Gen. ctrls</button>
                     </div>
                     <div class="col-md-2">
                         <h2><input placeholder="Resultado" style="color:red" id="resDato"></h2>

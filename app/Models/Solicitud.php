@@ -47,13 +47,26 @@ class Solicitud extends Model
       'Id_user_c',
       'Id_user_m'
     ];
+
+    public function direccion()
+    {
+     return $this->belongsTo(DireccionReporte::class, 'Id_direccion', 'Id_direccion');
+    }
     public function cliente()
     {
         return $this->belongsTo(Clientes::class, 'Id_cliente', 'Id_cliente');
     }
+    public function Sucursal()
+    {
+        return $this->belongsTo(SucursalCliente::class, 'Id_sucursal', 'Id_sucursal');
+    }
     public function norma()
     {
       return $this->belongsTo(Norma::class,"Id_norma","Id_norma");
+    }
+    public function servicio()
+    {
+        return $this->belongsTo(TipoServicios::class,"Id_servicio", "Id_tipo");
     }
     public function cotizacion()
     {
@@ -72,6 +85,15 @@ class Solicitud extends Model
     {
       return $this->belongsTo(User::class,"Id_user_m","id");
 
+    }
+    public function puntos()
+    {
+      return $this->hasMany(SolicitudPuntos::class, 'Id_solicitud', 'Id_solicitud');
+    }
+    
+    public function procesos()
+    {
+     return $this->hasMany(ProcesoAnalisis::class, 'Id_solicitud', 'Id_solicitud');
     }
    
    

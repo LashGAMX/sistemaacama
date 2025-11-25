@@ -25,6 +25,8 @@
     background-color: #0056b3;
   }
 </style>
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
@@ -83,7 +85,9 @@
               </small>
             </div>
           </div>
-          <input type="text" class="" id="idCot"  value="{{@$model->Id_cotizacion}}">
+          <input type="hidden" id="idCot" value="{{ @$model->Id_cotizacion }}">
+          <input type="text" id="user"  hidden name="user" value="{{ Auth::user()->id }}">
+          <input type="text" hidden id="idSol">
 
           <div class="col-md-8">
             <table class="table">
@@ -158,14 +162,14 @@
               @endforeach
             </select>
           </div>
-          <div class="col-md-4">
-            <label for="subnorma">Paquete</label>
+          <div class="col-md-4" hidden>
+            <label for="subnorma" >Paquete</label>
             <select name="subnorma" id="subnorma" class="form-control" onchange="getParametrosNorma()">
             </select>
           </div>
           <div class="col-md-4">
             <label for="fechaMuestreo">Fecha muestreo</label>
-            <input type="date" id="fechaMuestreo" name="fechaMuestreo" @if (@$model->Folio_servicio != "") disabled
+            <input type="date"  id="fechaMuestreo" name="fechaMuestreo" @if (@$model->Folio_servicio != "") disabled
             @endif
             class="form-control" value="{{@$model->Fecha_muestreo}}">
           </div>
@@ -174,10 +178,11 @@
             <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_tomas}}">
           </div>
           <div class="col-md-4">
-            <label for="numTomas">Folio</label>
-            <input type="text" id="Folio" class="form-control" value="{{@$model->Folio}}">
+            <label for="folio">Folio</label>
+            <input type="text"  disabled id="Folio" class="form-control" value="{{@$model->Folio}}">
             <br>
-            <button class="btn-success" id="btnFolio"><i class="fas fa-new"></i> Crear Folio</button>
+            <button class="btn-warning" id="btnFolio"><i class="fas fa-new"></i> Crear Folio</button>
+            <button class="btn-success" id="btnGuardarSol"><i class="fas fa-new"></i> Guardar Orden</button>
           </div>
         </div>
       </div>
@@ -212,5 +217,5 @@
   @endsection
 
   @section('javascript')
-  <script src="{{ asset('public/js/alimentos/createOrden.jsx')}}?v=0.0.1"></script>
+  <script src="{{ asset('public/js/alimentos/createOrden.jsx')}}?v=1.0.0"></script>
   @endsection

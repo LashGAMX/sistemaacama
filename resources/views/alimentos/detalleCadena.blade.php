@@ -3,7 +3,6 @@
 @section('content')
 
 @section('page_header')
-
 <h6 class="page-title">
     <i class="fa fa-truck-pickup"></i>
     Cadena de custodia
@@ -27,17 +26,16 @@
                         <div class="col-md-2">
                             <h6>Folio: <strong>{{@$model->Folio}}</strong></h6>
                             <h6>Estado: <strong>Reporte</strong></h6>
-                            <h6>Dirección: <strong>{{@$direccion->Direccion}}</strong></h6>
+                            <h6>Dirección: <strong>{{@$model->Direccion}}</strong></h6>
                         </div>
                         <div class="col-md-2">
                             <h6>Fecha muestro: <strong>{{@$model->Fecha_muestreo}}</strong></h6>
-                            <h6>Fecha recepcion: <strong>{{@$proceso->Fecha_recepcion}}</strong></h6>
+                            <h6>Fecha recepcion: <strong>{{@$proceso->Hora_recepcion}}</strong></h6>
                             <h6>Fecha emisión: <input type="date" id="fechaEmision"
                                     value="{{$proceso->Emision_informe}}"> <span id="btnSetEmision"
                                     class="fas fa-edit bg-success"></span></h6>
 
                             <span id="mensaje" class="badge">
-
                             </span>
 
 
@@ -82,13 +80,15 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Punto muestreo</th>
+                                        <th style="display:none;">Idmuestra</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($puntos as $item)
                                     <tr>
-                                        <td>{{$item->Id_solicitud}}</td>
+                                        <td>{{$item->Id_muestra}}</td>
                                         <td>{{$item->Muestra}}</td>
+                                        <td style="display:none;">{{ $item->Id_muestra }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -121,7 +121,7 @@
                             <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip"
                                 data-placement="top" title="Regresar Resultado"><i
                                     class="voyager-double-left"></i></button>
-                            <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()"
+                            <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra2()"
                                 data-toggle="tooltip" data-placement="top" title="Cuadro de asignación"><i
                                     class="voyager-check"></i></button>
                             <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()"
@@ -133,7 +133,7 @@
                             <button id="btnRegresar" class="btn-info" onclick="regresarMuestra()" data-toggle="tooltip"
                                 data-placement="top" title="Regresar Resultado"><i
                                     class="voyager-double-left"></i></button>
-                            <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra()"
+                            <button id="btnReasignar" class="btn-warning" onclick="reasignarMuestra2()"
                                 data-toggle="tooltip" data-placement="top" title="Cuadro de asignación"><i
                                     class="voyager-check"></i></button>
                             <button id="btnDesactivar" class="btn-danger" onclick="desactivarMuestra()"
@@ -169,8 +169,6 @@
         </div>
     </div>
 </div>
-
-<!-- Modal historial-->
 <div class="modal fade" id="modalHistorial" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" style="max-height: 200%;">
         <div class="modal-content">
@@ -213,9 +211,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- The Modal -->
 <div class="modal fade" id="modalImgFoto" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width: 80%">
         <div class="modal-content">
@@ -238,11 +233,7 @@
         </div>
     </div>
 </div>
-
-
-
-
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/alimentos/detalleCadena.js') }}?v=0.0.1"></script>
+<script src="{{ asset('public/js/alimentos/detalleCadena.js') }}?v=2.0.0"></script>
 @stop

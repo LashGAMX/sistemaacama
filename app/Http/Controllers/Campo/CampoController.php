@@ -84,12 +84,20 @@ class CampoController extends Controller
     {
 
         if (Auth::user()->role->id == 13) {
-            $id = Intermediario::where('Id_usuario', Auth::user()->id)->first();
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->limit(800)->get();
+            switch (Auth::user()->id) {
+                case 89:
+                    $id = Intermediario::where('Id_usuario', )->first();
+                    $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->whereYear('created_at', 2025)->limit(800)->get();
+                    break;                
+                default:
+                $id = Intermediario::where('Id_usuario', Auth::user()->id)->first();
+                $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_intermediario', $id->Id_intermediario)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->whereYear('created_at', 2025)->limit(800)->get();
+                    break;
+            }
+       
         } else {
-            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->get();
+            $model = DB::table('ViewSolicitud2')->where('Padre', 1)->where('Folio_servicio', '!=', NULL)->where('Id_servicio', '!=', 3)->OrderBy('Id_solicitud', 'DESC')->whereYear('created_at', 2025)->get();
         }
-
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
         $generadas = SolicitudesGeneradas::all();
         $usuarios = Usuario::all();
@@ -184,7 +192,7 @@ class CampoController extends Controller
         switch (Auth::user()->role_id) {
             case 1:
             case 15:
-                case 7:
+            case 7:
                 // $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
                 $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->get();
                 break;
@@ -216,26 +224,38 @@ class CampoController extends Controller
         $model->Observacion_plan = $res->obs;
         $model->save();
         $data = array(
-            'model' => $model,
+        'model' => $model,
         );
         return response()->json($data);
     }
     public function captura($id)
     {
+        $model = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
         $phControlCalidad = PHCalidad::where('Ph_calidad', 7)->first();
 
         $phTrazable = PHTrazable::withTrashed()->get();
         $phCalidad = PHCalidad::withTrashed()->get();
         $termometros = TermometroCampo::where('Tipo', 1)->get();
         $termometros2 = TermometroCampo::where('Tipo', 2)->get();
-        $conTrazable = ConductividadTrazable::withTrashed()->get();
-        $conCalidad = ConductividadCalidad::withTrashed()->get();
+    $fechaMuestreo = $model->Fecha_muestreo;
+
+        // Filtrar ConductividadTrazable
+        $conTrazable = ConductividadTrazable::where('Inicio_caducidad', '<=', $fechaMuestreo)
+            ->where('Fin_caducidad', '>=', $fechaMuestreo)
+            ->get();
+
+        // Filtrar ConductividadCalidad
+        $conCalidad = ConductividadCalidad::withTrashed()
+            ->where('Inicio_caducidad', '<=', $fechaMuestreo)
+            ->where('Fin_caducidad', '>=', $fechaMuestreo)
+            ->get();
+            
         $aforo = MetodoAforo::all();
         $conTratamiento = ConTratamiento::all();
         $tipo = TipoTratamiento::all();
         $color = Color::all();
 
-        $model = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
+        
         $general = CampoGenerales::where('Id_solicitud', $model->Id_solicitud)->first();
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
@@ -454,8 +474,6 @@ class CampoController extends Controller
         );
         return response()->json($data);
     }
-
-
     public function CancelarMuestra(Request $request)
     {
         $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
@@ -469,6 +487,8 @@ class CampoController extends Controller
         $phControlCalidad = PhCalidadCampo::where('Id_solicitud', $request->idSolicitud)->where('Num_toma', $request->muestra)->first();
         $cond = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->where('Num_toma', $request->muestra)->first();
         $gasto = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->where('Num_toma', $request->muestra)->first();
+        $vidrio = VidrioMuestra::where('Id_solicitud', $request->idSolicitud)->where('Num_toma', $request->muestra)->first();
+
         if ($ph->Activo == 1) {
             $ph->Activo = 0;
             $tempMuestra->Activo = 0;
@@ -493,6 +513,7 @@ class CampoController extends Controller
         $cond->save();
         $phControlCalidad->save();
         $gasto->save();
+        $vidrio->save();
 
         $data = array(
             'std' => $std,
@@ -506,11 +527,11 @@ class CampoController extends Controller
         $model = null;
         $parametro = CodigoParametros::where('Id_solicitud', $request->idSolicitud)->get();
         if ($parametro->count()) {
-            $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->firt();
+            $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
             $model->Cancelado = 1;
             $model->save();
 
-            $model2 = Solicitud::where('Id_solicitud', $request->idSolicitud)->firt();
+            $model2 = Solicitud::where('Id_solicitud', $request->idSolicitud)->first();
             $model2->Cancelado = 1;
             $model2->save();
         }
@@ -558,6 +579,7 @@ class CampoController extends Controller
 
         $model = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
+            
             $model[$i]->Temperatura1 = $request->arrayB1[$i];
             $model[$i]->Temperatura2 = $request->arrayB2[$i];
             $model[$i]->Temperatura3 = $request->arrayB3[$i];
@@ -676,7 +698,6 @@ class CampoController extends Controller
 
         return response()->json(['success' => true, 'model' => $model]);
     }
-
     public function setDatosCompuestos(Request $request)
     {
         $aux = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
@@ -728,7 +749,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]);
     }
-
     public function historialPhTrazable($idSol, $nota, $campoPhTrazable)
     {
         $idUser = Auth::user()->id;
@@ -750,7 +770,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]);
     }
-
     public function historialPhCalidadGen($idSol, $nota, $campoPhCalidad)
     {
         $idUser = Auth::user()->id;
@@ -773,7 +792,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]);
     }
-
     public function historialCondTrazable($idSol, $nota, $campoCondTrazable)
     {
         $idUser = Auth::user()->id;
@@ -795,7 +813,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]);
     }
-
     public function historialCondCalidad($idSol, $nota, $campoCondCalidad)
     {
         $idUser = Auth::user()->id;
@@ -818,8 +835,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]);
     }
-
-
     public function setDataMuestreo(Request $request)
     {
         $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
@@ -1073,7 +1088,6 @@ class CampoController extends Controller
         $data = array('sw' => true);
         return response()->json($data);
     }
-
     public function historialPhMuestra($idSol, $nota, $campoPhMuestra)
     {
         $idUser = Auth::user()->id;
@@ -1099,7 +1113,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]); */
     }
-
     public function historialTempMuestra($idSol, $nota, $campoTempMuestra)
     {
         $idUser = Auth::user()->id;
@@ -1120,7 +1133,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]); */
     }
-
     public function historialPhControl($idSol, $nota, $campoPhControlMuestra)
     {
         $idUser = Auth::user()->id;
@@ -1143,7 +1155,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]); */
     }
-
     public function historialConductividad($idSol, $nota, $campoCondMuestra)
     {
         $idUser = Auth::user()->id;
@@ -1164,7 +1175,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]); */
     }
-
     public function historialGasto($idSol, $nota, $campoGastoMuestra)
     {
         $idUser = Auth::user()->id;
@@ -1185,7 +1195,6 @@ class CampoController extends Controller
             'Id_user_m' => $idUser,
         ]); */
     }
-
     public function setDataCompuesto(Request $request)
     {
         $aux = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->first();
@@ -1236,7 +1245,6 @@ class CampoController extends Controller
         $data = array('sw' => true, 'campoComp' => $campoComp);
         return response()->json($data);
     }
-
     public function setEvidencia(Request $request)
     {
 
@@ -1296,6 +1304,7 @@ class CampoController extends Controller
     public function asignarMultiple(Request $res)
     {
         $model = SolicitudPuntos::where('Id_solPadre', $res->id)->get();
+
         $data = array(
             'model' => $model,
         );
@@ -1304,10 +1313,59 @@ class CampoController extends Controller
     public function setMuestreadorMultiple(Request $res)
     {
         $user = User::where('id', $res->idUser)->first();
-        $model = SolicitudesGeneradas::where('Id_solicitud', $res->id)->first();
+        $model = SolicitudesGeneradas::where('Id_solicitud', $res->id)->with('solicitud')->first();
         $model->Id_muestreador = $res->idUser;
         $model->Nombres = $user->name;
         $model->save();
+
+        $temp = CampoCompuesto::where('Id_solicitud', $res->id)->first();
+        switch (Auth::user()->id) {
+            case 25:
+            case 58:
+            case 41:
+                switch ($model->solicitud->Id_norma) {
+                    case 5:
+                    case 30:
+                    case 7:
+                    case 8:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "27";
+                        break;
+                    default:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "04";
+                        break;
+                }
+                
+                break;
+            case 15:
+            case 47:
+            case 26:
+                 switch ($model->solicitud->Id_norma) {
+                    case 8:
+                        $temp->Proce_muestreo2 = "1";
+                        $temp->Proce_muestreo = "";
+                        break;
+                    case 1:
+                    case 2:
+                    case 4:
+                    case 27:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "04";
+                        break;
+                    default:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "27";
+                        break;
+                }
+                break;
+            default:
+                $temp->Proce_muestreo2 = "";
+                $temp->Proce_muestreo = "04";
+                break;
+        }
+        $temp->save();
+
 
         $data = array(
             'model' => $model,
@@ -1318,7 +1376,7 @@ class CampoController extends Controller
     {
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
 
-        if ($sol->count() > 0) {                    //ACTUALIZAR
+        if ($sol->count()) {                    //ACTUALIZAR
             $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
             $msg = "Entro a if";
         } else {
@@ -1328,18 +1386,20 @@ class CampoController extends Controller
             $this->nota = "Creación de registro";
             $solModel = Solicitud::where('Hijo', $request->idSolicitud)->get();
             //
-            foreach ($solModel as $item) {
+
+            if ($solModel->count()) {
+                foreach ($solModel as $item) {
                 // $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
                 $punto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
-                $parametro = SolicitudParametro::where('Id_solicitud', $item->Id_solicitud)->where('Id_subnorma',173)->get();
+                $parametro = SolicitudParametro::where('Id_solicitud', $item->Id_solicitud)->where('Id_subnorma', 173)->get();
 
                 if ($parametro->count()) {
-                    for ($i = 0; $i < $item->Num_tomas; $i++) {                      
-                            VidrioMuestra::create([
-                                'Id_solicitud' => $item->Id_solicitud,
-                                'Num_toma' => $i + 1,
-                                'Activo' => 1,
-                            ]);      
+                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                        VidrioMuestra::create([
+                            'Id_solicitud' => $item->Id_solicitud,
+                            'Num_toma' => $i + 1,
+                            'Activo' => 1,
+                        ]);
                     }
                 }
 
@@ -1416,11 +1476,10 @@ class CampoController extends Controller
                         'Num_toma' => $i + 1,
                         'Activo' => 1,
                     ]);
-
-              
-                    
                 }
             }
+            }
+            
 
 
             //$this->historial();
@@ -1443,7 +1502,6 @@ class CampoController extends Controller
 
         return response()->json($data);
     }
-
     public function historial()
     {
         $idUser = Auth::user()->id;
@@ -1461,7 +1519,6 @@ class CampoController extends Controller
             'Captura' => $model->Captura
         ]);
     }
-
     public function getFolio(Request $request)
     {
         $idUser = $request->idUser;
@@ -1470,29 +1527,81 @@ class CampoController extends Controller
         // $folio = $request->folioAsignar;
         // $nombres = $inge->name;
         // $muestreador = $inge->id;
+        $solTemp = Solicitud::where('Hijo',$request->idSol)->get();
+        foreach ($solTemp as $item) {
+            $temp = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->first();
+        switch ($user->id) {
+            case 25:
+            case 58:
+            case 41:
+                switch ($item->Id_norma) {
+                    case 5:
+                    case 30:
+                    case 7:
+                    case 8:
+                        $temp->Proce_muestreo2 = "1";
+                        $temp->Proce_muestreo = "";
+                        break;
+                    default:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "04";
+                        break;
+                }
+                
+                break;
+            case 15:
+            case 47:
+            case 26:
+                 switch ($item->Id_norma) {
+                    case 8:
+                        $temp->Proce_muestreo2 = "1";
+                        $temp->Proce_muestreo = "";
+                        break;
+                    case 1:
+                    case 2:
+                    case 4:
+                    case 27:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "04";
+                        break;
+                    default:
+                        $temp->Proce_muestreo2 = "";
+                        $temp->Proce_muestreo = "27";
+                        break;
+                }
+                break;
+            default:
+                $temp->Proce_muestreo2 = "";
+                $temp->Proce_muestreo = "04";
+                break;
+        }
+        $temp->save();
+
+        }
+    
 
         $update = SolicitudesGeneradas::where('Id_solPadre', $request->idSol)
             ->update([
                 'Nombres' => $user->name,
                 'Id_muestreador' => $user->id,
             ]);
+        
+            $data= array(
+                'update' => $update
+            );
 
-        return response()->json(
-            compact($update),
-        );
+        return response()->json($data);
     }
     public function getFactorCorreccion(Request $request)
     {
         $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
         return response()->json(compact('model'));
     }
-
     public function getFactorAplicado(Request $request)
     {
         $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
         return response()->json(compact('model'));
     }
-
     public function getPhTrazable(Request $request)
     {
         $model = PHTrazable::where('Id_ph', $request->id)->first();
@@ -1547,7 +1656,7 @@ class CampoController extends Controller
 
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
-        $Vidrio=VidrioMuestra::where('Id_solicitud',$id)->get();
+        $Vidrio = VidrioMuestra::where('Id_solicitud', $id)->get();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
         $equipo1 = TermometroCampo::where('Id_termometro', $campoGeneral->Id_equipo)->first();
         $equipo2 = TermometroCampo::where('Id_termometro', $campoGeneral->Id_equipo2)->first();
@@ -1565,7 +1674,11 @@ class CampoController extends Controller
 
 
         $areaModel = AreaLab::all();
-        $firmaRecepcion =  DB::table('users')->where('id', 101)->first();
+         $firmaRecepcion =  DB::table('users')->where('id', 101)->first();  
+     
+       // $firmaRecepcion =ProcesoAnalisis::where('Id_solicitud', $model->Id_solicitud)->with('User')->first(); aqui netzair
+
+
 
         $claveFirma = 'folinfdia321ABC!"#Loremipsumdolorsitamet';
         //Metodo de encriptaciÃ³n
@@ -1589,8 +1702,8 @@ class CampoController extends Controller
             'format' => 'letter',
             'margin_left' => 2,
             'margin_right' => 2,
-            'margin_top' => 18,
-            'margin_bottom' => 10
+            'margin_top' => 20,
+            'margin_bottom' => 12
         ]);
 
         $mpdf->SetWatermarkImage(
@@ -1626,13 +1739,13 @@ class CampoController extends Controller
             'recepcion' => $recepcion,
             'firmaRes' => $firmaRes,
             'direccion' => $direccion,
-            'Vidrio' =>$Vidrio,
+            'Vidrio' => $Vidrio,
         );
         $mpdf->showWatermarkImage = true;
 
         $html = view('exports.campo.hojaCampo', $data);
         $mpdf->CSSselectMedia = 'mpdf';
-        $htmlFooter = view('exports.campo.hojaCampoFooter');
+        $htmlFooter = view('exports.campo.hojaCampoFooter',$data);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($html);
 
@@ -1641,7 +1754,7 @@ class CampoController extends Controller
         $folPadre = Solicitud::where('Id_solicitud', $model->Hijo)->first();
         $primeraLetra = substr($cliente->Empresa, 0, 1);
         $passUse = $folPadre->Folio_servicio . "" . $primeraLetra;
-        // $mpdf->SetProtection(array('print', 'copy'), $passUse, 'admin', 128);
+        $mpdf->SetProtection(array('print', 'copy'), $passUse, '..', 128);
 
 
         // Definir la ruta donde quieres guardar el PDF
@@ -1697,7 +1810,6 @@ class CampoController extends Controller
         $puntoMuestra->Conductividad = round($promCond / $model2->count());
         $puntoMuestra->save();
     }
-
     public function hojaCampoCli($id)
     {
 
@@ -1769,7 +1881,6 @@ class CampoController extends Controller
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->Output('Hoja Campo.pdf', 'I');
     }
-
     public function bitacoraCampo($id)
     {
         $tipoReporte = "";
@@ -1841,15 +1952,12 @@ class CampoController extends Controller
         $gastoTotal = 0;
 
         foreach ($gastoMuestra as $item) {
-            if ($item->Promedio === NULL) {
+            if ($item->Promedio === NULL ) {
                 $gastoTotal += 0;
             } else {
                 $gastoTotal += $item->Promedio;
             }
         }
-
-
-
         $conMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $muestreador = Usuario::where('id', $solGen->Id_muestreador)->first();
 
@@ -1859,6 +1967,13 @@ class CampoController extends Controller
 
         $campoConTrazable = DB::table('ViewCampoConTrazable')->where('Id_solicitud', $id)->get();
         $campoConCalidad = DB::table('ViewCampoConCalidad')->where('Id_solicitud', $id)->get();
+
+         $fechaMuestreo = $solGen->Fecha_muestreo;
+
+        // Filtrar ConductividadTrazable
+        $tempCon = ConductividadTrazable::where('Inicio_caducidad', '<=', $fechaMuestreo)
+            ->where('Fin_caducidad', '>=', $fechaMuestreo)
+            ->get();
 
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
         $Vidrio = VidrioMuestra::where('Id_solicitud', $id)->get();
@@ -1890,11 +2005,12 @@ class CampoController extends Controller
             array(215, 280),
             array(0, 0),
         );
-
+        // dd($gastoTotal);
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.bitacoraCampo', compact(
             'materia',
             'solGenTemp',
+            'tempCon',
             'factApl',
             'factApl2',
             'factCorrec',
@@ -1931,6 +2047,8 @@ class CampoController extends Controller
             'puntos',
             'frecuenciaMuestreo'
         ));
+       
+
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
@@ -1938,8 +2056,9 @@ class CampoController extends Controller
 
         $htmlFooter = view(
             'exports.campo.bitacoraCampoFooter',
-            compact('muestreador', 'campoGeneral', 'model', 'solGenTemp', 'firmaRevisor')
+            compact('model','muestreador', 'campoGeneral', 'model', 'solGenTemp', 'firmaRevisor')
         );
+
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);
@@ -2251,62 +2370,57 @@ class CampoController extends Controller
             echo " " . $item->Id_solicitud . "- Fecha: " . $item->Fecha_muestreo;
         }
     }
-
-
     //todo ******************************************************
     //todo Fin de configuracio plan de muestreo
     //todo ******************************************************
 
-//METODO PARA ELIMINAR CAMPO DUPLICADO Prueba Netza
+    //METODO PARA ELIMINAR CAMPO DUPLICADO Prueba Netza
 
-public function EliminarCampo($id)
-{
-    $eliminados = 0; // Contador de registros eliminados
-    $modelos = [
-        campocompuesto::class,
-        CampoConCalidad::class,
-        CampoConTrazable::class,
-        CampoGenerales::class,
-        CampoPhCalidad::class,
-        CampoPhTrazable::class,
-        PhCalidadCampo::class,
-        TemperaturaMuestra::class,
-        TemperaturaAmbiente::class,
-        ConductividadMuestra::class,
-        GastoMuestra::class,
-        PhMuestra::class,
-        SolicitudesGeneradas::class,
-        VidrioMuestra::class,
-    ];
+    public function EliminarCampo($id)
+    {
+        $eliminados = 0; // Contador de registros eliminados
+        $modelos = [
+            campocompuesto::class,
+            CampoConCalidad::class,
+            CampoConTrazable::class,
+            CampoGenerales::class,
+            CampoPhCalidad::class,
+            CampoPhTrazable::class,
+            PhCalidadCampo::class,
+            TemperaturaMuestra::class,
+            TemperaturaAmbiente::class,
+            ConductividadMuestra::class,
+            GastoMuestra::class,
+            PhMuestra::class,
+            SolicitudesGeneradas::class,
+            VidrioMuestra::class,
+        ];
 
-    try {
-        foreach ($modelos as $modelo) {
-            if (class_exists($modelo)) {
-               
-                $eliminadosModelo = $modelo::where('Id_solicitud', $id)->forceDelete();
+        try {
+            foreach ($modelos as $modelo) {
+                if (class_exists($modelo)) {
 
-              
-                $eliminados += $eliminadosModelo;
-            } else {
-                // Log::warning("El modelo {$modelo} no existe.");
-                return response()->json([
-                   'message'=>"El Modelo {$modelo} No Existe.",
-                ]);
+                    $eliminadosModelo = $modelo::where('Id_solicitud', $id)->forceDelete();
+
+
+                    $eliminados += $eliminadosModelo;
+                } else {
+                    // Log::warning("El modelo {$modelo} no existe.");
+                    return response()->json([
+                        'message' => "El Modelo {$modelo} No Existe.",
+                    ]);
+                }
             }
+
+            return response()->json([
+                'message' => "{$eliminados} registros eliminados permanentemente.",
+                'status' => 'success'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Error al eliminar registros: {$e->getMessage()}",
+                'status' => 'error'
+            ], 500);
         }
-
-        return response()->json([
-            'message' => "{$eliminados} registros eliminados permanentemente.",
-            'status' => 'success'
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'message' => "Error al eliminar registros: {$e->getMessage()}",
-            'status' => 'error'
-        ], 500);
     }
-}
-
-    
 }

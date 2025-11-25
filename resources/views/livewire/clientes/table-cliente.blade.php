@@ -24,6 +24,8 @@
                 <th>Creó</th>
                 <th>Modificación</th>
                 <th>Modificó</th>
+                <th>User</th>
+                <th>Pass</th>
                 <th>Acción</th>
             </tr>
         </thead>
@@ -43,6 +45,8 @@
           <td>{{$item->Id_user_c}}</td>
           <td>{{$item->updated_at}}</td> 
           <td>{{$item->Id_user_m}}</td>
+          <td>{{$item->User}}</td>
+          <td>{{$item->Password}}</td>
           <td>
             <button type="button" class="btn btn-warning"
             wire:click="setData('{{$item->Id_cliente}}','{{$item->Empresa}}','{{$item->RFC}}','{{$item->Id_intermediario}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalCliente">
@@ -126,6 +130,21 @@
                     @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
                   </div>
                 </div>
+
+                <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="cliente">Usuario</label>
+                           <input type="text" wire:model='User' class="form-control" placeholder="User">
+                           @error('User') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                     <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="cliente">Password</label>
+                           <input type="text" wire:model='Password' class="form-control" placeholder="Password">
+                           @error('Password') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
                 @endif
                 </div>
             </div>

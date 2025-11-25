@@ -1,83 +1,136 @@
-<<<<<<< HEAD
+let idCot = 0;  //Variable Global 
+//carga de datos en la tabla de solicitudes
 $(document).ready(function () {
-    
-    let table = $("#tablaSolicitud").DataTable({
-        ordering: false,
+    let table = $('#tablaSolicitud').DataTable({
+        processing: true,
+        serverSide: true,
+        autoWidth: false,
         pageLength: 1000,
-        lengthMenu: [
-            [100, 500, 1000],
-            [100, 500, 1000],
-        ],
-        language: {
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "No hay registros disponibles",
-            zeroRecords: "No se encontraron resultados",
-            paginate: {
-                next: "Siguiente",
-                previous: "Anterior",
-            },
+        dom: 'rtip',
+        ajax: {
+            url: base_url + "/admin/cotizacion/solicitud/GetSolicitudes",
+            type: 'GET',
+            data: function (d) {
+                d.canceladas = $('#mostrarCanceladas').is(':checked') ? '1' : '0';
+            }
         },
-    });
-
-    $("#tablaSolicitud thead th").each(function () {
-        let title = $(this).text();
-        $(this).html(
-            title +
-                '<br><input type="text" class="form-control form-control-sm column-filter" placeholder="Buscar">'
-        );
-    });
-
-    $(".column-filter").on("keyup change", function () {
-        let index = $(this).parent().index();
-        table.column(index).search(this.value).draw();
-        getSolicitudes(table);
-    });
-
-    var idCot = 0; // ID del registro seleccionado
-
-    // Manejo de selección de filas
-    $("#tablaSolicitud tbody").on("click", "tr", function () {
-        // Asignamos el ID de la fila seleccionada
-        let dato = $(this).find("td:first").html();
-        idCot = dato;
-
-        if ($(this).hasClass("selected")) {
-            $(this).removeClass("selected");
-            $("#btnEdit").prop("disabled", true); // Deshabilitar el botón de editar
-            idCot = 0; // Resetear el valor de idCot
-        } else {
-            $(this).addClass("selected").siblings().removeClass("selected");
-            $("#btnEdit").prop("disabled", false); // Habilitar el botón de editar
+        columns: [
+            { data: 'Id_cotizacion' },
+            { data: 'cotizacion_estado.Estado', defaultContent: 'N/A' },
+            { data: 'Folio_servicio', defaultContent: 'N/A' },
+            { data: 'Folio', defaultContent: 'N/A' },
+            { data: 'Fecha_muestreo', defaultContent: 'N/A', },
+            { data: 'Nombre', defaultContent: 'N/A' },
+            { data: 'clavenorma.Clave_norma', defaultContent: 'N/A' },
+            { data: 'descarga.Descarga', defaultContent: 'N/A' },
+            { data: 'creador.name', defaultContent: 'N/A' },
+            { data: 'created_at', defaultContent: 'N/A', render: formFecha },
+            { data: 'actualizado.name', defaultContent: 'N/A' },
+            { data: 'updated_at', defaultContent: 'N/A', render: formFecha },
+        ],
+        order: [[0, 'desc']],
+        rowCallback: function (row, data) 
+        { 
+        if (data.Cancelado == 1) {
+                $(row).css({
+                    'background-color': '#f8d7da',
+                    'color': '#721c24'
+                });
+            }
+        },
+        initComplete: function () {
+            const api = this.api();
+            api.columns().every(function () {
+                const column = this;
+                const input = $('<input type="text" placeholder="Buscar..." style="width:100%;" />')
+                    .appendTo($(column.header()).empty())
+                    .on('input', debounce(function () {
+                        column.search(this.value).draw();
+                    }, 400)); 
+            });
+        },
+        language: 
+        {
+            processing: "CARGANDO ⏰🔴🟡🟢...",
+            zeroRecords: "No se encontraron registros",
+            info: "Página _PAGE_ de _PAGES_",
+            infoEmpty: "No hay registros disponibles",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            lengthMenu: "Mostrar _MENU_ registros por página",
         }
     });
 
-    // Evento para el botón de edición (btnEdit)
-    $("#btnEdit").click(function () {
+    $('#tablaSolicitud tbody').on('click', 'tr', function () {
+        let data = table.row(this).data();
+        if (data) {
+            idCot = data.Id_cotizacion;
+            $('#tablaSolicitud tbody tr').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+    $('#mostrarCanceladas').on('change', function () {
+        table.ajax.reload();
+    });
+
+    // limita la frecuencia con la que se ejecuta una función
+    function debounce(func, wait) {
+        let timeout;
+        return function () {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
+});
+
+
+
+
+// Maneja atajos de teclado
+$(document).on("keydown", function (e) {     
+    // Ctrl + E → Editar
+    if (e.ctrlKey && e.key.toLowerCase() === "e") {
+        e.preventDefault();
+
+        if (idCot > 0) {
+        
+                                  window.location.href = base_url + "/admin/cotizacion/solicitud/updateOrden/" + idCot;
+
+        } else 
+        {
+            alert("Primero selecciona una orden");
+        }
+    }
+
+    // Ctrl + P → Exportar PDF
+    if (e.ctrlKey && e.key.toLowerCase() === "p") {
+        e.preventDefault();
+
+        if (idCot > 0) {
+         
+                      window.location.href = base_url + "/admin/cotizacion/solicitud/exportPdfOrden/" + idCot;
+
+        } else {
+            alert("Primero selecciona una orden");
+        }
+    }
+});
+
+// boton para editar solicitudes (No aplica con cotizacion)
+$("#btnEdit").click(function () {
+     //console.log("EJE",idCot);
         if (idCot > 0) {
             // Redirige a la URL de actualización con el ID seleccionado
-                       window.open(base_url + "/admin/cotizacion/solicitud/updateOrden/" + idCot, "_blank");
+          window.location.href = base_url + "/admin/cotizacion/solicitud/updateOrden/" + idCot;
 
         } else {
             alert("Por favor, selecciona un registro antes de editar.");
         }
     });
-
-    // Doble clic para editar
-    $("#tablaSolicitud tbody").on("dblclick", "tr", function () {
-        let dato = $(this).find("td:first").html();
-        idCot = dato;
+ // Botón Crear solitudes Nuevas 
     
-        if (idCot > 0) {
-            window.open(base_url + "/admin/cotizacion/solicitud/updateOrden/" + idCot, "_blank");
-        } else {
-            alert("Primero selecciona una orden");
-        }
-    });
-    
-    // Botón Crear
     $("#btnCreate").click(function () {
+        //console.log("EJE",idCot);
         if (idCot > 0) {
             window.location =
                 base_url + "/admin/cotizacion/solicitud/create/" + idCot;
@@ -85,24 +138,27 @@ $(document).ready(function () {
             window.location = base_url + "/admin/cotizacion/solicitud/create";
         }
     });
-
+    // boton para imprimir solicitud
     $("#btnImprimir").click(function () {
-        // alert("Imprimir PDF");
-        window.open(
-            base_url + "/admin/cotizacion/solicitud/exportPdfOrden/" + idCot
-        );
+         //console.log("EJE",idCot);
+      
+          window.location =
+                base_url + "/admin/cotizacion/solicitud/exportPdfOrden/" + idCot;
+        
         //window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
     });
-
-    
+    // boton para imprimir duplicar
+ 
     $("#btnDuplicar").click(function () {
         window.location =
             base_url + "/admin/cotizacion/solicitud/duplicarSolicitud/" + idCot;
     });
+    //boton para cancelar una solicitud
     $("#btnCancelar").click(function () {
         // alert(idCot);
         cancelarOrden();
     });
+
     function cancelarOrden() {
         let confirmObs = prompt(
             "Estas segur@ de cancelar esta orden de servicio?",
@@ -128,84 +184,12 @@ $(document).ready(function () {
         }
     }
 
-});
-=======
-$(document).ready(function() {
-    let table = $('#tablaSolicitud').DataTable({
-        "ordering": false,
-        "language": {
-            "search": "Buscar:",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            "infoEmpty": "No hay registros disponibles",
-            "zeroRecords": "No se encontraron resultados",
-            "paginate": {
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        }
-    });
-
-    // Agregar un campo de búsqueda en cada columna del encabezado
-    $('#tablaSolicitud thead th').each(function() {
-        let title = $(this).text();
-        $(this).html(title + '<br><input type="text" class="form-control form-control-sm column-filter" placeholder="Buscar">');
-    });
-
-    // Detectar cambios en los filtros de las columnas
-    $('.column-filter').on('keyup change', function() {
-        let index = $(this).parent().index();
-        table.column(index).search(this.value).draw();
-
-         getSolicitudes(table);
-    });
-    let originalTbody = $('#tablaSolicitud tbody').html();
-
-});
-
-// Función getSolicitudes que recibe el objeto DataTable
-function getSolicitudes(table) {
-    let filters = [];
-    $('#tablaSolicitud thead th').each(function(index) {
-        let filterValue = $('.column-filter').eq(index).val();
-        if (filterValue) {
-            filters.push({
-                column: $(this).text(),
-                value: filterValue
-            });
-        }
-    });
-
-    // console.log("Filtros aplicados:", filters);
-
-    $.ajax({
-        url: base_url + "/admin/cotizacion/solicitud/getSolicitudes",
-        type: "POST",
-        data: {
-            filters: filters,
-            _token: $('input[name="_token"]').val(), // CSRF token
-        },
-        dataType: "json", // Indicamos que esperamos una respuesta JSON
-        success: function(response) {
-         
-            // Mostra la respuesta del servidor en la consola
-             console.log("Respuesta: ",response);
-    
-           
-            // response.forEach(function(item) {
-            //     console.log(item); 
-            // });
-        },
-        error: function(xhr, status, error) {
-            console.error("Error:", status, error);
-        }
-    });
-    
-    
-}
-
-// $('#resetFilters').click(function() {
-//     $('.column-filter').val('');
-//     table.search('').columns().search('').draw();
-// });
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
+    function formFecha(data) 
+      {
+        if (!data) return 'N/A';
+        const date = new Date(data);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${year}-${month}-${day}`;
+      }

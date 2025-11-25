@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'laboratorio'], function () {
+    Route::post('getPendientes', [LabAnalisisController::class, 'getPendientes']);
 
     //! Grupo de metales
     Route::group(['prefix' => 'metales'], function () {
@@ -100,6 +101,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('setEjecutraParametro/{id}', [MetalesController::class, 'setEjecutraParametro']);
         Route::get('setFirmaSup', [MetalesController::class, 'setFirmaSup']);
         Route::post('setEjecutarTodo', [MetalesController::class, 'setEjecutarTodo']);
+        Route::post('setUpdateRestultado', [MetalesController::class, 'setUpdateRestultado']);
         
     });
 
@@ -396,6 +398,10 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     //? PDF
     Route::get('captura/exportPdfCaptura/{idLote}', [LaboratorioController::class, 'exportPdfCaptura']);
+    Route::get('turbiedad', [LabAnalisisController::class, 'turbiedad']);
+    Route::get('colorplatino', [LabAnalisisController::class, 'colorplatino']);
+
+
     /*Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');*/
 
   

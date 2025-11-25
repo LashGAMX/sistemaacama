@@ -505,7 +505,7 @@ function openGroupModal(groupId, groupName) {
 }
 
 function loadColors() {
-    const url = `/sofiadev/public/js/chat/color.json?t=${new Date().getTime()}`;
+    const url = `/sofia/public/js/chat/color.json?t=${new Date().getTime()}`;
 
     return fetch(url)
         .then(response => {
@@ -528,11 +528,7 @@ function displayMessage(message) {
 
     const isCurrentUser = message.user.id == currentUserId; 
     div.className = isCurrentUser ? 'message-item current-user' : 'message-item';
-<<<<<<< HEAD
     const baseUrl = '/sofia/storage/app/public/'; 
-=======
-    const baseUrl = '/sofiadev/storage/app/public/'; 
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
 
         let avatarUrl = `${baseUrl}${message.user.avatar}`;
 
@@ -571,11 +567,7 @@ function displayMessage(message) {
         // a.style.backgroundColor='red';
         a.style.borderRadius='10px';
 
-<<<<<<< HEAD
         a.href = `/sofia/storage/app/files/${encodeURIComponent(message.file)}`; 
-=======
-        a.href = `/sofiadev/storage/app/files/${encodeURIComponent(message.file)}`; 
->>>>>>> 2b914187672a51c20e1918251d5136fec63fe60b
         a.innerHTML = `${icon} ${message.file} `;
         a.setAttribute('download', message.file); 
         div.appendChild(document.createElement('br'));

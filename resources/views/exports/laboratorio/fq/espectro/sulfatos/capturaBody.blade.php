@@ -60,9 +60,9 @@
                     <td class="tableContent" style="font-size:10px">
                        @if ($item->Resultado != null)
                         @if ($item->Resultado < $item->Limite)
-                                < {{number_format(@$item->Limite, 3, ".", "")}}
+                                < {{number_format(@$item->Limite, 2, ".", "")}}
                             @else
-                                {{number_format(@$item->Resultado, 3, ".", "")}}
+                                {{number_format(@$item->Resultado, 2, ".", "")}}
                             @endif
                        @else
                            -------

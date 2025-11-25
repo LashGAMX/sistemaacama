@@ -363,7 +363,7 @@
                     <td id="tableCabecera">No. de muestra &nbsp;</td>
                     <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Vol Final (mL)&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;< /td>
+                    <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
@@ -430,7 +430,7 @@
                         @if ($item->Vol_disolucion < $item->Limite)
                             < {{$item->Limite}}
                                 @else
-                                {{number_format(@$item->Vol_disolucion,3)}}
+                                {{number_format(@$item->Vol_disolucion,4)}}
                                 @endif
                                 @else
                                 -------

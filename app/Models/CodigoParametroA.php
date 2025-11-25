@@ -15,6 +15,7 @@ class CodigoParametroA extends Model
     protected $fillable = [
         'Id_solicitud',
         'Id_parametro',
+        'Id_matrizar',
         'Codigo',
         'Num_muestra',
         'Resultado',
@@ -35,4 +36,17 @@ class CodigoParametroA extends Model
         'updated_at',
         'deleted_at'
     ];
+
+    public function parametrosMatriz()
+    {
+        return $this->belongsTo(parametrosMatriz::class, 'Id_matrizar', 'Id');
+    }
+    public  function parametro()
+    {
+        return $this->belongsTo(Parametro::class, 'Id_parametro', 'Id_parametro');
+    }
+    public  function usuario()
+    {
+        return $this->belongsTo(Users::class, 'Analizo', 'id');
+    }
 }

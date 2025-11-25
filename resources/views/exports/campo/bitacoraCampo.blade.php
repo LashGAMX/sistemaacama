@@ -160,9 +160,15 @@
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">1° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">2° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">3° Lectura</td>
-                                    <td class="fontCalibri fontBold fontSize8 justificadorCentr">+- 5% de
-                                        aceptación valor
-                                        nominal</td>
+                                    <td class="fontCalibri fontBold fontSize8 justificadorCentr">
+                                        @if (@$tempCon[0]->Inicio_rango != NULL)
+                                            Comparacion contra Incertidumbre
+                                        @else
+                                            +- 5% de
+                                            aceptación valor
+                                            nominal
+                                        @endif
+                                    </td>
                                 </tr>
                                 @foreach (@$campoConTrazable as $item)
                                 <tr>
@@ -747,7 +753,7 @@
                                     @php
                                     $auxGasto = 0;
                                     @endphp
-                                    @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                    @if (@$gastoMuestra[$i]->Promedio === NULL || @$gastoMuestra[$i]->Promedio === 0)
                                     -----
                                     @else
                                     @php
