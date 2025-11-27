@@ -1945,6 +1945,7 @@ class InformesController extends Controller
                                  
                                  -- Parámetro 97
                                  WHEN $par.Id_parametro = 97 THEN FLOOR($cod.Resultado2 + 0.5)
+
                             
                                  -- Parámetros 110, 125
                                  WHEN $par.Id_parametro IN (110,125,65,365) THEN ROUND($cod.Resultado2, 1)
@@ -1987,16 +1988,26 @@ class InformesController extends Controller
                                  -- Parámetro 137
                                  WHEN $par.Id_parametro = 137 AND $cod.Resultado2 < $par.Limite THEN CONCAT('< ', $par.Limite)
                                  WHEN $par.Id_parametro = 137 AND $cod.Resultado2 >= $par.Limite THEN ROUND($cod.Resultado2, 2)
+
+                                -- Si es menor al límite: '< límite'
+                                WHEN $par.Id_parametro = 115 AND $cod.Resultado2 < $par.Limite THEN CONCAT('< ', $par.Limite)
+                    
+                                -- Si es mayor/igual al límite pero menor a 10: un decimal
+                                WHEN $par.Id_parametro = 115 AND $cod.Resultado2 >= $par.Limite AND $cod.Resultado2 < 10 THEN ROUND($cod.Resultado2, 1)
+                    
+                                -- Si es 10 o más: redondeo entero SIN .0
+                                WHEN $par.Id_parametro = 115 AND $cod.Resultado2 >= 10 THEN CAST(ROUND($cod.Resultado2) AS CHAR)
+
                                  
-                                 -- Parámetro 66,102
-                                 WHEN $par.Id_parametro IN (66,102) AND $cod.Resultado2 < $par.Limite THEN CONCAT('< ', $par.Limite)
-                                 WHEN $par.Id_parametro IN (66,102) AND $cod.Resultado2 > 3 THEN '>3'
-                                 WHEN $par.Id_parametro IN (66,102) AND $cod.Resultado2 = 3 THEN '3'
-                                 WHEN $par.Id_parametro IN (66,102) THEN ROUND($cod.Resultado2, 1)
+                                 -- Parámetro 66
+                                 WHEN $par.Id_parametro = 66 AND $cod.Resultado2 < $par.Limite THEN CONCAT('< ', $par.Limite)
+                                 WHEN $par.Id_parametro = 66 AND $cod.Resultado2 > 3 THEN '>3'
+                                 WHEN $par.Id_parametro = 66 AND $cod.Resultado2 = 3 THEN '3'
+                                 WHEN $par.Id_parametro = 66 THEN ROUND($cod.Resultado2, 1)
                                 
                                   -- Parámetro 47 AL 5
-                                 WHEN $par.Id_parametro IN (47,48,45,44,43,28,27,33,90,30,77,251,137,46,36,38,71,161,88,115,58,51,29,252,253,218,112,103,3,4,83,10,9,15,13,35,12,70,6,11,5) AND CAST($cod.Resultado2 AS DECIMAL(10,2)) < CAST($par.Limite AS DECIMAL(10,2)) THEN CONCAT('< ', $par.Limite)
-                                 WHEN $par.Id_parametro IN (47,48,45,44,43,28,27,33,90,30,77,251,137,46,36,38,71,161,88,115,58,51,29,252,253,218,112,103,3,4,83,10,9,15,13,35,12,70,6,11,5) AND CAST($cod.Resultado2 AS DECIMAL(10,2)) > CAST($par.Limite AS DECIMAL(10,2)) THEN ROUND(CAST($cod.Resultado2 AS DECIMAL(10,2)), 2)
+                                 WHEN $par.Id_parametro IN (47,48,45,44,43,28,27,33,90,30,77,251,137,46,36,38,71,161,88,58,51,29,252,253,218,112,103,3,4,83,10,9,15,13,35,12,70,6,11,5) AND CAST($cod.Resultado2 AS DECIMAL(10,2)) < CAST($par.Limite AS DECIMAL(10,2)) THEN CONCAT('< ', $par.Limite)
+                                 WHEN $par.Id_parametro IN (47,48,45,44,43,28,27,33,90,30,77,251,137,46,36,38,71,161,88,58,51,29,252,253,218,112,103,3,4,83,10,9,15,13,35,12,70,6,11,5) AND CAST($cod.Resultado2 AS DECIMAL(10,2)) > CAST($par.Limite AS DECIMAL(10,2)) THEN ROUND(CAST($cod.Resultado2 AS DECIMAL(10,2)), 2)
                               
                                  -- Parámetro 89,98
                                  WHEN $par.Id_parametro IN (89,98) AND CAST($cod.Resultado2 AS DECIMAL(10,2)) < CAST($par.Limite AS DECIMAL(10,2)) THEN CONCAT('< ', $par.Limite) 
@@ -2047,16 +2058,17 @@ class InformesController extends Controller
                                 WHEN $par.Id_parametro IN (210,195,215) AND CAST($cod.Resultado2 AS DECIMAL(10,1)) < CAST($par.Limite AS DECIMAL(10,2)) THEN CONCAT('< ', $par.Limite) 
                                 WHEN $par.Id_parametro IN (210,195,215) AND CAST($cod.Resultado2 AS DECIMAL(10,1)) >= CAST($par.Limite AS DECIMAL(10,2)) THEN ROUND(CAST($cod.Resultado2 AS DECIMAL(10,4)), 4)
                                 
-                                WHEN $cod.Resultado2 REGEXP '^[0-9]+(\\.[0-9]+)?$' 
-                                 THEN (
-                                 CASE 
-                                     WHEN $cod.Resultado2 < $par.Limite  
-                                         THEN CONCAT('< ', $par.Limite)
-                                         ELSE ROUND($cod.Resultado2, 3)
-                                         END
-                                     )
-                                 ELSE $cod.Resultado2
-                                END as Resultado2"),
+                                WHEN $par.Id_parametro = 115 AND $cod.Resultado2 >= 10 THEN CAST(ROUND($cod.Resultado2) AS CHAR)
+                                WHEN $cod.Resultado2 REGEXP '^[0-9]+(\\.[0-9]+)?$'
+                                              THEN (
+                                                  CASE 
+                                                      WHEN $cod.Resultado2 < $par.Limite 
+                                                          THEN CONCAT('< ', $par.Limite)
+                                                      ELSE ROUND($cod.Resultado2, 3)
+                                                  END
+                                              )
+                                          ELSE $cod.Resultado2
+                                      END AS Resultado2"),
                                 "$sim.Simbologia as Simbologia",
                                 "$sim2.Descripcion as Descripcion",
                                 "$sim2.Id_simbologia_info as Id_simbologia_info",
@@ -2173,7 +2185,7 @@ class InformesController extends Controller
                                         break;
                                 }
                             }
-                        // dd($datos2);
+                         //dd($datos2);
                         // Mis modelos para la consulta datos
         $solTable   = (new Solicitud)->getTable();
         $paTable  = (new ProcesoAnalisis)->getTable();
