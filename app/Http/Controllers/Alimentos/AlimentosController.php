@@ -813,7 +813,7 @@ class AlimentosController extends Controller
         $solicitud = SolicitudesAlimentos::where('Id_solicitud', $muestra->Id_solicitud)->first();
         $proceso = ProcesoAnalisisA::where('Id_solicitud',  $muestra->Id_solicitud)->first();
         // $codigo = DB::table('viewcodigoparametrosali')->where('Id_solicitud', $muestra->Id_solicitud)->where('Num_muestra', $id)->get();
-        $codigo = CodigoParametroA::where('Id_solicitud', $muestra->Id_solicitud)->where('Num_muestra', $id)
+        $codigo = CodigoParametroA::where('Id_solicitud', $muestra->Id_solicitud)->where('Num_muestra', $id)->where('Reporte',1)
             ->with(['parametrosMatriz', 'parametro', 'parametro.simbologia', 'usuario'])->get();
         //    dd($codigo->parametro->mertodo->Clave_metodo);
         $repali = RecepcionAlimentos::where('Id_muestra', $id)->first();

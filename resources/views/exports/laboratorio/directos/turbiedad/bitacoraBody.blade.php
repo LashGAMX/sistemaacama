@@ -67,8 +67,7 @@
                     $resultado = "";
                     if($item->Resultado <= $item->Limite){
                         $resultado = "< ". $item->Limite;
-                                } else if(($item->Id_parametro == 89 && $item->Resultado > 10) || ($item->Id_parametro == 98 && $item->Resultado > 10)) { 
-    $resultado = "> 10 ";
+                                } else if(($item->Id_parametro == 89 && $item->Resultado > 10) || ($item->Id_parametro == 98 && $item->Resultado > 10)) { $resultado = "> 10 ";
                             }
 
                             else{
@@ -86,11 +85,11 @@
                                 @if ($item->Aux === '')
                                     -----
                                 @elseif (is_numeric($item->Aux) && $item->Aux < 1)
-                                    &lt;1
-                                @elseif (is_numeric($item->Aux) && $item->Aux >= 1)
-                                    {{ number_format($item->Aux, 1) }}
+                                    <1.00
+                                @elseif (is_numeric($item->Aux) && $item->Aux >= 10)
+                                    {{ number_format($item->Aux, 0) }}
                                 @else
-                                    {{ $item->Aux }}
+                                    {{ number_format($item->Aux, 1) }}
                                 @endif
                             @endif
                           </td>

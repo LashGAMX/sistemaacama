@@ -32,7 +32,7 @@
                     <th class="tableCabecera anchoColumna">Color verdadero</th>
                     <th class="tableCabecera anchoColumna">COLOR Pt/Co</th>
                     @if ($mostrarRed)
-                    <th class="tableCabecera anchoColumna">COLOR Pt/Co (R)</th>
+                    <th class="tableCabecera anchoColumna">COLOR Pt/Co (Redondeo)</th>
                     @endif
 
 
