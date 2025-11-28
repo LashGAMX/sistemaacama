@@ -4513,6 +4513,7 @@ function getCapturaLote() {
               case 64:
               case 119:
               case 218:
+                status = "";
                 dec = 2;
                 tab +=
                   '<td><input hidden id="idMuestra' +
