@@ -922,10 +922,12 @@
             </tbody>
  </table>
 </div>
-@if ($datos2->count() >= 18 &&  $datos2->count() <= 27)  
-   <div style="page-break-after: always;"></div>
+    @if ($datos2->count() >= 18 && $datos2->count() <= 25)
+        <div style="page-break-after: always;"></div>
+    @else
+        {{-- No hacer nada --}}
+    @endif
 
-   @endif
 @endif
 
 
