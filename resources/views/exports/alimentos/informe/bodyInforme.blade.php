@@ -259,7 +259,12 @@
             </tr>
             <tr>
                 <td colspan="7"  style="font-size: 10px;">
-                    <strong>Norma de Especificación:</strong> {{$norma->Norma}}
+                    <strong>Norma de Especificación:</strong> 
+                    @if($norma->Espesificacion_ali == null)
+                        {{$norma->Espesificacion_ali}}
+                    @else
+                        {{$norma->Espesificacion_ali}}
+                    @endif
                 </td>
             </tr>
 
