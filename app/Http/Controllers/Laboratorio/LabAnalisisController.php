@@ -848,7 +848,7 @@ class LabAnalisisController extends Controller
                         case 64:
                         case 119:
                         case 218:
-                            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $res->idLote)->get();
                             break;
                         case 9: // Nitrogeno
                         case 10:

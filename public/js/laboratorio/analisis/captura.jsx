@@ -4491,6 +4491,7 @@ function getCapturaLote() {
                   ');" data-toggle="modal" data-target="#modalCapturaSolidosDif">Capturar</button>';
                 break;
               default: // Default
+              status = "";
                 tab +=
                   '<td><input hidden id="idMuestra' +
                   item.Id_detalle +
@@ -4512,6 +4513,7 @@ function getCapturaLote() {
               case 64:
               case 119:
               case 218:
+                status = "";
                 dec = 2;
                 tab +=
                   '<td><input hidden id="idMuestra' +

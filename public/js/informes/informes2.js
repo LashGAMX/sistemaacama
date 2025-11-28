@@ -8,7 +8,7 @@ $(document).ready(function () {
     table = $('#tableServicios').DataTable({
         ajax: {
             url: base_url + "/admin/informes/getinforme",
-            dataSrc: "" 
+            dataSrc: ""
         },
         columns: [
             { data: 'Id_solicitud' },
@@ -23,7 +23,7 @@ $(document).ready(function () {
     $('#tableServicios thead input').on('keyup change', function () {
         let colIdx = $(this).parent().index(); // posición de la columna
         let value = $(this).val();
-        let columns = ['Id_solicitud','Folio','Empresa','Clave_norma','Servicio'];
+        let columns = ['Id_solicitud', 'Folio', 'Empresa', 'Clave_norma', 'Servicio'];
         let columnName = columns[colIdx];
 
         // guarda la selección actual antes de recargar
@@ -55,26 +55,26 @@ $(document).ready(function () {
         getPuntoMuestro(idSol);
     });
 
-  
+
     $("#btnImprimir").on("click", function () {
         switch ($("#tipoReporte").val()) {
             case "1":
             case "2":
-                  window.open(
+                window.open(
                     base_url +
-                        "/admin/informes/exportPdfInforme/" +
-                        idSol +
-                        "/" +
-                        $("#puntoMuestreo").val() +
-                        "/" +
-                        $("#tipoReporte").val()
+                    "/admin/informes/exportPdfInforme/" +
+                    idSol +
+                    "/" +
+                    $("#puntoMuestreo").val() +
+                    "/" +
+                    $("#tipoReporte").val()
                 );
                 break;
             case "11":
-                window.open(base_url + "/admin/informes/InformeGeneral/" + idSol + "/" + $("#puntoMuestreo").val() + "/2" );
+                window.open(base_url + "/admin/informes/InformeGeneral/" + idSol + "/" + $("#puntoMuestreo").val() + "/2");
                 break;
-                 case "12":
-                window.open(base_url + "/admin/informes/InformeGeneral/" + idSol + "/" + $("#puntoMuestreo").val() + "/1" );
+            case "12":
+                window.open(base_url + "/admin/informes/InformeGeneral/" + idSol + "/" + $("#puntoMuestreo").val() + "/1");
                 break;
             case "3":
                 window.open(base_url + "/admin/informes/exportPdfInformeCampo/" + idSol + "/" + $("#puntoMuestreo").val());
@@ -105,15 +105,15 @@ $(document).ready(function () {
 
     $("#btnNota").on("click", function () {
         setNota4(idSol);
-    }); 
+    });
     $("#firmaAut").on("click", function () {
         setFirmaAut(idSol);
     });
-     $("#btnFirma").on("click", function () {
+    $("#btnFirma").on("click", function () {
         setfirmaPad();
-      });
+    });
 
-       $(document).on("change", "#puntoMuestreo", function () {
+    $(document).on("change", "#puntoMuestreo", function () {
         setTimeout(() => {
             // console.log(folioSeleccionado);
             // console.log($(this).val());
@@ -135,7 +135,7 @@ function getPuntoMuestro(id) {
             id: id,
             _token: $('input[name="_token"]').val(),
         },
-        
+
         dataType: "json",
         async: false,
         success: function (response) {
@@ -162,8 +162,8 @@ function getPuntoMuestro(id) {
 }
 
 
-function setNota4(id){
-      if (id != 0) {
+function setNota4(id) {
+    if (id != 0) {
         console.log("Entro al if");
         $.ajax({
             url: base_url + "/admin/informes/setNota4",
@@ -299,24 +299,22 @@ function setDatosTablaParametro(folio, puntoMuestreo) {
                         <td>${element.Parametro}</td>
                         <td>${element.Unidad}</td>
                    <td>
-                        ${
-                            element.Parametro == "Turbiedad" && parseFloat(element.Resultado) > 10
-                                ? ">10"
-                                : (element.Id_parametro == 370 || element.Id_parametro == 372) &&
-                                parseFloat(element.Resultado) > 70
-                                ? ">70"
-                                : element.Resultado2
-                        }
+                        ${element.Parametro == "Turbiedad" && parseFloat(element.Resultado) > 10
+                        ? ">10"
+                        : (element.Id_parametro == 370 || element.Id_parametro == 372) &&
+                            parseFloat(element.Resultado) > 70
+                            ? ">70"
+                            : element.Resultado2
+                    }
                     </td>
                     <td>
                         <input style="width:50%" id="incer${element.Id_codigo}"  value="${element.Incertidumbre ? element.Incertidumbre : ''}">
                     </td>
 
-                        ${
-                            limiteExcedido == true
-                                ? `<td style="background-color: red; color: white;">${element.Limite_cuantificacion}</td>`
-                                : `<td>${element.Limite_cuantificacion}</td>`
-                        }
+                        ${limiteExcedido == true
+                        ? `<td style="background-color: red; color: white;">${element.Limite_cuantificacion}</td>`
+                        : `<td>${element.Limite_cuantificacion}</td>`
+                    }
                     <td><button  onclick="setIncertidumbre(${element.Id_codigo ?? ''})"  class="btn-success"><i class="fas fa-check"></i> </button></td>
                     </tr>
                 `;
@@ -327,18 +325,18 @@ function setDatosTablaParametro(folio, puntoMuestreo) {
     });
 }
 
-function setIncertidumbre(id){
- $.ajax({
+function setIncertidumbre(id) {
+    $.ajax({
         url: base_url + "/admin/informes/setIncertidumbre",
         type: "POST",
         data: {
-            id:id,
-            incertidumbre: $("#incer"+id).val(),
+            id: id,
+            incertidumbre: $("#incer" + id).val(),
             _token: $('input[name="_token"]').val(),
         },
         success: function (response) {
             // Generar las filas dinámicamente
-            alert("Incertidumbre agregada: "+ $("#incer"+id).val())
+            alert("Incertidumbre agregada: " + $("#incer" + id).val())
         },
         error: function (xhr, status, error) {
             console.error("Error en la petición:", error);
