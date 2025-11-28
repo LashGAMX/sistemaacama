@@ -5,8 +5,8 @@
     'env' => 'local',
     'version' => NULL,
     'debug' => true,
-    'url' => 'http://localhost/sofia',
-    'asset_url' => 'http://localhost/sofia',
+    'url' => 'http://sistemasofia.ddns.net:86/sofia',
+    'asset_url' => 'http://sistemasofia.ddns.net:86/sofia',
     'timezone' => 'America/Mexico_City',
     'locale' => 'es',
     'fallback_locale' => 'en',
@@ -278,7 +278,7 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => '100.102.131.21',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'siste168_acamasys',
         'username' => 'root',
@@ -298,7 +298,7 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => '100.102.131.21',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'recursos_sofia',
         'username' => 'root',
@@ -316,7 +316,7 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => '100.102.131.21',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'respaldo',
         'username' => 'root',
@@ -334,7 +334,7 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
-        'host' => '100.102.131.21',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'siste168_acamasys',
         'username' => 'root',
@@ -349,7 +349,7 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => '100.102.131.21',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'siste168_acamasys',
         'username' => 'root',
@@ -394,7 +394,7 @@
     array (
       'font_dir' => 'C:\\xampp82\\htdocs\\sofia\\storage\\fonts/',
       'font_cache' => 'C:\\xampp82\\htdocs\\sofia\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\agent\\AppData\\Local\\Temp',
+      'temp_dir' => 'C:\\xampp82\\tmp',
       'chroot' => 'C:\\xampp82\\htdocs\\sofia',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
@@ -529,7 +529,7 @@
       array (
         'driver' => 'local',
         'root' => 'C:\\xampp82\\htdocs\\sofia\\storage\\app/public',
-        'url' => 'http://localhost/sofia/public/storage',
+        'url' => 'http://sistemasofia.ddns.net:86/sofia/public/storage',
         'visibility' => 'public',
       ),
       's3' => 
