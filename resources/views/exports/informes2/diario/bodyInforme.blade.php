@@ -866,11 +866,11 @@
             </tbody>
  </table>
 </div>
-<!-- @if ($datos2->count() == 25 )  opcion a 27 registros
-   <div style="page-break-after: always;"></div>
-   @else
-   @endif
-@endif -->
+@if ($datos2->count() >= 18 && $datos2->count() <= 27)
+    <div style="page-break-after: always;"></div>
+@endif
+
+@endif
 
 @if ($datos2->contains('Id_parametro', 173))
     <br>
