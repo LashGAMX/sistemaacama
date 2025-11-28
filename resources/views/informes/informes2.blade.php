@@ -272,7 +272,7 @@
     }
 	
     function ClearFormData()
-	{
+	{ 
 	     document.FORM1.sigStringData.value = "SigString: ";
 	     document.FORM1.sigRawData.value = "Base64 String: ";
 	     document.getElementById('SignBtn').disabled = false;
