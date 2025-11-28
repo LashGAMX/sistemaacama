@@ -1071,7 +1071,7 @@
                                                 @case(30)
                                                     @if ($datos->Id_servicio != 3)
                                                         OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{ @$tempAmbienteProm }}°C,
-                                                        @phpif (@$datos3->Olor == true) {
+                                                        @php if (@$datos3->Olor == true) {
                                                                 echo 'LA MUESTRA PRESENTA OLOR';
                                                             } else {
                                                                 echo "LA MUESTRA
