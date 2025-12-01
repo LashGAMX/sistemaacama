@@ -203,7 +203,7 @@
         <table id="info">
             <tr>
                 <td>Empresa:</td>
-                <td>{{$solicitud->Sucursal}}</td>
+                <td>{{$proceso->Empresa}}</td>
                 <td>Fecha de recepción: </td>
                 <td> {{ \Carbon\Carbon::parse($proceso->Hora_recepcion)->format('d-m-Y H:i:s') }}</td>
             </tr>
@@ -261,22 +261,19 @@
             <tr>
                 <td colspan="7"  style="font-size: 10px;">
                     <strong>Norma de Especificación:</strong> 
-                    @if($norma->Norma == null)
-                        {{$norma->Norma}}
+                    @if($norma->Espesificacion_ali == null)
+                        {{$norma->Espesificacion_ali}}
                     @else
-                        {{$norma->Norma}}
+                        {{$norma->Espesificacion_ali}}
                     @endif
                 </td>
             </tr>
-<<<<<<< HEAD
             
-=======
->>>>>>> f2acdddd36a7000abb8747d70777e3ee7c571553
             <!-- <tr>
-                 <td colspan="7" class="footer">
-                 </tr> -->
+                <td colspan="7" class="footer">
+            </tr> -->
         </table>
-        <br> 
+        <br>
         <table id="parametro">
             <tr>
                 <th class="large-col">Parámetro</th>
@@ -582,9 +579,7 @@
         @endif
     @endif
 @endforeach
-   @if($muestra->Id_norma != 38)
-           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
-        @endif
+
 
 <br>
        <strong> <p>Simbologia</p></strong>
@@ -604,6 +599,9 @@
             @php
                 array_push($temp, $item->parametro->simbologia->Id_simbologia);
             @endphp
+        @endif
+        @if($muestra->Id_norma != 38)
+           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
         @endif
 
         @endforeach
