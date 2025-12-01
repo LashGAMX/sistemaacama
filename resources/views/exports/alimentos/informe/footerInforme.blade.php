@@ -5,7 +5,8 @@
             <tr>
                 <td style="text-align: right;"><span class="revisiones"></span> 
                 <br> 
-                <span class="revisiones">FOA-13-001 Rev. 6 22/05/2025</span></td>
+                <!-- <span class="revisiones">FOA-13-001 Rev. 6 22/05/2025</span></td> -->
+                 <span class="revisiones">FOA-13-001 Rev. 7 24/11/2025</span></td>
             </tr>
         </thead>                        
     </table>  

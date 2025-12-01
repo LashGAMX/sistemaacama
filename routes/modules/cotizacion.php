@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
  
 Route::group(['prefix' => 'cotizacion'], function () { 
     Route::get('', [CotizacionController::class, 'index']);
+    Route::get('data', [CotizacionController::class, 'getCotizacionesData']);
     Route::get('create', [CotizacionController::class, 'create']);
     Route::post('getClientesIntermediarios',[CotizacionController::class, 'getClientesIntermediarios']); 
     Route::post('getDataCliente',[CotizacionController::class, 'getDataCliente']); 

@@ -206,7 +206,7 @@ class CampoController extends Controller
 
         // Use limit(1000) to match original behavior and avoid memory exhaustion
         // Use get() because the user's view does not support pagination links
-        $model = $query->limit(1000)->get();
+        $model = $query->get();
 
         $cliente = [];
         $fecha = [];

@@ -257,6 +257,7 @@
                     @endif
                 </td>
             </tr>
+            
             <tr>
                 <td colspan="7"  style="font-size: 10px;">
                     <strong>Norma de Especificación:</strong> 
@@ -267,7 +268,7 @@
                     @endif
                 </td>
             </tr>
-
+            
             <!-- <tr>
                 <td colspan="7" class="footer">
             </tr> -->
@@ -279,7 +280,9 @@
                 <th>Método de prueba</th>
                 <th>Unidad</th>
                 <th>Resultado</th>
-                <th class="small-col ">Límite</th>
+                @if($muestra->Id_norma != 38)
+                    <th class="small-col ">Límite Permisible</th>
+                @endif
                 <th class="small-col ">Analizó</th>
             </tr>
             @foreach ($codigo as $item)
@@ -294,7 +297,9 @@
                     ------
                     @endif
                 </td>
+                @if($muestra->Id_norma != 38)
                 <td style="width: 15%;">{{@$item->parametrosMatriz->Limite}}</td>
+                @endif
                 <td >{{@$item->usuario->iniciales}}</td>
             </tr>
             @endforeach
@@ -574,7 +579,9 @@
         @endif
     @endif
 @endforeach
-
+   @if($muestra->Id_norma != 38)
+           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
+        @endif
 
 <br>
        <strong> <p>Simbologia</p></strong>
