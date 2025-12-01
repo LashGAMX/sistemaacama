@@ -203,7 +203,7 @@
         <table id="info">
             <tr>
                 <td>Empresa:</td>
-                <td>{{$proceso->Empresa}}</td>
+                <td>{{$proceso->Sucursal}}</td>
                 <td>Fecha de recepción: </td>
                 <td> {{ \Carbon\Carbon::parse($proceso->Hora_recepcion)->format('d-m-Y H:i:s') }}</td>
             </tr>
@@ -261,16 +261,15 @@
                 <td colspan="7"  style="font-size: 10px;">
                     <strong>Norma de Especificación:</strong> 
                     @if($norma->Norma == null)
-                       No hay Norma seleccionada en solicitud
+                        {{$norma->Norma}}
                     @else
                         {{$norma->Norma}}
                     @endif
                 </td>
             </tr>
-
             <!-- <tr>
-                <td colspan="7" class="footer">
-            </tr> -->
+                 <td colspan="7" class="footer">
+                 </tr> -->
         </table>
         <br> 
         <table id="parametro">
