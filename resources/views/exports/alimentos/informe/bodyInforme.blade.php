@@ -203,7 +203,7 @@
         <table id="info">
             <tr>
                 <td>Empresa:</td>
-                <td>{{$proceso->Sucursal}}</td>
+                <td>{{$solicitud->Sucursal}}</td>
                 <td>Fecha de recepción: </td>
                 <td> {{ \Carbon\Carbon::parse($proceso->Hora_recepcion)->format('d-m-Y H:i:s') }}</td>
             </tr>
