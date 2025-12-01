@@ -261,7 +261,7 @@
                 <td colspan="7"  style="font-size: 10px;">
                     <strong>Norma de Especificación:</strong> 
                     @if($norma->Norma == null)
-                        {{$norma->Norma}}
+                       No hay Norma seleccionada en solicitud
                     @else
                         {{$norma->Norma}}
                     @endif
@@ -272,7 +272,7 @@
                 <td colspan="7" class="footer">
             </tr> -->
         </table>
-        <br>
+        <br> 
         <table id="parametro">
             <tr>
                 <th class="large-col">Parámetro</th>
