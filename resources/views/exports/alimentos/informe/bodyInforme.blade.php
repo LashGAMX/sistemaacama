@@ -260,10 +260,10 @@
             <tr>
                 <td colspan="7"  style="font-size: 10px;">
                     <strong>Norma de Especificación:</strong> 
-                    @if($norma->Espesificacion_ali == null)
-                        {{$norma->Espesificacion_ali}}
+                    @if($norma->Norma == null)
+                        {{$norma->Norma}}
                     @else
-                        {{$norma->Espesificacion_ali}}
+                        {{$norma->Norma}}
                     @endif
                 </td>
             </tr>

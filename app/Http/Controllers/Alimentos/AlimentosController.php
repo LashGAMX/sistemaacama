@@ -821,7 +821,7 @@ class AlimentosController extends Controller
         
 
         // var_dump($repali);
-        $norma = Norma::where('Id_norma', $muestra->Id_norma)->first();
+        $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
         // $norma = Norma::where('Id_norma', $muestra->Id_norma)->first();
 
         // dd($codigo);
