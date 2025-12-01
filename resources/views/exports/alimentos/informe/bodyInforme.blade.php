@@ -579,7 +579,9 @@
         @endif
     @endif
 @endforeach
-
+@if($muestra->Id_norma != 38)
+           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
+        @endif
 
 <br>
        <strong> <p>Simbologia</p></strong>
@@ -600,9 +602,7 @@
                 array_push($temp, $item->parametro->simbologia->Id_simbologia);
             @endphp
         @endif
-        @if($muestra->Id_norma != 38)
-           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
-        @endif
+        
 
         @endforeach
         <p>NP: No proporcionada</p>
