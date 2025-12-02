@@ -203,7 +203,7 @@
         <table id="info">
             <tr>
                 <td>Empresa:</td>
-                <td>{{$solicitud->Sucursal}}</td>
+                <td>{{$proceso->Empresa}}</td>
                 <td>Fecha de recepción: </td>
                 <td> {{ \Carbon\Carbon::parse($proceso->Hora_recepcion)->format('d-m-Y H:i:s') }}</td>
             </tr>
@@ -257,28 +257,32 @@
                     @endif
                 </td>
             </tr>
+            
             <tr>
                 <td colspan="7"  style="font-size: 10px;">
                     <strong>Norma de Especificación:</strong> 
-                    @if($norma->Norma == null)
-                        {{$norma->Norma}}
+                    @if($norma->Espesificacion_ali == null)
+                        {{$norma->Espesificacion_ali}}
                     @else
-                        {{$norma->Norma}}
+                        {{$norma->Espesificacion_ali}}
                     @endif
                 </td>
             </tr>
+            
             <!-- <tr>
-                 <td colspan="7" class="footer">
-                 </tr> -->
+                <td colspan="7" class="footer">
+            </tr> -->
         </table>
-        <br> 
+        <br>
         <table id="parametro">
             <tr>
                 <th class="large-col">Parámetro</th>
                 <th>Método de prueba</th>
                 <th>Unidad</th>
                 <th>Resultado</th>
-                <th class="small-col ">Límite</th>
+                @if($muestra->Id_norma != 38)
+                    <th class="small-col ">Límite Permisible</th>
+                @endif
                 <th class="small-col ">Analizó</th>
             </tr>
             @foreach ($codigo as $item)
@@ -293,7 +297,9 @@
                     ------
                     @endif
                 </td>
+                @if($muestra->Id_norma != 38)
                 <td style="width: 15%;">{{@$item->parametrosMatriz->Limite}}</td>
+                @endif
                 <td >{{@$item->usuario->iniciales}}</td>
             </tr>
             @endforeach
@@ -573,7 +579,9 @@
         @endif
     @endif
 @endforeach
-
+@if($muestra->Id_norma != 38)
+           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
+        @endif
 
 <br>
        <strong> <p>Simbologia</p></strong>
@@ -594,6 +602,7 @@
                 array_push($temp, $item->parametro->simbologia->Id_simbologia);
             @endphp
         @endif
+        
 
         @endforeach
         <p>NP: No proporcionada</p>
