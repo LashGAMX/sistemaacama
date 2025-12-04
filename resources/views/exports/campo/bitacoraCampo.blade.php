@@ -175,14 +175,14 @@
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$tempCon[0]->Conductividad}}</td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempCon[0]->Marca}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempCon[0]->Lote}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura1}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$tempCon[0]->Lote}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Lectura1}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura2}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Lectura2}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura3}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Lectura3}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Estado}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Estado}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -217,17 +217,17 @@
                                 @foreach (@$campoConCalidad as $item)
                                 <tr>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
-                                        {{$tempConCal[0]->Conductividad}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempConCal[0]->Marca}}
+                                        {{@$tempConCal[0]->Conductividad}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$tempConCal[0]->Marca}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempConCal[0]->Lote}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura1}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$tempConCal[0]->Lote}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Lectura1}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura2}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Lectura2}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura3}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Lectura3}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Estado}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$item->Estado}}
                                     </td>
                                 </tr>
                                 @endforeach
