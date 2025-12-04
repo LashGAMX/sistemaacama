@@ -821,7 +821,7 @@ class AlimentosController extends Controller
         
 
         // var_dump($repali);
-        $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
+        $norma = Norma::where('Id_norma', $muestra->Id_norma)->first();
         // $norma = Norma::where('Id_norma', $muestra->Id_norma)->first();
 
         // dd($codigo);
@@ -897,13 +897,13 @@ class AlimentosController extends Controller
         $muestra = SolicitudMuestraA::where('Id_muestra', $res->id)->first();
         $muestra->Id_solicitud = $res->idSol;
         $muestra->Muestra = $res->muestra;
-        $muestra->Tem_muestra = $res->tempMuetra;
-        $muestra->Tem_recepcion = $res->temprecep;
-        $muestra->Observacion = $res->Obs;
-        $muestra->Unidad = $res->unidad;
-        $muestra->Cantidad = $res->cant;
-        $muestra->Motivo = $res->motivo;
-        $muestra->Cumple = $res->cumple;
+        // $muestra->Tem_muestra = $res->tempMuetra;
+        // $muestra->Tem_recepcion = $res->temprecep;
+        // $muestra->Observacion = $res->Obs;
+        // $muestra->Unidad = $res->unidad;
+        // $muestra->Cantidad = $res->cant;
+        // $muestra->Motivo = $res->motivo;
+        // $muestra->Cumple = $res->cumple;
 
 
 

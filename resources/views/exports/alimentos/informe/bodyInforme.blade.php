@@ -258,16 +258,28 @@
                 </td>
             </tr>
             
-            <tr>
-                <td colspan="7"  style="font-size: 10px;">
-                    <strong>Norma de Especificación:</strong> 
-                    @if($norma->Espesificacion_ali == null)
-                        {{$norma->Espesificacion_ali}}
-                    @else
-                        {{$norma->Espesificacion_ali}}
-                    @endif
-                </td>
-            </tr>
+         <tr>
+    <td colspan="7" style="font-size: 10px;">
+
+        @php
+            $fechaAnalisis = \Carbon\Carbon::parse($proceso->Periodo_analisis)->addDays(2);
+            $fechaLimite   = \Carbon\Carbon::parse("2025-11-25");
+            $swInfo = 0;
+        @endphp
+
+        @if ($fechaAnalisis->greaterThanOrEqualTo($fechaLimite))
+            {{-- No mostrar nada --}}
+            @php
+                $swInfo = 1;
+            @endphp
+        @else
+            <strong>Norma de Especificación:</strong>
+        @endif
+
+        {{ $norma->Espesificacion_ali }}
+
+    </td>
+</tr>
             
             <!-- <tr>
                 <td colspan="7" class="footer">
@@ -280,9 +292,14 @@
                 <th>Método de prueba</th>
                 <th>Unidad</th>
                 <th>Resultado</th>
-                @if($muestra->Id_norma != 38)
-                    <th class="small-col ">Límite Permisible</th>
+                @if ($swInfo == 1)
+                    @if($muestra->Id_norma != 38)
+                        <th class="small-col ">Límite Permisible</th>
+                    @endif
+                @else
+                    <th class="small-col ">Límite</th>
                 @endif
+                
                 <th class="small-col ">Analizó</th>
             </tr>
             @foreach ($codigo as $item)
@@ -297,8 +314,12 @@
                     ------
                     @endif
                 </td>
-                @if($muestra->Id_norma != 38)
-                <td style="width: 15%;">{{@$item->parametrosMatriz->Limite}}</td>
+                @if ($swInfo == 1)
+                    @if($muestra->Id_norma != 38)
+                    <td style="width: 15%;">{{@$item->parametrosMatriz->Limite}}</td>
+                    @endif
+                @else
+                    <td style="width: 15%;">{{@$item->parametrosMatriz->Limite}}</td>
                 @endif
                 <td >{{@$item->usuario->iniciales}}</td>
             </tr>
@@ -579,9 +600,12 @@
         @endif
     @endif
 @endforeach
-@if($muestra->Id_norma != 38)
-           <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
-        @endif
+
+@if ($swInfo == 1)
+    @if($muestra->Id_norma != 38)
+    <p> A solicitud del cliente se compara el informe de resultados con los limites permisibles de la norma </p>
+    @endif
+@endif
 
 <br>
        <strong> <p>Simbologia</p></strong>

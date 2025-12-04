@@ -1978,15 +1978,14 @@ class CampoController extends Controller
         $phTrazable = DB::table('ViewCampoPhTrazable')->where('Id_solicitud', $id)->get();
         $phCalidad = DB::table('ViewCampoPhCalidad')->where('Id_solicitud', $id)->get();
 
-        $campoConTrazable = DB::table('ViewCampoConTrazable')->where('Id_solicitud', $id)->get();
-        $campoConCalidad = DB::table('ViewCampoConCalidad')->where('Id_solicitud', $id)->get();
+        $campoConTrazable = DB::table('campo_contrazable')->where('Id_solicitud', $id)->get();
+        $campoConCalidad = DB::table('campo_concalidad')->where('Id_solicitud', $id)->get();
 
          $fechaMuestreo = $solGen->Fecha_muestreo;
 
         // Filtrar ConductividadTrazable
-        $tempCon = ConductividadTrazable::where('Inicio_caducidad', '<=', $fechaMuestreo)
-            ->where('Fin_caducidad', '>=', $fechaMuestreo)
-            ->get();
+        $tempCon = ConductividadTrazable::where('Inicio_caducidad', '<=', $fechaMuestreo)->where('Fin_caducidad', '>=', $fechaMuestreo)->get();
+        $tempConCal = ConductividadCalidad::where('Inicio_caducidad', '<=', $fechaMuestreo)->where('Fin_caducidad', '>=', $fechaMuestreo)->get();
 
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
         $Vidrio = VidrioMuestra::where('Id_solicitud', $id)->get();
@@ -2022,6 +2021,8 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.bitacoraCampo', compact(
             'materia',
+            'tempCon',
+            'tempConCal',
             'solGenTemp',
             'tempCon',
             'factApl',

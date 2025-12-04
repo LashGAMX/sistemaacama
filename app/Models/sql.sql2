@@ -720,7 +720,8 @@ CREATE VIEW ViewCampoConCalidad as SELECT c.*,con.Conductividad,con.Marca,con.Lo
 INNER JOIN conductividad_calidad as con
 ON c.Id_conCalidad = con.Id_conductividad;
 
-CREATE VIEW ViewCampoConTrazable as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_contrazable as c
+CREATE VIEW ViewCampoConTrazable as SELECT c.*,con.Conductividad,con.Marca,con.Lote,
+con.Inicio_caducidad,con.Fin_caducidad FROM campo_contrazable as c
 INNER JOIN conductividad_trazable as con
 ON c.Id_conTrazable = con.Id_conductividad;
 

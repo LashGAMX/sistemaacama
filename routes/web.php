@@ -23,6 +23,7 @@ Route::get('/', function () {
 Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
 Route::get('/getRespaldoObservacion',[HomeController::class,'getRespaldoObservacion']);
 Route::get('/getRegresarMuestraParametro',[HomeController::class,'getRegresarMuestraParametro']);
+Route::get('/setCampoPhControl',[HomeController::class,'setCampoPhControl']);
 
 Route::get('/pruebaFuncion',function(){
     echo Auth::user()->role_id;

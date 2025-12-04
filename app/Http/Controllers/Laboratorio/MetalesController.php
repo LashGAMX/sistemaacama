@@ -2341,16 +2341,35 @@ class MetalesController extends Controller
     public function buscarLoteIcp(Request $res)
     {
         $sw = false;
-        $model = DB::table('ViewLoteAnalisis')->where('Id_area', 17)->where('Fecha', $res->fecha)->get();
-        if ($model->count()) {
+        
+       
+        $sw = false;
+        $model = collect(); // Siempre inicia vacío
+
+        if (is_null($res->folio)) {
+            $model = DB::table('ViewLoteAnalisis')->where('Id_area', 17)->where('Fecha', $res->fecha)->get();
+
+        } else {
+
+            // Buscar en tabla secundaria
+            $temp = LoteDetalleIcp::where('Id_codigo', 'LIKE', '%' . $res->folio . '%')->get();
+
+            if ($temp->count() > 0) {
+                $model = DB::table('ViewLoteAnalisis')
+                    ->where('Id_lote', $temp[0]->Id_lote)
+                    ->get();
+            }
+        }
+
+        if ($model->count() > 0) {
             $sw = true;
         }
 
-        $data = array(
+        return response()->json([
             'model' => $model,
             'sw' => $sw,
-        );
-        return response()->json($data);
+        ]);
+
     }
     public function importCvs(Request $res)
     {

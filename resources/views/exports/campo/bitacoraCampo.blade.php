@@ -172,11 +172,10 @@
                                 </tr>
                                 @foreach (@$campoConTrazable as $item)
                                 <tr>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
-                                        {{$item->Conductividad}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{@$tempCon[0]->Conductividad}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempCon[0]->Marca}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lote}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempCon[0]->Lote}}</td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura1}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura2}}
@@ -205,17 +204,23 @@
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">1° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">2° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">3° Lectura</td>
-                                    <td class="fontCalibri fontBold fontSize8 justificadorCentr">+- 5% de
-                                        aceptación valor
-                                        nominal</td>
+                                    <td class="fontCalibri fontBold fontSize8 justificadorCentr">
+                                        @if (@$tempCon[0]->Inicio_rango != NULL)
+                                            Comparacion contra Incertidumbre
+                                        @else
+                                            +- 5% de
+                                            aceptación valor
+                                            nominal
+                                        @endif
+                                    </td>
                                 </tr>
                                 @foreach (@$campoConCalidad as $item)
                                 <tr>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
-                                        {{$item->Conductividad}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
+                                        {{$tempConCal[0]->Conductividad}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempConCal[0]->Marca}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lote}}</td>
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$tempConCal[0]->Lote}}</td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura1}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura2}}

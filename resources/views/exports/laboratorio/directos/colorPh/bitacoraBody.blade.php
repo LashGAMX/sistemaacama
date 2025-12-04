@@ -88,16 +88,15 @@
                     </td>
                     @if ($item->Id_parametro == 365)
                     <td class="tableContent">
-                        @if ($item->Id_control != 1)
-                            N/A
-                        @else
+                       
+                     
                         @if ($item->Aux === '')
                             -----
                         @elseif (is_numeric($item->Aux) && $item->Aux < 3) 
                             &lt;3
                         @else {{ $item->Aux }}
                             @endif
-                        @endif
+                       
                     </td>
 
                     @endif

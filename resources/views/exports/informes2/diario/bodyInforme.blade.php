@@ -922,7 +922,7 @@
             </tbody>
  </table>
 </div>
-    @if ($datos2->count() >= 18 && $datos2->count() <= 25)
+    @if ($datos2->count() >= 26 && $datos2->count() <= 27)
         <div style="page-break-after: always;"></div>
     @else
         {{-- No hacer nada --}}
@@ -1217,7 +1217,7 @@
                             cellspacing="0" border-color="#000000" width="100%">
                             <tbody>
                                 <tr>
-                                    <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 5.9px; width: 80%;">
+                                    <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 3.9px; width: 50%;">
                                         <p>
                                             @php
                                                 echo $impresion[0]->Nota;
@@ -1263,7 +1263,7 @@
                                                 \DNS2D::getBarcodePNG((string) $url, 'QRCODE');
                                         @endphp
 
-                                        <center><img style="width: 8%; height: 8%;" src="{{ @$qr_code }}"
+                                        <center><img style="width: 5%; height: 5%;" src="{{ @$qr_code }}"
                                                 alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp;
                                                 {{ @$datos->Folio_servicio }}</span>
                                         </center>
@@ -1302,7 +1302,7 @@
 
                                             @case(11)
                                                 <tr>
-                                                    <td style="font-size: 5.9px" class="fontBold justificadorIzq">
+                                                    <td style="font-size: 3.9px" class="fontBold justificadorIzq">
                                                         1++ MEDIA GEOMETRICA DE LAS {{ $num }} MUESTRAS SIMPLES DE
                                                         ESCHERICHIA COLI.
                                                     </td>
@@ -1311,7 +1311,7 @@
 
                                             @case(5)
                                                 <tr>
-                                                    <td style="font-size: 5.9px" class="fontBold justificadorIzq">
+                                                    <td style="font-size: 3.9px" class="fontBold justificadorIzq">
                                                         1# PROMEDIO PONDERADO DE LAS {{ $num }} MUESTRAS SIMPLES DE GRASAS Y
                                                         ACEITES
                                                     </td>
@@ -1320,7 +1320,7 @@
 
                                             @case(4)
                                                 <tr>
-                                                    <td style="font-size: 5.9px" class="fontBold justificadorIzq">
+                                                    <td style="font-size: 3.9px" class="fontBold justificadorIzq">
                                                         1+ MEDIA GEOMETRICA DE LAS {{ $num }} MUESTRAS SIMPLES DE COLIFORMES.
                                                         EL VALOR MINIMO CUANTIFICADO REPORTADO SERA DE 3, COMO CRITERIO CALCULADO PARA
                                                         COLIFORMES EN SIRALAB Y EL LABORATORIO.
@@ -1330,7 +1330,7 @@
 
                                             @case(12)
                                                 <tr>
-                                                    <td style="font-size: 5.9px" class="fontBold justificadorIzq">
+                                                    <td style="font-size: 3.9px" class="fontBold justificadorIzq">
                                                         1+++ MEDIA GEOMETRICA DE LAS {{ $num }} MUESTRAS SIMPLES DE
                                                         ENTEROCOCOS FECALES.
                                                     </td>
@@ -1341,7 +1341,7 @@
                                                 @if ($item->Id_parametro == 97)
                                                     @if ($datos->Num_tomas > 1)
                                                         <tr>
-                                                            <td style="font-size: 5.9px" class="fontBold justificadorIzq">
+                                                            <td style="font-size: 3.9px" class="fontBold justificadorIzq">
                                                                 {{ $item->Simbologia }} {{ $item->Descripcion }}
                                                             </td>
                                                         </tr>
@@ -1349,7 +1349,7 @@
                                                 @else
                                                     @if (!empty($item->Descripcion))
                                                         <tr>
-                                                            <td style="font-size: 5.5px" class="fontBold justificadorIzq">
+                                                            <td style="font-size: 3.5px" class="fontBold justificadorIzq">
                                                                 {{ $item->Simbologia }} {{ $item->Descripcion }}
                                                             </td>
                                                         </tr>
@@ -1431,7 +1431,7 @@
 
                                                         @case(358)
                                                             {{-- <tr>
-                                    <td style="font-size: 5.9px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php
+                                    <td style="font-size: 3.9px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php
                                         echo $item->Descripcion; @endphp</td>
                                 </tr> --}}
                                                         @break
@@ -1460,7 +1460,7 @@
                                     @endforeach
                                     @if ($auxTemp != '')
                                         <tr>
-                                            <td style="font-size: 5.9px" class="fontBold justificadorIzq">
+                                            <td style="font-size: 3.9px" class="fontBold justificadorIzq">
                                                 {{ $auxTemp }} RESULTADO DE LA
                                                 MUESTRA SIMPLE. </td>
                                         </tr>

@@ -9361,9 +9361,10 @@ class LabAnalisisController extends Controller
             'totalProcesados' => count($modelos),
         ]);
     }
+
     public function colorplatino()
     {
-        $modelos = LoteDetalleDirectos::where('Id_parametro', 365)->where('Id_control', 1)->get();
+        $modelos = LoteDetalleDirectos::where('Id_parametro', 365)->where('Id_control' ,'!=',1)->get();
 
         foreach ($modelos as $modelo) {
             $resultado = floatval($modelo->Resultado);

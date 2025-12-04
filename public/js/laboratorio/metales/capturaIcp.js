@@ -182,6 +182,7 @@ function buscarLote()
         data: {
           idLote:idLote,
             fecha: $("#fechaLote").val(),
+            folio: $("#folio").val(),
             _token: $('input[name="_token"]').val(), 
         },
         dataType: "json",

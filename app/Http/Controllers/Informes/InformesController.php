@@ -1780,8 +1780,8 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 30,
-            'margin_bottom' => 30,
+            'margin_top' => 25,
+            'margin_bottom' => 25,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -2341,8 +2341,8 @@ class InformesController extends Controller
 
 
         // Definir la ruta donde quieres guardar el PDF
-        $nombreArchivoSeguro = str_replace('/', '-', $datos->Folio_servicio);
-        $folioPadre = str_replace('/', '-', $datos->Folio_servicio);
+        $nombreArchivoSeguro = str_replace('/', '-', $datos->Folio_servicio );
+        $folioPadre = str_replace('/', '-', $auxSol->Folio_servicio);
 
         $rutaDirectorio = storage_path('app/public/clientes/' . $datos->Fecha_muestreo . '/' . $folioPadre);
 
@@ -7115,6 +7115,7 @@ class InformesController extends Controller
                     case 243: //sulfatos
                     case 17: //arsenico total
                     case 113:
+                    case 360:
                         if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                             $resTemp = "----";
                         } else {
@@ -7650,6 +7651,7 @@ class InformesController extends Controller
                         case 17: //arsenico total
                         case 113:
                         case 232:
+                        case 360:
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $item->resTemp = "----";
                             } else {
