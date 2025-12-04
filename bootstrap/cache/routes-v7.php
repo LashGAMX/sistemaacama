@@ -91,11 +91,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-<<<<<<< HEAD
             '_route' => 'generated::g8sbhMe4mqANgHhR',
-=======
-            '_route' => 'generated::K3D6QRkdadEzMnNd',
->>>>>>> fb3784c37102cf0b69469caa2fe29e9d7640ec80
           ),
           1 => NULL,
           2 => 
