@@ -35,18 +35,18 @@ class HomeController extends Controller
     }
     public function getRegresarMuestraParametro()
     {
-        $model = LoteDetalleDbo::where('Id_lote',30752)->where('Liberado',0)->get();
+        $model = LoteDetalleNitrogeno::where('Id_lote',31439)->where('Liberado',0)->get();
         foreach ($model as $item) {
             $temp = CodigoParametros::where('Id_codigo',$item->Id_codigo)->first();
             $temp->Asignado = 0;
             $temp->save();
 
-            LoteDetalleDbo::withTrashed()->where('Id_detalle',$item->Id_detalle)->forceDelete();
+            LoteDetalleNitrogeno::withTrashed()->where('Id_detalle',$item->Id_detalle)->forceDelete();
         }
 
-        $lot = LoteAnalisis::where('Id_lote',30752)->first();
-        $lot->Asignado = 21;
-        $lot->Liberado = 21;
+        $lot = LoteAnalisis::where('Id_lote',31439)->first();
+        $lot->Asignado = 1;
+        $lot->Liberado = 1;
         $lot->save();
     }
     public function create(Request $request)

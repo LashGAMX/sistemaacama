@@ -185,30 +185,43 @@ class CampoController extends Controller
     }
     public function listaMuestreo()
     {
-        $cliente = array();
-        $fecha = array();
-        $norma = array();
-        $usuario = array();
+        $query = SolicitudesGeneradas::with([
+            'solicitud' => function ($q) { $q->withTrashed(); },
+            'solicitud.Sucursal' => function ($q) { $q->withTrashed(); },
+            'solicitud.norma' => function ($q) { $q->withTrashed(); },
+            'muestreador' // User model likely does not use SoftDeletes
+        ])
+        ->orderBy('Id_solicitud', 'DESC');
+
         switch (Auth::user()->role_id) {
             case 1:
             case 15:
             case 7:
-                // $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->limit('800')->get();
-                $model = SolicitudesGeneradas::orderBy('Id_solicitud', 'DESC')->get();
+                // Admin roles see all
                 break;
             default:
-                $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->limit('1000')->get();
-                // $model = SolicitudesGeneradas::where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud', 'DESC')->get();
+                $query->where('Id_muestreador', Auth::user()->id);
                 break;
         }
+
+        // Use limit(1000) to match original behavior and avoid memory exhaustion
+        // Use get() because the user's view does not support pagination links
+        $model = $query->get();
+
+        $cliente = [];
+        $fecha = [];
+        $norma = [];
+        $usuario = [];
+
         foreach ($model as $item) {
-            $temp = DB::table('ViewSolicitud2')->where('Id_solicitud', $item->Id_solicitud)->first();
-            array_push($cliente, @$temp->Empresa_suc);
-            array_push($fecha, @$temp->Fecha_muestreo);
-            array_push($norma, @$temp->Clave_norma);
-            $userTemp = DB::table('users')->where('id', $item->Id_muestreador)->first();
-            array_push($usuario, @$userTemp->name);
+            // Build arrays using Eager Loaded data to avoid N+1 queries
+            // Use data_get for safe access in case of null relationships
+            $cliente[] = data_get($item, 'solicitud.Sucursal.Empresa', 'Sin Sucursal');
+            $fecha[] = data_get($item, 'solicitud.Fecha_muestreo', 'Sin Fecha');
+            $norma[] = data_get($item, 'solicitud.norma.Clave_norma', 'Sin Norma');
+            $usuario[] = data_get($item, 'muestreador.name', 'Sin Usuario');
         }
+
         $data = array(
             'usuario' => $usuario,
             'model' => $model,
